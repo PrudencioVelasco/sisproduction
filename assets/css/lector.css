@@ -1,0 +1,42 @@
+body{
+   overflow-x: hidden;
+}
+.primercodigo {
+	height: 35px;
+}
+
+input[type="text"] {
+	font-size: 24px;
+}
+
+.tituloheader {
+	color: #000; 
+	text-align: center; 
+	background-color: #ccc;
+	font-family: Arial, Helvetica, Verdana;
+}
+
+#audio {
+	display: none
+}
+#correctoid{
+	font-family: Arial, Helvetica, Verdana;
+	color: green; 
+	font-size: 26px;
+}
+#contadorcorrecto{
+	font-family: Arial, Helvetica, Verdana; 
+	font-size: 26px;
+}
+#incorrectoid{
+	font-family: Arial, Helvetica, Verdana;
+	color: red;
+	font-size: 26px;
+}
+#contadorincorrecto{
+	font-family: Arial, Helvetica, Verdana; 
+	font-size: 26px;
+}
+.contenedorcorrecto{
+	background-color: #ccc;
+}
