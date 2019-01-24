@@ -23,13 +23,13 @@
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/maps/jquery-jvectormap-2.0.3.css" />
   <link href="<?php echo base_url();?>/assets/css/icheck/flat/green.css" rel="stylesheet">
   <link href="<?php echo base_url();?>/assets/css/floatexamples.css" rel="stylesheet" />
- 
 
-  
+
+
  <script src="<?php echo base_url()?>/assets/js/vue/vue.min.js"></script>
-        <script src="<?php echo base_url()?>/assets/js/axios/axios.min.js"></script>  
+        <script src="<?php echo base_url()?>/assets/js/axios/axios.min.js"></script>
         <script src="<?php echo base_url();?>/assets/js/pagination/pagination.js"></script>
-        <script src="<?php echo base_url()?>/assets/js/jquery/jquery-3.3.1.min.js"></script>   
+        <script src="<?php echo base_url()?>/assets/js/jquery/jquery-3.3.1.min.js"></script>
 
 <script src="<?php echo base_url();?>/assets/js/sweetalert2/dist/sweetalert2.min.js"></script>
 <link rel="stylesheet" href="<?php echo base_url();?>/assets/js/sweetalert2/dist/sweetalert2.min.css">
@@ -105,22 +105,22 @@
 ?></h3>
               <ul class="nav side-menu">
                 <li><a href="<?= base_url('/admin/index') ?>"><i class="fa fa-home"></i> Inicio</a> </li>
-                <li><a href="#"><i class="fa fa-archive" aria-hidden="true"></i> Packing</a> </li>
+                <li><a href="<?= base_url('/parte/index') ?>"><i class="fa fa-archive" aria-hidden="true"></i> Packing</a> </li>
                  <li><a href="#"><i class="fa fa-home"></i> Calidad</a> </li>
                  <li><a href="#"><i class="fa fa-home"></i> Bodega</a> </li>
                  <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>
  Salida</a> </li>
-               
-                
 
-                
+
+
+
      <li><a><i class="fa fa-folder-open" aria-hidden="true"></i> Catalogo <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display: none">
-                    <li><a href="<?= base_url('/parte/index') ?>"> Parte</a> </li>
+                    <li><a href="#"> Parte</a> </li>
                     <li><a href="<?= base_url('/client/index') ?>"> Cliente</a> </li>
-                    <li><a href="<?= base_url('/turno/index') ?>"> Turno</a> </li> 
+                    <li><a href="<?= base_url('/turno/index') ?>"> Turno</a> </li>
                     <li><a href="<?= base_url('/user/index') ?>"> Usuario</a> </li>
-                    
+
                   </ul>
                 </li>
 
@@ -166,14 +166,14 @@
                   <span class=" fa fa-angle-down"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
-                   
-                  
+
+
                   <li><a href="<?= base_url('/login/logout') ?>"><i class="fa fa-sign-out pull-right"></i> Salir</a>
                   </li>
                 </ul>
               </li>
 
-            
+
 
             </ul>
           </nav>
