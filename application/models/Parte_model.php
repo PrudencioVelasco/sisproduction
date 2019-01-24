@@ -64,6 +64,36 @@ class Parte_model extends CI_Model {
             return false;
         }
     }
+    public function detalleDelDetallaParte($iddetalle)
+    {
+      // code...
+      $this->db->select('d.iddetalleparte,
+      p.idparte,
+      c.idcliente,
+      s.idestatus,
+      p.numeroparte,
+      c.nombre,
+      u.name,
+      uo.name as nombreoperador,
+      d.fecharegistro,
+      d.pallet,
+      d.modelo,
+      d.revision,
+      d.cantidad,
+      d.linea,
+      d.idoperador,
+      s.nombrestatus');
+      $this->db->from('parte p');
+      $this->db->join('cliente c', 'p.idcliente=c.idcliente');
+      $this->db->join('detalleparte d', 'p.idparte=d.idparte');
+      $this->db->join('users u', 'd.idusuario=u.id');
+      $this->db->join('users uo', 'd.idoperador=uo.id');
+      $this->db->join('status s', 's.idestatus=d.idestatus');
+      $this->db->join('detallestatus ds', 'ds.iddetalleparte=d.iddetalleparte');
+      $this->db->where('d.iddetalleparte',$iddetalle);
+      $query = $this->db->get();
+       return $query->first_row();
+    }
     public function searchEnviados($match,$idusuario)
     {
         $field = array(

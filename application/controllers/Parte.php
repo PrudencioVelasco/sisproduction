@@ -42,9 +42,14 @@ class Parte extends CI_Controller
  {
      //$usuarioscalidad=$this->usuario->showAllCalidad();
      //$detalleparte= $this->parte->detalleParteId($id);
+     $usuarioscalidad=$this->usuario->showAllCalidad();
+     $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalle);
     $data=array(
-     'iddetalle'=>$iddetalle
+     'iddetalle'=>$iddetalle,
+     'detalle'=>$detalledeldetalleparte,
+     'usuarioscalidad'=>$usuarioscalidad
     );
+    //var_dump($detalledeldetalleparte);
      $this->load->view('header');
      $this->load->view('parte/detalleenviado',$data);
      $this->load->view('footer');
