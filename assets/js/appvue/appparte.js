@@ -4,13 +4,13 @@ Vue.component('modal',{ //modal
     template:`
    <transition name="modal">
       <div class="modal-mask">
-        <div class="modal-wrapper">
+
           <div class="modal-dialog">
 			    <div class="modal-content">
-			      
+
 
 			      <div class="modal-header">
-				        <h5 class="modal-title"> <slot name="head"></slot></h5> 
+				        <h5 class="modal-title"> <slot name="head"></slot></h5>
                 <i class="fa fa-window-close  icon-md text-danger" @click="$emit('close')"></i>
 				      </div>
 
@@ -23,9 +23,9 @@ Vue.component('modal',{ //modal
 			      </div>
 			    </div>
           </div>
-        </div>
+
       </div>
-    </transition> 
+    </transition>
     `
 })
 var v = new Vue({
@@ -49,7 +49,7 @@ var v = new Vue({
         chooseParte:{},
         formValidate:[],
         successMSG:'',
-        
+
         //pagination
         currentPage: 0,
         rowCountPage:5,
@@ -57,7 +57,7 @@ var v = new Vue({
         pageRange:2
     },
      created(){
-      this.showAll(); 
+      this.showAll();
        this.showAllClientes();
     },
     methods:{
@@ -77,16 +77,16 @@ var v = new Vue({
             },
           searchParte(){
             var formData = v.formData(v.search);
-              axios.post(this.url+"parte/searchClient", formData).then(function(response){
+              axios.post(this.url+"parte/searchParte", formData).then(function(response){
                   if(response.data.partes == null){
                       v.noResult()
                     }else{
                       v.getData(response.data.partes);
-                    
-                    }  
+
+                    }
             })
         },
-     addParte(){   
+     addParte(){
             var formData = v.formData(v.newParte);
               axios.post(this.url+"parte/addPart", formData).then(function(response){
                 if(response.data.error){
@@ -105,28 +105,28 @@ var v = new Vue({
                 }
                })
         },
-     
+
          formData(obj){
 			   var formData = new FormData();
 		      for ( var key in obj ) {
 		          formData.append(key, obj[key]);
-		      } 
+		      }
 		      return formData;
 		},
         getData(partes){
             v.emptyResult = false; // become false if has a record
             v.totalParte = partes.length //get total of user
             v.partes = partes.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
-            
+
              // if the record is empty, go back a page
-            if(v.partes.length == 0 && v.currentPage > 0){ 
+            if(v.partes.length == 0 && v.currentPage > 0){
             v.pageUpdate(v.currentPage - 1)
-            v.clearAll();  
+            v.clearAll();
             }
         },
-            
+
         selectParte(parte){
-            v.chooseParte = parte; 
+            v.chooseParte = parte;
         },
         clearMSG(){
             setTimeout(function(){
@@ -134,34 +134,34 @@ var v = new Vue({
 			 },3000); // disappearing message success in 2 sec
         },
         clearAll(){
-            v.newParte = { 
+            v.newParte = {
             numeroparte:'',
             idcliente:'',
             smserror: '',
             activo:'' };
             v.formValidate = false;
             v.addModal= false;
-            v.editModal=false; 
+            v.editModal=false;
             v.deleteModal=false;
             v.refresh()
-            
+
         },
         noResult(){
-          
+
                v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
-                      v.partes = null 
+                      v.partes = null
                      v.totalParte = 0 //remove current page if is empty
-            
+
         },
 
-       
+
         pageUpdate(pageNumber){
               v.currentPage = pageNumber; //receive currentPage number came from pagination template
-                v.refresh()  
+                v.refresh()
         },
         refresh(){
              v.search.text ? v.searchParte() : v.showAll(); //for preventing
-            
+
         }
     }
 })

@@ -38,9 +38,78 @@ class Parte extends CI_Controller
         $this->load->view('parte/packing',$data);
         $this->load->view('footer');
     }
+    public function detalleenvio($iddetalle)
+ {
+     //$usuarioscalidad=$this->usuario->showAllCalidad();
+     //$detalleparte= $this->parte->detalleParteId($id);
+    $data=array(
+     'iddetalle'=>$iddetalle
+    );
+     $this->load->view('header');
+     $this->load->view('parte/detalleenviado',$data);
+     $this->load->view('footer');
+ }
     public function enviarCalidad()
     {
-        # code...
+
+        $config = array(
+               array(
+                     'field'   => 'modelo',
+                     'label'   => 'Modelo',
+                     'rules'   => 'required',
+                     'errors' => array(
+                        'required' => 'Campo requerido.',
+                )
+                  ),
+               array(
+                     'field'   => 'revision',
+                     'label'   => 'Revision',
+                     'rules'   => 'required',
+                     'errors' => array(
+                        'required' => 'Campo requerido.',
+                )
+                  ),
+               array(
+                     'field'   => 'numeropallet',
+                     'label'   => 'Número de pallet',
+                     'rules'   => 'required|integer',
+                     'errors' => array(
+                        'required' => 'You must provide a %s.',
+                        'integer'=>'Solo numero'
+                )
+                  ),
+               array(
+                     'field'   => 'cantidadcaja',
+                     'label'   => 'Cantidad Caja',
+                     'rules'   => 'required|integer',
+                     'errors' => array(
+                        'required' => 'Cantidad requerido.',
+                        'integer' => 'Solo numero.'
+                )
+                  )
+                  ,
+               array(
+                     'field'   => 'linea',
+                     'label'   => 'Linea',
+                     'rules'   => 'required',
+                     'errors' => array(
+                        'required' => 'Campo requerido.'
+                )
+                  )
+                  ,
+               array(
+                     'field'   => 'usuariocalidad',
+                     'label'   => 'Usuario de calidad',
+                     'rules'   => 'required',
+                     'errors' => array(
+                        'required' => 'Campo requerido.'
+                )
+                  )
+            );
+
+$this->form_validation->set_rules($config);
+if ($this->form_validation->run() == TRUE)
+		{
          $data     = array(
                         'idparte' => $this->input->post('idparte'),
                         'modelo' => $this->input->post('modelo'),
@@ -65,6 +134,22 @@ class Parte extends CI_Controller
                     );
                $this->parte->addDetalleEstatusParte($datastatus);
                redirect('parte/');
+
+             }
+  else
+  {
+    $id=$this->input->post('idparte');
+    $usuarioscalidad=$this->usuario->showAllCalidad();
+    $detalleparte= $this->parte->detalleParteId($id);
+   $data=array(
+    'usuarioscalidad'=>$usuarioscalidad,
+    'detalleparte'=>$detalleparte,
+    'idparte'=>$id
+   );
+    $this->load->view('header');
+    $this->load->view('parte/packing',$data);
+    $this->load->view('footer');
+  }
 
     }
     public function verEnviados()
@@ -156,7 +241,30 @@ class Parte extends CI_Controller
         }
         echo json_encode($result);
     }
+    public function searchEnviados()
+    {
+        //Permission::grant(uri_string());
+        $value = $this->input->post('text');
+        $query = $this->parte->searchEnviados($value,$this->session->user_id);
+        if ($query) {
+            $result['detallestatus'] = $query;
+        }
 
+        echo json_encode($result);
+
+    }
+    public function searchParte()
+    {
+        //Permission::grant(uri_string());
+        $value = $this->input->post('text');
+        $query = $this->parte->searchPartes($value);
+        if ($query) {
+            $result['partes'] = $query;
+        }
+
+        echo json_encode($result);
+
+    }
 
 }
 ?>

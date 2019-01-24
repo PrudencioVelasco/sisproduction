@@ -9,7 +9,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
-                  <h2>Administrar numero de partes</h2>
+                  <h3>Administrar numero de partes</h3>
 
                   <div class="clearfix"></div>
                 </div>
@@ -24,7 +24,7 @@
                               leave-active-class="animated fadeOutRight">
                               <div class="notification is-success text-center px-5 top-middle" v-if="successMSG" @click="successMSG = false">{{successMSG}}</div>
                            </transition>
-                           <div class="col-md-12">
+                           <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="row">
                                 <div class="col-md-6">
                                   <button class="btn btn-round btn-primary" @click="addModal= true">Nueva parte</button>

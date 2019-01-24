@@ -7,10 +7,10 @@ Vue.component('modal',{ //modal
         <div class="modal-wrapper">
           <div class="modal-dialog">
 			    <div class="modal-content">
-			      
+
 
 			      <div class="modal-header">
-				        <h5 class="modal-title"> <slot name="head"></slot></h5> 
+				        <h5 class="modal-title"> <slot name="head"></slot></h5>
                 <i class="fa fa-window-close  icon-md text-danger" @click="$emit('close')"></i>
 				      </div>
 
@@ -25,7 +25,7 @@ Vue.component('modal',{ //modal
           </div>
         </div>
       </div>
-    </transition> 
+    </transition>
     `
 })
 var v = new Vue({
@@ -36,7 +36,7 @@ var v = new Vue({
         editModal:false,
         //passwordModal:false,
         //deleteModal:false,
-        detallestatus:[], 
+        detallestatus:[],
         search: {text: ''},
         emptyResult:false,
         newDetalleStatus:{
@@ -48,7 +48,7 @@ var v = new Vue({
         chooseDetalleStatus:{},
         formValidate:[],
         successMSG:'',
-        
+
         //pagination
         currentPage: 0,
         rowCountPage:5,
@@ -56,7 +56,7 @@ var v = new Vue({
         pageRange:2
     },
      created(){
-      this.showAll();  
+      this.showAll();
     },
     methods:{
          showAll(){ axios.get(this.url+"parte/showAllEnviados").then(function(response){
@@ -68,40 +68,40 @@ var v = new Vue({
                     }
             })
         },
-         
+
           searchDetalleStatus(){
             var formData = v.formData(v.search);
-              axios.post(this.url+"parte/searchClient", formData).then(function(response){
+              axios.post(this.url+"parte/searchEnviados", formData).then(function(response){
                   if(response.data.detallestatus == null){
                       v.noResult()
                     }else{
                       v.getData(response.data.detallestatus);
-                    
-                    }  
+
+                    }
             })
         },
-     
+
          formData(obj){
 			   var formData = new FormData();
 		      for ( var key in obj ) {
 		          formData.append(key, obj[key]);
-		      } 
+		      }
 		      return formData;
 		},
         getData(detallestatus){
             v.emptyResult = false; // become false if has a record
             v.totalDetalleStatus = detallestatus.length //get total of user
             v.detallestatus = detallestatus.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
-            
+
              // if the record is empty, go back a page
-            if(v.detallestatus.length == 0 && v.currentPage > 0){ 
+            if(v.detallestatus.length == 0 && v.currentPage > 0){
             v.pageUpdate(v.currentPage - 1)
-            v.clearAll();  
+            v.clearAll();
             }
         },
-            
+
         selectDetalleStatus(detallestatus){
-            v.chooseDetalleStatus = detallestatus; 
+            v.chooseDetalleStatus = detallestatus;
         },
         clearMSG(){
             setTimeout(function(){
@@ -109,34 +109,34 @@ var v = new Vue({
 			 },3000); // disappearing message success in 2 sec
         },
         clearAll(){
-            v.newDetalleStatus = { 
+            v.newDetalleStatus = {
             iddetalleparte:'',
             idstatus:'',
             comentariosrechazo:'',
             smserror: ''};
             v.formValidate = false;
             v.addModal= false;
-            v.editModal=false; 
+            v.editModal=false;
             v.deleteModal=false;
             v.refresh()
-            
+
         },
         noResult(){
-          
+
                v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
-                      v.detallestatus = null 
+                      v.detallestatus = null
                      v.totalDetalleStatus = 0 //remove current page if is empty
-            
+
         },
 
-       
+
         pageUpdate(pageNumber){
               v.currentPage = pageNumber; //receive currentPage number came from pagination template
-                v.refresh()  
+                v.refresh()
         },
         refresh(){
              v.search.text ? v.searchDetalleStatus() : v.showAll(); //for preventing
-            
+
         }
     }
 })
