@@ -28,6 +28,9 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `cliente`
 --
 
+CREATE DATABASE dbproduccion;
+USE dbproduccion;
+
 CREATE TABLE `cliente` (
   `idcliente` int(11) NOT NULL,
   `nombre` varchar(200) NOT NULL,
