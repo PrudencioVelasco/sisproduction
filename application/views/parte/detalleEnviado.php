@@ -81,9 +81,9 @@
                              <select class="form-control" name="usuariocalidad">
                                <option value="">Seleccionar</option>
                                <?php
-                                 foreach ($usuarioscalidad as $value) {
-                                  echo '<option if($value->idusuario==$detalle->idoperador){echo "selected";} value='.$value->idusuario.' >'.$value->name.'</option>';
-                                 }
+                                 foreach ($usuarioscalidad as $value) { ?>
+                                   <option <?php if($value->idusuario==$detalle->idoperador){echo "selected";} ?> value=" <?php echo $value->idusuario ?>"><?php echo $value->name ?></option>
+<?php   }
                                ?>
                              </select>
                              <label style="color:red;"><?php echo form_error('usuariocalidad'); ?></label>
@@ -116,11 +116,11 @@
             var estatus = '<?php echo($detalle->idestatus);?>';
           //  alert(estatus);
             if(estatus == '1'){
-              $("#cantidad").attr("disabled", true);
-              $("#pallet").attr("disabled", true);
-              $("#modelo").attr("disabled", true);
-              $("#revision").attr("disabled", true);
-              $("#linea").attr("disabled", true);
+              $("#cantidad").attr("disabled", false);
+              $("#pallet").attr("disabled", false);
+              $("#modelo").attr("disabled", false);
+              $("#revision").attr("disabled", false);
+              $("#linea").attr("disabled", false);
             }else{
 
             }
