@@ -2,11 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Parte extends CI_Controller
 {
-    
+
     function __construct()
     {
         parent::__construct();
-        
+
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
             return redirect('login');
@@ -14,9 +14,9 @@ class Parte extends CI_Controller
         $this->load->helper('url');
         $this->load->model('data_model');
         $this->load->model('parte_model', 'parte');
-         $this->load->model('user_model', 'usuario'); 
+         $this->load->model('user_model', 'usuario');
         $this->load->library('permission');
-        
+
     }
     public function index()
     {
@@ -28,12 +28,12 @@ class Parte extends CI_Controller
        public function packing($id)
     {
         $usuarioscalidad=$this->usuario->showAllCalidad();
-        $detalleparte= $this->parte->detalleParteId($id); 
+        $detalleparte= $this->parte->detalleParteId($id);
        $data=array(
         'usuarioscalidad'=>$usuarioscalidad,
         'detalleparte'=>$detalleparte,
         'idparte'=>$id
-       ); 
+       );
         $this->load->view('header');
         $this->load->view('parte/packing',$data);
         $this->load->view('footer');
@@ -50,22 +50,22 @@ class Parte extends CI_Controller
                         'linea' => $this->input->post('linea'),
                         'idestatus' => 1,
                         'idoperador' => $this->input->post('usuariocalidad'),
-                        'idusuario' => $this->session->user_id, 
+                        'idusuario' => $this->session->user_id,
                         'fecharegistro' => date('Y-m-d H:i:s')
-                        
+
                     );
-              $iddetalleparte  = $this->parte->addDetalleParte($data); 
+              $iddetalleparte  = $this->parte->addDetalleParte($data);
                $datastatus     = array(
                         'iddetalleparte' => $iddetalleparte,
                         'idstatus' => 1,
                         'idoperador' => $this->input->post('usuariocalidad'),
-                        'idusuario' => $this->session->user_id, 
+                        'idusuario' => $this->session->user_id,
                         'fecharegistro' => date('Y-m-d H:i:s')
-                        
+
                     );
                $this->parte->addDetalleEstatusParte($datastatus);
                redirect('parte/');
-               
+
     }
     public function verEnviados()
     {
@@ -86,9 +86,9 @@ class Parte extends CI_Controller
     public function showAllEnviados()
     {
          //Permission::grant(uri_string());
-        $query = $this->parte->showAllEnviados();
+        $query = $this->parte->showAllEnviados($this->session->user_id);
         if ($query) {
-            $result['detallestatus'] = $this->parte->showAllEnviados();
+            $result['detallestatus'] = $this->parte->showAllEnviados($this->session->user_id);
         }
         echo json_encode($result);
     }
@@ -100,11 +100,11 @@ class Parte extends CI_Controller
     }
 
        public function addPart()
-    
+
     {
          //Permission::grant(uri_string());
         $config = array(
-            
+
             array(
                 'field' => 'numeroparte',
                 'label' => 'Número de parte',
@@ -128,8 +128,8 @@ class Parte extends CI_Controller
                  'numeroparte' => form_error('numeroparte'),
                  'idcliente' => form_error('idcliente')
             );
-            
-        } else { 
+
+        } else {
              $idcliente = $this->input->post('idcliente');
               $numeroparte = $this->input->post('numeroparte');
               $resuldovalidacion = $this->parte->validarClienteParte($idcliente,$numeroparte);
@@ -139,9 +139,9 @@ class Parte extends CI_Controller
                         'numeroparte' => $this->input->post('numeroparte'),
                         'idcliente' => $this->input->post('idcliente'),
                         'idusuario' => $this->session->user_id,
-                        'activo' => 1, 
+                        'activo' => 1,
                         'fecharegistro' => date('Y-m-d H:i:s')
-                        
+
                     );
                     $this->parte->addParte($data);
 
@@ -151,12 +151,12 @@ class Parte extends CI_Controller
                         'smserror' => "El número de cliente ya se encuentra registrado."
                     );
               }
-    
-            
+
+
         }
         echo json_encode($result);
     }
- 
-   
+
+
 }
 ?>

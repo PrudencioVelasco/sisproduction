@@ -8,18 +8,18 @@ class Parte_model extends CI_Model {
         parent::__construct();
         $this->load->database();
     }
- 
+
     public function __destruct()
     {
         $this->db->close();
     }
-    
+
         public function showAll()
     {
         $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name, p.activo');
         $this->db->from('parte p');
         $this->db->join('cliente c', 'p.idcliente=c.idcliente');
-        $this->db->join('users u', 'p.idusuario=u.id');  
+        $this->db->join('users u', 'p.idusuario=u.id');
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -27,16 +27,17 @@ class Parte_model extends CI_Model {
             return false;
         }
     }
-          public function showAllEnviados()
+          public function showAllEnviados($idusuario)
     {
-        $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name,uo.name as nombreoperador,d.fecharegistro,d.pallet,d.cantidad,s.nombrestatus');
+        $this->db->select('p.idparte,c.idcliente, s.idestatus, p.numeroparte,c.nombre,u.name,uo.name as nombreoperador,d.fecharegistro,d.pallet,d.cantidad,s.nombrestatus');
         $this->db->from('parte p');
-        $this->db->join('cliente c', 'p.idcliente=c.idcliente'); 
+        $this->db->join('cliente c', 'p.idcliente=c.idcliente');
         $this->db->join('detalleparte d', 'p.idparte=d.idparte');
          $this->db->join('users u', 'd.idusuario=u.id');
          $this->db->join('users uo', 'd.idoperador=uo.id');
         $this->db->join('status s', 's.idestatus=d.idestatus');
-        $this->db->join('detallestatus ds', 'ds.iddetalleparte=d.iddetalleparte');  
+        $this->db->join('detallestatus ds', 'ds.iddetalleparte=d.iddetalleparte');
+        $this->db->where('d.idusuario',$idusuario);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -66,9 +67,9 @@ class Parte_model extends CI_Model {
        $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name, p.activo');
         $this->db->from('parte p');
         $this->db->join('cliente c', 'p.idcliente=c.idcliente');
-        $this->db->join('users u', 'p.idusuario=u.id');  
+        $this->db->join('users u', 'p.idusuario=u.id');
          $this->db->where('p.idparte', $idparte);
-        $query = $this->db->get(); 
+        $query = $this->db->get();
          return $query->first_row();
     }
 
@@ -96,15 +97,15 @@ class Parte_model extends CI_Model {
     }
        public function showAllClientesContar()
     {
-        $query = $this->db->get('cliente'); 
+        $query = $this->db->get('cliente');
         return $query->result();
-        
+
     }
      public function showAllClientesActivos()
     {
         # code...
-        $this->db->select('c.*');    
-        $this->db->from('cliente c'); 
+        $this->db->select('c.*');
+        $this->db->from('cliente c');
         $this->db->where('c.activo', 1);
         $query = $this->db->get();
         //$query = $this->db->get('permissions');
@@ -114,11 +115,11 @@ class Parte_model extends CI_Model {
             return false;
         }
     }
-      
+
      public function addClient($data)
     {
         return $this->db->insert('cliente', $data);
-    }  
+    }
      public function updateClient($id, $field)
     {
         $this->db->where('idcliente', $id);
@@ -128,9 +129,9 @@ class Parte_model extends CI_Model {
         } else {
             return false;
         }
-        
+
     }
-   
+
       public function searchClient($match)
     {
         $field = array(
@@ -144,5 +145,5 @@ class Parte_model extends CI_Model {
             return false;
         }
     }*/
-    
+
 }
