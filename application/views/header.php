@@ -107,7 +107,7 @@
                 <li><a href="<?= base_url('/admin/index') ?>"><i class="fa fa-home"></i> Inicio</a> </li>
                 <li><a href="<?= base_url('/parte/index') ?>"><i class="fa fa-archive" aria-hidden="true"></i> Packing</a> </li>
                  <li><a href="#"><i class="fa fa-home"></i> Calidad</a> </li>
-                 <li><a href="#"><i class="fa fa-home"></i> Bodega</a> </li>
+                 <li><a href="<?= base_url('/bodega/index') ?>"><i class="fa fa-home"></i> Bodega</a> </li>
                  <li><a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>
  Salida</a> </li>
 

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Parte_model extends CI_Model {
+class Bodega_model extends CI_Model {
 
     public function __construct()
     {
@@ -14,19 +14,26 @@ class Parte_model extends CI_Model {
         $this->db->close();
     }
 
-        public function showAll()
-    {
-        $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name, p.activo');
-        $this->db->from('parte p');
-        $this->db->join('cliente c', 'p.idcliente=c.idcliente');
-        $this->db->join('users u', 'p.idusuario=u.id');
-        $query = $this->db->get();
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-    }
+    public function showAllEnviados($idusuario)
+{
+  $this->db->select('d.iddetalleparte,p.idparte,c.idcliente, s.idestatus, p.numeroparte,c.nombre,u.name,uo.name as nombreoperador,d.fecharegistro,d.pallet,d.cantidad,s.nombrestatus');
+  $this->db->from('parte p');
+  $this->db->join('cliente c', 'p.idcliente=c.idcliente');
+  $this->db->join('detalleparte d', 'p.idparte=d.idparte');
+   $this->db->join('users u', 'd.idusuario=u.id');
+   $this->db->join('users uo', 'd.idoperador=uo.id');
+  $this->db->join('status s', 's.idestatus=d.idestatus');
+  $this->db->where('d.idusuario',$idusuario);
+  $this->db->where('d.idestatus',7);
+  $this->db->order_by("d.fecharegistro", "desc");
+  $query = $this->db->get();
+  if ($query->num_rows() > 0) {
+      return $query->result();
+  } else {
+      return false;
+  }
+}
+    /*
     public function  searchPartes($match)
 {
   $field = array(
@@ -55,9 +62,6 @@ class Parte_model extends CI_Model {
          $this->db->join('users uo', 'd.idoperador=uo.id');
         $this->db->join('status s', 's.idestatus=d.idestatus');
         $this->db->where('d.idusuario',$idusuario);
-        $this->db->where('d.idestatus',1);
-        $this->db->or_where('d.idestatus',6);
-        $this->db->or_where('d.idestatus',2); 
         $this->db->order_by("d.fecharegistro", "desc");
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -185,6 +189,6 @@ class Parte_model extends CI_Model {
         }
 
     }
-
+*/
 
 }

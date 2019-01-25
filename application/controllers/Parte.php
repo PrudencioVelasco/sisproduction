@@ -122,7 +122,7 @@ $this->form_validation->set_rules($config);
 if ($this->form_validation->run() == TRUE)
 {
   $data     = array(
-                  
+
                  'modelo' => $this->input->post('modelo'),
                  'revision' => $this->input->post('revision'),
                  'pallet' => $this->input->post('numeropallet'),
@@ -192,7 +192,7 @@ else {
                      'label'   => 'Número de pallet',
                      'rules'   => 'required|integer',
                      'errors' => array(
-                        'required' => 'You must provide a %s.',
+                        'required' => 'Campo requerido.',
                         'integer'=>'Solo numero'
                 )
                   ),
