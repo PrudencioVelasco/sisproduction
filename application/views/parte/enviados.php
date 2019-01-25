@@ -30,7 +30,7 @@
                          <div class="col-md-6">
                          </div>
                          <div class="col-md-6">
-                             <input placeholder="Buscar" type="search" class="form-control" v-model="search.text" @keyup="searchDetalleStatus" name="search">
+                             <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control" v-model="search.text" @keyup="searchDetalleStatus" name="search">
                          </div>
                       </div>
 
@@ -48,6 +48,7 @@
                               <td>{{row.numeroparte}} </td>
                                <td>
                                  <h6 style="color:green" v-if="row.idestatus==1"><strong>{{row.nombrestatus}}</strong></h6>
+                                 <h6 style="color:red" v-else-if="row.idestatus==6"><strong>{{row.nombrestatus}}</strong></h6>
                                  <h1 v-else>{{row.nombrestatus}}</h1> </td>
                                 <td>{{row.pallet}} </td>
                                  <td>{{row.cantidad}} </td>

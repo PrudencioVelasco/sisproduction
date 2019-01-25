@@ -44,15 +44,128 @@ class Parte extends CI_Controller
      //$detalleparte= $this->parte->detalleParteId($id);
      $usuarioscalidad=$this->usuario->showAllCalidad();
      $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalle);
+     $dataerror = array();
+     if($detalledeldetalleparte->idestatus == 6){
+       $dataerror=$this->parte->motivosCancelacionCalidad($iddetalle);
+     }
+
     $data=array(
      'iddetalle'=>$iddetalle,
      'detalle'=>$detalledeldetalleparte,
-     'usuarioscalidad'=>$usuarioscalidad
+     'usuarioscalidad'=>$usuarioscalidad,
+     'dataerrores'=>$dataerror
     );
     //var_dump($detalledeldetalleparte);
      $this->load->view('header');
      $this->load->view('parte/detalleenviado',$data);
      $this->load->view('footer');
+ }
+ public function reenviarCalidad()
+ {
+   // code...
+   $config = array(
+          array(
+                'field'   => 'modelo',
+                'label'   => 'Modelo',
+                'rules'   => 'required',
+                'errors' => array(
+                   'required' => 'Campo requerido.',
+           )
+             ),
+          array(
+                'field'   => 'revision',
+                'label'   => 'Revision',
+                'rules'   => 'required',
+                'errors' => array(
+                   'required' => 'Campo requerido.',
+           )
+             ),
+          array(
+                'field'   => 'numeropallet',
+                'label'   => 'Número de pallet',
+                'rules'   => 'required|integer',
+                'errors' => array(
+                   'required' => 'Campo requerido.',
+                   'integer'=>'Solo numero'
+           )
+             ),
+          array(
+                'field'   => 'cantidadcaja',
+                'label'   => 'Cantidad Caja',
+                'rules'   => 'required|integer',
+                'errors' => array(
+                   'required' => 'Cantidad requerido.',
+                   'integer' => 'Solo numero.'
+           )
+             )
+             ,
+          array(
+                'field'   => 'linea',
+                'label'   => 'Linea',
+                'rules'   => 'required',
+                'errors' => array(
+                   'required' => 'Campo requerido.'
+           )
+             )
+             ,
+          array(
+                'field'   => 'usuariocalidad',
+                'label'   => 'Usuario de calidad',
+                'rules'   => 'required',
+                'errors' => array(
+                   'required' => 'Campo requerido.'
+           )
+             )
+       );
+$iddetalleparte=$this->input->post('iddetalleparte');
+$this->form_validation->set_rules($config);
+if ($this->form_validation->run() == TRUE)
+{
+  $data     = array(
+                  
+                 'modelo' => $this->input->post('modelo'),
+                 'revision' => $this->input->post('revision'),
+                 'pallet' => $this->input->post('numeropallet'),
+                 'cantidad' => $this->input->post('cantidadcaja'),
+                 'linea' => $this->input->post('linea'),
+                 'idestatus' => 1,
+                 'idoperador' => $this->input->post('usuariocalidad'),
+                 'idusuario' => $this->session->user_id,
+                 'fecharegistro' => date('Y-m-d H:i:s')
+
+             );
+        $this->parte->updateDetalleParte($iddetalleparte,$data);
+        $datastatus     = array(
+                 'iddetalleparte' => $iddetalleparte,
+                 'idstatus' => 1,
+                 'idoperador' => $this->input->post('usuariocalidad'),
+                 'idusuario' => $this->session->user_id,
+                 'fecharegistro' => date('Y-m-d H:i:s')
+
+             );
+       $this->parte->addDetalleEstatusParte($datastatus);
+       redirect('parte/');
+}
+else {
+  // code...
+  $usuarioscalidad=$this->usuario->showAllCalidad();
+  $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalleparte);
+  $dataerror = array();
+  if($detalledeldetalleparte->idestatus == 6){
+    $dataerror=$this->parte->motivosCancelacionCalidad($iddetalleparte);
+  }
+
+ $data=array(
+  'iddetalle'=>$iddetalleparte,
+  'detalle'=>$detalledeldetalleparte,
+  'usuarioscalidad'=>$usuarioscalidad,
+  'dataerrores'=>$dataerror
+ );
+ //var_dump($detalledeldetalleparte);
+  $this->load->view('header');
+  $this->load->view('parte/detalleenviado',$data);
+  $this->load->view('footer');
+}
  }
     public function enviarCalidad()
     {

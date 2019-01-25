@@ -54,7 +54,6 @@ class Parte_model extends CI_Model {
          $this->db->join('users u', 'd.idusuario=u.id');
          $this->db->join('users uo', 'd.idoperador=uo.id');
         $this->db->join('status s', 's.idestatus=d.idestatus');
-        $this->db->join('detallestatus ds', 'ds.iddetalleparte=d.iddetalleparte');
         $this->db->where('d.idusuario',$idusuario);
         $this->db->order_by("d.fecharegistro", "desc");
         $query = $this->db->get();
@@ -139,14 +138,26 @@ class Parte_model extends CI_Model {
       public function detalleParteId($idparte)
     {
        $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name, p.activo');
-        $this->db->from('parte p');
-        $this->db->join('cliente c', 'p.idcliente=c.idcliente');
-        $this->db->join('users u', 'p.idusuario=u.id');
-         $this->db->where('p.idparte', $idparte);
-        $query = $this->db->get();
+       $this->db->from('parte p');
+       $this->db->join('cliente c', 'p.idcliente=c.idcliente');
+       $this->db->join('users u', 'p.idusuario=u.id');
+       $this->db->where('p.idparte', $idparte);
+       $query = $this->db->get();
          return $query->first_row();
     }
-
+    public function motivosCancelacionCalidad($iddetalleparte)
+    {
+      $this->db->select('d.comentariosrechazo, d.fecharegistro');
+      $this->db->from('detallestatus d');
+      $this->db->where('d.iddetalleparte', $iddetalleparte);
+      $this->db->where('d.idstatus', 6);
+      $query = $this->db->get();
+      if ($query->num_rows() > 0) {
+          return $query->result();
+      } else {
+          return false;
+      }
+    }
      public function addParte($data)
     {
         return $this->db->insert('parte', $data);
@@ -160,5 +171,17 @@ class Parte_model extends CI_Model {
     {
         return $this->db->insert('detallestatus', $data);
     }
+    public function updateDetalleParte($id, $field)
+    {
+        $this->db->where('iddetalleparte', $id);
+        $this->db->update('detalleparte', $field);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 
 }

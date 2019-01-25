@@ -14,7 +14,7 @@
                  <div class="clearfix"></div>
                </div>
                <div class="x_content">
-                   <form method="POST"  action="<?= base_url('parte/enviarCalidad') ?>">
+                   <form method="POST"  action="<?= base_url('parte/reenviarCalidad') ?>">
 
                      <div class="row">
                        <div class="col-md-6 col-sm-6 col-xs-6">
@@ -24,7 +24,31 @@
                      </div>
                      <div class="col-md-6 col-sm-6 col-xs-6" align="right" >
                      <div class="form-group">
-                       <p><h3 <?php if($detalle->idestatus == 1){echo 'style="color:green;"';}?> ><?php echo $detalle->nombrestatus; ?></h3></p>
+                       <p><h3 <?php
+                       if($detalle->idestatus == 1)
+                       {
+                         echo 'style="color:green;"';
+                       }elseif($detalle->idestatus == 6){
+                         echo 'style="color:red;"';
+                       }elseif($detalle->idestatus == 2) {
+                         echo 'style="color:green;"';
+                       }else {
+                         // code...
+                       }?> >
+                       <?php
+                      if($detalle->idestatus == 1)
+                      {
+                        echo '<i class="fa fa-paper-plane" aria-hidden="true"></i>';
+                      }elseif($detalle->idestatus == 6){
+                        echo '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>';
+                      }elseif($detalle->idestatus == 2) {
+                         echo '<i class="fa fa-thumbs-up" aria-hidden="true"></i>';
+                      }else {
+                        // code...
+                      }?>
+
+
+ <?php echo $detalle->nombrestatus; ?></h3></p>
                      </div>
                    </div>
                      </div>
@@ -78,7 +102,7 @@
                      <div class="col-md-4 col-sm-12 col-xs-12">
                           <div class="form-group">
                              <label>* Enviarlo a calidad</label>
-                             <select class="form-control" name="usuariocalidad">
+                             <select class="form-control" id="usuariocalidad" name="usuariocalidad">
                                <option value="">Seleccionar</option>
                                <?php
                                  foreach ($usuarioscalidad as $value) { ?>
@@ -89,12 +113,47 @@
                              <label style="color:red;"><?php echo form_error('usuariocalidad'); ?></label>
                           </div>
                        </div>
+                       <?php if($detalle->idestatus==6){ ?>
+                       <div class="col-md-8 col-sm-12 col-xs-12" align="center">
+                            <div class="form-group">
+                              <label>Motivos de rechazo</label><br>
+                              <?php
+                                if (isset($dataerrores) && !empty($dataerrores)) {
+                                  // code...
+                                  foreach ($dataerrores as $value) {
+
+                                    echo "<label style='color:red;'>";
+                                    echo "* ".$value->comentariosrechazo." - ".$value->fecharegistro;
+                                    echo "</label>";
+                                    echo "<br>";
+                                    // code...
+                                  }
+                                }
+                              ?>
+                            </div>
+                        </div>
+                      <?php }?>
                      </div>
                       <div class="row">
                        <div class="col-md-6">
                          <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>">
-                           <button type="submit" class="btn btn-success"><i class="fa fa-pencil-square" aria-hidden="true"></i>
- Modificar</button>
+                          <?php
+                            if ($detalle->idestatus == 1) {
+                              // code...
+                              echo '<button type="submit" name="modificar" class="btn btn-success"><i class="fa fa-pencil-square" aria-hidden="true"></i>
+           Modificar</button>';
+                            }else if ($detalle->idestatus == 6) {
+                              // code...
+                               echo '<button type="submit" name="reenviar" class="btn btn-success"><i class="fa fa-refresh" aria-hidden="true"></i>
+
+           Reenviar</button>';
+                            } else if($detalle->idestatus == 2){
+                              // code...
+                            }else {
+                              // code...
+                            }
+
+                          ?>
                             <a  class="btn btn-default" href="<?php echo site_url('parte/'); ?>"><i class="fa fa-print" aria-hidden="true"></i>
  Imprimir etiqueta</a>
 
@@ -121,6 +180,19 @@
               $("#modelo").attr("disabled", false);
               $("#revision").attr("disabled", false);
               $("#linea").attr("disabled", false);
+            }else if(estatus == '6'){
+              $("#cantidad").attr("disabled", false);
+              $("#pallet").attr("disabled", false);
+              $("#modelo").attr("disabled", false);
+              $("#revision").attr("disabled", false);
+              $("#linea").attr("disabled", false);
+            }else if (estatus == '2') {
+              $("#cantidad").attr("disabled", true);
+              $("#pallet").attr("disabled", true);
+              $("#modelo").attr("disabled", true);
+              $("#revision").attr("disabled", true);
+              $("#linea").attr("disabled", true);
+                $("#usuariocalidad").attr("disabled", true);
             }else{
 
             }
