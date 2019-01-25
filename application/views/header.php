@@ -115,8 +115,12 @@
 
 
      <li><a><i class="fa fa-folder-open" aria-hidden="true"></i> Catalogo <span class="fa fa-chevron-down"></span></a>
+<<<<<<< Updated upstream
                   <ul class="nav child_menu" style="display: none">
                     <li><a href="#"> Parte</a> </li>
+=======
+                  <ul class="nav child_menu" style="display: none"> 
+>>>>>>> Stashed changes
                     <li><a href="<?= base_url('/client/index') ?>"> Cliente</a> </li>
                     <li><a href="<?= base_url('/turno/index') ?>"> Turno</a> </li>
                     <li><a href="<?= base_url('/user/index') ?>"> Usuario</a> </li>

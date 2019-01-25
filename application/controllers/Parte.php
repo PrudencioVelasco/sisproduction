@@ -45,7 +45,7 @@ class Parte extends CI_Controller
      $usuarioscalidad=$this->usuario->showAllCalidad();
      $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalle);
      $dataerror = array();
-     if($detalledeldetalleparte->idestatus == 6){
+     if($detalledeldetalleparte->idestatus == 3){
        $dataerror=$this->parte->motivosCancelacionCalidad($iddetalle);
      }
 
@@ -151,7 +151,7 @@ else {
   $usuarioscalidad=$this->usuario->showAllCalidad();
   $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalleparte);
   $dataerror = array();
-  if($detalledeldetalleparte->idestatus == 6){
+  if($detalledeldetalleparte->idestatus == 3){
     $dataerror=$this->parte->motivosCancelacionCalidad($iddetalleparte);
   }
 

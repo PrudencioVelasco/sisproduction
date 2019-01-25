@@ -35,6 +35,25 @@ class Bodega extends CI_Controller
         }
         echo json_encode($result);
     }
+    public function verDetalle($iddetalle)
+    {
+      $usuarioscalidad=$this->usuario->showAllCalidad();
+      $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalle);
+      $dataerror = array();
+      if($detalledeldetalleparte->idestatus == 6){
+        $dataerror=$this->parte->motivosCancelacionCalidad($iddetalle);
+      }
 
+     $data=array(
+      'iddetalle'=>$iddetalle,
+      'detalle'=>$detalledeldetalleparte,
+      'usuarioscalidad'=>$usuarioscalidad,
+      'dataerrores'=>$dataerror
+     );
+     //var_dump($detalledeldetalleparte);
+      $this->load->view('header');
+      $this->load->view('bodega/detalle',$data);
+      $this->load->view('footer');
+    }
 }
 ?>
