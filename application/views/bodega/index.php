@@ -6,7 +6,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h3>Enviados a Calidad</h3>
+                    <h3>Módulo de Almacen</h3>
 
                     <div class="clearfix"></div>
                   </div>
@@ -19,15 +19,7 @@
                        <div class="notification is-success text-center px-5 top-middle" v-if="successMSG" @click="successMSG = false">{{successMSG}}</div>
                     </transition>
                     <div class="row">
-                        <div class="col-md-6">
-                           <label>Botones</label>
-
-
-                        </div>
-                        <div class="col-md-6"></div>
-                     </div>
-                      <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6"> 
                         </div>
                         <div class="col-md-6">
                             <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control" v-model="search.text" @keyup="searchDetalleStatus" name="search">

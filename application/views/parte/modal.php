@@ -78,6 +78,7 @@
 
    </div>
    <div slot="foot">
+     <button class="btn btn-primary" @click="updateParte">Modificar</button>
     <button class="btn btn-danger" @click="clearAll">Cancelar</button>
    </div>
 </modal>

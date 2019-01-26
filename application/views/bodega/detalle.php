@@ -9,7 +9,7 @@
            <div class="col-md-12 col-sm-12 col-xs-12">
              <div class="x_panel">
                <div class="x_title">
-                 <h3>Detalles del envio a Calidad</h3>
+                 <h3>Detalles del envio</h3>
 
                  <div class="clearfix"></div>
                </div>
@@ -84,7 +84,13 @@
 
                        </div>
                      </div>
-<hr/>
+                     <hr/>
+                     <div class="row">
+                      <div class="col-md-12 col-sm-12 col-xs-12">
+                        <h4>Acomodar pallet, para terminar el proceso.</h4>
+                     </div>
+                    </div>
+
 <form method="post" action="">
                      <div class="row">
                        <?php if (1 <= $detalle->pallet): ?>
@@ -337,9 +343,12 @@
                          </div>
                        <?php endif; ?>
                      </div>
+                     <br/>
                      <div class="row">
                         <div class="col-md-3 col-sm-12 col-xs-12">
-                          <button type="button" class="btn btn-primary">Guardar</button>
+                          <div class="form-group">
+                          <button type="button" class="btn btn-primary">Terminar proceso</button>
+                        </div>
                         </div>
                      </div>
                    </form>

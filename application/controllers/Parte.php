@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Parte extends CI_Controller {
-    
+
     function __construct()
     {
         parent::__construct();
@@ -15,7 +15,7 @@ class Parte extends CI_Controller {
         $this->load->model('user_model', 'usuario');
         $this->load->library('permission');
     }
-    
+
     public function index()
     {
         // Permission::grant(uri_string());
@@ -23,23 +23,23 @@ class Parte extends CI_Controller {
         $this->load->view('parte/index');
         $this->load->view('footer');
     }
-    
+
     public function packing($id)
     {
         $usuarioscalidad=$this->usuario->showAllCalidad();
         $detalleparte= $this->parte->detalleParteId($id);
-        
+
         $data=array(
             'usuarioscalidad'=>$usuarioscalidad,
             'detalleparte'=>$detalleparte,
             'idparte'=>$id
         );
-        
+
         $this->load->view('header');
         $this->load->view('parte/packing',$data);
         $this->load->view('footer');
     }
-    
+
     public function detalleenvio($iddetalle)
     {
         //$usuarioscalidad=$this->usuario->showAllCalidad();
@@ -50,20 +50,20 @@ class Parte extends CI_Controller {
         if($detalledeldetalleparte->idestatus == 6){
             $dataerror=$this->parte->motivosCancelacionCalidad($iddetalle);
         }
-        
+
         $data=array(
             'iddetalle'=>$iddetalle,
             'detalle'=>$detalledeldetalleparte,
             'usuarioscalidad'=>$usuarioscalidad,
             'dataerrores'=>$dataerror
         );
-        
+
         //var_dump($detalledeldetalleparte);
         $this->load->view('header');
         $this->load->view('parte/detalleenviado',$data);
         $this->load->view('footer');
     }
-    
+
     public function reenviarCalidad()
     {
         // code...
@@ -121,10 +121,10 @@ class Parte extends CI_Controller {
            )
              )
        );
-       
+
        $iddetalleparte=$this->input->post('iddetalleparte');
        $this->form_validation->set_rules($config);
-       
+
        if ($this->form_validation->run() == TRUE)
        {
            $data = array(
@@ -138,9 +138,9 @@ class Parte extends CI_Controller {
                'idusuario' => $this->session->user_id,
                'fecharegistro' => date('Y-m-d H:i:s')
             );
-            
+
             $this->parte->updateDetalleParte($iddetalleparte,$data);
-            
+
             $datastatus = array(
                 'iddetalleparte' => $iddetalleparte,
                 'idstatus' => 1,
@@ -148,20 +148,20 @@ class Parte extends CI_Controller {
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
-            
+
             $this->parte->addDetalleEstatusParte($datastatus);
             redirect('parte/');
         } else {
             // code...
             $usuarioscalidad=$this->usuario->showAllCalidad();
             $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalleparte);
-            
+
             $dataerror = array();
-            
+
             if($detalledeldetalleparte->idestatus == 6){
                 $dataerror=$this->parte->motivosCancelacionCalidad($iddetalleparte);
             }
-            
+
             $data = array(
                 'iddetalle'=>$iddetalleparte,
                 'detalle'=>$detalledeldetalleparte,
@@ -174,7 +174,7 @@ class Parte extends CI_Controller {
             $this->load->view('footer');
         }
     }
-    
+
     public function enviarCalidad()
     {
         $config = array(
@@ -243,7 +243,7 @@ class Parte extends CI_Controller {
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
-                
+
                 $iddetalleparte = $this->parte->addDetalleParte($data);
                 $datastatus = array(
                     'iddetalleparte' => $iddetalleparte,
@@ -263,13 +263,13 @@ class Parte extends CI_Controller {
                     'detalleparte' => $detalleparte,
                     'idparte' => $id
                 );
-                
+
                 $this->load->view('header');
                 $this->load->view('parte/packing',$data);
                 $this->load->view('footer');
             }
     }
-    
+
     public function verEnviados()
     {
         $this->load->view('header');
@@ -304,7 +304,7 @@ class Parte extends CI_Controller {
         $resuldovalidacion = $this->parte->validarClienteParte($idclente,$numeroparte);
         var_dump($resuldovalidacion);
     }
-    
+
     public function addPart()
     {
         //Permission::grant(uri_string());
@@ -347,6 +347,59 @@ class Parte extends CI_Controller {
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
                 $this->parte->addParte($data);
+            }else{
+                $result['error'] = true;
+                $result['msg']   = array(
+                    'smserror' => "El número de cliente ya se encuentra registrado."
+                );
+            }
+        }
+        echo json_encode($result);
+    }
+
+    public function updateParte()
+    {
+        //Permission::grant(uri_string());
+        $config = array(
+            array(
+                'field' => 'numeroparte',
+                'label' => 'Número de parte',
+                'rules' => 'trim|required',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.'
+                )
+            ),
+            array(
+                'field' => 'idcliente',
+                'label' => 'Cliente',
+                'rules' => 'trim|required',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.'
+                )
+            )
+        );
+
+        $this->form_validation->set_rules($config);
+        if ($this->form_validation->run() == FALSE) {
+            $result['error'] = true;
+            $result['msg']   = array(
+                 'numeroparte' => form_error('numeroparte'),
+                 'idcliente' => form_error('idcliente')
+            );
+        } else {
+            $idcliente = $this->input->post('idcliente');
+            $numeroparte = $this->input->post('numeroparte');
+            $idparte = $this->input->post('idparte');
+            $resuldovalidacion = $this->parte->validarClientePartePorIdParte($idparte,$idcliente,$numeroparte);
+            if($resuldovalidacion == FALSE){
+                $data = array(
+                    'numeroparte' => $this->input->post('numeroparte'),
+                    'idcliente' => $this->input->post('idcliente'),
+                    'idusuario' => $this->session->user_id,
+                    'activo' => $this->input->post('activo'),
+                    'fecharegistro' => date('Y-m-d H:i:s')
+                );
+                $this->parte->updateParte($idparte,$data);
             }else{
                 $result['error'] = true;
                 $result['msg']   = array(

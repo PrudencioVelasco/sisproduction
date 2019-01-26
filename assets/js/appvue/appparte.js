@@ -105,7 +105,25 @@ var v = new Vue({
                 }
                })
         },
+        updateParte(){
+            var formData = v.formData(v.chooseParte); axios.post(this.url+"parte/updateParte", formData).then(function(response){
+                if(response.data.error){
+                    v.formValidate = response.data.msg;
+                }else{
+                    //v.successMSG = response.data.success;
+                      swal({
+                            position: 'center',
+                            type: 'success',
+                            title: 'Modificado!',
+                            showConfirmButton: false,
+                            timer: 1500
+                          });
+                    v.clearAll();
+                    v.clearMSG();
 
+                }
+            })
+        },
          formData(obj){
 			   var formData = new FormData();
 		      for ( var key in obj ) {
