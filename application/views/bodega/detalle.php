@@ -40,6 +40,7 @@
                    </div>
                      </div>
 <hr/>
+
                      <div class="row">
                        <div class="col-md-4 col-sm-12 col-xs-12">
 
@@ -84,11 +85,12 @@
                        </div>
                      </div>
 <hr/>
+<form method="post" action="">
                      <div class="row">
                        <?php if (1 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>1</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -101,7 +103,7 @@
                        <?php if (2 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>2</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -113,7 +115,7 @@
                        <?php if (3 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>3</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -125,7 +127,7 @@
                        <?php if (4 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>4</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -139,7 +141,7 @@
                        <?php if (5 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>5</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -151,7 +153,7 @@
                        <?php if (6 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>6</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -163,7 +165,7 @@
                        <?php if (7 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>7</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -175,7 +177,7 @@
                        <?php if (8 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>8</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -189,7 +191,7 @@
                        <?php if (9 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>9</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -201,7 +203,7 @@
                        <?php if (10 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>10</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -213,7 +215,7 @@
                        <?php if (11 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>11</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -225,7 +227,7 @@
                        <?php if (12 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>12</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -239,7 +241,7 @@
                        <?php if (13 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>13</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -251,7 +253,7 @@
                        <?php if (14 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>14</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -263,7 +265,7 @@
                        <?php if (15 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>15</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -275,7 +277,7 @@
                        <?php if (16 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>16</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -289,7 +291,7 @@
                        <?php if (17 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>17</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -301,7 +303,7 @@
                        <?php if (18 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>18</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -313,7 +315,7 @@
                        <?php if (19 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>19</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -325,7 +327,7 @@
                        <?php if (20 <= $detalle->pallet): ?>
                          <div class="col-md-3 col-sm-12 col-xs-12 text-center">
                            <h3>20</h3>
-                           <select class="form-control">
+                           <select class="form-control" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) {
                                 // code...
@@ -335,6 +337,12 @@
                          </div>
                        <?php endif; ?>
                      </div>
+                     <div class="row">
+                        <div class="col-md-3 col-sm-12 col-xs-12">
+                          <button type="button" class="btn btn-primary">Guardar</button>
+                        </div>
+                     </div>
+                   </form>
                </div>
              </div>
            </div>
