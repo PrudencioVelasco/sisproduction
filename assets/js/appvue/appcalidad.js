@@ -71,7 +71,7 @@ var v = new Vue({
         },
         searchDetalleStatus(){
             var formData = v.formData(v.search);
-            axios.post(this.url+"calidad/searchEnviados", formData).then(function(response){
+            axios.post(this.url+"calidad/searchParte", formData).then(function(response){
                 if(response.data.detallestatus == null){
                     v.noResult()
                 }else{

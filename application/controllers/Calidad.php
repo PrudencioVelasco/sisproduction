@@ -308,11 +308,11 @@ class Calidad extends CI_Controller {
         echo json_encode($result);
     }*/
 
-    public function searchEnviados()
+    public function searchParte()
     {
         //Permission::grant(uri_string());
         $value = $this->input->post('text');
-        $query = $this->calidad->searchEnviados($value,$this->session->user_id);
+        $query = $this->calidad->searchPartes($value,$this->session->user_id);
         if ($query) {
             $result['detallestatus'] = $query;
         }
@@ -325,7 +325,7 @@ class Calidad extends CI_Controller {
         $value = $this->input->post('text');
         $query = $this->calidad->searchPartes($value);
         if ($query) {
-            $result['partes'] = $query;
+            $result['detallestatus'] = $query;
         }
         echo json_encode($result);
     }*/

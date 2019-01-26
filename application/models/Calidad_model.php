@@ -27,27 +27,7 @@ class Calidad_model extends CI_Model {
         }
     }*/
     
-    /*public function searchPartes($match)
-    {
-        $field = array(
-            'p.numeroparte',
-            'c.nombre'
-        );
-        
-        $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name, p.activo');
-        $this->db->from('parte p');
-        $this->db->join('cliente c', 'p.idcliente=c.idcliente');
-        $this->db->join('users u', 'p.idusuario=u.id');
-        $this->db->like('concat(' . implode(',', $field) . ')', $match);
-        $query = $this->db->get();
-        
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-    }*/
-    
+
     public function showAllEnviados($idusuario)
     {
         $this->db->select('d.iddetalleparte,p.idparte,c.idcliente, s.idestatus, p.numeroparte,c.nombre,u.name,uo.name as nombreoperador,d.fecharegistro,d.pallet,d.cantidad,s.nombrestatus');
@@ -104,13 +84,10 @@ class Calidad_model extends CI_Model {
         return $query->first_row();
     }
     
-    /*ublic function searchEnviados($match,$idusuario)
+    /*public function searchPartes($match)
     {
         $field = array(
-            'p.numeroparte',
-            's.nombrestatus',
-            'd.fecharegistro',
-            'd.revision'
+            'p.numeroparte'
         );
 
         $this->db->select('
@@ -132,7 +109,6 @@ class Calidad_model extends CI_Model {
         $this->db->join('users uo', 'd.idoperador=uo.id');
         $this->db->join('status s', 's.idestatus=d.idestatus');
         $this->db->join('detallestatus ds', 'ds.iddetalleparte=d.iddetalleparte');
-        $this->db->where('d.idusuario',$idusuario);
         $this->db->like('concat(' . implode(',', $field) . ')', $match);
         $query = $this->db->get();
         
@@ -142,6 +118,42 @@ class Calidad_model extends CI_Model {
             return false;
         }
     }*/
+
+    public function searchPartes($match,$user)
+    {
+        $field = array(
+            'p.numeroparte'
+        );
+
+        $this->db->select('d.iddetalleparte,
+        p.idparte,
+        c.idcliente, 
+        s.idestatus, 
+        p.numeroparte,
+        c.nombre,
+        u.name,
+        uo.name as nombreoperador,
+        d.fecharegistro,
+        d.pallet,
+        d.cantidad,
+        s.nombrestatus');
+        $this->db->from('parte p');
+        $this->db->join('cliente c','p.idcliente = c.idcliente');
+        $this->db->join('detalleparte d' ,'p.idparte = d.idparte');
+        $this->db->join('users u','d.idusuario = u.id');
+        $this->db->join('users uo ','d.idoperador = uo.id');
+        $this->db->join('status s' ,'s.idestatus = d.idestatus');
+        $this->db->where('d.idusuario',$user); 
+        $this->db->where('d.idestatus', 1); 
+        $this->db->like('concat(' . implode(',', $field) . ')', $match);
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
 
     /*public function validarClienteParte($idcliente,$numeroparte)
     {
