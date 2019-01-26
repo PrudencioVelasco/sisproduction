@@ -12,7 +12,7 @@
             <div class="row">
               <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="form-group">
-                  <h4>Número de parte: <?php echo $detalle->numeroparte;?></h4>
+                  <h4>Número de parte: <small><?php echo $detalle->numeroparte;?></small></h4>
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-xs-6" align="right">
@@ -24,37 +24,38 @@
             <div class="row">
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <label>Modelo: <p><?php echo $detalle->modelo ?></p></label>
+                  <h4>Modelo: <small><?php echo $detalle->modelo;?></small></h4>
                 </div>
               </div>
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <label>Revisión: <p><?php echo $detalle->revision ?></p></label>
+                  <h4>Revisión: <small><?php echo $detalle->revision ?></small></h4>
                 </div>
               </div>
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <label>Linea: <p><?php echo $detalle->linea ?></p></label>
+                  <h4>Linea: <small><?php echo $detalle->linea ?></small></h4>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <label>Número de Pallet: <p><?php echo $detalle->pallet ?></p></label>
+                  <h4>Número de Pallet: <small><?php echo $detalle->pallet ?></small></h4>
                 </div>
               </div>
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <label>Cantidad de cajas: <p><?php echo $detalle->cantidad ?></p></label>
+                  <h4>Cantidad de cajas: <small><?php echo $detalle->cantidad ?></small></h4>
                 </div>
               </div>
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <label>Cliente: <p><?php echo $detalle->nombre ?></p></label>
+                  <h4>Cliente: <small><?php echo $detalle->nombre ?></small></h4>
                 </div>
               </div>
             </div>
+            <hr>
             <div class="row">
               <div class="col-md-6">
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-sendBodega">Enviar</button>

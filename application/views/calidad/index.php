@@ -43,10 +43,7 @@
               <tr v-for="row in detallestatus" class="table-default">
                 <td>{{row.numeroparte}} </td>
                 <td>
-                 <!--<h6 style="color:red" v-if="row.idestatus==1"><strong>En revisión</strong></h6>-->
-                  <span v-if="row.idestatus==1" class="label label-danger">En revisión</span>
-                  <!--<h6 style="color:red" v-else-if="row.idestatus==6"><strong>{{row.nombrestatus}}</strong></h6>
-                  <h1 v-else>{{row.nombrestatus}}</h1>-->
+                  <h6 style="color:green" v-if="row.idestatus==1"><strong>En revisión</strong></h6>
                 </td>
                   <td>{{row.pallet}} </td>
                   <td>{{row.cantidad}} </td>
