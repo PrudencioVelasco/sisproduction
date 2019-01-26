@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Parte_model extends CI_Model {
+class Calidad_model extends CI_Model {
     
     public function __construct()
     {
@@ -13,7 +13,7 @@ class Parte_model extends CI_Model {
         $this->db->close();
     }
 
-    public function showAll()
+    /*public function showAll()
     {
         $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name, p.activo');
         $this->db->from('parte p');
@@ -25,9 +25,9 @@ class Parte_model extends CI_Model {
         } else {
             return false;
         }
-    }
+    }*/
     
-    public function  searchPartes($match)
+    /*public function searchPartes($match)
     {
         $field = array(
             'p.numeroparte',
@@ -46,7 +46,7 @@ class Parte_model extends CI_Model {
         } else {
             return false;
         }
-    }
+    }*/
     
     public function showAllEnviados($idusuario)
     {
@@ -80,6 +80,7 @@ class Parte_model extends CI_Model {
         s.idestatus,
         p.numeroparte,
         c.nombre,
+        u.id,
         u.name,
         uo.name as nombreoperador,
         d.fecharegistro,
@@ -103,7 +104,7 @@ class Parte_model extends CI_Model {
         return $query->first_row();
     }
     
-    public function searchEnviados($match,$idusuario)
+    /*public function searchEnviados($match,$idusuario)
     {
         $field = array(
             'p.numeroparte',
@@ -140,9 +141,9 @@ class Parte_model extends CI_Model {
         } else {
             return false;
         }
-    }
+    }*/
 
-    public function validarClienteParte($idcliente,$numeroparte)
+    /*public function validarClienteParte($idcliente,$numeroparte)
     {
         //Funcion para validar al registra un numero de parte que no
         //este registrado con el mismo cliente
@@ -157,7 +158,8 @@ class Parte_model extends CI_Model {
         } else {
             return false;
         }
-    }
+    }*/
+
     public function detalleParteId($idparte)
     {
         $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name, p.activo');
@@ -170,7 +172,7 @@ class Parte_model extends CI_Model {
         return $query->first_row();
     }
 
-    public function motivosCancelacionCalidad($iddetalleparte)
+    /*public function motivosCancelacionCalidad($iddetalleparte)
     {
         $this->db->select('d.comentariosrechazo, d.fecharegistro');
         $this->db->from('detallestatus d');
@@ -183,31 +185,58 @@ class Parte_model extends CI_Model {
         } else {
             return false;
         }
-    }
+    }*/
     
-    public function addParte($data)
+    /*public function addParte($data)
     {
         return $this->db->insert('parte', $data);
-    }
+    }*/
 
-    public function addDetalleParte($data)
+    /*public function addDetalleParte($data)
     {
         $this->db->insert('detalleparte', $data);
         return $this->db->insert_id();
-    }
+    }*/
 
-    public function addDetalleEstatusParte($data)
+
+
+    // Usuarios Bodega
+    public function allUsersBodega()
     {
-        return $this->db->insert('detallestatus', $data);
+        $this->db->select('u.id as idusuario,u.name');    
+        $this->db->from('users u');
+        $this->db->join('users_rol ur','u.id = ur.id_user');
+        $this->db->join('rol r', 'ur.id_rol = r.id');  
+        $this->db->where('r.id', 3); 
+        $this->db->where('u.activo' , 1);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
     }
 
-    public function updateDetalleParte($id, $field)
+    // Actualizar la informacion de la tabla detalle parte[idoperador][idstatus]
+    public function updateDetalleParte($id, $data)
     {
         $this->db->where('iddetalleparte', $id);
-        $this->db->update('detalleparte', $field);
+        $this->db->update('detalleparte', $data);
         if ($this->db->affected_rows() > 0) {
             return true;
         } else {
+            return false;
+        }
+    }
+
+    // Agregar informacion a la tabla detalle status(Historial)
+    public function addDetalleEstatusParte($data)
+    {
+        return $this->db->insert('detallestatus', $data);
+        if($this->db->affected_rows() > 0){
+            return true;
+        }else{
             return false;
         }
     }

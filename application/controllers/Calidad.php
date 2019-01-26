@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Parte extends CI_Controller {
+class Calidad extends CI_Controller {
     
     function __construct()
     {
@@ -11,8 +11,9 @@ class Parte extends CI_Controller {
         }
         $this->load->helper('url');
         $this->load->model('data_model');
-        $this->load->model('parte_model', 'parte');
+        $this->load->model('calidad_model', 'calidad');
         $this->load->model('user_model', 'usuario');
+        $this->load->library('form_validation'); 
         $this->load->library('permission');
     }
     
@@ -20,11 +21,11 @@ class Parte extends CI_Controller {
     {
         // Permission::grant(uri_string());
         $this->load->view('header');
-        $this->load->view('parte/index');
+        $this->load->view('calidad/index');
         $this->load->view('footer');
     }
     
-    public function packing($id)
+    /*public function packing($id)
     {
         $usuarioscalidad=$this->usuario->showAllCalidad();
         $detalleparte= $this->parte->detalleParteId($id);
@@ -38,33 +39,26 @@ class Parte extends CI_Controller {
         $this->load->view('header');
         $this->load->view('parte/packing',$data);
         $this->load->view('footer');
-    }
+    }*/
     
+    // Informacion de la parte recibida por id en Modulo[Calidad]
     public function detalleenvio($iddetalle)
     {
-        //$usuarioscalidad=$this->usuario->showAllCalidad();
-        //$detalleparte= $this->parte->detalleParteId($id);
-        $usuarioscalidad=$this->usuario->showAllCalidad();
-        $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalle);
-        $dataerror = array();
-        if($detalledeldetalleparte->idestatus == 6){
-            $dataerror=$this->parte->motivosCancelacionCalidad($iddetalle);
-        }
+        $usuariosbodega = $this->calidad->allUsersBodega();
+        $detalledeldetalleparte=$this->calidad->detalleDelDetallaParte($iddetalle);
         
         $data=array(
             'iddetalle'=>$iddetalle,
             'detalle'=>$detalledeldetalleparte,
-            'usuarioscalidad'=>$usuarioscalidad,
-            'dataerrores'=>$dataerror
+            'usuariosbodega'=>$usuariosbodega
         );
         
-        //var_dump($detalledeldetalleparte);
         $this->load->view('header');
-        $this->load->view('parte/detalleenviado',$data);
+        $this->load->view('calidad/detalle_recibido',$data);
         $this->load->view('footer');
     }
     
-    public function reenviarCalidad()
+    /*public function reenviarBodega()
     {
         // code...
         $config = array(
@@ -150,7 +144,7 @@ class Parte extends CI_Controller {
             );
             
             $this->parte->addDetalleEstatusParte($datastatus);
-            redirect('parte/');
+            redirect('calidad/');
         } else {
             // code...
             $usuarioscalidad=$this->usuario->showAllCalidad();
@@ -170,114 +164,70 @@ class Parte extends CI_Controller {
             );
             //var_dump($detalledeldetalleparte);
             $this->load->view('header');
-            $this->load->view('parte/detalleenviado',$data);
+            $this->load->view('calidad/detalle_recibido',$data);
             $this->load->view('footer');
         }
-    }
+    }*/
     
-    public function enviarCalidad()
+    // Enviar informacion de la parte al siguiente Modulo[Bodega]
+    public function enviarBodega()
     {
-        $config = array(
-            array(
-                'field'   => 'modelo',
-                'label'   => 'Modelo',
-                'rules'   => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.',
-                    )
-                ),
-            array(
-                'field'   => 'revision',
-                'label'   => 'Revision',
-                'rules'   => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.',
-                    )
-                ),
-            array(
-                'field'   => 'numeropallet',
-                'label'   => 'Número de pallet',
-                'rules'   => 'required|integer',
-                'errors' => array(
-                    'required' => 'Campo requerido.',
-                    'integer'=>'Solo numero'
-                    )
-                ),
-            array(
-                'field'   => 'cantidadcaja',
-                'label'   => 'Cantidad Caja',
-                'rules'   => 'required|integer',
-                'errors' => array(
-                    'required' => 'Cantidad requerido.',
-                    'integer' => 'Solo numero.'
-                    )
-                ),
-            array(
-                'field'   => 'linea',
-                'label'   => 'Linea',
-                'rules'   => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.'
-                    )
-                ),
-            array(
-                'field'   => 'usuariocalidad',
-                'label'   => 'Usuario de calidad',
-                'rules'   => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.'
-                    )
-                )
+        $usuariosbodega = $this->input->post('usuariobodega');
+        $idoperador = $this->input->post('idoperador');
+        $iddetalleparte = $this->input->post('iddetalleparte');
+        
+        //echo json_encode( array('bodega' => $usuariosbodega,'idoperador' => $idoperador,'iddetalle' => $iddetalleparte ));
+        $data = array(
+            'idestatus' => 4,
+            'idoperador' => $usuariosbodega,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+        );
+        // Actualizar la informacion de la tabla [idoperador][idstatus]
+        $actualizacionParte = $this->calidad->updateDetalleParte($iddetalleparte,$data);
+
+        if($actualizacionParte){
+
+            $datastatus1 = array(
+                'iddetalleparte' => $iddetalleparte,
+                'idstatus' => 4,
+                'idoperador' => $usuariosbodega,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
             );
-            $this->form_validation->set_rules($config);
-            if ($this->form_validation->run() == TRUE) {
-                $data = array(
-                    'idparte' => $this->input->post('idparte'),
-                    'modelo' => $this->input->post('modelo'),
-                    'revision' => $this->input->post('revision'),
-                    'pallet' => $this->input->post('numeropallet'),
-                    'cantidad' => $this->input->post('cantidadcaja'),
-                    'linea' => $this->input->post('linea'),
-                    'idestatus' => 1,
-                    'idoperador' => $this->input->post('usuariocalidad'),
-                    'idusuario' => $this->session->user_id,
-                    'fecharegistro' => date('Y-m-d H:i:s')
-                );
-                
-                $iddetalleparte = $this->parte->addDetalleParte($data);
-                $datastatus = array(
+    
+            //Agregar la informacion a la tabla detalle status[Historial]
+            $agregarEnvioBodega = $this->calidad->addDetalleEstatusParte($datastatus1);
+            
+            if($agregarEnvioBodega){
+
+                $datastatus2 = array(
                     'iddetalleparte' => $iddetalleparte,
-                    'idstatus' => 1,
-                    'idoperador' => $this->input->post('usuariocalidad'),
+                    'idstatus' => 2,
+                    'idoperador' => $idoperador,
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
-                $this->parte->addDetalleEstatusParte($datastatus);
-                redirect('parte/');
-            } else {
-                $id = $this->input->post('idparte');
-                $usuarioscalidad = $this->usuario->showAllCalidad();
-                $detalleparte = $this->parte->detalleParteId($id);
-                $data = array(
-                    'usuarioscalidad' => $usuarioscalidad,
-                    'detalleparte' => $detalleparte,
-                    'idparte' => $id
-                );
-                
-                $this->load->view('header');
-                $this->load->view('parte/packing',$data);
-                $this->load->view('footer');
+        
+                //Agregar la informacion de finalizacion del proceso anterior a la tabla detalle statu[Historial]
+                $finalizarProceso = $this->calidad->addDetalleEstatusParte($datastatus2);
+
+                if($finalizarProceso){
+                    echo json_encode("ok");
+                }
             }
+        }
+
     }
     
-    public function verEnviados()
+    /*public function verEnviados()
     {
         $this->load->view('header');
         $this->load->view('parte/enviados');
         $this->load->view('footer');
-    }
+    }*/
 
-    public function showAll()
+    /*public function showAll()
     {
         //Permission::grant(uri_string());
         $query = $this->parte->showAll();
@@ -285,27 +235,28 @@ class Parte extends CI_Controller {
             $result['partes'] = $this->parte->showAll();
         }
         echo json_encode($result);
-    }
+    }*/
 
+    // Mostrar todos las partes enviados de Modulo[Packing]
     public function showAllEnviados()
     {
         //Permission::grant(uri_string());
-        $query = $this->parte->showAllEnviados($this->session->user_id);
+        $query = $this->calidad->showAllEnviados($this->session->user_id);
         if ($query) {
-            $result['detallestatus'] = $this->parte->showAllEnviados($this->session->user_id);
+            $result['detallestatus'] = $this->calidad->showAllEnviados($this->session->user_id);
         }
         echo json_encode($result);
     }
 
-    public function test()
+    /*public function test()
     {
         $idclente = 1;
         $numeroparte = 'NOS';
         $resuldovalidacion = $this->parte->validarClienteParte($idclente,$numeroparte);
         var_dump($resuldovalidacion);
-    }
+    }*/
     
-    public function addPart()
+    /*public function addPart()
     {
         //Permission::grant(uri_string());
         $config = array(
@@ -355,28 +306,28 @@ class Parte extends CI_Controller {
             }
         }
         echo json_encode($result);
-    }
+    }*/
 
     public function searchEnviados()
     {
         //Permission::grant(uri_string());
         $value = $this->input->post('text');
-        $query = $this->parte->searchEnviados($value,$this->session->user_id);
+        $query = $this->calidad->searchEnviados($value,$this->session->user_id);
         if ($query) {
             $result['detallestatus'] = $query;
         }
         echo json_encode($result);
     }
 
-    public function searchParte()
+    /*public function searchParte()
     {
         //Permission::grant(uri_string());
         $value = $this->input->post('text');
-        $query = $this->parte->searchPartes($value);
+        $query = $this->calidad->searchPartes($value);
         if ($query) {
             $result['partes'] = $query;
         }
         echo json_encode($result);
-    }
+    }*/
 }
 ?>

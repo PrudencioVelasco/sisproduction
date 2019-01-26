@@ -1,5 +1,5 @@
 
-Vue.config.devtools = true
+/*Vue.config.devtools = true
 Vue.component('modal',{ //modal
     template:`
    <transition name="modal">
@@ -27,13 +27,13 @@ Vue.component('modal',{ //modal
       </div>
     </transition>
     `
-})
+})*/
 var v = new Vue({
    el:'#app',
     data:{
         url:'http://localhost/sisproduction/',
-        addModal: false,
-        editModal:false,
+        //addModal: false,
+        //editModal:false,
         //passwordModal:false,
         //deleteModal:false,
         detallestatus:[],
@@ -59,34 +59,32 @@ var v = new Vue({
       this.showAll();
     },
     methods:{
-         showAll(){ axios.get(this.url+"parte/showAllEnviados").then(function(response){
-                 if(response.data.detallestatus == null){
-                     v.noResult()
-                    }else{
-                        v.getData(response.data.detallestatus);
-                        console.log(response.data.detallestatus);
-                    }
+        showAll(){ 
+            axios.get(this.url+"calidad/showAllEnviados").then(function(response){
+                if(response.data.detallestatus == null){
+                    v.noResult()
+                }else{
+                    v.getData(response.data.detallestatus);
+                    //console.log(response.data.detallestatus);
+                }
             })
         },
-
-          searchDetalleStatus(){
+        searchDetalleStatus(){
             var formData = v.formData(v.search);
-              axios.post(this.url+"parte/searchEnviados", formData).then(function(response){
-                  if(response.data.detallestatus == null){
-                      v.noResult()
-                    }else{
-                      v.getData(response.data.detallestatus);
-
-                    }
+            axios.post(this.url+"calidad/searchEnviados", formData).then(function(response){
+                if(response.data.detallestatus == null){
+                    v.noResult()
+                }else{
+                    v.getData(response.data.detallestatus);
+                }
             })
         },
-
-         formData(obj){
-			   var formData = new FormData();
-		      for ( var key in obj ) {
-		          formData.append(key, obj[key]);
-		      }
-		      return formData;
+        formData(obj){
+            var formData = new FormData();
+            for ( var key in obj ) {
+                formData.append(key, obj[key]);
+            }
+            return formData;
 		},
         getData(detallestatus){
             v.emptyResult = false; // become false if has a record
@@ -99,14 +97,13 @@ var v = new Vue({
             v.clearAll();
             }
         },
-
         selectDetalleStatus(detallestatus){
             v.chooseDetalleStatus = detallestatus;
         },
         clearMSG(){
             setTimeout(function(){
-			 v.successMSG=''
-			 },3000); // disappearing message success in 2 sec
+                v.successMSG=''
+            },3000); // disappearing message success in 2 sec
         },
         clearAll(){
             v.newDetalleStatus = {
@@ -119,24 +116,18 @@ var v = new Vue({
             v.editModal=false;
             v.deleteModal=false;
             v.refresh()
-
         },
         noResult(){
-
-               v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
-                      v.detallestatus = null
-                     v.totalDetalleStatus = 0 //remove current page if is empty
-
+            v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
+            v.detallestatus = null
+            v.totalDetalleStatus = 0 //remove current page if is empty
         },
-
-
         pageUpdate(pageNumber){
-              v.currentPage = pageNumber; //receive currentPage number came from pagination template
-                v.refresh()
+            v.currentPage = pageNumber; //receive currentPage number came from pagination template
+            v.refresh()
         },
         refresh(){
-             v.search.text ? v.searchDetalleStatus() : v.showAll(); //for preventing
-
+            v.search.text ? v.searchDetalleStatus() : v.showAll(); //for preventing
         }
     }
 })

@@ -40,26 +40,28 @@
                           <th class="text-white">Estatus</th>
                           <th class="text-white">Pallet</th>
                           <th class="text-white">Cantidad</th>
-                          <th class="text-white">Fecha</th>
+<th class="text-white">Fecha</th>
                           <th class="text-white text-right" align="right">Opción</th>
                        </thead>
                        <tbody  >
                           <tr v-for="row in detallestatus" class="table-default">
                              <td>{{row.numeroparte}} </td>
                               <td>
-                                <h6 style="color:green" v-if="row.idestatus==4"><strong>En espera</strong></h6>
+                                <h6 style="color:green" v-if="row.idestatus==1"><strong>{{row.nombrestatus}}</strong></h6>
                                 <h6 style="color:red" v-else-if="row.idestatus==6"><strong>{{row.nombrestatus}}</strong></h6>
                                 <h1 v-else>{{row.nombrestatus}}</h1> </td>
                                <td>{{row.pallet}} </td>
                                 <td>{{row.cantidad}} </td>
                                  <td>{{row.fecharegistro}} </td>
-
+                             <td> </td>
+                             <td >
+                             </td>
                              <td align="right">
-                            <a href="" v-bind:href="'verDetalle/'+ row.iddetalleparte"  class="btn btn-info">Ver detalle</a>
+                            <a href="" v-bind:href="'detalleenvio/'+ row.iddetalleparte"  class="btn btn-info">Ver detalle</a>
                           </td>
                           </tr>
                           <tr v-if="emptyResult">
-                             <td colspan="6" rowspan="4" class="text-center h4">No encontrado</td>
+                             <td colspan="9" rowspan="4" class="text-center h4">No encontrado</td>
                           </tr>
                        </tbody>
                         <tfoot>

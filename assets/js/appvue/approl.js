@@ -30,7 +30,7 @@ Vue.component('modal',{ //modal
 var v = new Vue({
    el:'#app',
     data:{
-       url:'http://localhost:8383/sisproduction/',
+       url:'http://localhost/sisproduction/',
         addModal: false,
         editModal:false,
         //passwordModal:false,
