@@ -12,7 +12,7 @@
             <div class="row">
               <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="form-group">
-                  <h4>Número de parte: <small><?php echo $detalle->numeroparte;?></small></h4>
+                  <h4><small>Número de parte:</small> <?php echo $detalle->numeroparte;?></h4>
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-xs-6" align="right">
@@ -24,34 +24,34 @@
             <div class="row">
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <h4>Modelo: <small><?php echo $detalle->modelo;?></small></h4>
+                  <h4><small>Modelo:</small> <?php echo $detalle->modelo;?></h4>
                 </div>
               </div>
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <h4>Revisión: <small><?php echo $detalle->revision ?></small></h4>
+                  <h4><small>Revisión:</small> <?php echo $detalle->revision ?></h4>
                 </div>
               </div>
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <h4>Linea: <small><?php echo $detalle->linea ?></small></h4>
+                  <h4><small>Linea:</small> <?php echo $detalle->linea ?></h4>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <h4>Número de Pallet: <small><?php echo $detalle->pallet ?></small></h4>
+                  <h4><small>Número de Pallet:</small ><?php echo $detalle->pallet ?></h4>
                 </div>
               </div>
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <h4>Cantidad de cajas: <small><?php echo $detalle->cantidad ?></small></h4>
+                  <h4><small>Cantidad de cajas:</small> <?php echo $detalle->cantidad ?></h4>
                 </div>
               </div>
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <h4>Cliente: <small><?php echo $detalle->nombre ?></small></h4>
+                  <h4><small>Cliente:</small> <?php echo $detalle->nombre ?></h4>
                 </div>
               </div>
             </div>
