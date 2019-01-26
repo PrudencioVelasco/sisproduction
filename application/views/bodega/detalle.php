@@ -43,19 +43,19 @@
                      <div class="row">
                        <div class="col-md-4 col-sm-12 col-xs-12">
 
-                           <h3><small>Modelo:</small><?php echo $detalle->modelo ?></h3>
+                           <h3><small>Modelo: </small><?php echo $detalle->modelo ?></h3>
 
                        </div>
                        <div class="col-md-4 col-sm-12 col-xs-12">
                           <div class="form-group">
 
-                                <h3><small>Revision:</small><?php echo $detalle->revision ?></h3>
+                                <h3><small>Revision: </small><?php echo $detalle->revision ?></h3>
 
                           </div>
                        </div>
                      <div class="col-md-4 col-sm-12 col-xs-12">
                           <div class="form-group">
-                               <h3><small>Linea:</small><?php echo $detalle->linea ?></h3>
+                               <h3><small>Linea: </small><?php echo $detalle->linea ?></h3>
                           </div>
                        </div>
                      </div>
