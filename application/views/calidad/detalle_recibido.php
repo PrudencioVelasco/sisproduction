@@ -5,7 +5,7 @@
       <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
           <div class="x_title">
-            <h3>Detalles de la parte recibida</h3>
+            <h3>Detalles de la parte</h3>
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
