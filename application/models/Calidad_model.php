@@ -104,7 +104,7 @@ class Calidad_model extends CI_Model {
         return $query->first_row();
     }
     
-    /*public function searchEnviados($match,$idusuario)
+    /*ublic function searchEnviados($match,$idusuario)
     {
         $field = array(
             'p.numeroparte',
