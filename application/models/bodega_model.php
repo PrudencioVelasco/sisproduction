@@ -25,7 +25,21 @@ class Bodega_model extends CI_Model {
   $this->db->join('status s', 's.idestatus=d.idestatus');
   $this->db->where('d.idusuario',$idusuario);
   $this->db->where('d.idestatus',4);
+  $this->db->or_where('d.idestatus',8);
   $this->db->order_by("d.fecharegistro", "desc");
+  $query = $this->db->get();
+  if ($query->num_rows() > 0) {
+      return $query->result();
+  } else {
+      return false;
+  }
+}
+public function posicionesDetalleBodega($iddetalleparte)
+{
+  $this->db->select('pd.iddetalleparte');
+  $this->db->from('parteposicionbodega pd');
+  $this->db->join('posicionbodega p', 'p.idposicion=pd.idposicion');
+  $this->db->where('pd.iddetalleparte',$iddetalleparte);
   $query = $this->db->get();
   if ($query->num_rows() > 0) {
       return $query->result();

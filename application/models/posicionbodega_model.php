@@ -16,13 +16,17 @@ class posicionbodega_model extends CI_Model {
 
         public function posicionesBodega()
     {
-        $query = $this->db->get('tblposicionbodega');
+        $query = $this->db->get('posicionbodega');
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
             return false;
         }
     }
+    public function addPartePosicionBodega($data)
+   {
+       return $this->db->insert('parteposicionbodega', $data);
+   }
 
 
 }
