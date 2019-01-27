@@ -80,8 +80,10 @@
                      <div class="row">
                       <div class="col-md-6">
                         <input type="hidden" name="idparte" value="<?php echo $idparte ?>">
-                          <button type="submit" class="btn btn-success">Enviar</button>
-                          <a  class="btn btn-danger" href="<?php echo site_url('parte/'); ?>">Cancelar</a>
+                          <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+ Enviar</button>
+                          <a  class="btn btn-danger" href="<?php echo site_url('parte/'); ?>"><i class="fa fa-ban" aria-hidden="true"></i>
+ Cancelar</a>
 
                       </div>
                     </div>

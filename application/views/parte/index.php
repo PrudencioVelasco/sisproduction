@@ -47,7 +47,7 @@
                                     <th class="text-white">Número de parte</th>
                                     <th class="text-white">Cliente</th>
                                     <th class="text-white">Usuario registro</th>
-                                    <th class="text-white">Status</th>
+                                    <th class="text-white">Estatus</th>
                                     <th class="text-white text-right" align="right">Opción</th>
                                  </thead>
                                  <tbody class="table-light">
@@ -65,7 +65,7 @@
  Modificar
                                                 </button>
                 <a class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'packing/'+ row.idparte" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
- Agregar a packing</a>
+ Agregar</a>
 
 
 

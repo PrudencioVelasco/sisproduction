@@ -36,7 +36,7 @@ class Bodega_model extends CI_Model {
 }
 public function posicionesDetalleBodega($iddetalleparte)
 {
-  $this->db->select('pd.iddetalleparte');
+  $this->db->select('pd.iddetalleparte, pd.numero, pd.idposicion');
   $this->db->from('parteposicionbodega pd');
   $this->db->join('posicionbodega p', 'p.idposicion=pd.idposicion');
   $this->db->where('pd.iddetalleparte',$iddetalleparte);
@@ -46,6 +46,17 @@ public function posicionesDetalleBodega($iddetalleparte)
   } else {
       return false;
   }
+}
+public function eliminarposicionesparte($id)
+{
+    $this->db->where('iddetalleparte', $id);
+    $this->db->delete('parteposicionbodega');
+    if ($this->db->affected_rows() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+
 }
     /*
     public function  searchPartes($match)

@@ -36,23 +36,37 @@ class Bodega extends CI_Controller
         }
         echo json_encode($result);
     }
+  public  function searchArrayKeyVal($sKey, $id, $array) {
+   foreach ($array as $key => $val) {
+       if ($val[$sKey] == $id) {
+           return $key;
+       }
+   }
+   return false;
+}
     public function verDetalle($iddetalle)
     {
       $usuarioscalidad=$this->usuario->showAllCalidad();
       $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalle);
       $arrayposicionesbodega= $this->posicionbodega->posicionesBodega();
       $dataerror = array();
+      $dataposicionesparte=array();
+
+      if ($this->bodega->posicionesDetalleBodega($iddetalle) != false) {
+        // code...
+        $dataposicionesparte = $this->bodega->posicionesDetalleBodega($iddetalle);
+      }
       $dataposicionebodega =array();
       if($detalledeldetalleparte->idestatus == 6){
         $dataerror=$this->parte->motivosCancelacionCalidad($iddetalle);
       }
-
      $data=array(
       'iddetalle'=>$iddetalle,
       'detalle'=>$detalledeldetalleparte,
       'usuarioscalidad'=>$usuarioscalidad,
       'dataerrores'=>$dataerror,
-      'posicionbodega'=>$arrayposicionesbodega
+      'posicionbodega'=>$arrayposicionesbodega,
+      'dataposicionesparte'=>$dataposicionesparte
      );
      //var_dump($detalledeldetalleparte);
       $this->load->view('header');
@@ -87,6 +101,7 @@ class Bodega extends CI_Controller
     public function insertarPosicion()
     {
   $iddetalleparte= $this->input->post('iddetalleparte');
+  $this->bodega->eliminarposicionesparte($iddetalleparte);
       if ($this->input->post('numero1')) {
         $data = array(
           'iddetalleparte' => $this->input->post('iddetalleparte'),
@@ -306,6 +321,7 @@ class Bodega extends CI_Controller
                }
 
                $datadetalleparte = $this->parte->detalleDelDetallaParte($iddetalleparte);
+               if($datadetalleparte->idestatus != 8){
                $idoperador= $datadetalleparte->idoperador;
                $dataactualizar = array(
                  'idestatus' => 8,
@@ -313,6 +329,7 @@ class Bodega extends CI_Controller
                  'fecharegistro' => date('Y-m-d H:i:s')
                );
                  $this->parte->updateDetalleParte($iddetalleparte,$dataactualizar);
+
                $dataupdateestatus=array(
                  'iddetalleparte'=>$iddetalleparte,
                  'idstatus'=>5,
@@ -321,6 +338,7 @@ class Bodega extends CI_Controller
                  'fecharegistro' => date('Y-m-d H:i:s')
                );
                  $this->parte->addDetalleEstatusParte($dataupdateestatus);
+                 }
                   redirect('bodega/');
     }
 }

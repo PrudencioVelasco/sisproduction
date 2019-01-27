@@ -94,7 +94,7 @@
                      <hr/>
                      <div class="row">
                       <div class="col-md-12 col-sm-12 col-xs-12">
-                        <h4>Acomodar pallet, para terminar el proceso.</h4>
+                        <h4>Localizaciones de los pallet.</h4>
                      </div>
                     </div>
 
@@ -105,10 +105,21 @@
                            <h3>1</h3>
                            <select class="form-control" name="numero1" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 1) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                            <input type="hidden" name="pnumero1" value="1">
                          </div>
@@ -119,10 +130,21 @@
                            <h3>2</h3>
                            <select class="form-control" name="numero2" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 2) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero2" value="2">
                          </div>
@@ -132,10 +154,21 @@
                            <h3>3</h3>
                            <select class="form-control" name="numero3" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 3) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero3" value="3">
                          </div>
@@ -145,10 +178,21 @@
                            <h3>4</h3>
                            <select class="form-control" name="numero4" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 4) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero4" value="4">
                          </div>
@@ -160,10 +204,21 @@
                            <h3>5</h3>
                            <select class="form-control" name="numero5" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 5) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero5" value="5">
                          </div>
@@ -173,10 +228,21 @@
                            <h3>6</h3>
                            <select class="form-control" name="numero6" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 6) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero6" value="6">
                          </div>
@@ -186,10 +252,21 @@
                            <h3>7</h3>
                            <select class="form-control" name="numero7" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 7) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero7" value="7">
                          </div>
@@ -199,10 +276,21 @@
                            <h3>8</h3>
                            <select class="form-control" name="numero8" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 8) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero8" value="8">
                          </div>
@@ -214,10 +302,21 @@
                            <h3>9</h3>
                            <select class="form-control" name="numero9" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 9) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero9" value="9">
                          </div>
@@ -227,10 +326,21 @@
                            <h3>10</h3>
                            <select class="form-control" name="numero10" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 10) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero10" value="10">
                          </div>
@@ -240,10 +350,21 @@
                            <h3>11</h3>
                            <select class="form-control" name="numero11" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 11) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero11" value="11">
                          </div>
@@ -253,10 +374,21 @@
                            <h3>12</h3>
                            <select class="form-control"  name="numero12" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 12) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero12" value="12">
                          </div>
@@ -268,10 +400,21 @@
                            <h3>13</h3>
                            <select class="form-control" name="numero13" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 13) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero13" value="13">
                          </div>
@@ -281,10 +424,21 @@
                            <h3>14</h3>
                            <select class="form-control" name="numero14" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 4) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero14" value="14">
                          </div>
@@ -294,10 +448,21 @@
                            <h3>15</h3>
                            <select class="form-control" name="numero15" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 15) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero5" value="15">
                          </div>
@@ -307,10 +472,21 @@
                            <h3>16</h3>
                            <select class="form-control" name="numero16" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 16) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero16" value="16">
                          </div>
@@ -322,10 +498,21 @@
                            <h3>17</h3>
                            <select class="form-control" name="numero17" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 17) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero17" value="17">
                          </div>
@@ -335,10 +522,21 @@
                            <h3>18</h3>
                            <select class="form-control" name="numero18" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 18) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero18" value="18">
                          </div>
@@ -348,10 +546,21 @@
                            <h3>19</h3>
                            <select class="form-control" name="numero19" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 19) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero19" value="19">
                          </div>
@@ -361,10 +570,21 @@
                            <h3>20</h3>
                            <select class="form-control" name="numero20" required>
                               <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) {
-                                // code...
-                                echo '<option value="'.$value->idposicion.'" >'.$value->nombreposicion.'</option>';
-                              }?>
+                              <?php foreach ($posicionbodega as $value) { ?>
+                               <option value="<?php $value->idposicion?>"
+                                 <?php
+                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
+                                 foreach($dataposicionesparte as $item) {
+                                          if($item->idposicion == $value->idposicion && $item->numero == 20) {
+                                              // We've found item #11!
+                                              echo "selected";
+                                          }
+                                      }
+                                    }
+                                 ?>
+                                  ><?php echo $value->nombreposicion ?></option>
+
+                            <?php  }?>
                            </select>
                             <input type="hidden" name="pnumero20" value="20">
                          </div>
@@ -375,7 +595,7 @@
                         <div class="col-md-3 col-sm-12 col-xs-12">
                           <div class="form-group">
                             <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte?>">
-                          <button type="submit" class="btn btn-primary">Aceptar y Terminar proceso</button>
+                          <button type="submit" class="btn btn-primary">Aceptar</button>
                         </div>
                         </div>
                      </div>
