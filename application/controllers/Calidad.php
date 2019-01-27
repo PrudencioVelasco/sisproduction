@@ -25,21 +25,6 @@ class Calidad extends CI_Controller {
         $this->load->view('footer');
     }
     
-    /*public function packing($id)
-    {
-        $usuarioscalidad=$this->usuario->showAllCalidad();
-        $detalleparte= $this->parte->detalleParteId($id);
-        
-        $data=array(
-            'usuarioscalidad'=>$usuarioscalidad,
-            'detalleparte'=>$detalleparte,
-            'idparte'=>$id
-        );
-        
-        $this->load->view('header');
-        $this->load->view('parte/packing',$data);
-        $this->load->view('footer');
-    }*/
     
     // Informacion de la parte recibida por id en Modulo[Calidad]
     public function detalleenvio($iddetalle)
@@ -58,116 +43,7 @@ class Calidad extends CI_Controller {
         $this->load->view('footer');
     }
     
-    /*public function reenviarBodega()
-    {
-        // code...
-        $config = array(
-          array(
-                'field'   => 'modelo',
-                'label'   => 'Modelo',
-                'rules'   => 'required',
-                'errors' => array(
-                   'required' => 'Campo requerido.',
-           )
-             ),
-          array(
-                'field'   => 'revision',
-                'label'   => 'Revision',
-                'rules'   => 'required',
-                'errors' => array(
-                   'required' => 'Campo requerido.',
-           )
-             ),
-          array(
-                'field'   => 'numeropallet',
-                'label'   => 'Número de pallet',
-                'rules'   => 'required|integer',
-                'errors' => array(
-                   'required' => 'Campo requerido.',
-                   'integer'=>'Solo numero'
-           )
-             ),
-          array(
-                'field'   => 'cantidadcaja',
-                'label'   => 'Cantidad Caja',
-                'rules'   => 'required|integer',
-                'errors' => array(
-                   'required' => 'Cantidad requerido.',
-                   'integer' => 'Solo numero.'
-           )
-             )
-             ,
-          array(
-                'field'   => 'linea',
-                'label'   => 'Linea',
-                'rules'   => 'required',
-                'errors' => array(
-                   'required' => 'Campo requerido.'
-           )
-             )
-             ,
-          array(
-                'field'   => 'usuariocalidad',
-                'label'   => 'Usuario de calidad',
-                'rules'   => 'required',
-                'errors' => array(
-                   'required' => 'Campo requerido.'
-           )
-             )
-       );
-       
-       $iddetalleparte=$this->input->post('iddetalleparte');
-       $this->form_validation->set_rules($config);
-       
-       if ($this->form_validation->run() == TRUE)
-       {
-           $data = array(
-               'modelo' => $this->input->post('modelo'),
-               'revision' => $this->input->post('revision'),
-               'pallet' => $this->input->post('numeropallet'),
-               'cantidad' => $this->input->post('cantidadcaja'),
-               'linea' => $this->input->post('linea'),
-               'idestatus' => 1,
-               'idoperador' => $this->input->post('usuariocalidad'),
-               'idusuario' => $this->session->user_id,
-               'fecharegistro' => date('Y-m-d H:i:s')
-            );
-            
-            $this->parte->updateDetalleParte($iddetalleparte,$data);
-            
-            $datastatus = array(
-                'iddetalleparte' => $iddetalleparte,
-                'idstatus' => 1,
-                'idoperador' => $this->input->post('usuariocalidad'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-            
-            $this->parte->addDetalleEstatusParte($datastatus);
-            redirect('calidad/');
-        } else {
-            // code...
-            $usuarioscalidad=$this->usuario->showAllCalidad();
-            $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalleparte);
-            
-            $dataerror = array();
-            
-            if($detalledeldetalleparte->idestatus == 6){
-                $dataerror=$this->parte->motivosCancelacionCalidad($iddetalleparte);
-            }
-            
-            $data = array(
-                'iddetalle'=>$iddetalleparte,
-                'detalle'=>$detalledeldetalleparte,
-                'usuarioscalidad'=>$usuarioscalidad,
-                'dataerrores'=>$dataerror
-            );
-            //var_dump($detalledeldetalleparte);
-            $this->load->view('header');
-            $this->load->view('calidad/detalle_recibido',$data);
-            $this->load->view('footer');
-        }
-    }*/
+    
     
     // Enviar informacion de la parte al siguiente Modulo[Bodega]
     public function enviarBodega()
@@ -219,23 +95,6 @@ class Calidad extends CI_Controller {
         }
 
     }
-    
-    /*public function verEnviados()
-    {
-        $this->load->view('header');
-        $this->load->view('parte/enviados');
-        $this->load->view('footer');
-    }*/
-
-    /*public function showAll()
-    {
-        //Permission::grant(uri_string());
-        $query = $this->parte->showAll();
-        if ($query) {
-            $result['partes'] = $this->parte->showAll();
-        }
-        echo json_encode($result);
-    }*/
 
     // Mostrar todos las partes enviados de Modulo[Packing]
     public function showAllEnviados()
@@ -248,86 +107,49 @@ class Calidad extends CI_Controller {
         echo json_encode($result);
     }
 
-    /*public function test()
-    {
-        $idclente = 1;
-        $numeroparte = 'NOS';
-        $resuldovalidacion = $this->parte->validarClienteParte($idclente,$numeroparte);
-        var_dump($resuldovalidacion);
-    }*/
-    
-    /*public function addPart()
-    {
-        //Permission::grant(uri_string());
-        $config = array(
-            array(
-                'field' => 'numeroparte',
-                'label' => 'Número de parte',
-                'rules' => 'trim|required',
-                'errors' => array(
-                    'required' => 'Campo obligatorio.'
-                )
-            ),
-            array(
-                'field' => 'idcliente',
-                'label' => 'Cliente',
-                'rules' => 'trim|required',
-                'errors' => array(
-                    'required' => 'Campo obligatorio.'
-                )
-            )
-        );
-
-        $this->form_validation->set_rules($config);
-        if ($this->form_validation->run() == FALSE) {
-            $result['error'] = true;
-            $result['msg']   = array(
-                 'numeroparte' => form_error('numeroparte'),
-                 'idcliente' => form_error('idcliente')
-            );
-        } else {
-            $idcliente = $this->input->post('idcliente');
-            $numeroparte = $this->input->post('numeroparte');
-            $resuldovalidacion = $this->parte->validarClienteParte($idcliente,$numeroparte);
-            if($resuldovalidacion == FALSE){
-                $data = array(
-                    'numeroparte' => $this->input->post('numeroparte'),
-                    'idcliente' => $this->input->post('idcliente'),
-                    'idusuario' => $this->session->user_id,
-                    'activo' => 1,
-                    'fecharegistro' => date('Y-m-d H:i:s')
-                );
-                $this->parte->addParte($data);
-            }else{
-                $result['error'] = true;
-                $result['msg']   = array(
-                    'smserror' => "El número de cliente ya se encuentra registrado."
-                );
-            }
-        }
-        echo json_encode($result);
-    }*/
-
-    public function searchEnviados()
+    public function searchParte()
     {
         //Permission::grant(uri_string());
         $value = $this->input->post('text');
-        $query = $this->calidad->searchEnviados($value,$this->session->user_id);
+        $query = $this->calidad->searchPartes($value,$this->session->user_id);
         if ($query) {
             $result['detallestatus'] = $query;
         }
         echo json_encode($result);
     }
 
-    /*public function searchParte()
+    public function rechazarParte()
     {
-        //Permission::grant(uri_string());
-        $value = $this->input->post('text');
-        $query = $this->calidad->searchPartes($value);
-        if ($query) {
-            $result['partes'] = $query;
+        $idoperador = $this->input->post('idoperador');
+        $iddetalleparte = $this->input->post('iddetalleparte');
+        $comentario = $this->input->post('comentario');
+
+        $data = array(
+            'idestatus' => 3,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+        );
+        // Actualizar la informacion de la tabla [idoperador][idstatus]
+        $actualizacionParte = $this->calidad->updateDetalleParte($iddetalleparte,$data);
+        if($actualizacionParte){
+            //Permission::grant(uri_string());
+            $data = array(
+                'iddetalleparte' => $iddetalleparte,
+                'idstatus' => 3,
+                'idoperador' => $idoperador,
+                'comentariosrechazo' => $comentario,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            
+            //Agregar Motivo de rechazo de la parte [Historial]
+            $resultado = $this->calidad->addRechazoParte($data);
+            
+            if($resultado){
+                echo json_encode("ok");
+            }
         }
-        echo json_encode($result);
-    }*/
+
+    }
 }
 ?>
