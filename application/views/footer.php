@@ -41,7 +41,7 @@
   <script type="text/javascript" src="<?php echo base_url();?>/assets/js/flot/jquery.flot.resize.js"></script>
   <!-- pace -->
   <script src="<?php echo base_url();?>/assets/js/pace/pace.min.js"></script>
- 
+
   <!-- Datatables-->
         <script src="<?php echo base_url();?>/assets/js/datatables/jquery.dataTables.min.js"></script>
         <script src="<?php echo base_url();?>/assets/js/datatables/dataTables.bootstrap.js"></script>
@@ -57,8 +57,9 @@
         <script src="<?php echo base_url();?>/assets/js/datatables/dataTables.responsive.min.js"></script>
         <script src="<?php echo base_url();?>/assets/js/datatables/responsive.bootstrap.min.js"></script>
         <script src="<?php echo base_url();?>/assets/js/datatables/dataTables.scroller.min.js"></script>
+        <!-- select2 -->
+        <script src="<?php echo base_url();?>/assets/js/select/select2.full.js"></script>
 
- 
         <script>
           var handleDataTableButtons = function() {
               "use strict";
@@ -133,7 +134,7 @@
           });
           TableManageButtons.init();
         </script>
- 
+
 </body>
 
 </html>

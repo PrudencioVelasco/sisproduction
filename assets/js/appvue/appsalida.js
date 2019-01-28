@@ -37,6 +37,10 @@ var v = new Vue({
         //passwordModal:false,
         //deleteModal:false,
         salidas:[],
+        clientes: [],
+        newSalida:{
+            idcliente:''
+          },
         search: {text: ''},
         emptyResult:false,
         chooseSalida:{},
@@ -51,6 +55,7 @@ var v = new Vue({
     },
      created(){
       this.showAll();
+      this.showAllClientes();
     },
     methods:{
          showAll(){ axios.get(this.url+"salida/showAll").then(function(response){
@@ -62,7 +67,11 @@ var v = new Vue({
                     }
             })
         },
+         showAllClientes() {
+                axios.get(this.url + "client/showAllClientesActivos")
+                    .then(response => (this.clientes = response.data))
 
+            },
           searchParte(){
             var formData = v.formData(v.search);
               axios.post(this.url+"salida/searchParte", formData).then(function(response){
@@ -74,7 +83,26 @@ var v = new Vue({
                     }
             })
         },
-
+        addSalida(){
+               var formData = v.formData(v.newSalida);
+                 axios.post(this.url+"salida/addSalida", formData).then(function(response){
+                   if(response.data.error){
+                       v.formValidate = response.data.msg;
+                   }else{
+                       swal({
+               position: 'center',
+               type: 'success',
+               title: 'Exito!',
+               showConfirmButton: false,
+               timer: 1500
+             });
+                    //  router.push('/detalle/detalleSalida')
+                       v.clearAll();
+                       v.clearMSG();
+                       //redirect('/salida/detalleSalida');
+                   }
+                  }) 
+           },
 
          formData(obj){
 			   var formData = new FormData();
@@ -83,9 +111,9 @@ var v = new Vue({
 		      }
 		      return formData;
 		},
-        getData(partes){
+        getData(salidas){
             v.emptyResult = false; // become false if has a record
-            v.totalSalida = partes.length //get total of user
+            v.totalSalida = salidas.length //get total of user
             v.salidas = salidas.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
 
              // if the record is empty, go back a page

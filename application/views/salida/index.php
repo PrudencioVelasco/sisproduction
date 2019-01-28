@@ -28,9 +28,6 @@
                            <div class="row">
                                <div class="col-md-6">
                                  <button class="btn btn-round btn-primary" @click="addModal= true">Nueva parte</button>
-                                  <a href="<?php echo site_url('parte/verEnviados') ?>" class="btn btn-round btn-default">Ver enviados</a>
-
-
                                </div>
                                <div class="col-md-6"></div>
                             </div>
@@ -44,27 +41,20 @@
                             <br>
                              <table class="table is-bordered is-hoverable">
                                 <thead class="text-white bg-dark" >
-                                   <th class="text-white">Número de parte</th>
+                                   <th class="text-white">Número de salida</th>
                                    <th class="text-white">Cliente</th>
                                    <th class="text-white">Usuario registro</th>
-                                   <th class="text-white">Estatus</th>
+                                   <th class="text-white">Fecha</th>
                                    <th class="text-white text-right" align="right">Opción</th>
                                 </thead>
                                 <tbody class="table-light">
-                                   <tr v-for="row in partes" class="table-default">
-                                      <td>{{row.numeroparte}}</td>
+                                   <tr v-for="row in salidas" class="table-default">
+                                      <td>{{row.numerosalida}}</td>
                                       <td>{{row.nombre}}</td>
                                       <td>{{row.name}}</td>
-                                      <td >
-                                         <span v-if="row.activo==1" class="label label-success">Activo</span>
-                                         <span v-else class="label label-danger">Inactivo</span>
-                                      </td>
+                                      <td>{{row.fecharegistro}}</td>
                                       <td align="right">
-                                       <button type="button" class="btn btn-icons btn-rounded btn-success btn-xs" @click="editModal = true; selectParte(row)" title="Modificar Datos">
-                                         <i class="fa fa-pencil-square" aria-hidden="true"></i>
-Modificar
-                                               </button>
-               <a class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'packing/'+ row.idparte" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+               <a class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'detalleSalida/'+ row.idsalida" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
 Agregar</a>
 
 
@@ -83,7 +73,7 @@ Agregar</a>
                                                         :current_page="currentPage"
                                                         :row_count_page="rowCountPage"
                                                         @page-update="pageUpdate"
-                                                        :total_users="totalParte"
+                                                        :total_users="totalSalida"
                                                         :page_range="pageRange"
                                                         >
                                                      </pagination>
@@ -95,10 +85,8 @@ Agregar</a>
                           </div>
                        </div>
                     </div>
+                    <?php include 'modal.php';?>
                  </div>
-
-
-
 
                </div>
              </div>

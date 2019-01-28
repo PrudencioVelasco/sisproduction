@@ -106,7 +106,7 @@
                            <select class="form-control" name="numero1" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -131,7 +131,7 @@
                            <select class="form-control" name="numero2" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -155,7 +155,7 @@
                            <select class="form-control" name="numero3" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -179,7 +179,7 @@
                            <select class="form-control" name="numero4" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -205,7 +205,7 @@
                            <select class="form-control" name="numero5" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -229,7 +229,7 @@
                            <select class="form-control" name="numero6" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -253,7 +253,7 @@
                            <select class="form-control" name="numero7" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion;  ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -277,7 +277,7 @@
                            <select class="form-control" name="numero8" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -303,7 +303,7 @@
                            <select class="form-control" name="numero9" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -327,7 +327,7 @@
                            <select class="form-control" name="numero10" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -351,7 +351,7 @@
                            <select class="form-control" name="numero11" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -375,7 +375,7 @@
                            <select class="form-control"  name="numero12" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -401,7 +401,7 @@
                            <select class="form-control" name="numero13" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -425,7 +425,7 @@
                            <select class="form-control" name="numero14" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -449,7 +449,7 @@
                            <select class="form-control" name="numero15" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -473,7 +473,7 @@
                            <select class="form-control" name="numero16" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -499,7 +499,7 @@
                            <select class="form-control" name="numero17" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -523,7 +523,7 @@
                            <select class="form-control" name="numero18" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -547,7 +547,7 @@
                            <select class="form-control" name="numero19" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {
@@ -571,7 +571,7 @@
                            <select class="form-control" name="numero20" required>
                               <option value="" >Localización</option>
                               <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php $value->idposicion?>"
+                               <option value="<?php echo $value->idposicion; ?>"
                                  <?php
                                  if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
                                  foreach($dataposicionesparte as $item) {

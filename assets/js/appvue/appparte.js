@@ -66,7 +66,7 @@ var v = new Vue({
                      v.noResult()
                     }else{
                         v.getData(response.data.partes);
-                        console.log(response.data.partes);
+                        //console.log(response.data.partes);
                     }
             })
         },
