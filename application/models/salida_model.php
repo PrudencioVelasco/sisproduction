@@ -46,7 +46,7 @@ public function detalleSalida($idsalida)
 public function validarExistenciaNumeroParte($numeroparte)
 {
   // code...
-  $this->db->select('p.numeroparte,dp.modelo, dp.revision,dp.pallet, dp.cantidad, dp.linea');
+  $this->db->select('p.idparte,p.numeroparte,dp.modelo, dp.revision,dp.pallet, dp.cantidad, dp.linea');
   $this->db->from('detalleparte dp');
   $this->db->join('parte p', 'dp.idparte=p.idparte');
   $this->db->where('p.numeroparte', $numeroparte);

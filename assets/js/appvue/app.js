@@ -6,7 +6,7 @@ Vue.component('modal',{ //modal
         <div class="modal-wrapper">
           <div class="modal-dialog">
 			    <div class="modal-content">
-			      
+
 
 			      <div class="modal-header">
 				        <h5 class="modal-title"> <slot name="head"></slot></h5>
@@ -24,7 +24,7 @@ Vue.component('modal',{ //modal
           </div>
         </div>
       </div>
-    </transition> 
+    </transition>
     `
 })
 var v = new Vue({
@@ -34,9 +34,10 @@ var v = new Vue({
         addModal: false,
         editModal:false,
         passwordModal:false,
-        //deleteModal:false, 
+        //deleteModal:false,
         users:[],
         roles:[],
+        turnos:[],
         search: {text: ''},
         emptyResult:false,
         newUser:{
@@ -44,11 +45,12 @@ var v = new Vue({
             name:'',
             rol:'',
             activo:'',
+            idturno:'',
             smserror:''},
         chooseUser:{},
         formValidate:[],
         successMSG:'',
-        
+
         //pagination
         currentPage: 0,
         rowCountPage:5,
@@ -56,8 +58,9 @@ var v = new Vue({
         pageRange:2
     },
      created(){
-      this.showAll();   
-      this.allRol();   
+      this.showAll();
+      this.allRol();
+      this.allTurnos();
     },
     methods:{
          showAll(){ axios.get(this.url+"user/showAll").then(function(response){
@@ -68,9 +71,14 @@ var v = new Vue({
                     }
             })
         },
-        allRol(){ 
+        allRol(){
            axios.get(this.url+"rol/todosRoles")
           .then(response => (this.roles = response.data))
+
+        },
+        allTurnos(){
+           axios.get(this.url+"user/allTurnos")
+          .then(response => (this.turnos = response.data))
 
         },
           searchUser(){
@@ -80,11 +88,11 @@ var v = new Vue({
                       v.noResult()
                     }else{
                       v.getData(response.data.users);
-                    
-                    }  
+
+                    }
             })
         },
-          addUser(){   
+          addUser(){
             var formData = v.formData(v.newUser);
               axios.post(this.url+"user/addUser", formData).then(function(response){
                 if(response.data.error){
@@ -119,7 +127,7 @@ var v = new Vue({
                           });
                     v.clearAll();
                     v.clearMSG();
-                
+
                 }
             })
         },
@@ -128,7 +136,7 @@ var v = new Vue({
                 if(response.data.error){
                     v.formValidate = response.data.msg;
                 }else{
-                  
+
                       swal({
                             position: 'center',
                             type: 'success',
@@ -139,7 +147,7 @@ var v = new Vue({
                     v.successMSG = response.data.success;
                     v.clearAll();
                     v.clearMSG();
-                
+
                 }
             })
         },
@@ -157,23 +165,23 @@ var v = new Vue({
 			var formData = new FormData();
 		      for ( var key in obj ) {
 		          formData.append(key, obj[key]);
-		      } 
+		      }
 		      return formData;
 		},
         getData(users){
             v.emptyResult = false; // become false if has a record
             v.totalUsers = users.length //get total of user
             v.users = users.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
-            
+
              // if the record is empty, go back a page
-            if(v.users.length == 0 && v.currentPage > 0){ 
+            if(v.users.length == 0 && v.currentPage > 0){
             v.pageUpdate(v.currentPage - 1)
-            v.clearAll();  
+            v.clearAll();
             }
         },
-            
+
         selectUser(user){
-            v.chooseUser = user; 
+            v.chooseUser = user;
         },
         clearMSG(){
             setTimeout(function(){
@@ -181,7 +189,7 @@ var v = new Vue({
 			 },3000); // disappearing message success in 2 sec
         },
         clearAll(){
-            v.newUser = { 
+            v.newUser = {
             usuario:'',
             name:''};
             v.formValidate = false;
@@ -190,24 +198,24 @@ var v = new Vue({
             v.passwordModal=false;
             v.deleteModal=false;
             v.refresh()
-            
+
         },
         noResult(){
-          
+
                v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
-                      v.users = null 
+                      v.users = null
                      v.totalUsers = 0 //remove current page if is empty
-            
+
         },
 
-       
+
         pageUpdate(pageNumber){
               v.currentPage = pageNumber; //receive currentPage number came from pagination template
-                v.refresh()  
+                v.refresh()
         },
         refresh(){
              v.search.text ? v.searchUser() : v.showAll(); //for preventing
-            
+
         }
     }
 })

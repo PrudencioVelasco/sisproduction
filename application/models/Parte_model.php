@@ -132,6 +132,7 @@ class Parte_model extends CI_Model {
         $this->db->join('status s', 's.idestatus=d.idestatus');
         $this->db->join('detallestatus ds', 'ds.iddetalleparte=d.iddetalleparte');
         $this->db->where('d.idusuario',$idusuario);
+        $this->db->where('d.idestatus',1);
         $this->db->like('concat(' . implode(',', $field) . ')', $match);
         $query = $this->db->get();
 

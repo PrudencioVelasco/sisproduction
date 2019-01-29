@@ -38,11 +38,7 @@ public function showAll()
 
   // code...
 }
-public function test()
-{
-  // code...
-  echo $this->generarCodigo(8);
-}
+
 public function generarCodigo($longitud) {
     $key = '';
     $pattern = '1234567890';
@@ -99,13 +95,22 @@ public function validaranumeroparte()
 {
   // code...
   $numeroparte = $_POST['numeroparte'];
-  var_dump($this->salida->validarExistenciaNumeroParte($numeroparte));
+  //var_dump($this->salida->validarExistenciaNumeroParte($numeroparte));
   if ($this->salida->validarExistenciaNumeroParte($numeroparte) == false) {
+
     echo "0";
   }else{
-    echo "1";
+    $datadetalle = $this->salida->validarExistenciaNumeroParte($numeroparte);
+    echo $datadetalle->idparte;
 
   }
+}
+public function agregarParteOrden()
+{
+  // code...
+  $numeroparte = $_POST['numeroparte'];
+  $cantidadpallet = $_POST['cantidadpallet'];
+  $cantidadcaja = $_POST['cantidadcaja'];
 }
 }
 ?>

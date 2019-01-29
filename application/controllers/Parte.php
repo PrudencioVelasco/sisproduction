@@ -23,7 +23,10 @@ class Parte extends CI_Controller {
         $this->load->view('parte/index');
         $this->load->view('footer');
     }
-
+public function tests()
+{
+  // code...
+}
     public function packing($id)
     {
         $usuarioscalidad=$this->usuario->showAllCalidad();
@@ -297,13 +300,6 @@ class Parte extends CI_Controller {
         echo json_encode($result);
     }
 
-    public function test()
-    {
-        $idclente = 1;
-        $numeroparte = 'NOS';
-        $resuldovalidacion = $this->parte->validarClienteParte($idclente,$numeroparte);
-        var_dump($resuldovalidacion);
-    }
 
     public function addPart()
     {

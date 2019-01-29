@@ -6,8 +6,8 @@
        <div class="text-danger" v-html="formValidate.smserror"> </div>
     </div>
       <div class="col-md-6">
-       
-        
+
+
          <div class="form-group">
             <label>* Usuario</label>
             <input type="text" class="form-control" :class="{'is-invalid': formValidate.usuario}" name="usuario" v-model="newUser.usuario" autcomplete="off">
@@ -18,8 +18,8 @@
             <input type="password" class="form-control" :class="{'is-invalid': formValidate.password2}" name="password2" v-model="newUser.password2" autcomplete="off" >
             <div class="text-danger" v-html="formValidate.password2"></div>
          </div>
-          <div class="form-group"> 
-            <label>* Rol</label> 
+          <div class="form-group">
+            <label>* Rol</label>
              <select v-model="newUser.rol"  :class="{'is-invalid': formValidate.rol}"class="form-control">
                 <option   v-for="option in roles" v-bind:value="option.id">
                 {{ option.rol }}
@@ -39,10 +39,18 @@
             <input class="form-control" :class="{'is-invalid': formValidate.password1}" name="password1" v-model="newUser.password1" type="password" autcomplete="off">
             <div class="text-danger" v-html="formValidate.password1"></div>
          </div>
-         
+         <div class="form-group">
+           <label>* Turno</label>
+            <select v-model="newUser.idturno"  :class="{'is-invalid': formValidate.idturno}"class="form-control">
+               <option   v-for="option in turnos" v-bind:value="option.idturno">
+               {{ option.nombreturno }}
+             </option>
+           </select>
+             <div class="text-danger" v-html="formValidate.idturno"></div>
+        </div>
       </div>
    </div>
-   <div slot="foot"> 
+   <div slot="foot">
     <button class="btn btn-danger" @click="clearAll">Cancelar</button>
       <button class="btn btn-primary" @click="addUser">Agregar</button>
    </div>
@@ -55,7 +63,7 @@
        <div class="text-danger" v-html="formValidate.smserror"> </div>
     </div>
       <div class="col-md-6">
-         
+
          <div class="form-group">
             <label>* Nombre</label>
             <input type="text" class="form-control" :class="{'is-invalid': formValidate.name}" name="name" v-model="chooseUser.name">
@@ -63,15 +71,15 @@
          </div>
 
            <div class="form-group">
-            <label>* Rol</label> 
+            <label>* Rol</label>
               <select class="form-control" v-model="chooseUser.idrol" >
                   <option v-for="option in roles"  :selected="option.id == chooseUser.idrol ? 'selected' : ''" :value="option.id" >
                       {{ option.rol }}
                   </option>
              </select>
          </div>
-        
-        
+
+
       </div>
       <div class="col-md-6">
          <div class="form-group">
@@ -84,10 +92,10 @@
             <label class="radio-inline"> <input type="radio" name="status" v-model="chooseUser.activo" value="1" :checked="chooseUser.activo==1"> Activo </label>
             <label class="radio-inline">  <input type="radio" name="status" v-model="chooseUser.activo" value="0" :checked="chooseUser.activo==0"> Inactivo </label>
          </div>
-        
+
       </div>
    </div>
-   <div slot="foot">  
+   <div slot="foot">
       <button class="btn btn-danger" @click="clearAll">Cancelar</button>
       <button class="btn btn-primary" @click="updateUser">Modificar</button>
    </div>
@@ -99,13 +107,13 @@
       <div class="col-md-6">
          <div class="form-group">
             <label>* Contraseña</label>
-         
+
 
              <input type="password" class="form-control" :class="{'is-invalid': formValidate.password1}" name="password1" v-model="chooseUser.password1">
             <div class="text-danger" v-html="formValidate.password1"></div>
 
          </div>
-     
+
       </div>
       <div class="col-md-6">
          <div class="form-group">
@@ -113,11 +121,11 @@
            <input type="password" class="form-control" :class="{'is-invalid': formValidate.password2}" name="password2" v-model="chooseUser.password2">
             <div class="text-danger" v-html="formValidate.password2"></div>
          </div>
-         
-        
+
+
       </div>
    </div>
-   <div slot="foot">  
+   <div slot="foot">
       <button class="btn btn-danger" @click="clearAll">Cancelar</button>
       <button class="btn btn-primary" @click="passwordupdateUser">Modificar</button>
    </div>

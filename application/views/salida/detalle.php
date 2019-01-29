@@ -27,7 +27,7 @@
     </div>
  </div>
 </div>
-
+<form method="post" action="">
 <div class="row">
  <div class="col-md-4 col-sm-12 col-xs-12">
     <div class="form-group">
@@ -50,10 +50,11 @@
  </div>
  <div class="col-md-2 col-sm-12 col-xs-12">
     <div class="form-group" style="padding-top:24px;">
-      <button type="button" class="btn btn-primary">Agregar</button>
+      <button type="button" id="btnagregar" class="btn btn-primary">Agregar</button>
    </div>
  </div>
 </div>
+<form>
 
 <div class="row">
    <div class="col-md-12 col-sm-12 col-xs-12">
@@ -106,8 +107,15 @@
                        alert("error petición ajax");
                    },
                    success: function(data) {
-console.log(data);
-                      var getContact = JSON.parse(data);
+                  console.log(data);
+                  if (data==1) {
+                    $("#cantidadpallet").attr("disabled", false);
+                    $("#cantidadcaja").attr("disabled", false);
+                  }else{
+                    $("#cantidadpallet").attr("disabled", true);
+                    $("#cantidadcaja").attr("disabled", true);
+                  }
+                    //  var getContact = JSON.parse(data);
                  //console.log(getContact.incorrecto);
 
 
@@ -121,5 +129,24 @@ console.log(data);
 
 
            }, 200);
+
+           $('#btnagregar').click(function(){
+
+              var  numeroparte = $("#numeroparte").val();
+              var  cantidadpallet = $("#cantidadpallet").val();
+              var  cantidadcaja = $("#cantidadcaja").val();
+
+                $.ajax
+                ({
+                  url: "<?= base_url('salida/agregarParteOrden') ?>",
+                  data: "numeroparte=" + numeroparte+"&cantidadpallet="+cantidadpallet+"&cantidadcaja="+cantidadcaja,
+                    type: 'post',
+                    success: function(result)
+                    {
+
+                    }
+                });
+            });
+
              });
          </script>
