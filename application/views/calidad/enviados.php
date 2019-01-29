@@ -8,6 +8,14 @@
        </div>
        <div class="x_content">
         <div id="app">
+          <div class="row">
+          <div class="col-md-6">
+            <a href="javascript:void(0)" class="btn btn-round btn-success">Generar reporte</a>
+          </div>
+           <div class="col-md-6">
+             
+           </div>
+         </div>
          <div class="row">
           <div class="col-md-6">
             
