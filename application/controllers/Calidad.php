@@ -43,7 +43,13 @@ class Calidad extends CI_Controller {
         $this->load->view('footer');
     }
     
-    
+    // Informacion de la parte recibida por id en Modulo[Calidad]
+    public function enviadosBodega()
+    {    
+        $this->load->view('header');
+        $this->load->view('calidad/enviados');
+        $this->load->view('footer');
+    }    
     
     // Enviar informacion de la parte al siguiente Modulo[Bodega]
     public function enviarBodega()
@@ -96,13 +102,26 @@ class Calidad extends CI_Controller {
 
     }
 
-    // Mostrar todos las partes enviados de Modulo[Packing]
+    // Mostrar todas las partes enviados de Modulo[Packing]
     public function showAllEnviados()
     {
         //Permission::grant(uri_string());
+        //Parametro 7 Indica el estatus enviado a bodega
         $query = $this->calidad->showAllEnviados($this->session->user_id);
         if ($query) {
             $result['detallestatus'] = $this->calidad->showAllEnviados($this->session->user_id);
+        }
+        echo json_encode($result);
+    }
+
+    // Mostrar todas las partes enviados de Modulo[Packing]
+    public function getAllEnviados()
+    {
+        //Permission::grant(uri_string());
+        //Parametro 7 Indica el estatus enviado a bodega
+        $query = $this->calidad->showAllEnviados($this->session->user_id,4);
+        if ($query) {
+            $result['detallestatus'] = $this->calidad->showAllEnviados($this->session->user_id,4);
         }
         echo json_encode($result);
     }
@@ -117,6 +136,18 @@ class Calidad extends CI_Controller {
         }
         echo json_encode($result);
     }
+
+    public function getSearchPart()
+    {
+        //Permission::grant(uri_string());
+        $value = $this->input->post('text');
+        //Parametro 7 Indica el estatus enviado a bodega
+        $query = $this->calidad->searchPartes($value,$this->session->user_id,4);
+        if ($query) {
+            $result['detallestatus'] = $query;
+        }
+        echo json_encode($result);
+    }    
 
     public function rechazarParte()
     {

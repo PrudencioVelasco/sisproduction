@@ -13,7 +13,7 @@ class Calidad_model extends CI_Model {
         $this->db->close();
     }
 
-    public function showAllEnviados($idusuario)
+    public function showAllEnviados($idusuario,$estatus='')
     {
         $this->db->select('d.iddetalleparte,p.idparte,c.idcliente, s.idestatus, p.numeroparte,c.nombre,u.name,uo.name as nombreoperador,d.fecharegistro,d.pallet,d.cantidad,s.nombrestatus');
         $this->db->from('parte p');
@@ -23,7 +23,12 @@ class Calidad_model extends CI_Model {
         $this->db->join('users uo', 'd.idoperador=uo.id');
         $this->db->join('status s', 's.idestatus=d.idestatus');
         $this->db->where('d.idusuario',$idusuario);
-        $this->db->where('d.idestatus',1); 
+        
+        if(!empty($estatus)){
+            $this->db->where('d.idestatus',$estatus); 
+        }else{
+            $this->db->where('d.idestatus',1);
+        }
         $this->db->order_by("d.fecharegistro", "desc");
         $query = $this->db->get();
 
@@ -67,7 +72,7 @@ class Calidad_model extends CI_Model {
         return $query->first_row();
     }
 
-    public function searchPartes($match,$user)
+    public function searchPartes($match,$user,$estatus='')
     {
         $field = array(
             'p.numeroparte'
@@ -92,7 +97,11 @@ class Calidad_model extends CI_Model {
         $this->db->join('users uo ','d.idoperador = uo.id');
         $this->db->join('status s' ,'s.idestatus = d.idestatus');
         $this->db->where('d.idusuario',$user); 
-        $this->db->where('d.idestatus', 1); 
+        if(!empty($estatus)){
+            $this->db->where('d.idestatus',$estatus); 
+        }else{
+            $this->db->where('d.idestatus',1);
+        }
         $this->db->like('concat(' . implode(',', $field) . ')', $match);
         $query = $this->db->get();
         
