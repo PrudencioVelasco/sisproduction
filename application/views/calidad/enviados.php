@@ -10,7 +10,7 @@
         <div id="app">
           <div class="row">
           <div class="col-md-6">
-            <a href="javascript:void(0)" class="btn btn-round btn-success">Generar reporte</a>
+            <a href="javascript:void(0)" class="btn btn-round btn-primary">Generar reporte</a>
           </div>
            <div class="col-md-6">
              
@@ -36,7 +36,10 @@
          <tbody  >
            <tr v-for="row in detallestatus" class="table-default">
             <td>{{row.numeroparte}} </td>
-            <td><h6 style="color:green" v-if="row.idestatus==4"><strong>Enviado</strong></h6></td>
+            <td>
+            <h6 style="color:green" v-if="row.idestatus==4"><strong>{{row.nombrestatus}}</strong></h6>
+            <h6 style="color:red" v-else="row.idestatus==6"><strong>{{row.nombrestatus}}</strong></h1> </td>
+            </td>
              <td>{{row.pallet}} </td>
              <td>{{row.cantidad}} </td>
              <td>{{row.fecharegistro}} </td>

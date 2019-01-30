@@ -58,8 +58,8 @@
             <hr>
             <div class="row">
               <div class="col-md-6">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-sendBodega">Enviar</button>
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-rechazarParte">Rechazar</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-sendBodega"><i class="fa fa-paper-plane" aria-hidden="true"></i> Enviar a Bodega</button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-rechazarParte"><i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Packing</button>
               </div>
             </div>
           </div>

@@ -45,19 +45,12 @@
             <tr v-for="row in detallestatus" class="table-default">
               <td>{{row.numeroparte}} </td>
               <td>
-                <h6 style="color:green" v-if="row.idestatus==1"><strong>En revisión</strong></h6>
+                <h6 style="color:green" v-if="row.idestatus==1"><strong>EN REVISIÓN</strong></h6>
               </td>
               <td>{{row.pallet}} </td>
               <td>{{row.cantidad}} </td>
               <td>{{row.fecharegistro}} </td>
-                  <!--<td></td>
-                    <td></td>-->
-                    <td>
-                      <a href="javascript:void(0)" v-bind:href="'detalleenvio/'+ row.iddetalleparte" class="btn btn-success text-center">Ver detalles</a>
-
-                    <!--<a href="" v-bind:href="'detalleenvio/'+ row.iddetalleparte" class="btn btn-info">Ver detalle</a>
-                      <a href="javascript:void(0)" class="btn btn-danger">Rechazar</a>-->
-                    </td>
+              <td><a href="javascript:void(0)" v-bind:href="'detalleenvio/'+ row.iddetalleparte" class="btn btn-icons btn-rounded btn-success btn-xs"><i class="fa fa-eye" aria-hidden="true"></i> Ver detalles</a></td>
                   </tr>
                   <tr v-if="emptyResult">
                     <td colspan="9" rowspan="4" class="text-center h4">No encontrado</td>
