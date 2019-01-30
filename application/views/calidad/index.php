@@ -50,7 +50,9 @@
               <td>{{row.pallet}} </td>
               <td>{{row.cantidad}} </td>
               <td>{{row.fecharegistro}} </td>
-              <td><a href="javascript:void(0)" v-bind:href="'detalleenvio/'+ row.iddetalleparte" class="btn btn-icons btn-rounded btn-success btn-xs"><i class="fa fa-eye" aria-hidden="true"></i> Ver detalles</a></td>
+              <td>
+              <a href="javascript:void(0)" v-bind:href="'detalleenvio/'+ row.iddetalleparte" class="btn btn-icons btn-rounded btn-success btn-xs"><i class="fa fa-eye" aria-hidden="true"></i> Ver detalles</a>
+              </td>
                   </tr>
                   <tr v-if="emptyResult">
                     <td colspan="9" rowspan="4" class="text-center h4">No encontrado</td>
