@@ -59,7 +59,7 @@ class Parte_model extends CI_Model {
         $this->db->join('status s', 's.idestatus=d.idestatus');
         $this->db->where('d.idusuario',$idusuario);
         $this->db->where('d.idestatus',1);
-        $this->db->or_where('d.idestatus',6);
+        $this->db->or_where('d.idestatus',3);
         $this->db->or_where('d.idestatus',2);
         $this->db->order_by("d.fecharegistro", "desc");
         $query = $this->db->get();
@@ -193,7 +193,8 @@ class Parte_model extends CI_Model {
         $this->db->select('d.comentariosrechazo, d.fecharegistro');
         $this->db->from('detallestatus d');
         $this->db->where('d.iddetalleparte', $iddetalleparte);
-        $this->db->where('d.idstatus', 6);
+        $this->db->where('d.idstatus', 3);
+        $this->db->order_by("d.fecharegistro", "desc");
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {

@@ -149,7 +149,7 @@ class Bodega extends CI_Controller
       if ($this->input->post('numero5')) {
         $data = array(
           'iddetalleparte' => $this->input->post('iddetalleparte'),
-            'numero'=> $this->input->post('pnumero5'),
+          'numero'=> $this->input->post('pnumero5'),
           'idposicion' => $this->input->post('numero5'),
           'idusuario' => $this->session->user_id,
           'fecharegistro' => date('Y-m-d H:i:s')

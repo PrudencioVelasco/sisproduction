@@ -50,6 +50,7 @@
  </div>
  <div class="col-md-2 col-sm-12 col-xs-12">
     <div class="form-group" style="padding-top:24px;">
+      <input type="hidden" name="idorden" id="txtidsalida" value="<?php echo $idsalida; ?>">
       <button type="button" id="btnagregar" class="btn btn-primary">Agregar</button>
    </div>
  </div>
@@ -65,6 +66,19 @@
          <td><strong>Cantida de caja</strong></td>
          <td><strong>Número revision</strong></td>
        </tr>
+       <?php
+       if (isset($detalleorden) && !empty($detalleorden)) {
+          foreach ($detalleorden as $value) {
+            // code...
+            echo "<tr>";
+            echo "<td>".$value->numeroparte."</td>";
+            echo "<td>".$value->pallet."</td>";
+            echo "<td>".$value->caja."</td>";
+              echo "<td>".$value->revision."</td>";
+            echo "</tr>";
+          }
+         }
+       ?>
      </table>
    </div>
 </div>
@@ -108,12 +122,12 @@
                    },
                    success: function(data) {
                   console.log(data);
-                  if (data==1) {
-                    $("#cantidadpallet").attr("disabled", false);
-                    $("#cantidadcaja").attr("disabled", false);
-                  }else{
+                  if (data==0) {
                     $("#cantidadpallet").attr("disabled", true);
                     $("#cantidadcaja").attr("disabled", true);
+                  }else{
+                    $("#cantidadpallet").attr("disabled", false);
+                    $("#cantidadcaja").attr("disabled", false);
                   }
                     //  var getContact = JSON.parse(data);
                  //console.log(getContact.incorrecto);
@@ -129,21 +143,56 @@
 
 
            }, 200);
+           $('#numeroparte').keydown(function (e){
+               if(e.keyCode == 13){
+                 numeroparte = $("#numeroparte").val();
+                 $.ajax({
+                     type: "POST",
+                     url: "<?= base_url('salida/validaranumeroparte') ?>",
+                     data: "numeroparte=" + numeroparte,
+                     dataType: "html",
+                     beforeSend: function() {
+                         //imagen de carga
+                         //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
+                     },
+                     error: function() {
+                         alert("error petición ajax");
+                     },
+                     success: function(data) {
+                    console.log(data);
+                    if (data==0) {
+                      $("#cantidadpallet").attr("disabled", true);
+                      $("#cantidadcaja").attr("disabled", true);
+                    }else{
+                      $("#cantidadpallet").attr("disabled", false);
+                      $("#cantidadcaja").attr("disabled", false);
+                    }
+                      //  var getContact = JSON.parse(data);
+                   //console.log(getContact.incorrecto);
 
+
+
+
+
+                     }
+                 });
+               }
+           })
            $('#btnagregar').click(function(){
 
               var  numeroparte = $("#numeroparte").val();
               var  cantidadpallet = $("#cantidadpallet").val();
               var  cantidadcaja = $("#cantidadcaja").val();
-
-                $.ajax
-                ({
+var  idsalida = $("#txtidsalida").val();
+                $.ajax({
                   url: "<?= base_url('salida/agregarParteOrden') ?>",
-                  data: "numeroparte=" + numeroparte+"&cantidadpallet="+cantidadpallet+"&cantidadcaja="+cantidadcaja,
+                  data: "numeroparte=" + numeroparte+"&cantidadpallet="+cantidadpallet+"&cantidadcaja="+cantidadcaja+"&idsalida="+idsalida,
                     type: 'post',
                     success: function(result)
                     {
-
+                      setTimeout(function(){// wait for 5 secs(2)
+                                location.reload(); // then reload the page.(3)
+                           }, 5000); 
                     }
                 });
             });

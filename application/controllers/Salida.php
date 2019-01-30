@@ -86,7 +86,11 @@ public function detalleSalida($idsalida)
 {
   // code...
   $datadetallesalida = $this->salida->detalleSalida($idsalida);
-  $data = array('detallesalida' => $datadetallesalida );
+  $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
+  $data = array(
+    'detallesalida' => $datadetallesalida,
+    'detalleorden' => $datadetalleorden,
+  'idsalida'=>$idsalida);
   $this->load->view('header');
   $this->load->view('salida/detalle',$data);
   $this->load->view('footer');
@@ -96,7 +100,7 @@ public function validaranumeroparte()
   // code...
   $numeroparte = $_POST['numeroparte'];
   //var_dump($this->salida->validarExistenciaNumeroParte($numeroparte));
-  if ($this->salida->validarExistenciaNumeroParte($numeroparte) == false) {
+  if ($this->salida->validarExistenciaNumeroParte($numeroparte) == NULL) {
 
     echo "0";
   }else{
@@ -111,6 +115,19 @@ public function agregarParteOrden()
   $numeroparte = $_POST['numeroparte'];
   $cantidadpallet = $_POST['cantidadpallet'];
   $cantidadcaja = $_POST['cantidadcaja'];
+  $idsalida = $_POST['idsalida'];
+  $datadetalle = $this->salida->validarExistenciaNumeroParte($numeroparte);
+  $id = $datadetalle->idparte;
+
+   $datainsert = array(
+     'idsalida' => $idsalida,
+     'idparte'=>$id,
+     'pallet'=>$cantidadpallet,
+     'caja'=>$cantidadcaja,
+     'idusuario' => $this->session->user_id,
+     'fecharegistro' => date('Y-m-d H:i:s'));
+     $this->salida->addOrdenSalida($datainsert);
+
 }
 }
 ?>

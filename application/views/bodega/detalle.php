@@ -464,7 +464,7 @@
 
                             <?php  }?>
                            </select>
-                            <input type="hidden" name="pnumero5" value="15">
+                            <input type="hidden" name="pnumero15" value="15">
                          </div>
                        <?php endif; ?>
                        <?php if (16 <= $detalle->pallet): ?>

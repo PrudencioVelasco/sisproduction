@@ -27,9 +27,31 @@ class Salida_model extends CI_Model {
       return false;
   }
 }
+public function detallesDeOrden($idsalida)
+{
+  // code...
+  $this->db->select('p.numeroparte,o.pallet,o.caja,pd.revision');
+  $this->db->from('salida s');
+  $this->db->join('ordensalida o', 's.idsalida=o.idsalida');
+  $this->db->join('parte p', 'p.idparte=o.idparte');
+  $this->db->join('detalleparte pd', 'p.idparte=pd.idparte');
+  $this->db->join('users u', 'o.idusuario=u.id');
+  $this->db->where('s.idsalida', $idsalida);
+  $this->db->where('pd.idestatus', 8); 
+  $query = $this->db->get();
+  if ($query->num_rows() > 0) {
+      return $query->result();
+  } else {
+      return false;
+  }
+}
 public function addSalida($data)
 {
     return $this->db->insert('salida', $data);
+}
+public function addOrdenSalida($data)
+{
+    return $this->db->insert('ordensalida', $data);
 }
 public function detalleSalida($idsalida)
 {
@@ -52,11 +74,7 @@ public function validarExistenciaNumeroParte($numeroparte)
   $this->db->where('p.numeroparte', $numeroparte);
   $this->db->where('dp.idestatus',8);
   $query = $this->db->get();
-  if ($query->num_rows() > 0) {
-      return $query->result();
-  } else {
-      return false;
-  }
+  return $query->first_row();
 }
 public function posicionPalletBodega($iddetalleparte)
 {

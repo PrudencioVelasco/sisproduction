@@ -28,7 +28,7 @@
                        if($detalle->idestatus == 1)
                        {
                          echo 'style="color:green;"';
-                       }elseif($detalle->idestatus == 6){
+                       }elseif($detalle->idestatus == 3){
                          echo 'style="color:red;"';
                        }elseif($detalle->idestatus == 2) {
                          echo 'style="color:green;"';
@@ -39,7 +39,7 @@
                       if($detalle->idestatus == 1)
                       {
                         echo '<i class="fa fa-paper-plane" aria-hidden="true"></i>';
-                      }elseif($detalle->idestatus == 6){
+                      }elseif($detalle->idestatus == 3){
                         echo '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>';
                       }elseif($detalle->idestatus == 2) {
                          echo '<i class="fa fa-thumbs-up" aria-hidden="true"></i>';
@@ -113,7 +113,7 @@
                              <label style="color:red;"><?php echo form_error('usuariocalidad'); ?></label>
                           </div>
                        </div>
-                       <?php if($detalle->idestatus==6){ ?>
+                       <?php if($detalle->idestatus==3){ ?>
                        <div class="col-md-8 col-sm-12 col-xs-12" align="center">
                             <div class="form-group">
                               <label>Motivos de rechazo</label><br>
@@ -142,7 +142,7 @@
                               // code...
                               echo '<button type="submit" name="modificar" class="btn btn-success"><i class="fa fa-pencil-square" aria-hidden="true"></i>
            Modificar</button>';
-                            }else if ($detalle->idestatus == 6) {
+         }else if ($detalle->idestatus == 3) {
                               // code...
                                echo '<button type="submit" name="reenviar" class="btn btn-success"><i class="fa fa-refresh" aria-hidden="true"></i>
 
@@ -156,6 +156,8 @@
                           ?>
                             <a  class="btn btn-default" href="<?php echo site_url('parte/'); ?>"><i class="fa fa-print" aria-hidden="true"></i>
  Imprimir etiqueta</a>
+ <a  class="btn btn-default" href="<?php echo site_url('parte/'); ?>"><i class="fa fa-print" aria-hidden="true"></i>
+Imprimir envio</a>
 
                        </div>
                      </div>
@@ -180,7 +182,7 @@
               $("#modelo").attr("disabled", false);
               $("#revision").attr("disabled", false);
               $("#linea").attr("disabled", false);
-            }else if(estatus == '6'){
+            }else if(estatus == '3'){
               $("#cantidad").attr("disabled", false);
               $("#pallet").attr("disabled", false);
               $("#modelo").attr("disabled", false);
