@@ -26,7 +26,8 @@ class Parte extends CI_Controller {
     }
 public function tests()
 {
-  $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+
+/*  $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
  $pdf->SetTitle('My Title');
  $pdf->SetHeaderMargin(30);
  $pdf->SetTopMargin(20);
@@ -71,7 +72,28 @@ public function tests()
  $pdf->writeHTML($tbl, true, false, false, false, '');
 
  ob_end_clean();
- $pdf->Output('My-File-Name.pdf', 'I');
+//$pdf->Output(base_url().'/pdfs/DeliveryNote.pdf', 'F');
+$pdf->Output($_SERVER['DOCUMENT_ROOT']."/sisproduction/pdfs/invoice_".date('d-M-Y').".pdf", 'F');
+//$pdf->Output(base_url()."/pdfs/invoice_".date('d-M-Y').".pdf", 'F');
+ //$pdf->Output('My-File-Name.pdf', 'I');
+ //$pdf->Output($_SERVER['DOCUMENT_ROOT'].'/invoices/Delivery Note.pdf', 'F');
+ $ubicacion = $_SERVER['DOCUMENT_ROOT']."/sisproduction/pdfs/invoice_".date('d-M-Y').".pdf";
+ $printer = "zebra";
+if ($ph = printer_open($printer)) {
+    // Get file contents
+    //abrindo o arquivo de texto
+    $fh = fopen($ubicacion, "rb");
+    //llendo o arquivo de texto
+    $content = fread($fh, filesize("teste.txt"));
+    fclose($fh);
+    // Set print mode to RAW and send PDF to printer
+    printer_set_option($ph, PRINTER_MODE, "RAW");
+    printer_write($ph, $content);
+    printer_close($ph);
+} else {
+    "Couldn't connect...";
+}
+*/
 }
     public function packing($id)
     {
@@ -96,7 +118,7 @@ public function tests()
         $usuarioscalidad=$this->usuario->showAllCalidad();
         $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalle);
         $dataerror = array();
-        if($detalledeldetalleparte->idestatus == 6){
+        if($detalledeldetalleparte->idestatus == 3){
             $dataerror=$this->parte->motivosCancelacionCalidad($iddetalle);
         }
 
