@@ -14,7 +14,7 @@ class Login_model extends CI_Model
         $usuario = $data['usuario'];
         $password = $data['password'];
 
-        $this->db->select('u.id, u.idusuario, u.usuario, u.name, r.rol');    
+        $this->db->select('u.id, u.usuario, u.name, r.rol');    
         $this->db->from('users u');
         $this->db->join('users_rol ur', 'u.id = ur.id_user');
         $this->db->join('rol r', 'r.id = ur.id_rol');

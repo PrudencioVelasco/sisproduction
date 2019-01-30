@@ -14,6 +14,7 @@ class Parte extends CI_Controller {
         $this->load->model('parte_model', 'parte');
         $this->load->model('user_model', 'usuario');
         $this->load->library('permission');
+        $this->load->library('tcpdf');
     }
 
     public function index()
@@ -25,7 +26,52 @@ class Parte extends CI_Controller {
     }
 public function tests()
 {
-  // code...
+  $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+ $pdf->SetTitle('My Title');
+ $pdf->SetHeaderMargin(30);
+ $pdf->SetTopMargin(20);
+ $pdf->setFooterMargin(20);
+ $pdf->SetAutoPageBreak(true);
+ $pdf->SetAuthor('Author');
+ $pdf->SetDisplayMode('real', 'default');
+
+ $pdf->AddPage();
+
+ $tbl = '
+ <table border="1">
+ <tr>
+ <th rowspan="3">Left column</th>
+ <th colspan="5">Heading Column Span 5</th>
+ <th colspan="9">Heading Column Span 9</th>
+ </tr>
+ <tr>
+ <th rowspan="2">Rowspan 2<br />This is some text that fills the table cell.</th>
+ <th colspan="2">span 2</th>
+ <th colspan="2">span 2</th>
+ <th rowspan="2">2 rows</th>
+ <th colspan="8">Colspan 8</th>
+ </tr>
+ <tr>
+ <th>1a</th>
+ <th>2a</th>
+ <th>1b</th>
+ <th>2b</th>
+ <th>1</th>
+ <th>2</th>
+ <th>3</th>
+ <th>4</th>
+ <th>5</th>
+ <th>6</th>
+ <th>7</th>
+ <th>8</th>
+ </tr>
+ </table>
+ ';
+
+ $pdf->writeHTML($tbl, true, false, false, false, '');
+
+ ob_end_clean();
+ $pdf->Output('My-File-Name.pdf', 'I');
 }
     public function packing($id)
     {
