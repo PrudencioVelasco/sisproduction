@@ -27,7 +27,7 @@
                           <div class="col-md-12 col-sm-12 col-xs-12">
                            <div class="row">
                                <div class="col-md-6">
-                                 <button class="btn btn-round btn-primary" @click="addModal= true">Nueva parte</button>
+                                 <button class="btn btn-round btn-primary" @click="addModal= true">Nueva orden</button>
                                </div>
                                <div class="col-md-6"></div>
                             </div>
@@ -39,10 +39,11 @@
                                </div>
                             </div>
                             <br>
-                             <table class="table is-bordered is-hoverable">
+                             <table class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                 <thead class="text-white bg-dark" >
                                    <th class="text-white">Número de salida</th>
                                    <th class="text-white">Cliente</th>
+                                   <th class="text-white">Estatus</th>
                                    <th class="text-white">Usuario registro</th>
                                    <th class="text-white">Fecha</th>
                                    <th class="text-white text-right" align="right">Opción</th>
@@ -51,6 +52,11 @@
                                    <tr v-for="row in salidas" class="table-default">
                                       <td>{{row.numerosalida}}</td>
                                       <td>{{row.nombre}}</td>
+                                      <td>
+                                        <h6 style="color:red" v-if="row.finalizado==0"><strong><i class="fa fa-clock-o" aria-hidden="true"></i> EN PROGRESO</strong></h6>
+                                        <h6 style="color:green" v-else><strong><i class="fa fa-thumbs-up" aria-hidden="true"></i>
+FINALIZADO</strong></h6>
+                                      </td>
                                       <td>{{row.name}}</td>
                                       <td>{{row.fecharegistro}}</td>
                                       <td align="right">

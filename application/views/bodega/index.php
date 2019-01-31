@@ -26,7 +26,7 @@
                         </div>
                      </div>
 
-                    <table class="table">
+                    <table class="table table-striped responsive-utilities jambo_table bulk_action" style=" margin-top:20px;">
                        <thead class="text-white bg-dark" >
                           <th class="text-white">Número de parte</th>
                           <th class="text-white">Estatus</th>
@@ -36,11 +36,14 @@
                           <th class="text-white text-right" align="right">Opción</th>
                        </thead>
                        <tbody  >
+
                           <tr v-for="row in detallestatus" class="table-default">
                              <td>{{row.numeroparte}} </td>
                               <td>
-                                <h6 style="color:green" v-if="row.idestatus==4"><strong>En espera</strong></h6>
-                                <h6 style="color:green" v-else-if="row.idestatus==8"><strong>En bodega</strong></h6>
+                                <h6 style="color:green" v-if="row.idestatus==4"><strong><i class="fa fa-clock-o" aria-hidden="true"></i>
+ EN ESPERA</strong></h6>
+                                <h6 style="color:green" v-else-if="row.idestatus==8"><strong><i class="fa fa-home" aria-hidden="true"></i>
+ EN BODEGA</strong></h6>
                                 <h6 style="color:red" v-else-if="row.idestatus==6"><strong>{{row.nombrestatus}}</strong></h6>
                                 <h1 v-else>{{row.nombrestatus}}</h1> </td>
                                <td>{{row.pallet}} </td>

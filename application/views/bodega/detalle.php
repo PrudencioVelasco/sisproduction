@@ -86,7 +86,8 @@
                       <div class="row">
                        <div class="col-md-6 col-sm-12 col-xs-12">
                          <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>">
-                          <button type="button" data-toggle="modal" data-target="#myModalRechazar" class="btn btn-danger">Rechazar</button>
+                          <button type="button" data-toggle="modal" data-target="#myModalRechazar" class="btn btn-danger"><i class="fa fa-ban" aria-hidden="true"></i>
+ Rechazar</button>
 
                        </div>
                      </div>
@@ -94,7 +95,7 @@
                      <hr/>
                      <div class="row">
                       <div class="col-md-12 col-sm-12 col-xs-12">
-                        <h4>Localizaciones de los pallet.</h4>
+                        <h4>Colocar los Pallet</h4>
                      </div>
                     </div>
 
@@ -595,7 +596,8 @@
                         <div class="col-md-3 col-sm-12 col-xs-12">
                           <div class="form-group">
                             <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte?>">
-                          <button type="submit" class="btn btn-primary">Aceptar</button>
+                          <button type="submit" class="btn btn-success"> <i class="fa fa-check" aria-hidden="true"></i>
+ Finalizar</button>
                         </div>
                         </div>
                      </div>

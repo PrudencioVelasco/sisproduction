@@ -14,10 +14,11 @@ class Salida_model extends CI_Model {
     }
 
     public function showAllSalidas() {
-        $this->db->select('s.idsalida,s.numerosalida,c.nombre,u.name,s.fecharegistro');
+        $this->db->select('s.idsalida,s.numerosalida,c.nombre,s.finalizado,u.name,s.fecharegistro');
         $this->db->from('salida s');
         $this->db->join('cliente c', 's.idcliente=c.idcliente');
         $this->db->join('users u', 's.idusuario=u.id');
+        $this->db->order_by("s.fecharegistro", "desc");
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -34,7 +35,7 @@ class Salida_model extends CI_Model {
         $this->db->join('parte p', 'p.idparte=o.idparte');
         $this->db->join('users u', 'o.idusuario=u.id');
         $this->db->where('s.idsalida', $idsalida);
-        //$this->db->where('pd.idestatus', 8); 
+        //$this->db->where('pd.idestatus', 8);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -53,7 +54,7 @@ class Salida_model extends CI_Model {
 
     public function detalleSalida($idsalida) {
         // code...
-        $this->db->select('s.idsalida,s.numerosalida,c.nombre,u.name,s.fecharegistro');
+        $this->db->select('s.idsalida,s.numerosalida,s.finalizado,c.nombre,u.name,s.fecharegistro');
         $this->db->from('salida s');
         $this->db->join('cliente c', 's.idcliente=c.idcliente');
         $this->db->join('users u', 's.idusuario=u.id');
@@ -92,5 +93,15 @@ class Salida_model extends CI_Model {
         $this->db->where('idordensalida',$id);
         return $this->db->delete('ordensalida');
     }
+    public function updateSalida($id, $field)
+    {
+        $this->db->where('idsalida', $id);
+        $this->db->update('salida', $field);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
 
+    }
 }

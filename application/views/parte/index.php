@@ -42,7 +42,7 @@
                                 </div>
                              </div>
                              <br>
-                              <table class="table is-bordered is-hoverable">
+                              <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                  <thead class="text-white bg-dark" >
                                     <th class="text-white">Número de parte</th>
                                     <th class="text-white">Cliente</th>

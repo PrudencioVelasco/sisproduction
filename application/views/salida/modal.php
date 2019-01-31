@@ -1,6 +1,6 @@
 <!--add modal-->
 <modal v-if="addModal" @close="clearAll()">
-   <h3 slot="head" >Agregar número de parte</h3>
+   <h3 slot="head" >Agregar nueva orden</h3>
    <div slot="body">
       <div class="row">
          <div class="col-md-12 col-sm-12 col-xs-12 ">

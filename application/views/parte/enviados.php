@@ -26,28 +26,27 @@
                          </div>
                       </div>
 
-                     <table class="table">
+                     <table class="table table-striped responsive-utilities jambo_table bulk_action" style=" margin-top:20px;">
                         <thead class="text-white bg-dark" >
                            <th class="text-white">Número de parte</th>
                            <th class="text-white">Estatus</th>
                            <th class="text-white">Pallet</th>
                            <th class="text-white">Cantidad</th>
-<th class="text-white">Fecha</th>
+                          <th class="text-white">Fecha</th>
                            <th class="text-white text-right" align="right">Opción</th>
                         </thead>
                         <tbody  >
                            <tr v-for="row in detallestatus" class="table-default">
                               <td>{{row.numeroparte}} </td>
                                <td>
-                                 <h6 style="color:green" v-if="row.idestatus==1"><strong>{{row.nombrestatus}}</strong></h6>
-                                 <h6 style="color:red" v-else-if="row.idestatus==3"><strong>{{row.nombrestatus}}</strong></h6>
-                                 <h1 v-else>{{row.nombrestatus}}</h1> </td>
+                                 <h6 style="color:green" v-if="row.idestatus==1"><strong><i class="fa fa-paper-plane" aria-hidden="true"></i> {{row.nombrestatus}}</strong></h6>
+                                 <h6 style="color:red" v-else-if="row.idestatus==3"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{row.nombrestatus}}</strong></h6>
+                                 <h6 v-else>{{row.nombrestatus}}</h6> </td>
                                 <td>{{row.pallet}} </td>
                                  <td>{{row.cantidad}} </td>
                                   <td>{{row.fecharegistro}} </td>
-                              <td> </td>
-                              <td >
-                              </td>
+
+
                               <td align="right">
                              <a href="" v-bind:href="'detalleenvio/'+ row.iddetalleparte"  class="btn btn-info">Ver detalle</a>
                            </td>

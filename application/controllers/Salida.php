@@ -69,6 +69,7 @@ class Salida extends CI_Controller {
             $data = array(
                 'numerosalida' => $this->generarCodigo(7),
                 'idcliente' => $this->input->post('idcliente'),
+                'finalizado' => 0,
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
@@ -126,6 +127,16 @@ class Salida extends CI_Controller {
     function eliminarParteOrden() {
         $idordensalida = $_POST['idordensalida'];
         $this->salida->eliminarParteOrden($idordensalida);
+    }
+    public function terminarOrdenSalida()
+    {
+      // code...
+      $idsalida = $_POST['idsalida'];
+      $dataupdate = array(
+          'finalizado' => 1,
+          'idusuario' => $this->session->user_id,
+          'fecharegistro' => date('Y-m-d H:i:s'));
+      $this->salida->updateSalida($idsalida,$dataupdate);
     }
 }
 
