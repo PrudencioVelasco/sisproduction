@@ -237,4 +237,19 @@ class Calidad_model extends CI_Model {
             return false;
         }
     }
+    public function motivosCancelacionBodega($iddetalleparte)
+    {
+        $this->db->select('d.comentariosrechazo, d.fecharegistro');
+        $this->db->from('detallestatus d');
+        $this->db->where('d.iddetalleparte', $iddetalleparte);
+        $this->db->where('d.idstatus', 6);
+        $this->db->order_by("d.fecharegistro", "desc");
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
 }

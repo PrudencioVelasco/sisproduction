@@ -32,6 +32,7 @@
            <th class="text-white">Pallet</th>
            <th class="text-white">Cantidad</th>
            <th class="text-white">Fecha</th>
+           <th class="text-white">Opcion</th>
          </thead>
          <tbody  >
            <tr v-for="row in detallestatus" class="table-default">
@@ -43,6 +44,10 @@
              <td>{{row.pallet}} </td>
              <td>{{row.cantidad}} </td>
              <td>{{row.fecharegistro}} </td>
+             <td >
+
+            <a href="javascript:void(0)" v-bind:href="'detalleenvio/'+ row.iddetalleparte"  class="btn btn-info">Ver detalle</a>
+            </td
            </tr>
            <tr v-if="emptyResult">
             <td colspan="9" rowspan="4" class="text-center h4">No encontrado</td>
