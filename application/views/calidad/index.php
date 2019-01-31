@@ -29,7 +29,7 @@
         </div>
         <!-- /. Seccion buscador-->
         <!-- Tabla de datos -->
-        <table class="table">
+        <table class="table table-striped responsive-utilities jambo_table bulk_action" style="margin-top:20px;">
           <thead class="text-white bg-dark" >
             <th class="text-white">Número de parte</th>
             <th class="text-white">Estatus</th>
@@ -42,7 +42,7 @@
             <tr v-for="row in detallestatus" class="table-default">
               <td>{{row.numeroparte}} </td>
               <td>
-                <h6 style="color:green" v-if="row.idestatus==1"><strong>EN REVISIÓN</strong></h6>
+                <h6 style="color:green" v-if="row.idestatus==1"><strong><i class="fa fa-clock-o" aria-hidden="true"></i> EN REVISIÓN</strong></h6>
               </td>
               <td>{{row.pallet}} </td>
               <td>{{row.cantidad}} </td>
@@ -58,7 +58,7 @@
                 <!-- Paginacion -->
                 <tfoot>
                   <tr>
-                    <td colspan="5" align="right">
+                    <td colspan="5" align="center">
                       <pagination
                       :current_page="currentPage"
                       :row_count_page="rowCountPage"

@@ -25,7 +25,7 @@
            </div>
          </div>
 
-         <table class="table">
+         <table class="table table-striped responsive-utilities jambo_table bulk_action"  style="margin-top:20px;">
           <thead class="text-white bg-dark" >
            <th class="text-white">Número de parte</th>
            <th class="text-white">Estatus</th>
@@ -38,15 +38,15 @@
            <tr v-for="row in detallestatus" class="table-default">
             <td>{{row.numeroparte}} </td>
             <td>
-            <h6 style="color:green" v-if="row.idestatus==4"><strong>{{row.nombrestatus}}</strong></h6>
-            <h6 style="color:red" v-else="row.idestatus==6"><strong>{{row.nombrestatus}}</strong></h1> </td>
+            <h6 style="color:green" v-if="row.idestatus==4"><strong><i class="fa fa-paper-plane" aria-hidden="true"></i> {{row.nombrestatus}}</strong></h6>
+            <h6 style="color:red" v-else="row.idestatus==6"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{row.nombrestatus}}</strong></h1> </td>
             </td>
              <td>{{row.pallet}} </td>
              <td>{{row.cantidad}} </td>
              <td>{{row.fecharegistro}} </td>
              <td >
 
-            <a href="javascript:void(0)" v-bind:href="'detalleenvio/'+ row.iddetalleparte"  class="btn btn-info">Ver detalle</a>
+            <a href="javascript:void(0)" v-bind:href="'detalleenvio/'+ row.iddetalleparte"  class="btn btn-icons btn-rounded btn-success btn-xs"> <i class="fa fa-eye" aria-hidden="true"></i> Ver detalle</a>
             </td
            </tr>
            <tr v-if="emptyResult">

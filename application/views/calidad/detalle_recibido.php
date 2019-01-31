@@ -73,49 +73,35 @@
                 <?php endif;?>
               </div>
             </div>
+
             <div class="row">
-
-             
-
-               <!--<div class="col-md-12 col-sm-12 col-xs-12">
-                <h4>Motivos de rechazo</h4><br>
+              <?php if($detalle->idestatus==6){ ?>
+              <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
+                  <h4>Motivos de rechazo</h4><br>
                   <?php
                   if (isset($dataerrores) && !empty($dataerrores)) {
+                                  // code...
                     foreach ($dataerrores as $value) {
+
                       echo "<label style='color:red;'>";
                       echo "* ".$value->comentariosrechazo." - ".$value->fecharegistro;
                       echo "</label>";
                       echo "<br>";
+                                    // code...
                     }
                   }
                   ?>
                 </div>
-              </div>-->
-
-            <?php endif; ?>
-<?php if($detalle->idestatus == 6): ?>
-            <div class="col-md-12">
-            <h2>Pop Overs <small>Sessions</small></h2>
-            <div class="x_content bs-example-popovers">
-              <?php if(isset($dataerrores) && !empty($dataerrores)): ?>
-                <?php  foreach ($dataerrores as $value):?>
-              <div class="alert alert-success alert-dismissible fade in" role="alert">
-                <strong><?php echo $value->fecharegistro; ?></strong></br>
-                <strong><?php echo $value->comentariosrechazo; ?></strong> 
               </div>
-            <?php endforeach;?>
-            <?php endif; ?>
-
+              <?php }?>
             </div>
-          </div>
-          </div>
 
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 </div>
 <!-- Modal para enviar a Bodega -->

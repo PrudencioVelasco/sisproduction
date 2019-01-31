@@ -32,10 +32,16 @@ class Calidad extends CI_Controller {
         $usuariosbodega = $this->calidad->allUsersBodega();
         $detalledeldetalleparte=$this->calidad->detalleDelDetallaParte($iddetalle);
         
+        $dataerror = array();
+        if($detalledeldetalleparte->idestatus == 6){
+            $dataerror=$this->calidad->motivosCancelacionBodega($iddetalle);
+        }
+
         $data=array(
             'iddetalle'=>$iddetalle,
             'detalle'=>$detalledeldetalleparte,
-            'usuariosbodega'=>$usuariosbodega
+            'usuariosbodega'=>$usuariosbodega,
+            'dataerrores'=>$dataerror
         );
         
         $this->load->view('header');
