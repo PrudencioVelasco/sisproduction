@@ -135,7 +135,7 @@
                       <?php }?>
                      </div>
                       <div class="row">
-                       <div class="col-md-6">
+                       <div class="col-md-12">
                          <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>">
                           <?php
                             if ($detalle->idestatus == 1) {
@@ -158,6 +158,9 @@
  Imprimir etiqueta</a>
  <a  class="btn btn-default" href="<?php echo site_url('parte/'); ?>"><i class="fa fa-print" aria-hidden="true"></i>
 Imprimir envio</a>
+
+<a  class="btn btn-default" target="_blank" href="<?php echo site_url('Parte/generarPDFEnvio/'.$detalle->iddetalleparte) ?>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+ Generar envio</a>
 
                        </div>
                      </div>
