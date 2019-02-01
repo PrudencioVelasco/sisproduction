@@ -12,11 +12,10 @@
             <div class="row">
               <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="form-group">
-                  <h4><small>Número de parte:</small> <?php echo $detalle->numeroparte;?></h4>
+                  <h4>Número de parte: <?php echo $detalle->numeroparte;?></h4>
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-xs-6" align="right">
-
                 <div class="form-group">
                   <?php if($detalle->idestatus == 1):?>
                     <p><h3 style="color: #228b22;"><i class="fa fa-clock-o" aria-hidden="true"></i> EN ESPERA DE VALIDACIÓN</h3></p>
@@ -27,50 +26,52 @@
                   <?php else:?>
                   <?php endif;?>
                 </div>
+              </div>
+            </div>
+            <hr>
 
+            <div class="row">
+              <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <h3><small>Modelo:</small> <?php echo $detalle->modelo;?></h3>
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <h3><small>Revisión:</small> <?php echo $detalle->revision ?></h3>
+                </div>
+              </div>
+              <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <h3><small>Linea:</small> <?php echo $detalle->linea ?></h3>
+                </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <h4><small>Modelo:</small> <?php echo $detalle->modelo;?></h4>
+                  <h3><small>Número de Pallet: </small ><?php echo $detalle->pallet ?></h3>
                 </div>
               </div>
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <h4><small>Revisión:</small> <?php echo $detalle->revision ?></h4>
+                  <h3><small>Cantidad de cajas: </small> <?php echo $detalle->cantidad ?></h3>
                 </div>
               </div>
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <h4><small>Linea:</small> <?php echo $detalle->linea ?></h4>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4 col-sm-12 col-xs-12">
-                <div class="form-group">
-                  <h4><small>Número de Pallet:</small ><?php echo $detalle->pallet ?></h4>
-                </div>
-              </div>
-              <div class="col-md-4 col-sm-12 col-xs-12">
-                <div class="form-group">
-                  <h4><small>Cantidad de cajas:</small> <?php echo $detalle->cantidad ?></h4>
-                </div>
-              </div>
-              <div class="col-md-4 col-sm-12 col-xs-12">
-                <div class="form-group">
-                  <h4><small>Cliente:</small> <?php echo $detalle->nombre ?></h4>
+                  <h3><small>Cliente:</small> <?php echo $detalle->nombre ?></h3>
                 </div>
               </div>
             </div>
             <hr>
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <?php if($detalle->idestatus == 1):?>
                   <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-sendBodega"><i class="fa fa-paper-plane" aria-hidden="true"></i> Enviar a Bodega</button>
                   <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-rechazarParte"><i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Packing</button>
                 <?php endif;?>
+                <a target="_blank" href=" <?php echo base_url('calidad/generarPDFEnvio/'.$detalle->iddetalleparte.'');?>" class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
               </div>
             </div>
 
@@ -81,27 +82,26 @@
                   <h4>Motivos de rechazo</h4><br>
                   <?php
                   if (isset($dataerrores) && !empty($dataerrores)) {
-                                  // code...
+                                  
                     foreach ($dataerrores as $value) {
 
                       echo "<label style='color:red;'>";
                       echo "* ".$value->comentariosrechazo." - ".$value->fecharegistro;
                       echo "</label>";
                       echo "<br>";
-                                    // code...
                     }
                   }
                   ?>
                 </div>
               </div>
               <?php }?>
-            </div>
-
           </div>
         </div>
       </div>
     </div>
   </div>
+
+</div>
 </div>
 </div>
 <!-- Modal para enviar a Bodega -->

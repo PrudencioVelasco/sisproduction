@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Calidad extends CI_Controller {
-    
+
     function __construct()
     {
         parent::__construct();
@@ -15,6 +15,7 @@ class Calidad extends CI_Controller {
         $this->load->model('user_model', 'usuario');
         $this->load->library('form_validation'); 
         $this->load->library('permission');
+        $this->load->library('tcpdf');
     }
     
     public function index()
@@ -83,7 +84,7 @@ class Calidad extends CI_Controller {
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
-    
+
             //Agregar la informacion a la tabla detalle status[Historial]
             $agregarEnvioBodega = $this->calidad->addDetalleEstatusParte($datastatus1);
             
@@ -96,7 +97,7 @@ class Calidad extends CI_Controller {
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
-        
+
                 //Agregar la informacion de finalizacion del proceso anterior a la tabla detalle statu[Historial]
                 $finalizarProceso = $this->calidad->addDetalleEstatusParte($datastatus2);
 
@@ -189,5 +190,404 @@ class Calidad extends CI_Controller {
         }
 
     }
+
+    //Generar Reporte
+    public function generarPDFEnvio($id)
+    {
+      // code...
+      $detalle = $this->calidad->detalleDelDetallaParte($id);
+      //var_dump($detalle);
+      $operador = $detalle->nombreoperador;
+      $horario = $detalle->horainicial." - ".$detalle->horafinal;
+      $linkimge=base_url().'/assets/images/woorilogo.png';
+      $fechaactual = date('d/m/Y');
+      $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+      $pdf->SetTitle('Generar documento de envio.');
+      $pdf->SetHeaderMargin(30);
+      $pdf->SetTopMargin(20);
+      $pdf->setFooterMargin(20);
+      $pdf->SetAutoPageBreak(true);
+      $pdf->SetAuthor('Author');
+      $pdf->SetDisplayMode('real', 'default');
+ //Codigo para quitar el header y footer junto con sus enpaginado
+      $pdf->setPrintHeader(false);
+      $pdf->setPrintFooter(false);
+//Fin del enpaginado
+      $pdf->AddPage();
+
+      $tbl = '
+      <style type="text/css">
+      .textgeneral{
+        font-size:8px;
+        color:#000;
+        font-weight:bold;
+        font-family:Verdana, Geneva, sans-serif
+    }
+    .textfooter{
+        font-size:8px;
+        color:#000;
+        font-weight:bold;
+        font-family:Verdana, Geneva, sans-serif
+    }
+
+    .lineabajo{
+        border-bottom:solid 1px #000000;
+    }
+    .imgtitle{ width:120px;}
+
+    </style>
+
+    <table width="536"   cellpadding="1" cellspacing="1" >
+    <tr>
+    <td align="center" class="textgeneral"><center><img  align="center" class="imgtitle" src="'.$linkimge.'"; /></center></td>
+    <td>&nbsp;</td>
+    <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+    <td width="234" align="center" class="textgeneral"><strong>Transferencia de producto terminado</strong></td>
+    <td width="22">&nbsp;</td>
+    <td width="96">&nbsp;</td>
+    <td width="100" align="center" style="border-left:solid 1px #000000; border-right:solid 1px #000000; border-top:solid 1px #000"><p class="textgeneral">TRANSFERENCIA NUMERO</p></td>
+    <td width="82" align="center" style="border-top:solid 1px #000000; border-right:solid #000 1px">01</td>
+    </tr>
+    <tr>
+    <td class="textgeneral lineabajo">FECHA: '.$fechaactual.'</td>
+    <td>&nbsp;</td>
+    <td colspan="3" align="center" class="textgeneral" style="border-top:solid 1px #000; border-right:solid 1px #000; border-left:solid 1px #000; border-bottom:solid 1px #000;">PRODUCCIÓN</td>
+    </tr>
+    <tr>
+    <td class="textgeneral lineabajo">HORA: '.$horario.'</td>
+    <td>&nbsp;</td>
+    <td colspan="3" class="textgeneral lineabajo">HECHA POR: '.$detalle->name.'</td>
+    </tr>
+    <tr>
+    <td class="textgeneral lineabajo">TURNO: '.$detalle->nombreturno.'</td>
+    <td>&nbsp;</td>
+    <td colspan="3" class="textgeneral lineabajo">RECIBIDA POR: '.$operador.'</td>
+    </tr>
+    </table>
+    <br><br>
+    <table width="536"  style="margin-top:10px" cellpadding="1" cellspacing="1">
+    <tr class="textgeneral">
+    <td width="58" align="center" valign="middle" style="border:solid 1px #000000">CLIENTE</td>
+    <td width="125" align="center" valign="middle"  style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">NUM. PARTE</td>
+    <td width="52" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">MODELO</td>
+    <td width="66" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD POR PALLET</td>
+    <td width="67" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">TOTAL DE PALLET</td>
+    <td width="66" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD TOTAL</td>
+    <td width="100" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">ALMACEN VERIFICACIÓN</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;'.$detalle->nombre.'</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$detalle->numeroparte.'</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$detalle->modelo.'</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$detalle->cantidad.'</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$detalle->pallet.'</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.($detalle->cantidad * $detalle->pallet).'</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;</td>
+    </tr>
+
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td style="border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr style=" background-color:#EAEAEA">
+    <td style=" border-left:solid 1px
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td class="textfooter" style="border-bottom:solid 1px #000; border-right:solid 1px #000;">TOTAL:</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px; margin-top:20px;">&nbsp;'.$detalle->pallet.' </td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;'.($detalle->pallet * $detalle->cantidad).'</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    </tr>
+    <tr>
+    <td >&nbsp;</td>
+    <td >&nbsp;</td>
+    <td >&nbsp;</td>
+    <td>&nbsp; </td>
+    <td >&nbsp;</td>
+    <td colspan="2" align="right" class="textfooter" >WBKP-PR-FO-007</td>
+    </tr>
+    <tr>
+    <td >&nbsp;</td>
+    <td >&nbsp;</td>
+    <td >&nbsp;</td>
+    <td>&nbsp; </td>
+    <td >&nbsp;</td>
+    <td colspan="2" align="right" class="textfooter" >Rev. 01</td>
+    </tr>
+    <tr>
+    <td >&nbsp;</td>
+    <td >&nbsp;</td>
+    <td >&nbsp;</td>
+    <td>&nbsp; </td>
+    <td >&nbsp;</td>
+    <td >&nbsp;</td>
+    <td >&nbsp;</td>
+    </tr>
+    <tr>
+    <td colspan="2" class="textfooter" >Inspección 100% por:</td>
+    <td >&nbsp;</td>
+    <td >&nbsp;</td>
+    <td >&nbsp;</td>
+    <td >&nbsp;</td>
+    <td >&nbsp;</td>
+    </tr>
+    <tr>
+    <td colspan="2" class="textfooter"style="border-right:solid 1px #000; border-left:solid 1px #000; border-top:solid 1px #000; padding-left:5px;"  >&nbsp;&nbsp;RESPONSABLE DE PACKING</td>
+    <td colspan="4" class="lineabajo" >&nbsp;</td>
+    <td >&nbsp;</td>
+    </tr>
+    <tr>
+    <td colspan="2" class="textfooter" style="border-right:solid 1px #000; border-left:solid 1px #000; border-top:solid 1px #000; padding-left:5px;" >&nbsp;&nbsp;INSPECTOR OQC</td>
+    <td colspan="4" class="lineabajo" >&nbsp;</td>
+    <td >&nbsp;</td>
+    </tr>
+    <tr>
+    <td colspan="2" class="textfooter" style="border-right:solid 1px #000; border-left:solid 1px #000; border-top:solid 1px #000; padding-left:5px;" >&nbsp;&nbsp;RESPONSABLE DE ALMACEN</td>
+    <td colspan="4" class="lineabajo" >&nbsp;</td>
+    <td >&nbsp;</td>
+    </tr>
+    <tr>
+    <td colspan="2" class="textfooter" style="border-bottom:solid 1px #000; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000; padding-left:5px;" >&nbsp;&nbsp;2DA INSTAPECCION EXTERNA</td>
+    <td colspan="4" class="lineabajo" >&nbsp;</td>
+    <td >&nbsp;</td>
+    </tr>
+    <tr>
+    <td >&nbsp;</td>
+    <td >&nbsp;</td>
+    <td colspan="4" align="center" class="textfooter" >NOMBRE/FIRMA</td>
+    <td >&nbsp;</td>
+    </tr>
+
+    </table>
+    ';
+
+    $pdf->writeHTML($tbl, true, false, false, false, '');
+
+    ob_end_clean();
+
+    $pdf->Output('My-File-Name.pdf', 'I');
+
+}
 }
 ?>
