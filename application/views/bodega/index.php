@@ -28,6 +28,7 @@
 
                     <table class="table table-striped responsive-utilities jambo_table bulk_action" style=" margin-top:20px;">
                        <thead class="text-white bg-dark" >
+                          <th class="text-white">Transferencia</th>
                           <th class="text-white">Número de parte</th>
                           <th class="text-white">Estatus</th>
                           <th class="text-white">Pallet</th>
@@ -38,6 +39,7 @@
                        <tbody  >
 
                           <tr v-for="row in detallestatus" class="table-default">
+                             <td>{{row.folio}} </td>
                              <td>{{row.numeroparte}} </td>
                               <td>
                                 <h6 style="color:green" v-if="row.idestatus==4"><strong><i class="fa fa-clock-o" aria-hidden="true"></i>

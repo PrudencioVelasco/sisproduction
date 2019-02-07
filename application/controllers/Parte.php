@@ -79,8 +79,8 @@ $pdf->setPrintFooter(false);
     <td width="234" align="center" class="textgeneral"><strong>Transferencia de producto terminado</strong></td>
     <td width="22">&nbsp;</td>
     <td width="96">&nbsp;</td>
-    <td width="100" align="center" style="border-left:solid 1px #000000; border-right:solid 1px #000000; border-top:solid 1px #000"><p class="textgeneral">TRANSFERENCIA NUMERO</p></td>
-    <td width="82" align="center" style="border-top:solid 1px #000000; border-right:solid #000 1px">01</td>
+    <td width="100" align="center" style="border-left:solid 1px #000000; border-right:solid 1px #000000; border-top:solid 1px #000"><p class="textgeneral">TRANSFERENCIA NÚMERO</p></td>
+    <td width="82" align="center" style="border-top:solid 1px #000000; border-right:solid #000 1px">'.$detalle->folio.'</td>
   </tr>
   <tr>
     <td class="textgeneral lineabajo">FECHA: '.$fechaactual.'</td>
@@ -700,6 +700,7 @@ if ($ph = printer_open($printer)) {
             $this->form_validation->set_rules($config);
             if ($this->form_validation->run() == TRUE) {
                 $data = array(
+                    'folio'=>0,
                     'idparte' => $this->input->post('idparte'),
                     'modelo' => $this->input->post('modelo'),
                     'revision' => $this->input->post('revision'),
@@ -713,6 +714,10 @@ if ($ph = printer_open($printer)) {
                 );
 
                 $iddetalleparte = $this->parte->addDetalleParte($data);
+                $dataupdatefolio=array(
+                    'folio'=>$iddetalleparte
+                );
+                $this->parte->updateDetalleParte($iddetalleparte,$dataupdatefolio);
                 $datastatus = array(
                     'iddetalleparte' => $iddetalleparte,
                     'idstatus' => 1,

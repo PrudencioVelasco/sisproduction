@@ -20,6 +20,7 @@
                        <div class="col-md-6 col-sm-6 col-xs-6">
                        <div class="form-group">
                          <h4>Número de parte: <?php echo $detalle->numeroparte;?></h4>
+                         <h4><small>Número de transferencia:</small> <?php echo $detalle->folio;?></h4>
                        </div>
                      </div>
                      <div class="col-md-6 col-sm-6 col-xs-6" align="right" >
@@ -87,7 +88,7 @@
                        <div class="col-md-6 col-sm-12 col-xs-12">
                          <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>">
                           <button type="button" data-toggle="modal" data-target="#myModalRechazar" class="btn btn-danger"><i class="fa fa-ban" aria-hidden="true"></i>
- Rechazar</button>
+ Rechazar a Calidad</button>
 
                        </div>
                      </div>
@@ -597,7 +598,7 @@
                           <div class="form-group">
                             <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte?>">
                           <button type="submit" class="btn btn-success"> <i class="fa fa-check" aria-hidden="true"></i>
- Finalizar</button>
+ Finalizar Proceso</button>
                         </div>
                         </div>
                      </div>

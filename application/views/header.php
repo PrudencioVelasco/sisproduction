@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sistema de Producción Litho</title>
+  <title>Sistema de Producción Woori</title>
   <!-- Bootstrap core CSS -->
   <link href="<?php echo base_url();?>/assets/principal/css/bootstrap.min.css" rel="stylesheet">
   <link href="<?php echo base_url();?>/assets/fonts/css/font-awesome.min.css" rel="stylesheet">
@@ -58,7 +58,7 @@
           <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
               <div class="navbar nav_title" style="border: 0;">
-                <a href="#" class="site_title"><i class="fa fa-terminal" aria-hidden="true"></i> <span>Producción</span></a>
+                <a href="#" class="site_title"><i class="fa fa-product-hunt" aria-hidden="true"></i><span> Producción</span></a>
               </div>
               <div class="clearfix"></div>
               <!-- menu prile quick info -->
@@ -86,8 +86,7 @@
                     <li><a href="<?= base_url('/bodega/index') ?>"><i class="fa fa-home"></i> Bodega</a> </li>
                     <li><a href="<?= base_url('/salida/index') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i>Salida</a> </li>
                     <li><a><i class="fa fa-folder-open" aria-hidden="true"></i> Catalogo <span class="fa fa-chevron-down"></span></a>
-                      <ul class="nav child_menu" style="display: none">
-                        <li><a href="javascript:void(0)"> Parte</a> </li>
+                      <ul class="nav child_menu" style="display: none"> 
                         <li><a href="<?= base_url('/client/index') ?>"> Cliente</a> </li>
                         <li><a href="<?= base_url('/turno/index') ?>"> Turno</a> </li>
                         <li><a href="<?= base_url('/user/index') ?>"> Usuario</a> </li>
