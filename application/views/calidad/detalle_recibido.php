@@ -67,35 +67,32 @@
             </div>
             <hr>
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-8">
                 <?php if($detalle->idestatus == 1):?>
                   <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-sendBodega"><i class="fa fa-paper-plane" aria-hidden="true"></i> Enviar a Bodega</button>
                   <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-rechazarParte"><i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Packing</button>
-                <?php endif;?>
-                <a target="_blank" href=" <?php echo base_url('calidad/generarPDFEnvio/'.$detalle->iddetalleparte.'');?>" class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
-              </div>
-            </div>
+                <?php elseif($detalle->idestatus == 6): ?>
+                 <a href="javascript:void(0)" class="btn btn-success" data-toggle="modal" data-target="#modal-sendBodega"><i class="fa fa fa-refresh" aria-hidden="true"></i> Reenviar</a>
+               <?php else: ?>
 
-            <div class="row">
-              <?php if($detalle->idestatus==6){ ?>
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="form-group">
-                  <h4>Motivos de rechazo</h4><br>
-                  <?php
-                  if (isset($dataerrores) && !empty($dataerrores)) {
-                                  
-                    foreach ($dataerrores as $value) {
-
-                      echo "<label style='color:red;'>";
-                      echo "* ".$value->comentariosrechazo." - ".$value->fecharegistro;
-                      echo "</label>";
-                      echo "<br>";
+               <?php endif;?>
+               <a target="_blank" href=" <?php echo base_url('calidad/generarPDFEnvio/'.$detalle->iddetalleparte.'');?>" class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
+             </div>
+             <div class="col-md-4">
+                <?php if($detalle->idestatus==6){ ?>
+                    <h4>Motivos de rechazo</h4><br>
+                    <?php
+                    if (isset($dataerrores) && !empty($dataerrores)) {
+                      foreach ($dataerrores as $value) {
+                        echo "<label style='color:red;'>";
+                        echo "* ".$value->comentariosrechazo." - ".$value->fecharegistro;
+                        echo "</label>";
+                        echo "<br>";
+                      }
                     }
-                  }
-                  ?>
-                </div>
-              </div>
-              <?php }?>
+                    ?>
+                <?php }?>
+            </div>
           </div>
         </div>
       </div>
@@ -127,8 +124,8 @@
               <?php endforeach; ?>
             </select>
             <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>">
-            <!--<input type="hidden" name="idparte" value="<?php echo $detalle->idparte ?>">-->
-            <input type="hidden" name="idoperador" value="<?php echo $detalle->id ?>">
+            <input type="hidden" name="estatus" value="<?php echo $detalle->idestatus ?>">
+            <input type="hidden" name="idoperador" value="<?php echo $detalle->idoperador ?>">
             <label style="color:red;"><?php echo form_error('usuariobodega'); ?></label>
           </div>
         </div>

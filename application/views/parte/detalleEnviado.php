@@ -117,7 +117,7 @@
                        <?php if($detalle->idestatus==3){ ?>
                        <div class="col-md-8 col-sm-12 col-xs-12" align="center">
                             <div class="form-group">
-                              <label>Motivos de rechazo</label><br>
+                              <label>Motivos de rechazo</label>
                               <?php
                                 if (isset($dataerrores) && !empty($dataerrores)) {
                                   // code...

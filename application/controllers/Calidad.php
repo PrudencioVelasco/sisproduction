@@ -64,45 +64,88 @@ class Calidad extends CI_Controller {
         $usuariosbodega = $this->input->post('usuariobodega');
         $idoperador = $this->input->post('idoperador');
         $iddetalleparte = $this->input->post('iddetalleparte');
+        $estatus = $this->input->post('estatus');
         
-        //echo json_encode( array('bodega' => $usuariosbodega,'idoperador' => $idoperador,'iddetalle' => $iddetalleparte ));
-        $data = array(
-            'idestatus' => 4,
-            'idoperador' => $usuariosbodega,
-            'idusuario' => $this->session->user_id,
-            'fecharegistro' => date('Y-m-d H:i:s')
-        );
-        // Actualizar la informacion de la tabla [idoperador][idstatus]
-        $actualizacionParte = $this->calidad->updateDetalleParte($iddetalleparte,$data);
-
-        if($actualizacionParte){
-
-            $datastatus1 = array(
-                'iddetalleparte' => $iddetalleparte,
-                'idstatus' => 4,
+        if ($estatus == "6") {
+            $data = array(
+                'idestatus' => 4,
                 'idoperador' => $usuariosbodega,
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
+        // Actualizar la informacion de la tabla [idoperador][idstatus]
+            $actualizacionParte = $this->calidad->updateDetalleParte($iddetalleparte,$data);
 
-            //Agregar la informacion a la tabla detalle status[Historial]
-            $agregarEnvioBodega = $this->calidad->addDetalleEstatusParte($datastatus1);
-            
-            if($agregarEnvioBodega){
+            if($actualizacionParte){
 
-                $datastatus2 = array(
+                $datastatus1 = array(
                     'iddetalleparte' => $iddetalleparte,
-                    'idstatus' => 2,
-                    'idoperador' => $idoperador,
+                    'idstatus' => 4,
+                    'idoperador' => $usuariosbodega,
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
 
-                //Agregar la informacion de finalizacion del proceso anterior a la tabla detalle statu[Historial]
-                $finalizarProceso = $this->calidad->addDetalleEstatusParte($datastatus2);
+            //Agregar la informacion a la tabla detalle status[Historial]
+                $agregarEnvioBodega = $this->calidad->addDetalleEstatusParte($datastatus1);
+                
+                if($agregarEnvioBodega){
 
-                if($finalizarProceso){
-                    echo json_encode("ok");
+                    $datastatus2 = array(
+                        'iddetalleparte' => $iddetalleparte,
+                        'idstatus' => 2,
+                        'idoperador' => $idoperador,
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                    );
+
+                //Agregar la informacion de finalizacion del proceso anterior a la tabla detalle statu[Historial]
+                    $finalizarProceso = $this->calidad->addDetalleEstatusParte($datastatus2);
+
+                    if($finalizarProceso){
+                        echo json_encode("ok");
+                    }
+                }
+            }
+        }else{
+            $data = array(
+                'idestatus' => 4,
+                'idoperador' => $usuariosbodega,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+        // Actualizar la informacion de la tabla [idoperador][idstatus]
+            $actualizacionParte = $this->calidad->updateDetalleParte($iddetalleparte,$data);
+
+            if($actualizacionParte){
+
+                $datastatus1 = array(
+                    'iddetalleparte' => $iddetalleparte,
+                    'idstatus' => 4,
+                    'idoperador' => $usuariosbodega,
+                    'idusuario' => $this->session->user_id,
+                    'fecharegistro' => date('Y-m-d H:i:s')
+                );
+
+            //Agregar la informacion a la tabla detalle status[Historial]
+                $agregarEnvioBodega = $this->calidad->addDetalleEstatusParte($datastatus1);
+                
+                if($agregarEnvioBodega){
+
+                    $datastatus2 = array(
+                        'iddetalleparte' => $iddetalleparte,
+                        'idstatus' => 2,
+                        'idoperador' => $idoperador,
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                    );
+
+                //Agregar la informacion de finalizacion del proceso anterior a la tabla detalle statu[Historial]
+                    $finalizarProceso = $this->calidad->addDetalleEstatusParte($datastatus2);
+
+                    if($finalizarProceso){
+                        echo json_encode("ok");
+                    }
                 }
             }
         }
