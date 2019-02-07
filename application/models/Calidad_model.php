@@ -13,9 +13,9 @@ class Calidad_model extends CI_Model {
         $this->db->close();
     }
 
-    public function showAllEnviados($idusuario,$estatus='')
+    public function showAllEnviados($idusuario)
     {
-        $this->db->select('d.iddetalleparte,p.idparte,c.idcliente, s.idestatus, p.numeroparte,c.nombre,u.name,uo.name as nombreoperador,d.fecharegistro,d.pallet,d.cantidad,s.nombrestatus');
+        $this->db->select('d.iddetalleparte,d.folio,p.idparte,c.idcliente, s.idestatus, p.numeroparte,c.nombre,u.name,uo.name as nombreoperador,d.fecharegistro,d.pallet,d.cantidad,s.nombrestatus');
         $this->db->from('parte p');
         $this->db->join('cliente c', 'p.idcliente=c.idcliente');
         $this->db->join('detalleparte d', 'p.idparte=d.idparte');
@@ -23,12 +23,9 @@ class Calidad_model extends CI_Model {
         $this->db->join('users uo', 'd.idoperador=uo.id');
         $this->db->join('status s', 's.idestatus=d.idestatus');
         $this->db->where('d.idusuario',$idusuario);
-        
-        if(!empty($estatus)){
-            $this->db->where('d.idestatus',$estatus); 
-        }else{
-            $this->db->where('d.idestatus',1);
-        }
+        $this->db->where('d.idestatus',1);
+        $this->db->or_where('d.idestatus',4);
+        $this->db->or_where('d.idestatus',6);
         $this->db->order_by("d.fecharegistro", "desc");
         $query = $this->db->get();
 
@@ -46,6 +43,7 @@ class Calidad_model extends CI_Model {
         );
 
         $this->db->select('d.iddetalleparte,
+        d.folio,
         p.idparte,
         c.idcliente, 
         s.idestatus, 
@@ -84,13 +82,16 @@ class Calidad_model extends CI_Model {
     {
         // code...
         $this->db->select('d.iddetalleparte,
+        d.folio,
         p.idparte,
         c.idcliente,
         s.idestatus,
         p.numeroparte,
         c.nombre,
-        u.id,
         u.name,
+        t.nombreturno,
+        t.horainicial,
+        t.horafinal,
         uo.name as nombreoperador,
         d.fecharegistro,
         d.pallet,
@@ -104,12 +105,13 @@ class Calidad_model extends CI_Model {
         $this->db->join('cliente c', 'p.idcliente=c.idcliente');
         $this->db->join('detalleparte d', 'p.idparte=d.idparte');
         $this->db->join('users u', 'd.idusuario=u.id');
+        $this->db->join('turno t', 't.idturno=u.idturno');
         $this->db->join('users uo', 'd.idoperador=uo.id');
         $this->db->join('status s', 's.idestatus=d.idestatus');
         $this->db->join('detallestatus ds', 'ds.iddetalleparte=d.iddetalleparte');
         $this->db->where('d.iddetalleparte',$iddetalle);
         $query = $this->db->get();
-        
+
         return $query->first_row();
     }
 
@@ -231,6 +233,21 @@ class Calidad_model extends CI_Model {
         $this->db->like('concat(' . implode(',', $field) . ')', $match);
         $query = $this->db->get();
         
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+    public function motivosCancelacionBodega($iddetalleparte)
+    {
+        $this->db->select('d.comentariosrechazo, d.fecharegistro');
+        $this->db->from('detallestatus d');
+        $this->db->where('d.iddetalleparte', $iddetalleparte);
+        $this->db->where('d.idstatus', 6);
+        $this->db->order_by("d.fecharegistro", "desc");
+        $query = $this->db->get();
+
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
