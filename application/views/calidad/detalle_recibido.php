@@ -13,6 +13,7 @@
               <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="form-group">
                   <h4>Número de parte: <?php echo $detalle->numeroparte;?></h4>
+                  <h4>Número de transferencia: <?php echo $detalle->folio;?></h4>
                 </div>
               </div>
               <div class="col-md-6 col-sm-6 col-xs-6" align="right">

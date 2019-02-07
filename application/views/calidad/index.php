@@ -10,11 +10,11 @@
           </div>
           <div class="x_content">
             <div id="app">
-              <div class="row">
+              <!--<div class="row">
                 <div class="col-md-6">
                   <a href="<?php echo site_url('calidad/enviadosBodega') ?>" class="btn btn-round btn-primary">Ver enviados</a>
                 </div>
-              </div>
+              </div>-->
               <!-- Seccion buscador -->
               <div class="row">
                 <div class="col-md-6">  
@@ -28,6 +28,7 @@
               <!-- Tabla de datos -->
               <table class="table table-striped responsive-utilities jambo_table bulk_action">
                 <thead class="text-white bg-dark" >
+                  <th class="text-white">Número de transferencia</th>
                   <th class="text-white">Número de parte</th>
                   <th class="text-white">Estatus</th>
                   <th class="text-white">Pallet</th>
@@ -37,9 +38,12 @@
                 </thead>
                 <tbody>
                   <tr v-for="row in detallestatus" class="table-default">
+                    <td>{{row.folio}} </td>
                     <td>{{row.numeroparte}} </td>
                     <td>
-                      <h6 style="color:green" v-if="row.idestatus==1"><strong><i class="fa fa-clock-o" aria-hidden="true"></i> EN REVISIÓN</strong></h6>
+                      <h6 style="color:green" v-if="row.idestatus==1"><strong><i class="fa fa-clock-o" aria-hidden="true"></i> EN ESPERA</strong></h6>
+                      <h6 style="color:green" v-else-if="row.idestatus==4"><strong><i class="fa fa-paper-plane" aria-hidden="true"></i> {{row.nombrestatus}}</strong></h6>
+                      <h6 style="color:red" v-else-if="row.idestatus==6"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{row.nombrestatus}}</strong></h6> 
                     </td>
                     <td>{{row.pallet}} </td>
                     <td>{{row.cantidad}} </td>
