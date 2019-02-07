@@ -12,7 +12,7 @@
             <div id="app">
               <!--<div class="row">
                 <div class="col-md-6">
-                  <a href="<?php echo site_url('calidad/enviadosBodega') ?>" class="btn btn-round btn-primary">Ver enviados</a>
+                  <a href="<?php //echo site_url('calidad/enviadosBodega') ?>" class="btn btn-round btn-primary">Ver enviados</a>
                 </div>
               </div>-->
               <!-- Seccion buscador -->
@@ -28,7 +28,7 @@
               <!-- Tabla de datos -->
               <table class="table table-striped responsive-utilities jambo_table bulk_action">
                 <thead class="text-white bg-dark" >
-                  <th class="text-white">Número de transferencia</th>
+                  <th class="text-white">Transferencia</th>
                   <th class="text-white">Número de parte</th>
                   <th class="text-white">Estatus</th>
                   <th class="text-white">Pallet</th>

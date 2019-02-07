@@ -248,7 +248,7 @@ class Calidad extends CI_Controller {
     <td width="22">&nbsp;</td>
     <td width="96">&nbsp;</td>
     <td width="100" align="center" style="border-left:solid 1px #000000; border-right:solid 1px #000000; border-top:solid 1px #000"><p class="textgeneral">TRANSFERENCIA NUMERO</p></td>
-    <td width="82" align="center" style="border-top:solid 1px #000000; border-right:solid #000 1px">01</td>
+    <td width="82" align="center" style="border-top:solid 1px #000000; border-right:solid #000 1px">'.$detalle->folio.'</td>
     </tr>
     <tr>
     <td class="textgeneral lineabajo">FECHA: '.$fechaactual.'</td>
