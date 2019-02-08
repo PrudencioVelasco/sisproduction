@@ -14,7 +14,8 @@ class Parte extends CI_Controller {
         $this->load->model('parte_model', 'parte');
         $this->load->model('user_model', 'usuario');
         $this->load->library('permission');
-        $this->load->library('tcpdf');
+         
+         
     }
 
     public function index()
@@ -24,30 +25,120 @@ class Parte extends CI_Controller {
         $this->load->view('parte/index');
         $this->load->view('footer');
     }
-    public function generarPDFEnvio($id)
-    {
-      // code...
-      $detalle = $this->parte->detalleDelDetallaParte($id);
-      //var_dump($detalle);
-        $operador = $detalle->nombreoperador;
-        $horario = $detalle->horainicial." - ".$detalle->horafinal;
-      $linkimge=base_url().'/assets/images/woorilogo.png';
-      $fechaactual = date('d/m/Y');
- $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
- $pdf->SetTitle('Generar documento de envio.');
- $pdf->SetHeaderMargin(30);
- $pdf->SetTopMargin(20);
- $pdf->setFooterMargin(20);
- $pdf->SetAutoPageBreak(true);
- $pdf->SetAuthor('Author');
- $pdf->SetDisplayMode('real', 'default');
- //Codigo para quitar el header y footer junto con sus enpaginado
-$pdf->setPrintHeader(false);
-$pdf->setPrintFooter(false);
-//Fin del enpaginado
- $pdf->AddPage();
+    public function test() {
+        $this->load->library('html2pdf');
+        $html = ob_get_clean(); 
 
- $tbl = '
+        $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
+        $mipdf->pdf->SetDisplayMode('fullpage');
+        $mipdf->writeHTML('<page  format="400x165"  >
+    <style type="text/css">
+            table {border-collapse:collapse}
+            td 
+                {
+                    border:0px  solid black
+                }
+    </style>
+    <br>
+    <table border="0" align="center">  
+        <tr>
+            <td  align="center" height="45" width="200"  style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" >Customer</td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" ></td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>    
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan=""></td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>    
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>    
+                
+        </tr>
+
+        <tr>
+            <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>1</b></td>    
+        
+            
+            <td align="center"  style="font-size:90px; font-family:arial; font-weight:bold;  " colspan=""><b> &nbsp; &nbsp; &nbsp;1</b></td>
+                
+            <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;1  </td>
+            
+            <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >1</td>
+
+        </tr>
+
+        <tr>
+            <td  align="center" width=""  height=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
+            <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>    
+            <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; 1 </td>
+
+        </tr>
+
+        <tr>
+            <td  align="center" width="" height="50"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; "  colspan="3" >Part Number</td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>        
+        </tr>
+
+        <tr>
+        <td align="center" height="60"  style="font-size:60px; vertical-align: top;  font-family:arial; font-weight:bold; overflow:auto;" colspan="3" >1</td>
+        <td align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" colspan="3" > &nbsp; &nbsp; &nbsp;1</td>
+
+        </tr>
+
+        <tr>
+        <td align="" height="" style="font-size:25px; font-family:arial; font-weight:bold;  "  colspan="4" >
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2<br>
+            <label align="center" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</label>
+        </td>
+        <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto; background: #fff; color:#fff; " >Rev No.</td>
+        <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto;background: #fff; color:#fff; "  >Pallet No.</td>
+        </tr>
+
+        <tr>
+            <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" rowspan="2">ROHS</td>
+            <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
+            <td align="left" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold;  " colspan="">3</td>
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="">4</td>    
+        </tr>
+        <tr>
+            <td  align="right" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan="">5</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan="">6</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
+            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
+            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>    
+        </tr>
+
+    </table>
+
+</page>
+');
+
+        $mipdf->pdf->IncludeJS('print(TRUE)');
+        $mipdf->Output('Etiqueta_Packing.pdf');
+    }
+
+    public function generarPDFEnvio($id) {
+         $this->load->library('tcpdf');
+        $detalle = $this->parte->detalleDelDetallaParte($id);
+        $operador = $detalle->nombreoperador;
+        $horario = $detalle->horainicial . " - " . $detalle->horafinal;
+        $linkimge = base_url() . '/assets/images/woorilogo.png';
+        $fechaactual = date('d/m/Y');
+        $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetTitle('Generar documento de envio.');
+        $pdf->SetHeaderMargin(30);
+        $pdf->SetTopMargin(20);
+        $pdf->setFooterMargin(20);
+        $pdf->SetAutoPageBreak(true);
+        $pdf->SetAuthor('Author');
+        $pdf->SetDisplayMode('real', 'default');
+        //Codigo para quitar el header y footer junto con sus enpaginado
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+//Fin del enpaginado
+        $pdf->AddPage();
+
+        $tbl = '
 <style type="text/css">
 .textgeneral{
 	font-size:8px;
@@ -71,7 +162,7 @@ $pdf->setPrintFooter(false);
 
 <table width="536"   cellpadding="1" cellspacing="1" >
   <tr>
-    <td align="center" class="textgeneral"><center><img  align="center" class="imgtitle" src="'.$linkimge.'"; /></center></td>
+    <td align="center" class="textgeneral"><center><img  align="center" class="imgtitle" src="' . $linkimge . '"; /></center></td>
     <td>&nbsp;</td>
     <td colspan="3">&nbsp;</td>
   </tr>
@@ -80,22 +171,22 @@ $pdf->setPrintFooter(false);
     <td width="22">&nbsp;</td>
     <td width="96">&nbsp;</td>
     <td width="100" align="center" style="border-left:solid 1px #000000; border-right:solid 1px #000000; border-top:solid 1px #000"><p class="textgeneral">TRANSFERENCIA NÚMERO</p></td>
-    <td width="82" align="center" style="border-top:solid 1px #000000; border-right:solid #000 1px">'.$detalle->folio.'</td>
+    <td width="82" align="center" style="border-top:solid 1px #000000; border-right:solid #000 1px">' . $detalle->folio . '</td>
   </tr>
   <tr>
-    <td class="textgeneral lineabajo">FECHA: '.$fechaactual.'</td>
+    <td class="textgeneral lineabajo">FECHA: ' . $fechaactual . '</td>
     <td>&nbsp;</td>
       <td colspan="3" align="center" class="textgeneral" style="border-top:solid 1px #000; border-right:solid 1px #000; border-left:solid 1px #000; border-bottom:solid 1px #000;">PRODUCCIÓN</td>
   </tr>
   <tr>
-    <td class="textgeneral lineabajo">HORA: '.$horario.'</td>
+    <td class="textgeneral lineabajo">HORA: ' . $horario . '</td>
     <td>&nbsp;</td>
-    <td colspan="3" class="textgeneral lineabajo">HECHA POR: '.$detalle->name.'</td>
+    <td colspan="3" class="textgeneral lineabajo">HECHA POR: ' . $detalle->name . '</td>
   </tr>
   <tr>
-    <td class="textgeneral lineabajo">TURNO: '.$detalle->nombreturno.'</td>
+    <td class="textgeneral lineabajo">TURNO: ' . $detalle->nombreturno . '</td>
     <td>&nbsp;</td>
-    <td colspan="3" class="textgeneral lineabajo">RECIBIDA POR: '.$operador.'</td>
+    <td colspan="3" class="textgeneral lineabajo">RECIBIDA POR: ' . $operador . '</td>
   </tr>
 </table>
 <br><br>
@@ -111,12 +202,12 @@ $pdf->setPrintFooter(false);
   </tr>
   <tr>
     <td style="border-left:solid 1px
-    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;'.$detalle->nombre.'</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$detalle->numeroparte.'</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$detalle->modelo.'</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$detalle->cantidad.'</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$detalle->pallet.'</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.($detalle->cantidad * $detalle->pallet).'</td>
+    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;' . $detalle->nombre . '</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $detalle->numeroparte . '</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $detalle->modelo . '</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $detalle->cantidad . '</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $detalle->pallet . '</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . ($detalle->cantidad * $detalle->pallet) . '</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;</td>
   </tr>
 
@@ -347,8 +438,8 @@ $pdf->setPrintFooter(false);
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td class="textfooter" style="border-bottom:solid 1px #000; border-right:solid 1px #000;">TOTAL:</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px; margin-top:20px;">&nbsp;'.$detalle->pallet.' </td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;'.($detalle->pallet * $detalle->cantidad).'</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px; margin-top:20px;">&nbsp;' . $detalle->pallet . ' </td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;' . ($detalle->pallet * $detalle->cantidad) . '</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
   </tr>
  <tr>
@@ -414,84 +505,14 @@ $pdf->setPrintFooter(false);
   </table>
  ';
 
- $pdf->writeHTML($tbl, true, false, false, false, '');
+        $pdf->writeHTML($tbl, true, false, false, false, '');
 
- ob_end_clean();
+        ob_end_clean();
 
- $pdf->Output('My-File-Name.pdf', 'I');
-
+        $pdf->Output('My-File-Name.pdf', 'I');
+        
     }
-public function tests()
-{
 
-/*  $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
- $pdf->SetTitle('My Title');
- $pdf->SetHeaderMargin(30);
- $pdf->SetTopMargin(20);
- $pdf->setFooterMargin(20);
- $pdf->SetAutoPageBreak(true);
- $pdf->SetAuthor('Author');
- $pdf->SetDisplayMode('real', 'default');
-
- $pdf->AddPage();
-
- $tbl = '
- <table border="1">
- <tr>
- <th rowspan="3">Left column</th>
- <th colspan="5">Heading Column Span 5</th>
- <th colspan="9">Heading Column Span 9</th>
- </tr>
- <tr>
- <th rowspan="2">Rowspan 2<br />This is some text that fills the table cell.</th>
- <th colspan="2">span 2</th>
- <th colspan="2">span 2</th>
- <th rowspan="2">2 rows</th>
- <th colspan="8">Colspan 8</th>
- </tr>
- <tr>
- <th>1a</th>
- <th>2a</th>
- <th>1b</th>
- <th>2b</th>
- <th>1</th>
- <th>2</th>
- <th>3</th>
- <th>4</th>
- <th>5</th>
- <th>6</th>
- <th>7</th>
- <th>8</th>
- </tr>
- </table>
- ';
-
- $pdf->writeHTML($tbl, true, false, false, false, '');
-
- ob_end_clean();
-//$pdf->Output(base_url().'/pdfs/DeliveryNote.pdf', 'F');
-$pdf->Output($_SERVER['DOCUMENT_ROOT']."/sisproduction/pdfs/invoice_".date('d-M-Y').".pdf", 'F');
-//$pdf->Output(base_url()."/pdfs/invoice_".date('d-M-Y').".pdf", 'F');
- //$pdf->Output('My-File-Name.pdf', 'I');
- //$pdf->Output($_SERVER['DOCUMENT_ROOT'].'/invoices/Delivery Note.pdf', 'F');
- $ubicacion = $_SERVER['DOCUMENT_ROOT']."/sisproduction/pdfs/invoice_".date('d-M-Y').".pdf";
- $printer = "zebra";
-if ($ph = printer_open($printer)) {
-    // Get file contents
-    //abrindo o arquivo de texto
-    $fh = fopen($ubicacion, "rb");
-    //llendo o arquivo de texto
-    $content = fread($fh, filesize("teste.txt"));
-    fclose($fh);
-    // Set print mode to RAW and send PDF to printer
-    printer_set_option($ph, PRINTER_MODE, "RAW");
-    printer_write($ph, $content);
-    printer_close($ph);
-} else {
-    "Couldn't connect...";
-}
-*/
-}
     public function packing($id)
     {
         $usuarioscalidad=$this->usuario->showAllCalidad();
