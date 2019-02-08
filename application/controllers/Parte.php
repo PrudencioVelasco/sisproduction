@@ -25,11 +25,22 @@ class Parte extends CI_Controller {
         $this->load->view('parte/index');
         $this->load->view('footer');
     }
-    public function test() {
+    
+   
+    public function etiquetaPacking($id) {
+        $detalle = $this->parte->detalleDelDetallaParte($id);
+        $hora   = date("h:i a");
+        $fecha  = date("j/n/Y");
+        $dia    = date("j");
+        $semana = date("W");
+        $mes    = date("F");
         $this->load->library('html2pdf');
-        $html = ob_get_clean(); 
-
-        $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
+        ob_start();
+        error_reporting(E_ALL & ~E_NOTICE);
+        ini_set('display_errors', 0);
+        ini_set('log_errors', 1); 
+       
+       $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
         $mipdf->pdf->SetDisplayMode('fullpage');
         $mipdf->writeHTML('<page  format="400x165"  >
     <style type="text/css">
@@ -52,14 +63,14 @@ class Parte extends CI_Controller {
         </tr>
 
         <tr>
-            <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>1</b></td>    
+            <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>'.$detalle->nombre.'</b></td>    
         
             
-            <td align="center"  style="font-size:90px; font-family:arial; font-weight:bold;  " colspan=""><b> &nbsp; &nbsp; &nbsp;1</b></td>
+            <td align="center"  style="font-size:90px; font-family:arial; font-weight:bold;  " colspan=""><b> &nbsp; &nbsp; &nbsp;'.$detalle->cantidad.'</b></td>
                 
-            <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;1  </td>
+            <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '  </td>
             
-            <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >1</td>
+            <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >'.$semana.'</td>
 
         </tr>
 
@@ -68,7 +79,7 @@ class Parte extends CI_Controller {
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
             <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>    
-            <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; 1 </td>
+            <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000; padding-top:-30px;" colspan="2"> &nbsp; '.$hora.'</td>
 
         </tr>
 
@@ -78,8 +89,8 @@ class Parte extends CI_Controller {
         </tr>
 
         <tr>
-        <td align="center" height="60"  style="font-size:60px; vertical-align: top;  font-family:arial; font-weight:bold; overflow:auto;" colspan="3" >1</td>
-        <td align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" colspan="3" > &nbsp; &nbsp; &nbsp;1</td>
+        <td align="center" height="60"  style="font-size:60px; vertical-align: top;  font-family:arial; font-weight:bold; overflow:auto;" colspan="3" >'.$detalle->numeroparte.'</td>
+        <td align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" colspan="3" > &nbsp; &nbsp; &nbsp;'.$detalle->modelo.'</td>
 
         </tr>
 
@@ -97,12 +108,12 @@ class Parte extends CI_Controller {
             <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
-            <td align="left" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold;  " colspan="">3</td>
-            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="">4</td>    
+            <td align="left" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold;  " colspan="">'.$detalle->revision.'</td>
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="">'.$detalle->pallet.'</td>    
         </tr>
         <tr>
-            <td  align="right" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan="">5</td>    
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan="">6</td>    
+            <td  align="right" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan="">'.$detalle->linea.'</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
             <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>    
@@ -113,7 +124,7 @@ class Parte extends CI_Controller {
 </page>
 ');
 
-        $mipdf->pdf->IncludeJS('print(TRUE)');
+        //$mipdf->pdf->IncludeJS('print(TRUE)');
         $mipdf->Output('Etiqueta_Packing.pdf');
     }
 
@@ -131,11 +142,10 @@ class Parte extends CI_Controller {
         $pdf->setFooterMargin(20);
         $pdf->SetAutoPageBreak(true);
         $pdf->SetAuthor('Author');
-        $pdf->SetDisplayMode('real', 'default');
-        //Codigo para quitar el header y footer junto con sus enpaginado
+        $pdf->SetDisplayMode('real', 'default'); 
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
-//Fin del enpaginado
+ 
         $pdf->AddPage();
 
         $tbl = '
@@ -918,5 +928,8 @@ class Parte extends CI_Controller {
         }
         echo json_encode($result);
     }
+
+ 
+
 }
 ?>

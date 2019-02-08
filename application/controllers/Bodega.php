@@ -26,6 +26,7 @@ class Bodega extends CI_Controller
         $this->load->view('header');
         $this->load->view('bodega/index');
         $this->load->view('footer');
+        
     }
     public function showAllEnviados()
     {
@@ -318,6 +319,7 @@ class Bodega extends CI_Controller
                 );
 
                 $this->posicionbodega->addPartePosicionBodega($data);
+                
                }
 
                $datadetalleparte = $this->parte->detalleDelDetallaParte($iddetalleparte);

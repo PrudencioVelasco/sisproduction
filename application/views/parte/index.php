@@ -29,9 +29,10 @@
                                 <div class="col-md-6">
                                   <button class="btn btn-round btn-primary" @click="addModal= true">Nueva parte</button>
                                    <a href="<?php echo site_url('parte/verEnviados') ?>" class="btn btn-round btn-default">Ver enviados</a>
+     
 
-
-                                </div>
+ 
+                      </div>
                                 <div class="col-md-6"></div>
                              </div>
                               <div class="row">
