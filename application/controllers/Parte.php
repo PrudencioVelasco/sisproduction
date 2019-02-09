@@ -1,9 +1,10 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Parte extends CI_Controller {
 
-    function __construct()
-    {
+    function __construct() {
         parent::__construct();
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
@@ -14,42 +15,219 @@ class Parte extends CI_Controller {
         $this->load->model('parte_model', 'parte');
         $this->load->model('user_model', 'usuario');
         $this->load->library('permission');
-         
-         
     }
 
-    public function index()
-    {
+  
+    private function set_barcode($code) {
+        //load library
+        $this->load->library('zend');
+        //load in folder Zend
+        $this->zend->load('Zend/Barcode');
+        //generate barcode
+        $file = Zend_Barcode::draw('code128', 'image', array('text' => $code), array());
+        $code = time() . $code;
+        $barcodeRealPath = $_SERVER['DOCUMENT_ROOT'] . '/sisproduction/assets/cache/' . $code . '.png';
+
+        // header('Content-Type: image/png');
+        $store_image = imagepng($file, $barcodeRealPath);
+        return base_url() . 'assets/cache/' . $code . '.png';
+    }
+    public function etiquetaCalidad($id) {
+        $detalle = $this->parte->detalleDelDetallaParte($id); 
+       
+        $hora= date ("h:i:s a");
+        $fecha= date ("d-M-Y");
+        $semana = date("W");
+        $mes = date("F");
+        $this->load->library('html2pdf');
+        ob_start();
+        error_reporting(E_ALL & ~E_NOTICE);
+        ini_set('display_errors', 0);
+        ini_set('log_errors', 1);
+
+        $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
+        $mipdf->pdf->SetDisplayMode('fullpage');
+        $mipdf->writeHTML('<page  format="130x182" >
+    <style type="text/css">
+			table {border-collapse:collapse}
+			td 
+				{
+					border:0px solid black
+				}
+	</style>
+	<br>
+    <table border="1" align="center">
+		<tr>
+			<td   width="320" height="75" style="font-size:40px; font-family:arial; font-weight:bold; background: #; color:#fff; " rowspan="2" >OQC Passed</td>
+			<td  width="315" align="center" style="font-size:20px; font-family:arial; font-weight:bold; background: ; color:#fff;  " >CUSTOMERS</td>
+		</tr>
+		
+		<tr>
+		
+			<td  align="center"    style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >'.$detalle->nombre.'</td>
+		</tr>
+		<tr>
+			<td  align="" height="60px" style="font-size:60px; font-family:arial; font-weight:bold; background: #; color:#fff;" >PART NO</td>
+			<td  align="" style="font-size:20px; font-family:arial; font-weight:bold; background: #; color:#fff;" >QUANTITY</td>
+		</tr>
+		<tr>
+			<td  align="center" height="50px" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " >'.$detalle->numeroparte.'</td>
+			<td  align="center" style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >'.$detalle->cantidad.'</td>
+		</tr>
+		<tr>
+			<td  align="" height="50" style="font-size:20px; font-family:arial; font-weight:bold; background: #;color:#fff; " >MODEL</td>
+			<td  align="" style="font-size:20px; font-family:arial; font-weight:bold; background: #;color:#fff; " >DATE</td>
+		</tr>
+		<tr>
+			<td  align="center" height="40" style="font-size:40px; font-family:arial; font-weight:bold; background: #; " >'.$detalle->modelo.'</td>
+			<td  align="center" style="font-size:35px; font-family:arial; font-weight:bold; background: #; " >'.$fecha.'</td>
+		</tr>
+		<tr>
+			<td  align="" height="50" style="font-size:20px; font-family:arial; font-weight:bold; background: #; color:#fff; " >OQC INSPECTOR</td>
+			<td  align="center" style="font-size:25px; font-family:arial; font-weight:bold; background: #; " ></td>
+		</tr>
+		<tr>
+			<td  align="center" height="60" style="font-size:50px; font-family:arial; font-weight:bold; background: #;vertical-align:bottom; " >'.$detalle->usuario.'</td>
+			<td  align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " ></td>
+		</tr>
+		
+		
+
+	</table>
+
+</page>');
+
+        //$mipdf->pdf->IncludeJS('print(TRUE)');
+        $mipdf->Output('Etiqueta_Packing.pdf');
+    }
+
+    public function index() {
         // Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('parte/index');
         $this->load->view('footer');
     }
-    
-   
+
+    /* function original() {
+      $this->load->library('html2pdf');
+      ob_start();
+      error_reporting(E_ALL & ~E_NOTICE);
+      ini_set('display_errors', 0);
+      ini_set('log_errors', 1);
+
+      $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
+      $mipdf->pdf->SetDisplayMode('fullpage');
+      $mipdf->writeHTML('<page  format="400x165"  >
+      <style type="text/css">
+      table {border-collapse:collapse}
+      td
+      {
+      border:1px  solid black
+      }
+      </style>
+      <br>
+      <table border="0" align="center">
+      <tr>
+      <td  align="center" height="45" width="200"  style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" >Customer</td>
+      <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" ></td>
+      <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>
+      <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan=""></td>
+      <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>
+      <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>
+
+      </tr>
+
+      <tr>
+      <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>LG</b></td>
+
+
+      <td align="center"  style="font-size:90px; font-family:arial; font-weight:bold;  " colspan=""><b> &nbsp; &nbsp; &nbsp;12</b></td>
+
+      <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;Febrero&nbsp;21</td>
+
+      <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >1</td>
+
+      </tr>
+
+      <tr>
+      <td  align="center" width=""  height=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
+      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
+      <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
+      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
+      <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; 12:00 </td>
+
+      </tr>
+
+      <tr>
+      <td  align="center" width="" height="50"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; "  colspan="3" >Part Number</td>
+      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>
+      </tr>
+
+      <tr>
+      <td align="center" height="60"  style="font-size:60px; vertical-align: top;  font-family:arial; font-weight:bold; overflow:auto;" colspan="3" >MAY</td>
+      <td align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" colspan="3" > &nbsp; &nbsp; &nbsp;1</td>
+
+      </tr>
+
+      <tr>
+      <td align="" height="" style="font-size:25px; font-family:arial; font-weight:bold;  "  colspan="4" >
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+      <label align="center" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23</label>
+      </td>
+      <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto; background: #fff; color:#fff; " >Rev No.</td>
+      <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto;background: #fff; color:#fff; "  >Pallet No.</td>
+      </tr>
+
+      <tr>
+      <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" rowspan="2">ROHS</td>
+      <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>
+      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>
+      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
+      <td align="left" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold;  " colspan="">23</td>
+      <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="">12</td>
+      </tr>
+      <tr>
+      <td  align="right" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan="">1</td>
+      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan="">2</td>
+      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
+      <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
+      <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>
+      </tr>
+
+      </table>
+      </page>
+      ');
+
+      //$mipdf->pdf->IncludeJS('print(TRUE)');
+      $mipdf->Output('Etiqueta_Packing.pdf');
+      } */
+
     public function etiquetaPacking($id) {
+        date_default_timezone_set("America/Tijuana");
         $detalle = $this->parte->detalleDelDetallaParte($id);
-        $hora   = date("h:i a");
-        $fecha  = date("j/n/Y");
-        $dia    = date("j");
+        $barcode = $this->set_barcode($detalle->numeroparte);
+        $hora = date("h:i a");
+        $fecha = date("j/n/Y");
+        $dia = date("j");
         $semana = date("W");
-        $mes    = date("F");
+        $mes = date("F");
         $this->load->library('html2pdf');
         ob_start();
         error_reporting(E_ALL & ~E_NOTICE);
         ini_set('display_errors', 0);
-        ini_set('log_errors', 1); 
-       
-       $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
+        ini_set('log_errors', 1);
+
+        $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
         $mipdf->pdf->SetDisplayMode('fullpage');
         $mipdf->writeHTML('<page  format="400x165"  >
-    <style type="text/css">
+ <style type="text/css">
             table {border-collapse:collapse}
             td 
                 {
-                    border:0px  solid black
+                    border:1px  solid black
                 }
     </style>
+
     <br>
     <table border="0" align="center">  
         <tr>
@@ -63,14 +241,14 @@ class Parte extends CI_Controller {
         </tr>
 
         <tr>
-            <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>'.$detalle->nombre.'</b></td>    
+            <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
         
             
-            <td align="center"  style="font-size:90px; font-family:arial; font-weight:bold;  " colspan=""><b> &nbsp; &nbsp; &nbsp;'.$detalle->cantidad.'</b></td>
+            <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $detalle->cantidad . '</b></td>
                 
-            <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '  </td>
+            <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
             
-            <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >'.$semana.'</td>
+            <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >' . $semana . '</td>
 
         </tr>
 
@@ -79,7 +257,7 @@ class Parte extends CI_Controller {
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
             <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>    
-            <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000; padding-top:-30px;" colspan="2"> &nbsp; '.$hora.'</td>
+            <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; '.$hora.' </td>
 
         </tr>
 
@@ -89,16 +267,13 @@ class Parte extends CI_Controller {
         </tr>
 
         <tr>
-        <td align="center" height="60"  style="font-size:60px; vertical-align: top;  font-family:arial; font-weight:bold; overflow:auto;" colspan="3" >'.$detalle->numeroparte.'</td>
-        <td align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" colspan="3" > &nbsp; &nbsp; &nbsp;'.$detalle->modelo.'</td>
+        <td colspan="3" rowspan="2" align="center"  style="font-size:60px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <img src="' . $barcode . '"/> </td>
+        <td height="60" colspan="3" align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" > &nbsp; &nbsp; &nbsp;' . $detalle->modelo . '</td>
 
         </tr>
 
         <tr>
-        <td align="" height="" style="font-size:25px; font-family:arial; font-weight:bold;  "  colspan="4" >
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2<br>
-            <label align="center" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2</label>
-        </td>
+        <td align="" height="" style="font-size:25px; font-family:arial; font-weight:bold;  " >&nbsp;</td>
         <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto; background: #fff; color:#fff; " >Rev No.</td>
         <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto;background: #fff; color:#fff; "  >Pallet No.</td>
         </tr>
@@ -108,11 +283,11 @@ class Parte extends CI_Controller {
             <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
-            <td align="left" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold;  " colspan="">'.$detalle->revision.'</td>
-            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="">'.$detalle->pallet.'</td>    
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold;  " colspan="">' . $detalle->revision . '</td>
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="">' . $detalle->pallet . '</td>    
         </tr>
         <tr>
-            <td  align="right" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan="">'.$detalle->linea.'</td>    
+            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan="">1</td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
@@ -120,7 +295,6 @@ class Parte extends CI_Controller {
         </tr>
 
     </table>
-
 </page>
 ');
 
@@ -129,7 +303,7 @@ class Parte extends CI_Controller {
     }
 
     public function generarPDFEnvio($id) {
-         $this->load->library('tcpdf');
+        $this->load->library('tcpdf');
         $detalle = $this->parte->detalleDelDetallaParte($id);
         $operador = $detalle->nombreoperador;
         $horario = $detalle->horainicial . " - " . $detalle->horafinal;
@@ -142,10 +316,10 @@ class Parte extends CI_Controller {
         $pdf->setFooterMargin(20);
         $pdf->SetAutoPageBreak(true);
         $pdf->SetAuthor('Author');
-        $pdf->SetDisplayMode('real', 'default'); 
+        $pdf->SetDisplayMode('real', 'default');
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
- 
+
         $pdf->AddPage();
 
         $tbl = '
@@ -520,125 +694,120 @@ class Parte extends CI_Controller {
         ob_end_clean();
 
         $pdf->Output('My-File-Name.pdf', 'I');
-        
     }
 
-    public function packing($id)
-    {
-        $usuarioscalidad=$this->usuario->showAllCalidad();
-        $detalleparte= $this->parte->detalleParteId($id);
+    public function packing($id) {
+        $usuarioscalidad = $this->usuario->showAllCalidad();
+        $detalleparte = $this->parte->detalleParteId($id);
 
-        $data=array(
-            'usuarioscalidad'=>$usuarioscalidad,
-            'detalleparte'=>$detalleparte,
-            'idparte'=>$id
+        $data = array(
+            'usuarioscalidad' => $usuarioscalidad,
+            'detalleparte' => $detalleparte,
+            'idparte' => $id
         );
 
         $this->load->view('header');
-        $this->load->view('parte/packing',$data);
+        $this->load->view('parte/packing', $data);
         $this->load->view('footer');
     }
 
-    public function detalleenvio($iddetalle)
-    {
+    public function detalleenvio($iddetalle) {
         //$usuarioscalidad=$this->usuario->showAllCalidad();
         //$detalleparte= $this->parte->detalleParteId($id);
-        $usuarioscalidad=$this->usuario->showAllCalidad();
-        $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalle);
+        $usuarioscalidad = $this->usuario->showAllCalidad();
+        $detalledeldetalleparte = $this->parte->detalleDelDetallaParte($iddetalle);
         $dataerror = array();
-        if($detalledeldetalleparte->idestatus == 3){
-            $dataerror=$this->parte->motivosCancelacionCalidad($iddetalle);
+        if ($detalledeldetalleparte->idestatus == 3) {
+            $dataerror = $this->parte->motivosCancelacionCalidad($iddetalle);
         }
 
-        $data=array(
-            'iddetalle'=>$iddetalle,
-            'detalle'=>$detalledeldetalleparte,
-            'usuarioscalidad'=>$usuarioscalidad,
-            'dataerrores'=>$dataerror
+        $data = array(
+            'iddetalle' => $iddetalle,
+            'detalle' => $detalledeldetalleparte,
+            'usuarioscalidad' => $usuarioscalidad,
+            'dataerrores' => $dataerror
         );
 
         //var_dump($detalledeldetalleparte);
         $this->load->view('header');
-        $this->load->view('parte/detalleenviado',$data);
+        $this->load->view('parte/detalleenviado', $data);
         $this->load->view('footer');
     }
 
-    public function reenviarCalidad()
-    {
+    public function reenviarCalidad() {
         // code...
         $config = array(
-          array(
-                'field'   => 'modelo',
-                'label'   => 'Modelo',
-                'rules'   => 'required',
+            array(
+                'field' => 'modelo',
+                'label' => 'Modelo',
+                'rules' => 'required',
                 'errors' => array(
-                   'required' => 'Campo requerido.',
-           )
-             ),
-          array(
-                'field'   => 'revision',
-                'label'   => 'Revision',
-                'rules'   => 'required',
+                    'required' => 'Campo requerido.',
+                )
+            ),
+            array(
+                'field' => 'revision',
+                'label' => 'Revision',
+                'rules' => 'required',
                 'errors' => array(
-                   'required' => 'Campo requerido.',
-           )
-             ),
-          array(
-                'field'   => 'numeropallet',
-                'label'   => 'Número de pallet',
-                'rules'   => 'required|integer',
+                    'required' => 'Campo requerido.',
+                )
+            ),
+            array(
+                'field' => 'numeropallet',
+                'label' => 'Número de pallet',
+                'rules' => 'required|integer',
                 'errors' => array(
-                   'required' => 'Campo requerido.',
-                   'integer'=>'Solo numero'
-           )
-             ),
-          array(
-                'field'   => 'cantidadcaja',
-                'label'   => 'Cantidad Caja',
-                'rules'   => 'required|integer',
+                    'required' => 'Campo requerido.',
+                    'integer' => 'Solo numero'
+                )
+            ),
+            array(
+                'field' => 'cantidadcaja',
+                'label' => 'Cantidad Caja',
+                'rules' => 'required|integer',
                 'errors' => array(
-                   'required' => 'Cantidad requerido.',
-                   'integer' => 'Solo numero.'
-           )
-             )
-             ,
-          array(
-                'field'   => 'linea',
-                'label'   => 'Linea',
-                'rules'   => 'required',
+                    'required' => 'Cantidad requerido.',
+                    'integer' => 'Solo numero.'
+                )
+            )
+            ,
+            array(
+                'field' => 'linea',
+                'label' => 'Linea',
+                'rules' => 'required',
                 'errors' => array(
-                   'required' => 'Campo requerido.'
-           )
-             )
-             ,
-          array(
-                'field'   => 'usuariocalidad',
-                'label'   => 'Usuario de calidad',
-                'rules'   => 'required',
+                    'required' => 'Campo requerido.'
+                )
+            )
+            ,
+            array(
+                'field' => 'usuariocalidad',
+                'label' => 'Usuario de calidad',
+                'rules' => 'required',
                 'errors' => array(
-                   'required' => 'Campo requerido.'
-           )
-             )
-       );
+                    'required' => 'Campo requerido.'
+                )
+            )
+        );
 
-       $iddetalleparte=$this->input->post('iddetalleparte');
-       $this->form_validation->set_rules($config);
+        $iddetalleparte = $this->input->post('iddetalleparte');
+        $this->form_validation->set_rules($config);
 
-       if ($this->form_validation->run() == TRUE)
-       {
-           $data = array(
-               'modelo' => $this->input->post('modelo'),
-               'revision' => $this->input->post('revision'),
-               'pallet' => $this->input->post('numeropallet'),
-               'cantidad' => $this->input->post('cantidadcaja'),
-               'linea' => $this->input->post('linea'),
-               'idestatus' => 1,
-               'idoperador' => $this->input->post('usuariocalidad'),
-               'idusuario' => $this->session->user_id,
-               'fecharegistro' => date('Y-m-d H:i:s')
+        if ($this->form_validation->run() == TRUE) {
+            $data = array(
+                'modelo' => $this->input->post('modelo'),
+                'revision' => $this->input->post('revision'),
+                'pallet' => $this->input->post('numeropallet'),
+                'cantidad' => $this->input->post('cantidadcaja'),
+                'linea' => $this->input->post('linea'),
+                'idestatus' => 1,
+                'idoperador' => $this->input->post('usuariocalidad'),
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
             );
 
-            $this->parte->updateDetalleParte($iddetalleparte,$data);
+            $this->parte->updateDetalleParte($iddetalleparte, $data);
 
             $datastatus = array(
                 'iddetalleparte' => $iddetalleparte,
@@ -652,137 +821,134 @@ class Parte extends CI_Controller {
             redirect('parte/');
         } else {
             // code...
-            $usuarioscalidad=$this->usuario->showAllCalidad();
-            $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalleparte);
+            $usuarioscalidad = $this->usuario->showAllCalidad();
+            $detalledeldetalleparte = $this->parte->detalleDelDetallaParte($iddetalleparte);
 
             $dataerror = array();
 
-            if($detalledeldetalleparte->idestatus == 6){
-                $dataerror=$this->parte->motivosCancelacionCalidad($iddetalleparte);
+            if ($detalledeldetalleparte->idestatus == 6) {
+                $dataerror = $this->parte->motivosCancelacionCalidad($iddetalleparte);
             }
 
             $data = array(
-                'iddetalle'=>$iddetalleparte,
-                'detalle'=>$detalledeldetalleparte,
-                'usuarioscalidad'=>$usuarioscalidad,
-                'dataerrores'=>$dataerror
+                'iddetalle' => $iddetalleparte,
+                'detalle' => $detalledeldetalleparte,
+                'usuarioscalidad' => $usuarioscalidad,
+                'dataerrores' => $dataerror
             );
             //var_dump($detalledeldetalleparte);
             $this->load->view('header');
-            $this->load->view('parte/detalleenviado',$data);
+            $this->load->view('parte/detalleenviado', $data);
             $this->load->view('footer');
         }
     }
 
-    public function enviarCalidad()
-    {
+    public function enviarCalidad() {
         $config = array(
             array(
-                'field'   => 'modelo',
-                'label'   => 'Modelo',
-                'rules'   => 'required',
+                'field' => 'modelo',
+                'label' => 'Modelo',
+                'rules' => 'required',
                 'errors' => array(
                     'required' => 'Campo requerido.',
-                    )
-                ),
+                )
+            ),
             array(
-                'field'   => 'revision',
-                'label'   => 'Revision',
-                'rules'   => 'required',
+                'field' => 'revision',
+                'label' => 'Revision',
+                'rules' => 'required',
                 'errors' => array(
                     'required' => 'Campo requerido.',
-                    )
-                ),
+                )
+            ),
             array(
-                'field'   => 'numeropallet',
-                'label'   => 'Número de pallet',
-                'rules'   => 'required|integer',
+                'field' => 'numeropallet',
+                'label' => 'Número de pallet',
+                'rules' => 'required|integer',
                 'errors' => array(
                     'required' => 'Campo requerido.',
-                    'integer'=>'Solo numero'
-                    )
-                ),
+                    'integer' => 'Solo numero'
+                )
+            ),
             array(
-                'field'   => 'cantidadcaja',
-                'label'   => 'Cantidad Caja',
-                'rules'   => 'required|integer',
+                'field' => 'cantidadcaja',
+                'label' => 'Cantidad Caja',
+                'rules' => 'required|integer',
                 'errors' => array(
                     'required' => 'Cantidad requerido.',
                     'integer' => 'Solo numero.'
-                    )
-                ),
-            array(
-                'field'   => 'linea',
-                'label'   => 'Linea',
-                'rules'   => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.'
-                    )
-                ),
-            array(
-                'field'   => 'usuariocalidad',
-                'label'   => 'Usuario de calidad',
-                'rules'   => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.'
-                    )
                 )
+            ),
+            array(
+                'field' => 'linea',
+                'label' => 'Linea',
+                'rules' => 'required',
+                'errors' => array(
+                    'required' => 'Campo requerido.'
+                )
+            ),
+            array(
+                'field' => 'usuariocalidad',
+                'label' => 'Usuario de calidad',
+                'rules' => 'required',
+                'errors' => array(
+                    'required' => 'Campo requerido.'
+                )
+            )
+        );
+        $this->form_validation->set_rules($config);
+        if ($this->form_validation->run() == TRUE) {
+            $data = array(
+                'folio' => 0,
+                'idparte' => $this->input->post('idparte'),
+                'modelo' => $this->input->post('modelo'),
+                'revision' => $this->input->post('revision'),
+                'pallet' => $this->input->post('numeropallet'),
+                'cantidad' => $this->input->post('cantidadcaja'),
+                'linea' => $this->input->post('linea'),
+                'idestatus' => 1,
+                'idoperador' => $this->input->post('usuariocalidad'),
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
             );
-            $this->form_validation->set_rules($config);
-            if ($this->form_validation->run() == TRUE) {
-                $data = array(
-                    'folio'=>0,
-                    'idparte' => $this->input->post('idparte'),
-                    'modelo' => $this->input->post('modelo'),
-                    'revision' => $this->input->post('revision'),
-                    'pallet' => $this->input->post('numeropallet'),
-                    'cantidad' => $this->input->post('cantidadcaja'),
-                    'linea' => $this->input->post('linea'),
-                    'idestatus' => 1,
-                    'idoperador' => $this->input->post('usuariocalidad'),
-                    'idusuario' => $this->session->user_id,
-                    'fecharegistro' => date('Y-m-d H:i:s')
-                );
 
-                $iddetalleparte = $this->parte->addDetalleParte($data);
-                $dataupdatefolio=array(
-                    'folio'=>$iddetalleparte
-                );
-                $this->parte->updateDetalleParte($iddetalleparte,$dataupdatefolio);
-                $datastatus = array(
-                    'iddetalleparte' => $iddetalleparte,
-                    'idstatus' => 1,
-                    'idoperador' => $this->input->post('usuariocalidad'),
-                    'idusuario' => $this->session->user_id,
-                    'fecharegistro' => date('Y-m-d H:i:s')
-                );
-                $this->parte->addDetalleEstatusParte($datastatus);
-                redirect('parte/');
-            } else {
-                $id = $this->input->post('idparte');
-                $usuarioscalidad = $this->usuario->showAllCalidad();
-                $detalleparte = $this->parte->detalleParteId($id);
-                $data = array(
-                    'usuarioscalidad' => $usuarioscalidad,
-                    'detalleparte' => $detalleparte,
-                    'idparte' => $id
-                );
+            $iddetalleparte = $this->parte->addDetalleParte($data);
+            $dataupdatefolio = array(
+                'folio' => $iddetalleparte
+            );
+            $this->parte->updateDetalleParte($iddetalleparte, $dataupdatefolio);
+            $datastatus = array(
+                'iddetalleparte' => $iddetalleparte,
+                'idstatus' => 1,
+                'idoperador' => $this->input->post('usuariocalidad'),
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->parte->addDetalleEstatusParte($datastatus);
+            redirect('parte/detalleenvio/'.$iddetalleparte);
+        } else {
+            $id = $this->input->post('idparte');
+            $usuarioscalidad = $this->usuario->showAllCalidad();
+            $detalleparte = $this->parte->detalleParteId($id);
+            $data = array(
+                'usuarioscalidad' => $usuarioscalidad,
+                'detalleparte' => $detalleparte,
+                'idparte' => $id
+            );
 
-                $this->load->view('header');
-                $this->load->view('parte/packing',$data);
-                $this->load->view('footer');
-            }
+            $this->load->view('header');
+            $this->load->view('parte/packing', $data);
+            $this->load->view('footer');
+        }
     }
 
-    public function verEnviados()
-    {
+    public function verEnviados() {
         $this->load->view('header');
         $this->load->view('parte/enviados');
         $this->load->view('footer');
     }
 
-    public function showAll()
-    {
+    public function showAll() {
         //Permission::grant(uri_string());
         $query = $this->parte->showAll();
         if ($query) {
@@ -791,8 +957,7 @@ class Parte extends CI_Controller {
         echo json_encode($result);
     }
 
-    public function showAllEnviados()
-    {
+    public function showAllEnviados() {
         //Permission::grant(uri_string());
         $query = $this->parte->showAllEnviados($this->session->user_id);
         if ($query) {
@@ -801,9 +966,7 @@ class Parte extends CI_Controller {
         echo json_encode($result);
     }
 
-
-    public function addPart()
-    {
+    public function addPart() {
         //Permission::grant(uri_string());
         $config = array(
             array(
@@ -827,15 +990,15 @@ class Parte extends CI_Controller {
         $this->form_validation->set_rules($config);
         if ($this->form_validation->run() == FALSE) {
             $result['error'] = true;
-            $result['msg']   = array(
-                 'numeroparte' => form_error('numeroparte'),
-                 'idcliente' => form_error('idcliente')
+            $result['msg'] = array(
+                'numeroparte' => form_error('numeroparte'),
+                'idcliente' => form_error('idcliente')
             );
         } else {
             $idcliente = $this->input->post('idcliente');
             $numeroparte = $this->input->post('numeroparte');
-            $resuldovalidacion = $this->parte->validarClienteParte($idcliente,$numeroparte);
-            if($resuldovalidacion == FALSE){
+            $resuldovalidacion = $this->parte->validarClienteParte($idcliente, $numeroparte);
+            if ($resuldovalidacion == FALSE) {
                 $data = array(
                     'numeroparte' => $this->input->post('numeroparte'),
                     'idcliente' => $this->input->post('idcliente'),
@@ -844,9 +1007,9 @@ class Parte extends CI_Controller {
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
                 $this->parte->addParte($data);
-            }else{
+            } else {
                 $result['error'] = true;
-                $result['msg']   = array(
+                $result['msg'] = array(
                     'smserror' => "El número de cliente ya se encuentra registrado."
                 );
             }
@@ -854,8 +1017,7 @@ class Parte extends CI_Controller {
         echo json_encode($result);
     }
 
-    public function updateParte()
-    {
+    public function updateParte() {
         //Permission::grant(uri_string());
         $config = array(
             array(
@@ -879,16 +1041,16 @@ class Parte extends CI_Controller {
         $this->form_validation->set_rules($config);
         if ($this->form_validation->run() == FALSE) {
             $result['error'] = true;
-            $result['msg']   = array(
-                 'numeroparte' => form_error('numeroparte'),
-                 'idcliente' => form_error('idcliente')
+            $result['msg'] = array(
+                'numeroparte' => form_error('numeroparte'),
+                'idcliente' => form_error('idcliente')
             );
         } else {
             $idcliente = $this->input->post('idcliente');
             $numeroparte = $this->input->post('numeroparte');
             $idparte = $this->input->post('idparte');
-            $resuldovalidacion = $this->parte->validarClientePartePorIdParte($idparte,$idcliente,$numeroparte);
-            if($resuldovalidacion == FALSE){
+            $resuldovalidacion = $this->parte->validarClientePartePorIdParte($idparte, $idcliente, $numeroparte);
+            if ($resuldovalidacion == FALSE) {
                 $data = array(
                     'numeroparte' => $this->input->post('numeroparte'),
                     'idcliente' => $this->input->post('idcliente'),
@@ -896,10 +1058,10 @@ class Parte extends CI_Controller {
                     'activo' => $this->input->post('activo'),
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
-                $this->parte->updateParte($idparte,$data);
-            }else{
+                $this->parte->updateParte($idparte, $data);
+            } else {
                 $result['error'] = true;
-                $result['msg']   = array(
+                $result['msg'] = array(
                     'smserror' => "El número de cliente ya se encuentra registrado."
                 );
             }
@@ -907,19 +1069,17 @@ class Parte extends CI_Controller {
         echo json_encode($result);
     }
 
-    public function searchEnviados()
-    {
+    public function searchEnviados() {
         //Permission::grant(uri_string());
         $value = $this->input->post('text');
-        $query = $this->parte->searchEnviados($value,$this->session->user_id);
+        $query = $this->parte->searchEnviados($value, $this->session->user_id);
         if ($query) {
             $result['detallestatus'] = $query;
         }
         echo json_encode($result);
     }
 
-    public function searchParte()
-    {
+    public function searchParte() {
         //Permission::grant(uri_string());
         $value = $this->input->post('text');
         $query = $this->parte->searchPartes($value);
@@ -929,7 +1089,6 @@ class Parte extends CI_Controller {
         echo json_encode($result);
     }
 
- 
-
 }
+
 ?>

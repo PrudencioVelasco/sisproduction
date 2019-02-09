@@ -86,6 +86,7 @@ class Parte_model extends CI_Model {
         t.horainicial,
         t.horafinal,
         uo.name as nombreoperador,
+        u.usuario,
         d.fecharegistro,
         d.pallet,
         d.modelo,
