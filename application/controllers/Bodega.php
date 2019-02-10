@@ -334,7 +334,7 @@ class Bodega extends CI_Controller
 
                $dataupdateestatus=array(
                  'iddetalleparte'=>$iddetalleparte,
-                 'idstatus'=>5,
+                 'idstatus'=>8,
                  'idoperador'=>$idoperador,
                  'idusuario' => $this->session->user_id,
                  'fecharegistro' => date('Y-m-d H:i:s')

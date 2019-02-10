@@ -76,6 +76,7 @@
                <?php else: ?>
 
                <?php endif;?>
+               <a target="_blank" href=" <?php echo base_url('parte/etiquetaCalidad/'.$detalle->iddetalleparte.'');?>" class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar etiqueta</a>
                <a target="_blank" href=" <?php echo base_url('calidad/generarPDFEnvio/'.$detalle->iddetalleparte.'');?>" class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
              </div>
              <div class="col-md-4">

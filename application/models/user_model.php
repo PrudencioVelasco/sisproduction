@@ -44,6 +44,36 @@ class User_model extends CI_Model
             return false;
         }
     }
+    public function showAllBodega()
+    {
+        $this->db->select('u.id as idusuario,u.name');    
+        $this->db->from('users u');
+        $this->db->join('users_rol ur', 'u.id = ur.id_user');
+        $this->db->join('rol r', 'ur.id_rol = r.id'); 
+        $this->db->where('r.id',4);
+        $this->db->where('u.activo',1);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+    public function showAllPacking()
+    {
+        $this->db->select('u.id as idusuario,u.name');    
+        $this->db->from('users u');
+        $this->db->join('users_rol ur', 'u.id = ur.id_user');
+        $this->db->join('rol r', 'ur.id_rol = r.id'); 
+        $this->db->where('r.id',3);
+        $this->db->where('u.activo',1);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
     public function showAllContar()
     {
         $this->db->select('u.*,r.id as idrol, r.rol as rolnombre');    

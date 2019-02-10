@@ -36,9 +36,9 @@
                                 <div class="col-md-6"></div>
                              </div>
                               <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
                                     <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control" v-model="search.text" @keyup="searchParte" name="search">
                                 </div>
                              </div>

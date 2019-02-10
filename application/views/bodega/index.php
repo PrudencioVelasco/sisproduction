@@ -19,9 +19,9 @@
                        <div class="notification is-success text-center px-5 top-middle" v-if="successMSG" @click="successMSG = false">{{successMSG}}</div>
                     </transition>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
                             <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control" v-model="search.text" @keyup="searchDetalleStatus" name="search">
                         </div>
                      </div>

@@ -138,6 +138,8 @@ $autoload['model'] = array('rol_model',
 						   'permiso_model',
 						   'turno_model',
 						   'parte_model',
+						   'reporte_model',
+						   'inventario_model',
 							 'bodega_model',
 							 'salida_model',
 						   'user_rol_model');

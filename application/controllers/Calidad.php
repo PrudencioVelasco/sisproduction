@@ -32,7 +32,7 @@ class Calidad extends CI_Controller {
     {
         $usuariosbodega = $this->calidad->allUsersBodega();
         $detalledeldetalleparte=$this->calidad->detalleDelDetallaParte($iddetalle);
-        
+       
         $dataerror = array();
         if($detalledeldetalleparte->idestatus == 6){
             $dataerror=$this->calidad->motivosCancelacionBodega($iddetalle);
