@@ -23,11 +23,21 @@ class Inventario extends CI_Controller
     public function index()
     {
        // Permission::grant(uri_string());
+       $query = $this->inventario->showAll();
+       $data = array('resultinventario' => $query );
         $this->load->view('header');
-        $this->load->view('inventario/index');
+        $this->load->view('inventario/index',$data);
         $this->load->view('footer');
         
     }
-    
+    public function showAll()
+    {
+        // Permission::grant(uri_string());
+        $query = $this->inventario->showAll();
+        if ($query) {
+            $result['inventarios'] = $this->inventario->showAll();
+        }
+        echo json_encode($result);
+    }
 }
 ?>

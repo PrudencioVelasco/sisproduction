@@ -22,7 +22,7 @@
                          <div class="col-md-6 col-sm-12 col-xs-12"></div>
 
                          <div class="col-md-6 col-sm-12 col-xs-12">
-                             <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control" v-model="search.text" @keyup="searchDetalleStatus" name="search">
+                             <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchDetalleStatus" name="search">
                          </div>
                       </div>
 

@@ -99,6 +99,7 @@
                         <li><a href="<?= base_url('/reporte/bodega') ?>"> Bodega</a> </li>
                       </ul>
                     </li>
+                    <li><a href="<?= base_url('/inventario/index') ?>"><i class="fa fa-check-square-o" aria-hidden="true"></i> Inventario</a> </li>
                   </ul>
                 </div>
               </div>

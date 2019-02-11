@@ -15,16 +15,14 @@ class Inventario_model extends CI_Model {
 
     public function showAll()
     {
-        $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name, p.activo');
-        $this->db->from('parte p');
-        $this->db->join('cliente c', 'p.idcliente=c.idcliente');
-        $this->db->join('users u', 'p.idusuario=u.id');
-        $query = $this->db->get();
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
+        $query =$this->db->query('select  c.nombre,p.numeroparte,
+        (select  sum(dp.pallet) totalpallet from  detalleparte dp
+        where  dp.idestatus = 8 and dp.idparte = p.idparte)  as totalpallet,
+        (select  sum(dp.cantidad) totalpallet from  detalleparte dp
+        where  dp.idestatus = 8 and dp.idparte = p.idparte)  as totalcajas
+        from parte p, cliente c 
+        where p.idcliente = c.idcliente');
+        return $query->result();
     }
  
 
