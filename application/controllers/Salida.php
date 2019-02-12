@@ -14,6 +14,7 @@ class Salida extends CI_Controller {
         $this->load->helper('url');
         $this->load->model('data_model');
         $this->load->model('parte_model', 'parte');
+        $this->load->model('client_model', 'cliente');
         $this->load->model('user_model', 'usuario');
         $this->load->model('bodega_model', 'bodega');
         $this->load->model('salida_model', 'salida');
@@ -32,6 +33,16 @@ class Salida extends CI_Controller {
         $query = $this->salida->showAllSalidas();
         if ($query) {
             $result['salidas'] = $this->salida->showAllSalidas();
+        }
+        echo json_encode($result);
+
+        // code...
+    }
+
+    public function showAllParte() {
+        $query = $this->salida->showPartesBodega();
+        if ($query) {
+            $result['partes'] = $this->salida->showPartesBodega();
         }
         echo json_encode($result);
 
@@ -66,14 +77,19 @@ class Salida extends CI_Controller {
                 'idcliente' => form_error('idcliente')
             );
         } else {
-            $data = array(
-                'numerosalida' => $this->generarCodigo(7),
+            $rowcliente = $this->cliente->detalleCliente($this->input->post('idcliente'));
+            $data = array( 
                 'idcliente' => $this->input->post('idcliente'),
                 'finalizado' => 0,
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
-            $this->salida->addSalida($data);
+            $idsalia =  $this->salida->addSalida($data);
+            $numerosalida=$rowcliente->abreviatura."-".date('Ymd')."-".$idsalia;
+            $dataupdate = array( 
+                'numerosalida' => $numerosalida
+            );
+            $this->salida->updateSalida($idsalia,$dataupdate);
         }
         echo json_encode($result);
     }

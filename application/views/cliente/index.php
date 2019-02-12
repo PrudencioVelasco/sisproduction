@@ -45,6 +45,7 @@
                                             <thead class="text-white bg-dark" >
                                             <th class="text-white">RFC</th>
                                             <th class="text-white">Nombre del cliente</th>
+                                            <th class="text-white">Abreviatura</th>
                                             <th class="text-white">Dirección</th>
                                             <th class="text-white">Estatus</th>
                                             <th class="text-white">Opción</th>
@@ -53,6 +54,7 @@
                                                 <tr v-for="row in clientes" class="table-default">
                                                     <td>{{row.rfc}}</td> 
                                                     <td>{{row.nombre}}</td> 
+                                                    <td>{{row.abreviatura}}</td> 
                                                     <td>{{row.direccion}}</td> 
                                                     <td >
                                                         <span v-if="row.activo==1" class="label label-success">Activo</span>

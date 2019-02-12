@@ -32,6 +32,16 @@ class Client_model extends CI_Model {
             return false;
         }
     }
+    public function detalleCliente($idcliente) {
+        // code...
+        $this->db->select('c.*');
+        $this->db->from('cliente c'); 
+        $this->db->where('c.idcliente', $idcliente);
+        $query = $this->db->get();
+
+        return $query->first_row();
+    }
+
        public function showAllClientesContar()
     {
         $query = $this->db->get('cliente'); 

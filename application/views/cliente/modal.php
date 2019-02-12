@@ -19,7 +19,14 @@
             </div> 
         </div>
         <div class="row">
-            <div class="col-md-12">
+        <div class="col-md-6">
+                <div class="form-group">
+                    <label><font color="red">*</font> Abreviatura</label>
+                    <input type="text" class="form-control" :class="{'is-invalid': formValidate.abreviatura}" name="nombre" v-model="newClient.abreviatura" autcomplete="off">
+                           <div class="text-danger" v-html="formValidate.abreviatura"> </div>
+                </div>  
+            </div> 
+            <div class="col-md-6">
                 <div class="form-group">
                     <label><font color="red">*</font> Dirección</label>
                     <input type="text" class="form-control" :class="{'is-invalid': formValidate.direccion}" name="nombre" v-model="newClient.direccion" autcomplete="off">
@@ -55,7 +62,14 @@
             </div> 
         </div> 
         <div class="row">
-            <div class="col-md-12">
+        <div class="col-md-6">
+                <div class="form-group">
+                    <label><font color="red">*</font> Abreviatura</label>
+                    <input type="text" class="form-control" :class="{'is-invalid': formValidate.abreviatura}" name="nombre" v-model="chooseClient.abreviatura">
+                           <div class="text-danger" v-html="formValidate.abreviatura"> </div>
+                </div> 
+            </div> 
+            <div class="col-md-6">
                 <div class="form-group">
                     <label><font color="red">*</font> Dirección</label>
                     <input type="text" class="form-control" :class="{'is-invalid': formValidate.direccion}" name="nombre" v-model="chooseClient.direccion">

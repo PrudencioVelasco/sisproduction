@@ -41,7 +41,8 @@
                             <br>
                              <table class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                 <thead class="text-white bg-dark" >
-                                   <th class="text-white">Número de salida</th>
+                                   <th class="text-white">No. Tranferencia</th>
+                                   <th class="text-white">No. Control</th>
                                    <th class="text-white">Cliente</th>
                                    <th class="text-white">Estatus</th>
                                    <th class="text-white">Usuario registro</th>
@@ -50,6 +51,7 @@
                                 </thead>
                                 <tbody class="table-light">
                                    <tr v-for="row in salidas" class="table-default">
+                                   <td>{{row.idsalida}}</td>
                                       <td>{{row.numerosalida}}</td>
                                       <td>{{row.nombre}}</td>
                                       <td>

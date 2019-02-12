@@ -64,6 +64,14 @@ class Client extends CI_Controller {
                 'errors' => array(
                     'required' => 'Campo obligatorio.'
                 )
+            ),
+            array(
+                'field' => 'abreviatura',
+                'label' => 'abreviatura',
+                'rules' => 'trim|required',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.'
+                )
             ), array(
                 'field' => 'direccion',
                 'label' => 'direccion',
@@ -107,6 +115,13 @@ class Client extends CI_Controller {
             array(
                 'field' => 'nombre',
                 'label' => 'nombre',
+                'rules' => 'trim|required',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.'
+                )
+            ),array(
+                'field' => 'abreviatura',
+                'label' => 'abreviatura',
                 'rules' => 'trim|required',
                 'errors' => array(
                     'required' => 'Campo obligatorio.'
