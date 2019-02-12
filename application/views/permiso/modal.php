@@ -4,14 +4,14 @@
    <div slot="body" class="row">
       <div class="col-md-12">
          <div class="form-group">
-            <label>* Permiso</label>
+            <label><font color="red">*</font> Permiso</label>
             <input type="text" class="form-control" :class="{'is-invalid': formValidate.uri}" name="rol" v-model="newPermiso.uri" autcomplete="off">
             <div class="text-danger" v-html="formValidate.uri"> </div>
          </div> 
       </div> 
       <div class="col-md-12">
          <div class="form-group">
-            <label> *Descripción</label> 
+            <label><font color="red">*</font> Descripción</label> 
             <textarea type="text" class="form-control" :class="{'is-invalid': formValidate.description}" name="description" v-model="newPermiso.description" >
                
             </textarea>
@@ -30,14 +30,14 @@
    <div slot="body" class="row">
       <div class="col-md-12">
          <div class="form-group">
-            <label>* Permiso</label>
+            <label><font color="red">*</font> Permiso</label>
             <input type="text" class="form-control" :class="{'is-invalid': formValidate.uri}" name="uri" v-model="choosePermiso.uri">
             <div class="text-danger" v-html="formValidate.uri"> </div>
          </div>
       </div>
       <div class="col-md-12">
          <div class="form-group">
-            <label>* Descripción</label>
+            <label><font color="red">*</font> Descripción</label>
             <input type="text" class="form-control" :class="{'is-invalid': formValidate.uri}" name="description" v-model="choosePermiso.description">
             <div class="text-danger" v-html="formValidate.description"> </div>
          </div>

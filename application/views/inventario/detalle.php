@@ -17,7 +17,7 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><strong class="text-success"><i class="fa fa-industry" aria-hidden="true"></i>
+                <h2><strong><i class="fa fa-industry" aria-hidden="true"></i>
                         Producción total por Mes</strong></h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -83,7 +83,7 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><strong class="text-success"><i class="fa fa-industry" aria-hidden="true"></i>
+                <h2><strong><i class="fa fa-industry" aria-hidden="true"></i>
                         Producción detallada por número de parte</strong></h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>

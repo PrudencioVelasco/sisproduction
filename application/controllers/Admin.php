@@ -14,15 +14,18 @@ class Admin extends CI_Controller
         $this->load->helper('url');
         $this->load->model('data_model');
         $this->load->model('user_model', 'user');
+         $this->load->model('admin_model', 'adminmodel');
         $this->load->library('permission');
         
 
     }
     public function index()
     {
-       
+       $datadetallada = $this->adminmodel->produccionDetalla();
+         $datatotal = $this->adminmodel->produccionTotal();
+       $data = array('datadetallada'=>$datadetallada,'datatotal'=>$datatotal);
         $this->load->view('header');
-        $this->load->view('admin/principal');
+        $this->load->view('admin/principal',$data);
         $this->load->view('footer');
        
     }

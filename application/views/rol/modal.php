@@ -4,7 +4,7 @@
    <div slot="body" class="row">
       <div class="col-md-12">
          <div class="form-group">
-            <label>* Rol</label>
+            <label><font color="red">*</font> Rol</label>
             <input type="text" class="form-control" :class="{'is-invalid': formValidate.rol}" name="rol" v-model="newRol.rol" autcomplete="off">
             <div class="text-danger" v-html="formValidate.rol"> </div>
          </div>
@@ -22,7 +22,7 @@
    <div slot="body" class="row">
       <div class="col-md-12">
          <div class="form-group">
-            <label>* Rol</label>
+            <label><font color="red">*</font> Rol</label>
             <input type="text" class="form-control" :class="{'is-invalid': formValidate.rol}" name="rol" v-model="chooseRol.rol">
             <div class="text-danger" v-html="formValidate.rol"> </div>
          </div>

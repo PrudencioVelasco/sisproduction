@@ -23,6 +23,7 @@
                   <th class="text-white">Estatus</th>
                   <th class="text-white">Pallet</th>
                   <th class="text-white">Cantidad</th>
+                   <th class="text-white">Revisión</th>
                   <th class="text-white">Fecha</th>
                   <th class="text-white">Opcion</th>
                 </thead>
@@ -35,6 +36,7 @@
                     </td>
                     <td>{{row.pallet}} </td>
                     <td>{{row.cantidad}} </td>
+                     <td>{{row.revision}} </td>
                     <td>{{row.fecharegistro}} </td>
                     <td>
                       <a href="javascript:void(0)" v-bind:href="'detalleenvio/'+ row.iddetalleparte"  class="btn btn-icons btn-rounded btn-success btn-xs"> <i class="fa fa-eye" aria-hidden="true"></i> Ver detalle</a>

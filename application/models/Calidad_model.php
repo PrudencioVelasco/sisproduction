@@ -15,7 +15,7 @@ class Calidad_model extends CI_Model {
 
     public function showAllEnviados($idusuario)
     {
-        $this->db->select('d.iddetalleparte,d.folio,p.idparte,c.idcliente, s.idestatus, p.numeroparte,c.nombre,u.name,uo.name as nombreoperador,d.fecharegistro,d.pallet,d.cantidad,s.nombrestatus');
+        $this->db->select('d.iddetalleparte,d.folio,p.idparte,d.revision,c.idcliente, s.idestatus, p.numeroparte,c.nombre,u.name,uo.name as nombreoperador,d.fecharegistro,d.pallet,d.cantidad,s.nombrestatus');
         $this->db->from('parte p');
         $this->db->join('cliente c', 'p.idcliente=c.idcliente');
         $this->db->join('detalleparte d', 'p.idparte=d.idparte');

@@ -15,13 +15,19 @@ class Inventario_model extends CI_Model {
 
     public function showAll()
     {
-        $query =$this->db->query('select  c.nombre,p.numeroparte,
-        (select  sum(dp.pallet) totalpallet from  detalleparte dp
-        where  dp.idestatus = 8 and dp.idparte = p.idparte)  as totalpallet,
-        (select  sum(dp.cantidad) totalpallet from  detalleparte dp
-        where  dp.idestatus = 8 and dp.idparte = p.idparte)  as totalcajas
-        from parte p, cliente c 
-        where p.idcliente = c.idcliente');
+        $query =$this->db->query('SELECT c.nombre,
+                                        p.numeroparte,
+                                        (SELECT COALESCE(Sum(dp.pallet), 0) totalpallet
+                                         FROM   detalleparte dp
+                                         WHERE  dp.idestatus = 8
+                                                AND dp.idparte = p.idparte) AS totalpallet,
+                                        (SELECT COALESCE(Sum(dp.cantidad), 0) totalpallet
+                                         FROM   detalleparte dp
+                                         WHERE  dp.idestatus = 8
+                                                AND dp.idparte = p.idparte) AS totalcajas
+                                 FROM   parte p,
+                                        cliente c
+                                 WHERE  p.idcliente = c.idcliente');
         return $query->result();
     }
  

@@ -9,17 +9,17 @@
 
 
          <div class="form-group">
-            <label>* Usuario</label>
+            <label><font color="red">*</font> Usuario</label>
             <input type="text" class="form-control" :class="{'is-invalid': formValidate.usuario}" name="usuario" v-model="newUser.usuario" autcomplete="off">
             <div class="text-danger" v-html="formValidate.usuario"> </div>
          </div>
           <div class="form-group">
-            <label>* Contraseña</label>
+            <label><font color="red">*</font> Contraseña</label>
             <input type="password" class="form-control" :class="{'is-invalid': formValidate.password2}" name="password2" v-model="newUser.password2" autcomplete="off" >
             <div class="text-danger" v-html="formValidate.password2"></div>
          </div>
           <div class="form-group">
-            <label>* Rol</label>
+            <label><font color="red">*</font> Rol</label>
              <select v-model="newUser.rol"  :class="{'is-invalid': formValidate.rol}"class="form-control">
                 <option   v-for="option in roles" v-bind:value="option.id">
                 {{ option.rol }}
@@ -30,17 +30,17 @@
       </div>
       <div class="col-md-6">
          <div class="form-group">
-            <label>* Nombre</label>
+            <label><font color="red">*</font> Nombre</label>
             <input type="text" class="form-control" :class="{'is-invalid': formValidate.name}" name="name" v-model="newUser.name" autcomplete="off">
             <div class="text-danger" v-html="formValidate.name"></div>
          </div>
           <div class="form-group">
-            <label>* Repita Contraseña</label>
+            <label><font color="red">*</font> Repita Contraseña</label>
             <input class="form-control" :class="{'is-invalid': formValidate.password1}" name="password1" v-model="newUser.password1" type="password" autcomplete="off">
             <div class="text-danger" v-html="formValidate.password1"></div>
          </div>
          <div class="form-group">
-           <label>* Turno</label>
+           <label><font color="red">*</font> Turno</label>
             <select v-model="newUser.idturno"  :class="{'is-invalid': formValidate.idturno}"class="form-control">
                <option   v-for="option in turnos" v-bind:value="option.idturno">
                {{ option.nombreturno }}
@@ -65,13 +65,13 @@
       <div class="col-md-6">
 
          <div class="form-group">
-            <label>* Nombre</label>
+            <label><font color="red">*</font> Nombre</label>
             <input type="text" class="form-control" :class="{'is-invalid': formValidate.name}" name="name" v-model="chooseUser.name">
             <div class="text-danger" v-html="formValidate.name"> </div>
          </div>
 
            <div class="form-group">
-            <label>* Rol</label>
+            <label><font color="red">*</font> Rol</label>
               <select class="form-control" v-model="chooseUser.idrol" >
                   <option v-for="option in roles"  :selected="option.id == chooseUser.idrol ? 'selected' : ''" :value="option.id" >
                       {{ option.rol }}
@@ -83,7 +83,7 @@
       </div>
       <div class="col-md-6">
          <div class="form-group">
-            <label>* Usuario</label>
+            <label><font color="red">*</font> Usuario</label>
             <input type="text" class="form-control" :class="{'is-invalid': formValidate.usuario}" name="usuario" v-model="chooseUser.usuario" disabled="disabled">
             <div class="text-danger" v-html="formValidate.usuario"></div>
          </div>
@@ -106,7 +106,7 @@
    <div slot="body" class="row">
       <div class="col-md-6">
          <div class="form-group">
-            <label>* Contraseña</label>
+            <label><font color="red">*</font> Contraseña</label>
 
 
              <input type="password" class="form-control" :class="{'is-invalid': formValidate.password1}" name="password1" v-model="chooseUser.password1">
@@ -117,7 +117,7 @@
       </div>
       <div class="col-md-6">
          <div class="form-group">
-            <label>* Repita contraseña</label>
+            <label><font color="red">*</font> Repita contraseña</label>
            <input type="password" class="form-control" :class="{'is-invalid': formValidate.password2}" name="password2" v-model="chooseUser.password2">
             <div class="text-danger" v-html="formValidate.password2"></div>
          </div>

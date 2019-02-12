@@ -36,8 +36,8 @@
                                     <tr>
                                        <td><?php echo $row->nombre; ?></td>
                                        <td><?php echo $row->numeroparte; ?></td>
-                                       <td><?php echo $row->totalpallet;?></td>
-                                       <td><?php echo $row->totalcajas;?></td>
+                                       <td><?php echo number_format($row->totalpallet);?></td>
+                                       <td><?php echo number_format($row->totalcajas);?></td>
                                        <td></td>  
                                     </tr>
                                     <?php } ?>
