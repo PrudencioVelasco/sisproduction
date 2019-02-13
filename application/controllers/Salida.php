@@ -128,12 +128,13 @@ class Salida extends CI_Controller {
 
     public function terminarOrdenSalida() {
         // code...
-        $idsalida = $_POST['idsalida'];
+        $idsalida = $this->input->post('idsalida');
         $dataupdate = array(
             'finalizado' => 1,
             'idusuario' => $this->session->user_id,
             'fecharegistro' => date('Y-m-d H:i:s'));
         $this->salida->updateSalida($idsalida, $dataupdate);
+        redirect('/salida/detalleSalida/' . $idsalida);
     }
 
     public function searchPartes() {

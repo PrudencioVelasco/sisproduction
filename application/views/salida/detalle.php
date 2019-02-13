@@ -193,8 +193,11 @@
                         <?php if ($detallesalida->finalizado == 0) { ?>
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12" align="right">
-                                    <button type="button" id="btnterminarorden" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i>
+                                <form method="POST" action="<?= base_url('salida/terminarOrdenSalida') ?>">
+                                  <input type="hidden" name="idsalida" value="<?php echo $idsalida; ?>"/>
+                                   <button type="submit" id="btnterminarorden" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i>
                                         Terminar orden</button>
+                                </form>
                                 </div>
                             </div>
                         <?php } ?>
