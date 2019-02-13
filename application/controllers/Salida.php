@@ -78,18 +78,18 @@ class Salida extends CI_Controller {
             );
         } else {
             $rowcliente = $this->cliente->detalleCliente($this->input->post('idcliente'));
-            $data = array( 
+            $data = array(
                 'idcliente' => $this->input->post('idcliente'),
                 'finalizado' => 0,
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
-            $idsalia =  $this->salida->addSalida($data);
-            $numerosalida=$rowcliente->abreviatura."-".date('Ymd')."-".$idsalia;
-            $dataupdate = array( 
+            $idsalia = $this->salida->addSalida($data);
+            $numerosalida = $rowcliente->abreviatura . "-" . date('Ymd') . "-" . $idsalia;
+            $dataupdate = array(
                 'numerosalida' => $numerosalida
             );
-            $this->salida->updateSalida($idsalia,$dataupdate);
+            $this->salida->updateSalida($idsalia, $dataupdate);
         }
         echo json_encode($result);
     }
@@ -120,40 +120,64 @@ class Salida extends CI_Controller {
         }
     }
 
-    public function agregarParteOrden() {
+    function eliminarParteOrden($idordensalida, $idsalida) {
+
+        $this->salida->eliminarParteOrden($idordensalida);
+        redirect('/salida/detalleSalida/' . $idsalida);
+    }
+
+    public function terminarOrdenSalida() {
         // code...
-        $numeroparte = $_POST['numeroparte'];
-        $cantidadpallet = $_POST['cantidadpallet'];
-        $cantidadcaja = $_POST['cantidadcaja'];
-        $revision = $_POST['revision'];
         $idsalida = $_POST['idsalida'];
-        $datadetalle = $this->salida->validarExistenciaNumeroParte($numeroparte);
-        $id = $datadetalle->idparte;
+        $dataupdate = array(
+            'finalizado' => 1,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s'));
+        $this->salida->updateSalida($idsalida, $dataupdate);
+    }
+
+    public function searchPartes() {
+        //Permission::grant(uri_string());
+        $value = $this->input->post('text');
+        $query = $this->salida->searchPartes($value);
+        if ($query) {
+            $result['partes'] = $query;
+        }
+
+        echo json_encode($result);
+    }
+
+    function agregarParteOrdenDetallado($iddetalleparte, $idsalida) {
+
+        $datadetallesalida = $this->salida->detalleSalida($idsalida);
+        $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
+        $datadetalleparte = $this->salida->showPartesDetalle($iddetalleparte);
+
+        $data = array(
+            'detallesalida' => $datadetallesalida,
+            'detalleorden' => $datadetalleorden,
+            'idsalida' => $idsalida,
+            'detalleparte' => $datadetalleparte);
+        $this->load->view('header');
+        $this->load->view('salida/detalle', $data);
+        $this->load->view('footer');
+    }
+
+    public function agregarParteOrden() {
+
 
         $datainsert = array(
-            'idsalida' => $idsalida,
-            'idparte' => $id,
-            'pallet' => $cantidadpallet,
-            'caja' => $cantidadcaja,
-            'revision' => $revision,
+            'idsalida' => $this->input->post('idsalida'),
+            'iddetalleparte' => $this->input->post('iddetalleparte'),
+            'pallet' => $this->input->post('pallet'),
+            'caja' => $this->input->post('cajas'),
+            'revision' => '0',
             'idusuario' => $this->session->user_id,
             'fecharegistro' => date('Y-m-d H:i:s'));
         $this->salida->addOrdenSalida($datainsert);
+        redirect('/salida/detalleSalida/' . $this->input->post('idsalida'));
     }
-    function eliminarParteOrden() {
-        $idordensalida = $_POST['idordensalida'];
-        $this->salida->eliminarParteOrden($idordensalida);
-    }
-    public function terminarOrdenSalida()
-    {
-      // code...
-      $idsalida = $_POST['idsalida'];
-      $dataupdate = array(
-          'finalizado' => 1,
-          'idusuario' => $this->session->user_id,
-          'fecharegistro' => date('Y-m-d H:i:s'));
-      $this->salida->updateSalida($idsalida,$dataupdate);
-    }
+
 }
 
 ?>

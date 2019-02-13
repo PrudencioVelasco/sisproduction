@@ -91,6 +91,7 @@ class Client extends CI_Controller {
             $data = array(
                 'rfc' => $this->input->post('rfc'),
                 'nombre' => $this->input->post('nombre'),
+                'abreviatura' => $this->input->post('abreviatura'),
                 'direccion' => $this->input->post('direccion'),
                 'activo' => 1,
                 'idusuario' => $this->session->user_id,

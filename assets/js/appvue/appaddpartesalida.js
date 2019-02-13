@@ -31,7 +31,7 @@ Vue.component('modal', {//modal
 var v = new Vue({
     el: '#app',
     data: {
-        url: 'http://localhost/sisproduction/',
+        url: 'http://localhost:8383/sisproduction/',
         addModal: false,
         editModal: false,
         //passwordModal:false,
@@ -64,7 +64,7 @@ var v = new Vue({
         },
         searchParte() {
             var formData = v.formData(v.search);
-            axios.post(this.url + "salida/searchClient", formData).then(function (response) {
+            axios.post(this.url + "salida/searchPartes", formData).then(function (response) {
                 if (response.data.partes == null) {
                     v.noResult()
                 } else {

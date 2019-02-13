@@ -17,8 +17,8 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><strong class="text-success"><i class="fa fa-industry" aria-hidden="true"></i>
-                        Producción total por Mes</strong></h2>
+                <h2 class="text-success"> <i class="fa fa-industry" aria-hidden="true"></i>
+                        Producción total por Mes </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
@@ -42,8 +42,8 @@
                         <tr>
 
                             <th>Mes</th>
-                            <th>Subtotal pallet</th>
-                            <th>Subtotal cajas</th> 
+                            <th>Sub total pallet</th>
+                            <th>Sub total cajas</th> 
                         </tr>
                     </thead>
                     <tbody>
@@ -83,8 +83,8 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><strong class="text-success"><i class="fa fa-industry" aria-hidden="true"></i>
-                        Producción detallada por número de parte</strong></h2>
+                <h2 class="text-success"><i class="fa fa-industry" aria-hidden="true"></i>
+                        Producción detallada por número de parte</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
@@ -108,8 +108,8 @@
                         <tr>
                             <th>N. Parte</th>
                             <th>Mes</th>
-                            <th>Subtotal pallet</th>
-                            <th>Subtotal cajas</th> 
+                            <th>Sub total pallet</th>
+                            <th>Sub total cajas</th> 
                         </tr>
                     </thead>
                     <tbody>
