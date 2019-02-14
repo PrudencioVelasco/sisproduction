@@ -206,7 +206,7 @@
                         <?php if ($detallesalida->finalizado == 1) { ?>
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12"> 
-                                    <a href="<?php echo site_url('salida/generarPDFOrden/'.$idsalida) ?>"  class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    <a target=”_blank” href="<?php echo site_url('salida/generarPDFOrden/'.$idsalida) ?>"  class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         Descargar Orden</a>
                                 </div>
                             </div>

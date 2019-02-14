@@ -180,14 +180,23 @@ class Salida extends CI_Controller {
     }
 
     public function generarPDFOrden($idsalida) {
-        $this->load->library('tcpdf');
+        $this->load->library('tcpdf'); 
+        $detalle= $this->salida->detalleSalidaOrden($idsalida); 
+        $lista= $this->salida->partesIncluidasOrden($idsalida); 
+        var_dump($lista);
+        $nombrecliente =  $detalle->nombre;
+        $direccioncliente = $detalle->direccion; 
+        $fecha = date('d-m-Y',strtotime($detalle->fecharegistro));
+        $hora =  date('h:i A',strtotime($detalle->fecharegistro));
+        $numerosalida = $detalle->numerosalida;
+        $numerotransferencia = $detalle->idsalida;
         // create new PDF document
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('Nicola Asuni');
-        $pdf->SetTitle('TCPDF Example 028');
+        $pdf->SetTitle('Generar Orden de Salida');
         $pdf->SetSubject('TCPDF Tutorial');
         $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
@@ -218,270 +227,291 @@ $html = '
 			.color{
 		background-color:#999;
 		}
-    </style>
-    <table width="780" cellpadding="1" cellspacing="1">
-    <tr>
-      <td width="310" class="color bordes" colspan="3" align="center" style="font-size:9px">FROM</td>
-      <td width="150">&nbsp;</td>
-      <td width="80">&nbsp;</td>
-      <td width="80" align="center" class="color bordes" style="font-size:9px">DATE</td>
-      <td width="160" colspan="2" class="color bordes" align="center" style="font-size:9px">TRANSFER SHEET</td>
+    </style> 
+<table width="780" cellpadding="1" cellspacing="1">
+  <tr>
+    <td width="310" class="color bordes" colspan="3" align="center" style="font-size:9px">FROM</td>
+    <td width="150">&nbsp;</td>
+    <td width="80">&nbsp;</td>
+    <td width="80" align="center" class="color bordes" style="font-size:9px">DATE</td>
+    <td width="160" colspan="2" class="color bordes" align="center" style="font-size:9px">TRANSFER SHEET</td>
+  </tr>
+  <tr>
+    <td width="310" colspan="3" rowspan="4" align="center" class="borde-l borde-r borde-b" style="font-size:11px">CALLE RUBULIDA NO 33 PARQUE INDUSTRIAL PALACO MEXICALI</td>
+    <td width="150">&nbsp;</td>
+    <td width="80">&nbsp;</td>
+    <td width="80" class="borde-l borde-r borde-b" align="center" style="font-size:7px">'.$fecha.'</td>
+    <td width="160" colspan="2" class="borde-r" align="center" style="font-size:9px">'.$numerosalida.'</td>
+  </tr>
+  <tr>
+    <td width="150">&nbsp;</td>
+    <td width="80">&nbsp;</td>
+	<td width="80" align="center"  class="borde-l borde-r" style="font-size:7px">'.$hora.'</td>
+    <td width="160" colspan="2" class="borde-r">&nbsp;</td>
+    
+  </tr>
+  <tr>
+    <td width="150">&nbsp;</td>
+    <td width="80" align="center" style="font-size:9px">SHIP TO:</td>
+<td width="240" colspan="3" class="color bordes" align="center" style="font-size:9px">'.$nombrecliente.'</td>
+  </tr>
+  <tr>
+    <td width="150">&nbsp;</td>
+    <td width="80" align="center" style="font-size:9px">ADDRESS:</td>
+<td width="240" colspan="3" rowspan="3" align="center" class="borde-r borde-l borde-b" style="font-size:12px">'.$direccioncliente.'</td>
+  </tr>
+  <tr>
+    <td width="130"  class="color bordes" align="center" style="font-size:9px">P.O Number</td>
+    <td  width="90" class="color bordes" align="center" style="font-size:9px">Terms</td>
+    <td width="90" class="color bordes" align="center" style="font-size:9px">CNT</td>
+    <td width="150">&nbsp;</td>
+    <td width="80">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="130" class="bordes">&nbsp;</td>
+    <td width="90" class="bordes">&nbsp;</td>
+    <td width="90" class="bordes" align="center">'.$numerotransferencia.'</td>
+    <td width="150">&nbsp;</td>
+    <td width="80">&nbsp;</td>
+  </tr>
+</table>
+<br/><br/>
+<table width="780" border="1">
+  <tr>
+    <td width="130" align="center" class="color" style="font-size:9px">Item Code</td>
+    <td width="180" colspan="2" align="center" class="color" style="font-size:9px">Description</td>
+    <td width="90" colspan="2" class="color">&nbsp;</td>
+    <td width="90" colspan="2" align="center" class="color" style="font-size:9px">Partial</td>
+    <td width="45" align="center" class="color" style="font-size:9px">Total</td>
+    <td width="250" colspan="3"  align="center"  class="color"  style="font-size:9px">TARMIMAS FAVOR DE RETORNAR A WOORI</td>
     </tr>
-    <tr>
-      <td width="310" colspan="3" align="center" style="font-size:7px" class="borde-l borde-r">BO KWANG PRINTING, S.A. DE C.V.</td>
-      <td width="150">&nbsp;</td>
-      <td width="80">&nbsp;</td>
-      <td width="80" class="borde-l borde-r borde-b" align="center" style="font-size:7px">15-Jan-19</td>
-      <td width="160" colspan="2" class="borde-r" align="center" style="font-size:9px">TJ-20190115-01</td>
-    </tr>
-    <tr>
-      <td width="310" colspan="3" align="center" style="font-size:7px" class="borde-l borde-r">CALLE RUBULIDA NO 33</td>
-      <td width="150">&nbsp;</td>
-      <td width="80">&nbsp;</td>
-    <td width="80" align="center"  class="borde-l borde-r" style="font-size:7px">9:00PM</td>
-      <td width="160" colspan="2" class="borde-r">&nbsp;</td>
-      
-    </tr>
-    <tr>
-      <td width="310" colspan="3" align="center" style="font-size:7px" class="borde-l borde-r">PARQUE INDUSTRIAL PALACO</td>
-      <td width="150">&nbsp;</td>
-      <td width="80" align="center" style="font-size:9px">SHIP TO:</td>
-  <td width="240" colspan="3" class="color bordes" align="center" style="font-size:9px">WOORI TIJUANA</td>
-    </tr>
-    <tr>
-      <td width="310" colspan="3" align="center" style="font-size:7px" class="borde-l borde-r">MEXICALI</td>
-      <td width="150">&nbsp;</td>
-      <td width="80" align="center" style="font-size:9px">ADDRESS:</td>
-  <td width="240" colspan="3" align="center" class="borde-r borde-l" style="font-size:7px">BO KWANG PRINTING S.A. DE C.V. CALLE 5 NORTE CD</td>
-    </tr>
-    <tr>
-      <td width="130"  class="color bordes" align="center" style="font-size:9px">P.O Number</td>
-      <td  width="90" class="color bordes" align="center" style="font-size:9px">Terms</td>
-      <td width="90" class="color bordes" align="center" style="font-size:9px">CNT</td>
-      <td width="150">&nbsp;</td>
-      <td width="80">&nbsp;</td>
-    <td width="240" colspan="3" align="center" class="borde-r borde-l" style="font-size:7px">INDUSTRIAL OTAY TIJUANA BAJA CALIFORNIA MEXICO CP</td>
-    </tr>
-    <tr>
-      <td width="130" class="bordes">&nbsp;</td>
-      <td width="90" class="bordes">&nbsp;</td>
-      <td width="90" class="bordes" align="center">3317</td>
-      <td width="150">&nbsp;</td>
-      <td width="80">&nbsp;</td>
-      <td width="240" colspan="3" align="center" style="font-size:7px" class="borde-b borde-l borde-r">2244</td>
-    </tr>
-  </table>
-  <br/><br/>
-  <table width="780" border="1">
-    <tr>
-      <td width="130" align="center" class="color" style="font-size:9px">Item Code</td>
-      <td width="180" colspan="2" align="center" class="color" style="font-size:9px">Description</td>
-      <td width="90" colspan="2" class="color">&nbsp;</td>
-      <td width="90" colspan="2" align="center" class="color" style="font-size:9px">Partial</td>
-      <td width="45" align="center" class="color" style="font-size:9px">Total</td>
-      <td width="250" colspan="3"  align="center"  class="color"  style="font-size:9px">TARMIMAS FAVOR DE RETORNAR A WOORI</td>
-      </tr>
-    <tr>
-      <td width="130" align="center" style="font-size:9px">200-32CT-002G-ATV</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">(skd) ATV-32CT</td>
-      <td width="45" align="right" style="font-size:9px">4</td>
-      <td width="45" align="right" style="font-size:9px">250</td>
-      <td width="45" align="right" style="font-size:9px">1</td>
-      <td width="45" align="right" style="font-size:9px">132</td>
-      <td width="45" align="right" style="font-size:9px">1,132</td>
+    ';
+    $sumacajas = 0;
+    $sumapallet = 0;
+    $sumatotal= 0;
+    foreach($lista as $det){
+      $sumacajas+=$det->caja;
+      $sumapallet+=$det->pallet;
+      $sumatotal+=$sumacajas;
+      $html.='<tr>
+      <td width="130" align="center" style="font-size:9px">&nbsp;'.$det->numeroparte.'&nbsp;</td>
+      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;'.$det->modelo.'&nbsp;</td>';
+     if($det->pallet > 0){ 
+      $html.='<td width="45" align="right" style="font-size:9px">&nbsp;'.number_format($det->pallet).'&nbsp;&nbsp;</td>';
+     }else{
+      $html.='<td width="45" align="right" style="font-size:9px"> </td>';
+     }
+     if($det->pallet > 0){ 
+      $html.='<td width="45" align="right" style="font-size:9px">&nbsp;'.number_format($det->caja).'&nbsp;&nbsp;</td>';
+    }else{
+      $html.='<td width="45" align="right" style="font-size:9px"></td>';
+     }
+     if($det->pallet == 0){ 
+      $html.='<td width="45" align="right" style="font-size:9px">0&nbsp;&nbsp;</td>';
+    }else{
+      $html.='<td width="45" align="right" style="font-size:9px"></td>';
+    }
+      if($det->pallet == 0){ 
+      $html.='<td width="45" align="right" style="font-size:9px">'.number_format($det->caja).'&nbsp;&nbsp;</td>';
+      }else{
+        $html.='<td width="45" align="right" style="font-size:9px"></td>';
+      }
+      $html.='<td width="45" align="right" style="font-size:9px">'.number_format($sumacajas).'&nbsp;&nbsp;</td>
       <td width="45" style="font-size:9px">&nbsp;</td>
       <td width="45" style="font-size:9px">&nbsp;</td>
       <td width="160" style="font-size:9px">&nbsp;</td>
-    </tr>
+      </tr>';
+    }
+    $html.=' 
+  <tr>
+    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="160">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="160">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="160">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="160">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="160">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="160">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="160">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="160">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="160">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="160">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="160">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="160">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+    <td width="45" align="center" style="font-size:9px">Total</td>
+    <td width="45" align="right" style="font-size:9px">'.number_format($sumatotal).'&nbsp;&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="45">&nbsp;</td>
+    <td width="160">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="220" colspan="2" class="color" style="font-size:9px">&nbsp;Dato de salida</td>
+    <td width="90" style="font-size:9px" class="color" align="center">Hora de salida</td>
+    <td width="475" colspan="8" class="color" style="font-size:9px;"> &nbsp;Elaboro</td>
+  </tr>
+  <tr>
+    <td width="130" style="font-size:9px" align="center">Nombre chofer</td>
+    <td width="90" style="font-size:9px" align="center">Fecha</td>
+    <td width="90" style="font-size:9px">&nbsp;</td>
+	<td width="475" colspan="8" style="font-size:10px">&nbsp;'.$detalle->name.'</td>
+  </tr>
+  <tr>
+    <td width="130" style="font-size:9px">&nbsp;</td>
+    <td width="90" style="font-size:9px">&nbsp;</td>
+    <td width="565" colspan="9">&nbsp;</td>
+    
+  </tr>
+</table>
+<br /><br />
+<table width="780" cellpadding="1" cellspacing="1">
+  <tr>
+    <td align="right" style="font-size:9px">WBKP-AL-FO-004</td>
+  </tr>
     <tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="160">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="160">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="160">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="160">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="160">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="160">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="160">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="160">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="160">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="160">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="160">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="160">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-      <td width="45" align="center" style="font-size:9px">Total</td>
-      <td width="45" align="right" style="font-size:9px">2,562</td>
-      <td width="45">&nbsp;</td>
-      <td width="45">&nbsp;</td>
-      <td width="160">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="220" colspan="2" class="color" style="font-size:9px">Dato de salida</td>
-      <td width="90" style="font-size:9px" class="color" align="center">Hora de salida</td>
-      <td width="475" colspan="8" class="color">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" style="font-size:9px" align="center">Nombre chofer</td>
-      <td width="90" style="font-size:9px" align="center">Fecha</td>
-      <td width="90" style="font-size:9px">&nbsp;</td>
-    <td width="475" colspan="8">&nbsp;</td>
-    </tr>
-    <tr>
-      <td width="130" style="font-size:9px">&nbsp;</td>
-      <td width="90" style="font-size:9px">&nbsp;</td>
-      <td width="565" colspan="9">&nbsp;</td>
-      
-    </tr>
-  </table>
-  <br /><br />
-  <table width="780" cellpadding="1" cellspacing="1">
-    <tr>
-      <td align="right" style="font-size:9px">WBKP-AL-FO-004</td>
-    </tr>
-      <tr>
-      <td align="right" style="font-size:9px">Rev. 00</td>
-    </tr>
-  </table>
+    <td align="right" style="font-size:9px">Rev. 00</td>
+  </tr>
+</table>
 ';
 
 // output the HTML content
         $pdf->writeHTML($html, true, false, true, false, '');
 //Close and output PDF document
-          ob_end_clean();
+        ob_end_clean();
         $pdf->Output('My-File-Name.pdf', 'I');
     }
 

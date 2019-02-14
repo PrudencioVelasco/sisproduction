@@ -156,13 +156,27 @@ class Salida_model extends CI_Model {
     }
 
     public function detalleSalidaOrden($idsalida) {
-        $this->db->select('c.rfc, c.nombre, c.direccion, s.idsalida, s.numerosalida');
+        $this->db->select('c.rfc, c.nombre, c.direccion,u.name, s.idsalida, s.numerosalida, s.fecharegistro');
         $this->db->from('cliente c');
         $this->db->join('salida s', 'c.idcliente=s.idcliente'); 
+        $this->db->join('users u', 's.idusuario=u.id'); 
         $this->db->where('s.idsalida', $idsalida); 
         $query = $this->db->get();
-
         return $query->first_row();
+    }
+    public function partesIncluidasOrden($idsalida) {
+        // code...
+        $this->db->select('p.numeroparte,dp.modelo,dp.revision, os.pallet, os.caja');
+        $this->db->from('detalleparte dp');
+        $this->db->join('ordensalida os', 'dp.iddetalleparte=os.iddetalleparte');
+        $this->db->join('parte p', 'p.idparte=dp.idparte');
+        $this->db->where('os.idsalida', $idsalida);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
     }
 
 }
