@@ -31,7 +31,7 @@ class Salida_model extends CI_Model {
         $this->db->select('p.idparte, dp.iddetalleparte,p.numeroparte,dp.folio,dp.iddetalleparte, dp.revision, dp.modelo');
         $this->db->from('parte p');
         $this->db->join('detalleparte dp', 'dp.idparte=p.idparte');
-        $this->db->where('dp.idestatus', 8); 
+        $this->db->where('dp.idestatus', 8);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -39,14 +39,15 @@ class Salida_model extends CI_Model {
             return false;
         }
     }
-       public function showPartesDetalle($iddetalleparte) {
+
+    public function showPartesDetalle($iddetalleparte) {
         $this->db->select('p.idparte, dp.iddetalleparte,p.numeroparte,dp.folio,dp.iddetalleparte, dp.revision, dp.modelo');
         $this->db->from('parte p');
         $this->db->join('detalleparte dp', 'dp.idparte=p.idparte');
-        $this->db->where('dp.iddetalleparte', $iddetalleparte); 
-        $this->db->where('dp.idestatus', 8); 
+        $this->db->where('dp.iddetalleparte', $iddetalleparte);
+        $this->db->where('dp.idestatus', 8);
         $query = $this->db->get();
-        
+
         return $query->first_row();
     }
 
@@ -69,7 +70,7 @@ class Salida_model extends CI_Model {
     }
 
     public function addSalida($data) {
-          $this->db->insert('salida', $data);
+        $this->db->insert('salida', $data);
         return $this->db->insert_id();
     }
 
@@ -89,16 +90,16 @@ class Salida_model extends CI_Model {
         return $query->first_row();
     }
 
-   /* public function validarExistenciaNumeroParte($numeroparte) {
-        // code...
-        $this->db->select('p.idparte,p.numeroparte,dp.modelo, dp.revision,dp.pallet, dp.cantidad, dp.linea');
-        $this->db->from('detalleparte dp');
-        $this->db->join('parte p', 'dp.idparte=p.idparte');
-        $this->db->where('p.numeroparte', $numeroparte);
-        $this->db->where('dp.idestatus', 8);
-        $query = $this->db->get();
-        return $query->first_row();
-    }*/
+    /* public function validarExistenciaNumeroParte($numeroparte) {
+      // code...
+      $this->db->select('p.idparte,p.numeroparte,dp.modelo, dp.revision,dp.pallet, dp.cantidad, dp.linea');
+      $this->db->from('detalleparte dp');
+      $this->db->join('parte p', 'dp.idparte=p.idparte');
+      $this->db->where('p.numeroparte', $numeroparte);
+      $this->db->where('dp.idestatus', 8);
+      $query = $this->db->get();
+      return $query->first_row();
+      } */
 
     public function posicionPalletBodega($iddetalleparte) {
         // code...
@@ -113,13 +114,13 @@ class Salida_model extends CI_Model {
             return false;
         }
     }
-     public function eliminarParteOrden($id)
-    {
-        $this->db->where('idordensalida',$id);
+
+    public function eliminarParteOrden($id) {
+        $this->db->where('idordensalida', $id);
         return $this->db->delete('ordensalida');
     }
-    public function updateSalida($id, $field)
-    {
+
+    public function updateSalida($id, $field) {
         $this->db->where('idsalida', $id);
         $this->db->update('salida', $field);
         if ($this->db->affected_rows() > 0) {
@@ -127,24 +128,23 @@ class Salida_model extends CI_Model {
         } else {
             return false;
         }
-
     }
-      public function  searchPartes($match)
-    {
+
+    public function searchPartes($match) {
         $field = array(
-            'p.idparte', 
+            'p.idparte',
             'dp.iddetalleparte',
             'p.numeroparte',
             'dp.folio',
-            'dp.iddetalleparte', 
-            'dp.revision', 
+            'dp.iddetalleparte',
+            'dp.revision',
             'dp.modelo'
         );
 
         $this->db->select('p.idparte, dp.iddetalleparte,p.numeroparte,dp.folio,dp.iddetalleparte, dp.revision, dp.modelo');
         $this->db->from('parte p');
         $this->db->join('detalleparte dp', 'dp.idparte=p.idparte');
-        $this->db->where('dp.idestatus', 8); 
+        $this->db->where('dp.idestatus', 8);
         $this->db->like('concat(' . implode(',', $field) . ')', $match);
         $query = $this->db->get();
 
@@ -153,6 +153,16 @@ class Salida_model extends CI_Model {
         } else {
             return false;
         }
+    }
+
+    public function detalleSalidaOrden($idsalida) {
+        $this->db->select('c.rfc, c.nombre, c.direccion, s.idsalida, s.numerosalida');
+        $this->db->from('cliente c');
+        $this->db->join('salida s', 'c.idcliente=s.idcliente'); 
+        $this->db->where('s.idsalida', $idsalida); 
+        $query = $this->db->get();
+
+        return $query->first_row();
     }
 
 }

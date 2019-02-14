@@ -33,7 +33,9 @@
                         <br>
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
+                                 <?php if ($detallesalida->finalizado == 0) { ?>
                                 <button type="button" class="btn  btn-round btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-search" aria-hidden="true"></i> Buscar parte</button>
+                                 <?php  } ?>
                                 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
@@ -203,9 +205,9 @@
                         <?php } ?>
                         <?php if ($detallesalida->finalizado == 1) { ?>
                             <div class="row">
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <button type="button" id="btnimprimir" class="btn btn-default"><i class="fa fa-print" aria-hidden="true"></i>
-                                        Imprimir Orden</button>
+                                <div class="col-md-12 col-sm-12 col-xs-12"> 
+                                    <a href="<?php echo site_url('salida/generarPDFOrden/'.$idsalida) ?>"  class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                        Descargar Orden</a>
                                 </div>
                             </div>
                         <?php } ?>
