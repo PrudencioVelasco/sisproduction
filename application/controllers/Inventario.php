@@ -22,7 +22,7 @@ class Inventario extends CI_Controller
     }
     public function index()
     {
-       // Permission::grant(uri_string());
+       Permission::grant(uri_string());
        $query = $this->inventario->showAll();
        $data = array('resultinventario' => $query );
         $this->load->view('header');
@@ -32,7 +32,7 @@ class Inventario extends CI_Controller
     }
     public function showAll()
     {
-        // Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $query = $this->inventario->showAll();
         if ($query) {
             $result['inventarios'] = $this->inventario->showAll();

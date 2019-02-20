@@ -67,7 +67,7 @@
                                         <button class="btn btn-primary submit-btn" type="submit">Entrar</button>
                                     </div>
                                     <div class="wrapper mt-5 text-gray">
-                                        <p class="footer-text">Copyright © <?php echo date("Y"); ?> Proteges. Todos los derechos reservados.</p> 
+                                        <p class="footer-text">Copyright © <?php echo date("Y"); ?> Woori. Todos los derechos reservados.</p> 
                                     </div>
                                 </form>
                             </div>

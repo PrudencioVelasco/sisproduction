@@ -20,7 +20,7 @@ class Calidad extends CI_Controller {
     
     public function index()
     {
-        // Permission::grant(uri_string());
+     Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('calidad/index');
         $this->load->view('footer');
@@ -30,6 +30,7 @@ class Calidad extends CI_Controller {
     // Informacion de la parte recibida por id en Modulo[Calidad]
     public function detalleenvio($iddetalle)
     {
+        Permission::grant(uri_string());
         $usuariosbodega = $this->calidad->allUsersBodega();
         $detalledeldetalleparte=$this->calidad->detalleDelDetallaParte($iddetalle);
        
@@ -53,6 +54,7 @@ class Calidad extends CI_Controller {
     // Informacion de la parte recibida por id en Modulo[Calidad]
     public function enviadosBodega()
     {    
+        Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('calidad/enviados');
         $this->load->view('footer');
@@ -61,6 +63,7 @@ class Calidad extends CI_Controller {
     // Enviar informacion de la parte al siguiente Modulo[Bodega]
     public function enviarBodega()
     {
+        Permission::grant(uri_string());
         $usuariosbodega = $this->input->post('usuariobodega');
         $idoperador = $this->input->post('idoperador');
         $iddetalleparte = $this->input->post('iddetalleparte');
@@ -155,7 +158,7 @@ class Calidad extends CI_Controller {
     // Mostrar todas las partes enviados de Modulo[Packing]
     public function showAllEnviados()
     {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         //Parametro 7 Indica el estatus enviado a bodega
         $query = $this->calidad->showAllEnviados($this->session->user_id);
         if ($query) {
@@ -166,7 +169,7 @@ class Calidad extends CI_Controller {
 
     public function searchParte()
     {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $value = $this->input->post('text');
         $query = $this->calidad->searchPartes($value,$this->session->user_id);
         if ($query) {
@@ -179,7 +182,7 @@ class Calidad extends CI_Controller {
     // Mostrar todas las partes enviados de Modulo[Packing]
     public function getAllEnviados()
     {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         //Parametro 7 Indica el estatus enviado a bodega
         $query = $this->calidad->showAllEnviados2($this->session->user_id);
         if ($query) {
@@ -190,7 +193,7 @@ class Calidad extends CI_Controller {
 
     public function getSearchPart()
     {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $value = $this->input->post('text');
         //Parametro 7 Indica el estatus enviado a bodega
         $query = $this->calidad->searchPartes2($value,$this->session->user_id);
@@ -202,6 +205,7 @@ class Calidad extends CI_Controller {
 
     public function rechazarParte()
     {
+        Permission::grant(uri_string());
         $idoperador = $this->input->post('idoperador');
         $iddetalleparte = $this->input->post('iddetalleparte');
         $comentario = $this->input->post('comentario');
@@ -237,6 +241,7 @@ class Calidad extends CI_Controller {
     //Generar Reporte
     public function generarPDFEnvio($id)
     {
+        Permission::grant(uri_string());
       // code...
       $detalle = $this->calidad->detalleDelDetallaParte($id);
       //var_dump($detalle);

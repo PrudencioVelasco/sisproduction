@@ -19,21 +19,21 @@
                     <div class="row">
                       <div class="col-md-4 col-sm-12 col-xs-12">
                          <div class="form-group">
-                            <label>* Modelo</label>
+                            <label><font color="red">*</font> Modelo</label>
                             <input type="text" class="form-control" name="modelo" autcomplete="off" placeholder="Modelo" value="<?php echo set_value('modelo'); ?>">
                             <label style="color:red;"><?php echo form_error('modelo'); ?></label>
                          </div>
                       </div>
                       <div class="col-md-4 col-sm-12 col-xs-12">
                          <div class="form-group">
-                            <label>* Revision</label>
+                            <label><font color="red">*</font> Revision</label>
                             <input type="text" class="form-control" name="revision" autcomplete="off" placeholder="Revision" value="<?php echo set_value('revision'); ?>">
   <label style="color:red;"><?php echo form_error('revision'); ?></label>
                          </div>
                       </div>
                     <div class="col-md-4 col-sm-12 col-xs-12">
                          <div class="form-group">
-                            <label>* Linea</label>
+                            <label><font color="red">*</font> Linea</label>
                             <input type="text" class="form-control" name="linea" autcomplete="off" placeholder="Linea" value="<?php echo set_value('linea'); ?>">
 <label style="color:red;"><?php echo form_error('linea'); ?></label>
                          </div>
@@ -42,21 +42,21 @@
                      <div class="row">
                       <div class="col-md-4 col-sm-12 col-xs-12">
                          <div class="form-group">
-                            <label>* Número de Pallet</label>
+                            <label><font color="red">*</font> Número de Pallet</label>
                             <input type="text" class="form-control" name="numeropallet" autcomplete="off" placeholder="Número de Pallet" value="<?php echo set_value('numeropallet'); ?>">
 <label style="color:red;"><?php echo form_error('numeropallet'); ?></label>
                          </div>
                       </div>
                   <div class="col-md-4 col-sm-12 col-xs-12">
                          <div class="form-group">
-                            <label>* Cantidad de cajas</label>
+                            <label><font color="red">*</font> Cantidad de cajas por Pallet</label>
                             <input type="text" class="form-control" name="cantidadcaja" autcomplete="off" placeholder="Cantidad de cajas" value="<?php echo set_value('cantidadcaja'); ?>">
 <label style="color:red;"><?php echo form_error('cantidadcaja'); ?></label>
                          </div>
                       </div>
                       <div class="col-md-4 col-sm-12 col-xs-12">
                          <div class="form-group">
-                            <label>* Cliente</label>
+                            <label><font color="red">*</font> Cliente</label>
                             <input type="text" class="form-control" name="cliente" autcomplete="off" placeholder="Linea" value="<?php echo $detalleparte->nombre ?>" disabled>
                          </div>
                       </div>
@@ -64,7 +64,7 @@
                     <div class="row">
                     <div class="col-md-4 col-sm-12 col-xs-12">
                          <div class="form-group">
-                            <label>* Enviarlo a calidad</label>
+                            <label><font color="red">*</font> Enviarlo a calidad</label>
                             <select class="form-control" name="usuariocalidad">
                               <option value="">Seleccionar</option>
                               <?php

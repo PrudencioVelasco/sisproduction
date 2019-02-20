@@ -122,7 +122,7 @@
                                     </div>
                                     <div class="col-md-3 col-sm-12 col-xs-12 ">
                                         <div class="form-group">
-                                            <label><font color="red">*</font> C. Cajas</label>
+                                            <label><font color="red">*</font> C. Cajas por Pallet</label>
                                             <input type="number" name="cajas" class="form-control" placeholder="C. Cajas" required="">
                                         </div>
                                     </div>
@@ -145,7 +145,7 @@
                                         <tr>
                                             <th><strong>Número de parte</strong></th>
                                             <th><strong>C. Pallet</strong></th>
-                                            <th><strong>C. Caja</strong></th>
+                                            <th><strong>C. Caja por Pallet</strong></th>
                                             <th><strong>Modelo</strong></th>
                                             <th><strong>Revisión</strong></th>
                                             <?php if ($detallesalida->finalizado == 0) { ?>
@@ -159,7 +159,7 @@
                                         $totalcajas=0;
                                         foreach ($detalleorden as $value) {
                                             $totalpallet+=$value->pallet;
-                                            $totalcajas+=$value->caja;
+                                            $totalcajas+=($value->caja * $value->pallet);
                                             // code...
                                             echo "<tr>";
                                             echo "<td>" . $value->numeroparte . "</td>";

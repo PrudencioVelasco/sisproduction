@@ -23,13 +23,14 @@ class Salida extends CI_Controller {
     }
 
     public function index() {
-        // Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('salida/index');
         $this->load->view('footer');
     }
 
     public function showAll() {
+        Permission::grant(uri_string());
         $query = $this->salida->showAllSalidas();
         if ($query) {
             $result['salidas'] = $this->salida->showAllSalidas();
@@ -40,6 +41,7 @@ class Salida extends CI_Controller {
     }
 
     public function showAllParte() {
+        Permission::grant(uri_string());
         $query = $this->salida->showPartesBodega();
         if ($query) {
             $result['partes'] = $this->salida->showPartesBodega();
@@ -59,7 +61,7 @@ class Salida extends CI_Controller {
     }
 
     public function addSalida() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'idcliente',
@@ -96,6 +98,7 @@ class Salida extends CI_Controller {
 
     public function detalleSalida($idsalida) {
         // code...
+        Permission::grant(uri_string());
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
         $data = array(
@@ -108,6 +111,7 @@ class Salida extends CI_Controller {
     }
 
     public function validaranumeroparte() {
+        Permission::grant(uri_string());
         // code...
         $numeroparte = $_POST['numeroparte'];
         //var_dump($this->salida->validarExistenciaNumeroParte($numeroparte));
@@ -121,13 +125,14 @@ class Salida extends CI_Controller {
     }
 
     function eliminarParteOrden($idordensalida, $idsalida) {
-
+Permission::grant(uri_string());
         $this->salida->eliminarParteOrden($idordensalida);
         redirect('/salida/detalleSalida/' . $idsalida);
     }
 
     public function terminarOrdenSalida() {
         // code...
+        Permission::grant(uri_string());
         $idsalida = $this->input->post('idsalida');
         $dataupdate = array(
             'finalizado' => 1,
@@ -138,7 +143,7 @@ class Salida extends CI_Controller {
     }
 
     public function searchPartes() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $value = $this->input->post('text');
         $query = $this->salida->searchPartes($value);
         if ($query) {
@@ -149,7 +154,7 @@ class Salida extends CI_Controller {
     }
 
     function agregarParteOrdenDetallado($iddetalleparte, $idsalida) {
-
+Permission::grant(uri_string());
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
         $datadetalleparte = $this->salida->showPartesDetalle($iddetalleparte);
@@ -166,7 +171,7 @@ class Salida extends CI_Controller {
 
     public function agregarParteOrden() {
 
-
+Permission::grant(uri_string());
         $datainsert = array(
             'idsalida' => $this->input->post('idsalida'),
             'iddetalleparte' => $this->input->post('iddetalleparte'),
@@ -180,6 +185,7 @@ class Salida extends CI_Controller {
     }
 
     public function generarPDFOrden($idsalida) {
+        Permission::grant(uri_string());
         $this->load->library('tcpdf'); 
         $detalle= $this->salida->detalleSalidaOrden($idsalida); 
         $lista= $this->salida->partesIncluidasOrden($idsalida); 
@@ -240,13 +246,13 @@ $html = '
     <td width="310" colspan="3" rowspan="4" align="center" class="borde-l borde-r borde-b" style="font-size:11px">CALLE RUBULIDA NO 33 PARQUE INDUSTRIAL PALACO MEXICALI</td>
     <td width="150">&nbsp;</td>
     <td width="80">&nbsp;</td>
-    <td width="80" class="borde-l borde-r borde-b" align="center" style="font-size:7px">'.$fecha.'</td>
+    <td width="80" class="borde-l borde-r borde-b" align="center" style="font-size:9px">'.$fecha.'</td>
     <td width="160" colspan="2" class="borde-r" align="center" style="font-size:9px">'.$numerosalida.'</td>
   </tr>
   <tr>
     <td width="150">&nbsp;</td>
     <td width="80">&nbsp;</td>
-	<td width="80" align="center"  class="borde-l borde-r" style="font-size:7px">'.$hora.'</td>
+	<td width="80" align="center"  class="borde-l borde-r" style="font-size:9px">'.$hora.'</td>
     <td width="160" colspan="2" class="borde-r">&nbsp;</td>
     
   </tr>
@@ -286,13 +292,15 @@ $html = '
     <td width="250" colspan="3"  align="center"  class="color"  style="font-size:9px">TARMIMAS FAVOR DE RETORNAR A WOORI</td>
     </tr>
     ';
-    $sumacajas = 0;
+    
     $sumapallet = 0;
     $sumatotal= 0;
+    $sumaparcial = 0;
     foreach($lista as $det){
-      $sumacajas+=$det->caja;
+    
+     // $sumacajas+=$det->caja * $det->pallet;
       $sumapallet+=$det->pallet;
-      $sumatotal+=$sumacajas;
+     
       $html.='<tr>
       <td width="130" align="center" style="font-size:9px">&nbsp;'.$det->numeroparte.'&nbsp;</td>
       <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;'.$det->modelo.'&nbsp;</td>';
@@ -316,8 +324,15 @@ $html = '
       }else{
         $html.='<td width="45" align="right" style="font-size:9px"></td>';
       }
-      $html.='<td width="45" align="right" style="font-size:9px">'.number_format($sumacajas).'&nbsp;&nbsp;</td>
-      <td width="45" style="font-size:9px">&nbsp;</td>
+      if($det->pallet == 0){
+        $sumatotal+=$det->caja;
+        $html.='<td width="45" align="right" style="font-size:9px">'.number_format($det->caja).'&nbsp;&nbsp;</td>';
+      }else{
+         $sumatotal+=$det->caja * $det->pallet;
+        $html.='<td width="45" align="right" style="font-size:9px">'.number_format($det->caja * $det->pallet).'&nbsp;&nbsp;</td>';
+      }
+      
+        $html.='<td width="45" style="font-size:9px">&nbsp;</td>
       <td width="45" style="font-size:9px">&nbsp;</td>
       <td width="160" style="font-size:9px">&nbsp;</td>
       </tr>';

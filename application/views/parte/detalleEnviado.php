@@ -57,21 +57,21 @@
                      <div class="row">
                        <div class="col-md-4 col-sm-12 col-xs-12">
                           <div class="form-group">
-                             <label>* Modelo</label>
+                             <label><font color="red">*</font> Modelo</label>
                              <input type="text" class="form-control" name="modelo" id="modelo" autcomplete="off" placeholder="Modelo" value="<?php echo $detalle->modelo ?>">
                              <label style="color:red;"><?php echo form_error('modelo'); ?></label>
                           </div>
                        </div>
                        <div class="col-md-4 col-sm-12 col-xs-12">
                           <div class="form-group">
-                             <label>* Revision</label>
+                             <label><font color="red">*</font> Revision</label>
                              <input type="text" class="form-control" id="revision" name="revision" autcomplete="off" placeholder="Revision" value="<?php echo $detalle->revision ?>">
    <label style="color:red;"><?php echo form_error('revision'); ?></label>
                           </div>
                        </div>
                      <div class="col-md-4 col-sm-12 col-xs-12">
                           <div class="form-group">
-                             <label>* Linea</label>
+                             <label><font color="red">*</font> Linea</label>
                              <input type="text" class="form-control" name="linea" id="linea" autcomplete="off" placeholder="Linea" value="<?php echo $detalle->linea ?>">
  <label style="color:red;"><?php echo form_error('linea'); ?></label>
                           </div>
@@ -80,21 +80,21 @@
                       <div class="row">
                        <div class="col-md-4 col-sm-12 col-xs-12">
                           <div class="form-group">
-                             <label>* Número de Pallet</label>
+                             <label><font color="red">*</font> Número de Pallet</label>
                              <input type="text" class="form-control" name="numeropallet" id="pallet" autcomplete="off" placeholder="Número de Pallet" value="<?php echo $detalle->pallet ?>">
  <label style="color:red;"><?php echo form_error('numeropallet'); ?></label>
                           </div>
                        </div>
                    <div class="col-md-4 col-sm-12 col-xs-12">
                           <div class="form-group">
-                             <label>* Cantidad de cajas</label>
+                             <label><font color="red">*</font> Cantidad de cajas por Pallet</label>
                              <input type="text" class="form-control" name="cantidadcaja" id="cantidad" autcomplete="off" placeholder="Cantidad de cajas" value="<?php echo $detalle->cantidad ?>">
  <label style="color:red;"><?php echo form_error('cantidadcaja'); ?></label>
                           </div>
                        </div>
                        <div class="col-md-4 col-sm-12 col-xs-12">
                           <div class="form-group">
-                             <label>* Cliente</label>
+                             <label><font color="red">*</font> Cliente</label>
                              <input type="text" class="form-control" name="cliente" autcomplete="off" placeholder="Linea" value="<?php echo $detalle->nombre ?>" disabled>
                           </div>
                        </div>
@@ -102,7 +102,7 @@
                      <div class="row">
                      <div class="col-md-4 col-sm-12 col-xs-12">
                           <div class="form-group">
-                             <label>* Enviarlo a calidad</label>
+                             <label><font color="red">*</font> Enviarlo a calidad</label>
                              <select class="form-control" id="usuariocalidad" name="usuariocalidad">
                                <option value="">Seleccionar</option>
                                <?php
@@ -157,12 +157,12 @@
                           ?>
                             <a  class="btn btn-default" href="<?php echo site_url('parte/'); ?>"><i class="fa fa-print" aria-hidden="true"></i>
  Imprimir etiqueta</a>
- <a  class="btn btn-default" target="_blank" href="<?php echo site_url('Parte/etiquetaPacking/'.$detalle->iddetalleparte) ?>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+ <a  class="btn btn-default" target="_blank" href="<?php echo site_url('parte/etiquetaPacking/'.$detalle->iddetalleparte) ?>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
  Generar etiqueta</a>
  <a  class="btn btn-default" href="<?php echo site_url('parte/'); ?>"><i class="fa fa-print" aria-hidden="true"></i>
 Imprimir envio</a>
 
-<a  class="btn btn-default" target="_blank" href="<?php echo site_url('Parte/generarPDFEnvio/'.$detalle->iddetalleparte) ?>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+<a  class="btn btn-default" target="_blank" href="<?php echo site_url('parte/generarPDFEnvio/'.$detalle->iddetalleparte) ?>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
  Generar envio</a>
 
                        </div>

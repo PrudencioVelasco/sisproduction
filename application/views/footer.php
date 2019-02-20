@@ -134,7 +134,14 @@
           });
           TableManageButtons.init();
         </script>
-
+    <script>
+  
+    $(document).ready(function() {
+     $( "#reload" ).click(function() {
+           location.reload(); 
+    });
+});
+    </script>
 </body>
 
 </html>

@@ -56,7 +56,7 @@
               </div>
               <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <h3><small>Cantidad de cajas: </small> <?php echo $detalle->cantidad ?></h3>
+                  <h3><small>Cantidad de cajas por Pallet: </small> <?php echo $detalle->cantidad ?></h3>
                 </div>
               </div>
               <div class="col-md-4 col-sm-12 col-xs-12">

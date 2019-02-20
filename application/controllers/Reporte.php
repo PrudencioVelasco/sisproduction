@@ -21,7 +21,7 @@ class Reporte extends CI_Controller {
 
 	public function packing()
 	{
-         
+         Permission::grant(uri_string());
           $usuario = $this->usuario->showAllPacking();
           $data = array('usuarios' => $usuario );
 		  $this->load->view('header');
@@ -31,6 +31,7 @@ class Reporte extends CI_Controller {
     public function buscar()
     {
         # code...
+      Permission::grant(uri_string());
          $usuario= $this->input->post('usuario');
          $fechainicio= $this->input->post('fechainicio');
          $fechafin= $this->input->post('fechafin');
@@ -55,6 +56,7 @@ class Reporte extends CI_Controller {
     }
     public function calidad()
 	{
+    Permission::grant(uri_string());
           $usuario = $this->usuario->showAllCalidad();
           $data = array('usuarios' => $usuario );
 		   $this->load->view('header');
@@ -64,6 +66,7 @@ class Reporte extends CI_Controller {
     public function buscarCalidad()
     {
         # code...
+      Permission::grant(uri_string());
          $usuario= $this->input->post('usuario');
          $fechainicio= $this->input->post('fechainicio');
          $fechafin= $this->input->post('fechafin');
@@ -88,6 +91,7 @@ class Reporte extends CI_Controller {
     }
     public function bodega()
 	{
+    Permission::grant(uri_string());
           $usuario = $this->usuario->showAllBodega();
           $data = array('usuarios' => $usuario );
 		   $this->load->view('header');
@@ -97,6 +101,7 @@ class Reporte extends CI_Controller {
     public function buscarBodega()
     {
         # code...
+      Permission::grant(uri_string());
          $usuario= $this->input->post('usuario');
          $fechainicio= $this->input->post('fechainicio');
          $fechafin= $this->input->post('fechafin');

@@ -83,7 +83,7 @@
                     <li><a href="<?= base_url('/admin/index') ?>"><i class="fa fa-home"></i> Inicio</a> </li>
                     <li><a href="<?= base_url('/parte/index') ?>"><i class="fa fa-archive" aria-hidden="true"></i> Packing</a> </li>
                     <li><a href="<?= base_url('/calidad/index') ?>"><i class="fa fa-thumbs-o-up"></i> Calidad</a> </li>
-                    <li><a href="<?= base_url('/bodega/index') ?>"><i class="fa fa-home"></i> Bodega</a> </li>
+                    <li><a href="<?= base_url('/bodega/index') ?>"><i class="fa fa-home"></i> Almacen</a> </li>
                     <li><a href="<?= base_url('/salida/index') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i>Salida</a> </li>
                     <li><a><i class="fa fa-folder-open" aria-hidden="true"></i> Catalogo <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu" style="display: none"> 
@@ -96,7 +96,7 @@
                       <ul class="nav child_menu" style="display: none"> 
                         <li><a href="<?= base_url('/reporte/packing') ?>"> Packing</a> </li>
                         <li><a href="<?= base_url('/reporte/calidad') ?>"> Calidad</a> </li>
-                        <li><a href="<?= base_url('/reporte/bodega') ?>"> Bodega</a> </li>
+                        <li><a href="<?= base_url('/reporte/bodega') ?>"> Almacen</a> </li>
                       </ul>
                     </li>
                     <li><a href="<?= base_url('/inventario/index') ?>"><i class="fa fa-check-square-o" aria-hidden="true"></i> Inventario</a> </li>

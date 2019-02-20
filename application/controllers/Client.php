@@ -25,7 +25,7 @@ class Client extends CI_Controller {
     }
 
     public function showAll() {
-        // Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $query = $this->client_model->showAll();
         if ($query) {
             $result['clientes'] = $this->client_model->showAll();
@@ -34,7 +34,7 @@ class Client extends CI_Controller {
     }
 
     public function showAllClientesActivos() {
-        //  Permission::grant(uri_string());
+    //Permission::grant(uri_string());
         $query = $this->client_model->showAllClientesActivos();
 
         echo json_encode($query);

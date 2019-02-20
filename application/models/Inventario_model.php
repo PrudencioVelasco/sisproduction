@@ -14,18 +14,35 @@ class Inventario_model extends CI_Model {
     }
 
     public function showAll() {
-        $query = $this->db->query('select c.nombre, p.numeroparte,
-                                    (select COALESCE(sum(dp2.pallet),0) from detalleparte dp2 where dp2.idparte=p.idparte) totalpallet,
-                                    (select COALESCE(sum(dp3.cantidad),0) from detalleparte dp3 where dp3.idparte=p.idparte) totalcajas,
-                                    (select COALESCE(sum(os.pallet),0) from detalleparte dp4, ordensalida os
-                                    where dp4.iddetalleparte = os.iddetalleparte and dp4.idparte = p.idparte) as totalpalletsalida,
-                                    (select COALESCE(sum(os.caja),0) from detalleparte dp4, ordensalida os
-                                    where dp4.iddetalleparte = os.iddetalleparte and dp4.idparte = p.idparte) as totalcajassalida
-                                    from parte p, detalleparte dp, cliente c
-                                    where p.idparte=dp.idparte
-                                    and p.idcliente = c.idcliente
-                                    and dp.idestatus = 8
-                                    group by p.idparte');
+        $query = $this->db->query('SELECT c.nombre,
+                                           p.numeroparte,
+                                           (SELECT COALESCE(Sum(dp2.pallet), 0)
+                                            FROM   detalleparte dp2
+                                            WHERE  dp2.idparte = p.idparte)     totalpallet,
+                                           (SELECT COALESCE(Sum(dp3.cantidad * dp3.pallet), 0)
+                                            FROM   detalleparte dp3
+                                            WHERE  dp3.idparte = p.idparte)     totalcajas,
+                                           (SELECT COALESCE(Sum(os.pallet), 0)
+                                            FROM   detalleparte dp4,
+                                                   ordensalida os
+                                            WHERE  dp4.iddetalleparte = os.iddetalleparte
+                                                   AND dp4.idparte = p.idparte) AS totalpalletsalida,
+                                           (SELECT COALESCE(Sum(CASE
+                                                                  WHEN os.pallet = 0 THEN os.caja
+                                                                  WHEN os.pallet > 0 THEN os.pallet * os.caja
+                                                                  ELSE 0
+                                                                END), 0)
+                                            FROM   detalleparte dp4,
+                                                   ordensalida os
+                                            WHERE  dp4.iddetalleparte = os.iddetalleparte
+                                                   AND dp4.idparte = p.idparte) AS totalcajassalida
+                                    FROM   parte p,
+                                           detalleparte dp,
+                                           cliente c
+                                    WHERE  p.idparte = dp.idparte
+                                           AND p.idcliente = c.idcliente
+                                           AND dp.idestatus = 8
+                                    GROUP  BY p.idparte');
         return $query->result();
     }
 

@@ -19,6 +19,7 @@ class Parte extends CI_Controller {
 
   
     private function set_barcode($code) {
+      Permission::grant(uri_string());
         //load library
         $this->load->library('zend');
         //load in folder Zend
@@ -33,6 +34,7 @@ class Parte extends CI_Controller {
         return base_url() . 'assets/cache/' . $code . '.png';
     }
     public function etiquetaCalidad($id) {
+      //Permission::grant(uri_string());
         $detalle = $this->parte->detalleDelDetallaParte($id); 
        
         $hora= date ("h:i:s a");
@@ -72,7 +74,7 @@ class Parte extends CI_Controller {
 		</tr>
 		<tr>
 			<td  align="center" height="50px" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " >'.$detalle->numeroparte.'</td>
-			<td  align="center" style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >'.$detalle->cantidad.'</td>
+			<td  align="center" style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >'.$detalle->cantidad * $detalle->pallet.'</td>
 		</tr>
 		<tr>
 			<td  align="" height="50" style="font-size:20px; font-family:arial; font-weight:bold; background: #;color:#fff; " >MODEL</td>
@@ -102,7 +104,7 @@ class Parte extends CI_Controller {
     }
 
     public function index() {
-        // Permission::grant(uri_string());
+         Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('parte/index');
         $this->load->view('footer');
@@ -203,6 +205,7 @@ class Parte extends CI_Controller {
       } */
 
     public function etiquetaPacking($id) {
+     // Permission::grant(uri_string());
         date_default_timezone_set("America/Tijuana");
         $detalle = $this->parte->detalleDelDetallaParte($id);
         $barcode = $this->set_barcode($detalle->numeroparte);
@@ -224,7 +227,7 @@ class Parte extends CI_Controller {
             table {border-collapse:collapse}
             td 
                 {
-                    border:1px  solid black
+                    border:0px  solid black
                 }
     </style>
 
@@ -244,7 +247,7 @@ class Parte extends CI_Controller {
             <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
         
             
-            <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $detalle->cantidad . '</b></td>
+            <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $detalle->cantidad * $detalle->pallet . '</b></td>
                 
             <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
             
@@ -303,6 +306,7 @@ class Parte extends CI_Controller {
     }
 
     public function generarPDFEnvio($id) {
+      //Permission::grant(uri_string());
         $this->load->library('tcpdf');
         $detalle = $this->parte->detalleDelDetallaParte($id);
         $operador = $detalle->nombreoperador;
@@ -697,6 +701,7 @@ class Parte extends CI_Controller {
     }
 
     public function packing($id) {
+      Permission::grant(uri_string());
         $usuarioscalidad = $this->usuario->showAllCalidad();
         $detalleparte = $this->parte->detalleParteId($id);
 
@@ -712,6 +717,7 @@ class Parte extends CI_Controller {
     }
 
     public function detalleenvio($iddetalle) {
+      Permission::grant(uri_string());
         //$usuarioscalidad=$this->usuario->showAllCalidad();
         //$detalleparte= $this->parte->detalleParteId($id);
         $usuarioscalidad = $this->usuario->showAllCalidad();
@@ -735,6 +741,7 @@ class Parte extends CI_Controller {
     }
 
     public function reenviarCalidad() {
+      Permission::grant(uri_string());
         // code...
         $config = array(
             array(
@@ -844,6 +851,7 @@ class Parte extends CI_Controller {
     }
 
     public function enviarCalidad() {
+      Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'modelo',
@@ -943,13 +951,14 @@ class Parte extends CI_Controller {
     }
 
     public function verEnviados() {
+      Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('parte/enviados');
         $this->load->view('footer');
     }
 
     public function showAll() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $query = $this->parte->showAll();
         if ($query) {
             $result['partes'] = $this->parte->showAll();
@@ -958,7 +967,7 @@ class Parte extends CI_Controller {
     }
 
     public function showAllEnviados() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $query = $this->parte->showAllEnviados($this->session->user_id);
         if ($query) {
             $result['detallestatus'] = $this->parte->showAllEnviados($this->session->user_id);
@@ -967,7 +976,7 @@ class Parte extends CI_Controller {
     }
 
     public function addPart() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'numeroparte',
@@ -1018,7 +1027,7 @@ class Parte extends CI_Controller {
     }
 
     public function updateParte() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'numeroparte',
@@ -1070,7 +1079,7 @@ class Parte extends CI_Controller {
     }
 
     public function searchEnviados() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $value = $this->input->post('text');
         $query = $this->parte->searchEnviados($value, $this->session->user_id);
         if ($query) {
@@ -1080,7 +1089,7 @@ class Parte extends CI_Controller {
     }
 
     public function searchParte() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $value = $this->input->post('text');
         $query = $this->parte->searchPartes($value);
         if ($query) {

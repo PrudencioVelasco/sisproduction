@@ -2,7 +2,7 @@
 
 
 <div class="right_col" role="main">
-    <div class="">
+    <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
@@ -20,6 +20,7 @@
                         </transition>
                         <div class="row">
                             <div class="col-md-6 col-sm-12 col-xs-12">
+                                 <button id="reload" type="button" class="btn btn-info"><i class="fa fa-refresh" aria-hidden="true"></i></button> 
                             </div>
                             <div class="col-md-6 col-sm-12 col-xs-12">
                                 <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchDetalleStatus" name="search">
@@ -64,7 +65,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="5" align="right">
+                                    <td colspan="8" align="right">
                             <pagination
                                 :current_page="currentPage"
                                 :row_count_page="rowCountPage"
@@ -84,6 +85,7 @@
         </div>
     </div>
 </div>
+ 
 
 
 

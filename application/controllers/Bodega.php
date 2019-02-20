@@ -22,7 +22,7 @@ class Bodega extends CI_Controller
     }
     public function index()
     {
-       // Permission::grant(uri_string());
+       Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('bodega/index');
         $this->load->view('footer');
@@ -30,7 +30,7 @@ class Bodega extends CI_Controller
     }
     public function showAllEnviados()
     {
-         //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $query = $this->bodega->showAllEnviados($this->session->user_id);
         if ($query) {
             $result['detallestatus'] = $this->bodega->showAllEnviados($this->session->user_id);
@@ -47,6 +47,7 @@ class Bodega extends CI_Controller
 }
     public function verDetalle($iddetalle)
     {
+      Permission::grant(uri_string());
       $usuarioscalidad=$this->usuario->showAllCalidad();
       $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalle);
       $arrayposicionesbodega= $this->posicionbodega->posicionesBodega();
@@ -78,6 +79,7 @@ class Bodega extends CI_Controller
     public function rechazar()
     {
       // code...
+      Permission::grant(uri_string());
       $iddetalleparte= $this->input->post('iddetalleparte');
       $data     = array(
                      'idestatus' => 6,
@@ -101,6 +103,7 @@ class Bodega extends CI_Controller
     }
     public function insertarPosicion()
     {
+      Permission::grant(uri_string());
   $iddetalleparte= $this->input->post('iddetalleparte');
   $this->bodega->eliminarposicionesparte($iddetalleparte);
       if ($this->input->post('numero1')) {
@@ -340,6 +343,15 @@ class Bodega extends CI_Controller
                  'fecharegistro' => date('Y-m-d H:i:s')
                );
                  $this->parte->addDetalleEstatusParte($dataupdateestatus);
+
+                   $dataupdateestatusterminado=array(
+                 'iddetalleparte'=>$iddetalleparte,
+                 'idstatus'=>5,
+                 'idoperador'=>$idoperador,
+                 'idusuario' => $this->session->user_id,
+                 'fecharegistro' => date('Y-m-d H:i:s')
+               );
+                 $this->parte->addDetalleEstatusParte($dataupdateestatusterminado);
                  }
                   redirect('bodega/');
     }

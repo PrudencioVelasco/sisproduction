@@ -5,7 +5,7 @@
             <?php if (isset($_SESSION['err'])): ?>
                 <div class="alert alert-danger" role="alert">
                     <h4 class="alert-heading">Permiso!</h4>
-                    <p>Usted tiene acceso denegado para entrar a esta menu.</p>
+                    <p>Acceso denegado para entrar a esta opcion.</p>
                     <hr>
                     <p class="mb-0">Si requiere permiso solicitelo al administrador.</p>
                 </div>

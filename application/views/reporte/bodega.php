@@ -1,9 +1,9 @@
 <div class="right_col" role="main">
-  <div class="">
+  <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h3>Reporte de Bodega</h3>
+                    <h3>Reporte de Almacen</h3>
 
                     <div class="clearfix"></div>
                   </div>
@@ -33,8 +33,7 @@
                             <label><font color="red">*</font> Estatus</label>
                              <select class="form-control" name="estatus" required > 
                                 <option value="7">EN ESPERA</option>
-                                <option value="8">EN BODEGA</option>
-                                <option value="9">RECHAZADO</option>
+                                <option value="8">EN BODEGA</option> 
                              </select>
                          </div>
                       </div>
@@ -93,7 +92,7 @@
                                        <td><?php echo $row->linea;?></td>
                                        <td><?php echo $row->fecharegistro;?></td>
                                        <td><?php echo $row->nombreusuario;?></td>
-                                       <td><?php echo $row->nombrestatus;?></td>
+                                       <td><strong><?php echo $row->nombrestatus;?></strong></td>
                                     </tr>
                                     <?php } ?>
                                  </tbody>
@@ -129,7 +128,7 @@
                                        <td><?php echo $row->linea;?></td>
                                        <td><?php echo $row->fecharegistro;?></td>
                                        <td><?php echo $row->nombreusuario;?></td>
-                                       <td><?php echo $row->nombrestatus;?></td>
+                                       <td><strong><?php echo $row->nombrestatus;?></strong></td>
                                     </tr>
                                     <?php } ?>
                                  </tbody>

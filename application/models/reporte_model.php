@@ -22,8 +22,7 @@ class Reporte_model extends CI_Model {
          and de.iddetalleparte = dp.iddetalleparte
          and de.idstatus = s.idestatus
          and s.idestatus in ('.$estatus.')
-         and de.fecharegistro >="'.$fechainicio.'"
-         and de.fecharegistro <="'.$fechafin.'"
+         and date(de.fecharegistro) BETWEEN "'.$fechainicio.'"and "'.$fechafin.'"
          GROUP BY de.iddetalleparte DESC;');
          return $query->result();
     }
@@ -37,8 +36,7 @@ class Reporte_model extends CI_Model {
          and de.idstatus = s.idestatus
          and de.idusuario = '.$usuario.'
          and s.idestatus in ('.$estatus.')
-         and de.fecharegistro >="'.$fechainicio.'"
-         and de.fecharegistro <="'.$fechafin.'"
+         and date(de.fecharegistro) BETWEEN "'.$fechainicio.'"and "'.$fechafin.'"
          GROUP BY de.iddetalleparte DESC;');
          return $query->result();
     }
@@ -51,8 +49,7 @@ class Reporte_model extends CI_Model {
          and de.iddetalleparte = dp.iddetalleparte
          and de.idstatus = s.idestatus
          and s.idestatus in ('.$estatus.')
-         and de.fecharegistro >="'.$fechainicio.'"
-         and de.fecharegistro <="'.$fechafin.'"
+        and date(de.fecharegistro) BETWEEN "'.$fechainicio.'"and "'.$fechafin.'"
          GROUP BY de.iddetalleparte DESC;');
          return $query->result();
     }

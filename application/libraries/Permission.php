@@ -32,7 +32,7 @@ class Permission
                 $match = preg_match("/{$re_uri}/", $uri);
             }
  
-            if($permission->uri == "*" || $uri == 'welcome/panelprincipal') {
+            if($permission->uri == "*" || $uri == 'admin/index') {
                 return;
             } else {
                 $match = (!$match) ? $match : true;
@@ -47,7 +47,7 @@ class Permission
         // if all false
         if(!$match) {
             self::$_CI->session->set_flashdata('err', 'You don\'t have permissionss.');
-            return redirect('welcome/panelprincipal');
+            return redirect('admin/index');
             
         }
     }

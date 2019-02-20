@@ -15,22 +15,30 @@ class Admin_model extends CI_Model {
     }
      public function produccionDetalla() {
      
-        $query = $this->db->query(' select p.numeroparte, COALESCE(sum(dp.pallet),0) totalpallet, COALESCE(sum(dp.cantidad),0) totalcajas, DATE_FORMAT(dp.fecharegistro, "%b") mes
-                                    from parte p, detalleparte dp
-                                    where p.idparte = dp.idparte
-                                    and dp.idestatus = 8
-                                    and  cast(dp.fecharegistro as date) >= date_add(NOW(), INTERVAL -6 MONTH) 
-                                    GROUP BY month(dp.fecharegistro), p.idparte');
+        $query = $this->db->query('SELECT p.numeroparte,
+                                   Coalesce(Sum(dp.pallet), 0) totalpallet,
+                                   Coalesce(Sum(dp.pallet * dp.cantidad), 0) totalcajas,
+                                   Date_format(dp.fecharegistro, "%b") mes
+                            FROM   parte p,
+                                   detalleparte dp
+                            WHERE  p.idparte = dp.idparte
+                                   AND dp.idestatus = 8
+                                   AND Cast(dp.fecharegistro AS date) >= Date_add(Now(), INTERVAL -6 month)
+                            GROUP  BY Month(dp.fecharegistro),
+                                      p.idparte ');
         return $query->result();
     }
        public function produccionTotal() {
      
-        $query = $this->db->query('select COALESCE(sum(dp.pallet),0) totalpallet, COALESCE(sum(dp.cantidad),0) totalcajas, DATE_FORMAT(dp.fecharegistro, "%b") mes
-from parte p, detalleparte dp
-where p.idparte = dp.idparte
-and dp.idestatus = 8
-and  cast(dp.fecharegistro as date) >= date_add(NOW(), INTERVAL -6 MONTH) 
-GROUP BY month(dp.fecharegistro)');
+        $query = $this->db->query('SELECT Coalesce(Sum(dp.pallet), 0)         totalpallet,
+                                           Coalesce(Sum(dp.pallet * dp.cantidad), 0)       totalcajas,
+                                           Date_format(dp.fecharegistro, "%b") mes
+                                    FROM   parte p,
+                                           detalleparte dp
+                                    WHERE  p.idparte = dp.idparte
+                                           AND dp.idestatus = 8
+                                           AND Cast(dp.fecharegistro AS date) >= Date_add(Now(), INTERVAL -6 month)
+                                    GROUP  BY Month(dp.fecharegistro)  ');
         return $query->result();
     }
     
