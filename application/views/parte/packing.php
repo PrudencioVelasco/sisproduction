@@ -87,6 +87,22 @@
 
                       </div>
                     </div>
+                    
+
+                    <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                         <div class="form-group">
+
+                         <input type="button" value="+" onclick="addRow()">
+
+<div id="content">
+</div>
+                          </div>
+                      </div>
+                    </div>
+
+
+
 
                   </form>
                 </div>
@@ -97,3 +113,28 @@
 
 
       </div>
+<script>
+function addRow () {
+  document.querySelector('#content').insertAdjacentHTML(
+    'afterbegin',
+    `<div class="row">
+    <div class="col-md-4 col-sm-12 col-xs-12">
+      <input type="number" class="form-control" name="numeropallet[]"/>
+      </div>
+      <div class="col-md-4 col-sm-12 col-xs-12">
+      <input type="number"  class="form-control" name="cantidadcajas[]"/> 
+      </div>
+      <div class="col-md-4 col-sm-12 col-xs-12">
+      <input type="button" class="btn btn-danger" value="-" onclick="removeRow(this)">
+      </div>
+    </div>`      
+  )
+}
+foreach($this->input->post("days") as $day){
+    echo $day;
+}
+function removeRow (input) {
+  input.parentNode.remove()
+}
+
+</script>
