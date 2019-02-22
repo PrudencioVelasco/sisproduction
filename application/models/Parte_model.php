@@ -214,6 +214,10 @@ class Parte_model extends CI_Model {
     {
         return $this->db->insert('parte', $data);
     }
+     public function addPalletCajas($data)
+    {
+        return $this->db->insert('palletcajas', $data);
+    }
 
     public function addDetalleParte($data)
     {

@@ -1,140 +1,113 @@
- <!-- page content -->
-      <div class="right_col" role="main">
+<!-- page content -->
+<div class="right_col" role="main">
 
-        <div class="">
+    <div class="">
 
-          <div class="clearfix"></div>
+        <div class="clearfix"></div>
 
-          <div class="row">
+        <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="x_panel">
-                <div class="x_title">
-                  <h3>Agregar número de parte a packing</h3>
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h3>Agregar número de parte a packing</h3>
 
-                  <div class="clearfix"></div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <h5>Número de parte: <strong><?php echo $detalleparte->numeroparte ?></strong></h5>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12" align="right">
+                                <h5>Nombre del Cliente: <strong><?php echo $detalleparte->nombre ?></strong></h5>
+                            </div>
+                        </div>
+                        <form method="POST"  action="<?= base_url('parte/enviarCalidadNew') ?>">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label><font color="red">*</font> Modelo</label>
+                                        <input type="text" class="form-control" name="modelo" autcomplete="off" placeholder="Modelo" value="<?php echo set_value('modelo'); ?>" required="">
+                                        <label style="color:red;"><?php echo form_error('modelo'); ?></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label><font color="red">*</font> Revision</label>
+                                        <input type="text" class="form-control" name="revision" autcomplete="off" placeholder="Revision" value="<?php echo set_value('revision'); ?>" required="">
+                                        <label style="color:red;"><?php echo form_error('revision'); ?></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label><font color="red">*</font> Linea</label>
+                                        <input type="text" class="form-control" name="linea" autcomplete="off" placeholder="Linea" value="<?php echo set_value('linea'); ?>" required="">
+                                        <label style="color:red;"><?php echo form_error('linea'); ?></label>
+                                    </div>
+                                </div> 
+                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label><font color="red">*</font> Enviarlo a calidad</label>
+                                        <select class="form-control" name="usuariocalidad" required="">
+                                            <option value="">Seleccionar</option>
+                                            <?php
+                                            foreach ($usuarioscalidad as $value) {
+                                                echo '<option value=' . $value->idusuario . ' >' . $value->name . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                        <label style="color:red;"><?php echo form_error('usuariocalidad'); ?></label>
+                                    </div>
+                                </div>
+                            </div> 
+
+                           
+                            <div class="row">
+                                <div class="myFields"></div>
+                            </div> 
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                    <button id="add_button" class="addNew btn btn-default btn-sm">
+                                        <span class="fa fa-plus"></span> Agregar parte
+                                    </button>
+
+                                </div>
+                            </div> 
+                             <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12" align="right">
+                                    <input type="hidden" name="idparte" value="<?php echo $idparte ?>">
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                        Enviar a Calidad</button>
+                                    <a  class="btn btn-danger" href="<?php echo site_url('parte/'); ?>"><i class="fa fa-ban" aria-hidden="true"></i>
+                                        Cancelar</a>
+
+                                </div>
+                            </div> 
+                        </form>
+                    </div>
                 </div>
-                <div class="x_content">
-                    <h5>Numero de parte: <?php echo $detalleparte->numeroparte ?></h5>
-                    <form method="POST"  action="<?= base_url('parte/enviarCalidad') ?>">
-                    <div class="row">
-                      <div class="col-md-4 col-sm-12 col-xs-12">
-                         <div class="form-group">
-                            <label><font color="red">*</font> Modelo</label>
-                            <input type="text" class="form-control" name="modelo" autcomplete="off" placeholder="Modelo" value="<?php echo set_value('modelo'); ?>">
-                            <label style="color:red;"><?php echo form_error('modelo'); ?></label>
-                         </div>
-                      </div>
-                      <div class="col-md-4 col-sm-12 col-xs-12">
-                         <div class="form-group">
-                            <label><font color="red">*</font> Revision</label>
-                            <input type="text" class="form-control" name="revision" autcomplete="off" placeholder="Revision" value="<?php echo set_value('revision'); ?>">
-  <label style="color:red;"><?php echo form_error('revision'); ?></label>
-                         </div>
-                      </div>
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                         <div class="form-group">
-                            <label><font color="red">*</font> Linea</label>
-                            <input type="text" class="form-control" name="linea" autcomplete="off" placeholder="Linea" value="<?php echo set_value('linea'); ?>">
-<label style="color:red;"><?php echo form_error('linea'); ?></label>
-                         </div>
-                      </div>
-                    </div>
-                     <div class="row">
-                      <div class="col-md-4 col-sm-12 col-xs-12">
-                         <div class="form-group">
-                            <label><font color="red">*</font> Número de Pallet</label>
-                            <input type="text" class="form-control" name="numeropallet" autcomplete="off" placeholder="Número de Pallet" value="<?php echo set_value('numeropallet'); ?>">
-<label style="color:red;"><?php echo form_error('numeropallet'); ?></label>
-                         </div>
-                      </div>
-                  <div class="col-md-4 col-sm-12 col-xs-12">
-                         <div class="form-group">
-                            <label><font color="red">*</font> Cantidad de cajas por Pallet</label>
-                            <input type="text" class="form-control" name="cantidadcaja" autcomplete="off" placeholder="Cantidad de cajas" value="<?php echo set_value('cantidadcaja'); ?>">
-<label style="color:red;"><?php echo form_error('cantidadcaja'); ?></label>
-                         </div>
-                      </div>
-                      <div class="col-md-4 col-sm-12 col-xs-12">
-                         <div class="form-group">
-                            <label><font color="red">*</font> Cliente</label>
-                            <input type="text" class="form-control" name="cliente" autcomplete="off" placeholder="Linea" value="<?php echo $detalleparte->nombre ?>" disabled>
-                         </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                    <div class="col-md-4 col-sm-12 col-xs-12">
-                         <div class="form-group">
-                            <label><font color="red">*</font> Enviarlo a calidad</label>
-                            <select class="form-control" name="usuariocalidad">
-                              <option value="">Seleccionar</option>
-                              <?php
-                                foreach ($usuarioscalidad as $value) {
-                                 echo '<option value='.$value->idusuario.' >'.$value->name.'</option>';
-                                }
-                              ?>
-                            </select>
-                            <label style="color:red;"><?php echo form_error('usuariocalidad'); ?></label>
-                         </div>
-                      </div>
-                    </div>
-                     <div class="row">
-                      <div class="col-md-6">
-                        <input type="hidden" name="idparte" value="<?php echo $idparte ?>">
-                          <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane" aria-hidden="true"></i>
- Enviar a Calidad</button>
-                          <a  class="btn btn-danger" href="<?php echo site_url('parte/'); ?>"><i class="fa fa-ban" aria-hidden="true"></i>
- Cancelar</a>
-
-                      </div>
-                    </div>
-                    
-
-                    <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                         <div class="form-group">
-
-                         <input type="button" value="+" onclick="addRow()">
-
-<div id="content">
-</div>
-                          </div>
-                      </div>
-                    </div>
-
-
-
-
-                  </form>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
+    </div> 
+</div>
+<script type="text/javascript">
 
-
-      </div>
-<script>
-function addRow () {
-  document.querySelector('#content').insertAdjacentHTML(
-    'afterbegin',
-    `<div class="row">
-    <div class="col-md-4 col-sm-12 col-xs-12">
-      <input type="number" class="form-control" name="numeropallet[]"/>
-      </div>
-      <div class="col-md-4 col-sm-12 col-xs-12">
-      <input type="number"  class="form-control" name="cantidadcajas[]"/> 
-      </div>
-      <div class="col-md-4 col-sm-12 col-xs-12">
-      <input type="button" class="btn btn-danger" value="-" onclick="removeRow(this)">
-      </div>
-    </div>`      
-  )
-}
-foreach($this->input->post("days") as $day){
-    echo $day;
-}
-function removeRow (input) {
-  input.parentNode.remove()
-}
-
+    $(document)
+            .ready(
+                    function () {
+                        var wrapper = $(".myFields");
+                        $(add_button)
+                                .click(
+                                        function (e) {
+                                            e.preventDefault();
+                                            $(wrapper)
+                                                    .append(
+                                                            '<div class="form-group"><div class="col-md-4 col-sm-12 col-xs-12"><label class="label label-default" for="wish">Número de pallet</label><input type="number" name="pallet[]" class="form-control" value="1" readonly  required/></div><div class="col-md-4 col-sm-12 col-xs-12"><label class="label label-default" for="wish">Cantidad de cajas</label><input type="number" name="cajas[]" class="form-control" required/></div><br><a href="#"	class="btn btn-warning btn-sm delFld"><i class="fa fa-trash" aria-hidden="true"></i></a></div>'); //add fields
+                                        });
+                        $(wrapper).on("click", ".delFld", function (e) {
+                            e.preventDefault();
+                            $(this).parent('div').remove();
+                        })
+                    });
 </script>

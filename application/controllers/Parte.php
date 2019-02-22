@@ -849,6 +849,45 @@ class Parte extends CI_Controller {
             $this->load->view('footer');
         }
     }
+ 
+
+  public  function enviarCalidadNew() {
+         $data = array(
+          'folio' => 0,
+          'idparte' => $this->input->post('idparte'),
+          'modelo' => $this->input->post('modelo'),
+          'revision' => $this->input->post('revision'),
+          'pallet' => 0,
+          'cantidad' => 0,
+          'linea' => $this->input->post('linea'),
+          'idestatus' => 1,
+          'idoperador' => $this->input->post('usuariocalidad'),
+          'idusuario' => $this->session->user_id,
+          'fecharegistro' => date('Y-m-d H:i:s')
+          );
+
+          $iddetalleparte = $this->parte->addDetalleParte($data);
+          $dataupdatefolio = array(
+          'folio' => $iddetalleparte
+          );
+          $this->parte->updateDetalleParte($iddetalleparte, $dataupdatefolio); 
+        $cajas = $this->input->post("cajas");
+        foreach ($this->input->post("pallet") as $index => $code) {
+            //echo $code . 'is your Id code and ' . $ca[$index] . 'is your name'."<br>";
+            $datapalletcaja = array(
+                'iddetalleparte' => 43,
+                'pallet' => $code,
+                'cajas' => $cajas[$index],
+                'idestatus' => 1,
+                'idoperador' => $this->input->post('usuariocalidad'),
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->parte->addPalletCajas($datapalletcaja);
+        }
+
+ 
+    }
 
     public function enviarCalidad() {
       Permission::grant(uri_string());
