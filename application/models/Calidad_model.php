@@ -22,7 +22,7 @@ class Calidad_model extends CI_Model {
         $this->db->join('users u', 'd.idusuario=u.id');
         $this->db->join('users uo', 'd.idoperador=uo.id');
         $this->db->join('status s', 's.idestatus=d.idestatus');
-        $this->db->where('d.idoperador',$idusuario);
+        $this->db->where('d.idoperador',4);
         $this->db->where('d.idestatus',1);
         $this->db->or_where('d.idestatus',4);
         $this->db->or_where('d.idestatus',6);

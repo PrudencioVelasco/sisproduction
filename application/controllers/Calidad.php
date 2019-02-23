@@ -16,11 +16,12 @@ class Calidad extends CI_Controller {
         $this->load->library('form_validation'); 
         $this->load->library('permission');
         $this->load->library('tcpdf');
+        $this->load->model('palletcajas_model', 'palletcajas');
     }
     
     public function index()
     {
-     Permission::grant(uri_string());
+         Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('calidad/index');
         $this->load->view('footer');
@@ -33,7 +34,8 @@ class Calidad extends CI_Controller {
         Permission::grant(uri_string());
         $usuariosbodega = $this->calidad->allUsersBodega();
         $detalledeldetalleparte=$this->calidad->detalleDelDetallaParte($iddetalle);
-       
+        $palletcajas = $this->palletcajas->showAllId($iddetalle);
+        var_dump($palletcajas);
         $dataerror = array();
         if($detalledeldetalleparte->idestatus == 6){
             $dataerror=$this->calidad->motivosCancelacionBodega($iddetalle);
@@ -43,7 +45,8 @@ class Calidad extends CI_Controller {
             'iddetalle'=>$iddetalle,
             'detalle'=>$detalledeldetalleparte,
             'usuariosbodega'=>$usuariosbodega,
-            'dataerrores'=>$dataerror
+            'dataerrores'=>$dataerror,
+            'palletcajas'=>$palletcajas
         );
         
         $this->load->view('header');
