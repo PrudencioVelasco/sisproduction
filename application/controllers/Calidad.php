@@ -35,12 +35,14 @@ class Calidad extends CI_Controller {
         $usuariosbodega = $this->calidad->allUsersBodega();
         $detalledeldetalleparte=$this->calidad->detalleDelDetallaParte($iddetalle);
         $palletcajas = $this->palletcajas->showAllId($iddetalle);
-        var_dump($palletcajas);
-        $dataerror = array();
-        if($detalledeldetalleparte->idestatus == 6){
+        //var_dump($palletcajas);
+        //$dataerror = array();
+        // if($detalledeldetalleparte->idestatus == 6){
             $dataerror=$this->calidad->motivosCancelacionBodega($iddetalle);
-        }
-
+        //}
+      //  echo $iddetalle;
+//var_dump($dataerror);
+//var_dump($dataerror);
         $data=array(
             'iddetalle'=>$iddetalle,
             'detalle'=>$detalledeldetalleparte,
@@ -54,6 +56,11 @@ class Calidad extends CI_Controller {
         $this->load->view('footer');
     }
     
+    public function quitarPalletCajas($idpalletcaja,$iddetalleparte) {
+        $this->palletcajas->eliminarPalletCajas($idpalletcaja);
+         redirect('calidad/detalleenvio/'.$iddetalleparte);
+    
+    }
     // Informacion de la parte recibida por id en Modulo[Calidad]
     public function enviadosBodega()
     {    
@@ -157,12 +164,56 @@ class Calidad extends CI_Controller {
         }
 
     }
+    
+    public function enviarBodegaNew(){
+        $iddetalleparte = $this->input->post('iddetalleparte');
+        $operador = $this->input->post('usuariobodega');
+        $ids = $this->input->post('id');
+        foreach($ids as $value){
+            $data = array(
+            'idestatus'=>4,
+            'idoperador'=>$operador,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->palletcajas->updatePalletCajas($value,$data);
+        }
+        //redirect('detalleenvio/'.$iddetalleparte);
+        
+    }
+    public function rechazarAPackingNew(){
+        $iddetalleparte = $this->input->post('iddetalleparte');
+        $motivorechazo = $this->input->post('motivorechazo');
+        $operador = $this->input->post('idoperador');
+        $ids = $this->input->post('id');
+        foreach($ids as $value){
+            $data = array(
+            'idestatus'=>3,
+            'idoperador'=>$operador,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->palletcajas->updatePalletCajas($value,$data);
+        }
+        $datarechazo = array(
+            'iddetalleparte'=>$iddetalleparte,
+            'idstatus'=>3,
+            'comentariosrechazo'=>$motivorechazo,
+            'idoperador'=>$operador,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+        );
+        $this->calidad->addRechazoParte($datarechazo);
+    }
+    
+    
 
     // Mostrar todas las partes enviados de Modulo[Packing]
     public function showAllEnviados()
     {
         Permission::grant(uri_string());
         //Parametro 7 Indica el estatus enviado a bodega
+        
         $query = $this->calidad->showAllEnviados($this->session->user_id);
         if ($query) {
             $result['detallestatus'] = $this->calidad->showAllEnviados($this->session->user_id);
@@ -174,7 +225,7 @@ class Calidad extends CI_Controller {
     {
         Permission::grant(uri_string());
         $value = $this->input->post('text');
-        $query = $this->calidad->searchPartes($value,$this->session->user_id);
+        $query = $this->calidad->buscar($value,$this->session->user_id);
         if ($query) {
             $result['detallestatus'] = $query;
         }
@@ -246,6 +297,18 @@ class Calidad extends CI_Controller {
     {
         Permission::grant(uri_string());
       // code...
+        
+        $lista = $this->calidad->cantidadesPartes($id);
+        $totalpallet = 0;
+        $totalcajas = 0;
+        if($lista != false){
+            
+            foreach($lista as $value){
+                $totalpallet++;
+                 $totalcajas= $totalcajas + $value->cajas;
+            }
+        }
+        
       $detalle = $this->calidad->detalleDelDetallaParte($id);
       //var_dump($detalle);
       $operador = $detalle->nombreoperador;
@@ -333,9 +396,9 @@ class Calidad extends CI_Controller {
     #000000; border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;'.$detalle->nombre.'</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$detalle->numeroparte.'</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$detalle->modelo.'</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$detalle->cantidad.'</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$detalle->pallet.'</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.($detalle->cantidad * $detalle->pallet).'</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$totalcajas / $totalpallet.'</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.$totalpallet.'</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;'.($totalcajas / $totalpallet) * ($totalpallet).'</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;</td>
     </tr>
 
@@ -566,8 +629,8 @@ class Calidad extends CI_Controller {
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td class="textfooter" style="border-bottom:solid 1px #000; border-right:solid 1px #000;">TOTAL:</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px; margin-top:20px;">&nbsp;'.$detalle->pallet.' </td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;'.($detalle->pallet * $detalle->cantidad).'</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px; margin-top:20px;">&nbsp;'.$totalpallet.' </td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;'.($totalcajas / $totalpallet) * ($totalpallet).'</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     </tr>
     <tr>

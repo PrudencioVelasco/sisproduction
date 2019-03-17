@@ -58,14 +58,14 @@ var v = new Vue({
                      v.noResult()
                     }else{
                         v.getData(response.data.detallestatus);
-                        console.log(response.data.detallestatus);
+                       
                     }
             })
         },
 
           searchDetalleStatus(){
             var formData = v.formData(v.search);
-              axios.post(this.url+"bodega/searchEnviados", formData).then(function(response){
+              axios.post(this.url+"bodega/searchParte", formData).then(function(response){
                   if(response.data.detallestatus == null){
                       v.noResult()
                     }else{

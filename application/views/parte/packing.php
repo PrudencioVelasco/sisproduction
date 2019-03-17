@@ -61,19 +61,21 @@
                                     </div>
                                 </div>
                             </div> 
-
-                           
                             <div class="row">
-                                <div class="myFields"></div>
-                            </div> 
-                            <div class="row">
-                                <div class="col-md-6 col-sm-12 col-xs-12">
-                                    <button id="add_button" class="addNew btn btn-default btn-sm">
-                                        <span class="fa fa-plus"></span> Agregar parte
-                                    </button>
-
+                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label><font color="red">*</font> Total de pallet</label>
+                                        <input type="number" class="form-control" name="pallet" placeholder="Pallet" required />
+                                    </div>
                                 </div>
-                            </div> 
+                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <label><font color="red">*</font> Cajas por pallet</label>
+                                        <input type="number" class="form-control" placeholder="Cajas" name="cajas" required/>
+                                    </div>
+                                </div>
+                            </div>
+                          
                              <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12" align="right">
                                     <input type="hidden" name="idparte" value="<?php echo $idparte ?>">
@@ -91,23 +93,3 @@
         </div>
     </div> 
 </div>
-<script type="text/javascript">
-
-    $(document)
-            .ready(
-                    function () {
-                        var wrapper = $(".myFields");
-                        $(add_button)
-                                .click(
-                                        function (e) {
-                                            e.preventDefault();
-                                            $(wrapper)
-                                                    .append(
-                                                            '<div class="form-group"><div class="col-md-4 col-sm-12 col-xs-12"><label class="label label-default" for="wish">Número de pallet</label><input type="number" name="pallet[]" class="form-control" value="1" readonly  required/></div><div class="col-md-4 col-sm-12 col-xs-12"><label class="label label-default" for="wish">Cantidad de cajas</label><input type="number" name="cajas[]" class="form-control" required/></div><br><a href="#"	class="btn btn-warning btn-sm delFld"><i class="fa fa-trash" aria-hidden="true"></i></a></div>'); //add fields
-                                        });
-                        $(wrapper).on("click", ".delFld", function (e) {
-                            e.preventDefault();
-                            $(this).parent('div').remove();
-                        })
-                    });
-</script>

@@ -1,33 +1,5 @@
 
-/*Vue.config.devtools = true
-Vue.component('modal',{ //modal
-    template:`
-   <transition name="modal">
-      <div class="modal-mask">
-        <div class="modal-wrapper">
-          <div class="modal-dialog">
-			    <div class="modal-content">
-
-
-			      <div class="modal-header">
-				        <h5 class="modal-title"> <slot name="head"></slot></h5>
-                <i class="fa fa-window-close  icon-md text-danger" @click="$emit('close')"></i>
-				      </div>
-
-			      <div class="modal-body" style="background-color:#fff;">
-			         <slot name="body"></slot>
-			      </div>
-			      <div class="modal-footer">
-
-			         <slot name="foot"></slot>
-			      </div>
-			    </div>
-          </div>
-        </div>
-      </div>
-    </transition>
-    `
-})*/
+Vue.config.devtools = true
 var v = new Vue({
    el:'#app',
     data:{
@@ -57,6 +29,7 @@ var v = new Vue({
     },
      created(){
       this.showAll();
+        // console.log(this.showAll);
     },
     methods:{
         showAll(){ 
@@ -65,7 +38,7 @@ var v = new Vue({
                     v.noResult()
                 }else{
                     v.getData(response.data.detallestatus);
-                    //console.log(response.data.detallestatus);
+                    console.log(response.data.detallestatus);
                 }
             })
         },

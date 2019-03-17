@@ -28,35 +28,142 @@ class Salida_model extends CI_Model {
     }
 
     public function showPartesBodega() {
-        $this->db->select('p.idparte, dp.iddetalleparte,p.numeroparte,dp.folio,dp.iddetalleparte, dp.revision, dp.modelo');
-        $this->db->from('parte p');
-        $this->db->join('detalleparte dp', 'dp.idparte=p.idparte');
-        $this->db->where('dp.idestatus', 8);
-        $query = $this->db->get();
+         $query =$this->db->query('SELECT dp.iddetalleparte, dp.folio, p.numeroparte, dp.modelo, dp.revision, dp.linea, 
+(SELECT COUNT(pc.pallet) 
+	FROM palletcajas pc,parteposicionbodega ppb 
+	WHERE dp.iddetalleparte = pc.iddetalleparte 
+    AND pc.idpalletcajas = ppb.idpalletcajas 
+    AND pc.idestatus=8
+    AND ppb.ordensalida = 0 
+    AND ppb.salida = 0) as totalpallet,
+(SELECT SUM(pc.cajas) 
+FROM palletcajas pc,parteposicionbodega ppb 
+WHERE dp.iddetalleparte = pc.iddetalleparte 
+  AND pc.idpalletcajas = ppb.idpalletcajas 
+    AND pc.idestatus=8
+    AND ppb.ordensalida = 0 
+    AND ppb.salida = 0) as totalcajas
+FROM detalleparte dp, parte p
+WHERE dp.idparte = p.idparte ORDER BY dp.fecharegistro DESC'); 
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
             return false;
         }
     }
-
+    public function listaPosiciones($iddetalleparte){
+         $query =$this->db->query("SELECT  pc.idpalletcajas,ppb.idparteposicionbodega,ppb.idparteposicionbodega, ppb.idposicion, pb.nombreposicion  
+FROM parte p, detalleparte dp, palletcajas pc, parteposicionbodega ppb, posicionbodega pb
+WHERE p.idparte = dp.idparte
+AND dp.iddetalleparte = pc.iddetalleparte
+AND pc.idpalletcajas = ppb.idpalletcajas
+AND ppb.idposicion = pb.idposicion
+AND pc.idestatus = 8
+AND ppb.ordensalida = 0
+AND ppb.salida=0
+AND dp.iddetalleparte = $iddetalleparte"); 
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+        
+    }
+    
+    public function updateEstatusOrden($id, $field) {
+        $this->db->where('idparteposicionbodega', $id);
+        $this->db->update('parteposicionbodega', $field);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+        public function updateEstatusPosicionBodega($id, $field) {
+        $this->db->where('idpalletcajas', $id);
+        $this->db->update('parteposicionbodega', $field);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public function validarExistenciaNumeroParte($iddetalleparte){
+        $query=$this->db->query("SELECT COUNT(p.numeroparte) AS totalstock FROM parte p, detalleparte dp, palletcajas pc, parteposicionbodega ppb
+                                WHERE p.idparte = dp.idparte
+                                AND dp.iddetalleparte = pc.iddetalleparte
+                                AND pc.idpalletcajas = ppb.idpalletcajas
+                                AND pc.idestatus = 8
+                                AND ppb.ordensalida = 0
+                                AND ppb.salida=0
+                                AND dp.iddetalleparte =$iddetalleparte");
+        //$query = $this->db->get();
+        return $query->first_row();
+    }
+    public function buscarNumeroParte($text){
+          $query =$this->db->query("SELECT dp.folio, p.numeroparte, dp.modelo, dp.revision, dp.linea, 
+(SELECT COUNT(pc.pallet) FROM palletcajas pc WHERE dp.iddetalleparte = pc.iddetalleparte AND pc.idestatus=8) as totalpallet,
+(SELECT SUM(pc.cajas) FROM palletcajas pc WHERE dp.iddetalleparte = pc.iddetalleparte AND pc.idestatus=8) as totalcajas
+FROM detalleparte dp, parte p
+WHERE dp.idparte = p.idparte
+AND (dp.folio LIKE '%$text%' OR p.numeroparte LIKE '%$text%' OR dp.modelo LIKE '%$text%' OR dp.revision LIKE '%$text%')"); 
+            if ($query->num_rows() > 0) {
+                return $query->result();
+            } else {
+                return false;
+            }
+    }
     public function showPartesDetalle($iddetalleparte) {
         $this->db->select('p.idparte, dp.iddetalleparte,p.numeroparte,dp.folio,dp.iddetalleparte, dp.revision, dp.modelo');
         $this->db->from('parte p');
         $this->db->join('detalleparte dp', 'dp.idparte=p.idparte');
         $this->db->where('dp.iddetalleparte', $iddetalleparte);
-        $this->db->where('dp.idestatus', 8);
         $query = $this->db->get();
 
         return $query->first_row();
     }
-
+//Nuevas funciones para obtener la orden de salida
+public function obtenerOrdenNoParciales($idsalida){
+              $query =$this->db->query("SELECT  	COUNT(pc.pallet) as totalpallet, SUM( pc.cajas) as sumacajas ,
+  (SELECT p.numeroparte FROM detalleparte dp, parte p WHERE dp.idparte = p.idparte AND dp.iddetalleparte = pc.iddetalleparte) as numeroparte,
+  (SELECT dp.modelo FROM detalleparte dp WHERE dp.iddetalleparte = pc.iddetalleparte) as modelo
+  FROM ordensalida os, palletcajas pc
+  WHERE os.idpalletcajas = pc.idpalletcajas
+  AND os.idsalida = '$idsalida'
+  AND os.tipo = 0
+  GROUP BY pc.iddetalleparte"); 
+            if ($query->num_rows() > 0) {
+                return $query->result();
+            } else {
+                return false;
+            }
+}
+   
+    public function obtenerOrdenParciales($idsalida){
+              $query =$this->db->query("SELECT  	SUM( os.caja) as sumacajas ,
+  (SELECT p.numeroparte FROM detalleparte dp, parte p WHERE dp.idparte = p.idparte AND dp.iddetalleparte = pc.iddetalleparte) as numeroparte,
+  (SELECT dp.modelo FROM detalleparte dp WHERE dp.iddetalleparte = pc.iddetalleparte) as modelo
+  FROM ordensalida os, palletcajas pc
+  WHERE os.idpalletcajas = pc.idpalletcajas
+  AND os.idsalida = '$idsalida'
+  AND os.tipo = 1
+  GROUP BY pc.iddetalleparte"); 
+            if ($query->num_rows() > 0) {
+                return $query->result();
+            } else {
+                return false;
+            }
+}
+   
+//Fin
     public function detallesDeOrden($idsalida) {
         // code...
-        $this->db->select('o.idordensalida,s.idsalida, p.numeroparte,o.pallet,o.caja,dp.modelo,dp.revision');
+        $this->db->select('pc.idpalletcajas, o.idordensalida,s.idsalida, p.numeroparte,o.tipo, o.pallet,o.caja, pc.cajas as cajaspallet, dp.modelo,dp.revision');
         $this->db->from('salida s');
         $this->db->join('ordensalida o', 's.idsalida=o.idsalida');
-        $this->db->join('detalleparte dp', 'o.iddetalleparte=dp.iddetalleparte');
+        $this->db->join('palletcajas pc', 'o.idpalletcajas=pc.idpalletcajas');
+        $this->db->join('detalleparte dp', 'dp.iddetalleparte=pc.iddetalleparte');
         $this->db->join('parte p', 'p.idparte=dp.idparte');
         $this->db->join('users u', 'o.idusuario=u.id');
         $this->db->where('s.idsalida', $idsalida);
@@ -116,6 +223,7 @@ class Salida_model extends CI_Model {
     }
 
     public function eliminarParteOrden($id) {
+        
         $this->db->where('idordensalida', $id);
         return $this->db->delete('ordensalida');
     }

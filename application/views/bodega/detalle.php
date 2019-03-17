@@ -17,33 +17,14 @@
 
 
                      <div class="row">
-                       <div class="col-md-6 col-sm-6 col-xs-6">
-                       <div class="form-group">
+                       <div class="col-md-6 col-sm-12 col-xs-12"> 
                          <h4>Número de parte: <?php echo $detalle->numeroparte;?></h4>
                          <h4><small>Número de transferencia:</small> <?php echo $detalle->folio;?></h4>
-                       </div>
+                        
                      </div>
-                     <div class="col-md-6 col-sm-6 col-xs-6" align="right" >
-                     <div class="form-group">
-                       <p><h3 <?php
-                       if($detalle->idestatus == 4 or $detalle->idestatus == 8)
-                       {
-                         echo 'style="color:green;"';
-                       }
-                       ?> >
-                       <?php
-                      if($detalle->idestatus == 4)
-                      {
-                        echo '<i class="fa fa-clock-o" aria-hidden="true"></i>';
-                        echo '  EN ESPERA DE VALIDACIÓN';
-                      }
-                      if($detalle->idestatus == 8)
-                      {
-                        echo '<i class="fa fa-check-circle" aria-hidden="true"></i>';
-                        echo '  EN BODEGA';
-                      } ?></h3></p>
-                     </div>
-                   </div>
+                     <div class="col-md-6 col-sm-12 col-xs-12" align="right"> 
+                         <h4>Cliente: <?php echo $detalle->nombre;?></h4>
+                      </div>
                      </div>
 <hr/>
 
@@ -66,543 +47,95 @@
                           </div>
                        </div>
                      </div>
-                      <div class="row">
-                       <div class="col-md-4 col-sm-12 col-xs-12">
-                          <div class="form-group">
-                              <h3><small>Número de Pallet: </small><?php echo $detalle->pallet ?></h3>
-                          </div>
-                       </div>
-                   <div class="col-md-4 col-sm-12 col-xs-12">
-                          <div class="form-group">
-                               <h3><small>Cantidad de cajas por Pallet: </small><?php echo $detalle->cantidad ?></h3>
-                          </div>
-                       </div>
-                       <div class="col-md-4 col-sm-12 col-xs-12">
-                          <div class="form-group">
-                              <h3><small>Cliente: </small><?php echo $detalle->nombre ?></h3>
-                           </div>
-                       </div>
-                     </div>
-                     <?php if($detalle->idestatus == 4): ?>
-                      <div class="row">
-                       <div class="col-md-6 col-sm-12 col-xs-12">
-                         <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>">
-                          <button type="button" data-toggle="modal" data-target="#myModalRechazar" class="btn btn-danger"><i class="fa fa-ban" aria-hidden="true"></i>
- Rechazar a Calidad</button>
-
-                       </div>
-                     </div>
-                   <?php endif; ?>
                      <hr/>
                      <div class="row">
                       <div class="col-md-12 col-sm-12 col-xs-12">
                         <h4>Colocar los Pallet</h4>
+                        <form method="post" id="frmdetalle" action="mk.php">
+                        <label id="errormsg" style="color:red;"></label>
+                        <table class="table table-hover">
+                              <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Pallet</th>
+                                                <th>Cajas</th>
+                                                <th>Estatus</th> 
+                                                <th></th>   
+                                            </tr>
+                                        </thead>
+                         <tbody>
+                                            
+                                            <?php
+                                            $i = 1;
+                                            foreach ($palletcajas as $value) {
+                                                ?>
+                                               
+                                                <tr>
+                                                    <td>
+                                                       <?php if($value->idestatus == 4){ ?>
+                                                        <div class="checkbox-group required">
+                                                            <input type="checkbox" name="id[]" value="<?php echo $value->idpalletcajas; ?>">
+                                                        </div>
+                                                        
+                                                        <?php } ?>
+                                                    </td>
+                                                    <td><strong><?php echo $i++; ?></strong></td>
+                                                    <td><?php echo $value->cajas ?></td>
+                                                    <td>
+                                                    <?php
+                                                    if($value->idestatus == 4){
+                                                        echo '<label style="color:green;">EN VALIDACIÓN</label>';
+                                                    }else if($value->idestatus == 3){
+                                                        echo '<label style="color:red;">R. A PACKING</label>'; 
+                                                    }else if($value->idestatus == 6){
+                                                        echo '<label style="color:red;">R. A CALIDAD</label>'; 
+                                                    }else if($value->idestatus == 1){
+                                                        echo '<label style="color:green;">EN CALIDAD</label>'; 
+                                                    }else if($value->idestatus == 8){
+                                                        echo '<label style="color:green;">EN ALMACEN</label>'; 
+                                                    }
+                                                    else{
+                                                          echo '<label>No found</label>'; 
+                                                    }
+                                                        ?>
+                                                    </td>
+                                                    <td align="right">
+                                                        <?php if($value->idestatus == 4 or $value->idestatus == 8){ ?>
+                                        <select class="form-control selectposicion"name="posicion">
+                                                <?php foreach($posicionbodega as $value2) { ?>
+                                                       <option value="<?php echo $value->idpalletcajas."-".$value2->idposicion ?>"    <?php
+                                               if(isset($parteposicion) && !empty($parteposicion)){
+                                                  foreach($parteposicion as $valuep){
+                                                      if( $valuep->idposicion == $value2->idposicion){
+                                                          echo "selected";
+                                                      }
+                                                  } 
+                                               }
+                                                ?> > <?php echo $value2->nombreposicion; ?></option>
+                                                                    <?php } ?>
+                                        </select>
+                                                             
+                                                        
+                                                        <?php } ?>
+                                                    </td>
+                                                </tr>
+                                         
+                                            <?php } ?> 
+                                                 
+
+                                        </tbody>
+                                    </table>
+                                    <input type="hidden" id="iddetalleparte" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>"/>
+                                    <input type="hidden" name="operador" value="<?php echo $detalle->idoperador ?>"/>
+                                    <div class="form-group" id="idmotivorechazo">
+                                        <label><font color="red">*</font> Anotaciones de rechazo</label>
+                                        <textarea class="form-control" name="motivorechazo" id="inputmotivorechazo" ></textarea>
+                                    </div>
+                                     <button type="button" id="btnrechazar" class="btn btn-danger btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Almacen</button>
+                                         </form>
                      </div>
                     </div>
 
-<form method="post" action="<?= base_url('bodega/insertarPosicion') ?>">
-                     <div class="row">
-                       <?php if (1 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>1</h3>
-                           <select class="form-control" name="numero1" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 1) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                           <input type="hidden" name="pnumero1" value="1">
-                         </div>
-                       <?php endif; ?>
-
-                       <?php if (2 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>2</h3>
-                           <select class="form-control" name="numero2" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 2) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero2" value="2">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (3 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>3</h3>
-                           <select class="form-control" name="numero3" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 3) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero3" value="3">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (4 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>4</h3>
-                           <select class="form-control" name="numero4" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 4) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero4" value="4">
-                         </div>
-                       <?php endif; ?>
-                     </div>
-                     <div class="row">
-                       <?php if (5 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>5</h3>
-                           <select class="form-control" name="numero5" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 5) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero5" value="5">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (6 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>6</h3>
-                           <select class="form-control" name="numero6" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 6) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero6" value="6">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (7 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>7</h3>
-                           <select class="form-control" name="numero7" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion;  ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 7) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero7" value="7">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (8 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>8</h3>
-                           <select class="form-control" name="numero8" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 8) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero8" value="8">
-                         </div>
-                       <?php endif; ?>
-                     </div>
-                     <div class="row">
-                       <?php if (9 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>9</h3>
-                           <select class="form-control" name="numero9" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 9) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero9" value="9">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (10 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>10</h3>
-                           <select class="form-control" name="numero10" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 10) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero10" value="10">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (11 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>11</h3>
-                           <select class="form-control" name="numero11" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 11) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero11" value="11">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (12 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>12</h3>
-                           <select class="form-control"  name="numero12" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 12) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero12" value="12">
-                         </div>
-                       <?php endif; ?>
-                     </div>
-                     <div class="row">
-                       <?php if (13 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>13</h3>
-                           <select class="form-control" name="numero13" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 13) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero13" value="13">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (14 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>14</h3>
-                           <select class="form-control" name="numero14" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 4) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero14" value="14">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (15 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>15</h3>
-                           <select class="form-control" name="numero15" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 15) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero15" value="15">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (16 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>16</h3>
-                           <select class="form-control" name="numero16" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 16) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero16" value="16">
-                         </div>
-                       <?php endif; ?>
-                     </div>
-                     <div class="row">
-                       <?php if (17 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>17</h3>
-                           <select class="form-control" name="numero17" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 17) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero17" value="17">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (18 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>18</h3>
-                           <select class="form-control" name="numero18" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 18) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero18" value="18">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (19 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>19</h3>
-                           <select class="form-control" name="numero19" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 19) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero19" value="19">
-                         </div>
-                       <?php endif; ?>
-                       <?php if (20 <= $detalle->pallet): ?>
-                         <div class="col-md-3 col-sm-12 col-xs-12 text-center">
-                           <h3>20</h3>
-                           <select class="form-control" name="numero20" required>
-                              <option value="" >Localización</option>
-                              <?php foreach ($posicionbodega as $value) { ?>
-                               <option value="<?php echo $value->idposicion; ?>"
-                                 <?php
-                                 if(isset($dataposicionesparte) && !empty($dataposicionesparte)){
-                                 foreach($dataposicionesparte as $item) {
-                                          if($item->idposicion == $value->idposicion && $item->numero == 20) {
-                                              // We've found item #11!
-                                              echo "selected";
-                                          }
-                                      }
-                                    }
-                                 ?>
-                                  ><?php echo $value->nombreposicion ?></option>
-
-                            <?php  }?>
-                           </select>
-                            <input type="hidden" name="pnumero20" value="20">
-                         </div>
-                       <?php endif; ?>
-                     </div>
-                     <br/>
-                     <div class="row">
-                        <div class="col-md-3 col-sm-12 col-xs-12">
-                          <div class="form-group">
-                            <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte?>">
-                          <button type="submit" class="btn btn-success"> <i class="fa fa-check" aria-hidden="true"></i>
- Finalizar Proceso</button>
-                        </div>
-                        </div>
-                     </div>
-                   </form>
                </div>
              </div>
            </div>
@@ -610,46 +143,64 @@
        </div>
      </div>
 
-     <div id="myModalRechazar" class="modal fade" role="dialog">
-       <div class="modal-dialog">
 
-         <!-- Modal content-->
-         <div class="modal-content">
-           <div class="modal-header">
-             <button type="button" class="close" data-dismiss="modal">&times;</button>
-             <h4 class="modal-title">Agregar motivo de rechazo</h4>
-           </div>
-<form method="post" id="frmrechazo" action="<?= base_url('bodega/rechazar') ?>">
-           <div class="modal-body">
-
-               <div class="row">
-                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="form-group">
-                       <label>* Motivos de cancelación</label>
-                       <textarea class="form-control" rows="5" id="motivo" name="motivo" required>
-                       </textarea>
-                       <label id="msgerror" style="color:red;"></label>
-                    </div>
-                 </div>
-               </div>
-           </div>
-           <div class="modal-footer">
-             <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte; ?>">
-             <input type="hidden" name="operador" value="<?php echo $detalle->idoperador; ?>">
-             <button type="button" id="btnsubmit" class="btn btn-primary" >Aceptar</button>
-             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-           </div>
-</form>
-         </div>
-
-       </div>
-     </div>
 
      <script type="text/javascript">
-        $(document).ready(function(){
-            var estatus = '<?php echo($detalle->idestatus);?>';
-          //  alert(estatus);
-          /*  if(estatus == '1'){
+         $(document).ready(function(){
+             $('#idmotivorechazo').hide();
+             $('#btnrechazar').on('click', function () {
+                 if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
+                      $('#idmotivorechazo').show(); 
+                            if ($.trim($("#inputmotivorechazo").val())) {
+                      form = $("#frmdetalle").serialize(); 
+                         $.ajax({
+                           type: "POST",
+                           url: "<?php  echo site_url('bodega/rechazarACalidad'); ?>",
+                           data: form,
+
+                           success: function(data){ 
+                                location.reload(); 
+                               //Unterminated String literal fixed
+                           }
+
+                         });
+                         //event.preventDefault();
+                         return false;  //stop the actual form post !important!
+                    
+                   //$('#frmdetalle').submit();
+                   }else{
+                   $('#errormsg').text("Escribir motivo de rechazo."); 
+                   }
+                 }else{
+                      $('#errormsg').text("Seleccionar una casilla."); 
+                 }
+                 
+             });
+             $('.selectposicion').on('change',function(){
+                var dataselect = $(this).val();
+                var iddetalleparte = $('#iddetalleparte').val();
+                     $.ajax({
+                           type: "POST",
+                           url: "<?php  echo site_url('bodega/addPositionWereHouse'); ?>",
+                           data: "posicion=" + dataselect + "&iddetalleparte=" + iddetalleparte,
+                           dataType: "html",
+                           success: function(data){ 
+                               console.log(data);
+                                location.reload(); 
+                               //Unterminated String literal fixed
+                           }
+
+                         });
+                 
+             });
+             //Asignar posicion
+             
+         });
+         
+       /* $(document).ready(function(){
+            var estatus = '<?php //echo($detalle->idestatus);?>';
+          
+            if(estatus == '1'){
               $("#cantidad").attr("disabled", false);
               $("#pallet").attr("disabled", false);
               $("#modelo").attr("disabled", false);
@@ -664,7 +215,7 @@
                 $("#usuariocalidad").attr("disabled", true);
             }else{
 
-            }*/
+            }
         });
 
 
@@ -676,7 +227,7 @@
             }else{
               $('#msgerror').text("Campo obligatorio.");
             }
-          });
+          });*/
 
 
 

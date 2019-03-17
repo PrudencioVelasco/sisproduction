@@ -14,7 +14,7 @@ class PalletCajas_model extends CI_Model {
     }
 
     public function showAllId($id) {
-        $this->db->select('pc.idpalletcajas,pc.pallet,pc.cajas,es.nombrestatus');
+        $this->db->select('pc.idpalletcajas,pc.pallet,pc.cajas,es.nombrestatus, es.idestatus');
         $this->db->from('palletcajas pc');
         $this->db->join('detalleparte dp', 'dp.iddetalleparte=pc.iddetalleparte');
         $this->db->join('status es', 'pc.idestatus=es.idestatus');
@@ -40,6 +40,16 @@ class PalletCajas_model extends CI_Model {
             return false;
         }
         
+    }
+     public function updatePalletCajas($id, $data)
+    {
+        $this->db->where('idpalletcajas', $id);
+        $this->db->update('palletcajas', $data);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

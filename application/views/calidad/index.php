@@ -43,12 +43,18 @@
                     <td>{{row.folio}} </td>
                     <td>{{row.numeroparte}} </td>
                     <td>
-                      <h6 style="color:green" v-if="row.idestatus==1"><strong><i class="fa fa-clock-o" aria-hidden="true"></i> EN ESPERA</strong></h6>
-                      <h6 style="color:green" v-else-if="row.idestatus==4"><strong><i class="fa fa-paper-plane" aria-hidden="true"></i> {{row.nombrestatus}}</strong></h6>
-                      <h6 style="color:red" v-else-if="row.idestatus==6"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{row.nombrestatus}}</strong></h6> 
+                        {{row.totalenviadocalidad}}
+                     <h6 style="color:green" v-if="row.totalenviadoacalidad > 0"><strong><i class="fa fa-hourglass-start" aria-hidden="true"></i> EN ESPERA</strong></h6>
+                     
+                     <h6 style="color:green" v-else-if="row.totalpallet == row.totalfinalizado"><strong><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> EN ALMACEN </strong></h6>
+                      <h6 style="color:red" v-else-if="row.totalcancelado > 0"><strong><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> R. DE ALMACEN </strong></h6>
+                      
+                      <h6 style="color:red" v-else-if="row.rechazadoapacking > 0"><strong><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> R. A PACKING </strong></h6>
+                     
+                     <h6 style="color:green" v-else-if="row.totalenviado > 0"><strong><i class="fa fa-hand-o-right" aria-hidden="true"></i> E. A ALMACEN </strong></h6>
                     </td>
-                    <td>{{row.pallet}} </td>
-                    <td>{{row.cantidad}} </td>
+                    <td>{{row.totalpallet}} </td>
+                    <td>{{row.totalcajas}} </td>
                     <td>{{row.revision}} </td>
                     <td>{{row.fecharegistro}}</td>
                     <td>
@@ -62,7 +68,7 @@
                 <!-- Paginacion -->
                 <tfoot>
                   <tr>
-                    <td colspan="6" align="center">
+                    <td colspan="8" align="center">
                       <pagination
                       :current_page="currentPage"
                       :row_count_page="rowCountPage"

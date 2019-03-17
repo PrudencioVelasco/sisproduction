@@ -16,6 +16,8 @@ class Bodega extends CI_Controller
         $this->load->model('parte_model', 'parte');
         $this->load->model('user_model', 'usuario');
         $this->load->model('bodega_model', 'bodega');
+        $this->load->model('calidad_model', 'calidad');
+        $this->load->model('palletcajas_model', 'palletcajas');
         $this->load->model('posicionbodega_model', 'posicionbodega');
         $this->load->library('permission');
 
@@ -45,37 +47,99 @@ class Bodega extends CI_Controller
    }
    return false;
 }
+     public function searchParte()
+    {
+        Permission::grant(uri_string());
+        $value = $this->input->post('text');
+        $query = $this->bodega->buscar($this->session->user_id,$value);
+        if ($query) {
+            $result['detallestatus'] = $query;
+        }
+        echo json_encode($result);
+    }
+    
     public function verDetalle($iddetalle)
     {
       Permission::grant(uri_string());
       $usuarioscalidad=$this->usuario->showAllCalidad();
       $detalledeldetalleparte=$this->parte->detalleDelDetallaParte($iddetalle);
+        
       $arrayposicionesbodega= $this->posicionbodega->posicionesBodega();
+      $datapalletcajas = $this->palletcajas->showAllId($iddetalle);
+      $datapartebodega = $this->bodega->posicionPalletCajas($iddetalle);
+      //var_dump($datapartebodega);
+    //    var_dump($arrayposicionesbodega);
       $dataerror = array();
       $dataposicionesparte=array();
-
-      if ($this->bodega->posicionesDetalleBodega($iddetalle) != false) {
-        // code...
-        $dataposicionesparte = $this->bodega->posicionesDetalleBodega($iddetalle);
-      }
       $dataposicionebodega =array();
-      if($detalledeldetalleparte->idestatus == 6){
         $dataerror=$this->parte->motivosCancelacionCalidad($iddetalle);
-      }
+      
      $data=array(
       'iddetalle'=>$iddetalle,
       'detalle'=>$detalledeldetalleparte,
       'usuarioscalidad'=>$usuarioscalidad,
       'dataerrores'=>$dataerror,
       'posicionbodega'=>$arrayposicionesbodega,
-      'dataposicionesparte'=>$dataposicionesparte
+      'palletcajas'=>$datapalletcajas,
+      'dataposicionesparte'=>$dataposicionesparte,
+      'parteposicion'=>$datapartebodega
      );
      //var_dump($detalledeldetalleparte);
       $this->load->view('header');
       $this->load->view('bodega/detalle',$data);
       $this->load->view('footer');
     }
-
+    public function addPositionWereHouse(){
+        $iddetalleparte =$_POST['iddetalleparte'];
+        $data =$_POST['posicion']; 
+        $porciones = explode("-", $data);
+        $idpalletcajas = $porciones[0];
+        $idposicion = $porciones[1];
+        
+        $idposicion = $_POST['posicion'];
+          $this->bodega->eliminarposicionesparte($idpalletcajas); 
+        $data = array(
+            'idpalletcajas'=>$idpalletcajas,
+            'numero'=>1,
+            'idposicion'=>$idposicion,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+        );
+      
+        $this->bodega->addPalletPosicion($data);
+        $dataupdate = array(
+            'idestatus' => 8
+        );
+        
+        $this->bodega->updateEstatus($idpalletcajas,$dataupdate);
+        echo $idpalletcajas;
+       // redirect('bodega/verDetalle/'.$iddetalleparte);
+        
+        
+    }
+    public function rechazarACalidad(){
+        $iddetalleparte = $this->input->post('iddetalleparte');
+        $motivorechazo = $this->input->post('motivorechazo');
+        $operador = $this->input->post('operador');
+         $ids = $this->input->post('id');
+        foreach($ids as $value){
+            $data = array(
+            'idestatus'=>6,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->palletcajas->updatePalletCajas($value,$data);
+        }
+        $datarechazo = array(
+            'iddetalleparte'=>$iddetalleparte,
+            'idstatus'=>6,
+            'comentariosrechazo'=>$motivorechazo,
+            'idoperador'=>$operador,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+        );
+        $this->calidad->addRechazoParte($datarechazo);
+    }
     public function rechazar()
     {
       // code...

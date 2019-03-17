@@ -101,6 +101,7 @@ class Salida extends CI_Controller {
         Permission::grant(uri_string());
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
+        // var_dump($datadetalleorden);
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
@@ -124,9 +125,13 @@ class Salida extends CI_Controller {
         }
     }
 
-    function eliminarParteOrden($idordensalida, $idsalida) {
-Permission::grant(uri_string());
+    function eliminarParteOrden($idordensalida, $idsalida,$idpalletcajas) {
+        Permission::grant(uri_string());
         $this->salida->eliminarParteOrden($idordensalida);
+        $data = array(
+            'ordensalida'=>0
+        );
+        $this->salida->updateEstatusPosicionBodega($idpalletcajas,$data);
         redirect('/salida/detalleSalida/' . $idsalida);
     }
 
@@ -145,20 +150,106 @@ Permission::grant(uri_string());
     public function searchPartes() {
         Permission::grant(uri_string());
         $value = $this->input->post('text');
-        $query = $this->salida->searchPartes($value);
+        $query = $this->salida->buscarNumeroParte($value);
         if ($query) {
             $result['partes'] = $query;
         }
 
         echo json_encode($result);
     }
-
-    function agregarParteOrdenDetallado($iddetalleparte, $idsalida) {
-Permission::grant(uri_string());
+    public function testnew(){
+         $dataexistencia = $this->salida->validarExistenciaNumeroParte(63);
+        echo $totalexistencia = $dataexistencia->totalstock;
+    }
+public function agregarNumeroParteOrder(){
+    $iddetalleparte =  $this->input->post('iddetalleparte');
+    $idsalida =  $this->input->post('idsalida');
+    $numeropallet =  $this->input->post('pallet');
+    $numerocajas =  $this->input->post('cajas');
+    $tipo =  $this->input->post('tipo');
+    $dataexistencia = $this->salida->validarExistenciaNumeroParte($iddetalleparte);
+    $totalexistencia = $dataexistencia->totalstock;
+    //Tipo de mensajes
+    //0=No existe suficiente pantes en existencia.
+   
+        if($tipo == "parciales"){
+            //Son parciales
+            
+                   $lista = $this->salida->listaPosiciones($iddetalleparte);
+                $i=0;  
+                foreach($lista as $value ){
+                     $i++;
+                    if($i <= 1){
+                        $id = $value->idparteposicionbodega;
+                        $idpalletcajas = $value->idpalletcajas;
+                        $data = array(
+                        'ordensalida'=>1
+                        );
+                        $this->salida->updateEstatusOrden($id,$data);
+                        $dataordensalida = array(
+                        'idsalida'=>$idsalida,
+                        'idpalletcajas'=>$idpalletcajas,
+                        'tipo'=>1,
+                        'pallet'=>0,
+                        'caja'=>$numerocajas,
+                        'revision'=>'0',
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                        );
+                        $this->salida->addOrdenSalida($dataordensalida);
+                        
+                    }
+                  }
+                   echo 1;
+            
+        }else if($tipo == "pallet"){
+            //Son por Pallet
+              if($totalexistencia >= $numeropallet){
+                //Si existen existencia de numero de parte
+                $lista = $this->salida->listaPosiciones($iddetalleparte);
+                $i=0;  
+                foreach($lista as $value ){
+                     $i++;
+                    if($i <= $numeropallet){
+                        $id = $value->idparteposicionbodega;
+                        $idpalletcajas = $value->idpalletcajas;
+                        $data = array(
+                        'ordensalida'=>1
+                        );
+                        $this->salida->updateEstatusOrden($id,$data);
+                        $dataordensalida = array(
+                        'idsalida'=>$idsalida,
+                        'idpalletcajas'=>$idpalletcajas,
+                        'tipo'=>0,
+                        'pallet'=>1,
+                        'caja'=>0,
+                        'revision'=>'0',
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                        );
+                        $this->salida->addOrdenSalida($dataordensalida);
+                        
+                    }
+                  }
+                   echo 1;
+            }else{
+                //No existen existencias de numero de parte
+                 echo 0;
+            }
+        }else{
+            //El tipo no existe
+        }
+        
+        
+    
+    
+}
+ public   function agregarParteOrdenDetallado($iddetalleparte, $idsalida) {
+       Permission::grant(uri_string());
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
         $datadetalleparte = $this->salida->showPartesDetalle($iddetalleparte);
-
+        //var_dump($datadetalleparte);
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
@@ -188,8 +279,19 @@ Permission::grant(uri_string());
         Permission::grant(uri_string());
         $this->load->library('tcpdf'); 
         $detalle= $this->salida->detalleSalidaOrden($idsalida); 
-        $lista= $this->salida->partesIncluidasOrden($idsalida); 
-        var_dump($lista);
+        $lista= array();
+        $listapallet = $this->salida->obtenerOrdenNoParciales($idsalida); 
+        $listaparciales = $this->salida->obtenerOrdenParciales($idsalida);
+        $sumatotalcajas = 0;
+        $sumatotalpallet = 0;
+        foreach($listapallet as $valuepal){
+            $sumatotalcajas = $sumatotalcajas + $valuepal->sumacajas;
+            $sumatotalpallet = $sumatotalpallet + $valuepal->totalpallet;
+        }
+        foreach($listaparciales as $valuepar){
+             $sumatotalcajas = $sumatotalcajas + $valuepar->sumacajas;
+        }
+        
         $nombrecliente =  $detalle->nombre;
         $direccioncliente = $detalle->direccion; 
         $fecha = date('d-m-Y',strtotime($detalle->fecharegistro));
@@ -292,51 +394,35 @@ $html = '
     <td width="250" colspan="3"  align="center"  class="color"  style="font-size:9px">TARMIMAS FAVOR DE RETORNAR A WOORI</td>
     </tr>
     ';
-    
-    $sumapallet = 0;
-    $sumatotal= 0;
-    $sumaparcial = 0;
-    foreach($lista as $det){
-    
-     // $sumacajas+=$det->caja * $det->pallet;
-      $sumapallet+=$det->pallet;
-     
-      $html.='<tr>
-      <td width="130" align="center" style="font-size:9px">&nbsp;'.$det->numeroparte.'&nbsp;</td>
-      <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;'.$det->modelo.'&nbsp;</td>';
-     if($det->pallet > 0){ 
-      $html.='<td width="45" align="right" style="font-size:9px">&nbsp;'.number_format($det->pallet).'&nbsp;&nbsp;</td>';
-     }else{
-      $html.='<td width="45" align="right" style="font-size:9px"> </td>';
-     }
-     if($det->pallet > 0){ 
-      $html.='<td width="45" align="right" style="font-size:9px">&nbsp;'.number_format($det->caja).'&nbsp;&nbsp;</td>';
-    }else{
-      $html.='<td width="45" align="right" style="font-size:9px"></td>';
-     }
-     if($det->pallet == 0){ 
-      $html.='<td width="45" align="right" style="font-size:9px">0&nbsp;&nbsp;</td>';
-    }else{
-      $html.='<td width="45" align="right" style="font-size:9px"></td>';
+    foreach($listapallet as $valurpal){
+        $html.='<tr>
+                <td width="130" align="center" style="font-size:9px">&nbsp;'.$valurpal->numeroparte.'</td>
+                <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;'.$valurpal->modelo.'</td>
+                <td width="45" align="center" style="font-size:9px">'.$valurpal->totalpallet.'</td>
+                <td width="45" align="center" style="font-size:9px">'.$valurpal->sumacajas / $valurpal->totalpallet.'</td>
+                <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+                <td width="45" align="right" style="font-size:9px">&nbsp;</td>
+                <td width="45" align="center" style="font-size:9px">&nbsp;'.$valurpal->sumacajas.'</td>
+                <td width="45">&nbsp;</td>
+                <td width="45">&nbsp;</td>
+                <td width="160">&nbsp;</td>
+              </tr>'; 
     }
-      if($det->pallet == 0){ 
-      $html.='<td width="45" align="right" style="font-size:9px">'.number_format($det->caja).'&nbsp;&nbsp;</td>';
-      }else{
-        $html.='<td width="45" align="right" style="font-size:9px"></td>';
-      }
-      if($det->pallet == 0){
-        $sumatotal+=$det->caja;
-        $html.='<td width="45" align="right" style="font-size:9px">'.number_format($det->caja).'&nbsp;&nbsp;</td>';
-      }else{
-         $sumatotal+=$det->caja * $det->pallet;
-        $html.='<td width="45" align="right" style="font-size:9px">'.number_format($det->caja * $det->pallet).'&nbsp;&nbsp;</td>';
-      }
-      
-        $html.='<td width="45" style="font-size:9px">&nbsp;</td>
-      <td width="45" style="font-size:9px">&nbsp;</td>
-      <td width="160" style="font-size:9px">&nbsp;</td>
-      </tr>';
+         foreach($listaparciales as $valurpar){
+        $html.='<tr>
+                <td width="130" align="center" style="font-size:9px">&nbsp;'.$valurpar->numeroparte.'</td>
+                <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;'.$valurpar->modelo.'</td>
+                <td width="45" align="center" style="font-size:9px"></td>
+                <td width="45" align="center" style="font-size:9px"></td>
+                <td width="45" align="center" style="font-size:9px">0</td>
+                <td width="45" align="center" style="font-size:9px">'.$valurpar->sumacajas.'</td>
+                <td width="45" align="center" style="font-size:9px">&nbsp;'.$valurpar->sumacajas.'</td>
+                <td width="45">&nbsp;</td>
+                <td width="45">&nbsp;</td>
+                <td width="160">&nbsp;</td>
+              </tr>'; 
     }
+
     $html.=' 
   <tr>
     <td width="130" align="center" style="font-size:9px">&nbsp;</td>
@@ -489,7 +575,7 @@ $html = '
     <td width="45" align="right" style="font-size:9px">&nbsp;</td>
     <td width="45" align="right" style="font-size:9px">&nbsp;</td>
     <td width="45" align="center" style="font-size:9px">Total</td>
-    <td width="45" align="right" style="font-size:9px">'.number_format($sumatotal).'&nbsp;&nbsp;</td>
+    <td width="45" align="center" style="font-size:9px">'.number_format($sumatotalcajas).'&nbsp;&nbsp;</td>
     <td width="45">&nbsp;</td>
     <td width="45">&nbsp;</td>
     <td width="160">&nbsp;</td>

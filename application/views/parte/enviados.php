@@ -44,11 +44,24 @@
                                     <td>{{row.folio}} </td>
                                     <td>{{row.numeroparte}} </td>
                                     <td>
-                                        <h6 style="color:green" v-if="row.idestatus==1"><strong><i class="fa fa-paper-plane" aria-hidden="true"></i> {{row.nombrestatus}}</strong></h6>
-                                        <h6 style="color:red" v-else-if="row.idestatus==3"><strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{row.nombrestatus}}</strong></h6>
-                                        <h6 v-else>{{row.nombrestatus}}</h6> </td>
-                                    <td>{{row.pallet}} </td>
-                                    <td>{{row.cantidad}} </td>
+                                        <h6 style="color:red" v-if="row.totalcancelado > 0"><strong><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 
+                                        RECHAZADO</strong></h6>
+                                        
+                                        <h6 style="color:green" 
+                                        v-else-if="row.totalcancelado == 0 && row.totalfinalizado == 0 && row.totalenviado > 0"><strong><i class="fa fa-hand-o-right" aria-hidden="true"></i> E. A CALIDAD </strong></h6>
+                                        
+                                        <h6 style="color:green" 
+                                        v-else-if="row.totalenviadocalidad > 0"><strong><i class="fa fa-hand-o-right" aria-hidden="true"></i> EN ALMACEN </strong></h6>
+                                        
+                                        <h6 style="color:green" 
+                                        v-else-if="row.totalpallet == row.totalfinalizado"><strong><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> EN ALMACEN </strong></h6>
+                                        
+                                        
+                                        <h6 v-else style="color:green;">ALMACEN</h6>
+                                        
+                                          </td>
+                                    <td>{{row.totalpallet}} </td>
+                                    <td>{{row.totalcajas}} </td>
                                      <td>{{row.revision}} </td>
                                     <td>{{row.fecharegistro}} </td>
 
@@ -58,12 +71,12 @@
                                     </td>
                                 </tr>
                                 <tr v-if="emptyResult">
-                                    <td colspan="9" rowspan="4" class="text-center h4">No encontrado</td>
+                                    <td colspan="8" class="text-center h4">No encontrado</td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="5" align="right">
+                                    <td colspan="8" align="right">
                             <pagination
                                 :current_page="currentPage"
                                 :row_count_page="rowCountPage"

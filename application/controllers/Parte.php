@@ -37,7 +37,16 @@ class Parte extends CI_Controller {
     public function etiquetaCalidad($id) {
       //Permission::grant(uri_string());
         $detalle = $this->parte->detalleDelDetallaParte($id); 
-       
+         $lista = $this->parte->cantidadesPartes($id);
+        $totalpallet = 0;
+        $totalcajas = 0;
+        if($lista != false){
+            
+            foreach($lista as $value){
+                $totalpallet++;
+                 $totalcajas= $totalcajas + $value->cajas;
+            }
+        }
         $hora= date ("h:i:s a");
         $fecha= date ("d-M-Y");
         $semana = date("W");
@@ -75,7 +84,7 @@ class Parte extends CI_Controller {
 		</tr>
 		<tr>
 			<td  align="center" height="50px" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " >'.$detalle->numeroparte.'</td>
-			<td  align="center" style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >'.$detalle->cantidad * $detalle->pallet.'</td>
+			<td  align="center" style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >'.($totalcajas / $totalpallet) * ($totalpallet) .'</td>
 		</tr>
 		<tr>
 			<td  align="" height="50" style="font-size:20px; font-family:arial; font-weight:bold; background: #;color:#fff; " >MODEL</td>
@@ -210,6 +219,19 @@ class Parte extends CI_Controller {
         date_default_timezone_set("America/Tijuana");
         $detalle = $this->parte->detalleDelDetallaParte($id);
         $barcode = $this->set_barcode($detalle->numeroparte);
+        
+        $lista = $this->parte->cantidadesPartes($id);
+        $totalpallet = 0;
+        $totalcajas = 0;
+        if($lista != false){
+            
+            foreach($lista as $value){
+                $totalpallet++;
+                 $totalcajas= $totalcajas + $value->cajas;
+            }
+        }
+        
+        
         $hora = date("h:i a");
         $fecha = date("j/n/Y");
         $dia = date("j");
@@ -248,7 +270,7 @@ class Parte extends CI_Controller {
             <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
         
             
-            <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $detalle->cantidad * $detalle->pallet . '</b></td>
+            <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . ($totalcajas / $totalpallet) * ($totalpallet) . '</b></td>
                 
             <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
             
@@ -288,7 +310,7 @@ class Parte extends CI_Controller {
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
             <td align="center" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold;  " colspan="">' . $detalle->revision . '</td>
-            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="">' . $detalle->pallet . '</td>    
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="">' . $totalpallet . '</td>    
         </tr>
         <tr>
             <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan="">1</td>    
@@ -309,6 +331,18 @@ class Parte extends CI_Controller {
     public function generarPDFEnvio($id) {
       //Permission::grant(uri_string());
         $this->load->library('tcpdf');
+        $lista = $this->parte->cantidadesPartes($id);
+         $totalpallet = 0;
+        $totalcajas = 0;
+        if($lista != false){
+            
+            foreach($lista as $value){
+                $totalpallet++;
+                 $totalcajas= $totalcajas + $value->cajas;
+            }
+        }
+        
+        
         $detalle = $this->parte->detalleDelDetallaParte($id);
         $operador = $detalle->nombreoperador;
         $horario = $detalle->horainicial . " - " . $detalle->horafinal;
@@ -394,9 +428,9 @@ class Parte extends CI_Controller {
     #000000; border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;' . $detalle->nombre . '</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $detalle->numeroparte . '</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $detalle->modelo . '</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $detalle->cantidad . '</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $detalle->pallet . '</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . ($detalle->cantidad * $detalle->pallet) . '</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $totalcajas / $totalpallet . '</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $totalpallet . '</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . ($totalcajas / $totalpallet) * ($totalpallet) . '</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;</td>
   </tr>
 
@@ -627,8 +661,8 @@ class Parte extends CI_Controller {
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td class="textfooter" style="border-bottom:solid 1px #000; border-right:solid 1px #000;">TOTAL:</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px; margin-top:20px;">&nbsp;' . $detalle->pallet . ' </td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;' . ($detalle->pallet * $detalle->cantidad) . '</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px; margin-top:20px;">&nbsp;' . $totalpallet . ' </td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;' . ($totalcajas / $totalpallet) * ($totalpallet)  . '</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
   </tr>
  <tr>
@@ -723,10 +757,11 @@ class Parte extends CI_Controller {
         $detalledeldetalleparte = $this->parte->detalleDelDetallaParte($iddetalle);
         $palletcajas = $this->palletcajas->showAllId($iddetalle);
         //var_dump($palletcajas);
-        $dataerror = array();
-        if ($detalledeldetalleparte->idestatus == 3) {
+       // $dataerror = array();
+    //    if ($detalledeldetalleparte->idestatus == 3) {
             $dataerror = $this->parte->motivosCancelacionCalidad($iddetalle);
-        }
+      //  }
+       // var_dump($dataerror);
 
         $data = array(
             'iddetalle' => $iddetalle,
@@ -760,74 +795,12 @@ class Parte extends CI_Controller {
     }
 
     public function reenviarCalidad() {
-      Permission::grant(uri_string());
-        // code...
-        $config = array(
-            array(
-                'field' => 'modelo',
-                'label' => 'Modelo',
-                'rules' => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.',
-                )
-            ),
-            array(
-                'field' => 'revision',
-                'label' => 'Revision',
-                'rules' => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.',
-                )
-            ),
-            array(
-                'field' => 'numeropallet',
-                'label' => 'Número de pallet',
-                'rules' => 'required|integer',
-                'errors' => array(
-                    'required' => 'Campo requerido.',
-                    'integer' => 'Solo numero'
-                )
-            ),
-            array(
-                'field' => 'cantidadcaja',
-                'label' => 'Cantidad Caja',
-                'rules' => 'required|integer',
-                'errors' => array(
-                    'required' => 'Cantidad requerido.',
-                    'integer' => 'Solo numero.'
-                )
-            )
-            ,
-            array(
-                'field' => 'linea',
-                'label' => 'Linea',
-                'rules' => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.'
-                )
-            )
-            ,
-            array(
-                'field' => 'usuariocalidad',
-                'label' => 'Usuario de calidad',
-                'rules' => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.'
-                )
-            )
-        );
-
-        $iddetalleparte = $this->input->post('iddetalleparte');
-        $this->form_validation->set_rules($config);
-
-        if ($this->form_validation->run() == TRUE) {
+        Permission::grant(uri_string());
+        $iddetalleparte =$this->input->post('iddetalleparte');
             $data = array(
                 'modelo' => $this->input->post('modelo'),
                 'revision' => $this->input->post('revision'),
-                'pallet' => $this->input->post('numeropallet'),
-                'cantidad' => $this->input->post('cantidadcaja'),
                 'linea' => $this->input->post('linea'),
-                'idestatus' => 1,
                 'idoperador' => $this->input->post('usuariocalidad'),
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
@@ -835,7 +808,7 @@ class Parte extends CI_Controller {
 
             $this->parte->updateDetalleParte($iddetalleparte, $data);
 
-            $datastatus = array(
+            /*$datastatus = array(
                 'iddetalleparte' => $iddetalleparte,
                 'idstatus' => 1,
                 'idoperador' => $this->input->post('usuariocalidad'),
@@ -843,30 +816,20 @@ class Parte extends CI_Controller {
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
 
-            $this->parte->addDetalleEstatusParte($datastatus);
-            redirect('parte/');
-        } else {
-            // code...
-            $usuarioscalidad = $this->usuario->showAllCalidad();
-            $detalledeldetalleparte = $this->parte->detalleDelDetallaParte($iddetalleparte);
-
-            $dataerror = array();
-
-            if ($detalledeldetalleparte->idestatus == 6) {
-                $dataerror = $this->parte->motivosCancelacionCalidad($iddetalleparte);
-            }
-
-            $data = array(
-                'iddetalle' => $iddetalleparte,
-                'detalle' => $detalledeldetalleparte,
-                'usuarioscalidad' => $usuarioscalidad,
-                'dataerrores' => $dataerror
-            );
-            //var_dump($detalledeldetalleparte);
-            $this->load->view('header');
-            $this->load->view('parte/detalleenviado', $data);
-            $this->load->view('footer');
+            $this->parte->addDetalleEstatusParte($datastatus);*/
+         $ids = $this->input->post('id');
+        foreach($ids as $value){
+           $dataupdate = array(
+            'idestatus'=>1,
+            //'idoperador'=> $this->input->post('usuariocalidad'),
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+        );
+            $this->parte->updatePalletCajas($value,$dataupdate);
         }
+          
+
+    
     }
  
 
@@ -898,20 +861,25 @@ class Parte extends CI_Controller {
             'fecharegistro' => date('Y-m-d H:i:s')
         );
         $this->parte->addDetalleEstatusParte($datastatus);
+      
+      
         $cajas = $this->input->post("cajas");
-        foreach ($this->input->post("pallet") as $index => $code) {
-            //echo $code . 'is your Id code and ' . $ca[$index] . 'is your name'."<br>";
-            $datapalletcaja = array(
+        $pallet = $this->input->post("pallet");
+        for($i=1;$i <= $pallet; $i++){
+           $datapalletcaja = array(
                 'iddetalleparte' => $iddetalleparte,
-                'pallet' => $code,
-                'cajas' => $cajas[$index],
+                'pallet' => 1,
+                'cajas' => $cajas,
                 'idestatus' => 1,
                 'idoperador' => $this->input->post('usuariocalidad'),
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
-            $this->palletcajas->addPalletCajas($datapalletcaja);
+            $this->palletcajas->addPalletCajas($datapalletcaja);  
         }
+      
+       redirect('parte/detalleenvio/'.$iddetalleparte);
+      
     }
 
     public function enviarCalidad() {
@@ -1145,7 +1113,7 @@ class Parte extends CI_Controller {
     public function searchEnviados() {
         Permission::grant(uri_string());
         $value = $this->input->post('text');
-        $query = $this->parte->searchEnviados($value, $this->session->user_id);
+        $query = $this->parte->buscarEnviados($this->session->user_id,$value);
         if ($query) {
             $result['detallestatus'] = $query;
         }

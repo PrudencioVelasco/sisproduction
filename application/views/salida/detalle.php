@@ -58,6 +58,8 @@
                                                             <thead class="text-white bg-dark" >
                                                             <th class="text-white">N. Tranferencia</th>
                                                             <th class="text-white">N. Parte</th>
+                                                            <th class="text-white">Pallet</th>
+                                                            <th class="text-white">Cajas</th>
                                                             <th class="text-white">N. modelo</th>
                                                             <th class="text-white">Revisión</th>
                                                             <th class="text-white text-right" align="right">Opción</th>
@@ -65,11 +67,18 @@
                                                             <tbody class="table-light">
 
                                                                 <tr v-for="row in partes" class="table-default">
-                                                                    <td>{{row.folio}}</td>
-                                                                    <td>{{row.numeroparte}}</td>
-                                                                    <td>{{row.modelo}}</td>
-                                                                    <td>{{row.revision}}</td>
-                                                                    <td align="right">
+                                                                    <td v-if="row.totalpallet > 0">{{row.folio}}</td>
+                                                                    <td v-if="row.totalpallet > 0">{{row.numeroparte}}</td>
+                                                                    <td v-if="row.totalpallet > 0">
+                                                                    <label style="color:red;" >{{row.totalpallet}}</label>
+                                                                    </td>
+                                                                    <td v-if="row.totalpallet > 0">
+                                                                    <label style="color:red;">{{row.totalcajas}} </label>
+                                                                    
+                                                                    </td>
+                                                                    <td v-if="row.totalpallet > 0">{{row.modelo}}</td>
+                                                                    <td v-if="row.totalpallet > 0">{{row.revision}}</td>
+                                                                    <td v-if="row.totalpallet > 0" align="right">
                                                                         <a class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'/sisproduction/salida/agregarParteOrdenDetallado/'+ row.iddetalleparte+'/'+<?php echo $idsalida ?>" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                                             Agregar</a>
                                                                     </td>
@@ -77,7 +86,7 @@
                                                             </tbody>
                                                             <tfoot>
                                                                 <tr>
-                                                                    <td colspan="5" align="right">
+                                                                    <td colspan="8" align="right">
                                                             <pagination
                                                                 :current_page="currentPage"
                                                                 :row_count_page="rowCountPage"
@@ -103,34 +112,48 @@
 
                             </div>
                         </div>
-
                         <div class="row">
-
+                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                <label id="msgerror" style="color:red;"></label>
+                            </div>
+                        </div>
+                        <div class="row">
+            
                             <?php if (isset($detalleparte) && !empty($detalleparte)) { ?> 
-                                <form method="post" action="<?= base_url('salida/agregarParteOrden') ?>">
+                                <form method="post" id="frmagregar" action="">
                                     <div class="col-md-3 col-sm-12 col-xs-12 ">
                                         <div class="form-group">
                                             <label><font color="red">*</font> Parte</label>
                                             <input type="text" name="numeroparte" class="form-control" value="<?php echo $detalleparte->numeroparte ?>" disabled="">
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-sm-12 col-xs-12 ">
+                                     <div class="col-md-3 col-sm-12 col-xs-12 ">
+                                        <div class="form-group">
+                                            <label><font color="red">*</font> Tipo</label>
+                                            <p style="padding-top:5px;">
+                                              <strong>Pallet:</strong>
+                                              <input type="radio" name="tipo" id="selectPal" value="pallet" checked="" required /> <strong>Parciales:</strong>
+                                              <input type="radio" name="tipo" id="selectPar" value="parciales" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-12 col-xs-12 " id="pallet">
                                         <div class="form-group">
                                             <label><font color="red">*</font> C. Pallet</label>
                                             <input type="number" name="pallet" class="form-control" placeholder="C. Pallet" required="">
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-sm-12 col-xs-12 ">
+                                    <div class="col-md-3 col-sm-12 col-xs-12 " id="cajas">
                                         <div class="form-group">
-                                            <label><font color="red">*</font> C. Cajas por Pallet</label>
-                                            <input type="number" name="cajas" class="form-control" placeholder="C. Cajas" required="">
+                                            <label><font color="red">*</font> Total Cajas</label>
+                                            <input type="number" name="cajas" class="form-control" placeholder="Total Cajas" required="">
                                         </div>
                                     </div>
                                     <div class="col-md-3 col-sm-12 col-xs-12 ">
                                         <div class="form-group">
                                             <input type="hidden" name="iddetalleparte" value="<?php echo $detalleparte->iddetalleparte; ?>"/>
                                             <input type="hidden" name="idsalida" value="<?php echo $idsalida; ?>"/>
-                                            <button type="submit" style="margin-top:22px;" class="btn btn-default">Agregar</button>
+                                            <button type="button" id="btnagregar" style="margin-top:22px;" class="btn btn-default">Agregar</button>
                                         </div>
                                     </div>
                                 </form>
@@ -159,20 +182,35 @@
                                         $totalcajas=0;
                                         foreach ($detalleorden as $value) {
                                             $totalpallet+=$value->pallet;
-                                            $totalcajas+=($value->caja * $value->pallet);
+                                            //$totalcajas+=($value->caja * $value->pallet);
+                                             if($value->tipo == 0){
+                                                     $totalcajas+=$value->cajaspallet;
+                                                }else{
+                                                     $totalcajas+=$value->caja;
+                                                }
+                                                
+                                                
                                             // code...
                                             echo "<tr>";
                                             echo "<td>" . $value->numeroparte . "</td>";
-                                            echo "<td>" . $value->pallet . "</td>";
-                                            echo "<td>" . $value->caja . "</td>";
-                                            echo "<td>" . $value->modelo . "</td>";
+                                            echo "<td>" . $value->pallet . "</td>";?>
+                                            <td>
+                                                <?php
+                                                if($value->tipo == 0){
+                                                    echo $value->cajaspallet;
+                                                }else{
+                                                    echo $value->caja;
+                                                }
+                                                ?>
+                                            </td>
+                                            <?php echo "<td>" . $value->modelo . "</td>";
                                             echo "<td>" . $value->revision . "</td>";
                                             ?>
                                             <?php if ($detallesalida->finalizado == 0) { ?>
                                                 <td align="right">
                                                     <input type="hidden" id="idordensalida" name="idordensalida" value="<?php echo $value->idordensalida; ?>"/>
                                                      
-                                                    <a onclick="return confirm('Estas seguro de quitar?')" href="<?php echo site_url('salida/eliminarParteOrden/'.$value->idordensalida.'/'.$value->idsalida) ?>"><i style="color:red;padding-right: 10px;"  class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                                    <a onclick="return confirm('Estas seguro de quitar?')" href="<?php echo site_url('salida/eliminarParteOrden/'.$value->idordensalida.'/'.$value->idsalida.'/'.$value->idpalletcajas) ?>"><i style="color:red;padding-right: 10px;"  class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                                                 </td>
                                             <?php } ?>
                                             <?php
@@ -218,4 +256,46 @@
     </div>
 </div>
 <!-- /page content -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#pallet').show();
+        $('#cajas').hide();
+        $('#selectPal').on('click', function(){
+           $('#pallet').show();
+           $('#cajas').hide();
+        });
+        $('#selectPar').on('click', function(){
+           $('#pallet').hide();
+           $('#cajas').show();
+        });
+        $('#btnagregar').on('click', function () {
+                form = $("#frmagregar").serialize(); 
+                         $.ajax({
+                           type: "POST",
+                           url: "<?php  echo site_url('salida/agregarNumeroParteOrder'); ?>",
+                           data: form,
+
+                           success: function(data){ 
+                                //location.reload();
+                                console.log(data);
+                               //$("#msgerror").text(data);
+                               if(data == 0){
+                                  $("#msgerror").text("No existe suficiente en Existencia.");
+                               setTimeout(function(){
+                                   location.reload();
+                               },5000);   
+                               }else{
+                                setTimeout(function(){
+                                   location.reload();
+                               },1000); 
+                               }
+                           }
+
+                         });
+                         //event.preventDefault();
+                         return false;  //stop the actual form post !important!
+            
+        });
+    });
+</script>
 <script src="<?php echo base_url(); ?>/assets/js/appvue/appaddpartesalida.js"></script>
