@@ -24,7 +24,8 @@ class Orden extends CI_Controller {
         $this->load->view('orden/index');
         $this->load->view('footer');
     }
- public function showAll() {
+
+    public function showAll() {
         Permission::grant(uri_string());
         $query = $this->orden->showAllSalidas();
         if ($query) {
@@ -34,20 +35,24 @@ class Orden extends CI_Controller {
 
         // code...
     }
- public function detalle($idsalida){
-     $datadetallesalida = $this->orden->detalleSalida($idsalida);
-    $datadetalleorden = $this->orden->detallesDeOrden($idsalida);
-     var_dump($datadetalleorden);
-     $data = array(
+
+    public function detalle($idsalida) {
+        $datadetallesalida = $this->orden->detalleSalida($idsalida);
+        $datadetalleorden = $this->orden->detallesDeOrden($idsalida);
+        //var_dump($datadetalleorden);
+        $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
             'idsalida' => $idsalida);
-     
-     $this->load->view('header');
-        $this->load->view('orden/detalle',$data);
-        $this->load->view('footer');
- }
 
+        $this->load->view('header');
+        $this->load->view('orden/detalle', $data);
+        $this->load->view('footer');
+    }
+    public function validar() {
+        $item = $_POST['item'];
+        echo $item;
+    }
 }
 
 ?>

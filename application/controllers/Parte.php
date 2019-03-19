@@ -222,15 +222,16 @@ class Parte extends CI_Controller {
         
         $lista = $this->parte->cantidadesPartes($id);
         $totalpallet = 0;
+        $totalc = 0;
         $totalcajas = 0;
         if($lista != false){
             
             foreach($lista as $value){
-                $totalpallet++;
-                 $totalcajas= $totalcajas + $value->cajas;
+                 $totalpallet++;
+                 $totalc= $totalc + $value->cajas;
             }
         }
-        
+         $totalcajas = $totalc / $totalpallet;
         
         $hora = date("h:i a");
         $fecha = date("j/n/Y");
@@ -309,11 +310,11 @@ class Parte extends CI_Controller {
             <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
-            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold;  " colspan="">' . $detalle->revision . '</td>
-            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="">' . $totalpallet . '</td>    
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold; padding-top:15px; " colspan="">' . $detalle->revision . '</td>
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">' . $totalpallet . '</td>    
         </tr>
         <tr>
-            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan="">1</td>    
+            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">'.$detalle->linea.'</td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
