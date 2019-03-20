@@ -51,6 +51,18 @@ class Orden extends CI_Controller {
     }
     public function validar() {
         $item = $_POST['item'];
+        $porciones = explode("*", $item);
+        $numeroparte = (isset($porciones[0])) ? 1 : 0; // porción1
+        $folio = (isset($porciones[1])) ? 1 : 0;  // porción2
+        
+        if(isset($numeroparte) && !empty($numeroparte) && isset($folio) && !empty($folio)){
+            
+            
+            
+        }else{
+            //0 el formato del codigo escaneado esta incorrecto.
+            echo 0;
+        }
         echo $item;
     }
 }
