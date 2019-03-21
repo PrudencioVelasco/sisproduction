@@ -114,7 +114,7 @@
                                     </div>
                                    <input type="hidden" name="idoperador" value="<?php echo $detalle->idoperador ?>"/>
                                     <button type="button" id="btnenviar"   class="btn btn-success btn-sm"><i class="fa fa-paper-plane" aria-hidden="true"></i> Enviar a Almacen</button>
-                                    <button type="button" id="btnrechazar" class="btn btn-danger btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Almacen</button>
+                                    <button type="button" id="btnrechazar" class="btn btn-danger btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Packing</button>
                                 </form>
                             </div>
                             <div class="col-md-6 col-sm-12 col-xs-12"  >

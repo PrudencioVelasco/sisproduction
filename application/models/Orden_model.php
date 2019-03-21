@@ -27,6 +27,21 @@ class Orden_model extends CI_Model {
             return false;
         }
     }
+    
+    public function validarOrdenSalida($idsalida){
+        $this->db->select('');
+        $this->db->from('ordensalida os');
+        $this->db->join('parteposicionbodega ppb', 'os.idpalletcajas=ppb.idpalletcajas');
+        $this->db->where('os.idsalida',$idsalida);
+        $this->db->where('ppb.ordensalida',1);
+        $this->db->where('ppb.salida',0);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
       public function detalleSalida($idsalida) {
         // code...
         $this->db->select('s.idsalida,s.numerosalida,s.finalizado,c.nombre,u.name,s.fecharegistro');

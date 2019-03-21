@@ -39,7 +39,7 @@ class Orden extends CI_Controller {
     public function detalle($idsalida) {
         $datadetallesalida = $this->orden->detalleSalida($idsalida);
         $datadetalleorden = $this->orden->detallesDeOrden($idsalida);
-        //var_dump($datadetalleorden);
+        var_dump($datadetallesalida);
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
@@ -49,21 +49,31 @@ class Orden extends CI_Controller {
         $this->load->view('orden/detalle', $data);
         $this->load->view('footer');
     }
+    public function test(){
+        $data = $this->orden->validarOrdenSalida(1);
+        var_dump($data);
+    }
     public function validar() {
         $item = $_POST['item'];
-        $porciones = explode("*", $item);
+        $idsalida = $_POST["idsalida"];
+        $porciones = explode("_", $item);
         $numeroparte = (isset($porciones[0])) ? 1 : 0; // porción1
         $folio = (isset($porciones[1])) ? 1 : 0;  // porción2
         
         if(isset($numeroparte) && !empty($numeroparte) && isset($folio) && !empty($folio)){
             
+            if($this->orden->validarOrdenSalida($idsalida) != FALSE){
+                
+            }else{
+                
+            }
             
             
         }else{
             //0 el formato del codigo escaneado esta incorrecto.
             echo 0;
         }
-        echo $item;
+        echo $idsalida;
     }
 }
 

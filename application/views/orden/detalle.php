@@ -40,6 +40,7 @@
                                      <div class="form-group">
                                         <label>Escaneo Codigo de Barra:</label>
                                         <input type="text" class="form-control" placeholder="Escaneo Codigo de Barra" id="item" autofocus="">
+                                        <input type="hidden" name="idsalida" id="txtidsalida" value="<?php echo $detallesalida->idsalida; ?>" />
                                       </div>
                                 </div>
                             </div>
@@ -123,10 +124,12 @@
               $("#item").delayPasteKeyUp(function() {
           
                   item = $("#item").val();
+                  idsalida = $("#txtidsalida").val();
+                  
                   $.ajax({
                       type: "POST",
                       url: "<?= base_url('orden/validar') ?>",
-                      data: "item=" + item,
+                      data: "item=" + item  + "&idsalida=" + idsalida,
                       dataType: "html",
                       beforeSend: function() {
                           //imagen de carga

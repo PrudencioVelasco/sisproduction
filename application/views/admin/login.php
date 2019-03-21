@@ -43,7 +43,7 @@
                                     <?php endif ?>
                                 </div>
                                 <form method="POST"  action="<?= base_url('welcome/login') ?>" >
-                                    <h3 class="mr-auto">Hola! bienvenido al Sistema de Produccón Woori</h3>
+                                    <h3 class="mr-auto">Hola! bienvenido al Sistema de Producción Woori</h3>
                                     <p class="mb-5 mr-auto">Ingrese sus datos.</p>
                                     <div class="form-group">
                                         <div class="input-group">

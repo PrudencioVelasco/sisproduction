@@ -46,11 +46,11 @@
                                     <td v-if="row.mostrar > 0">
                                         <h6 style="color:green" v-if="row.totalenviado > 0"><strong><i class="fa fa-hourglass-start" aria-hidden="true"></i>
                                                 EN ESPERA</strong></h6>
-                                        <h6 style="color:green" v-else-if="row.totalpallet ==row.enalmacen"><strong><i class="fa fa-home" aria-hidden="true"></i>
-                                                EN ALMACEN</strong></h6>
+                                        <h6 style="color:green" v-else-if="row.totalpallet ==row.enalmacen"><strong><i class="fa fa-home" aria-hidden="true"></i> EN ALMACEN</strong></h6>
+                                        <h6 style="color:red" v-else-if="row.rechazadoacalidad > 0"><strong>R. A CALIDAD</strong></h6>
                                         <h6 style="color:red" v-else-if="row.rechazadoapacking > 0"><strong><i class="fa fa-home" aria-hidden="true"></i>
                                                 R. A PACKING</strong></h6>
-                                        <h6 style="color:red" v-else-if="row.rechazadoacalidad > 0"><strong>R. A CALIDAD</strong></h6>
+                                       
                                         <h1 v-else>No found</h1>
                                     </td>
                                     <td v-if="row.mostrar > 0">{{row.totalpallet}} </td>
