@@ -59,12 +59,12 @@
                                                         <span v-else class="label label-danger">Inactivo</span>
                                                     </td>
                                                     <td align="right">
-                                                        <button type="button" class="btn btn-icons btn-rounded btn-success btn-xs" @click="editModal = true; selectParte(row)" title="Modificar Datos">
+                                                        <button type="button" class="btn btn-icons btn-rounded  btn-round  btn-success btn-xs" @click="editModal = true; selectParte(row)" title="Modificar Datos">
                                                             <i class="fa fa-pencil-square" aria-hidden="true"></i>
                                                             Modificar
                                                         </button>
                                                        
-                                                        <a class="btn btn-icons btn-rounded btn-info btn-xs" v-if="row.activo==1" v-bind:href="'packing/'+ row.idparte" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                        <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs" v-if="row.activo==1" v-bind:href="'packing/'+ row.idparte" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                             Agregar</a>
                                                         
                                                     </td>

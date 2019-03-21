@@ -56,12 +56,13 @@
                                                         <br/>
                                                         <table class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                                             <thead class="text-white bg-dark" >
-                                                            <th class="text-white">N. Tranferencia</th>
+                                                            <th class="text-white">Trans.</th>
                                                             <th class="text-white">N. Parte</th>
                                                             <th class="text-white">Pallet</th>
                                                             <th class="text-white">Cajas</th>
                                                             <th class="text-white">N. modelo</th>
                                                             <th class="text-white">Revisión</th>
+                                                             <th class="text-white">Fecha</th>
                                                             <th class="text-white text-right" align="right">Opción</th>
                                                             </thead>
                                                             <tbody class="table-light">
@@ -78,6 +79,7 @@
                                                                     </td>
                                                                     <td v-if="row.totalpallet > 0">{{row.modelo}}</td>
                                                                     <td v-if="row.totalpallet > 0">{{row.revision}}</td>
+                                                                     <td v-if="row.totalpallet > 0">{{row.fecharegistro}}</td>
                                                                     <td v-if="row.totalpallet > 0" align="right">
                                                                         <a class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'/sisproduction/salida/agregarParteOrdenDetallado/'+ row.iddetalleparte+'/'+<?php echo $idsalida ?>" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                                             Agregar</a>

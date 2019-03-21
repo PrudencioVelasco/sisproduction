@@ -114,6 +114,13 @@ class Calidad_model extends CI_Model {
         }
     }
 
+    public function usuarioDeAlmacen($iddetalleparte) {
+        $this->db->select('p.idoperador');
+        $this->db->from('palletcajas p');
+        $this->db->where('p.iddetalleparte', $iddetalleparte);
+        $query = $this->db->get();
+        return $query->first_row();
+    }
 
     public function detalleDelDetallaParte($iddetalle)
     {

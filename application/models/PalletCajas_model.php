@@ -14,12 +14,22 @@ class PalletCajas_model extends CI_Model {
     }
 
     public function showAllId($id) {
-        $this->db->select('pc.idpalletcajas,pc.pallet,pc.cajas,es.nombrestatus, es.idestatus');
-        $this->db->from('palletcajas pc');
-        $this->db->join('detalleparte dp', 'dp.iddetalleparte=pc.iddetalleparte');
-        $this->db->join('status es', 'pc.idestatus=es.idestatus');
-        $this->db->where('pc.iddetalleparte',$id);
-        $query = $this->db->get();
+        $query =$this->db->query("SELECT pc.idpalletcajas,
+                                        pc.pallet,
+                                        pc.cajas,
+                                        s.nombrestatus,
+                                        s.idestatus,
+                                        (SELECT pb.nombreposicion
+                                         FROM   parteposicionbodega ppb,
+                                                posicionbodega pb
+                                         WHERE  ppb.idposicion = pb.idposicion
+                                                AND ppb.idpalletcajas = pc.idpalletcajas) AS posicion
+                                 FROM   detalleparte dp,
+                                        palletcajas pc,
+                                        status s
+                                 WHERE  dp.iddetalleparte = pc.iddetalleparte
+                                        AND pc.idestatus = s.idestatus
+                                        AND dp.iddetalleparte = '$id'");
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {

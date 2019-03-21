@@ -28,23 +28,33 @@ class Salida_model extends CI_Model {
     }
 
     public function showPartesBodega() {
-         $query =$this->db->query('SELECT dp.iddetalleparte, dp.folio, p.numeroparte, dp.modelo, dp.revision, dp.linea, 
-(SELECT COUNT(pc.pallet) 
-	FROM palletcajas pc,parteposicionbodega ppb 
-	WHERE dp.iddetalleparte = pc.iddetalleparte 
-    AND pc.idpalletcajas = ppb.idpalletcajas 
-    AND pc.idestatus=8
-    AND ppb.ordensalida = 0 
-    AND ppb.salida = 0) as totalpallet,
-(SELECT SUM(pc.cajas) 
-FROM palletcajas pc,parteposicionbodega ppb 
-WHERE dp.iddetalleparte = pc.iddetalleparte 
-  AND pc.idpalletcajas = ppb.idpalletcajas 
-    AND pc.idestatus=8
-    AND ppb.ordensalida = 0 
-    AND ppb.salida = 0) as totalcajas
-FROM detalleparte dp, parte p
-WHERE dp.idparte = p.idparte ORDER BY dp.fecharegistro DESC'); 
+         $query =$this->db->query(' SELECT dp.iddetalleparte,
+                                            dp.folio,
+                                            p.numeroparte,
+                                            dp.modelo,
+                                            dp.revision,
+                                            dp.linea,
+                                            dp.fecharegistro,
+                                            (SELECT Count(pc.pallet)
+                                             FROM   palletcajas pc,
+                                                    parteposicionbodega ppb
+                                             WHERE  dp.iddetalleparte = pc.iddetalleparte
+                                                    AND pc.idpalletcajas = ppb.idpalletcajas
+                                                    AND pc.idestatus = 8
+                                                    AND ppb.ordensalida = 0
+                                                    AND ppb.salida = 0) AS totalpallet,
+                                            (SELECT Sum(pc.cajas)
+                                             FROM   palletcajas pc,
+                                                    parteposicionbodega ppb
+                                             WHERE  dp.iddetalleparte = pc.iddetalleparte
+                                                    AND pc.idpalletcajas = ppb.idpalletcajas
+                                                    AND pc.idestatus = 8
+                                                    AND ppb.ordensalida = 0
+                                                    AND ppb.salida = 0) AS totalcajas
+                                     FROM   detalleparte dp,
+                                            parte p
+                                     WHERE  dp.idparte = p.idparte
+                                     ORDER  BY dp.fecharegistro DESC  '); 
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {

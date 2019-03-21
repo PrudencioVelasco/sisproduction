@@ -62,8 +62,7 @@ class Parte_model extends CI_Model {
   AND d.idusuario = '$idusuario'
   ORDER BY d.fecharegistro DESC
   ");
-         return $query->result();
-
+      
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -125,7 +124,8 @@ class Parte_model extends CI_Model {
         d.revision,
         d.cantidad,
         d.linea,
-        d.idoperador');
+        d.idoperador,
+        CONCAT(p.numeroparte, "_", d.folio) AS codigo');
         $this->db->from('parte p');
         $this->db->join('cliente c', 'p.idcliente=c.idcliente');
         $this->db->join('detalleparte d', 'p.idparte=d.idparte');

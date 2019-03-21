@@ -18,7 +18,7 @@
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="form-group">
                                         <h4>Número de parte: <strong><?php echo $detalle->numeroparte; ?></strong></h4>
-                                        <h4><small>Número de transferencia:</small><strong><?php echo $detalle->folio; ?></strong></h4>
+                                        <h4><small>Número de transferencia: </small><strong><?php echo $detalle->folio; ?></strong></h4>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12" align="center">
@@ -143,13 +143,9 @@
                                     <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>">
                                
                                     <button type="button" id="btnmodificar" name="reenviar" class="btn btn-success  btn-sm"><i class="fa fa-refresh" aria-hidden="true"></i> Reenviar</button>
-                                    <a  class="btn btn-default  btn-sm" href="<?php echo site_url('parte/'); ?>"><i class="fa fa-print" aria-hidden="true"></i>
-                                        Imprimir etiqueta</a>
+                                   
                                     <a  class="btn btn-default  btn-sm" target="_blank" href="<?php echo site_url('parte/etiquetaPacking/' . $detalle->iddetalleparte) ?>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         Generar etiqueta</a>
-                                    <a  class="btn btn-default  btn-sm" href="<?php echo site_url('parte/'); ?>"><i class="fa fa-print" aria-hidden="true"></i>
-                                        Imprimir envio</a>
-
                                     <a  class="btn btn-default  btn-sm" target="_blank" href="<?php echo site_url('parte/generarPDFEnvio/' . $detalle->iddetalleparte) ?>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         Generar envio</a>
 

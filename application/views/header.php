@@ -85,22 +85,15 @@
                     <li><a href="<?= base_url('/calidad/index') ?>"><i class="fa fa-thumbs-o-up"></i> Calidad</a> </li>
                     <li><a href="<?= base_url('/bodega/index') ?>"><i class="fa fa-home"></i> Almacen</a> </li>
                     <li><a href="<?= base_url('/salida/index') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i>Salida</a> </li>
-                     <li><a href="<?= base_url('/orden/index') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i>Orden</a> </li>
+                     <li><a href="<?= base_url('/orden/index') ?>"><i class="fa fa-check-square-o" aria-hidden="true"></i>Orden</a> </li>
                     <li><a><i class="fa fa-folder-open" aria-hidden="true"></i> Catalogo <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu" style="display: none"> 
                         <li><a href="<?= base_url('/client/index') ?>"> Cliente</a> </li>
                         <li><a href="<?= base_url('/turno/index') ?>"> Turno</a> </li>
                         <li><a href="<?= base_url('/user/index') ?>"> Usuario</a> </li>
+                         <li><a href="<?= base_url('/inventario/index') ?>"> Usuario</a> </li>
                       </ul>
                     </li>
-                    <li><a><i class="fa fa-bar-chart" aria-hidden="true"></i> Reporte <span class="fa fa-chevron-down"></span></a>
-                      <ul class="nav child_menu" style="display: none"> 
-                        <li><a href="<?= base_url('/reporte/packing') ?>"> Packing</a> </li>
-                        <li><a href="<?= base_url('/reporte/calidad') ?>"> Calidad</a> </li>
-                        <li><a href="<?= base_url('/reporte/bodega') ?>"> Almacen</a> </li>
-                      </ul>
-                    </li>
-                    <li><a href="<?= base_url('/inventario/index') ?>"><i class="fa fa-check-square-o" aria-hidden="true"></i> Inventario</a> </li>
                   </ul>
                 </div>
               </div>

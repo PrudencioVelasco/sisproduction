@@ -67,7 +67,7 @@
 
 
                                     <td align="right">
-                                        <a href="" v-bind:href="'detalleenvio/'+ row.iddetalleparte"  class="btn btn-info">Ver detalle</a>
+                                        <a href="" v-bind:href="'detalleenvio/'+ row.iddetalleparte"  class="btn  btn-round btn-info btn-sm">Ver detalle</a>
                                     </td>
                                 </tr>
                                 <tr v-if="emptyResult">

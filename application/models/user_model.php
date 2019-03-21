@@ -174,5 +174,13 @@ class User_model extends CI_Model
     {
         return $this->db->insert('users_rol', $data);
     }  
+    function detalleUsuario($idusuario) {
+        $this->db->select('u.id as idusuario,u.name');
+        $this->db->from('users u');
+        $this->db->where('u.id', $idusuario);
+        $query = $this->db->get();
+        return $query->first_row();
+    }
+
 }
 ?> 

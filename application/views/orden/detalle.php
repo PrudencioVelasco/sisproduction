@@ -15,6 +15,26 @@
 
 
                         <div class="container">
+                            
+                            
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <h4>Número de Transferencia: <strong><?php echo $detallesalida->idsalida; ?></strong></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <h4>Número de Control: <strong><?php echo $detallesalida->numerosalida; ?></strong></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12 col-xs-12 text-right">
+                                <div class="form-group">
+                                    <h4>Cliente: <strong><?php echo $detallesalida->nombre; ?></strong></h4>
+                                </div>
+                            </div>
+                        </div> 
+                            
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                      <div class="form-group">

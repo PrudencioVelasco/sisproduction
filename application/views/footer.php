@@ -114,6 +114,11 @@
             }();
         </script>
         <script type="text/javascript">
+        $('#tblresponsive').DataTable( {
+                responsive: true
+            } );
+        </script>
+        <script type="text/javascript">
           $(document).ready(function() {
             $('#datatable').dataTable();
             $('#datatable-keytable').DataTable({

@@ -18,15 +18,15 @@ class Parte extends CI_Controller {
         $this->load->library('permission');
     }
 
-  
-    private function set_barcode($code) {
-      Permission::grant(uri_string());
+   
+    public function set_barcode($code) {
+        Permission::grant(uri_string());
         //load library
         $this->load->library('zend');
         //load in folder Zend
         $this->zend->load('Zend/Barcode');
         //generate barcode
-        $file = Zend_Barcode::draw('code128', 'image', array('text' => $code), array());
+        $file = Zend_Barcode::draw('code128', 'image', array('text' => $code),array());
         $code = time() . $code;
         $barcodeRealPath = $_SERVER['DOCUMENT_ROOT'] . '/sisproduction/assets/cache/' . $code . '.png';
 
@@ -34,6 +34,7 @@ class Parte extends CI_Controller {
         $store_image = imagepng($file, $barcodeRealPath);
         return base_url() . 'assets/cache/' . $code . '.png';
     }
+
     public function etiquetaCalidad($id) {
       //Permission::grant(uri_string());
         $detalle = $this->parte->detalleDelDetallaParte($id); 
@@ -120,105 +121,12 @@ class Parte extends CI_Controller {
         $this->load->view('footer');
     }
 
-    /* function original() {
-      $this->load->library('html2pdf');
-      ob_start();
-      error_reporting(E_ALL & ~E_NOTICE);
-      ini_set('display_errors', 0);
-      ini_set('log_errors', 1);
-
-      $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
-      $mipdf->pdf->SetDisplayMode('fullpage');
-      $mipdf->writeHTML('<page  format="400x165"  >
-      <style type="text/css">
-      table {border-collapse:collapse}
-      td
-      {
-      border:1px  solid black
-      }
-      </style>
-      <br>
-      <table border="0" align="center">
-      <tr>
-      <td  align="center" height="45" width="200"  style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" >Customer</td>
-      <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" ></td>
-      <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>
-      <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan=""></td>
-      <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>
-      <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>
-
-      </tr>
-
-      <tr>
-      <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>LG</b></td>
-
-
-      <td align="center"  style="font-size:90px; font-family:arial; font-weight:bold;  " colspan=""><b> &nbsp; &nbsp; &nbsp;12</b></td>
-
-      <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;Febrero&nbsp;21</td>
-
-      <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >1</td>
-
-      </tr>
-
-      <tr>
-      <td  align="center" width=""  height=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
-      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
-      <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
-      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
-      <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; 12:00 </td>
-
-      </tr>
-
-      <tr>
-      <td  align="center" width="" height="50"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; "  colspan="3" >Part Number</td>
-      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>
-      </tr>
-
-      <tr>
-      <td align="center" height="60"  style="font-size:60px; vertical-align: top;  font-family:arial; font-weight:bold; overflow:auto;" colspan="3" >MAY</td>
-      <td align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" colspan="3" > &nbsp; &nbsp; &nbsp;1</td>
-
-      </tr>
-
-      <tr>
-      <td align="" height="" style="font-size:25px; font-family:arial; font-weight:bold;  "  colspan="4" >
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
-      <label align="center" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23</label>
-      </td>
-      <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto; background: #fff; color:#fff; " >Rev No.</td>
-      <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto;background: #fff; color:#fff; "  >Pallet No.</td>
-      </tr>
-
-      <tr>
-      <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" rowspan="2">ROHS</td>
-      <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>
-      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>
-      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
-      <td align="left" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold;  " colspan="">23</td>
-      <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="">12</td>
-      </tr>
-      <tr>
-      <td  align="right" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan="">1</td>
-      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan="">2</td>
-      <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
-      <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
-      <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>
-      </tr>
-
-      </table>
-      </page>
-      ');
-
-      //$mipdf->pdf->IncludeJS('print(TRUE)');
-      $mipdf->Output('Etiqueta_Packing.pdf');
-      } */
-
     public function etiquetaPacking($id) {
      // Permission::grant(uri_string());
         date_default_timezone_set("America/Tijuana");
         $detalle = $this->parte->detalleDelDetallaParte($id);
-        $barcode = $this->set_barcode($detalle->numeroparte);
+        $codigo = $detalle->codigo; 
+        $barcode = $this->set_barcode($codigo);
         
         $lista = $this->parte->cantidadesPartes($id);
         $totalpallet = 0;
@@ -231,7 +139,8 @@ class Parte extends CI_Controller {
                  $totalc= $totalc + $value->cajas;
             }
         }
-         $totalcajas = $totalc / $totalpallet;
+       
+          $totalcajas = $totalc / $totalpallet;
         
         $hora = date("h:i a");
         $fecha = date("j/n/Y");
@@ -251,7 +160,7 @@ class Parte extends CI_Controller {
             table {border-collapse:collapse}
             td 
                 {
-                    border:0px  solid black
+                    border:0px  solid black;
                 }
     </style>
 
@@ -294,7 +203,7 @@ class Parte extends CI_Controller {
         </tr>
 
         <tr>
-        <td colspan="3" rowspan="2" align="center"  style="font-size:60px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <img src="' . $barcode . '"/> </td>
+        <td colspan="3" rowspan="2" align="center"  style="font-size:60px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <img style="width:250px;" src="' . $barcode . '"/> </td>
         <td height="60" colspan="3" align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" > &nbsp; &nbsp; &nbsp;' . $detalle->modelo . '</td>
 
         </tr>
@@ -326,7 +235,7 @@ class Parte extends CI_Controller {
 ');
 
         //$mipdf->pdf->IncludeJS('print(TRUE)');
-        $mipdf->Output('Etiqueta_Packing.pdf');
+       $mipdf->Output('Etiqueta_Packing.pdf');
     }
 
     public function generarPDFEnvio($id) {
