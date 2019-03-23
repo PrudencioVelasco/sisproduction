@@ -160,7 +160,7 @@ class Parte extends CI_Controller {
             table {border-collapse:collapse}
             td 
                 {
-                    border:0px  solid black;
+                    border:1px  solid black;
                 }
     </style>
 
@@ -203,7 +203,7 @@ class Parte extends CI_Controller {
         </tr>
 
         <tr>
-        <td colspan="3" rowspan="2" align="center"  style="font-size:60px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <img style="width:250px;" src="' . $barcode . '"/> </td>
+        <td colspan="3" rowspan="2" align="center"  style="font-size:50px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <img style="width:300px;" src="' . $barcode . '"/> </td>
         <td height="60" colspan="3" align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" > &nbsp; &nbsp; &nbsp;' . $detalle->modelo . '</td>
 
         </tr>

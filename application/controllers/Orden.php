@@ -39,7 +39,6 @@ class Orden extends CI_Controller {
     public function detalle($idsalida) {
         $datadetallesalida = $this->orden->detalleSalida($idsalida);
         $datadetalleorden = $this->orden->detallesDeOrden($idsalida);
-        var_dump($datadetallesalida);
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,

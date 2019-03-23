@@ -112,7 +112,7 @@ AND dp.iddetalleparte = $iddetalleparte");
         return $query->first_row();
     }
     public function buscarNumeroParte($text){
-          $query =$this->db->query("SELECT dp.folio, p.numeroparte, dp.modelo, dp.revision, dp.linea, 
+          $query =$this->db->query("SELECT dp.folio, p.numeroparte,dp.fecharegistro, dp.modelo, dp.revision, dp.linea, 
 (SELECT COUNT(pc.pallet) FROM palletcajas pc WHERE dp.iddetalleparte = pc.iddetalleparte AND pc.idestatus=8) as totalpallet,
 (SELECT SUM(pc.cajas) FROM palletcajas pc WHERE dp.iddetalleparte = pc.iddetalleparte AND pc.idestatus=8) as totalcajas
 FROM detalleparte dp, parte p
