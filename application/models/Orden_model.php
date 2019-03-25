@@ -29,15 +29,44 @@ class Orden_model extends CI_Model {
     }
     
     public function validarOrdenSalida($idsalida){
-        $this->db->select('');
+        $this->db->select('os.idsalida, os.idpalletcajas');
         $this->db->from('ordensalida os');
         $this->db->join('parteposicionbodega ppb', 'os.idpalletcajas=ppb.idpalletcajas');
         $this->db->where('os.idsalida',$idsalida);
         $this->db->where('ppb.ordensalida',1);
-        $this->db->where('ppb.salida',0);
+        $this->db->where('ppb.salida',0); 
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
+        } else {
+            return false;
+        }
+    }
+    
+    public function listaDeNumeroParteSalida($numeroparte, $folio){
+          $this->db->select('pc.idpalletcajas,pb.nombreposicion');
+          $this->db->from('ordensalida os');
+          $this->db->join('parteposicionbodega ppb', 'os.idpalletcajas=ppb.idpalletcajas');
+          $this->db->join('posicionbodega pb', 'pb.idposicion=ppb.idposicion');
+          $this->db->join('palletcajas pc', 'os.idpalletcajas=pc.idpalletcajas');
+          $this->db->join('detalleparte dp', 'dp.iddetalleparte=pc.iddetalleparte');
+          $this->db->where('dp.folio',$folio);
+          $this->db->where('ppb.ordensalida',1);
+          $this->db->where('ppb.salida',0);
+          $this->db->limit(1); 
+          $query = $this->db->get();
+            if ($query->num_rows() > 0) {
+                return $query->result();
+            } else {
+                return false;
+            }
+    }
+    
+    public function updateEstatusPosicion($data,$idpalletcajas){
+        $this->db->where('idpalletcajas', $idpalletcajas);
+        $this->db->update('parteposicionbodega', $data);
+        if ($this->db->affected_rows() > 0) {
+            return true;
         } else {
             return false;
         }
@@ -56,7 +85,7 @@ class Orden_model extends CI_Model {
     
       public function detallesDeOrden($idsalida) {
         // code...
-        $this->db->select('pc.idpalletcajas, o.idordensalida,s.idsalida, p.numeroparte,o.tipo, o.pallet,o.caja, pc.cajas as cajaspallet, dp.modelo,dp.revision,pb.nombreposicion');
+        $this->db->select('pc.idpalletcajas, o.idordensalida,s.idsalida, p.numeroparte,o.tipo, o.pallet,o.caja, pc.cajas as cajaspallet, dp.modelo,dp.revision,pb.nombreposicion, ppb.ordensalida, ppb.salida, dp.iddetalleparte, dp.folio');
         $this->db->from('salida s');
         $this->db->join('ordensalida o', 's.idsalida=o.idsalida');
         $this->db->join('palletcajas pc', 'o.idpalletcajas=pc.idpalletcajas');

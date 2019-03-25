@@ -39,6 +39,7 @@ class Orden extends CI_Controller {
     public function detalle($idsalida) {
         $datadetallesalida = $this->orden->detalleSalida($idsalida);
         $datadetalleorden = $this->orden->detallesDeOrden($idsalida);
+        //var_dump($datadetalleorden);
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
@@ -49,22 +50,44 @@ class Orden extends CI_Controller {
         $this->load->view('footer');
     }
     public function test(){
-        $data = $this->orden->validarOrdenSalida(1);
+        $data = $this->orden->listaDeNumeroParteSalida(0,63);
+        $i = 1;
+        foreach($data as $value){
+            if( $i <=1 ){
+
+            }
+            $i++;
+        }
+        
         var_dump($data);
+        echo "<br>";
+        $datae = $this->orden->validarOrdenSalida(2);
+        var_dump($datae);
     }
     public function validar() {
         $item = $_POST['item'];
         $idsalida = $_POST["idsalida"];
         $porciones = explode("_", $item);
-        $numeroparte = (isset($porciones[0])) ? 1 : 0; // porción1
-        $folio = (isset($porciones[1])) ? 1 : 0;  // porción2
+        $numeroparte =(isset($porciones[0])) ? 1 : 0;  
+        $folio = (isset($porciones[1])) ? 1 : 0;  
         
         if(isset($numeroparte) && !empty($numeroparte) && isset($folio) && !empty($folio)){
             
             if($this->orden->validarOrdenSalida($idsalida) != FALSE){
                 
+                 $data = $this->orden->listaDeNumeroParteSalida(0,$folio);
+                 foreach($data as $value){
+                     $idpalletcajas = $value->idpalletcajas;
+                     $dataupdate = array(
+                         'salida'=>1
+                     );
+                     
+                     $this->orden->updateEstatusPosicion($dataupdate,$idpalletcajas);
+                }
+
             }else{
-                
+                //Ya se lleno  la orden, y todavia sigue escaneando
+                echo 1;
             }
             
             
@@ -72,7 +95,7 @@ class Orden extends CI_Controller {
             //0 el formato del codigo escaneado esta incorrecto.
             echo 0;
         }
-        echo $idsalida;
+        
     }
 }
 

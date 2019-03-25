@@ -72,7 +72,16 @@
 
                                                 // code...
                                                 echo "<tr>";
-                                                echo "<td>" . $value->numeroparte . "</td>";
+                                                echo "<td>"; 
+                                                if($value->salida == 1){
+                                                    echo '<i class="fa fa-thumbs-up" style="color:green;" aria-hidden="true"></i>';
+
+                                                }else{
+                                                   echo '<i class="fa fa-thumbs-down" style="color:red;" aria-hidden="true"></i>';
+
+                                                }
+                                                echo $value->numeroparte; 
+                                                echo "</td>";
                                                 echo "<td>" . $value->pallet . "</td>";
                                                 ?>
                                                 <td>
