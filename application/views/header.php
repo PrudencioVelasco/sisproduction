@@ -91,7 +91,7 @@
                         <li><a href="<?= base_url('/client/index') ?>"> Cliente</a> </li>
                         <li><a href="<?= base_url('/turno/index') ?>"> Turno</a> </li>
                         <li><a href="<?= base_url('/user/index') ?>"> Usuario</a> </li>
-                         <li><a href="<?= base_url('/inventario/index') ?>"> Usuario</a> </li>
+                         <li><a href="<?= base_url('/inventario/index') ?>"> Inventario</a> </li>
                       </ul>
                     </li>
                   </ul>

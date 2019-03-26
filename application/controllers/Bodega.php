@@ -65,7 +65,7 @@ class Bodega extends CI_Controller {
         $arrayposicionesbodega = $this->posicionbodega->posicionesBodega();
         $datapalletcajas = $this->palletcajas->showAllId($iddetalle);
         $datapartebodega = $this->bodega->posicionPalletCajas($iddetalle);
-        //var_dump($datapartebodega);
+        //var_dump($datapalletcajas);
         //    var_dump($arrayposicionesbodega);
         $dataerror = array();
         $dataposicionesparte = array();

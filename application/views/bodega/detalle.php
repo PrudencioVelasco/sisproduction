@@ -111,7 +111,7 @@
                                                         ?>
                                                     </td>
                                                     <td align="right">
-                                                        <?php if ($value->idestatus == 4 or $value->idestatus == 8) { ?>
+                                                        <?php if ($value->idestatus == 4 or $value->idestatus == 8 && $value->orden == 0 && $value->salida == 0) { ?>
                                                          
                                                             <select class="form-control selectposicion"name="posicion">
                                                                   <option>Seleccionar</option>

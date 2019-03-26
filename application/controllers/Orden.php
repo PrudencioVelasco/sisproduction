@@ -50,53 +50,41 @@ class Orden extends CI_Controller {
         $this->load->view('footer');
     }
     public function test(){
-        $data = $this->orden->listaDeNumeroParteSalida(0,63);
-        $i = 1;
-        foreach($data as $value){
-            if( $i <=1 ){
-
-            }
-            $i++;
-        }
+       $data = $this->orden->listaDeNumeroParteSalida(0,65,3);
         
-        var_dump($data);
-        echo "<br>";
-        $datae = $this->orden->validarOrdenSalida(2);
-        var_dump($datae);
+       var_dump($data);
     }
     public function validar() {
         $item = $_POST['item'];
         $idsalida = $_POST["idsalida"];
         $porciones = explode("_", $item);
-        $numeroparte =(isset($porciones[0])) ? 1 : 0;  
-        $folio = (isset($porciones[1])) ? 1 : 0;  
-        
-        if(isset($numeroparte) && !empty($numeroparte) && isset($folio) && !empty($folio)){
-            
-            if($this->orden->validarOrdenSalida($idsalida) != FALSE){
-                
-                 $data = $this->orden->listaDeNumeroParteSalida(0,$folio);
-                 foreach($data as $value){
-                     $idpalletcajas = $value->idpalletcajas;
-                     $dataupdate = array(
-                         'salida'=>1
-                     );
-                     
-                     $this->orden->updateEstatusPosicion($dataupdate,$idpalletcajas);
-                }
+        $numeroparte = (isset($porciones[0])) ? $porciones[0] : 0;
+        $folio = (isset($porciones[1])) ? $porciones[1] : 0;
 
-            }else{
+        if (isset($numeroparte) && !empty($numeroparte) && isset($folio) && !empty($folio)) {
+
+            if ($this->orden->validarOrdenSalida($idsalida) != FALSE) {
+
+                $data = $this->orden->listaDeNumeroParteSalida(0, $folio,$idsalida);
+                foreach ($data as $value) {
+                    $idpalletcajas = $value->idpalletcajas;
+                    $dataupdate = array(
+                        'salida' => 1
+                    );
+
+                    $this->orden->updateEstatusPosicion($dataupdate, $idpalletcajas);
+                    echo 2;
+                }
+            } else {
                 //Ya se lleno  la orden, y todavia sigue escaneando
                 echo 1;
             }
-            
-            
-        }else{
+        } else {
             //0 el formato del codigo escaneado esta incorrecto.
             echo 0;
         }
-        
     }
+
 }
 
 ?>

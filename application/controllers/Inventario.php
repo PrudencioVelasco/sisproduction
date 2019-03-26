@@ -20,16 +20,16 @@ class Inventario extends CI_Controller
         $this->load->library('permission');
 
     }
-    public function index()
-    {
-       Permission::grant(uri_string());
-       $query = $this->inventario->showAll();
-       $data = array('resultinventario' => $query );
+     public function index() {
+        $queryentradas = $this->inventario->showAllEntradas();
+        $data=array(
+        'entradas'=>$queryentradas
+        ); 
         $this->load->view('header');
         $this->load->view('inventario/index',$data);
         $this->load->view('footer');
-        
     }
+
     public function showAll()
     {
         Permission::grant(uri_string());

@@ -46,6 +46,11 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label style="color: red" id="msgerror"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
                                     <table class="table table-striped responsive-utilities jambo_table bulk_action" >
                                         <thead>
                                             <tr>
@@ -150,6 +155,17 @@
                       success: function(data) {
 
                         console.log(data);
+                      if(data == 0){
+                            $("#msgerror").text("El formato del codigo escaneado esta incorrecto.");
+                            $('#item').empty();
+                        }else if(data == 1){
+                            $("#msgerror").text("La orden ya esta llena.");
+                            $('#item').empty();
+                        }else if(data == 2){
+                           location.reload(true);
+                        }else{
+                             location.reload(true);
+                        }
           
                       }
                   }); 

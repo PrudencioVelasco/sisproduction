@@ -121,6 +121,9 @@
         <script type="text/javascript">
           $(document).ready(function() {
             $('#datatable').dataTable();
+            $('#datatableentrada').dataTable();
+            $('#datatablesalidacompleta').dataTable();
+            $('#datatablesalidaparcial').dataTable();
             $('#datatable-keytable').DataTable({
               keys: true,
 

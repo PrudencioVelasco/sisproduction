@@ -46,4 +46,19 @@ class Inventario_model extends CI_Model {
         return $query->result();
     }
 
+    public function showAllEntradas() {
+        $query = $this->db->query("SELECT p.idparte,c.nombre, p.numeroparte, COUNT(pc.pallet) AS totalpallet, SUM(pc.cajas) AS totalcajas, (SUM(pc.cajas) / COUNT(pc.pallet)) AS cajasporpallet 
+                                    FROM parte p
+                                    INNER JOIN detalleparte dp  ON p.idparte = dp.idparte
+                                    INNER JOIN palletcajas pc ON dp.iddetalleparte = pc.iddetalleparte
+                                    INNER JOIN parteposicionbodega ppb ON ppb.idpalletcajas = pc.idpalletcajas
+                                    INNER JOIN cliente c ON c.idcliente = p.idcliente
+                                    GROUP BY p.idparte");
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
 }
