@@ -22,8 +22,12 @@ class Inventario extends CI_Controller
     }
      public function index() {
         $queryentradas = $this->inventario->showAllEntradas();
+         $querysalidacompleta = $this->inventario->showAllSalidasCompletos();
+         $querysalidaparciales = $this->inventario->showAllSalidasParciales();
         $data=array(
-        'entradas'=>$queryentradas
+        'entradas'=>$queryentradas,
+        'salidascompletos'=>$querysalidacompleta,
+        'salidasparciales'=>$querysalidaparciales
         ); 
         $this->load->view('header');
         $this->load->view('inventario/index',$data);

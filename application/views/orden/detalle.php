@@ -78,13 +78,28 @@
                                                 // code...
                                                 echo "<tr>";
                                                 echo "<td>"; 
+                                                if($value->tipo == 0 ){
                                                 if($value->salida == 1){
-                                                    echo '<i class="fa fa-thumbs-up" style="color:green;" aria-hidden="true"></i>';
+                                                    echo '<i class="fa fa-thumbs-up" style="color:green;" aria-hidden="true"></i> ';
 
                                                 }else{
-                                                   echo '<i class="fa fa-thumbs-down" style="color:red;" aria-hidden="true"></i>';
+                                                   echo '<i class="fa fa-thumbs-down" style="color:red;" aria-hidden="true"></i> ';
 
                                                 }
+                                                }else{ 
+                                        
+                                                    if($value->salida == 0){
+                                        ?>
+                                                    
+                                                    <a href="<?php echo site_url('orden/marcar/').$value->idpalletcajas."/".$idsalida ?>"><i class="fa fa-check-square" aria-hidden="true"></i>
+</a>
+                                                    
+                                                <?php
+                                                    }else{
+                                                        echo'<i style="color:green;" class="fa fa-check-square" aria-hidden="true"></i> ';
+                                                        
+                                                    }
+                                                    }
                                                 echo $value->numeroparte; 
                                                 echo "</td>";
                                                 echo "<td>" . $value->pallet . "</td>";
@@ -158,9 +173,11 @@
                       if(data == 0){
                             $("#msgerror").text("El formato del codigo escaneado esta incorrecto.");
                             $('#item').empty();
+                            $("#item").focus(); 
                         }else if(data == 1){
                             $("#msgerror").text("La orden ya esta llena.");
                             $('#item').empty();
+                            $("#item").focus(); 
                         }else if(data == 2){
                            location.reload(true);
                         }else{

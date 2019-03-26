@@ -54,6 +54,7 @@ class Orden_model extends CI_Model {
           $this->db->where('ppb.ordensalida',1);
           $this->db->where('ppb.salida',0);
           $this->db->where('os.idsalida',$idsalida);
+          $this->db->where('os.tipo',0);
           $this->db->limit(1); 
           $query = $this->db->get();
             if ($query->num_rows() > 0) {

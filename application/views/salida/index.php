@@ -27,7 +27,7 @@
                           <div class="col-md-12 col-sm-12 col-xs-12">
                            <div class="row">
                                <div class="col-md-6">
-                                 <button class="btn btn-round btn-primary" @click="addModal= true">Nueva orden</button>
+                                 <button class="btn btn-round btn-primary" @click="addModal= true">Nueva salida</button>
                                </div>
                                <div class="col-md-6"></div>
                             </div>

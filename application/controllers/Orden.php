@@ -35,6 +35,17 @@ class Orden extends CI_Controller {
 
         // code...
     }
+    
+    public function marcar($idpalletcajas,$idsalida){
+                   
+                  $dataupdate = array(
+                        'salida' => 1
+                    );
+
+                    $this->orden->updateEstatusPosicion($dataupdate, $idpalletcajas);
+        
+        redirect('orden/detalle/'.$idsalida);
+    }
 
     public function detalle($idsalida) {
         $datadetallesalida = $this->orden->detalleSalida($idsalida);
@@ -49,11 +60,7 @@ class Orden extends CI_Controller {
         $this->load->view('orden/detalle', $data);
         $this->load->view('footer');
     }
-    public function test(){
-       $data = $this->orden->listaDeNumeroParteSalida(0,65,3);
-        
-       var_dump($data);
-    }
+   
     public function validar() {
         $item = $_POST['item'];
         $idsalida = $_POST["idsalida"];
