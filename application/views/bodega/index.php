@@ -44,7 +44,7 @@
                                     <td v-if="row.mostrar > 0">{{row.folio}} </td>
                                     <td v-if="row.mostrar > 0">{{row.numeroparte}} </td>
                                     <td v-if="row.mostrar > 0">
-                                        <h6 style="color:green" v-if="row.totalenviado > 0"><strong><i class="fa fa-hourglass-start" aria-hidden="true"></i>
+                                        <h6 style="color:blue" v-if="row.totalenviado > 0"><strong><i class="fa fa-hourglass-start" aria-hidden="true"></i>
                                                 EN ESPERA</strong></h6>
                                         <h6 style="color:green" v-else-if="row.totalpallet ==row.enalmacen"><strong><i class="fa fa-home" aria-hidden="true"></i> EN ALMACEN</strong></h6>
                                         <h6 style="color:red" v-else-if="row.rechazadoacalidad > 0"><strong>R. A CALIDAD</strong></h6>

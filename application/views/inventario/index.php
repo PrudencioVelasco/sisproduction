@@ -53,6 +53,7 @@
                                         $i=1;
                                         $sumapallet = 0;
                                         $sumacajas = 0;
+                                        if(isset($entradas) && !empty($entradas)){
                                         foreach ($entradas as $value){ 
                                         $sumapallet+=$value->totalpallet;
                                         $sumacajas+=$value->totalcajas;
@@ -73,6 +74,7 @@
                                             <td><strong><?php echo number_format($sumacajas); ?></strong></td>
                                             <td></td>
                                         </tr>
+                                    <?php } ?>
                                         
                                     </tbody>
                                 </table>
@@ -95,6 +97,7 @@
                                         $i=1;
                                         $sumapallet = 0;
                                         $sumacajas = 0;
+                                        if(isset($salidascompletos) && !empty($salidascompletos)){
                                         foreach ($salidascompletos as $value){ 
                                         $sumapallet+=$value->totalpallet;
                                         $sumacajas+=$value->totalcajas;
@@ -115,7 +118,7 @@
                                             <td><strong><?php echo number_format($sumacajas); ?></strong></td>
                                             <td></td>
                                         </tr>
-                                        
+                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -135,6 +138,7 @@
                                         <?php 
                                         $i=1; 
                                         $sumacajas = 0;
+                                        if(isset($salidasparciales) && !empty($salidasparciales)){
                                         foreach ($salidasparciales as $value){ 
                                         
                                         $sumacajas+=$value->totalcajas;
@@ -154,6 +158,7 @@
                                             <td><strong><?php echo number_format($sumacajas); ?></strong></td>
                                             <td></td>
                                         </tr>
+                                    <?php } ?>
                                         
                                     </tbody>
                                 </table>

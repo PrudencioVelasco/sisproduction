@@ -49,6 +49,8 @@
                                         
                                         <h6 style="color:green" 
                                         v-else-if="row.totalcancelado == 0 && row.totalfinalizado == 0 && row.totalenviado > 0"><strong><i class="fa fa-hand-o-right" aria-hidden="true"></i> E. A CALIDAD </strong></h6>
+                                         <h6 style="color:green" 
+                                        v-else-if=" row.totalenviado > 0"><strong><i class="fa fa-hand-o-right" aria-hidden="true"></i> E. A CALIDAD </strong></h6>
                                         
                                         <h6 style="color:green" 
                                         v-else-if="row.totalenviadocalidad > 0"><strong><i class="fa fa-hand-o-right" aria-hidden="true"></i> EN ALMACEN </strong></h6>
@@ -57,7 +59,7 @@
                                         v-else-if="row.totalpallet == row.totalfinalizado"><strong><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> EN ALMACEN </strong></h6>
                                         
                                         
-                                        <h6 v-else style="color:green;">ALMACEN</h6>
+                                        <h6 v-else style="color:green;"><strong><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> EN ALMACEN</strong></h6>
                                         
                                           </td>
                                     <td>{{row.totalpallet}} </td>

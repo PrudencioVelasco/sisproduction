@@ -39,6 +39,7 @@ class Parte extends CI_Controller {
       //Permission::grant(uri_string());
         $detalle = $this->parte->detalleDelDetallaParte($id); 
          $lista = $this->parte->cantidadesPartes($id);
+          $datausuario = $this->usuario->detalleUsuario($this->session->user_id);
         $totalpallet = 0;
         $totalcajas = 0;
         if($lista != false){
@@ -100,7 +101,7 @@ class Parte extends CI_Controller {
 			<td  align="center" style="font-size:25px; font-family:arial; font-weight:bold; background: #; " ></td>
 		</tr>
 		<tr>
-			<td  align="center" height="60" style="font-size:50px; font-family:arial; font-weight:bold; background: #;vertical-align:bottom; " >'.$detalle->usuario.'</td>
+			<td  align="center" height="60" style="font-size:50px; font-family:arial; font-weight:bold; background: #;vertical-align:bottom; " >'.$datausuario->usuario.'</td>
 			<td  align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " ></td>
 		</tr>
 		
@@ -160,7 +161,7 @@ class Parte extends CI_Controller {
             table {border-collapse:collapse}
             td 
                 {
-                    border:1px  solid black;
+                    border:0px  solid black;
                 }
     </style>
 

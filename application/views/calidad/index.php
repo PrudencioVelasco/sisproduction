@@ -44,7 +44,7 @@
                     <td>{{row.numeroparte}} </td>
                     <td>
                         {{row.totalenviadocalidad}}
-                     <h6 style="color:green" v-if="row.totalenviadoacalidad > 0"><strong><i class="fa fa-hourglass-start" aria-hidden="true"></i> EN ESPERA</strong></h6>
+                     <h6 style="color:blue" v-if="row.totalenviadoacalidad > 0"><strong><i class="fa fa-hourglass-start" aria-hidden="true"></i> EN ESPERA</strong></h6>
                      
                      <h6 style="color:green" v-else-if="row.totalpallet == row.totalfinalizado"><strong><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> EN ALMACEN </strong></h6>
                       <h6 style="color:red" v-else-if="row.totalcancelado > 0"><strong><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> R. DE ALMACEN </strong></h6>
