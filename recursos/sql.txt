@@ -1,0 +1,6 @@
+ SELECT p.idparte, c.nombre AS nombrecliente, p.numeroparte,
+ (SELECT SUM(pc.pallet) FROM palletcajas pc WHERE pc.iddetalleparte = dp.iddetalleparte AND pc.idestatus = 8) AS totalpallet,
+ (SELECT SUM(pc1.cajas) FROM palletcajas pc1 WHERE pc1.iddetalleparte = dp.iddetalleparte  AND pc1.idestatus = 8) AS totalcajas
+ FROM parte p
+ INNER JOIN  detalleparte dp ON p.idparte = dp.idparte
+INNER JOIN  cliente c ON c.idcliente = p.idcliente
