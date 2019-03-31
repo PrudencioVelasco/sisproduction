@@ -18,6 +18,7 @@ class Bodega extends CI_Controller {
         $this->load->model('bodega_model', 'bodega');
         $this->load->model('calidad_model', 'calidad');
         $this->load->model('palletcajas_model', 'palletcajas');
+        $this->load->model('palletcajasproceso_model', 'palletcajasproceso');
         $this->load->model('posicionbodega_model', 'posicionbodega');
         $this->load->library('permission');
     }
@@ -31,9 +32,9 @@ class Bodega extends CI_Controller {
 
     public function showAllEnviados() {
         Permission::grant(uri_string());
-        $query = $this->bodega->showAllEnviados($this->session->user_id);
+        $query = $this->bodega->showAllEnviados();
         if ($query) {
-            $result['detallestatus'] = $this->bodega->showAllEnviados($this->session->user_id);
+            $result['detallestatus'] = $this->bodega->showAllEnviados();
         }
         echo json_encode($result);
     }
@@ -64,6 +65,7 @@ class Bodega extends CI_Controller {
 
         $arrayposicionesbodega = $this->posicionbodega->posicionesBodega();
         $datapalletcajas = $this->palletcajas->showAllId($iddetalle);
+         
         $datapartebodega = $this->bodega->posicionPalletCajas($iddetalle);
         //var_dump($datapalletcajas);
         //    var_dump($arrayposicionesbodega);
@@ -71,7 +73,7 @@ class Bodega extends CI_Controller {
         $dataposicionesparte = array();
         $dataposicionebodega = array();
         $dataerror = $this->parte->motivosCancelacionCalidad($iddetalle);
-         
+         $motivosrechazo = $this->bodega->motivosRechazo();
         $data = array(
             'iddetalle' => $iddetalle,
             'detalle' => $detalledeldetalleparte,
@@ -80,7 +82,8 @@ class Bodega extends CI_Controller {
             'posicionbodega' => $arrayposicionesbodega,
             'palletcajas' => $datapalletcajas,
             'dataposicionesparte' => $dataposicionesparte,
-            'parteposicion' => $datapartebodega
+            'parteposicion' => $datapartebodega,
+            'motivosrechazo'=>$motivosrechazo
         );
         //var_dump($detalledeldetalleparte);
         $this->load->view('header');
@@ -116,7 +119,7 @@ class Bodega extends CI_Controller {
     public function rechazarACalidad() {
         $iddetalleparte = $this->input->post('iddetalleparte');
         $motivorechazo = $this->input->post('motivorechazo');
-        $operador = $this->input->post('operador');
+        //$operador = $this->input->post('operador');
         $ids = $this->input->post('id');
         foreach ($ids as $value) {
             $data = array(
@@ -126,15 +129,69 @@ class Bodega extends CI_Controller {
             );
             $this->palletcajas->updatePalletCajas($value, $data);
         }
-        $datarechazo = array(
-            'iddetalleparte' => $iddetalleparte,
-            'idstatus' => 6,
-            'comentariosrechazo' => $motivorechazo,
-            'idoperador' => $operador,
-            'idusuario' => $this->session->user_id,
-            'fecharegistro' => date('Y-m-d H:i:s')
+          foreach ($ids as $value2) {
+                $datarechazo = array(
+                    'idpalletcajas' => $value2,
+                    'idmotivorechazo' => $motivorechazo,
+                    'idusuario' => $this->session->user_id,
+                    'fecharegistro' => date('Y-m-d H:i:s')
+                );
+                $this->calidad->addMotivoRechazo($datarechazo);
+         }
+          foreach ($ids as $valueproceso) {
+            $data = array(
+                'idpalletcajas'=>$valueproceso,
+                'idestatus' => 6,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->palletcajasproceso->addPalletCajasProceso($data);
+        }
+        
+    }
+    
+      public function agregarAUbicacion() {
+        $iddetalleparte = $this->input->post('iddetalleparte');
+        $ubicacion = $this->input->post('ubicacion'); 
+        $ids = $this->input->post('id');
+          
+          foreach ($ids as $valuede) {
+
+        $this->bodega->eliminarposicionesparte($valuede);
+        }
+          
+        foreach ($ids as $value) {
+            $dataupdate = array(
+            'idestatus' => 8
         );
-        $this->calidad->addRechazoParte($datarechazo);
+
+        $this->bodega->updateEstatus($value, $dataupdate);
+        }
+          
+          
+          
+          foreach ($ids as $value2) {
+                    $dataadd = array(
+                    'idpalletcajas' => $value2,
+                    'numero' => 1,
+                    'idposicion' => $ubicacion,
+                    'idusuario' => $this->session->user_id,
+                    'fecharegistro' => date('Y-m-d H:i:s')
+                ); 
+        $this->bodega->addPalletPosicion($dataadd);
+         }
+          
+         foreach ($ids as $valueproceso) {
+            $data = array(
+                'idpalletcajas'=>$valueproceso,
+                'idestatus' => 8,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->palletcajasproceso->addPalletCajasProceso($data);
+        }
+          
+          
     }
 
     public function rechazar() {
@@ -160,258 +217,7 @@ class Bodega extends CI_Controller {
         redirect('bodega/');
     }
 
-    public function insertarPosicion() {
-        Permission::grant(uri_string());
-        $iddetalleparte = $this->input->post('iddetalleparte');
-        $this->bodega->eliminarposicionesparte($iddetalleparte);
-        if ($this->input->post('numero1')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero1'),
-                'idposicion' => $this->input->post('numero1'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
 
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero2')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero2'),
-                'idposicion' => $this->input->post('numero2'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero3')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero3'),
-                'idposicion' => $this->input->post('numero3'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero4')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero4'),
-                'idposicion' => $this->input->post('numero4'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero5')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero5'),
-                'idposicion' => $this->input->post('numero5'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero6')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero6'),
-                'idposicion' => $this->input->post('numero6'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero7')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero7'),
-                'idposicion' => $this->input->post('numero7'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero8')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero8'),
-                'idposicion' => $this->input->post('numero8'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero9')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero9'),
-                'idposicion' => $this->input->post('numero9'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero10')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero10'),
-                'idposicion' => $this->input->post('numero10'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero11')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero11'),
-                'idposicion' => $this->input->post('numero11'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero12')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero12'),
-                'idposicion' => $this->input->post('numero12'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero13')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero13'),
-                'idposicion' => $this->input->post('numero13'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero14')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero14'),
-                'idposicion' => $this->input->post('numero14'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero15')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero15'),
-                'idposicion' => $this->input->post('numero15'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero16')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero16'),
-                'idposicion' => $this->input->post('numero16'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        } if ($this->input->post('numero17')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero17'),
-                'idposicion' => $this->input->post('numero17'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        } if ($this->input->post('numero18')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero18'),
-                'idposicion' => $this->input->post('numero18'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        } if ($this->input->post('numero19')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero19'),
-                'idposicion' => $this->input->post('numero19'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-        if ($this->input->post('numero20')) {
-            $data = array(
-                'iddetalleparte' => $this->input->post('iddetalleparte'),
-                'numero' => $this->input->post('pnumero20'),
-                'idposicion' => $this->input->post('numero20'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->posicionbodega->addPartePosicionBodega($data);
-        }
-
-        $datadetalleparte = $this->parte->detalleDelDetallaParte($iddetalleparte);
-        if ($datadetalleparte->idestatus != 8) {
-            $idoperador = $datadetalleparte->idoperador;
-            $dataactualizar = array(
-                'idestatus' => 8,
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-            $this->parte->updateDetalleParte($iddetalleparte, $dataactualizar);
-
-            $dataupdateestatus = array(
-                'iddetalleparte' => $iddetalleparte,
-                'idstatus' => 8,
-                'idoperador' => $idoperador,
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-            $this->parte->addDetalleEstatusParte($dataupdateestatus);
-
-            $dataupdateestatusterminado = array(
-                'iddetalleparte' => $iddetalleparte,
-                'idstatus' => 5,
-                'idoperador' => $idoperador,
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-            $this->parte->addDetalleEstatusParte($dataupdateestatusterminado);
-        }
-        redirect('bodega/');
-    }
 
 }
 

@@ -43,14 +43,14 @@
                             </div>
                             <div class="col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
-                                    <h3><small>Linea: </small><?php echo $detalle->linea ?></h3>
+                                    <h3><small>Linea: </small><?php echo $detalle->nombrelinea ?></h3>
                                 </div>
                             </div>
                         </div>
                         <hr/>
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <h4>Colocar los Pallet</h4>
+                                <small>Nota: Solo podra ser rechazado si el estatus esta en validación.</small>
                                 <form method="post" id="frmdetalle" action="mk.php">
                                     <label id="errormsg" style="color:red;"></label>
                                     <table class="table table-hover">
@@ -60,7 +60,7 @@
                                                 <th>Pallet</th>
                                                 <th>Cajas</th>
                                                 <th>Estatus</th> 
-                                                <th>Ubicación</th>
+                                                <th>Ubicación</th> 
                                                 <th></th>   
                                             </tr>
                                         </thead>
@@ -73,7 +73,7 @@
 
                                                 <tr>
                                                     <td>
-                                                        <?php if ($value->idestatus == 4) { ?>
+                                                        <?php if ($value->idestatus == 4 or $value->idestatus == 8) { ?>
                                                             <div class="checkbox-group required">
                                                                 <input type="checkbox" name="id[]" value="<?php echo $value->idpalletcajas; ?>">
                                                             </div>
@@ -94,6 +94,8 @@
                                                             echo '<label style="color:green;">EN CALIDAD</label>';
                                                         } else if ($value->idestatus == 8) {
                                                             echo '<label style="color:green;">EN ALMACEN</label>';
+                                                        }else if ($value->idestatus == 12) {
+                                                            echo '<label style="color:blue;">EN HOLD</label>';
                                                         } else {
                                                             echo '<label>No found</label>';
                                                         }
@@ -110,19 +112,15 @@
                                                         }
                                                         ?>
                                                     </td>
-                                                    <td align="right">
-                                                        <?php if ($value->idestatus == 4 or $value->idestatus == 8 && $value->orden == 0 && $value->salida == 0) { ?>
-                                                         
-                                                            <select class="form-control selectposicion"name="posicion">
-                                                                  <option>Seleccionar</option>
-                                                                <?php foreach ($posicionbodega as $value2) { ?>
-                                                              
-                                                                    <option value="<?php echo $value->idpalletcajas . "-" . $value2->idposicion ?>"> <?php echo $value2->nombreposicion; ?></option>
-                                                                        <?php } ?>
-                                                            </select>
-
-
-                                                        <?php } ?>
+                                                    <td>
+                                                          <?php
+                                                         if($value->idestatus == 6){
+                                                              echo '<label style="color:red;">'.$value->motivo.'</label>';
+                                                         }
+                                                         if($value->idestatus == 3){
+                                                              echo '<label style="color:red;">'.$value->motivo.'</label>';
+                                                         }
+                                                         ?>
                                                     </td>
                                                 </tr>
 
@@ -132,11 +130,39 @@
                                         </tbody>
                                     </table>
                                     <input type="hidden" id="iddetalleparte" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>"/>
-                                    <input type="hidden" name="operador" value="<?php echo $detalle->idoperador ?>"/>
-                                    <div class="form-group" id="idmotivorechazo">
-                                        <label><font color="red">*</font> Anotaciones de rechazo</label>
-                                        <textarea class="form-control" name="motivorechazo" id="inputmotivorechazo" ></textarea>
+                                    
+                                          <div class="row">
+                                          
+                                    <div class="col-md-6 col-sm-12 col-xs-12" >
+                                     <div class="form-group"  id="idmotivorechazo">
+                                        <label>Seleccionar motivo de rechazo</label>
+                                        <select  class="form-control" id="motivo" name="motivorechazo" required> 
+                                           <option value="">Seleccionar</option>
+                                            <?php
+                                                foreach($motivosrechazo as $valuemotivo){
+                                                    echo '<option value='.$valuemotivo->idmotivorechazo.'>'.$valuemotivo->motivo.'</option>';
+                                                }
+                                            ?>
+                                        </select>
                                     </div>
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                      <div class="col-md-6 col-sm-12 col-xs-12" >
+                                     <div class="form-group"  id="idubicacion">
+                                        <label>Seleccionar Ubicación</label>
+                                        <select  class="form-control" id="ubicacion" name="ubicacion" required> 
+                                           <option value="">Seleccionar</option>
+                                            <?php foreach ($posicionbodega as $value2) { ?>
+                                                              
+                                            <option value="<?php echo $value2->idposicion ?>"> <?php echo $value2->nombreposicion; ?></option>
+                                            <?php } ?>
+                                            
+                                        </select>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    <button type="button" id="btnubicar" class="btn btn-success btn-sm"> <i class="fa fa-check-circle" aria-hidden="true"></i> Posicionar los Pallet</button>
                                     <button type="button" id="btnrechazar" class="btn btn-danger btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Almacen</button>
                                 </form>
                             </div>
@@ -154,10 +180,12 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#idmotivorechazo').hide();
+        $('#idubicacion').hide();
         $('#btnrechazar').on('click', function () {
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
                 $('#idmotivorechazo').show();
-                if ($.trim($("#inputmotivorechazo").val())) {
+                var optId = $("#motivo").val();
+                if(optId != ""){
                     form = $("#frmdetalle").serialize();
                     $.ajax({
                         type: "POST",
@@ -175,7 +203,36 @@
 
                     //$('#frmdetalle').submit();
                 } else {
-                    $('#errormsg').text("Escribir motivo de rechazo.");
+                    $('#errormsg').text("Seleccionar una motivo.");
+                }
+            } else {
+                $('#errormsg').text("Seleccionar una casilla.");
+            }
+
+        });
+             $('#btnubicar').on('click', function () {
+            if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
+                $('#idubicacion').show();
+                var optId = $("#ubicacion").val();
+                if(optId != ""){
+                    form = $("#frmdetalle").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "<?php echo site_url('bodega/agregarAUbicacion'); ?>",
+                        data: form,
+
+                        success: function (data) {
+                            location.reload();
+                            //Unterminated String literal fixed
+                        }
+
+                    });
+                    //event.preventDefault();
+                    return false;  //stop the actual form post !important!
+
+                    //$('#frmdetalle').submit();
+                } else {
+                    $('#errormsg').text("Seleccionar una ubicación.");
                 }
             } else {
                 $('#errormsg').text("Seleccionar una casilla.");

@@ -49,8 +49,12 @@
                                         
                                         <h6 style="color:green" 
                                         v-else-if="row.totalcancelado == 0 && row.totalfinalizado == 0 && row.totalenviado > 0"><strong><i class="fa fa-hand-o-right" aria-hidden="true"></i> E. A CALIDAD </strong></h6>
-                                         <h6 style="color:green" 
+                                        
+                                        <h6 style="color:green" 
                                         v-else-if=" row.totalenviado > 0"><strong><i class="fa fa-hand-o-right" aria-hidden="true"></i> E. A CALIDAD </strong></h6>
+                                        
+                                        <h6 style="color:blue" 
+                                        v-else-if="row.enhold > 0"><strong><i class="fa fa-clock-o" aria-hidden="true"></i> EN HOLD </strong></h6>
                                         
                                         <h6 style="color:green" 
                                         v-else-if="row.totalenviadocalidad > 0"><strong><i class="fa fa-hand-o-right" aria-hidden="true"></i> EN ALMACEN </strong></h6>

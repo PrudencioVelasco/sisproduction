@@ -14,18 +14,20 @@ class Bodega_model extends CI_Model {
         $this->db->close();
     }
 
-    public function showAllEnviados($idusuario)
+    public function showAllEnviados()
 {
-             $query =$this->db->query("SELECT p.idparte, d.iddetalleparte, p.numeroparte, d.folio, d.modelo, d.revision, d.linea, DATE_FORMAT(d.fecharegistro,'%d/%m/%Y %h:%i %p' ) as fecharegistro,
+             $query =$this->db->query("SELECT p.idparte, d.iddetalleparte, p.numeroparte, d.folio, d.modelo, d.revision, l.idlinea,l.nombrelinea, DATE_FORMAT(d.fecharegistro,'%d/%m/%Y %h:%i %p' ) as fecharegistro,
  (SELECT  COUNT(pc.pallet)  FROM  palletcajas pc WHERE pc.iddetalleparte = d.iddetalleparte) as totalpallet,
  (SELECT  SUM(pc2.cajas)  FROM  palletcajas pc2 WHERE pc2.iddetalleparte = d.iddetalleparte) as totalcajas,
  (SELECT COUNT(pc3.idestatus)  FROM palletcajas pc3 WHERE pc3.iddetalleparte = d.iddetalleparte AND pc3.idestatus = 4) AS totalenviado,
  (SELECT COUNT(pc4.idestatus)  FROM palletcajas pc4 WHERE pc4.iddetalleparte = d.iddetalleparte AND pc4.idestatus = 8) AS enalmacen,
  (SELECT COUNT(pc5.idestatus)  FROM palletcajas pc5 WHERE pc5.iddetalleparte = d.iddetalleparte AND pc5.idestatus = 6) AS rechazadoacalidad,
  (SELECT COUNT(pc5.idestatus)  FROM palletcajas pc5 WHERE pc5.iddetalleparte = d.iddetalleparte AND pc5.idestatus = 3) AS rechazadoapacking,
- (SELECT COUNT(pc9.idpalletcajas)  FROM palletcajas pc9 WHERE pc9.iddetalleparte = d.iddetalleparte AND pc9.idoperador = '$idusuario') AS mostrar
- FROM parte p, detalleparte d
+    (SELECT COUNT(pc9.idestatus)  FROM palletcajas pc9 WHERE pc9.iddetalleparte = d.iddetalleparte AND pc9.idestatus = 12) AS enhold,
+    (SELECT COUNT(pc10.idestatus)  FROM palletcajas pc10 WHERE pc10.iddetalleparte = d.iddetalleparte AND pc10.idestatus = 1) AS enviadoacalidad
+ FROM parte p, detalleparte d, linea l
  WHERE p.idparte = d.idparte
+ AND l.idlinea = d.idlinea
  ORDER BY d.fecharegistro DESC");
        //  return $query->result();
 
@@ -93,163 +95,7 @@ public function eliminarposicionesparte($id)
     }
 
 }
-    /*
-    public function  searchPartes($match)
-{
-  $field = array(
-      'p.numeroparte',
-      'c.nombre'
-  );
-    $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name, p.activo');
-    $this->db->from('parte p');
-    $this->db->join('cliente c', 'p.idcliente=c.idcliente');
-    $this->db->join('users u', 'p.idusuario=u.id');
-    $this->db->like('concat(' . implode(',', $field) . ')', $match);
-    $query = $this->db->get();
-    if ($query->num_rows() > 0) {
-        return $query->result();
-    } else {
-        return false;
-    }
-}
-          public function showAllEnviados($idusuario)
-    {
-        $this->db->select('d.iddetalleparte,p.idparte,c.idcliente, s.idestatus, p.numeroparte,c.nombre,u.name,uo.name as nombreoperador,d.fecharegistro,d.pallet,d.cantidad,s.nombrestatus');
-        $this->db->from('parte p');
-        $this->db->join('cliente c', 'p.idcliente=c.idcliente');
-        $this->db->join('detalleparte d', 'p.idparte=d.idparte');
-         $this->db->join('users u', 'd.idusuario=u.id');
-         $this->db->join('users uo', 'd.idoperador=uo.id');
-        $this->db->join('status s', 's.idestatus=d.idestatus');
-        $this->db->where('d.idusuario',$idusuario);
-        $this->db->order_by("d.fecharegistro", "desc");
-        $query = $this->db->get();
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-    }
-    public function detalleDelDetallaParte($iddetalle)
-    {
-      // code...
-      $this->db->select('d.iddetalleparte,
-      p.idparte,
-      c.idcliente,
-      s.idestatus,
-      p.numeroparte,
-      c.nombre,
-      u.name,
-      uo.name as nombreoperador,
-      d.fecharegistro,
-      d.pallet,
-      d.modelo,
-      d.revision,
-      d.cantidad,
-      d.linea,
-      d.idoperador,
-      s.nombrestatus');
-      $this->db->from('parte p');
-      $this->db->join('cliente c', 'p.idcliente=c.idcliente');
-      $this->db->join('detalleparte d', 'p.idparte=d.idparte');
-      $this->db->join('users u', 'd.idusuario=u.id');
-      $this->db->join('users uo', 'd.idoperador=uo.id');
-      $this->db->join('status s', 's.idestatus=d.idestatus');
-      $this->db->join('detallestatus ds', 'ds.iddetalleparte=d.iddetalleparte');
-      $this->db->where('d.iddetalleparte',$iddetalle);
-      $query = $this->db->get();
-       return $query->first_row();
-    }
-    public function searchEnviados($match,$idusuario)
-    {
-        $field = array(
-            'p.numeroparte',
-            's.nombrestatus',
-            'd.fecharegistro',
-            'd.revision'
-        );
-        $this->db->select('p.idparte,c.idcliente, s.idestatus, p.numeroparte,c.nombre,u.name,uo.name as nombreoperador,d.fecharegistro,d.pallet,d.cantidad,s.nombrestatus');
-        $this->db->from('parte p');
-        $this->db->join('cliente c', 'p.idcliente=c.idcliente');
-        $this->db->join('detalleparte d', 'p.idparte=d.idparte');
-        $this->db->join('users u', 'd.idusuario=u.id');
-        $this->db->join('users uo', 'd.idoperador=uo.id');
-        $this->db->join('status s', 's.idestatus=d.idestatus');
-        $this->db->join('detallestatus ds', 'ds.iddetalleparte=d.iddetalleparte');
-        $this->db->where('d.idusuario',$idusuario);
-        $this->db->like('concat(' . implode(',', $field) . ')', $match);
-        $query = $this->db->get();
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-    }
-    public function validarClienteParte($idcliente,$numeroparte)
-    {
-
-        //Funcion para validar al registra un numero de parte que no
-        //este registrado con el mismo cliente
-        $this->db->select('p.*');
-        $this->db->from('parte p');
-        $this->db->where('p.idcliente',$idcliente);
-        $this->db->where('p.numeroparte',$numeroparte);
-        $query = $this->db->get();
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
-
-    }
-      public function detalleParteId($idparte)
-    {
-       $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name, p.activo');
-       $this->db->from('parte p');
-       $this->db->join('cliente c', 'p.idcliente=c.idcliente');
-       $this->db->join('users u', 'p.idusuario=u.id');
-       $this->db->where('p.idparte', $idparte);
-       $query = $this->db->get();
-         return $query->first_row();
-    }
-    public function motivosCancelacionCalidad($iddetalleparte)
-    {
-      $this->db->select('d.comentariosrechazo, d.fecharegistro');
-      $this->db->from('detallestatus d');
-      $this->db->where('d.iddetalleparte', $iddetalleparte);
-      $this->db->where('d.idstatus', 6);
-      $query = $this->db->get();
-      if ($query->num_rows() > 0) {
-          return $query->result();
-      } else {
-          return false;
-      }
-    }
-     public function addParte($data)
-    {
-        return $this->db->insert('parte', $data);
-    }
-     public function addDetalleParte($data)
-    {
-        $this->db->insert('detalleparte', $data);
-        return $this->db->insert_id();
-    }
-     public function addDetalleEstatusParte($data)
-    {
-        return $this->db->insert('detallestatus', $data);
-    }
-    public function updateDetalleParte($id, $field)
-    {
-        $this->db->where('iddetalleparte', $id);
-        $this->db->update('detalleparte', $field);
-        if ($this->db->affected_rows() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
-*/
+ 
     
       public function addPalletPosicion($data)
     {
@@ -267,4 +113,25 @@ public function eliminarposicionesparte($id)
         }
 
     }
+       public function addMotivoRechazo($data)
+    {
+        return $this->db->insert('palletcajasestatus', $data);
+        if($this->db->affected_rows() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+           public function motivosRechazo(){
+        $this->db->select('mr.idmotivorechazo, mr.motivo');
+        $this->db->from('motivorechazo mr'); 
+        $this->db->where('mr.idproceso',3);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        } 
+    }
+
 }

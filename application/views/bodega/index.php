@@ -41,24 +41,30 @@
                             <tbody  >
 
                                 <tr v-for="row in detallestatus" class="table-default">
-                                    <td v-if="row.mostrar > 0">{{row.folio}} </td>
-                                    <td v-if="row.mostrar > 0">{{row.numeroparte}} </td>
-                                    <td v-if="row.mostrar > 0">
+                                    <td >{{row.folio}} </td>
+                                    <td >{{row.numeroparte}} </td>
+                                    <td >
                                         <h6 style="color:blue" v-if="row.totalenviado > 0"><strong><i class="fa fa-hourglass-start" aria-hidden="true"></i>
                                                 EN ESPERA</strong></h6>
                                         <h6 style="color:green" v-else-if="row.totalpallet ==row.enalmacen"><strong><i class="fa fa-home" aria-hidden="true"></i> EN ALMACEN</strong></h6>
                                         <h6 style="color:red" v-else-if="row.rechazadoacalidad > 0"><strong>R. A CALIDAD</strong></h6>
                                         <h6 style="color:red" v-else-if="row.rechazadoapacking > 0"><strong><i class="fa fa-home" aria-hidden="true"></i>
                                                 R. A PACKING</strong></h6>
+                                        <h6 style="color:blue" v-else-if="row.enhold > 0"><strong><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                EN HOLD</strong></h6>
+                                        <h6 style="color:blue" v-else-if="row.enviadoacalidad > 0"><strong><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                EN CALIDAD</strong></h6>
+                                                
+                                        
                                        
                                         <h1 v-else>No found</h1>
                                     </td>
-                                    <td v-if="row.mostrar > 0">{{row.totalpallet}} </td>
-                                    <td v-if="row.mostrar > 0">{{row.totalcajas}} </td>
-                                    <td v-if="row.mostrar > 0">{{row.revision}} </td>
-                                    <td v-if="row.mostrar > 0">{{row.fecharegistro}} </td>
+                                    <td >{{row.totalpallet}} </td>
+                                    <td >{{row.totalcajas}} </td>
+                                    <td >{{row.revision}} </td>
+                                    <td >{{row.fecharegistro}} </td>
 
-                                    <td align="right"  v-if="row.mostrar > 0">
+                                    <td align="right">
                                         <a href="" v-bind:href="'verDetalle/'+ row.iddetalleparte"  class="btn btn-info">Ver detalle</a>
                                     </td>
                                 </tr>

@@ -14,7 +14,9 @@ class Parte extends CI_Controller {
         $this->load->model('data_model');
         $this->load->model('parte_model', 'parte');
         $this->load->model('user_model', 'usuario');
-         $this->load->model('palletcajas_model', 'palletcajas');
+        $this->load->model('linea_model', 'linea');
+        $this->load->model('palletcajas_model', 'palletcajas');
+        $this->load->model('palletcajasproceso_model', 'palletcajasproceso');
         $this->load->library('permission');
     }
 
@@ -242,8 +244,9 @@ class Parte extends CI_Controller {
     public function generarPDFEnvio($id) {
       //Permission::grant(uri_string());
         $this->load->library('tcpdf');
+        $listapartes = $this->parte->palletReporte($id);
         $lista = $this->parte->cantidadesPartes($id);
-         $totalpallet = 0;
+        $totalpallet = 0;
         $totalcajas = 0;
         if($lista != false){
             
@@ -334,18 +337,20 @@ class Parte extends CI_Controller {
     <td width="66" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD TOTAL</td>
     <td width="100" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">ALMACEN VERIFICACIÓN</td>
   </tr>
-  <tr>
+  ';
+        foreach($listapartes as $value){
+            $tbl.='<tr>
     <td style="border-left:solid 1px
-    #000000; border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;' . $detalle->nombre . '</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $detalle->numeroparte . '</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $detalle->modelo . '</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $totalcajas / $totalpallet . '</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . $totalpallet . '</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;' . ($totalcajas / $totalpallet) * ($totalpallet) . '</td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;font-size:9px;">&nbsp;</td>
-  </tr>
-
-    <tr>
+    #000000; border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;'.$value->nombre.'</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;'.$value->numeroparte.'</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;'.$value->modelo.'</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;'.number_format($value->cajasporpallet).'</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;'.number_format($value->totalpallet).'</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;'.number_format($value->totalcajas).'</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;</td>
+  </tr>'; 
+        }
+    $tbl.='<tr>
     <td style="border-left:solid 1px
     #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
@@ -573,7 +578,7 @@ class Parte extends CI_Controller {
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td class="textfooter" style="border-bottom:solid 1px #000; border-right:solid 1px #000;">TOTAL:</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px; margin-top:20px;">&nbsp;' . $totalpallet . ' </td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;' . ($totalcajas / $totalpallet) * ($totalpallet)  . '</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;' . number_format(($totalcajas / $totalpallet) * ($totalpallet))  . '</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
   </tr>
  <tr>
@@ -642,18 +647,21 @@ class Parte extends CI_Controller {
         $pdf->writeHTML($tbl, true, false, false, false, '');
 
         ob_end_clean();
+        
 
         $pdf->Output('My-File-Name.pdf', 'I');
     }
 
     public function packing($id) {
-      Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $usuarioscalidad = $this->usuario->showAllCalidad();
         $detalleparte = $this->parte->detalleParteId($id);
+        $detallelinea = $this->linea->showAllLinea();
 
         $data = array(
             'usuarioscalidad' => $usuarioscalidad,
             'detalleparte' => $detalleparte,
+            'lineas'=>$detallelinea,
             'idparte' => $id
         );
 
@@ -665,6 +673,7 @@ class Parte extends CI_Controller {
     public function detalleenvio($iddetalle) {
       Permission::grant(uri_string());
         $usuarioscalidad = $this->usuario->showAllCalidad();
+        $listalinea = $this->linea->showAllLinea();
         $detalledeldetalleparte = $this->parte->detalleDelDetallaParte($iddetalle);
         $palletcajas = $this->palletcajas->showAllId($iddetalle);
         //var_dump($palletcajas);
@@ -679,6 +688,7 @@ class Parte extends CI_Controller {
             'detalle' => $detalledeldetalleparte,
             'usuarioscalidad' => $usuarioscalidad,
             'palletcajas'=>$palletcajas,
+            'lineas'=>$listalinea,
             'dataerrores' => $dataerror
         );
 
@@ -697,11 +707,18 @@ class Parte extends CI_Controller {
         'pallet' => 1,
         'cajas' => $this->input->post('numerocajas'),
         'idestatus' => 1,
-        'idoperador' => $this->input->post('idoperador'),
         'idusuario' => $this->session->user_id,
         'fecharegistro' => date('Y-m-d H:i:s')
         );
-        $this->palletcajas->addPalletCajas($data);
+       $idpalletcajas = $this->palletcajas->addPalletCajas($data);
+        
+        $dataproceso = array(
+        'idpalletcajas'=>$idpalletcajas,
+        'idestatus'=>1,
+        'idusuario' => $this->session->user_id,
+        'fecharegistro' => date('Y-m-d H:i:s')
+        );
+        $this->palletcajasproceso->addPalletCajasProceso($dataproceso);
          redirect('parte/detalleenvio/'.$this->input->post('iddetalleparte'));
     }
 
@@ -711,35 +728,31 @@ class Parte extends CI_Controller {
             $data = array(
                 'modelo' => $this->input->post('modelo'),
                 'revision' => $this->input->post('revision'),
-                'linea' => $this->input->post('linea'),
-                'idoperador' => $this->input->post('usuariocalidad'),
+                'idlinea' => $this->input->post('linea'),
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
 
-            $this->parte->updateDetalleParte($iddetalleparte, $data);
-
-            /*$datastatus = array(
-                'iddetalleparte' => $iddetalleparte,
-                'idstatus' => 1,
-                'idoperador' => $this->input->post('usuariocalidad'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-
-            $this->parte->addDetalleEstatusParte($datastatus);*/
+         $this->parte->updateDetalleParte($iddetalleparte, $data);
          $ids = $this->input->post('id');
         foreach($ids as $value){
            $dataupdate = array(
             'idestatus'=>1,
-            //'idoperador'=> $this->input->post('usuariocalidad'),
             'idusuario' => $this->session->user_id,
             'fecharegistro' => date('Y-m-d H:i:s')
         );
             $this->parte->updatePalletCajas($value,$dataupdate);
         }
-          
-
+        
+     foreach($ids as $value){
+           $dataestatus = array(
+            'idpalletcajas'=>$value,
+            'idestatus'=>1,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+        );
+            $this->palletcajasproceso->addPalletCajasProceso($dataestatus);
+        } 
     
     }
  
@@ -752,9 +765,8 @@ class Parte extends CI_Controller {
             'revision' => $this->input->post('revision'),
             'pallet' => 0,
             'cantidad' => 0,
-            'linea' => $this->input->post('linea'),
+            'idlinea' => $this->input->post('linea'),
             'idestatus' => 1,
-            'idoperador' => $this->input->post('usuariocalidad'),
             'idusuario' => $this->session->user_id,
             'fecharegistro' => date('Y-m-d H:i:s')
         );
@@ -764,29 +776,25 @@ class Parte extends CI_Controller {
             'folio' => $iddetalleparte
         );
         $this->parte->updateDetalleParte($iddetalleparte, $dataupdatefolio);
-        $datastatus = array(
-            'iddetalleparte' => $iddetalleparte,
-            'idstatus' => 1,
-            'idoperador' => $this->input->post('usuariocalidad'),
-            'idusuario' => $this->session->user_id,
-            'fecharegistro' => date('Y-m-d H:i:s')
-        );
-        $this->parte->addDetalleEstatusParte($datastatus);
-      
-      
         $cajas = $this->input->post("cajas");
-        $pallet = $this->input->post("pallet");
-        for($i=1;$i <= $pallet; $i++){
-           $datapalletcaja = array(
+        foreach ($this->input->post("pallet") as $index => $code) {
+            $datapalletcaja = array(
                 'iddetalleparte' => $iddetalleparte,
-                'pallet' => 1,
-                'cajas' => $cajas,
+                'pallet' => $code,
+                'cajas' => $cajas[$index],
                 'idestatus' => 1,
-                'idoperador' => $this->input->post('usuariocalidad'),
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
-            $this->palletcajas->addPalletCajas($datapalletcaja);  
+            $idpalletcajas = $this->palletcajas->addPalletCajas($datapalletcaja);
+            
+            $dataproceso = array(
+            'idpalletcajas' => $idpalletcajas,
+            'idestatus'=>1,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')    
+            );
+             $this->palletcajasproceso->addPalletCajasProceso($dataproceso);
         }
       
        redirect('parte/detalleenvio/'.$iddetalleparte);
@@ -857,8 +865,7 @@ class Parte extends CI_Controller {
                 'pallet' => $this->input->post('numeropallet'),
                 'cantidad' => $this->input->post('cantidadcaja'),
                 'linea' => $this->input->post('linea'),
-                'idestatus' => 1,
-                'idoperador' => $this->input->post('usuariocalidad'),
+                'idestatus' => 1, 
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
@@ -871,7 +878,6 @@ class Parte extends CI_Controller {
             $datastatus = array(
                 'iddetalleparte' => $iddetalleparte,
                 'idstatus' => 1,
-                'idoperador' => $this->input->post('usuariocalidad'),
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );

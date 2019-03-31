@@ -144,6 +144,8 @@ $autoload['model'] = array('rol_model',
     'palletcajas_model',
     'bodega_model',
     'salida_model',
+    'linea_model',
     'orden_model',
     'admin_model',
+    'palletcajasproceso_model',
     'user_rol_model');

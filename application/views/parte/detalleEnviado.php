@@ -30,47 +30,41 @@
                             </div>
 <form method="post" id="frmmodificar" >
                             <div class="row">
-                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                <div class="col-md-4 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label><font color="red">*</font> Modelo</label>
                                         <input type="text" class="form-control" name="modelo" autcomplete="off" placeholder="Modelo" value="<?php echo $detalle->modelo ?>">
                                         <label style="color:red;"><?php echo form_error('modelo'); ?></label>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                <div class="col-md-4 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label><font color="red">*</font> Revision</label>
                                         <input type="text" class="form-control" name="revision" autcomplete="off" placeholder="Revision" value="<?php echo $detalle->revision ?>">
                                         <label style="color:red;"><?php echo form_error('revision'); ?></label>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                <div class="col-md-4 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label><font color="red">*</font> Linea</label>
-                                        <input type="text" class="form-control" name="linea" autcomplete="off" placeholder="Linea" value="<?php echo $detalle->linea ?>">
-                                        <label style="color:red;"><?php echo form_error('linea'); ?></label>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <label><font color="red">*</font> Enviarlo a calidad</label>
-                                        <select class="form-control" name="usuariocalidad">
+                                        <select class="form-control" name="linea" required="">
                                             <option value="">Seleccionar</option>
-                                            <?php foreach ($usuarioscalidad as $value) { ?>
-                                                <option <?php
-                                                if ($value->idusuario == $detalle->idoperador) {
+                                            <?php
+                                            foreach ($lineas as $value) { ?>
+                                               <option <?php
+                                                if ($value->idlinea == $detalle->idlinea) {
                                                     echo "selected";
                                                 }
-                                                ?> value=" <?php echo $value->idusuario ?>"><?php echo $value->name ?></option>
-                                                <?php }
                                                 ?>
+                                                value="<?php echo $value->idlinea ?>" ><?php echo $value->nombrelinea ?></option>
+                                        <?php    }  ?>
                                         </select>
-                                        <label style="color:red;"><?php echo form_error('usuariocalidad'); ?></label>
+                                        <label style="color:red;"><?php echo form_error('linea'); ?></label>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 col-sm-12 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
                                     <button type="button" class="btn btn-info btn-sm" id="btnagregarpallet" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus-circle" aria-hidden="true"></i>
  Agregar</button>
                                   <br/>
@@ -82,6 +76,7 @@
                                                 <th></th>
                                                 <th>Pallet</th>
                                                 <th>Cajas</th>
+                                                <th></th>
                                                 <th></th>
                                             </tr>
                                         </thead>
@@ -102,13 +97,25 @@
                                                     <?php
                                                         if($value->idestatus == 3){ ?>
                                                             <a style="color:red;" class="btnquitar" href="<?php echo site_url('parte/quitarPalletCajas/' . $value->idpalletcajas . '/' . $detalle->iddetalleparte) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i></a> <label style="color:red;">Rechazado</label>
-                                                        <?php }else if($value->idestatus == 1){ 
+                                                        <?php 
+                                                        }else if($value->idestatus == 1){ 
                                                          echo '<label style="color:green;">E. A CALIDAD</label>';
-                                                    }
+                                                        }
+                                                        else if($value->idestatus == 12){ 
+                                                         echo '<label style="color:blue;">EN HOLD</label>';
+                                                        }
                                                         else{
                                                               echo '<label style="color:green;">EN ALMACEN</label>';
                                                         }
                                                      ?> </td>
+                                                     <td><a href="<?php echo site_url('parte/etiquetaPacking/' . $detalle->iddetalleparte).'/'.$value->idpalletcajas ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a></td>
+                                                     <td>
+                                                         <?php
+                                                         if($value->idestatus == 3){
+                                                              echo '<label style="color:red;">'.$value->motivo.'</label>';
+                                                         }
+                                                         ?>
+                                                     </td>
                                                 </tr>
 <?php } ?> 
                                         </tbody>
@@ -118,24 +125,7 @@
                              
                             
                                 </div>
-                                <div class="col-md-6 col-sm-12 col-xs-12">
-                                    <p class="text-center text-gray" style="font-size: 14px; font-weight: bold;">Anotaciones de Rechazo</p>
-                                   <?php 
-                                    if(isset($dataerrores) && !empty($dataerrores)){
-                                            foreach ($dataerrores as $value) {
-
-                                                echo "<p class='text-center'><label style='color:red;'>";
-                                                echo "* " . $value->comentariosrechazo . " - " . $value->fecharegistro;
-                                                echo "</label></p>";
-                                                echo "<br>"; 
-                                            }
-                                    }else{
-                                        echo'<p class="text-center"><label>Sin información</label></p>';
-                                        
-                                    }
-                                        
-                                        ?>
-                                </div>
+                              
                             </div>
 
                             <div class="row">
@@ -180,7 +170,6 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                         <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte; ?>"/>
-                                         <input type="hidden" name="idoperador" value="<?php echo $detalle->idoperador; ?>"/>
                                         <button type="submit" class="btn btn-primary">Agregar</button>
                                     </div>
                                     </form>

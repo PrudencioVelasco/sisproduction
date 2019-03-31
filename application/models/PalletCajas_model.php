@@ -27,7 +27,9 @@ class PalletCajas_model extends CI_Model {
 		(SELECT ppb2.ordensalida FROM parteposicionbodega ppb2 
 		WHERE ppb2.idpalletcajas = pc.idpalletcajas) orden,
         (SELECT ppb3.salida FROM parteposicionbodega ppb3
-		WHERE ppb3.idpalletcajas = pc.idpalletcajas) salida
+		WHERE ppb3.idpalletcajas = pc.idpalletcajas) salida,
+            (SELECT mr.motivo FROM palletcajasestatus pce, motivorechazo mr
+        WHERE pce.idmotivorechazo = mr.idmotivorechazo AND pce.idpalletcajas = pc.idpalletcajas  ORDER BY pce.idpalletcajasestatus DESC LIMIT 1) AS motivo
 FROM   detalleparte dp,
        palletcajas pc,
        status s
@@ -42,7 +44,8 @@ WHERE  dp.iddetalleparte = pc.iddetalleparte
     }
       public function addPalletCajas($data)
     {
-        return $this->db->insert('palletcajas', $data);
+        $this->db->insert('palletcajas', $data);
+        return $this->db->insert_id();
     }
       public function eliminarPalletCajas($id)
     {

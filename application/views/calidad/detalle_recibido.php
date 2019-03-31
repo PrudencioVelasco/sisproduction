@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-md-3 col-sm-12 col-xs-12">
                                 <div class="form-group">
-                                    <h4>Linea: <strong><?php echo $detalle->linea ?></strong></h4>
+                                    <h4>Linea: <strong><?php echo $detalle->nombrelinea ?></strong></h4>
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-12 col-xs-12">
@@ -43,7 +43,7 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-md-6 col-sm-12 col-xs-12" >
+                            <div class="col-md-12 col-sm-12 col-xs-12" >
                                 <form method="POST" id="frmdetalle"  action="">
                                     <label id="errormsg" style="color:red;"></label>
                                     <table class="table table-hover">
@@ -53,7 +53,9 @@
                                                 <!--<th>#</th>-->
                                                 <th>Pallet</th>
                                                 <th>Cajas</th>
-                                                <th>Estatus</th>    
+                                                <th>Estatus</th> 
+                                                <th></th>  
+                                                <th></th> 
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -63,7 +65,7 @@
                                                 ?>
                                                 <tr>
                                                     <td>
-                                                       <?php if($value->idestatus == 1 || $value->idestatus == 6){ ?>
+                                                       <?php if($value->idestatus == 1 || $value->idestatus == 6 || $value->idestatus == 12){ ?>
                                                         <div class="checkbox-group required">
                                                             <input type="checkbox" name="id[]" value="<?php echo $value->idpalletcajas; ?>">
                                                         </div>
@@ -80,9 +82,12 @@
                                                     }else if($value->idestatus == 4){
                                                         echo '<label style="color:green;">E. A ALMACEN</label>'; 
                                                     }
-                                                else if($value->idestatus == 8){
-                                                        echo '<label style="color:green;">EN ALMACEN</label>'; 
-                                                    }
+                                                    else if($value->idestatus == 8){
+                                                            echo '<label style="color:green;">EN ALMACEN</label>'; 
+                                                        }
+                                                else if($value->idestatus == 12){
+                                                            echo '<label style="color:green;">EN HOLD</label>'; 
+                                                        }
                                                 else if($value->idestatus == 6){ ?>
                                                     <a style="color:red;" class="btnquitar" href="<?php echo site_url('calidad/quitarPalletCajas/' . $value->idpalletcajas . '/' . $detalle->iddetalleparte) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i></a> 
                                                     <label style="color:red;">R. A CALIDAD</label> 
@@ -92,53 +97,49 @@
                                                     }
                                                         ?>
                                                     </td>
+                                                     <td>
+                                                         
+                                                         <a href="<?php echo base_url('parte/etiquetaCalidad/' . $detalle->iddetalleparte . '/'.$value->idpalletcajas); ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
+                                                         
+                                                     </td>
+                                                      <td>
+                                                         <?php
+                                                         if($value->idestatus == 6){
+                                                              echo '<label style="color:red;">'.$value->motivo.'</label>';
+                                                         }
+                                                         if($value->idestatus == 3){
+                                                              echo '<label style="color:red;">'.$value->motivo.'</label>';
+                                                         }
+                                                         ?>
+                                                     </td>
                                                 </tr>
                                             <?php } ?> 
 
                                         </tbody>
                                     </table>
-                                    <div class="form-group" id="idmotivorechazo">
-                                        <label>Anotaciones de rechazo</label>
-                                        <textarea class="form-control" name="motivorechazo" id="inputmotivorechazo" ></textarea>
-                                    </div>
-                                    <div class="form-group" id="idseleccionaroperador">
-                                        <label>Enviarlo a Bodega</label>
-                                        <select class="form-control" name="usuariobodega" id="usuariobodega" >
-                                            <option value="">Seleccionar un operador</option>
-                                            <?php foreach ($usuariosbodega as $value): ?>
-                                                <option value="<?php echo $value->idusuario; ?>"><?php echo $value->name; ?></option>
-                                            <?php endforeach; ?>
+                                    <div class="row">
+                                    <div class="col-md-6 col-sm-12 col-xs-12" >
+                                     <div class="form-group"  id="idmotivorechazo">
+                                        <label>Seleccionar motivo de rechazo</label>
+                                        <select  class="form-control" id="motivo" name="motivorechazo" required> 
+                                           <option value="">Seleccionar</option>
+                                            <?php
+                                                foreach($motivosrechazo as $valuemotivo){
+                                                    echo '<option value='.$valuemotivo->idmotivorechazo.'>'.$valuemotivo->motivo.'</option>';
+                                                }
+                                            ?>
                                         </select>
-                                        <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>">
-                                        <label style="color:red;"><?php echo form_error('usuariobodega'); ?></label>
                                     </div>
-                                   <input type="hidden" name="idoperador" value="<?php echo $detalle->idoperador ?>"/>
+                                    </div>
+                                    </div> 
+                                     <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>">
+                                          
                                     <button type="button" id="btnenviar"   class="btn btn-success btn-sm"><i class="fa fa-paper-plane" aria-hidden="true"></i> Enviar a Almacen</button>
+                                    <button type="button" id="btnhold"   class="btn btn-info btn-sm"><i class="fa fa-clock-o" aria-hidden="true"></i> Movel a Hold</button>
                                     <button type="button" id="btnrechazar" class="btn btn-danger btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Packing</button>
                                 </form>
                             </div>
-                            <div class="col-md-6 col-sm-12 col-xs-12"  >
-                                <p class="text-center text-gray" style="font-size: 14px; font-weight: bold;">Anotaciones de Rechazo</p>
-                               
-                                    <?php
-                                   
-                                    if (isset($dataerrores) && !empty($dataerrores)) {
-                                        foreach ($dataerrores as $value) {
-                                            echo "<p class='text-center' style='color:red;'>";
-                                            echo "* " . $value->comentariosrechazo . " - " . $value->fecharegistro;
-                                            echo " - ";
-                                            if($value->idstatus==3){
-                                                echo "Calidad";
-                                            }else{
-                                                echo "Almacen";
-                                            }
-                                            echo"</p>";
-                                        }
-                                    }else{
-                                       echo '<p class="text-center"> Sin información</p>'; 
-                                    }
-                                    ?>
-                            </div>
+                           
                         </div>
                         <hr>
                         <div class="row">
@@ -161,15 +162,14 @@
 <script>
     $(document).ready(function () {
         $('#idmotivorechazo').hide();
-        $('#idseleccionaroperador').hide();
         $('#inputrechazar').hide();
         $('#inputenviar').hide();
         $('#btnenviar').on('click', function () {
             //$('#frmdetalle').submit();
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
-                $('#idseleccionaroperador').show(); 
+                
                 $('#idmotivorechazo').hide(); 
-                if($("#usuariobodega").val()){
+                 
                     
                      //$('#frmdetalle').submit();
                     
@@ -189,9 +189,7 @@
                          //event.preventDefault();
                          return false;  //stop the actual form post !important!
                     
-                }else{
-                    $('#errormsg').text("Seleccionar el operador."); 
-                }
+                 
             } else {
                 $('#errormsg').text("Seleccionar una casilla.");
             }
@@ -200,8 +198,9 @@
             //$('#frmdetalle').submit();
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
                 $('#idmotivorechazo').show(); 
-                $('#idseleccionaroperador').hide(); 
-                if ($.trim($("#inputmotivorechazo").val())) {
+                
+                 var optId = $("#motivo").val();
+                if(optId != ""){
                       form = $("#frmdetalle").serialize(); 
                          $.ajax({
                            type: "POST",
@@ -219,9 +218,40 @@
                          return false;  //stop the actual form post !important!
                     
                    //$('#frmdetalle').submit();
-                   }else{
-                   $('#errormsg').text("Escribir motivo de rechazo."); 
-                   }
+                }else{
+                    $('#errormsg').text("Seleccionar una motivo.");
+                }
+                    
+            } else {
+                //alert("ss");
+                //errormsg
+                $('#errormsg').text("Seleccionar una casilla.");
+            }
+        });
+        
+        $('#btnhold').on('click', function () {
+            //$('#frmdetalle').submit();
+            if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
+                
+                      form = $("#frmdetalle").serialize(); 
+                         $.ajax({
+                           type: "POST",
+                           url: "<?php  echo site_url('calidad/ponerEnHold'); ?>",
+                           data: form,
+
+                           success: function(data){
+                               console.log(data);
+                                location.reload(); 
+                               //Unterminated String literal fixed
+                           }
+
+                         });
+                         //event.preventDefault();
+                         return false;  //stop the actual form post !important!
+                    
+                   //$('#frmdetalle').submit();
+                
+                    
             } else {
                 //alert("ss");
                 //errormsg

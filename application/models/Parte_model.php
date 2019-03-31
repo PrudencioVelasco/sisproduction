@@ -47,19 +47,35 @@ class Parte_model extends CI_Model {
             return false;
         }
     }
-
+public function palletReporte($iddetalleparte){
+       $query =$this->db->query("SELECT p.numeroparte, c.nombre, dp.modelo,
+COUNT(pc.pallet) AS totalpallet, 
+(SUM(pc.cajas)  / COUNT(pc.pallet) ) AS cajasporpallet,
+SUM(pc.cajas) AS totalcajas FROM parte p
+INNER JOIN detalleparte dp  ON p.idparte = dp.idparte
+INNER JOIN palletcajas pc ON dp.iddetalleparte = pc.iddetalleparte 
+INNER JOIN cliente c ON c.idcliente = p.idcliente
+WHERE dp.iddetalleparte = '$iddetalleparte'
+GROUP by pc.cajas"); 
+         if ($query->num_rows() > 0) {
+                return $query->result();
+            } else {
+                return false;
+            }
+}
     public function showAllEnviados($idusuario)
     {
-       $query =$this->db->query("SELECT p.idparte,d.iddetalleparte, p.numeroparte, d.folio, d.modelo, d.revision, d.linea, DATE_FORMAT(d.fecharegistro,'%d/%m/%Y %h:%i %p' ) as fecharegistro,
+       $query =$this->db->query("SELECT p.idparte,d.iddetalleparte, p.numeroparte, d.folio, d.modelo, d.revision, l.idlinea,l.nombrelinea, DATE_FORMAT(d.fecharegistro,'%d/%m/%Y %h:%i %p' ) as fecharegistro,
  (SELECT  COUNT(pc.pallet)  FROM  palletcajas pc WHERE pc.iddetalleparte = d.iddetalleparte) as totalpallet,
  (SELECT  SUM(pc2.cajas)  FROM  palletcajas pc2 WHERE pc2.iddetalleparte = d.iddetalleparte) as totalcajas,
  (SELECT COUNT(pc3.idestatus)  FROM palletcajas pc3 WHERE pc3.iddetalleparte = d.iddetalleparte AND pc3.idestatus = 1) AS totalenviado,
  (SELECT COUNT(pc4.idestatus)  FROM palletcajas pc4 WHERE pc4.iddetalleparte = d.iddetalleparte AND pc4.idestatus = 8) AS totalfinalizado,
  (SELECT COUNT(pc5.idestatus)  FROM palletcajas pc5 WHERE pc5.iddetalleparte = d.iddetalleparte AND pc5.idestatus = 3) AS totalcancelado,
-  (SELECT COUNT(pc6.idestatus)  FROM palletcajas pc6 WHERE pc6.iddetalleparte = d.iddetalleparte AND pc6.idestatus = 4) AS totalenviadocalidad
- FROM parte p, detalleparte d
+  (SELECT COUNT(pc6.idestatus)  FROM palletcajas pc6 WHERE pc6.iddetalleparte = d.iddetalleparte AND pc6.idestatus = 4) AS totalenviadocalidad,
+   (SELECT COUNT(pc7.idestatus)  FROM palletcajas pc7 WHERE pc7.iddetalleparte = d.iddetalleparte AND pc7.idestatus = 12) AS enhold
+ FROM parte p, detalleparte d, linea l
  WHERE p.idparte = d.idparte
-  AND d.idusuario = '$idusuario'
+ AND l.idlinea = d.idlinea
   ORDER BY d.fecharegistro DESC
   ");
       
@@ -115,23 +131,22 @@ class Parte_model extends CI_Model {
         u.name,
         t.nombreturno,
         t.horainicial,
-        t.horafinal,
-        uo.name as nombreoperador,
+        t.horafinal, 
         u.usuario,
         d.fecharegistro,
         d.pallet,
         d.modelo,
         d.revision,
         d.cantidad,
-        d.linea,
-        d.idoperador,
+        l.idlinea,
+        l.nombrelinea, 
         CONCAT(p.numeroparte, "_", d.folio) AS codigo');
         $this->db->from('parte p');
         $this->db->join('cliente c', 'p.idcliente=c.idcliente');
         $this->db->join('detalleparte d', 'p.idparte=d.idparte');
         $this->db->join('users u', 'd.idusuario=u.id');
+        $this->db->join('linea l', 'd.idlinea=l.idlinea');
         $this->db->join('turno t', 't.idturno=u.idturno');
-        $this->db->join('users uo', 'd.idoperador=uo.id');
         //$this->db->join('status s', 's.idestatus=d.idestatus');
         //$this->db->join('detallestatus ds', 'ds.iddetalleparte=d.iddetalleparte');
         $this->db->where('d.iddetalleparte',$iddetalle);

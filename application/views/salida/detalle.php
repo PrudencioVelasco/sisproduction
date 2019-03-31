@@ -59,7 +59,7 @@
                                                             <th class="text-white">Trans.</th>
                                                             <th class="text-white">N. Parte</th>
                                                             <th class="text-white">Pallet</th>
-                                                            <th class="text-white">Cajas</th>
+                                                            <th class="text-white">Cajas x pallet</th>
                                                             <th class="text-white">N. modelo</th>
                                                             <th class="text-white">Revisión</th>
                                                              <th class="text-white">Fecha</th>
@@ -74,7 +74,7 @@
                                                                     <label style="color:red;" >{{row.totalpallet}}</label>
                                                                     </td>
                                                                     <td v-if="row.totalpallet > 0">
-                                                                    <label style="color:red;">{{row.totalcajas}} </label>
+                                                                    <label style="color:red;">{{row.cajasporpallet}} </label>
                                                                     
                                                                     </td>
                                                                     <td v-if="row.totalpallet > 0">{{row.modelo}}</td>

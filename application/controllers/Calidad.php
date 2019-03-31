@@ -18,6 +18,7 @@ class Calidad extends CI_Controller {
         $this->load->library('permission');
         $this->load->library('tcpdf');
         $this->load->model('palletcajas_model', 'palletcajas');
+        $this->load->model('palletcajasproceso_model', 'palletcajasproceso');
     }
 
     public function index() {
@@ -33,20 +34,15 @@ class Calidad extends CI_Controller {
         $usuariosbodega = $this->calidad->allUsersBodega();
         $detalledeldetalleparte = $this->calidad->detalleDelDetallaParte($iddetalle);
         $palletcajas = $this->palletcajas->showAllId($iddetalle);
-        //var_dump($palletcajas);
-        //$dataerror = array();
-        // if($detalledeldetalleparte->idestatus == 6){
         $dataerror = $this->calidad->motivosCancelacionBodega($iddetalle);
-        //}
-        //  echo $iddetalle;
-//var_dump($dataerror);
-//var_dump($dataerror);
+        $motivosrechazo = $this->calidad->motivosRechazo();
         $data = array(
             'iddetalle' => $iddetalle,
             'detalle' => $detalledeldetalleparte,
             'usuariosbodega' => $usuariosbodega,
             'dataerrores' => $dataerror,
-            'palletcajas' => $palletcajas
+            'palletcajas' => $palletcajas,
+            'motivosrechazo'=>$motivosrechazo
         );
 
         $this->load->view('header');
@@ -70,15 +66,13 @@ class Calidad extends CI_Controller {
     // Enviar informacion de la parte al siguiente Modulo[Bodega]
     public function enviarBodega() {
         Permission::grant(uri_string());
-        $usuariosbodega = $this->input->post('usuariobodega');
-        $idoperador = $this->input->post('idoperador');
+        $usuariosbodega = $this->input->post('usuariobodega'); 
         $iddetalleparte = $this->input->post('iddetalleparte');
         $estatus = $this->input->post('estatus');
 
         if ($estatus == "6") {
             $data = array(
                 'idestatus' => 4,
-                'idoperador' => $usuariosbodega,
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
@@ -90,7 +84,6 @@ class Calidad extends CI_Controller {
                 $datastatus1 = array(
                     'iddetalleparte' => $iddetalleparte,
                     'idstatus' => 4,
-                    'idoperador' => $usuariosbodega,
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
@@ -103,7 +96,6 @@ class Calidad extends CI_Controller {
                     $datastatus2 = array(
                         'iddetalleparte' => $iddetalleparte,
                         'idstatus' => 2,
-                        'idoperador' => $idoperador,
                         'idusuario' => $this->session->user_id,
                         'fecharegistro' => date('Y-m-d H:i:s')
                     );
@@ -118,8 +110,7 @@ class Calidad extends CI_Controller {
             }
         } else {
             $data = array(
-                'idestatus' => 4,
-                'idoperador' => $usuariosbodega,
+                'idestatus' => 4, 
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
@@ -131,7 +122,6 @@ class Calidad extends CI_Controller {
                 $datastatus1 = array(
                     'iddetalleparte' => $iddetalleparte,
                     'idstatus' => 4,
-                    'idoperador' => $usuariosbodega,
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
@@ -144,7 +134,6 @@ class Calidad extends CI_Controller {
                     $datastatus2 = array(
                         'iddetalleparte' => $iddetalleparte,
                         'idstatus' => 2,
-                        'idoperador' => $idoperador,
                         'idusuario' => $this->session->user_id,
                         'fecharegistro' => date('Y-m-d H:i:s')
                     );
@@ -162,16 +151,23 @@ class Calidad extends CI_Controller {
 
     public function enviarBodegaNew() {
         $iddetalleparte = $this->input->post('iddetalleparte');
-        $operador = $this->input->post('usuariobodega');
         $ids = $this->input->post('id');
         foreach ($ids as $value) {
             $data = array(
                 'idestatus' => 4,
-                'idoperador' => $operador,
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
             $this->palletcajas->updatePalletCajas($value, $data);
+        }
+        foreach ($ids as $valueproceso) {
+            $data = array(
+                'idpalletcajas'=>$valueproceso,
+                'idestatus' => 4,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->palletcajasproceso->addPalletCajasProceso($data);
         }
         //redirect('detalleenvio/'.$iddetalleparte);
     }
@@ -179,26 +175,33 @@ class Calidad extends CI_Controller {
     public function rechazarAPackingNew() {
         $iddetalleparte = $this->input->post('iddetalleparte');
         $motivorechazo = $this->input->post('motivorechazo');
-        $operador = $this->input->post('idoperador');
         $ids = $this->input->post('id');
         foreach ($ids as $value) {
             $data = array(
-                'idestatus' => 3,
-                'idoperador' => $operador,
+                'idestatus' => 3, 
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
             $this->palletcajas->updatePalletCajas($value, $data);
         }
-        $datarechazo = array(
-            'iddetalleparte' => $iddetalleparte,
-            'idstatus' => 3,
-            'comentariosrechazo' => $motivorechazo,
-            'idoperador' => $operador,
-            'idusuario' => $this->session->user_id,
-            'fecharegistro' => date('Y-m-d H:i:s')
-        );
-        $this->calidad->addRechazoParte($datarechazo);
+         foreach ($ids as $value2) {
+                $datarechazo = array(
+                    'idpalletcajas' => $value2,
+                    'idmotivorechazo' => $motivorechazo,
+                    'idusuario' => $this->session->user_id,
+                    'fecharegistro' => date('Y-m-d H:i:s')
+                );
+                $this->calidad->addMotivoRechazo($datarechazo);
+         }
+          foreach ($ids as $valueproceso) {
+            $data = array(
+                'idpalletcajas'=>$valueproceso,
+                'idestatus' => 3,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->palletcajasproceso->addPalletCajasProceso($data);
+        }
     }
 
     // Mostrar todas las partes enviados de Modulo[Packing]
@@ -244,10 +247,30 @@ class Calidad extends CI_Controller {
         }
         echo json_encode($result);
     }
+    
+    public function ponerEnHold(){
+        $ids = $this->input->post('id');
+        foreach ($ids as $value) {
+            $data = array(
+                'idestatus' => 12,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->palletcajas->updatePalletCajas($value, $data);
+        }
+          foreach ($ids as $valueproceso) {
+            $data = array(
+                'idpalletcajas'=>$valueproceso,
+                'idestatus' => 12,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->palletcajasproceso->addPalletCajasProceso($data);
+        }
+    }
 
     public function rechazarParte() {
         Permission::grant(uri_string());
-        $idoperador = $this->input->post('idoperador');
         $iddetalleparte = $this->input->post('iddetalleparte');
         $comentario = $this->input->post('comentario');
 
@@ -263,7 +286,6 @@ class Calidad extends CI_Controller {
             $data = array(
                 'iddetalleparte' => $iddetalleparte,
                 'idstatus' => 3,
-                'idoperador' => $idoperador,
                 'comentariosrechazo' => $comentario,
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
@@ -284,7 +306,7 @@ class Calidad extends CI_Controller {
         // code...
         $dataoperadoralmacenamiento = $this->calidad->usuarioDeAlmacen($id);
         $datauseralma = $this->usuario->detalleUsuario($dataoperadoralmacenamiento->idoperador);
-        echo $nombreoperadoralmacen = $datauseralma->name;
+        $nombreoperadoralmacen = $datauseralma->name;
         $datauser = $this->usuario->detalleUsuario($this->session->user_id);
         $nombreusuario = $datauser->name;
         $lista = $this->calidad->cantidadesPartes($id);

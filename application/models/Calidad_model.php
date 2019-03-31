@@ -15,7 +15,7 @@ class Calidad_model extends CI_Model {
 
     public function showAllEnviados($idusuario)
     {
-             $query =$this->db->query("SELECT p.idparte, d.iddetalleparte, p.numeroparte, d.folio, d.modelo, d.revision, d.linea,DATE_FORMAT(d.fecharegistro,'%d/%m/%Y %h:%i %p' ) as fecharegistro,
+             $query =$this->db->query("SELECT p.idparte, d.iddetalleparte, p.numeroparte, d.folio, d.modelo, d.revision, l.idlinea, l.nombrelinea,DATE_FORMAT(d.fecharegistro,'%d/%m/%Y %h:%i %p' ) as fecharegistro,
  (SELECT  COUNT(pc.pallet)  FROM  palletcajas pc WHERE pc.iddetalleparte = d.iddetalleparte) as totalpallet,
  (SELECT  SUM(pc2.cajas)  FROM  palletcajas pc2 WHERE pc2.iddetalleparte = d.iddetalleparte) as totalcajas,
  (SELECT COUNT(pc7.idestatus)  FROM palletcajas pc7 WHERE pc7.iddetalleparte = d.iddetalleparte AND pc7.idestatus = 1) AS totalenviadoacalidad,
@@ -23,10 +23,11 @@ class Calidad_model extends CI_Model {
  (SELECT COUNT(pc4.idestatus)  FROM palletcajas pc4 WHERE pc4.iddetalleparte = d.iddetalleparte AND pc4.idestatus = 8) AS totalfinalizado,
  (SELECT COUNT(pc5.idestatus)  FROM palletcajas pc5 WHERE pc5.iddetalleparte = d.iddetalleparte AND pc5.idestatus = 6) AS totalcancelado,
   (SELECT COUNT(pc6.idestatus)  FROM palletcajas pc6 WHERE pc6.iddetalleparte = d.iddetalleparte AND pc6.idestatus = 7) AS totalenviadoaalmacen,
-    (SELECT COUNT(pc8.idestatus)  FROM palletcajas pc8 WHERE pc8.iddetalleparte = d.iddetalleparte AND pc8.idestatus = 3) AS rechazadoapacking
- FROM parte p, detalleparte d
+    (SELECT COUNT(pc8.idestatus)  FROM palletcajas pc8 WHERE pc8.iddetalleparte = d.iddetalleparte AND pc8.idestatus = 3) AS rechazadoapacking,
+    (SELECT COUNT(pc9.idestatus)  FROM palletcajas pc9 WHERE pc9.iddetalleparte = d.iddetalleparte AND pc9.idestatus = 12) AS enhold
+ FROM parte p, detalleparte d, linea l
  WHERE p.idparte = d.idparte
- AND (d.idusuario = '$idusuario' OR d.idoperador = '$idusuario' )
+ AND d.idlinea = l.idlinea 
  ORDER BY d.fecharegistro DESC");
        //  return $query->result();
 
@@ -72,6 +73,17 @@ class Calidad_model extends CI_Model {
             return false;
         } 
     }
+       public function motivosRechazo(){
+        $this->db->select('mr.idmotivorechazo, mr.motivo');
+        $this->db->from('motivorechazo mr'); 
+        $this->db->where('mr.idproceso',2);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        } 
+    }
     
     public function searchPartes($match,$user,$estatus='')
     {
@@ -87,7 +99,6 @@ class Calidad_model extends CI_Model {
         p.numeroparte,
         c.nombre,
         u.name,
-        uo.name as nombreoperador,
         d.fecharegistro,
         d.pallet,
         d.cantidad,
@@ -95,8 +106,7 @@ class Calidad_model extends CI_Model {
         $this->db->from('parte p');
         $this->db->join('cliente c','p.idcliente = c.idcliente');
         $this->db->join('detalleparte d' ,'p.idparte = d.idparte');
-        $this->db->join('users u','d.idusuario = u.id');
-        $this->db->join('users uo ','d.idoperador = uo.id');
+        $this->db->join('users u','d.idusuario = u.id'); 
         $this->db->join('status s' ,'s.idestatus = d.idestatus');
         $this->db->where('d.idusuario',$user); 
         if(!empty($estatus)){
@@ -136,24 +146,21 @@ class Calidad_model extends CI_Model {
         t.nombreturno,
         t.horainicial,
         t.horafinal,
-        uo.id,
-        uo.name as nombreoperador,
         d.fecharegistro,
         d.pallet,
         d.modelo,
         d.revision,
         d.cantidad,
-        d.linea,
-        d.idoperador,
+        l.idlinea,
+        l.nombrelinea,
         s.nombrestatus');
         $this->db->from('parte p');
         $this->db->join('cliente c', 'p.idcliente=c.idcliente');
         $this->db->join('detalleparte d', 'p.idparte=d.idparte');
         $this->db->join('users u', 'd.idusuario=u.id');
-        $this->db->join('turno t', 't.idturno=u.idturno');
-        $this->db->join('users uo', 'd.idoperador=uo.id');
+        $this->db->join('turno t', 't.idturno=u.idturno'); 
         $this->db->join('status s', 's.idestatus=d.idestatus');
-        //$this->db->join('detallestatus ds', 'ds.iddetalleparte=d.iddetalleparte');
+        $this->db->join('linea l', 'd.idlinea=l.idlinea');
         $this->db->where('d.iddetalleparte',$iddetalle);
         $query = $this->db->get();
 
@@ -216,6 +223,15 @@ class Calidad_model extends CI_Model {
     public function addRechazoParte($data)
     {
         return $this->db->insert('detallestatus', $data);
+        if($this->db->affected_rows() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+     public function addMotivoRechazo($data)
+    {
+        return $this->db->insert('palletcajasestatus', $data);
         if($this->db->affected_rows() > 0){
             return true;
         }else{

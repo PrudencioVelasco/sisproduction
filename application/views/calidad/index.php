@@ -52,6 +52,7 @@
                       <h6 style="color:red" v-else-if="row.rechazadoapacking > 0"><strong><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> R. A PACKING </strong></h6>
                      
                      <h6 style="color:green" v-else-if="row.totalenviado > 0"><strong><i class="fa fa-hand-o-right" aria-hidden="true"></i> E. A ALMACEN </strong></h6>
+                     <h6 style="color:blue" v-else-if="row.enhold > 0"><strong><i class="fa fa-clock-o" aria-hidden="true"></i> EN HOLD </strong></h6>
                     </td>
                     <td>{{row.totalpallet}} </td>
                     <td>{{row.totalcajas}} </td>
