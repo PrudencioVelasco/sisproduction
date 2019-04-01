@@ -48,7 +48,7 @@ GROUP by pc.cajas, dp.iddetalleparte
             return false;
         }
     }
-    public function listaPosiciones($iddetalleparte){
+    public function listaPosiciones($iddetalleparte,$cajas){
          $query =$this->db->query("SELECT  pc.idpalletcajas,ppb.idparteposicionbodega,ppb.idparteposicionbodega, ppb.idposicion, pb.nombreposicion  
 FROM parte p, detalleparte dp, palletcajas pc, parteposicionbodega ppb, posicionbodega pb
 WHERE p.idparte = dp.idparte
@@ -58,7 +58,8 @@ AND ppb.idposicion = pb.idposicion
 AND pc.idestatus = 8
 AND ppb.ordensalida = 0
 AND ppb.salida=0
-AND dp.iddetalleparte = $iddetalleparte"); 
+AND pc.cajas = $cajas
+AND dp.iddetalleparte  = $iddetalleparte"); 
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -86,15 +87,17 @@ AND dp.iddetalleparte = $iddetalleparte");
         }
     }
     
-    public function validarExistenciaNumeroParte($iddetalleparte){
-        $query=$this->db->query("SELECT COUNT(p.numeroparte) AS totalstock FROM parte p, detalleparte dp, palletcajas pc, parteposicionbodega ppb
+    public function validarExistenciaNumeroParte($iddetalleparte,$cajas){
+        $query=$this->db->query("SELECT COUNT(p.numeroparte) AS totalstock, SUM(pc.cajas) AS totalcajas 
+                                FROM parte p, detalleparte dp, palletcajas pc, parteposicionbodega ppb
                                 WHERE p.idparte = dp.idparte
                                 AND dp.iddetalleparte = pc.iddetalleparte
                                 AND pc.idpalletcajas = ppb.idpalletcajas
                                 AND pc.idestatus = 8
                                 AND ppb.ordensalida = 0
                                 AND ppb.salida=0
-                                AND dp.iddetalleparte =$iddetalleparte");
+                                AND pc.cajas = $cajas
+                                AND dp.iddetalleparte = $iddetalleparte");
         //$query = $this->db->get();
         return $query->first_row();
     }

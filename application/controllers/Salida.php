@@ -163,18 +163,26 @@ class Salida extends CI_Controller {
     }
 public function agregarNumeroParteOrder(){
     $iddetalleparte =  $this->input->post('iddetalleparte');
+    $cajasporpallet =  $this->input->post('cajasporpallet');
     $idsalida =  $this->input->post('idsalida');
     $numeropallet =  $this->input->post('pallet');
     $numerocajas =  $this->input->post('cajas');
     $tipo =  $this->input->post('tipo');
-    $dataexistencia = $this->salida->validarExistenciaNumeroParte($iddetalleparte);
+    $dataexistencia = $this->salida->validarExistenciaNumeroParte($iddetalleparte,$cajasporpallet);
     $totalexistencia = $dataexistencia->totalstock;
+    $totalexistenciacajas = $dataexistencia->totalcajas;
     //Tipo de mensajes
     //0=No existe suficiente pantes en existencia.
    
         if($tipo == "parciales"){
             //Son parciales
             
+            if($numerocajas <= $totalexistenciacajas){
+                
+            }else{
+                // No existe suficientes cajas
+            }
+            /*
                    $lista = $this->salida->listaPosiciones($iddetalleparte);
                 $i=0;  
                 foreach($lista as $value ){
@@ -201,12 +209,12 @@ public function agregarNumeroParteOrder(){
                     }
                   }
                    echo 1;
-            
+            */
         }else if($tipo == "pallet"){
             //Son por Pallet
               if($totalexistencia >= $numeropallet){
                 //Si existen existencia de numero de parte
-                $lista = $this->salida->listaPosiciones($iddetalleparte);
+                $lista = $this->salida->listaPosiciones($iddetalleparte,$cajasporpallet);
                 $i=0;  
                 foreach($lista as $value ){
                      $i++;
@@ -244,7 +252,7 @@ public function agregarNumeroParteOrder(){
     
     
 }
- public   function agregarParteOrdenDetallado($iddetalleparte, $idsalida) {
+ public   function agregarParteOrdenDetallado($iddetalleparte,$cajasporpallet, $idsalida) {
        Permission::grant(uri_string());
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
@@ -253,6 +261,7 @@ public function agregarNumeroParteOrder(){
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
+            'cajasporpallet' =>$cajasporpallet,
             'idsalida' => $idsalida,
             'detalleparte' => $datadetalleparte);
         $this->load->view('header');

@@ -81,7 +81,7 @@
                                                                     <td v-if="row.totalpallet > 0">{{row.revision}}</td>
                                                                      <td v-if="row.totalpallet > 0">{{row.fecharegistro}}</td>
                                                                     <td v-if="row.totalpallet > 0" align="right">
-                                                                        <a class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'/sisproduction/salida/agregarParteOrdenDetallado/'+ row.iddetalleparte+'/'+<?php echo $idsalida ?>" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+<a class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'/sisproduction/salida/agregarParteOrdenDetallado/'+ row.iddetalleparte+'/'+row.cajasporpallet+'/'+<?php echo $idsalida?>" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                                             Agregar</a>
                                                                     </td>
                                                                 </tr> 
@@ -155,6 +155,7 @@
                                         <div class="form-group">
                                             <input type="hidden" name="iddetalleparte" value="<?php echo $detalleparte->iddetalleparte; ?>"/>
                                             <input type="hidden" name="idsalida" value="<?php echo $idsalida; ?>"/>
+                                            <input type="hidden" name="cajasporpallet" value="<?php echo $cajasporpallet?>"/>
                                             <button type="button" id="btnagregar" style="margin-top:22px;" class="btn btn-default">Agregar</button>
                                         </div>
                                     </div>
