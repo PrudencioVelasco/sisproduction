@@ -50,6 +50,181 @@ class Salida extends CI_Controller {
 
         // code...
     }
+    public function test3() {
+        $query = $this->salida->showAllPalletCajas();
+        $cantidad = 150;
+        $contador = 0;
+        
+        var_dump($query);
+        foreach ($query as $value) {
+            if ($cantidad > 0) {
+                 if($cantidad > $value->cajas){
+                  $cantidad -= $value->cajas;
+                  $contador++;
+                 }else{
+                     
+                 }
+                
+            } 
+           
+        }
+        echo $cantidad;
+        echo $contador;
+    }
+
+    public function test5($idsalida) {
+        $query = $this->salida->showPartesBodega2();
+        $array = array();
+        $i = 0;
+        foreach ($query as $row) {
+            if ($row->totalcajasdisponibles > 0) {
+                if ($row->cajassalidasporparciales > 0 && $row->totalpalletparacomparar > 1) {
+                    //Si hay cajas salidas por parcilas
+                    $array[$i] = array();
+                    $array[$i]['iddetalleparte'] = $row->iddetalleparte;
+                    $array[$i]['numeroparte'] = $row->numeroparte;
+                    $array[$i]['folio'] = $row->folio;
+                    $array[$i]['modelo'] = $row->modelo;
+                    $array[$i]['revision'] = $row->revision;
+                    $array[$i]['linea'] = $row->linea;
+                    $array[$i]['fecharegistro'] = $row->fecharegistro;
+                    $array[$i]['nombre'] = $row->nombre;
+                    $array[$i]['totalpallet'] = $row->totalpalletparacomparar;
+                    $array[$i]['cajasporpallet'] = $row->cajasporpallet;
+                    $array[$i]['totalcajas'] = $row->totalcajas;
+                    $array[$i]['cajassalidas'] = $row->totalcajassalidas;
+                    $array[$i]['test'] = 0;
+                    $array[$i]['cajasdisponibles'] = $row->totalcajasdisponibles;
+                    $i++;
+                } else {
+                    //Si son puros pallet
+                    $array[$i] = array();
+                    $array[$i]['iddetalleparte'] = $row->iddetalleparte;
+                    $array[$i]['numeroparte'] = $row->numeroparte;
+                    $array[$i]['folio'] = $row->folio;
+                    $array[$i]['modelo'] = $row->modelo;
+                    $array[$i]['revision'] = $row->revision;
+                    $array[$i]['linea'] = $row->linea;
+                    $array[$i]['fecharegistro'] = $row->fecharegistro;
+                    $array[$i]['nombre'] = $row->nombre;
+                    $array[$i]['totalpallet'] = $row->totalpalletparacomparar;
+                    $array[$i]['cajasporpallet'] = $row->cajasporpallet;
+                    $array[$i]['totalcajas'] = $row->totalcajas;
+                    $array[$i]['cajassalidas'] = $row->totalcajassalidas;
+                    $array[$i]['test'] = 0;
+                    $array[$i]['cajasdisponibles'] = $row->totalcajasdisponibles;
+                    $i++;
+                }
+            }
+        }
+        var_dump($query);
+    }
+
+    public function test1($idsalida) {
+         
+//        $query = $this->salida->showPartesBodega();
+//        $array = array();
+//        $i = 0;
+//        foreach ($query as $row) {
+//            $detallesuma = $this->salida->showSumaCajas($row->iddetalleparte, $idsalida, $row->cajasporpallet);
+//            if ($detallesuma->sumacajas < $row->totalcajas) {
+//                if ($detallesuma->sumacajas > 0 ) {
+//                    $query2 = $this->salida->showAllPalletCajas($row->iddetalleparte, $idsalida, $row->cajasporpallet);
+//                    $cantidad = $detallesuma->sumacajas;
+//                    $contador = 0;
+//                    foreach ($query2 as $value) {
+//                        if ($cantidad > 0) {
+//                            if ($cantidad > $value->cajas) {
+//                                $cantidad -= $value->cajas;
+//                                $contador++;
+//                            }
+//                        }
+//                    }
+//                     $array[$i] = array();
+//                    $array[$i]['iddetalleparte'] = $row->iddetalleparte;
+//                    $array[$i]['numeroparte'] = $row->numeroparte;
+//                    $array[$i]['folio'] = $row->folio;
+//                    $array[$i]['modelo'] = $row->modelo;
+//                    $array[$i]['revision'] = $row->revision;
+//                    $array[$i]['linea'] = $row->linea;
+//                    $array[$i]['fecharegistro'] = $row->fecharegistro;
+//                    $array[$i]['nombre'] = $row->nombre;
+//                    $array[$i]['totalpallet'] = $row->totalpallet-$contador;
+//                    $array[$i]['cajasporpallet'] = $row->cajasporpallet;
+//                    $array[$i]['totalcajas'] = $row->totalcajas;
+//                    $array[$i]['cajassalidas'] = $detallesuma->sumacajas;
+//                    $array[$i]['test'] = 0;
+//                    $array[$i]['cajasdisponibles'] = abs($detallesuma->sumacajas - $row->totalcajas);
+//                    $i++;
+//                } else {
+//                    $array[$i] = array();
+//                    $array[$i]['iddetalleparte'] = $row->iddetalleparte;
+//                    $array[$i]['numeroparte'] = $row->numeroparte;
+//                    $array[$i]['folio'] = $row->folio;
+//                    $array[$i]['modelo'] = $row->modelo;
+//                    $array[$i]['revision'] = $row->revision;
+//                    $array[$i]['linea'] = $row->linea;
+//                    $array[$i]['fecharegistro'] = $row->fecharegistro;
+//                    $array[$i]['nombre'] = $row->nombre;
+//                    $array[$i]['totalpallet'] = $row->totalpallet;
+//                    $array[$i]['cajasporpallet'] = $row->cajasporpallet;
+//                    $array[$i]['totalcajas'] = $row->totalcajas;
+//                    $array[$i]['cajassalidas'] = $detallesuma->sumacajas;
+//                    $array[$i]['test'] = 1;
+//                    $array[$i]['cajasdisponibles'] = abs($detallesuma->sumacajas - $row->totalcajas);
+//                    $i++;
+//                }
+//            }
+//        }
+        $query = $this->salida->showPartesBodega2();
+        $array = array();
+        $i = 0;
+        foreach ($query as $row) {
+            if ($row->totalcajasdisponibles > 0) {
+                if ($row->cajassalidasporparciales > 0 && $row->totalpalletparacomparar > 1) {
+                    //Si hay cajas salidas por parcilas
+                    $array[$i] = array();
+                    $array[$i]['iddetalleparte'] = $row->iddetalleparte;
+                    $array[$i]['numeroparte'] = $row->numeroparte;
+                    $array[$i]['folio'] = $row->folio;
+                    $array[$i]['modelo'] = $row->modelo;
+                    $array[$i]['revision'] = $row->revision;
+                    $array[$i]['linea'] = $row->linea;
+                    $array[$i]['fecharegistro'] = $row->fecharegistro;
+                    $array[$i]['nombre'] = $row->nombre;
+                    $array[$i]['totalpallet'] = $row->totalpalletparacomparar;
+                    $array[$i]['cajasporpallet'] = $row->cajasporpallet;
+                    $array[$i]['totalcajas'] = $row->totalcajas;
+                    $array[$i]['cajassalidas'] = $row->totalcajassalidas;
+                    $array[$i]['test'] = 0;
+                    $array[$i]['cajasdisponibles'] = $row->totalcajasdisponibles;
+                    $i++;
+                } else {
+                    //Si son puros pallet
+                    $array[$i] = array();
+                    $array[$i]['iddetalleparte'] = $row->iddetalleparte;
+                    $array[$i]['numeroparte'] = $row->numeroparte;
+                    $array[$i]['folio'] = $row->folio;
+                    $array[$i]['modelo'] = $row->modelo;
+                    $array[$i]['revision'] = $row->revision;
+                    $array[$i]['linea'] = $row->linea;
+                    $array[$i]['fecharegistro'] = $row->fecharegistro;
+                    $array[$i]['nombre'] = $row->nombre;
+                    $array[$i]['totalpallet'] = $row->totalpalletparacomparar;
+                    $array[$i]['cajasporpallet'] = $row->cajasporpallet;
+                    $array[$i]['totalcajas'] = $row->totalcajas;
+                    $array[$i]['cajassalidas'] = $row->totalcajassalidas;
+                    $array[$i]['test'] = 0;
+                    $array[$i]['cajasdisponibles'] = $row->totalcajasdisponibles;
+                    $i++;
+                }
+            }
+        }
+        if ($query) {
+            $result['partes'] = $array;
+        }
+        echo json_encode($result);
+    }
 
     public function generarCodigo($longitud) {
         $key = '';
@@ -101,11 +276,15 @@ class Salida extends CI_Controller {
         Permission::grant(uri_string());
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
-        // var_dump($datadetalleorden);
+        $detallepallet = $this->salida->detallepallet($idsalida);
+        $detalleparciales = $this->salida->detalleparciales($idsalida);
+       // var_dump($datadetalleorden);
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
-            'idsalida' => $idsalida);
+            'idsalida' => $idsalida,
+            'detallepallet' => $detallepallet,
+            'detalleparciales' => $detalleparciales);
         $this->load->view('header');
         $this->load->view('salida/detalle', $data);
         $this->load->view('footer');
@@ -157,102 +336,253 @@ class Salida extends CI_Controller {
 
         echo json_encode($result);
     }
-    public function testnew(){
-         $dataexistencia = $this->salida->validarExistenciaNumeroParte(63);
-        echo $totalexistencia = $dataexistencia->totalstock;
+    public function test2() {
+        $dataexistencia = $this->salida->validarExistenciaParcialesNumeroParte(82, 100);
+        var_dump($dataexistencia);
     }
-public function agregarNumeroParteOrder(){
-    $iddetalleparte =  $this->input->post('iddetalleparte');
-    $cajasporpallet =  $this->input->post('cajasporpallet');
-    $idsalida =  $this->input->post('idsalida');
-    $numeropallet =  $this->input->post('pallet');
-    $numerocajas =  $this->input->post('cajas');
-    $tipo =  $this->input->post('tipo');
-    $dataexistencia = $this->salida->validarExistenciaNumeroParte($iddetalleparte,$cajasporpallet);
-    $totalexistencia = $dataexistencia->totalstock;
-    $totalexistenciacajas = $dataexistencia->totalcajas;
-    //Tipo de mensajes
-    //0=No existe suficiente pantes en existencia.
-   
-        if($tipo == "parciales"){
-            //Son parciales
-            
-            if($numerocajas <= $totalexistenciacajas){
-                
-            }else{
-                // No existe suficientes cajas
-            }
-            /*
-                   $lista = $this->salida->listaPosiciones($iddetalleparte);
-                $i=0;  
-                foreach($lista as $value ){
-                     $i++;
-                    if($i <= 1){
+    public function testnew() {
+        $dataexistencia = $this->salida->validarExistenciaParcialesNumeroParte(82, 100);
+        //$totalexistencia = $dataexistencia->totalstock;
+        $totalexistenciacajas = $dataexistencia->totalcajas;
+        var_dump($dataexistencia);
+        $totalcajas = 1;
+
+        if (($totalcajas <= ($totalexistenciacajas - $dataexistencia->cajassalidas))) {
+            $lista = $this->salida->listaPosicionesPallet(82, 100);
+            var_dump($lista);
+            $suma = 0;
+            $descontar = 0;
+            foreach ($lista as $value) {
+                if ($totalcajas <= $value->cajas) {
+                    //Con un solo registro de llena el parcial
+                    $id = $value->idparteposicionbodega;
+                    $idpalletcajas = $value->idpalletcajas;
+                    $data = array(
+                        'ordensalida' => 1
+                    );
+                    $this->salida->updateEstatusOrden($id, $data);
+                    $dataordensalida = array(
+                        'idsalida' => 2,
+                        'idpalletcajas' => $idpalletcajas,
+                        'tipo' => 1,
+                        'pallet' => 0,
+                        'caja' => $totalcajas,
+                        'revision' => '0',
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                    );
+                    $this->salida->addOrdenSalida($dataordensalida);
+                    break;
+                } else {
+                    if (($totalcajas - $suma) >= $value->cajas) {
+                        $suma += $value->cajas;
                         $id = $value->idparteposicionbodega;
                         $idpalletcajas = $value->idpalletcajas;
                         $data = array(
-                        'ordensalida'=>1
+                            'ordensalida' => 1
                         );
-                        $this->salida->updateEstatusOrden($id,$data);
+                        $this->salida->updateEstatusOrden($id, $data);
                         $dataordensalida = array(
-                        'idsalida'=>$idsalida,
-                        'idpalletcajas'=>$idpalletcajas,
-                        'tipo'=>1,
-                        'pallet'=>0,
-                        'caja'=>$numerocajas,
-                        'revision'=>'0',
-                        'idusuario' => $this->session->user_id,
-                        'fecharegistro' => date('Y-m-d H:i:s')
+                            'idsalida' => 2,
+                            'idpalletcajas' => $idpalletcajas,
+                            'tipo' => 1,
+                            'pallet' => 0,
+                            'caja' => $value->cajas,
+                            'revision' => '0',
+                            'idusuario' => $this->session->user_id,
+                            'fecharegistro' => date('Y-m-d H:i:s')
                         );
                         $this->salida->addOrdenSalida($dataordensalida);
-                        
-                    }
-                  }
-                   echo 1;
-            */
-        }else if($tipo == "pallet"){
-            //Son por Pallet
-              if($totalexistencia >= $numeropallet){
-                //Si existen existencia de numero de parte
-                $lista = $this->salida->listaPosiciones($iddetalleparte,$cajasporpallet);
-                $i=0;  
-                foreach($lista as $value ){
-                     $i++;
-                    if($i <= $numeropallet){
+                    } else {
                         $id = $value->idparteposicionbodega;
                         $idpalletcajas = $value->idpalletcajas;
                         $data = array(
-                        'ordensalida'=>1
+                            'ordensalida' => 1
                         );
-                        $this->salida->updateEstatusOrden($id,$data);
+                        $this->salida->updateEstatusOrden($id, $data);
                         $dataordensalida = array(
-                        'idsalida'=>$idsalida,
-                        'idpalletcajas'=>$idpalletcajas,
-                        'tipo'=>0,
-                        'pallet'=>1,
-                        'caja'=>0,
-                        'revision'=>'0',
-                        'idusuario' => $this->session->user_id,
-                        'fecharegistro' => date('Y-m-d H:i:s')
+                            'idsalida' => 2,
+                            'idpalletcajas' => $idpalletcajas,
+                            'tipo' => 1,
+                            'pallet' => 0,
+                            'caja' => ($totalcajas - $suma),
+                            'revision' => '0',
+                            'idusuario' => $this->session->user_id,
+                            'fecharegistro' => date('Y-m-d H:i:s')
                         );
                         $this->salida->addOrdenSalida($dataordensalida);
-                        
+                        break;
                     }
-                  }
-                   echo 1;
-            }else{
-                //No existen existencias de numero de parte
-                 echo 0;
+                }
             }
-        }else{
+        }
+    }
+    public function testpallet() {
+        
+    }
+    public function agregarNumeroParteOrder() {
+        $iddetalleparte = $this->input->post('iddetalleparte');
+        $cajasporpallet = $this->input->post('cajasporpallet');
+        $idsalida = $this->input->post('idsalida');
+        $numeropallet = $this->input->post('pallet');
+        $numerocajas = $this->input->post('cajas');
+        $tipo = $this->input->post('tipo');
+
+        //Tipo de mensajes
+        //0=No existe suficiente pantes en existencia.
+
+        if ($tipo == "parciales") {
+            if ($numerocajas != "") {
+                if (is_numeric($numerocajas)) {
+                    if ($numerocajas > 0) {
+                        //Son parciales
+                        $dataexistencia = $this->salida->validarExistenciaParcialesNumeroParte($iddetalleparte, $cajasporpallet);
+                        //$totalexistencia = $dataexistencia->totalstock;
+                        $totalexistenciacajas = $dataexistencia->totalcajas;
+
+                        $totalcajas = $numerocajas;
+
+                        if (($totalcajas <= ($totalexistenciacajas - $dataexistencia->cajassalidas))) {
+                            $lista = $this->salida->listaPosicionesPallet($iddetalleparte, $cajasporpallet);
+                            $suma = 0;
+                            $descontar = 0;
+                            foreach ($lista as $value) {
+                                if ($totalcajas <= $value->cajas) {
+                                    //Con un solo registro de llena el parcial
+                                    $id = $value->idparteposicionbodega;
+                                    $idpalletcajas = $value->idpalletcajas;
+                                    $data = array(
+                                        'ordensalida' => 1
+                                    );
+                                    $this->salida->updateEstatusOrden($id, $data);
+                                    $dataordensalida = array(
+                                        'idsalida' => 2,
+                                        'idpalletcajas' => $idpalletcajas,
+                                        'tipo' => 1,
+                                        'pallet' => 0,
+                                        'caja' => $totalcajas,
+                                        'revision' => '0',
+                                        'idusuario' => $this->session->user_id,
+                                        'fecharegistro' => date('Y-m-d H:i:s')
+                                    );
+                                    $this->salida->addOrdenSalida($dataordensalida);
+                                    break;
+                                } else {
+                                    if (($totalcajas - $suma) >= $value->cajas) {
+                                        $suma += $value->cajas;
+                                        $id = $value->idparteposicionbodega;
+                                        $idpalletcajas = $value->idpalletcajas;
+                                        $data = array(
+                                            'ordensalida' => 1
+                                        );
+                                        $this->salida->updateEstatusOrden($id, $data);
+                                        $dataordensalida = array(
+                                            'idsalida' => 2,
+                                            'idpalletcajas' => $idpalletcajas,
+                                            'tipo' => 1,
+                                            'pallet' => 0,
+                                            'caja' => $value->cajas,
+                                            'revision' => '0',
+                                            'idusuario' => $this->session->user_id,
+                                            'fecharegistro' => date('Y-m-d H:i:s')
+                                        );
+                                        $this->salida->addOrdenSalida($dataordensalida);
+                                    } else {
+                                        $id = $value->idparteposicionbodega;
+                                        $idpalletcajas = $value->idpalletcajas;
+                                        $data = array(
+                                            'ordensalida' => 1
+                                        );
+                                        $this->salida->updateEstatusOrden($id, $data);
+                                        $dataordensalida = array(
+                                            'idsalida' => 2,
+                                            'idpalletcajas' => $idpalletcajas,
+                                            'tipo' => 1,
+                                            'pallet' => 0,
+                                            'caja' => ($totalcajas - $suma),
+                                            'revision' => '0',
+                                            'idusuario' => $this->session->user_id,
+                                            'fecharegistro' => date('Y-m-d H:i:s')
+                                        );
+                                        $this->salida->addOrdenSalida($dataordensalida);
+                                        break;
+                                    }
+                                }
+                            }
+                            echo 1;
+                        } else {
+                            //No existe stock de cajas
+                            echo 13;
+                        }
+                    } else {
+                        //Error: Solo debe de ser numero positivos o mayor a 0
+                        echo 12;
+                    }
+                } else {
+                    //Error: Solo debe de ser numero
+                    echo 11;
+                }
+            } else {
+                //Error: el campo de numero caja vinene vacio.
+                echo 10;
+            }
+        } else if ($tipo == "pallet") {
+            if ($numeropallet != "") {
+                if (is_numeric($numeropallet)) {
+                    if ($numeropallet > 0) {
+                        $dataexistencia = $this->salida->validarExistenciaNumeroParte($iddetalleparte, $cajasporpallet);
+                        $totalexistencia = $dataexistencia->totalstock;
+                        $totalexistenciacajas = $dataexistencia->totalcajas;
+                        //Son por Pallet
+                        if ($totalexistencia >= $numeropallet) {
+                            //Si existen existencia de numero de parte
+                            $lista = $this->salida->listaPosiciones($iddetalleparte, $cajasporpallet);
+                            $i = 0;
+                            foreach ($lista as $value) {
+                                $i++;
+                                if ($i <= $numeropallet) {
+                                    $id = $value->idparteposicionbodega;
+                                    $idpalletcajas = $value->idpalletcajas;
+                                    $data = array(
+                                        'ordensalida' => 1
+                                    );
+                                    $this->salida->updateEstatusOrden($id, $data);
+                                    $dataordensalida = array(
+                                        'idsalida' => $idsalida,
+                                        'idpalletcajas' => $idpalletcajas,
+                                        'tipo' => 0,
+                                        'pallet' => 1,
+                                        'caja' => 0,
+                                        'revision' => '0',
+                                        'idusuario' => $this->session->user_id,
+                                        'fecharegistro' => date('Y-m-d H:i:s')
+                                    );
+                                    $this->salida->addOrdenSalida($dataordensalida);
+                                }
+                            }
+                            echo 1;
+                        } else {
+                            //No existen existencias de numero de parte
+                            echo 13;
+                        }
+                    } else {
+                        //Error: Solo debe de ser numero positivo o mayor a 0
+                        echo 12;
+                    }
+                } else {
+                    //Error: Solo es permito numero
+                    echo 11;
+                }
+            } else {
+                //Error: Campo es requerido
+                echo 10;
+            }
+        } else {
             //El tipo no existe
         }
-        
-        
-    
-    
-}
- public   function agregarParteOrdenDetallado($iddetalleparte,$cajasporpallet, $idsalida) {
+    }
+
+    public   function agregarParteOrdenDetallado($iddetalleparte,$cajasporpallet, $idsalida) {
        Permission::grant(uri_string());
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
@@ -423,7 +753,7 @@ $html = '
                 <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;'.$valurpar->modelo.'</td>
                 <td width="45" align="center" style="font-size:9px"></td>
                 <td width="45" align="center" style="font-size:9px"></td>
-                <td width="45" align="center" style="font-size:9px">0</td>
+                <td width="45" align="center" style="font-size:9px">1</td>
                 <td width="45" align="center" style="font-size:9px">'.$valurpar->sumacajas.'</td>
                 <td width="45" align="center" style="font-size:9px">&nbsp;'.$valurpar->sumacajas.'</td>
                 <td width="45">&nbsp;</td>

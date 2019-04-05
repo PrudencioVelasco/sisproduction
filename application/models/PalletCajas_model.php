@@ -14,7 +14,7 @@ class PalletCajas_model extends CI_Model {
     }
 
     public function showAllId($id) {
-        $query =$this->db->query("SELECT pc.idpalletcajas,
+        $query = $this->db->query("SELECT pc.idpalletcajas,
        pc.pallet,
        pc.cajas,
        s.nombrestatus,
@@ -42,13 +42,20 @@ WHERE  dp.iddetalleparte = pc.iddetalleparte
             return false;
         }
     }
-      public function addPalletCajas($data)
+   public function detallePalletCajas($id)
     {
+        $this->db->select('pc.pallet, pc.cajas');
+        $this->db->from('palletcajas pc');
+        $this->db->where('pc.idpalletcajas', $id);
+        $query = $this->db->get();
+        return $query->first_row();
+    }
+    public function addPalletCajas($data) {
         $this->db->insert('palletcajas', $data);
         return $this->db->insert_id();
     }
-      public function eliminarPalletCajas($id)
-    {
+
+    public function eliminarPalletCajas($id) {
         $this->db->where('idpalletcajas', $id);
         $this->db->delete('palletcajas');
         if ($this->db->affected_rows() > 0) {
@@ -56,10 +63,9 @@ WHERE  dp.iddetalleparte = pc.iddetalleparte
         } else {
             return false;
         }
-        
     }
-     public function updatePalletCajas($id, $data)
-    {
+
+    public function updatePalletCajas($id, $data) {
         $this->db->where('idpalletcajas', $id);
         $this->db->update('palletcajas', $data);
         if ($this->db->affected_rows() > 0) {

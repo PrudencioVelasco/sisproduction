@@ -37,20 +37,12 @@ class Parte extends CI_Controller {
         return base_url() . 'assets/cache/' . $code . '.png';
     }
 
-    public function etiquetaCalidad($id) {
+    public function etiquetaCalidad($id,$idpalletcajas,$cajas) {
       //Permission::grant(uri_string());
         $detalle = $this->parte->detalleDelDetallaParte($id); 
-         $lista = $this->parte->cantidadesPartes($id);
-          $datausuario = $this->usuario->detalleUsuario($this->session->user_id);
-        $totalpallet = 0;
-        $totalcajas = 0;
-        if($lista != false){
-            
-            foreach($lista as $value){
-                $totalpallet++;
-                 $totalcajas= $totalcajas + $value->cajas;
-            }
-        }
+        $lista = $this->parte->cantidadesPartes($id);
+        $datausuario = $this->usuario->detalleUsuario($this->session->user_id);
+        
         $hora= date ("h:i:s a");
         $fecha= date ("d-M-Y");
         $semana = date("W");
@@ -88,7 +80,7 @@ class Parte extends CI_Controller {
 		</tr>
 		<tr>
 			<td  align="center" height="50px" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " >'.$detalle->numeroparte.'</td>
-			<td  align="center" style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >'.($totalcajas / $totalpallet) * ($totalpallet) .'</td>
+			<td  align="center" style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >'.$cajas .'</td>
 		</tr>
 		<tr>
 			<td  align="" height="50" style="font-size:20px; font-family:arial; font-weight:bold; background: #;color:#fff; " >MODEL</td>
@@ -124,27 +116,17 @@ class Parte extends CI_Controller {
         $this->load->view('footer');
     }
 
-    public function etiquetaPacking($id) {
+    public function etiquetaPacking($id,$idpalletcajas) {
      // Permission::grant(uri_string());
         date_default_timezone_set("America/Tijuana");
         $detalle = $this->parte->detalleDelDetallaParte($id);
-        $codigo = $detalle->codigo; 
-        $barcode = $this->set_barcode($codigo);
-        
-        $lista = $this->parte->cantidadesPartes($id);
-        $totalpallet = 0;
-        $totalc = 0;
-        $totalcajas = 0;
-        if($lista != false){
-            
-            foreach($lista as $value){
-                 $totalpallet++;
-                 $totalc= $totalc + $value->cajas;
-            }
-        }
        
-          $totalcajas = $totalc / $totalpallet;
-        
+        $detallepallet = $this->palletcajas->detallePalletCajas($idpalletcajas);
+         
+        $lista = $this->parte->cantidadesPartes($id); 
+        $totalcajas = $detallepallet->cajas;
+         $codigo = $detalle->codigo; 
+        $barcode = $this->set_barcode($codigo."_".$totalcajas);
         $hora = date("h:i a");
         $fecha = date("j/n/Y");
         $dia = date("j");
@@ -183,7 +165,7 @@ class Parte extends CI_Controller {
             <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
         
             
-            <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . ($totalcajas / $totalpallet) * ($totalpallet) . '</b></td>
+            <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $totalcajas. '</b></td>
                 
             <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
             
@@ -206,7 +188,7 @@ class Parte extends CI_Controller {
         </tr>
 
         <tr>
-        <td colspan="3" rowspan="2" align="center"  style="font-size:50px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <img style="width:300px;" src="' . $barcode . '"/> </td>
+        <td colspan="3" rowspan="2" align="center"  style="font-size:30px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <img style="width:400px;" src="' . $barcode . '"/> </td>
         <td height="60" colspan="3" align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" > &nbsp; &nbsp; &nbsp;' . $detalle->modelo . '</td>
 
         </tr>
@@ -776,6 +758,7 @@ class Parte extends CI_Controller {
             'folio' => $iddetalleparte
         );
         $this->parte->updateDetalleParte($iddetalleparte, $dataupdatefolio);
+        
         $cajas = $this->input->post("cajas");
         foreach ($this->input->post("pallet") as $index => $code) {
             $datapalletcaja = array(

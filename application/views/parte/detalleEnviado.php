@@ -81,7 +81,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $i = 1;
+                                            <?php
+                                            if(isset($palletcajas) && !empty($palletcajas)){
+                                            $i = 1;
                                             foreach ($palletcajas as $value) { ?>
                                                 <tr>
                                                    <td>
@@ -108,7 +110,7 @@
                                                               echo '<label style="color:green;">EN ALMACEN</label>';
                                                         }
                                                      ?> </td>
-                                                     <td><a href="<?php echo site_url('parte/etiquetaPacking/' . $detalle->iddetalleparte).'/'.$value->idpalletcajas ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a></td>
+                                                     <td><a target="_blank" href="<?php echo site_url('parte/etiquetaPacking/' . $detalle->iddetalleparte).'/'.$value->idpalletcajas ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a></td>
                                                      <td>
                                                          <?php
                                                          if($value->idestatus == 3){
@@ -117,7 +119,7 @@
                                                          ?>
                                                      </td>
                                                 </tr>
-<?php } ?> 
+<?php } }?> 
                                         </tbody>
                                     </table>
                                     
@@ -134,8 +136,8 @@
                                
                                     <button type="button" id="btnmodificar" name="reenviar" class="btn btn-success  btn-sm"><i class="fa fa-refresh" aria-hidden="true"></i> Reenviar</button>
                                    
-                                    <a  class="btn btn-default  btn-sm" target="_blank" href="<?php echo site_url('parte/etiquetaPacking/' . $detalle->iddetalleparte) ?>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                        Generar etiqueta</a>
+<!--                                    <a  class="btn btn-default  btn-sm" target="_blank" href="<?php //echo site_url('parte/etiquetaPacking/' . $detalle->iddetalleparte) ?>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                        Generar etiqueta</a>-->
                                     <a  class="btn btn-default  btn-sm" target="_blank" href="<?php echo site_url('parte/generarPDFEnvio/' . $detalle->iddetalleparte) ?>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         Generar envio</a>
 

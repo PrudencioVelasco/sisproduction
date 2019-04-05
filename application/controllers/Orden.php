@@ -15,6 +15,7 @@ class Orden extends CI_Controller {
         $this->load->model('data_model');
         $this->load->model('client_model', 'client');
         $this->load->model('orden_model', 'orden');
+        $this->load->model('salida_model', 'salida');
         $this->load->library('permission');
     }
 
@@ -50,11 +51,15 @@ class Orden extends CI_Controller {
     public function detalle($idsalida) {
         $datadetallesalida = $this->orden->detalleSalida($idsalida);
         $datadetalleorden = $this->orden->detallesDeOrden($idsalida);
+         $detallepallet = $this->salida->detallepallet($idsalida);
+        $detalleparciales = $this->salida->detalleparciales($idsalida);
         //var_dump($datadetalleorden);
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
-            'idsalida' => $idsalida);
+            'idsalida' => $idsalida,
+             'detallepallet' => $detallepallet,
+            'detalleparciales' => $detalleparciales);
 
         $this->load->view('header');
         $this->load->view('orden/detalle', $data);

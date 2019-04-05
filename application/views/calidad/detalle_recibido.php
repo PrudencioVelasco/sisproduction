@@ -60,6 +60,7 @@
                                         </thead>
                                         <tbody>
                                             <?php
+                                             if(isset($palletcajas) && !empty($palletcajas)){
                                             $i = 1;
                                             foreach ($palletcajas as $value) {
                                                 ?>
@@ -99,7 +100,7 @@
                                                     </td>
                                                      <td>
                                                          
-                                                         <a href="<?php echo base_url('parte/etiquetaCalidad/' . $detalle->iddetalleparte . '/'.$value->idpalletcajas); ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
+                                                         <a target="_blank" href="<?php echo base_url('parte/etiquetaCalidad/' . $detalle->iddetalleparte . '/'.$value->idpalletcajas. '/'.$value->cajas); ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
                                                          
                                                      </td>
                                                       <td>
@@ -113,7 +114,7 @@
                                                          ?>
                                                      </td>
                                                 </tr>
-                                            <?php } ?> 
+                                            <?php } } ?> 
 
                                         </tbody>
                                     </table>
@@ -145,8 +146,8 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12" align="right">
 
-                                <a target="_blank" href=" <?php echo base_url('parte/etiquetaCalidad/' . $detalle->iddetalleparte . ''); ?>" class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar etiqueta</a>
-                                <a target="_blank" href=" <?php echo base_url('calidad/generarPDFEnvio/' . $detalle->iddetalleparte . ''); ?>" class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
+<!--                                <a target="_blank" href=" <?php //echo base_url('parte/etiquetaCalidad/' . $detalle->iddetalleparte . ''); ?>" class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar etiqueta</a>-->
+                                <a target="_blank" href=" <?php echo base_url('parte/generarPDFEnvio/' . $detalle->iddetalleparte . ''); ?>" class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
                             </div> 
                         </div>
                     </div>

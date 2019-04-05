@@ -67,6 +67,7 @@
                                         <tbody>
 
                                             <?php
+                                             if(isset($palletcajas) && !empty($palletcajas)){
                                             $i = 1;
                                             foreach ($palletcajas as $value) {
                                                 ?>
@@ -124,7 +125,7 @@
                                                     </td>
                                                 </tr>
 
-                                            <?php } ?> 
+                                            <?php } } ?> 
 
 
                                         </tbody>

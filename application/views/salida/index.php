@@ -71,12 +71,12 @@ Agregar</a>
                                    </td>
                                    </tr>
                                    <tr v-if="emptyResult">
-                                      <td colspan="9" rowspan="4" class="text-center h4">No encontrado</td>
+                                      <td colspan="7" rowspan="4" class="text-center h4">No encontrado</td>
                                    </tr>
                                 </tbody>
                                  <tfoot>
                                      <tr>
-                                         <td colspan="5" align="right">
+                                         <td colspan="7" align="right">
                                               <pagination
                                                         :current_page="currentPage"
                                                         :row_count_page="rowCountPage"
