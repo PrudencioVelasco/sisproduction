@@ -50,25 +50,33 @@
                                             }
                                             ?>
                                         </select>
-                                        
+
                                         <label style="color:red;"><?php echo form_error('linea'); ?></label>
-                                        
+
                                     </div>
                                 </div> 
-                             
+
                             </div> 
+                            <div class="row">
+                                <?php if (isset($error) && !empty($error)) { ?>
+                                    <div class="alert alert-danger">
+                                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                        <strong>Error!</strong> Es necesario agregar los pallet.
+                                    </div>
+                                <?php } ?>
+                            </div>
                             <div class="row">
                                 <div class="myFields"></div>
                             </div> 
                             <div class="row">
                                 <div class="col-md-6 col-sm-12 col-xs-12">
                                     <button id="add_button" class="addNew btn btn-default btn-sm">
-                                        <span class="fa fa-plus"></span> Agregar parte
+                                        <span class="fa fa-plus"></span> Agregar pallet
                                     </button>
 
                                 </div>
                             </div> 
-                             <div class="row">
+                            <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12" align="right">
                                     <input type="hidden" name="idparte" value="<?php echo $idparte ?>">
                                     <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane" aria-hidden="true"></i>
@@ -97,7 +105,7 @@
                                             e.preventDefault();
                                             $(wrapper)
                                                     .append(
-                                                            '<div class="form-group"><div class="col-md-4 col-sm-12 col-xs-12"><label class="label label-default" for="wish">Número de pallet</label><input type="number" name="pallet[]" class="form-control" value="1" readonly  required/></div><div class="col-md-4 col-sm-12 col-xs-12"><label class="label label-default" for="wish">Cantidad de cajas</label><input type="number" name="cajas[]" class="form-control" required/></div><br><a href="#"	class="btn btn-warning btn-sm delFld"><i class="fa fa-trash" aria-hidden="true"></i></a></div>'); //add fields
+                                                            '<div class="form-group"><div class="col-md-4 col-sm-12 col-xs-12"><label class="label label-default" for="wish">Número de pallet</label><input type="number" name="pallet[]" class="form-control" value="1" readonly  required/></div><div class="col-md-4 col-sm-12 col-xs-12"><label class="label label-default" for="wish">Cantidad de cajas</label><input type="number" name="cajas[]" min="1" step="1" class="form-control" required/></div><br><a href="#"	class="btn btn-warning btn-sm delFld"><i class="fa fa-trash" aria-hidden="true"></i></a></div>'); //add fields
                                         });
                         $(wrapper).on("click", ".delFld", function (e) {
                             e.preventDefault();

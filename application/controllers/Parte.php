@@ -653,24 +653,19 @@ class Parte extends CI_Controller {
     }
 
     public function detalleenvio($iddetalle) {
-      Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $usuarioscalidad = $this->usuario->showAllCalidad();
         $listalinea = $this->linea->showAllLinea();
         $detalledeldetalleparte = $this->parte->detalleDelDetallaParte($iddetalle);
         $palletcajas = $this->palletcajas->showAllId($iddetalle);
+        $dataerror = $this->parte->motivosCancelacionCalidad($iddetalle);
         //var_dump($palletcajas);
-       // $dataerror = array();
-    //    if ($detalledeldetalleparte->idestatus == 3) {
-            $dataerror = $this->parte->motivosCancelacionCalidad($iddetalle);
-      //  }
-       // var_dump($dataerror);
-
         $data = array(
             'iddetalle' => $iddetalle,
             'detalle' => $detalledeldetalleparte,
             'usuarioscalidad' => $usuarioscalidad,
-            'palletcajas'=>$palletcajas,
-            'lineas'=>$listalinea,
+            'palletcajas' => $palletcajas,
+            'lineas' => $listalinea,
             'dataerrores' => $dataerror
         );
 
@@ -679,6 +674,7 @@ class Parte extends CI_Controller {
         $this->load->view('parte/detalleenviado', $data);
         $this->load->view('footer');
     }
+
     public function quitarPalletCajas($idpalletcaja,$iddetalleparte) {
         $this->palletcajas->eliminarPalletCajas($idpalletcaja);
          redirect('parte/detalleenvio/'.$iddetalleparte);
@@ -704,6 +700,20 @@ class Parte extends CI_Controller {
          redirect('parte/detalleenvio/'.$this->input->post('iddetalleparte'));
     }
 
+    public function modificarTransferencia() {
+        Permission::grant(uri_string());
+        $iddetalleparte =$this->input->post('iddetalleparte');
+          $data = array(
+                'modelo' => $this->input->post('modelo'),
+                'revision' => $this->input->post('revision'),
+                'idlinea' => $this->input->post('linea'),
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+
+         $this->parte->updateDetalleParte($iddetalleparte, $data);
+          redirect('parte/detalleenvio/' . $iddetalleparte);
+    }
     public function reenviarCalidad() {
         Permission::grant(uri_string());
         $iddetalleparte =$this->input->post('iddetalleparte');
@@ -740,115 +750,17 @@ class Parte extends CI_Controller {
  
 
   public function enviarCalidadNew() {
-        $data = array(
-            'folio' => 0,
-            'idparte' => $this->input->post('idparte'),
-            'modelo' => $this->input->post('modelo'),
-            'revision' => $this->input->post('revision'),
-            'pallet' => 0,
-            'cantidad' => 0,
-            'idlinea' => $this->input->post('linea'),
-            'idestatus' => 1,
-            'idusuario' => $this->session->user_id,
-            'fecharegistro' => date('Y-m-d H:i:s')
-        );
-
-        $iddetalleparte = $this->parte->addDetalleParte($data);
-        $dataupdatefolio = array(
-            'folio' => $iddetalleparte
-        );
-        $this->parte->updateDetalleParte($iddetalleparte, $dataupdatefolio);
-        
-        $cajas = $this->input->post("cajas");
-        foreach ($this->input->post("pallet") as $index => $code) {
-            $datapalletcaja = array(
-                'iddetalleparte' => $iddetalleparte,
-                'pallet' => $code,
-                'cajas' => $cajas[$index],
-                'idestatus' => 1,
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-            $idpalletcajas = $this->palletcajas->addPalletCajas($datapalletcaja);
-            
-            $dataproceso = array(
-            'idpalletcajas' => $idpalletcajas,
-            'idestatus'=>1,
-            'idusuario' => $this->session->user_id,
-            'fecharegistro' => date('Y-m-d H:i:s')    
-            );
-             $this->palletcajasproceso->addPalletCajasProceso($dataproceso);
-        }
-      
-       redirect('parte/detalleenvio/'.$iddetalleparte);
-      
-    }
-
-    public function enviarCalidad() {
-      Permission::grant(uri_string());
-        $config = array(
-            array(
-                'field' => 'modelo',
-                'label' => 'Modelo',
-                'rules' => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.',
-                )
-            ),
-            array(
-                'field' => 'revision',
-                'label' => 'Revision',
-                'rules' => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.',
-                )
-            ),
-            array(
-                'field' => 'numeropallet',
-                'label' => 'Número de pallet',
-                'rules' => 'required|integer',
-                'errors' => array(
-                    'required' => 'Campo requerido.',
-                    'integer' => 'Solo numero'
-                )
-            ),
-            array(
-                'field' => 'cantidadcaja',
-                'label' => 'Cantidad Caja',
-                'rules' => 'required|integer',
-                'errors' => array(
-                    'required' => 'Cantidad requerido.',
-                    'integer' => 'Solo numero.'
-                )
-            ),
-            array(
-                'field' => 'linea',
-                'label' => 'Linea',
-                'rules' => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.'
-                )
-            ),
-            array(
-                'field' => 'usuariocalidad',
-                'label' => 'Usuario de calidad',
-                'rules' => 'required',
-                'errors' => array(
-                    'required' => 'Campo requerido.'
-                )
-            )
-        );
-        $this->form_validation->set_rules($config);
-        if ($this->form_validation->run() == TRUE) {
+        $id = $this->input->post('idparte');
+        if ($this->input->post('cajas') != FALSE) {
             $data = array(
                 'folio' => 0,
                 'idparte' => $this->input->post('idparte'),
                 'modelo' => $this->input->post('modelo'),
                 'revision' => $this->input->post('revision'),
-                'pallet' => $this->input->post('numeropallet'),
-                'cantidad' => $this->input->post('cantidadcaja'),
-                'linea' => $this->input->post('linea'),
-                'idestatus' => 1, 
+                'pallet' => 0,
+                'cantidad' => 0,
+                'idlinea' => $this->input->post('linea'),
+                'idestatus' => 1,
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
@@ -858,22 +770,40 @@ class Parte extends CI_Controller {
                 'folio' => $iddetalleparte
             );
             $this->parte->updateDetalleParte($iddetalleparte, $dataupdatefolio);
-            $datastatus = array(
-                'iddetalleparte' => $iddetalleparte,
-                'idstatus' => 1,
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-            $this->parte->addDetalleEstatusParte($datastatus);
-            redirect('parte/detalleenvio/'.$iddetalleparte);
+
+            $cajas = $this->input->post("cajas");
+            foreach ($this->input->post("pallet") as $index => $code) {
+                $datapalletcaja = array(
+                    'iddetalleparte' => $iddetalleparte,
+                    'pallet' => $code,
+                    'cajas' => $cajas[$index],
+                    'idestatus' => 1,
+                    'idusuario' => $this->session->user_id,
+                    'fecharegistro' => date('Y-m-d H:i:s')
+                );
+                $idpalletcajas = $this->palletcajas->addPalletCajas($datapalletcaja);
+
+                $dataproceso = array(
+                    'idpalletcajas' => $idpalletcajas,
+                    'idestatus' => 1,
+                    'idusuario' => $this->session->user_id,
+                    'fecharegistro' => date('Y-m-d H:i:s')
+                );
+                $this->palletcajasproceso->addPalletCajasProceso($dataproceso);
+            }
+
+            redirect('parte/detalleenvio/' . $iddetalleparte);
         } else {
-            $id = $this->input->post('idparte');
             $usuarioscalidad = $this->usuario->showAllCalidad();
             $detalleparte = $this->parte->detalleParteId($id);
+            $detallelinea = $this->linea->showAllLinea();
+
             $data = array(
                 'usuarioscalidad' => $usuarioscalidad,
                 'detalleparte' => $detalleparte,
-                'idparte' => $id
+                'lineas' => $detallelinea,
+                'idparte' => $id,
+                'error' => 1
             );
 
             $this->load->view('header');

@@ -28,7 +28,7 @@
                                 </div>
                              
                             </div>
-<form method="post" id="frmmodificar" >
+                        <form method="post" id="frmmodificar"  action="<?= base_url('parte/modificarTransferencia') ?>">
                             <div class="row">
                                 <div class="col-md-4 col-sm-12 col-xs-12">
                                     <div class="form-group">
@@ -135,6 +135,7 @@
                                     <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>">
                                
                                     <button type="button" id="btnmodificar" name="reenviar" class="btn btn-success  btn-sm"><i class="fa fa-refresh" aria-hidden="true"></i> Reenviar</button>
+                                    <button type="submit"  name="modificar" class="btn btn-primary  btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Modificar</button>
                                    
 <!--                                    <a  class="btn btn-default  btn-sm" target="_blank" href="<?php //echo site_url('parte/etiquetaPacking/' . $detalle->iddetalleparte) ?>"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         Generar etiqueta</a>-->
@@ -160,11 +161,11 @@
                                             <div class="row">
                                                  <div class="col-md-6 col-sm-12 col-xs-12">
                                                       <label><font color="red">*</font> Número de pallet</label>
-                                                        <input type="text" class="form-control" name="numeropallet"  autcomplete="off" value="1" required>
+                                                        <input type="text" class="form-control" name="numeropallet"  autcomplete="off" value="1" readonly required>
                                                  </div>
                                                 <div class="col-md-6 col-sm-12 col-xs-12">
                                                       <label><font color="red">*</font> Número de cajas</label>
-                                                        <input type="text" class="form-control" name="numerocajas"  autcomplete="off" required>
+                                                      <input type="number" class="form-control" name="numerocajas"  min="1" step="1" autcomplete="off" required>
                                                 </div>
                                             </div>
                                         
