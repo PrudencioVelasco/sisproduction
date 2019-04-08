@@ -124,10 +124,21 @@ public function eliminarposicionesparte($id)
             return false;
         }
     }
-           public function motivosRechazo(){
+    public function motivosRechazo(){
         $this->db->select('mr.idmotivorechazo, mr.motivo');
         $this->db->from('motivorechazo mr'); 
         $this->db->where('mr.idproceso',3);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        } 
+    }
+       public function validarRechazo($id){
+        $this->db->select('pc.*');
+        $this->db->from('palletcajas pc`'); 
+        $this->db->where('pc.idpalletcajas',4);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();

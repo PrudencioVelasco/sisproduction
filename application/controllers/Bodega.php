@@ -122,14 +122,17 @@ class Bodega extends CI_Controller {
         //$operador = $this->input->post('operador');
         $ids = $this->input->post('id');
         foreach ($ids as $value) {
+             if($this->bodega->validarRechazo($value) != false){
             $data = array(
                 'idestatus' => 6,
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
             $this->palletcajas->updatePalletCajas($value, $data);
+             }
         }
           foreach ($ids as $value2) {
+              if($this->bodega->validarRechazo($value2) != false){
                 $datarechazo = array(
                     'idpalletcajas' => $value2,
                     'idmotivorechazo' => $motivorechazo,
@@ -137,8 +140,10 @@ class Bodega extends CI_Controller {
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
                 $this->calidad->addMotivoRechazo($datarechazo);
+              }
          }
           foreach ($ids as $valueproceso) {
+              if($this->bodega->validarRechazo($valueproceso) != false){
             $data = array(
                 'idpalletcajas'=>$valueproceso,
                 'idestatus' => 6,
@@ -146,6 +151,7 @@ class Bodega extends CI_Controller {
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
             $this->palletcajasproceso->addPalletCajasProceso($data);
+              }
         }
         
     }

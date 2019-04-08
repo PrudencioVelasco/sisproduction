@@ -456,7 +456,7 @@ class Salida extends CI_Controller {
                                     );
                                     $this->salida->updateEstatusOrden($id, $data);
                                     $dataordensalida = array(
-                                        'idsalida' => 2,
+                                        'idsalida' => $idsalida,
                                         'idpalletcajas' => $idpalletcajas,
                                         'tipo' => 1,
                                         'pallet' => 0,
@@ -477,7 +477,7 @@ class Salida extends CI_Controller {
                                         );
                                         $this->salida->updateEstatusOrden($id, $data);
                                         $dataordensalida = array(
-                                            'idsalida' => 2,
+                                            'idsalida' => $idsalida,
                                             'idpalletcajas' => $idpalletcajas,
                                             'tipo' => 1,
                                             'pallet' => 0,
@@ -495,7 +495,7 @@ class Salida extends CI_Controller {
                                         );
                                         $this->salida->updateEstatusOrden($id, $data);
                                         $dataordensalida = array(
-                                            'idsalida' => 2,
+                                            'idsalida' => $idsalida,
                                             'idpalletcajas' => $idpalletcajas,
                                             'tipo' => 1,
                                             'pallet' => 0,
