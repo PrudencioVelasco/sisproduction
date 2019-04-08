@@ -17,37 +17,37 @@
                 </div>
               </div>-->
               <br>
-              <table class="table table-striped responsive-utilities jambo_table bulk_action">
-                <thead class="text-white bg-dark">
-                  <th class="text-white">#</th>
-                  <th class="text-white">Num. Transferencia</th>
-                  <th class="text-white">Numero parte</th>
-                  <th class="text-white">Modelo</th>
-                  <th class="text-white">Pallet</th>
-                  <th class="text-white">Cajas</th>
-                  <th class="text-white">Posicion</th>
-                </thead>
-                <tbody>
-                    <?php $count = 1;?>
-                    <?php if(!empty($information)):?>
-                    <?php foreach($information as $data):?>
-                    <tr class="table-default">
-                        <td><?php echo $count++;?></td>
-                        <td><?php echo $data->folio;?></td>
-                        <td><?php echo $data->numeroparte;?></td>
-                        <td><?php echo $data->modelo;?></td>
-                        <td><?php echo $data->pallet;?></td>
-                        <td><?php echo $data->cajas;?></td>
-                        <td><?php echo $data->nombreposicion;?></td>
-                    </tr>
-                    <?php endforeach;?>
-                    <?php else:?>
-                    <tr>
-                        <td colspan="6" rowspan="6" class="text-center h4">No encontrado</td>
-                    </tr>
-                    <?php endif;?>
-                </tbody>
-          </table>
+              <?php  if(isset($information) && !empty($information)){ ?>
+                <table id="datatable-buttons" class="table table-striped table-bordered">
+                 <thead>
+                  <tr>
+                   <th>#</th>
+                   <th>Transferencia</th>
+                   <th>Numero de parte</th>
+                   <th>Modelo</th>
+                   <th>Pallet</th>
+                   <th>Cantidad</th>
+                   <th>Linea</th>
+                 </tr>
+               </thead>
+               <tbody>
+                <?php 
+                $i=1;
+                $count = 1;
+                foreach ($information as $row) { ?>
+                  <tr>
+                    <td><?php echo $count++;?></td>
+                    <td><?php echo $row->folio; ?></td>
+                    <td><?php echo $row->numeroparte; ?></td>
+                    <td><?php echo $row->modelo;?></td>
+                    <td><?php echo $row->pallet;?></td> 
+                    <td><?php echo $row->cajas;?></td>
+                    <td><?php echo $row->nombreposicion;?></td>
+                  </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          <?php } ?>
         </div>
       </div>
     </div>
