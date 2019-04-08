@@ -27,7 +27,30 @@ class Orden_model extends CI_Model {
             return false;
         }
     }
-    
+ public function searchOrden($match)
+    {
+        $field = array(
+            's.idsalida',
+            's.numerosalida',
+            'c.nombre',
+            's.orden',
+            'u.name',
+            's.fecharegistro'
+        );
+     $this->db->select('s.idsalida,s.numerosalida,c.nombre,s.orden,u.name,s.fecharegistro');
+        $this->db->from('salida s');
+        $this->db->join('cliente c', 's.idcliente=c.idcliente');
+        $this->db->join('users u', 's.idusuario=u.id');
+        $this->db->where('s.finalizado',1);
+       $this->db->like('concat(' . implode(',', $field) . ')', $match); 
+        $this->db->order_by("s.fecharegistro", "desc");
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
     public function validarOrdenSalida($idsalida){
         $this->db->select('os.idsalida, os.idpalletcajas');
         $this->db->from('ordensalida os');
@@ -97,6 +120,30 @@ class Orden_model extends CI_Model {
         $this->db->join('parteposicionbodega as ppb','pc.idpalletcajas = ppb.idpalletcajas');
         $this->db->join('posicionbodega as pb','pb.idposicion = ppb.idposicion');
         $this->db->where('s.idsalida', $idsalida);
+          $this->db->where('o.tipo', 0);
+        //$this->db->where('pd.idestatus', 8);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+     public function detallesDeOrdenParciales($idsalida) {
+        // code...
+        $this->db->select('pc.idpalletcajas, o.idordensalida,s.idsalida, p.numeroparte,o.tipo, o.pallet, dp.modelo,dp.revision,pb.nombreposicion, ppb.ordensalida, ppb.salida, dp.iddetalleparte, dp.folio');
+         $this->db->select_sum('o.caja');
+        $this->db->from('salida s');
+        $this->db->join('ordensalida o', 's.idsalida=o.idsalida');
+        $this->db->join('palletcajas pc', 'o.idpalletcajas=pc.idpalletcajas');
+        $this->db->join('detalleparte dp', 'dp.iddetalleparte=pc.iddetalleparte');
+        $this->db->join('parte p', 'p.idparte=dp.idparte');
+        $this->db->join('users u', 'o.idusuario=u.id');
+        $this->db->join('parteposicionbodega as ppb','pc.idpalletcajas = ppb.idpalletcajas');
+        $this->db->join('posicionbodega as pb','pb.idposicion = ppb.idposicion');
+        $this->db->where('s.idsalida', $idsalida);
+        $this->db->where('o.tipo', 1);
+        $this->db->group_by(array("p.numeroparte", "dp.modelo"));  
         //$this->db->where('pd.idestatus', 8);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {

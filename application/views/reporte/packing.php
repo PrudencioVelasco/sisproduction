@@ -72,6 +72,7 @@
                                        <th>Modelo</th>
                                        <th>Revision</th>
                                        <th>Pallet</th>
+                                       <th>C. por pallet</th>
                                        <th>Cantidad</th>
                                        <th>Linea</th>
                                        <th>Fecha</th>
@@ -88,9 +89,10 @@
                                        <td><?php echo $row->numeroparte; ?></td>
                                        <td><?php echo $row->modelo;?></td>
                                        <td><?php echo $row->revision;?></td>
-                                       <td><?php echo $row->pallet;?></td> 
-                                       <td><?php echo $row->cantidad;?></td>
-                                       <td><?php echo $row->linea;?></td>
+                                       <td><?php echo $row->sumapallet;?></td> 
+                                       <td><?php echo $row->cajasporpallet;?></td> 
+                                       <td><?php echo $row->sumacajas;?></td>
+                                       <td><?php echo $row->nombrelinea;?></td>
                                        <td><?php echo $row->fecharegistro;?></td>
                                        <td><?php echo $row->nombreusuario;?></td>
                                       <td><strong><?php echo $row->nombrestatus;?></strong></td>

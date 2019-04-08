@@ -63,7 +63,7 @@ var v = new Vue({
                      v.noResult()
                     }else{
                         v.getData(response.data.salidas);
-                        console.log(response.data.salidas);
+                        //console.log(response.data.salidas);
                     }
             })
         },
@@ -72,9 +72,9 @@ var v = new Vue({
                     .then(response => (this.clientes = response.data))
 
             },
-          searchParte(){
+          searchSalida(){
             var formData = v.formData(v.search);
-              axios.post(this.url+"salida/searchParte", formData).then(function(response){
+              axios.post(this.url+"salida/searchPartes", formData).then(function(response){
                   if(response.data.salidas == null){
                       v.noResult()
                     }else{

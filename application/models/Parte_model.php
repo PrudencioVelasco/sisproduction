@@ -86,16 +86,17 @@ GROUP by pc.cajas");
         }
     }
     public function buscarEnviados($idusuario,$text){
-              $query =$this->db->query("SELECT p.idparte,d.iddetalleparte, p.numeroparte, d.folio, d.modelo, d.revision, d.linea, DATE_FORMAT(d.fecharegistro,'%d/%m/%Y %h:%i %p' ) as fecharegistro,
-     (SELECT  COUNT(pc.pallet)  FROM  palletcajas pc WHERE pc.iddetalleparte = d.iddetalleparte) as totalpallet,
-     (SELECT  SUM(pc2.cajas)  FROM  palletcajas pc2 WHERE pc2.iddetalleparte = d.iddetalleparte) as totalcajas,
-     (SELECT COUNT(pc3.idestatus)  FROM palletcajas pc3 WHERE pc3.iddetalleparte = d.iddetalleparte AND pc3.idestatus = 1) AS totalenviado,
-     (SELECT COUNT(pc4.idestatus)  FROM palletcajas pc4 WHERE pc4.iddetalleparte = d.iddetalleparte AND pc4.idestatus = 8) AS totalfinalizado,
-     (SELECT COUNT(pc5.idestatus)  FROM palletcajas pc5 WHERE pc5.iddetalleparte = d.iddetalleparte AND pc5.idestatus = 3) AS totalcancelado,
-      (SELECT COUNT(pc6.idestatus)  FROM palletcajas pc6 WHERE pc6.iddetalleparte = d.iddetalleparte AND pc6.idestatus = 4) AS totalenviadocalidad
-     FROM parte p, detalleparte d
-     WHERE p.idparte = d.idparte
-      AND d.idusuario = '$idusuario'
+              $query =$this->db->query("SELECT p.idparte,d.iddetalleparte, p.numeroparte, d.folio, d.modelo, d.revision, l.idlinea,l.nombrelinea, DATE_FORMAT(d.fecharegistro,'%d/%m/%Y %h:%i %p' ) as fecharegistro,
+ (SELECT  COUNT(pc.pallet)  FROM  palletcajas pc WHERE pc.iddetalleparte = d.iddetalleparte) as totalpallet,
+ (SELECT  SUM(pc2.cajas)  FROM  palletcajas pc2 WHERE pc2.iddetalleparte = d.iddetalleparte) as totalcajas,
+ (SELECT COUNT(pc3.idestatus)  FROM palletcajas pc3 WHERE pc3.iddetalleparte = d.iddetalleparte AND pc3.idestatus = 1) AS totalenviado,
+ (SELECT COUNT(pc4.idestatus)  FROM palletcajas pc4 WHERE pc4.iddetalleparte = d.iddetalleparte AND pc4.idestatus = 8) AS totalfinalizado,
+ (SELECT COUNT(pc5.idestatus)  FROM palletcajas pc5 WHERE pc5.iddetalleparte = d.iddetalleparte AND pc5.idestatus = 3) AS totalcancelado,
+  (SELECT COUNT(pc6.idestatus)  FROM palletcajas pc6 WHERE pc6.iddetalleparte = d.iddetalleparte AND pc6.idestatus = 4) AS totalenviadocalidad,
+   (SELECT COUNT(pc7.idestatus)  FROM palletcajas pc7 WHERE pc7.iddetalleparte = d.iddetalleparte AND pc7.idestatus = 12) AS enhold
+ FROM parte p, detalleparte d, linea l
+ WHERE p.idparte = d.idparte
+ AND l.idlinea = d.idlinea
       AND (d.folio LIKE '%$text%' OR p.numeroparte LIKE '%$text%' OR d.modelo LIKE '%$text%' OR d.revision LIKE '%$text%')
       ORDER BY d.fecharegistro DESC
       ");

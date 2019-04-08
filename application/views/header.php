@@ -94,6 +94,13 @@
                          <li><a href="<?= base_url('/inventario/index') ?>"> Inventario</a> </li>
                       </ul>
                     </li>
+                      <li><a><i class="fa fa-bar-chart" aria-hidden="true"></i> Reporte <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu" style="display: none"> 
+                        <li><a href="<?= base_url('/reporte/packing') ?>"> Packing</a> </li>
+                        <li><a href="<?= base_url('/turno/index') ?>"> Calidad</a> </li>
+                        <li><a href="<?= base_url('/user/index') ?>"> Almacen</a> </li>
+                      </ul>
+                    </li>
                   </ul>
                 </div>
               </div>

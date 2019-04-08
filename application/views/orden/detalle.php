@@ -63,6 +63,37 @@
                                             </tr>
                                         </thead>
                                         <?php
+                                        if(isset($detalleordenparciales) && !empty($detalleordenparciales)){
+                                                   foreach ($detalleordenparciales as $value) {
+                                              
+
+                                                // code...
+                                                echo "<tr>";
+                                                echo "<td>"; 
+                                                
+                                        
+                                                    if($value->salida == 0){
+                                        ?>
+                                                    
+                                                    <a href="<?php echo site_url('orden/marcar/').$value->idpalletcajas."/".$idsalida ?>"><i class="fa fa-check-square" aria-hidden="true"></i>
+</a>
+                                                    
+                                                <?php
+                                                    }else{
+                                                        echo'<i style="color:green;" class="fa fa-check-square" aria-hidden="true"></i> ';
+                                                        
+                                                    }
+                                                    
+                                                echo $value->numeroparte; 
+                                                echo "</td>";
+                                                echo "<td><i class='fa fa-check'  style='color:#1abd53;' aria-hidden='true'></i><strong> 1 </strong></td>";
+                                                echo "<td>" .$value->caja. "</td>";
+                                                echo "<td>" . $value->modelo . "</td>";
+                                                echo "<td>" . $value->revision . "</td>"; 
+                                                echo "<td>" . $value->nombreposicion . "</td>"; 
+                                                echo "</tr>";
+                                            }
+                                        }
                                         if (isset($detalleorden) && !empty($detalleorden)) {
                                             $totalpallet = 0;
                                             $totalcajas = 0;
@@ -102,7 +133,7 @@
                                                     }
                                                 echo $value->numeroparte; 
                                                 echo "</td>";
-                                                echo "<td>" . $value->pallet . "</td>";
+                                                echo "<td><i class='fa fa-check'  style='color:#8938f5;' aria-hidden='true'></i> <strong>" . $value->pallet . "</strong></td>";
                                                 ?>
                                                 <td>
                                                     <?php
@@ -125,14 +156,17 @@
                                     </table>
                                 </div>
                             </div>
-                                            <div class="row">
+                            <?php
+                            if (isset($detallepallet) && !empty($detallepallet)) {
+                            ?>
+                            <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12 ">
 
                                 <div class="panel-group">
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style=" background-color: #d8d8d8">
                                             <h4 class="panel-title" >
-                                                <a data-toggle="collapse" href="#collapse1"><i class="fa fa-bars" aria-hidden="true"></i> Click para ver detalle de la Orden.</a>
+                                                <a data-toggle="collapse" href="#collapse1"><i class="fa fa-bars" aria-hidden="true"></i> Click para ver detalles de la Orden.</a>
                                             </h4>
                                         </div>
                                         <div id="collapse1" class="panel-collapse collapse">
@@ -191,6 +225,7 @@
 
                             </div>
                         </div>
+                        <?php } ?>
                         </div>
                     </div>
                 </div>

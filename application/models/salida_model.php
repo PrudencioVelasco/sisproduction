@@ -284,13 +284,25 @@ AND dp.iddetalleparte = $iddetalleparte");
         return $query->first_row();
     }
 
-    public function buscarNumeroParte($text) {
-        $query = $this->db->query("SELECT dp.folio, p.numeroparte,dp.fecharegistro, dp.modelo, dp.revision, dp.linea, 
-(SELECT COUNT(pc.pallet) FROM palletcajas pc WHERE dp.iddetalleparte = pc.iddetalleparte AND pc.idestatus=8) as totalpallet,
-(SELECT SUM(pc.cajas) FROM palletcajas pc WHERE dp.iddetalleparte = pc.iddetalleparte AND pc.idestatus=8) as totalcajas
-FROM detalleparte dp, parte p
-WHERE dp.idparte = p.idparte
-AND (dp.folio LIKE '%$text%' OR p.numeroparte LIKE '%$text%' OR dp.modelo LIKE '%$text%' OR dp.revision LIKE '%$text%')");
+    public function buscarNumeroParte($match) {
+           $field = array(
+            's.idsalida',
+            's.numerosalida',
+            'c.nombre',
+            's.finalizado',
+            'u.name',
+            's.fecharegistro'
+        );
+
+        $this->db->select('s.idsalida,s.numerosalida,c.nombre,s.finalizado,u.name,s.fecharegistro');
+        $this->db->from('salida s');
+        $this->db->join('cliente c', 's.idcliente=c.idcliente');
+        $this->db->join('users u', 's.idusuario=u.id');
+         $this->db->like('concat(' . implode(',', $field) . ')', $match);
+        $this->db->order_by("s.fecharegistro", "desc");
+       
+        $query = $this->db->get();
+
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {

@@ -65,9 +65,9 @@ var v = new Vue({
                     }
             })
         },
-          searchParte(){
+          searchSalida(){
             var formData = v.formData(v.search);
-              axios.post(this.url+"salida/searchParte", formData).then(function(response){
+              axios.post(this.url+"orden/searchOrden", formData).then(function(response){
                   if(response.data.salidas == null){
                       v.noResult()
                     }else{

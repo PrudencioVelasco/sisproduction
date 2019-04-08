@@ -22,7 +22,7 @@ class Reporte extends CI_Controller {
     }
   
     public function packing() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $usuario = $this->usuario->showAllPacking();
         $data = array('usuarios' => $usuario);
         $this->load->view('header');

@@ -38,7 +38,7 @@ class Calidad_model extends CI_Model {
     }
 
     public function buscar($text, $idusuario) {
-        $query = $this->db->query("SELECT p.idparte, d.iddetalleparte, p.numeroparte, d.folio, d.modelo, d.revision, d.linea,DATE_FORMAT(d.fecharegistro,'%d/%m/%Y %h:%i %p' ) as fecharegistro,
+        $query = $this->db->query("SELECT p.idparte, d.iddetalleparte, p.numeroparte, d.folio, d.modelo, d.revision, l.idlinea, l.nombrelinea,DATE_FORMAT(d.fecharegistro,'%d/%m/%Y %h:%i %p' ) as fecharegistro,
  (SELECT  COUNT(pc.pallet)  FROM  palletcajas pc WHERE pc.iddetalleparte = d.iddetalleparte) as totalpallet,
  (SELECT  SUM(pc2.cajas)  FROM  palletcajas pc2 WHERE pc2.iddetalleparte = d.iddetalleparte) as totalcajas,
  (SELECT COUNT(pc7.idestatus)  FROM palletcajas pc7 WHERE pc7.iddetalleparte = d.iddetalleparte AND pc7.idestatus = 1) AS totalenviadoacalidad,
@@ -46,10 +46,11 @@ class Calidad_model extends CI_Model {
  (SELECT COUNT(pc4.idestatus)  FROM palletcajas pc4 WHERE pc4.iddetalleparte = d.iddetalleparte AND pc4.idestatus = 8) AS totalfinalizado,
  (SELECT COUNT(pc5.idestatus)  FROM palletcajas pc5 WHERE pc5.iddetalleparte = d.iddetalleparte AND pc5.idestatus = 6) AS totalcancelado,
   (SELECT COUNT(pc6.idestatus)  FROM palletcajas pc6 WHERE pc6.iddetalleparte = d.iddetalleparte AND pc6.idestatus = 7) AS totalenviadoaalmacen,
-    (SELECT COUNT(pc8.idestatus)  FROM palletcajas pc8 WHERE pc8.iddetalleparte = d.iddetalleparte AND pc8.idestatus = 3) AS rechazadoapacking
- FROM parte p, detalleparte d
+    (SELECT COUNT(pc8.idestatus)  FROM palletcajas pc8 WHERE pc8.iddetalleparte = d.iddetalleparte AND pc8.idestatus = 3) AS rechazadoapacking,
+    (SELECT COUNT(pc9.idestatus)  FROM palletcajas pc9 WHERE pc9.iddetalleparte = d.iddetalleparte AND pc9.idestatus = 12) AS enhold
+ FROM parte p, detalleparte d, linea l
  WHERE p.idparte = d.idparte
- AND (d.idusuario = '$idusuario' OR d.idoperador = '$idusuario' )
+ AND d.idlinea = l.idlinea 
   AND (d.folio LIKE '%$text%' OR p.numeroparte LIKE '%$text%' OR d.modelo LIKE '%$text%' OR d.revision LIKE '%$text%')
  ORDER BY d.fecharegistro DESC");
         //  return $query->result();

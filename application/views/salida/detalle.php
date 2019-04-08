@@ -143,10 +143,11 @@
                                     <div class="col-md-3 col-sm-12 col-xs-12 " id="pallet">
                                         <div class="form-group">
                                             <label><font color="red">*</font> C. Pallet</label>
-                                            <input type="text" name="pallet" id="ppallet" class="form-control" placeholder="C. Pallet" ">
+        <input type="text" name="pallet" id="ppallet" class="form-control" placeholder="C. Pallet">
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-sm-12 col-xs-12 " id="cajas">
+                                    
+                                    <div class="col-md-3 col-sm-12 col-xs-12" id="cajas">
                                         <div class="form-group">
                                             <label><font color="red">*</font> Total Cajas</label>
                                             <input type="text" name="cajas" id="pcajas" class="form-control" placeholder="Total Cajas" >
@@ -237,6 +238,9 @@
                                 </table>
                             </div>
                         </div>
+                        <?php 
+                          if (isset($detallepallet) && !empty($detallepallet)) {
+                        ?>
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12 ">
 
@@ -244,7 +248,7 @@
                                     <div class="panel panel-default">
                                         <div class="panel-heading" style=" background-color: #d8d8d8">
                                             <h4 class="panel-title" >
-                                                <a data-toggle="collapse" href="#collapse1"><i class="fa fa-bars" aria-hidden="true"></i> Click para ver detalle de la Orden.</a>
+                                                <a data-toggle="collapse" href="#collapse1"><i class="fa fa-bars" aria-hidden="true"></i> Click para ver detalles de la Orden.</a>
                                             </h4>
                                         </div>
                                         <div id="collapse1" class="panel-collapse collapse">
@@ -303,6 +307,7 @@
 
                             </div>
                         </div>
+                        <?php } ?>
                         <?php if ($detallesalida->finalizado == 0) { ?>
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12" align="right">
@@ -418,7 +423,7 @@
     var v = new Vue({
         el: '#app',
         data: {
-            url: 'http://localhost:8383/sisproduction/',
+            url: 'http://localhost/sisproduction/',
 
             addModal: false,
             editModal: false,

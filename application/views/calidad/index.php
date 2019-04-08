@@ -10,11 +10,6 @@
           </div>
           <div class="x_content">
             <div id="app">
-              <!--<div class="row">
-                <div class="col-md-6">
-                  <a href="<?php //echo site_url('calidad/enviadosBodega') ?>" class="btn btn-round btn-primary">Ver enviados</a>
-                </div>
-              </div>-->
               <!-- Seccion buscador -->
               <div class="row">
                 <div class="col-md-6 col-sm-12 col-xs-12"> 

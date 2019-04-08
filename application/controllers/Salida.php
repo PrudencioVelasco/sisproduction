@@ -331,7 +331,7 @@ class Salida extends CI_Controller {
         $value = $this->input->post('text');
         $query = $this->salida->buscarNumeroParte($value);
         if ($query) {
-            $result['partes'] = $query;
+            $result['salidas'] = $query;
         }
 
         echo json_encode($result);
@@ -587,13 +587,19 @@ class Salida extends CI_Controller {
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
         $datadetalleparte = $this->salida->showPartesDetalle($iddetalleparte);
+        $detallepallet = $this->salida->detallepallet($idsalida);
+        $detalleparciales = $this->salida->detalleparciales($idsalida);
+        
+        
         //var_dump($datadetalleparte);
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
             'cajasporpallet' =>$cajasporpallet,
             'idsalida' => $idsalida,
-            'detalleparte' => $datadetalleparte);
+            'detalleparte' => $datadetalleparte,
+            'detallepallet' => $detallepallet,
+            'detalleparciales' => $detalleparciales);
         $this->load->view('header');
         $this->load->view('salida/detalle', $data);
         $this->load->view('footer');

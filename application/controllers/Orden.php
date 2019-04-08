@@ -37,6 +37,17 @@ class Orden extends CI_Controller {
         // code...
     }
     
+    public function searchOrden() {
+        Permission::grant(uri_string());
+        $value = $this->input->post('text');
+        $query = $this->orden->searchOrden($value);
+        if ($query) {
+            $result['salidas'] = $query;
+        }
+
+        echo json_encode($result);
+    }
+    
     public function marcar($idpalletcajas,$idsalida){
                    
                   $dataupdate = array(
@@ -51,14 +62,16 @@ class Orden extends CI_Controller {
     public function detalle($idsalida) {
         $datadetallesalida = $this->orden->detalleSalida($idsalida);
         $datadetalleorden = $this->orden->detallesDeOrden($idsalida);
-         $detallepallet = $this->salida->detallepallet($idsalida);
+        $datadetalleordenparciales = $this->orden->detallesDeOrdenParciales($idsalida);
+        $detallepallet = $this->salida->detallepallet($idsalida);
         $detalleparciales = $this->salida->detalleparciales($idsalida);
-        //var_dump($datadetalleorden);
+        //var_dump($datadetalleordenparciales);
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
+            'detalleordenparciales'=>$datadetalleordenparciales,
             'idsalida' => $idsalida,
-             'detallepallet' => $detallepallet,
+            'detallepallet' => $detallepallet,
             'detalleparciales' => $detalleparciales);
 
         $this->load->view('header');
