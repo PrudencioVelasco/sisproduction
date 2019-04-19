@@ -194,6 +194,7 @@
                         data: form,
 
                         success: function (data) {
+                            //console.log(data);
                             location.reload();
                             //Unterminated String literal fixed
                         }

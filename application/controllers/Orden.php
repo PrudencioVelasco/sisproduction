@@ -85,12 +85,13 @@ class Orden extends CI_Controller {
         $porciones = explode("_", $item);
         $numeroparte = (isset($porciones[0])) ? $porciones[0] : 0;
         $folio = (isset($porciones[1])) ? $porciones[1] : 0;
+        $cajas = (isset($porciones[2])) ? $porciones[2] : 0;
 
         if (isset($numeroparte) && !empty($numeroparte) && isset($folio) && !empty($folio)) {
 
             if ($this->orden->validarOrdenSalida($idsalida) != FALSE) {
 
-                $data = $this->orden->listaDeNumeroParteSalida(0, $folio,$idsalida);
+                $data = $this->orden->listaDeNumeroParteSalida(0, $folio,$idsalida,$cajas);
                 foreach ($data as $value) {
                     $idpalletcajas = $value->idpalletcajas;
                     $dataupdate = array(

@@ -91,15 +91,13 @@
                         <li><a href="<?= base_url('/client/index') ?>"> Cliente</a> </li>
                         <li><a href="<?= base_url('/turno/index') ?>"> Turno</a> </li>
                         <li><a href="<?= base_url('/user/index') ?>"> Usuario</a> </li>
-                        <li><a href="<?= base_url('/inventario/index') ?>"> Inventario</a> </li>
-                        <li><a href="<?= base_url('/almacen/index') ?>"> Almacén</a> </li>
+                        <li><a href="<?= base_url('/inventario/index') ?>"> Movimientos</a> </li>
+                        <li><a href="<?= base_url('/almacen/index') ?>"> Localización</a> </li>
                       </ul>
                     </li>
                       <li><a><i class="fa fa-bar-chart" aria-hidden="true"></i> Reporte <span class="fa fa-chevron-down"></span></a>
                       <ul class="nav child_menu" style="display: none"> 
-                        <li><a href="<?= base_url('/reporte/packing') ?>"> Packing</a> </li>
-                        <li><a href="<?= base_url('/turno/index') ?>"> Calidad</a> </li>
-                        <li><a href="<?= base_url('/user/index') ?>"> Almacen</a> </li>
+                        <li><a href="<?= base_url('/reporte/transferencia') ?>"> Trsnsferencias</a> </li>
                       </ul>
                     </li>
                   </ul>

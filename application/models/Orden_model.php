@@ -66,7 +66,7 @@ class Orden_model extends CI_Model {
         }
     }
     
-    public function listaDeNumeroParteSalida($numeroparte, $folio,$idsalida){
+    public function listaDeNumeroParteSalida($numeroparte, $folio,$idsalida,$cajas){
           $this->db->select('pc.idpalletcajas,pb.nombreposicion');
           $this->db->from('ordensalida os');
           $this->db->join('parteposicionbodega ppb', 'os.idpalletcajas=ppb.idpalletcajas');

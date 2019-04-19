@@ -23,7 +23,8 @@ class Almacen_model extends CI_Model {
         (SELECT SUM(pc1.cajas) FROM palletcajas pc1 WHERE pc1.iddetalleparte = dp.iddetalleparte AND pc1.idestatus = 8) AS totalcajas 
         FROM parte p 
         INNER JOIN detalleparte dp ON p.idparte = dp.idparte 
-        INNER JOIN cliente c ON c.idcliente = p.idcliente");
+        INNER JOIN cliente c ON c.idcliente = p.idcliente
+        GROUP BY p.numeroparte, p.idcliente");
 
         return ($query->num_rows() > 0) ? $query->result() : FALSE;
     

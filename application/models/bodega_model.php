@@ -138,7 +138,7 @@ public function eliminarposicionesparte($id)
        public function validarRechazo($id){
         $this->db->select('pc.*');
         $this->db->from('palletcajas pc`'); 
-        $this->db->where('pc.idpalletcajas',4);
+        $this->db->where('pc.idpalletcajas',$id);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();

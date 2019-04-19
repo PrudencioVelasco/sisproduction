@@ -21,7 +21,7 @@ class Reporte extends CI_Controller {
         $this->load->library('permission');
     }
   
-    public function packing() {
+    public function transferencia() {
         //Permission::grant(uri_string());
         $usuario = $this->usuario->showAllPacking();
         $data = array('usuarios' => $usuario);
