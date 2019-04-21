@@ -366,7 +366,8 @@
                     } else if (data == 13) {
                         $("#msgerror").text("No existe Stock suficiente.");
                     } else {
-                        location.reload();
+                        //location.reload();
+                        window.location.href="<?php echo base_url(); ?>/salida/detalleSalida/<?php echo $idsalida ?>";
                     }
                     // location.reload();
                     //$("#msgerror").text(data);

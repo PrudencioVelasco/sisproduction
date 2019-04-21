@@ -53,7 +53,7 @@ WHERE pc.idpalletcajas = os.idpalletcajas
         return $query->first_row();
     }
 
-    public function showPartesBodega2() {
+    public function showPartesBodega2($idcliente) {
         $query = $this->db->query('SELECT
   dp.iddetalleparte,
   p.numeroparte,
@@ -143,6 +143,7 @@ INNER JOIN linea l
 INNER JOIN parteposicionbodega ppb
   ON ppb.idpalletcajas = pc.idpalletcajas
 WHERE pc.idestatus = 8
+AND c.idcliente = '.$idcliente.'
 GROUP BY pc.cajas,
          dp.iddetalleparte
 ORDER BY dp.fecharegistro DESC');
@@ -418,7 +419,7 @@ GROUP BY  p.numeroparte, dp.modelo");
 
     public function detalleSalida($idsalida) {
         // code...
-        $this->db->select('s.idsalida,s.numerosalida,s.finalizado,c.nombre,u.name,s.fecharegistro');
+        $this->db->select('s.idsalida,s.numerosalida,c.idcliente,s.finalizado,c.nombre,u.name,s.fecharegistro');
         $this->db->from('salida s');
         $this->db->join('cliente c', 's.idcliente=c.idcliente');
         $this->db->join('users u', 's.idusuario=u.id');

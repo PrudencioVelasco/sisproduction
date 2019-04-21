@@ -121,62 +121,11 @@ class Salida extends CI_Controller {
     }
 
     public function test1($idsalida) {
-         
-//        $query = $this->salida->showPartesBodega();
-//        $array = array();
-//        $i = 0;
-//        foreach ($query as $row) {
-//            $detallesuma = $this->salida->showSumaCajas($row->iddetalleparte, $idsalida, $row->cajasporpallet);
-//            if ($detallesuma->sumacajas < $row->totalcajas) {
-//                if ($detallesuma->sumacajas > 0 ) {
-//                    $query2 = $this->salida->showAllPalletCajas($row->iddetalleparte, $idsalida, $row->cajasporpallet);
-//                    $cantidad = $detallesuma->sumacajas;
-//                    $contador = 0;
-//                    foreach ($query2 as $value) {
-//                        if ($cantidad > 0) {
-//                            if ($cantidad > $value->cajas) {
-//                                $cantidad -= $value->cajas;
-//                                $contador++;
-//                            }
-//                        }
-//                    }
-//                     $array[$i] = array();
-//                    $array[$i]['iddetalleparte'] = $row->iddetalleparte;
-//                    $array[$i]['numeroparte'] = $row->numeroparte;
-//                    $array[$i]['folio'] = $row->folio;
-//                    $array[$i]['modelo'] = $row->modelo;
-//                    $array[$i]['revision'] = $row->revision;
-//                    $array[$i]['linea'] = $row->linea;
-//                    $array[$i]['fecharegistro'] = $row->fecharegistro;
-//                    $array[$i]['nombre'] = $row->nombre;
-//                    $array[$i]['totalpallet'] = $row->totalpallet-$contador;
-//                    $array[$i]['cajasporpallet'] = $row->cajasporpallet;
-//                    $array[$i]['totalcajas'] = $row->totalcajas;
-//                    $array[$i]['cajassalidas'] = $detallesuma->sumacajas;
-//                    $array[$i]['test'] = 0;
-//                    $array[$i]['cajasdisponibles'] = abs($detallesuma->sumacajas - $row->totalcajas);
-//                    $i++;
-//                } else {
-//                    $array[$i] = array();
-//                    $array[$i]['iddetalleparte'] = $row->iddetalleparte;
-//                    $array[$i]['numeroparte'] = $row->numeroparte;
-//                    $array[$i]['folio'] = $row->folio;
-//                    $array[$i]['modelo'] = $row->modelo;
-//                    $array[$i]['revision'] = $row->revision;
-//                    $array[$i]['linea'] = $row->linea;
-//                    $array[$i]['fecharegistro'] = $row->fecharegistro;
-//                    $array[$i]['nombre'] = $row->nombre;
-//                    $array[$i]['totalpallet'] = $row->totalpallet;
-//                    $array[$i]['cajasporpallet'] = $row->cajasporpallet;
-//                    $array[$i]['totalcajas'] = $row->totalcajas;
-//                    $array[$i]['cajassalidas'] = $detallesuma->sumacajas;
-//                    $array[$i]['test'] = 1;
-//                    $array[$i]['cajasdisponibles'] = abs($detallesuma->sumacajas - $row->totalcajas);
-//                    $i++;
-//                }
-//            }
-//        }
-        $query = $this->salida->showPartesBodega2();
+
+        
+        $detalle = $this->salida->detalleSalida($idsalida);
+        $idcliente = $detalle->idcliente;
+        $query = $this->salida->showPartesBodega2($idcliente);
         $array = array();
         $i = 0;
         foreach ($query as $row) {

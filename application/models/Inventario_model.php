@@ -60,6 +60,21 @@ class Inventario_model extends CI_Model {
             return false;
         }
     }
+    public function searchEntradasDate($fechainicio,$fechafin){
+          $query = $this->db->query(" SELECT p.idparte,c.nombre, p.numeroparte, COUNT(pc.pallet) AS totalpallet, SUM(pc.cajas) AS totalcajas, (SUM(pc.cajas) / COUNT(pc.pallet)) AS cajasporpallet 
+                                    FROM parte p
+                                    INNER JOIN detalleparte dp  ON p.idparte = dp.idparte
+                                    INNER JOIN palletcajas pc ON dp.iddetalleparte = pc.iddetalleparte
+                                    INNER JOIN parteposicionbodega ppb ON ppb.idpalletcajas = pc.idpalletcajas
+                                    INNER JOIN cliente c ON c.idcliente = p.idcliente
+                                    WHERE date(dp.fecharegistro) BETWEEN '$fechainicio' AND '$fechafin'
+                                    GROUP BY p.idparte");
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        } 
+    }
         public function showAllSalidasCompletos() {
         $query = $this->db->query("SELECT p.idparte,c.nombre, p.numeroparte, COUNT(pc.pallet) AS totalpallet, SUM(pc.cajas) AS totalcajas, (SUM(pc.cajas) / COUNT(pc.pallet)) AS cajasporpallet 
                                     FROM parte p
@@ -76,6 +91,23 @@ class Inventario_model extends CI_Model {
             return false;
         }
     }
+            public function showAllDateSalidasCompletos($inicial,$final) {
+        $query = $this->db->query("SELECT p.idparte,c.nombre, p.numeroparte, COUNT(pc.pallet) AS totalpallet, SUM(pc.cajas) AS totalcajas, (SUM(pc.cajas) / COUNT(pc.pallet)) AS cajasporpallet 
+                                    FROM parte p
+                                    INNER JOIN detalleparte dp  ON p.idparte = dp.idparte
+                                    INNER JOIN palletcajas pc ON dp.iddetalleparte = pc.iddetalleparte
+                                    INNER JOIN parteposicionbodega ppb ON ppb.idpalletcajas = pc.idpalletcajas
+                                    INNER JOIN cliente c ON c.idcliente = p.idcliente
+                                    INNER JOIN ordensalida os ON os.idpalletcajas = pc.idpalletcajas
+                                    WHERE os.tipo = 0
+                                    AND date(os.fecharegistro) BETWEEN '$inicial' AND '$final'
+                                    GROUP BY p.idparte");
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
             public function showAllSalidasParciales() {
         $query = $this->db->query("SELECT p.idparte,c.nombre, p.numeroparte, SUM(os.caja) AS totalcajas
                                     FROM parte p
@@ -84,6 +116,23 @@ class Inventario_model extends CI_Model {
                                     INNER JOIN ordensalida os ON os.idpalletcajas = pc.idpalletcajas
                                     INNER JOIN cliente c ON c.idcliente = p.idcliente
                                     WHERE os.tipo = 1
+                                    GROUP BY p.idparte");
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+    
+            public function showAllDateSalidasParciales($inicial,$final) {
+        $query = $this->db->query("SELECT p.idparte,c.nombre, p.numeroparte, SUM(os.caja) AS totalcajas
+                                    FROM parte p
+                                    INNER JOIN detalleparte dp  ON p.idparte = dp.idparte
+                                    INNER JOIN palletcajas pc ON dp.iddetalleparte = pc.iddetalleparte 
+                                    INNER JOIN ordensalida os ON os.idpalletcajas = pc.idpalletcajas
+                                    INNER JOIN cliente c ON c.idcliente = p.idcliente
+                                    WHERE os.tipo = 1
+                                    AND date(os.fecharegistro) BETWEEN '$inicial' AND '$final'
                                     GROUP BY p.idparte");
         if ($query->num_rows() > 0) {
             return $query->result();
