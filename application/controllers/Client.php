@@ -79,13 +79,24 @@ class Client extends CI_Controller {
                 'errors' => array(
                     'required' => 'Campo obligatorio.'
                 )
+            ), array(
+                'field' => 'direccionfacturacion',
+                'label' => 'direccionfacturacion',
+                'rules' => 'trim|required',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.'
+                )
             )
         );
         $this->form_validation->set_rules($config);
         if ($this->form_validation->run() == FALSE) {
             $result['error'] = true;
             $result['msg'] = array(
-                'nombre' => form_error('nombre')
+                'rfc' => form_error('rfc'),
+                'nombre' => form_error('nombre'),
+                'abreviatura' => form_error('abreviatura'),
+                'direccion' => form_error('direccion'),
+                'direccionfacturacion' => form_error('direccionfacturacion')
             );
         } else {
             $data = array(
@@ -93,6 +104,7 @@ class Client extends CI_Controller {
                 'nombre' => $this->input->post('nombre'),
                 'abreviatura' => $this->input->post('abreviatura'),
                 'direccion' => $this->input->post('direccion'),
+                'direccionfacturacion' => $this->input->post('direccionfacturacion'),
                 'activo' => 1,
                 'idusuario' => $this->session->user_id,
                 'fecha' => date('Y-m-d H:i:s')
@@ -134,13 +146,25 @@ class Client extends CI_Controller {
                 'errors' => array(
                     'required' => 'Campo obligatorio.'
                 )
+            ), array(
+                'field' => 'direccionfacturacion',
+                'label' => 'direccionfacturacion',
+                'rules' => 'trim|required',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.'
+                )
             )
+            
         );
         $this->form_validation->set_rules($config);
         if ($this->form_validation->run() == FALSE) {
             $result['error'] = true;
             $result['msg'] = array(
-                'nombre' => form_error('nombre')
+                'rfc' => form_error('rfc'),
+                'nombre' => form_error('nombre'),
+                'abreviatura' => form_error('abreviatura'),
+                'direccion' => form_error('direccion'),
+                'direccionfacturacion' => form_error('direccionfacturacion')
             );
         } else {
             $id = $this->input->post('idcliente');
@@ -148,6 +172,7 @@ class Client extends CI_Controller {
                 'rfc' => $this->input->post('rfc'),
                 'nombre' => $this->input->post('nombre'),
                 'direccion' => $this->input->post('direccion'),
+                'direccionfacturacion' => $this->input->post('direccionfacturacion'),
                 'activo' => $this->input->post('activo'),
                 'idusuario' => $this->session->user_id,
                 'fecha' => date('Y-m-d H:i:s'),

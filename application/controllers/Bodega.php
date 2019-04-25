@@ -31,7 +31,7 @@ class Bodega extends CI_Controller {
     }
 
     public function showAllEnviados() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $query = $this->bodega->showAllEnviados();
         if ($query) {
             $result['detallestatus'] = $this->bodega->showAllEnviados();
@@ -51,7 +51,7 @@ class Bodega extends CI_Controller {
     public function searchParte() {
         Permission::grant(uri_string());
         $value = $this->input->post('text');
-        $query = $this->bodega->buscar($this->session->user_id, $value);
+        $query = $this->bodega->buscar($value);
         if ($query) {
             $result['detallestatus'] = $query;
         }
@@ -117,6 +117,7 @@ class Bodega extends CI_Controller {
     }
 
     public function rechazarACalidad() {
+         Permission::grant(uri_string());
         $iddetalleparte = $this->input->post('iddetalleparte');
         $motivorechazo = $this->input->post('motivorechazo');
         //$operador = $this->input->post('operador');
@@ -157,6 +158,7 @@ class Bodega extends CI_Controller {
     }
     
       public function agregarAUbicacion() {
+           Permission::grant(uri_string());
         $iddetalleparte = $this->input->post('iddetalleparte');
         $ubicacion = $this->input->post('ubicacion'); 
         $ids = $this->input->post('id');

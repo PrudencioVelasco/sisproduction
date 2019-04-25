@@ -10,6 +10,7 @@ class Parte extends CI_Controller {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
             return redirect('login');
         }
+
         $this->load->helper('url');
         $this->load->model('data_model');
         $this->load->model('parte_model', 'parte');
@@ -20,15 +21,14 @@ class Parte extends CI_Controller {
         $this->load->library('permission');
     }
 
-   
     public function set_barcode($code) {
         Permission::grant(uri_string());
         //load library
         $this->load->library('zend');
         //load in folder Zend
         $this->zend->load('Zend/Barcode');
-        //generate barcode
-        $file = Zend_Barcode::draw('code128', 'image', array('text' => $code),array());
+        //generate barcode 
+        $file = Zend_Barcode::draw('code128', 'image', array('text' => $code,  'barHeight'=> 60,'factor' => 2), array());
         $code = time() . $code;
         $barcodeRealPath = $_SERVER['DOCUMENT_ROOT'] . '/sisproduction/assets/cache/' . $code . '.png';
 
@@ -37,14 +37,14 @@ class Parte extends CI_Controller {
         return base_url() . 'assets/cache/' . $code . '.png';
     }
 
-    public function etiquetaCalidad($id,$idpalletcajas,$cajas) {
-      //Permission::grant(uri_string());
-        $detalle = $this->parte->detalleDelDetallaParte($id); 
+    public function etiquetaCalidad($id, $idpalletcajas, $cajas) {
+        //Permission::grant(uri_string());
+        $detalle = $this->parte->detalleDelDetallaParte($id);
         $lista = $this->parte->cantidadesPartes($id);
         $datausuario = $this->usuario->detalleUsuario($this->session->user_id);
-        
-        $hora= date ("h:i:s a");
-        $fecha= date ("d-M-Y");
+
+        $hora = date("h:i:s a");
+        $fecha = date("d-M-Y");
         $semana = date("W");
         $mes = date("F");
         $this->load->library('html2pdf');
@@ -72,30 +72,30 @@ class Parte extends CI_Controller {
 		
 		<tr>
 		
-			<td  align="center"    style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >'.$detalle->nombre.'</td>
+			<td  align="center"    style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >' . $detalle->nombre . '</td>
 		</tr>
 		<tr>
 			<td  align="" height="60px" style="font-size:60px; font-family:arial; font-weight:bold; background: #; color:#fff;" >PART NO</td>
 			<td  align="" style="font-size:20px; font-family:arial; font-weight:bold; background: #; color:#fff;" >QUANTITY</td>
 		</tr>
 		<tr>
-			<td  align="center" height="50px" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " >'.$detalle->numeroparte.'</td>
-			<td  align="center" style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >'.$cajas .'</td>
+			<td  align="center" height="50px" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " >' . $detalle->numeroparte . '</td>
+			<td  align="center" style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >' . $cajas . '</td>
 		</tr>
 		<tr>
 			<td  align="" height="50" style="font-size:20px; font-family:arial; font-weight:bold; background: #;color:#fff; " >MODEL</td>
 			<td  align="" style="font-size:20px; font-family:arial; font-weight:bold; background: #;color:#fff; " >DATE</td>
 		</tr>
 		<tr>
-			<td  align="center" height="40" style="font-size:40px; font-family:arial; font-weight:bold; background: #; " >'.$detalle->modelo.'</td>
-			<td  align="center" style="font-size:35px; font-family:arial; font-weight:bold; background: #; " >'.$fecha.'</td>
+			<td  align="center" height="40" style="font-size:40px; font-family:arial; font-weight:bold; background: #; " >' . $detalle->modelo . '</td>
+			<td  align="center" style="font-size:35px; font-family:arial; font-weight:bold; background: #; " >' . $fecha . '</td>
 		</tr>
 		<tr>
 			<td  align="" height="50" style="font-size:20px; font-family:arial; font-weight:bold; background: #; color:#fff; " >OQC INSPECTOR</td>
 			<td  align="center" style="font-size:25px; font-family:arial; font-weight:bold; background: #; " ></td>
 		</tr>
 		<tr>
-			<td  align="center" height="60" style="font-size:50px; font-family:arial; font-weight:bold; background: #;vertical-align:bottom; " >'.$datausuario->usuario.'</td>
+			<td  align="center" height="60" style="font-size:50px; font-family:arial; font-weight:bold; background: #;vertical-align:bottom; " >' . $datausuario->usuario . '</td>
 			<td  align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " ></td>
 		</tr>
 		
@@ -106,27 +106,109 @@ class Parte extends CI_Controller {
 </page>');
 
         //$mipdf->pdf->IncludeJS('print(TRUE)');
-        $mipdf->Output('Etiqueta_Packing.pdf');
+        $mipdf->Output(APPPATH . 'pdfs\\' . 'Calidad' . date('Ymdgisv') . '.pdf', 'F');
+        $mipdf->Output('Etiqueta_Calidad.pdf');
+    }
+
+    public function imprimirEtiquetaCalidad($id, $idpalletcajas, $cajas) {
+        //Permission::grant(uri_string());
+        $detalle = $this->parte->detalleDelDetallaParte($id);
+        $lista = $this->parte->cantidadesPartes($id);
+        $datausuario = $this->usuario->detalleUsuario($this->session->user_id);
+
+        $hora = date("h:i:s a");
+        $fecha = date("d-M-Y");
+        $semana = date("W");
+        $mes = date("F");
+        $this->load->library('html2pdf');
+        ob_start();
+        error_reporting(E_ALL & ~E_NOTICE);
+        ini_set('display_errors', 0);
+        ini_set('log_errors', 1);
+
+        $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
+        $mipdf->pdf->SetDisplayMode('fullpage');
+        $mipdf->writeHTML('<page  format="130x182" >
+    <style type="text/css">
+			table {border-collapse:collapse}
+			td 
+				{
+					border:0px solid black
+				}
+	</style>
+	<br>
+    <table border="1" align="center">
+		<tr>
+			<td   width="320" height="75" style="font-size:40px; font-family:arial; font-weight:bold; background: #; color:#fff; " rowspan="2" >OQC Passed</td>
+			<td  width="315" align="center" style="font-size:20px; font-family:arial; font-weight:bold; background: ; color:#fff;  " >CUSTOMERS</td>
+		</tr>
+		
+		<tr>
+		
+			<td  align="center"    style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >' . $detalle->nombre . '</td>
+		</tr>
+		<tr>
+			<td  align="" height="60px" style="font-size:60px; font-family:arial; font-weight:bold; background: #; color:#fff;" >PART NO</td>
+			<td  align="" style="font-size:20px; font-family:arial; font-weight:bold; background: #; color:#fff;" >QUANTITY</td>
+		</tr>
+		<tr>
+			<td  align="center" height="50px" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " >' . $detalle->numeroparte . '</td>
+			<td  align="center" style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >' . $cajas . '</td>
+		</tr>
+		<tr>
+			<td  align="" height="50" style="font-size:20px; font-family:arial; font-weight:bold; background: #;color:#fff; " >MODEL</td>
+			<td  align="" style="font-size:20px; font-family:arial; font-weight:bold; background: #;color:#fff; " >DATE</td>
+		</tr>
+		<tr>
+			<td  align="center" height="40" style="font-size:40px; font-family:arial; font-weight:bold; background: #; " >' . $detalle->modelo . '</td>
+			<td  align="center" style="font-size:35px; font-family:arial; font-weight:bold; background: #; " >' . $fecha . '</td>
+		</tr>
+		<tr>
+			<td  align="" height="50" style="font-size:20px; font-family:arial; font-weight:bold; background: #; color:#fff; " >OQC INSPECTOR</td>
+			<td  align="center" style="font-size:25px; font-family:arial; font-weight:bold; background: #; " ></td>
+		</tr>
+		<tr>
+			<td  align="center" height="60" style="font-size:50px; font-family:arial; font-weight:bold; background: #;vertical-align:bottom; " >' . $datausuario->usuario . '</td>
+			<td  align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " ></td>
+		</tr>
+		
+		
+
+	</table>
+
+</page>');
+
+        //$mipdf->pdf->IncludeJS('print(TRUE)');
+        $nombrepdf = APPPATH . 'pdfs\\' . 'Calidad' . date('Ymdgisv') . '.pdf';
+        $mipdf->Output($nombrepdf, 'F');
+        $cmd = "C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe /t \"$nombrepdf\" \"HP Officejet Pro 8600 (Red)\"";
+        echo $cmd;
     }
 
     public function index() {
-         Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('parte/index');
         $this->load->view('footer');
     }
 
-    public function etiquetaPacking($id,$idpalletcajas) {
-     // Permission::grant(uri_string());
+    public function test() {
+        echo date('Ymdgisv');
+        echo APPPATH;
+        echo APPPATH . 'pdfs\\' . date('Ymdgisv') . '.pdf';
+    }
+
+    public function etiquetaPacking($id, $idpalletcajas) {
+        // Permission::grant(uri_string());
         date_default_timezone_set("America/Tijuana");
         $detalle = $this->parte->detalleDelDetallaParte($id);
-       
+
         $detallepallet = $this->palletcajas->detallePalletCajas($idpalletcajas);
-         
-        $lista = $this->parte->cantidadesPartes($id); 
+
+        $lista = $this->parte->cantidadesPartes($id);
         $totalcajas = $detallepallet->cajas;
-         $codigo = $detalle->codigo; 
-        $barcode = $this->set_barcode($codigo."_".$totalcajas);
+        $codigo = $detalle->codigo;
+        $barcode = $this->set_barcode($codigo ."_" . $idpalletcajas);
         $hora = date("h:i a");
         $fecha = date("j/n/Y");
         $dia = date("j");
@@ -165,7 +247,7 @@ class Parte extends CI_Controller {
             <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
         
             
-            <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $totalcajas. '</b></td>
+            <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $totalcajas . '</b></td>
                 
             <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
             
@@ -178,7 +260,7 @@ class Parte extends CI_Controller {
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
             <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>    
-            <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; '.$hora.' </td>
+            <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; ' . $hora . ' </td>
 
         </tr>
 
@@ -208,7 +290,7 @@ class Parte extends CI_Controller {
             <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">' . $totalpallet . '</td>    
         </tr>
         <tr>
-            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">'.$detalle->linea.'</td>    
+            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->linea . '</td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
@@ -220,25 +302,139 @@ class Parte extends CI_Controller {
 ');
 
         //$mipdf->pdf->IncludeJS('print(TRUE)');
-       $mipdf->Output('Etiqueta_Packing.pdf');
+        $mipdf->Output(APPPATH . 'pdfs\\' . 'Packing' . date('Ymdgisv') . '.pdf', 'F');
+        $mipdf->Output('Etiqueta_Packing.pdf');
+    }
+
+    public function imprimirEtiquetaPacking() {
+        // Permission::grant(uri_string());
+        $id = $this->input->post('iddetalleparte');
+        $idpalletcajas = $this->input->post('idpalletcajas');
+        date_default_timezone_set("America/Tijuana");
+        $detalle = $this->parte->detalleDelDetallaParte($id);
+
+        $detallepallet = $this->palletcajas->detallePalletCajas($idpalletcajas);
+
+        $lista = $this->parte->cantidadesPartes($id);
+        $totalcajas = $detallepallet->cajas;
+        $codigo = $detalle->codigo;
+        $barcode = $this->set_barcode($codigo . "_" . $totalcajas);
+        $hora = date("h:i a");
+        $fecha = date("j/n/Y");
+        $dia = date("j");
+        $semana = date("W");
+        $mes = date("F");
+        $this->load->library('html2pdf');
+        ob_start();
+        error_reporting(E_ALL & ~E_NOTICE);
+        ini_set('display_errors', 0);
+        ini_set('log_errors', 1);
+
+        $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
+        $mipdf->pdf->SetDisplayMode('fullpage');
+        $mipdf->writeHTML('<page  format="400x165"  >
+ <style type="text/css">
+            table {border-collapse:collapse}
+            td 
+                {
+                    border:0px  solid black;
+                }
+    </style>
+
+    <br>
+    <table border="0" align="center">  
+        <tr>
+            <td  align="center" height="45" width="200"  style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" >Customer</td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" ></td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>    
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan=""></td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>    
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>    
+                
+        </tr>
+
+        <tr>
+            <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
+        
+            
+            <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $totalcajas . '</b></td>
+                
+            <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
+            
+            <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >' . $semana . '</td>
+
+        </tr>
+
+        <tr>
+            <td  align="center" width=""  height=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
+            <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>    
+            <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; ' . $hora . ' </td>
+
+        </tr>
+
+        <tr>
+            <td  align="center" width="" height="50"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; "  colspan="3" >Part Number</td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>        
+        </tr>
+
+        <tr>
+        <td colspan="3" rowspan="2" align="center"  style="font-size:30px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <img style="width:400px;" src="' . $barcode . '"/> </td>
+        <td height="60" colspan="3" align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" > &nbsp; &nbsp; &nbsp;' . $detalle->modelo . '</td>
+
+        </tr>
+
+        <tr>
+        <td align="" height="" style="font-size:25px; font-family:arial; font-weight:bold;  " >&nbsp;</td>
+        <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto; background: #fff; color:#fff; " >Rev No.</td>
+        <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto;background: #fff; color:#fff; "  >Pallet No.</td>
+        </tr>
+
+        <tr>
+            <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" rowspan="2">ROHS</td>
+            <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold; padding-top:15px; " colspan="">' . $detalle->revision . '</td>
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">' . $totalpallet . '</td>    
+        </tr>
+        <tr>
+            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->linea . '</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
+            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
+            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>    
+        </tr>
+
+    </table>
+</page>
+');
+
+        //$mipdf->pdf->IncludeJS('print(TRUE)');
+        $nombrepdf = APPPATH . 'pdfs\\' . 'Packing' . date('Ymdgisv') . '.pdf';
+        $mipdf->Output($nombrepdf, 'F');
+        $cmd = "C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe /t \"$nombrepdf\" \"HP Officejet Pro 8600 (Red)\"";
+        echo $cmd;
+        //$mipdf->Output('Etiqueta_Packing.pdf');
     }
 
     public function generarPDFEnvio($id) {
-      //Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $this->load->library('tcpdf');
         $listapartes = $this->parte->palletReporte($id);
         $lista = $this->parte->cantidadesPartes($id);
         $totalpallet = 0;
         $totalcajas = 0;
-        if($lista != false){
-            
-            foreach($lista as $value){
+        if ($lista != false) {
+
+            foreach ($lista as $value) {
                 $totalpallet++;
-                 $totalcajas= $totalcajas + $value->cajas;
+                $totalcajas = $totalcajas + $value->cajas;
             }
         }
-        
-        
+
+
         $detalle = $this->parte->detalleDelDetallaParte($id);
         $operador = $detalle->nombreoperador;
         $horario = $detalle->horainicial . " - " . $detalle->horafinal;
@@ -320,19 +516,19 @@ class Parte extends CI_Controller {
     <td width="100" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">ALMACEN VERIFICACIÓN</td>
   </tr>
   ';
-        foreach($listapartes as $value){
-            $tbl.='<tr>
+        foreach ($listapartes as $value) {
+            $tbl .= '<tr>
     <td style="border-left:solid 1px
-    #000000; border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;'.$value->nombre.'</td>
-    <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;'.$value->numeroparte.'</td>
-    <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;'.$value->modelo.'</td>
-    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;'.number_format($value->cajasporpallet).'</td>
-    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;'.number_format($value->totalpallet).'</td>
-    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;'.number_format($value->totalcajas).'</td>
+    #000000; border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . $value->nombre . '</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;' . $value->numeroparte . '</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;' . $value->modelo . '</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format($value->cajasporpallet) . '</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format($value->totalpallet) . '</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format($value->totalcajas) . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;</td>
-  </tr>'; 
+  </tr>';
         }
-    $tbl.='<tr>
+        $tbl .= '<tr>
     <td style="border-left:solid 1px
     #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
@@ -560,7 +756,7 @@ class Parte extends CI_Controller {
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td class="textfooter" style="border-bottom:solid 1px #000; border-right:solid 1px #000;">TOTAL:</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px; margin-top:20px;">&nbsp;' . $totalpallet . ' </td>
-    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;' . number_format(($totalcajas / $totalpallet) * ($totalpallet))  . '</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;' . number_format(($totalcajas / $totalpallet) * ($totalpallet)) . '</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
   </tr>
  <tr>
@@ -629,7 +825,7 @@ class Parte extends CI_Controller {
         $pdf->writeHTML($tbl, true, false, false, false, '');
 
         ob_end_clean();
-        
+
 
         $pdf->Output('My-File-Name.pdf', 'I');
     }
@@ -643,7 +839,7 @@ class Parte extends CI_Controller {
         $data = array(
             'usuarioscalidad' => $usuarioscalidad,
             'detalleparte' => $detalleparte,
-            'lineas'=>$detallelinea,
+            'lineas' => $detallelinea,
             'idparte' => $id
         );
 
@@ -675,81 +871,81 @@ class Parte extends CI_Controller {
         $this->load->view('footer');
     }
 
-    public function quitarPalletCajas($idpalletcaja,$iddetalleparte) {
+    public function quitarPalletCajas($idpalletcaja, $iddetalleparte) {
         $this->palletcajas->eliminarPalletCajas($idpalletcaja);
-         redirect('parte/detalleenvio/'.$iddetalleparte);
+        redirect('parte/detalleenvio/' . $iddetalleparte);
     }
+
     public function agregarPalletCajas() {
         $data = array(
-        'iddetalleparte' => $this->input->post('iddetalleparte'),
-        'pallet' => 1,
-        'cajas' => $this->input->post('numerocajas'),
-        'idestatus' => 1,
-        'idusuario' => $this->session->user_id,
-        'fecharegistro' => date('Y-m-d H:i:s')
+            'iddetalleparte' => $this->input->post('iddetalleparte'),
+            'pallet' => 1,
+            'cajas' => $this->input->post('numerocajas'),
+            'idestatus' => 1,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
         );
-       $idpalletcajas = $this->palletcajas->addPalletCajas($data);
-        
+        $idpalletcajas = $this->palletcajas->addPalletCajas($data);
+
         $dataproceso = array(
-        'idpalletcajas'=>$idpalletcajas,
-        'idestatus'=>1,
-        'idusuario' => $this->session->user_id,
-        'fecharegistro' => date('Y-m-d H:i:s')
+            'idpalletcajas' => $idpalletcajas,
+            'idestatus' => 1,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
         );
         $this->palletcajasproceso->addPalletCajasProceso($dataproceso);
-         redirect('parte/detalleenvio/'.$this->input->post('iddetalleparte'));
+        redirect('parte/detalleenvio/' . $this->input->post('iddetalleparte'));
     }
 
     public function modificarTransferencia() {
         Permission::grant(uri_string());
-        $iddetalleparte =$this->input->post('iddetalleparte');
-          $data = array(
-                'modelo' => $this->input->post('modelo'),
-                'revision' => $this->input->post('revision'),
-                'idlinea' => $this->input->post('linea'),
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
+        $iddetalleparte = $this->input->post('iddetalleparte');
+        $data = array(
+            'modelo' => $this->input->post('modelo'),
+            'revision' => $this->input->post('revision'),
+            'idlinea' => $this->input->post('linea'),
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+        );
 
-         $this->parte->updateDetalleParte($iddetalleparte, $data);
-          redirect('parte/detalleenvio/' . $iddetalleparte);
+        $this->parte->updateDetalleParte($iddetalleparte, $data);
+        redirect('parte/detalleenvio/' . $iddetalleparte);
     }
+
     public function reenviarCalidad() {
         Permission::grant(uri_string());
-        $iddetalleparte =$this->input->post('iddetalleparte');
-            $data = array(
-                'modelo' => $this->input->post('modelo'),
-                'revision' => $this->input->post('revision'),
-                'idlinea' => $this->input->post('linea'),
+        $iddetalleparte = $this->input->post('iddetalleparte');
+        $data = array(
+            'modelo' => $this->input->post('modelo'),
+            'revision' => $this->input->post('revision'),
+            'idlinea' => $this->input->post('linea'),
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+        );
+
+        $this->parte->updateDetalleParte($iddetalleparte, $data);
+        $ids = $this->input->post('id');
+        foreach ($ids as $value) {
+            $dataupdate = array(
+                'idestatus' => 1,
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
-
-         $this->parte->updateDetalleParte($iddetalleparte, $data);
-         $ids = $this->input->post('id');
-        foreach($ids as $value){
-           $dataupdate = array(
-            'idestatus'=>1,
-            'idusuario' => $this->session->user_id,
-            'fecharegistro' => date('Y-m-d H:i:s')
-        );
-            $this->parte->updatePalletCajas($value,$dataupdate);
+            $this->parte->updatePalletCajas($value, $dataupdate);
         }
-        
-     foreach($ids as $value){
-           $dataestatus = array(
-            'idpalletcajas'=>$value,
-            'idestatus'=>1,
-            'idusuario' => $this->session->user_id,
-            'fecharegistro' => date('Y-m-d H:i:s')
-        );
-            $this->palletcajasproceso->addPalletCajasProceso($dataestatus);
-        } 
-    
-    }
- 
 
-  public function enviarCalidadNew() {
+        foreach ($ids as $value) {
+            $dataestatus = array(
+                'idpalletcajas' => $value,
+                'idestatus' => 1,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->palletcajasproceso->addPalletCajasProceso($dataestatus);
+        }
+    }
+
+    public function enviarCalidadNew() {
         $id = $this->input->post('idparte');
         if ($this->input->post('cajas') != FALSE) {
             $data = array(
@@ -813,14 +1009,14 @@ class Parte extends CI_Controller {
     }
 
     public function verEnviados() {
-      Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('parte/enviados');
         $this->load->view('footer');
     }
 
     public function showAll() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $query = $this->parte->showAll();
         if ($query) {
             $result['partes'] = $this->parte->showAll();
@@ -829,7 +1025,7 @@ class Parte extends CI_Controller {
     }
 
     public function showAllEnviados() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $query = $this->parte->showAllEnviados($this->session->user_id);
         if ($query) {
             $result['detallestatus'] = $this->parte->showAllEnviados($this->session->user_id);
@@ -943,7 +1139,7 @@ class Parte extends CI_Controller {
     public function searchEnviados() {
         Permission::grant(uri_string());
         $value = $this->input->post('text');
-        $query = $this->parte->buscarEnviados($this->session->user_id,$value);
+        $query = $this->parte->buscarEnviados($value);
         if ($query) {
             $result['detallestatus'] = $query;
         }

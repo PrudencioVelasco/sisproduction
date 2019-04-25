@@ -84,6 +84,16 @@
                 <p>Movimientos de partes.</p>
               </div>
             </div> 
+             <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="tile-stats">
+                <div class="icon"><i class="fa fa-map-marker"></i>
+                </div>
+                <div class="count">---</div>
+
+                <h3><a href="<?php echo site_url('almacen/') ?>">Locación</a></h3>
+                <p>Ubicar los pallet en el almacen.</p>
+              </div>
+            </div> 
           </div>
           
           

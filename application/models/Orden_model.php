@@ -51,6 +51,16 @@ class Orden_model extends CI_Model {
             return false;
         }
     }
+    public function detallePallet($id) {
+        $this->db->select('dp.folio, pc.cajas');
+        $this->db->from('parte p');
+        $this->db->join('detalleparte dp', 'p.idparte=dp.idparte');
+        $this->db->join('palletcajas pc', 'dp.iddetalleparte=pc.iddetalleparte');
+        $this->db->where('pc.idpalletcajas', $id);
+        $query = $this->db->get(); 
+        return $query->first_row();
+    }
+
     public function validarOrdenSalida($idsalida){
         $this->db->select('os.idsalida, os.idpalletcajas');
         $this->db->from('ordensalida os');

@@ -42,7 +42,8 @@ var v = new Vue({
             rfc: '',
             nombre: '',
             abreviatura:'',
-            direccion: ''
+            direccion: '',
+            direccionfacturacion: ''
 
         },
         chooseClient: {},

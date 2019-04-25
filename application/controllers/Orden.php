@@ -84,8 +84,9 @@ class Orden extends CI_Controller {
         $idsalida = $_POST["idsalida"];
         $porciones = explode("_", $item);
         $numeroparte = (isset($porciones[0])) ? $porciones[0] : 0;
-        $folio = (isset($porciones[1])) ? $porciones[1] : 0;
-        $cajas = (isset($porciones[2])) ? $porciones[2] : 0;
+        $detalle = $this->orden->detallePallet((isset($porciones[1])) ? $porciones[1] : 0);
+        $folio =$detalle->folio;
+        $cajas = $detalle->cajas;
 
         if (isset($numeroparte) && !empty($numeroparte) && isset($folio) && !empty($folio)) {
 

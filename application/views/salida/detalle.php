@@ -424,7 +424,7 @@
     var v = new Vue({
         el: '#app',
         data: {
-            url: 'http://localhost/sisproduction/',
+            url: 'http://localhost:8383/sisproduction/',
 
             addModal: false,
             editModal: false,

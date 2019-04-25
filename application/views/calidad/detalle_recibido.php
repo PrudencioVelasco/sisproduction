@@ -101,7 +101,9 @@
                                                      <td>
                                                          
                                                          <a target="_blank" href="<?php echo base_url('parte/etiquetaCalidad/' . $detalle->iddetalleparte . '/'.$value->idpalletcajas. '/'.$value->cajas); ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
-                                                         
+                                                          <input type="hidden" class="idpalletcajas" value="<?php echo $value->idpalletcajas; ?>"/>
+                                                            <input type="hidden" class="iddetalleparte" value="<?php echo $detalle->iddetalleparte; ?>"/>
+                                                             <i class="fa fa-print fa-2x btnimprimirpdf"  aria-hidden="true"></i>
                                                      </td>
                                                       <td>
                                                          <?php
@@ -261,6 +263,39 @@
         });
     });
 </script>
-<!-- /. Modal para rechazar -->
-<script src="<?php echo base_url(); ?>/assets/js/moduleQuality.js"></script>
-<!--<?php var_dump($detalle); ?>-->
+<script type="text/javascript">
+    $(document).ready(function () {
+    
+        $('.btnimprimirpdf').on('click', function () {
+            var parametros = {
+                "iddetalleparte" : $('.iddetalleparte').val(),
+                "idpalletcajas" : $('.idpalletcajas').val()
+        };
+            $.ajax({
+                type: "POST",
+                url: "<?php echo site_url('parte/imprimirEtiquetaCalidad'); ?>",
+                data: parametros,
+
+                success: function (data) {
+
+                    
+                    var uriWS = "ws://localhost:8080/websocketwoori/imprimir";
+                    var miWebsocket = new WebSocket(uriWS);
+                 
+                miWebsocket.onopen = function (evento) {
+                    
+                    miWebsocket.send(data);
+                }
+                miWebsocket.onmessage = function (evento) {
+                    console.log(evento.data);
+                }
+         
+                }
+
+            }); 
+            return false;  
+
+
+        });
+    });
+</script>

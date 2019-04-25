@@ -206,7 +206,7 @@ class Calidad extends CI_Controller {
 
     // Mostrar todas las partes enviados de Modulo[Packing]
     public function showAllEnviados() {
-        Permission::grant(uri_string());
+       // Permission::grant(uri_string());
         //Parametro 7 Indica el estatus enviado a bodega
 
         $query = $this->calidad->showAllEnviados($this->session->user_id);
@@ -219,7 +219,7 @@ class Calidad extends CI_Controller {
     public function searchParte() {
         Permission::grant(uri_string());
         $value = $this->input->post('text');
-        $query = $this->calidad->buscar($value, $this->session->user_id);
+        $query = $this->calidad->buscar($value);
         if ($query) {
             $result['detallestatus'] = $query;
         }

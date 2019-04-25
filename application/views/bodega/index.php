@@ -65,7 +65,7 @@
                                     <td >{{row.fecharegistro}} </td>
 
                                     <td align="right">
-                                        <a href="" v-bind:href="'verDetalle/'+ row.iddetalleparte"  class="btn btn-info">Ver detalle</a>
+                                        <a href="" v-bind:href="'verDetalle/'+ row.iddetalleparte"  class="btn btn-icons btn-rounded btn-success btn-xs"><i class="fa fa-eye" aria-hidden="true"></i> Ver detalle</a>
                                     </td>
                                 </tr>
                                 <tr v-if="emptyResult">

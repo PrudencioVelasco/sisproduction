@@ -19,18 +19,31 @@
             </div> 
         </div>
         <div class="row">
-        <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group">
-                    <label><font color="red">*</font> Abreviatura</label>
+                    <label><font color="red">*</font> Abreviatura de nombre del cliente</label>
                     <input type="text" class="form-control" :class="{'is-invalid': formValidate.abreviatura}" name="nombre" v-model="newClient.abreviatura" autcomplete="off">
                            <div class="text-danger" v-html="formValidate.abreviatura"> </div>
                 </div>  
             </div> 
-            <div class="col-md-6">
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
                 <div class="form-group">
-                    <label><font color="red">*</font> Dirección</label>
-                    <input type="text" class="form-control" :class="{'is-invalid': formValidate.direccion}" name="nombre" v-model="newClient.direccion" autcomplete="off">
-                           <div class="text-danger" v-html="formValidate.direccion"> </div>
+                    <label><font color="red">*</font> Dirección de entrega</label>
+                    <textarea class="form-control"  :class="{'is-invalid': formValidate.direccion}" name="nombre" v-model="newClient.direccion" autcomplete="off" rows="2"></textarea>
+                    <div class="text-danger" v-html="formValidate.direccion"> </div>
+                </div>  
+            </div> 
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label><font color="red">*</font> Dirección de facturación</label>
+                    <textarea class="form-control"  :class="{'is-invalid': formValidate.direccionfacturacion}" name="nombre" v-model="newClient.direccionfacturacion" autcomplete="off" rows="2"></textarea>
+                    <div class="text-danger" v-html="formValidate.direccionfacturacion"> </div>
                 </div>  
             </div> 
         </div>
@@ -53,7 +66,7 @@
                            <div class="text-danger" v-html="formValidate.rfc"> </div>
                 </div> 
             </div> 
-             <div class="col-md-6">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label><font color="red">*</font> Nombre del cliente</label>
                     <input type="text" class="form-control" :class="{'is-invalid': formValidate.nombre}" name="nombre" v-model="chooseClient.nombre">
@@ -62,18 +75,30 @@
             </div> 
         </div> 
         <div class="row">
-        <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group">
                     <label><font color="red">*</font> Abreviatura</label>
                     <input type="text" class="form-control" :class="{'is-invalid': formValidate.abreviatura}" name="nombre" v-model="chooseClient.abreviatura">
                            <div class="text-danger" v-html="formValidate.abreviatura"> </div>
                 </div> 
             </div> 
-            <div class="col-md-6">
+           
+        </div>
+        <div class="row">
+             <div class="col-md-12">
                 <div class="form-group">
-                    <label><font color="red">*</font> Dirección</label>
-                    <input type="text" class="form-control" :class="{'is-invalid': formValidate.direccion}" name="nombre" v-model="chooseClient.direccion">
-                           <div class="text-danger" v-html="formValidate.direccion"> </div>
+                    <label><font color="red">*</font> Dirección de entrega</label>
+                    <textarea class="form-control" :class="{'is-invalid': formValidate.direccion}" name="nombre" v-model="chooseClient.direccion"></textarea>      
+                    <div class="text-danger" v-html="formValidate.direccion"> </div>
+                </div> 
+            </div> 
+        </div>
+        <div class="row">
+             <div class="col-md-12">
+                <div class="form-group">
+                    <label><font color="red">*</font> Dirección de facturación</label>
+                    <textarea class="form-control" :class="{'is-invalid': formValidate.direccionfacturacion}" name="nombre" v-model="chooseClient.direccionfacturacion"></textarea>      
+                    <div class="text-danger" v-html="formValidate.direccionfacturacion"> </div>
                 </div> 
             </div> 
         </div>

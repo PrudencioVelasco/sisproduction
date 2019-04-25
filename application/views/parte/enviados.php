@@ -73,7 +73,7 @@
 
 
                                     <td align="right">
-                                        <a href="" v-bind:href="'detalleenvio/'+ row.iddetalleparte"  class="btn  btn-round btn-info btn-sm">Ver detalle</a>
+                                        <a href="" v-bind:href="'detalleenvio/'+ row.iddetalleparte"  class="btn btn-icons btn-rounded btn-success btn-xs"><i class="fa fa-eye" aria-hidden="true"></i> Ver detalles</a>
                                     </td>
                                 </tr>
                                 <tr v-if="emptyResult">

@@ -37,21 +37,67 @@ class Bodega_model extends CI_Model {
             return false;
         }
 }
-    public function buscar($idusuario,$text){
-                     $query =$this->db->query("SELECT p.idparte, d.iddetalleparte, p.numeroparte, d.folio, d.modelo, d.revision, l.idlinea,l.nombrelinea, DATE_FORMAT(d.fecharegistro,'%d/%m/%Y %h:%i %p' ) as fecharegistro,
- (SELECT  COUNT(pc.pallet)  FROM  palletcajas pc WHERE pc.iddetalleparte = d.iddetalleparte) as totalpallet,
- (SELECT  SUM(pc2.cajas)  FROM  palletcajas pc2 WHERE pc2.iddetalleparte = d.iddetalleparte) as totalcajas,
- (SELECT COUNT(pc3.idestatus)  FROM palletcajas pc3 WHERE pc3.iddetalleparte = d.iddetalleparte AND pc3.idestatus = 4) AS totalenviado,
- (SELECT COUNT(pc4.idestatus)  FROM palletcajas pc4 WHERE pc4.iddetalleparte = d.iddetalleparte AND pc4.idestatus = 8) AS enalmacen,
- (SELECT COUNT(pc5.idestatus)  FROM palletcajas pc5 WHERE pc5.iddetalleparte = d.iddetalleparte AND pc5.idestatus = 6) AS rechazadoacalidad,
- (SELECT COUNT(pc5.idestatus)  FROM palletcajas pc5 WHERE pc5.iddetalleparte = d.iddetalleparte AND pc5.idestatus = 3) AS rechazadoapacking,
-    (SELECT COUNT(pc9.idestatus)  FROM palletcajas pc9 WHERE pc9.iddetalleparte = d.iddetalleparte AND pc9.idestatus = 12) AS enhold,
-    (SELECT COUNT(pc10.idestatus)  FROM palletcajas pc10 WHERE pc10.iddetalleparte = d.iddetalleparte AND pc10.idestatus = 1) AS enviadoacalidad
- FROM parte p, detalleparte d, linea l
- WHERE p.idparte = d.idparte
- AND l.idlinea = d.idlinea
-  AND (d.folio LIKE '%$text%' OR p.numeroparte LIKE '%$text%' OR d.modelo LIKE '%$text%' OR d.revision LIKE '%$text%')
- ORDER BY d.fecharegistro DESC");
+    public function buscar($text){
+                     $query =$this->db->query("SELECT p.idparte,
+       d.iddetalleparte,
+       p.numeroparte,
+       d.folio,
+       d.modelo,
+       d.revision,
+       l.idlinea,
+       l.nombrelinea,
+       Date_format(d.fecharegistro, '%d/%m/%Y %h:%i %p') AS fecharegistro,
+       (SELECT Count(pc.pallet)
+        FROM   palletcajas pc
+        WHERE  pc.iddetalleparte = d.iddetalleparte)     AS totalpallet,
+       (SELECT Sum(pc2.cajas)
+        FROM   palletcajas pc2
+        WHERE  pc2.iddetalleparte = d.iddetalleparte)    AS totalcajas,
+       (SELECT Count(pc3.idestatus)
+        FROM   palletcajas pc3
+        WHERE  pc3.iddetalleparte = d.iddetalleparte
+               AND pc3.idestatus = 4)                    AS totalenviado,
+       (SELECT Count(pc4.idestatus)
+        FROM   palletcajas pc4
+        WHERE  pc4.iddetalleparte = d.iddetalleparte
+               AND pc4.idestatus = 8)                    AS enalmacen,
+       (SELECT Count(pc5.idestatus)
+        FROM   palletcajas pc5
+        WHERE  pc5.iddetalleparte = d.iddetalleparte
+               AND pc5.idestatus = 6)                    AS rechazadoacalidad,
+       (SELECT Count(pc5.idestatus)
+        FROM   palletcajas pc5
+        WHERE  pc5.iddetalleparte = d.iddetalleparte
+               AND pc5.idestatus = 3)                    AS rechazadoapacking,
+       (SELECT Count(pc9.idestatus)
+        FROM   palletcajas pc9
+        WHERE  pc9.iddetalleparte = d.iddetalleparte
+               AND pc9.idestatus = 12)                   AS enhold,
+       (SELECT Count(pc10.idestatus)
+        FROM   palletcajas pc10
+        WHERE  pc10.iddetalleparte = d.iddetalleparte
+               AND pc10.idestatus = 1)                   AS enviadoacalidad
+FROM   parte p,
+       detalleparte d,
+       linea l
+WHERE  p.idparte = d.idparte
+       AND l.idlinea = d.idlinea
+       AND ( d.folio LIKE '%$text%'
+              OR p.numeroparte LIKE '%$text%'
+              OR d.modelo LIKE '%$text%'
+              OR d.revision LIKE '%$text%'
+              OR d.iddetalleparte IN (SELECT pcv.iddetalleparte
+                                      FROM   palletcajas pcv,
+                                             detalleparte dpv,
+                                             parte pv
+                                      WHERE  pv.idparte = dpv.idparte
+                                             AND dpv.iddetalleparte =
+                                                 pcv.iddetalleparte
+                                             AND Concat(pv.numeroparte, '_',
+                                                 pcv.idpalletcajas)
+                                                 LIKE
+                                                 '%$text%') )
+ORDER  BY d.fecharegistro DESC");
        //  return $query->result();
 
         if ($query->num_rows() > 0) {

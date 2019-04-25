@@ -84,7 +84,5 @@
     </div>
   </div>
 </div>
-</div>
-<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-<script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>-->
+</div> 
 <script src="<?php echo base_url();?>/assets/js/appvue/appcalidad.js"></script>

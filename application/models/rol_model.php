@@ -89,6 +89,7 @@ class Rol_model extends CI_Model {
         //$this->db->join('rol r', 'pr.rol_id = r.id');
         $this->db->where('pr.permission_id', $id);
         $this->db->where('pr.rol_id', $idrol);
+        $this->db->order_by("p.description", "asc");
         $query = $this->db->get();
         //$query = $this->db->get('permissions');
         if ($query->num_rows() > 0) {
