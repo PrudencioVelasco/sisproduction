@@ -250,9 +250,10 @@ class Calidad extends CI_Controller {
     
     public function ponerEnHold(){
         $ids = $this->input->post('id');
+        $opcion = $this->input->post('opcionhold');
         foreach ($ids as $value) {
             $data = array(
-                'idestatus' => 12,
+                'idestatus' => $opcion,
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
@@ -261,7 +262,7 @@ class Calidad extends CI_Controller {
           foreach ($ids as $valueproceso) {
             $data = array(
                 'idpalletcajas'=>$valueproceso,
-                'idestatus' => 12,
+                'idestatus' => $opcion,
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );

@@ -28,8 +28,8 @@ class Parte extends CI_Controller {
         //load in folder Zend
         $this->zend->load('Zend/Barcode');
         //generate barcode 
-        $file = Zend_Barcode::draw('code128', 'image', array('text' => $code,  'barHeight'=> 60,'factor' => 2), array());
-        $code = time() . $code;
+        $file = Zend_Barcode::draw('code128', 'image', array('text' => $code,  'factor'=>1.5,'stretchText'=>true), array());
+        $code = time();
         $barcodeRealPath = $_SERVER['DOCUMENT_ROOT'] . '/sisproduction/assets/cache/' . $code . '.png';
 
         // header('Content-Type: image/png');
@@ -192,23 +192,23 @@ class Parte extends CI_Controller {
         $this->load->view('footer');
     }
 
-    public function test() {
-        echo date('Ymdgisv');
-        echo APPPATH;
-        echo APPPATH . 'pdfs\\' . date('Ymdgisv') . '.pdf';
-    }
+
 
     public function etiquetaPacking($id, $idpalletcajas) {
         // Permission::grant(uri_string());
         date_default_timezone_set("America/Tijuana");
         $detalle = $this->parte->detalleDelDetallaParte($id);
-
-        $detallepallet = $this->palletcajas->detallePalletCajas($idpalletcajas);
-
+        //var_dump($detalle);
+        $detallepallet = $this->palletcajas->detallePalletCajas($idpalletcajas); 
         $lista = $this->parte->cantidadesPartes($id);
         $totalcajas = $detallepallet->cajas;
-        $codigo = $detalle->codigo;
-        $barcode = $this->set_barcode($codigo ."_" . $idpalletcajas);
+        $totalpallet=0;
+        foreach ($lista as $value) {
+            $totalpallet++;
+        }
+       
+        //$codigo = $detalle->codigo;
+        $barcode = $this->set_barcode($detalle->codigo."_".$detalle->folio."_".$totalcajas);
         $hora = date("h:i a");
         $fecha = date("j/n/Y");
         $dia = date("j");
@@ -216,9 +216,7 @@ class Parte extends CI_Controller {
         $mes = date("F");
         $this->load->library('html2pdf');
         ob_start();
-        error_reporting(E_ALL & ~E_NOTICE);
-        ini_set('display_errors', 0);
-        ini_set('log_errors', 1);
+        
 
         $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
         $mipdf->pdf->SetDisplayMode('fullpage');
@@ -232,7 +230,7 @@ class Parte extends CI_Controller {
     </style>
 
     <br>
-    <table border="0" align="center">  
+    <table border="1" align="center">  
         <tr>
             <td  align="center" height="45" width="200"  style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" >Customer</td>
             <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" ></td>
@@ -244,7 +242,7 @@ class Parte extends CI_Controller {
         </tr>
 
         <tr>
-            <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
+            <td align="center"  height="90"   valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
         
             
             <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $totalcajas . '</b></td>
@@ -270,7 +268,7 @@ class Parte extends CI_Controller {
         </tr>
 
         <tr>
-        <td colspan="3" rowspan="2" align="center"  style="font-size:30px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <img style="width:400px;" src="' . $barcode . '"/> </td>
+        <td colspan="3" rowspan="2" align="center"  style="font-size:25px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <br><img src="' . $barcode . '" /> </td>
         <td height="60" colspan="3" align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" > &nbsp; &nbsp; &nbsp;' . $detalle->modelo . '</td>
 
         </tr>
@@ -287,10 +285,10 @@ class Parte extends CI_Controller {
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
             <td align="center" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold; padding-top:15px; " colspan="">' . $detalle->revision . '</td>
-            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">' . $totalpallet . '</td>    
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">1</td>    
         </tr>
         <tr>
-            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->linea . '</td>    
+            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->nombrelinea . '</td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
@@ -302,8 +300,8 @@ class Parte extends CI_Controller {
 ');
 
         //$mipdf->pdf->IncludeJS('print(TRUE)');
-        $mipdf->Output(APPPATH . 'pdfs\\' . 'Packing' . date('Ymdgisv') . '.pdf', 'F');
-        $mipdf->Output('Etiqueta_Packing.pdf');
+          $mipdf->Output(APPPATH . 'pdfs\\' . 'Packing' . date('Ymdgisv') . '.pdf', 'F');
+          $mipdf->Output('Etiqueta_Packing.pdf');
     }
 
     public function imprimirEtiquetaPacking() {
@@ -316,6 +314,10 @@ class Parte extends CI_Controller {
         $detallepallet = $this->palletcajas->detallePalletCajas($idpalletcajas);
 
         $lista = $this->parte->cantidadesPartes($id);
+        $totalpallet=0;
+        foreach ($lista as $value) {
+            $totalpallet++;
+        }
         $totalcajas = $detallepallet->cajas;
         $codigo = $detalle->codigo;
         $barcode = $this->set_barcode($codigo . "_" . $totalcajas);
@@ -400,7 +402,7 @@ class Parte extends CI_Controller {
             <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">' . $totalpallet . '</td>    
         </tr>
         <tr>
-            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->linea . '</td>    
+            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->nombrelinea . '</td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>    
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
