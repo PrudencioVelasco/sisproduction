@@ -18,6 +18,9 @@ class Parte extends CI_Controller {
         $this->load->model('linea_model', 'linea');
         $this->load->model('palletcajas_model', 'palletcajas');
         $this->load->model('palletcajasproceso_model', 'palletcajasproceso');
+          $this->load->model('modelo_model', 'modelo');
+           $this->load->model('revision_model', 'revision');
+           $this->load->model('cantidad_model', 'cantidad');
         $this->load->library('permission');
     }
 
@@ -184,11 +187,49 @@ class Parte extends CI_Controller {
         $cmd = "C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe /t \"$nombrepdf\" \"HP Officejet Pro 8600 (Red)\"";
         echo $cmd;
     }
-
     public function index() {
+         Permission::grant(uri_string());
+           $this->load->view('header');
+        $this->load->view('parte/index');
+        $this->load->view('footer');
+    }
+    public function modelo($idparte) {
+         $datamodelo = $this->modelo->showAll($idparte);
+        
+        $data=array(
+            'datamodelo'=>$datamodelo,
+            'idparte'=>$idparte
+        );
+        $this->load->view('header');
+        $this->load->view('modelo/index',$data);
+        $this->load->view('footer');
+    }
+    public function revision($idmodelo) {
+          $datarevision = $this->revision->showAll($idmodelo);
+        
+        $data=array(
+            'datarevision'=>$datarevision,
+            'idmodelo'=>$idmodelo
+        );
+        $this->load->view('header');
+        $this->load->view('revision/index',$data);
+        $this->load->view('footer');
+    }
+    public function cantidad($idrevision) {
+         $datacantidad = $this->cantidad->showAll($idrevision);
+        
+        $data=array(
+            'datacantidad'=>$datacantidad,
+            'idrevision'=>$idrevision
+        );
+        $this->load->view('header');
+        $this->load->view('cantidad/index',$data);
+        $this->load->view('footer');
+    }
+    public function parteadmin() {
         Permission::grant(uri_string());
         $this->load->view('header');
-        $this->load->view('parte/index');
+        $this->load->view('catSistema/parte/index');
         $this->load->view('footer');
     }
 

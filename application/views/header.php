@@ -11,6 +11,8 @@
   <link href="<?php echo base_url();?>/assets/principal/css/bootstrap.min.css" rel="stylesheet">
   <link href="<?php echo base_url();?>/assets/fonts/css/font-awesome.min.css" rel="stylesheet">
   <link href="<?php echo base_url();?>/assets/css/animate.min.css" rel="stylesheet">
+  
+  
   <!-- Custom styling plus plugins -->
   <link href="<?php echo base_url();?>/assets/css/custom.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/maps/jquery-jvectormap-2.0.3.css" />
@@ -26,6 +28,14 @@
   <link rel="stylesheet" href="<?php echo base_url();?>/assets/js/sweetalert2/dist/sweetalert2.min.css">
   <!-- select2 -->
   <link href="<?php echo base_url();?>/assets/css/select/select2.min.css" rel="stylesheet">
+  
+  
+   <link href="<?php echo base_url();?>/assets/js/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+  <link href="<?php echo base_url();?>/assets/js/datatables/buttons.bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="<?php echo base_url();?>/assets/js/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="<?php echo base_url();?>/assets/js/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="<?php echo base_url();?>/assets/js/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
+  
   <!--[if lt IE 9]>
         <script src="../assets/js/ie8-responsive-file-warning.js"></script>
       <![endif]-->

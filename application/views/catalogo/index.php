@@ -95,6 +95,52 @@
               </div>
             </div> 
           </div>
+              
+              
+              
+              
+                <div class="row top_tiles">
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="tile-stats">
+                <div class="icon"><i class="fa fa-thumb-tack"></i>
+                </div>
+                <div class="count">--</div>
+
+                <h3><a href="<?php echo site_url('parte/parteadmin') ?>">Parte</a></h3>
+                <p>Catalogo de ubicación.</p>
+              </div>
+            </div>
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="tile-stats">
+                <div class="icon"><i class="fa fa-stack-exchange"></i>
+                </div>
+                <div class="count"><?php echo $totalmotivo ?></div>
+
+                <h3><a href="<?php echo site_url('motivorechazo/') ?>">Rechazo</a></h3>
+                <p>Motivo de rechazo.</p>
+              </div>
+            </div> 
+            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="tile-stats">
+                <div class="icon"><i class="fa fa-exchange"></i>
+                </div>
+                <div class="count">---</div>
+
+                <h3><a href="<?php echo site_url('inventario/') ?>">Movimientos</a></h3>
+                <p>Movimientos de partes.</p>
+              </div>
+            </div> 
+             <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <div class="tile-stats">
+                <div class="icon"><i class="fa fa-map-marker"></i>
+                </div>
+                <div class="count">---</div>
+
+                <h3><a href="<?php echo site_url('almacen/') ?>">Locación</a></h3>
+                <p>Ubicar los pallet en el almacen.</p>
+              </div>
+            </div> 
+          </div>
           
           
           
