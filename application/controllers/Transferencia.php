@@ -63,7 +63,7 @@ class Transferencia extends CI_Controller {
     public function seleccionarCliente() {
         $idparte = $this->input->post('idparte');
         $option = "";
-        $datavalista = $this->modelo->listaModeloxNumeroParte($idparte);
+        $datavalista = $this->transferencia->listaModeloxNumeroParte($idparte);
         foreach ($datavalista as $value) {
             $option .= "<option value='" . $value->idmodelo . "'>" . $value->descripcion . "</option>";
         }
@@ -72,7 +72,7 @@ class Transferencia extends CI_Controller {
        public function seleccionarModelo() {
         $idmodelo = $this->input->post('idmodelo');
         $option = "";
-        $datavalista = $this->revision->listaRevisionxNumeroParte($idmodelo);
+        $datavalista = $this->transferencia->listaRevisionxNumeroParte($idmodelo);
         foreach ($datavalista as $value) {
             $option .= "<option value='" . $value->idrevision . "'>" . $value->descripcion . "</option>";
         }
@@ -81,7 +81,7 @@ class Transferencia extends CI_Controller {
         public function seleccionarRevision() {
         $idrevision = $this->input->post('idrevision');
         $option = "";
-        $datavalista = $this->revision->listaCantidadxNumeroParte($idmodelo);
+        $datavalista = $this->transferencia->listaCantidadxNumeroParte($idrevision);
         foreach ($datavalista as $value) {
             $option .= "<option value='" . $value->idcantidad . "'>" . $value->cantidad . "</option>";
         }

@@ -177,13 +177,14 @@
     });
 });
     </script>
-    <script>
+ 
+  <script>
     $(document).ready(function() {
-      $(".select2_single_cliente").select2({ 
+      $(".select2_single_cliente").select2({  
         placeholder: "Seleccionar Cliente",
         allowClear: true,
         width: '100%' 
-      });
+      }); 
         $(".select2_single_modelo").select2({ 
         placeholder: "Seleccionar Modelo",
         allowClear: true,
@@ -199,6 +200,7 @@
         allowClear: true,
         width: '100%' 
       });
+ 
       $(".select2_linea").select2({ 
         placeholder: "Seleccionar Linea",
         allowClear: true,
@@ -213,7 +215,7 @@
 
     });
   
-  </script>
+  </script> 
   <script>
     $(document).ready(function() {
       $(".select2_single_cliente").prop("disabled", true); 
@@ -224,46 +226,7 @@
     });
   </script>
   
-      <script type="text/javascript">
-         $.fn.delayPasteKeyUp = function(fn, ms) {
-              var timer = 0;
-              $(this).on("propertychange input", function() {
-                  clearTimeout(timer);
-                  timer = setTimeout(fn, ms);
-              });
-          };
-          
-          $(document).ready(function() {
-              $("#numeroparte").delayPasteKeyUp(function() {
-          
-                 
-                 var parte = $("#numeroparte").val();
-                  $.ajax({
-                      type: "POST",
-                      url: "<?= base_url('transferencia/validar') ?>",
-                      data: "numeroparte=" + parte,
-                      dataType: "html",
-                      beforeSend: function() {
-                          //imagen de carga
-                          //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
-                      },
-                      error: function() {
-                          alert("error petición ajax");
-                      },
-                      success: function(data) {
 
-                      
-          
-                      }
-                  });
-
-                   
-
-
-              }, 200);
-          });
-          
-      </script>
 </body>
 
 </html>

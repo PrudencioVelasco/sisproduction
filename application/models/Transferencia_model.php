@@ -93,7 +93,7 @@ class Transferencia_model extends CI_Model {
     }
 
     public function listaCantidadxNumeroParte($idrevision) {
-        $this->db->select('c.idcantidad, r.cantidad');
+        $this->db->select('c.idcantidad, c.cantidad');
         $this->db->from('tblcantidad c');
         $this->db->where('c.idrevision', $idrevision);
         $query = $this->db->get();
