@@ -54,7 +54,7 @@
                                        <td>{{row.nombre}}</td>
                                        <td>{{row.fecharegistro}}</td> 
                                        <td align="right"> 
-                                     <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs"  v-bind:href="'detalle/'+ row.idtransferancia" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                     <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs"  v-bind:href="'transferencia/detalle/'+ row.idtransferancia" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                             Agregar</a>
                                     </td>
                                     </tr>

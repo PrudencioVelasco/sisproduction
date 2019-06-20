@@ -10,8 +10,10 @@ class Transferencia extends CI_Controller {
         }
         $this->load->helper('url');
         $this->load->model('almacen_model', 'almacen');
-         $this->load->model('linea_model', 'linea');
+         $this->load->model('linea_model', 'linea'); 
         $this->load->model('transferencia_model', 'transferencia');
+        $this->load->model('revision_model', 'revision');
+        $this->load->model('modelo_model', 'modelo');
         //$this->load->library('permission');
     }
 
@@ -42,5 +44,49 @@ class Transferencia extends CI_Controller {
         $this->load->view('transferencia/detalle',$data);
         $this->load->view('footer');
      }
+     public function validar() {
+         $option="";
+         $numrtoparte = $this->input->post('numeroparte');
+         $datavali = $this->transferencia->validarExistenciaNumeroParte($numrtoparte);
+        if ($datavali != FALSE) {
+            $datavalista = $this->transferencia->listaClientexNumeroParte($numrtoparte);
+            foreach ($datavalista as $value) {
+                  $option.="<option value='".$value->idparte."'>".$value->nombre."</option>";
+            }
+            echo $option;
+        } else {
+            //El numero de parte de existe.
+            echo 1;
+        }
+    }
+   
+    public function seleccionarCliente() {
+        $idparte = $this->input->post('idparte');
+        $option = "";
+        $datavalista = $this->modelo->listaModeloxNumeroParte($idparte);
+        foreach ($datavalista as $value) {
+            $option .= "<option value='" . $value->idmodelo . "'>" . $value->descripcion . "</option>";
+        }
+        echo $option;
+    }
+       public function seleccionarModelo() {
+        $idmodelo = $this->input->post('idmodelo');
+        $option = "";
+        $datavalista = $this->revision->listaRevisionxNumeroParte($idmodelo);
+        foreach ($datavalista as $value) {
+            $option .= "<option value='" . $value->idrevision . "'>" . $value->descripcion . "</option>";
+        }
+        echo $option;
+    }
+        public function seleccionarRevision() {
+        $idrevision = $this->input->post('idrevision');
+        $option = "";
+        $datavalista = $this->revision->listaCantidadxNumeroParte($idmodelo);
+        foreach ($datavalista as $value) {
+            $option .= "<option value='" . $value->idcantidad . "'>" . $value->cantidad . "</option>";
+        }
+        echo $option;
+    }
+
 }
 ?>
