@@ -73,17 +73,17 @@ class Bodegap_model extends CI_Model {
         }
     }
         public function listaNumeroParteTransferencia($idtransferencia) {
-        $this->db->select('pc.idpalletcajas, c.nombre,p.numeroparte,tc.cantidad, tr.descripcion, s.nombrestatus, pc.idestatus');
-        $this->db->from('palletcajas pc');
-        $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
-        $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');
-        $this->db->join('tblmodelo  tm', 'tm.idmodelo = tr.idmodelo');
-        $this->db->join('parte  p', 'tm.idparte = p.idparte');
-        $this->db->join('cliente  c', 'c.idcliente = p.idcliente');
-        $this->db->join('status  s', 's.idestatus = pc.idestatus');
-        $this->db->where('pc.idtransferancia', $idtransferencia);
-        $this->db->where('pc.idestatus !=', 17);
-        $query = $this->db->get();
+          $query = $this->db->query("SELECT pc.idpalletcajas, c.nombre, p.numeroparte, tc.cantidad, tr.descripcion, s.nombrestatus, pc.idestatus,
+                        (SELECT po.nombreposicion FROM parteposicionbodega ppb JOIN posicionbodega po ON ppb.idposicion = po.idposicion WHERE ppb.idpalletcajas = pc.idpalletcajas) as  posicion
+                        FROM palletcajas pc 
+                        JOIN tblcantidad tc ON tc.idcantidad = pc.idcajas 
+                        JOIN tblrevision tr ON tr.idrevision = tc.idrevision 
+                        JOIN tblmodelo tm ON tm.idmodelo = tr.idmodelo 
+                        JOIN parte p ON tm.idparte = p.idparte 
+                        JOIN cliente c ON c.idcliente = p.idcliente 
+                        JOIN status s ON s.idestatus = pc.idestatus 
+                        WHERE pc.idtransferancia = $idtransferencia
+                        AND pc.idestatus != 17"); 
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
