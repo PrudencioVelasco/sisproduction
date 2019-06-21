@@ -356,16 +356,21 @@ AND dp.iddetalleparte = $iddetalleparte");
 
 //Fin
     public function detalleparciales($idsalida) {
-               $query = $this->db->query("SELECT p.numeroparte,
- dp.modelo,
- os.tipo,sum( os.caja) AS sumacajas
- FROM parte p 
-INNER JOIN detalleparte dp ON p.idparte = dp.idparte
-INNER JOIN palletcajas pc ON pc.iddetalleparte = dp.iddetalleparte
-INNER JOIN ordensalida os ON os.idpalletcajas = pc.idpalletcajas
-WHERE os.tipo=1
-AND os.idsalida=$idsalida
-GROUP BY  p.numeroparte, dp.modelo");
+               $query = $this->db->query("SELECT tp.numeroparte,
+                                    tm.descripcion as  modelo,
+                                    os.tipo, sum( os.caja) AS sumacajas
+                                    FROM palletcajas pc 
+                               INNER JOIN tblcantidad tc  ON pc.idcajas = tc.idcantidad
+                               INNER JOIN tblrevision tr  ON tr.idrevision = tc.idrevision
+                               INNER JOIN tblmodelo tm  ON tm.idmodelo = tr.idmodelo
+                               INNER JOIN parte tp  ON tp.idparte = tm.idparte
+                               INNER JOIN cliente c  ON c.idcliente = tp.idcliente  
+                                   INNER JOIN ordensalida os ON os.idpalletcajas = pc.idpalletcajas
+                                   WHERE os.tipo=0
+                                   AND os.idsalida=$idsalida
+                                   GROUP BY  tp.numeroparte, tm.descripcion
+
+                                   ");
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -373,16 +378,19 @@ GROUP BY  p.numeroparte, dp.modelo");
         } 
     }
     public function detallepallet($idsalida) {
-          $query = $this->db->query("SELECT p.numeroparte,
-                                    dp.modelo,
-                                    os.tipo,sum( pc.cajas) AS sumacajas,count(pc.idpalletcajas) as totalpallet
-                                    FROM parte p 
-                                   INNER JOIN detalleparte dp ON p.idparte = dp.idparte
-                                   INNER JOIN palletcajas pc ON pc.iddetalleparte = dp.iddetalleparte
+          $query = $this->db->query("SELECT tp.numeroparte,
+                                    tm.descripcion as  modelo,
+                                    os.tipo, sum( tc.cantidad) AS sumacajas, count(pc.pallet)  as totalpallet
+                                    FROM palletcajas pc 
+                               INNER JOIN tblcantidad tc  ON pc.idcajas = tc.idcantidad
+                               INNER JOIN tblrevision tr  ON tr.idrevision = tc.idrevision
+                               INNER JOIN tblmodelo tm  ON tm.idmodelo = tr.idmodelo
+                               INNER JOIN parte tp  ON tp.idparte = tm.idparte
+                               INNER JOIN cliente c  ON c.idcliente = tp.idcliente  
                                    INNER JOIN ordensalida os ON os.idpalletcajas = pc.idpalletcajas
                                    WHERE os.tipo=0
                                    AND os.idsalida=$idsalida
-                                   GROUP BY  p.numeroparte, dp.modelo");
+                                   GROUP BY  tp.numeroparte, tm.descripcion");
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -391,13 +399,16 @@ GROUP BY  p.numeroparte, dp.modelo");
     }
     public function detallesDeOrden($idsalida) {
         // code...
-        $this->db->select('pc.idpalletcajas, o.idordensalida,s.idsalida, p.numeroparte,o.tipo, o.pallet,o.caja, pc.cajas as cajaspallet, dp.modelo,dp.revision');
+        $this->db->select('pc.idpalletcajas, o.idordensalida,s.idsalida, p.numeroparte,o.tipo, o.pallet,o.caja, tc.cantidad as cajaspallet, tm.descripcion as modelo, tr.descripcion as revision');
         $this->db->from('salida s');
         $this->db->join('ordensalida o', 's.idsalida=o.idsalida');
         $this->db->join('palletcajas pc', 'o.idpalletcajas=pc.idpalletcajas');
-        $this->db->join('detalleparte dp', 'dp.iddetalleparte=pc.iddetalleparte');
-        $this->db->join('parte p', 'p.idparte=dp.idparte');
-        $this->db->join('users u', 'o.idusuario=u.id');
+        $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
+        $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');
+        $this->db->join('tblmodelo  tm', 'tm.idmodelo = tr.idmodelo');
+        $this->db->join('parte  p', 'tm.idparte = p.idparte');
+        $this->db->join('cliente  c', 'c.idcliente = p.idcliente');
+        $this->db->join('status  es', 'es.idestatus = pc.idestatus');
         $this->db->where('s.idsalida', $idsalida);
         //$this->db->where('pd.idestatus', 8);
         $query = $this->db->get();
