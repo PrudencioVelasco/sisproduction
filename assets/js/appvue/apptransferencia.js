@@ -30,7 +30,7 @@ Vue.component('modal',{ //modal
 var v = new Vue({
    el:'#app',
     data:{
-        url:'http://localhost/sisproduction/',
+        url:'http://localhost:8383/sisproduction/',
         addModal: false,
         editModal:false,
         passwordModal:false,
@@ -47,8 +47,9 @@ var v = new Vue({
             smserror:''},
         chooseUser:{},
         formValidate:[],
-        successMSG:'',
-
+        successMSG:'', 
+			currentSort:'folio',
+			currentSortDir:'asc',
         //pagination
         currentPage: 0,
         rowCountPage:5,
@@ -66,6 +67,13 @@ var v = new Vue({
                     }
             })
         }, 
+		  sort:function(s) {
+      //if s == current sort, reverse
+      if(s === this.currentSort) {
+        this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+      }
+      this.currentSort = s;
+    },
           searchUser(){
             var formData = v.formData(v.search);
               axios.post(this.url+"user/searchUser", formData).then(function(response){

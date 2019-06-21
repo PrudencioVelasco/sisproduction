@@ -173,7 +173,7 @@ class Calidad extends CI_Controller {
     }
 
     public function rechazarAPackingNew() {
-        $iddetalleparte = $this->input->post('iddetalleparte');
+        
         $motivorechazo = $this->input->post('motivorechazo');
         $ids = $this->input->post('id');
         foreach ($ids as $value) {

@@ -149,6 +149,7 @@
 }    
                 );
             $('#datatableentrada').dataTable();
+            
             $('#datatablesalidacompleta').dataTable();
             $('#datatablesalidaparcial').dataTable();
             $('#datatable-keytable').DataTable({

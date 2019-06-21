@@ -14,10 +14,11 @@ class Transferencia_model extends CI_Model {
     }
 
     public function showAll() {
-        $this->db->select('t.idtransferancia, u.name as nombre, t.folio, t.fecharegistro');
-        $this->db->from('users u');
-        $this->db->join('tbltransferencia  t', 't.idusuario = u.id');
-        $query = $this->db->get();
+         $query = $this->db->query("SELECT tt.idtransferancia, tt.folio, u.name as nombre, tt.fecharegistro, 
+                            (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia AND  pc2.idestatus   in (1,2,3,14) ) AS estatus,
+                            (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia ) AS estatusall
+                            FROM   tbltransferencia tt   
+                            INNER JOIN users u ON u.id = tt.idusuario"); 
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -25,8 +26,8 @@ class Transferencia_model extends CI_Model {
         }
     }
 
-    public function addUser($data) {
-        $this->db->insert('users', $data);
+    public function addTransferencia($data) {
+        $this->db->insert('tbltransferencia', $data);
         $insert_id = $this->db->insert_id();
         return $insert_id;
     }
@@ -104,4 +105,122 @@ class Transferencia_model extends CI_Model {
         }
     }
 
+    public function listaNumeroParteTransferencia($idtransferencia) {
+        $this->db->select('pc.idpalletcajas, c.nombre,p.numeroparte,tc.cantidad, tr.descripcion, s.nombrestatus, pc.idestatus');
+        $this->db->from('palletcajas pc');
+        $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
+        $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');
+        $this->db->join('tblmodelo  tm', 'tm.idmodelo = tr.idmodelo');
+        $this->db->join('parte  p', 'tm.idparte = p.idparte');
+        $this->db->join('cliente  c', 'c.idcliente = p.idcliente');
+        $this->db->join('status  s', 's.idestatus = pc.idestatus');
+        $this->db->where('pc.idtransferancia', $idtransferencia);
+        $this->db->where('pc.idestatus !=', 17);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
+    public function validarEnvioCalidad($idpalletcajas, $numeroetiqueta, $numerocaja) {
+        $this->db->select('pc.idpalletcajas, c.nombre,p.numeroparte,tc.cantidad, tr.descripcion, s.nombrestatus, pc.idestatus');
+        $this->db->from('palletcajas pc');
+        $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
+        $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');
+        $this->db->join('tblmodelo  tm', 'tm.idmodelo = tr.idmodelo');
+        $this->db->join('parte  p', 'tm.idparte = p.idparte');
+        $this->db->join('cliente  c', 'c.idcliente = p.idcliente');
+        $this->db->join('status  s', 's.idestatus = pc.idestatus');
+        $this->db->where('pc.idpalletcajas', $idpalletcajas);
+        $this->db->where('p.numeroparte', $numeroetiqueta);
+        $this->db->where('p.numeroparte', $numerocaja);
+        $this->db->where('pc.idestatus !=', 17);
+        //$this->db->where('p.activo', 1);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
+    public function updateEnvio($id, $field) {
+        $this->db->where('idpalletcajas', $id);
+        $this->db->update('palletcajas', $field);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function motivosrechazo($id) {
+        $this->db->select('mr.motivo');
+        $this->db->from('palletcajasestatus pce');
+        $this->db->join('motivorechazo  mr', 'mr.idmotivorechazo = pce.idmotivorechazo');
+        $this->db->where('pce.idpalletcajas', $id);
+        $this->db->order_by("pce.idpalletcajasestatus", "asc");
+        $query = $this->db->get();
+        return $query->first_row();
+    }
+
+    public function palletReporte($idtransferencia) {
+        $query = $this->db->query("SELECT c.nombre as nombrecliente, tp.numeroparte, tm.descripcion as descripcionmodelo, tc.cantidad, tr.descripcion as descripcionrevision, count(pc.pallet) as totalpallet, sum( tc.cantidad) as totalcajas
+                                FROM palletcajas pc 
+                               INNER JOIN tblcantidad tc  ON pc.idcajas = tc.idcantidad
+                               INNER JOIN tblrevision tr  ON tr.idrevision = tc.idrevision
+                               INNER JOIN tblmodelo tm  ON tm.idmodelo = tr.idmodelo
+                               INNER JOIN parte tp  ON tp.idparte = tm.idparte
+                               INNER JOIN cliente c  ON c.idcliente = tp.idcliente
+                               WHERE pc.idtransferancia= $idtransferencia
+                               GROUP by pc.idcajas");
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+    
+      public function detalleTransferencia($idtransferencia) {
+        $this->db->select('tt.folio, tt.fecharegistro, u.name , t.nombreturno, t.horainicial, t.horafinal');
+        $this->db->from('tbltransferencia tt');
+        $this->db->join('users u', 'u.id = tt.idusuario');
+        $this->db->join('turno t', 't.idturno=u.idturno');
+        $this->db->where('tt.folio', $idtransferencia); 
+        $query = $this->db->get();
+        return $query->first_row();
+    }
+       public function obtenerUltimoFolio() {
+        $this->db->select('tt.folio');
+        $this->db->from('tbltransferencia tt'); 
+        $this->db->order_by("tt.folio", "desc");
+        $query = $this->db->get();
+        return $query->first_row();
+    }
+    
+       public function listaPalletCajas($idtransferencia) {
+        $this->db->select('pc.*');
+        $this->db->from('palletcajas pc');
+        $this->db->where('pc.idtransferancia', $idtransferencia);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+      public function deleteTransferencia($id)
+    {
+        $this->db->where('idtransferancia', $id);
+        $this->db->delete('tbltransferencia');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+    
 }
