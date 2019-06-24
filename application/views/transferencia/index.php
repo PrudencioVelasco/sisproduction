@@ -47,7 +47,7 @@
                                                             </td>
                                                             <td align="right"> 
                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-danger btn-xs" onclick="return confirm('Confirmar?')" href="<?php echo site_url('transferencia/eliminar/'.$value->idtransferancia) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
-                                                            <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs"  href="<?php echo site_url('transferencia/detalle/'.$value->idtransferancia) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
+                                                            <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs"  href="<?php echo site_url('transferencia/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
                                                             </td>
                                                         </tr>
                                                         <?php

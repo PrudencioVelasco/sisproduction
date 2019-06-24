@@ -76,13 +76,14 @@ class Modelo_model extends CI_Model
 //            return false;
 //        }
 //    }
-    public function validadExistenciaModelo($modelo) {
+    public function validadExistenciaModelo($modelo,$idparte) {
         $this->db->select('m.idmodelo,p.numeroparte, c.abreviatura as cliente, m.descripcion ');
         $this->db->from('tblmodelo m');
         $this->db->join('parte p', 'p.idparte = m.idparte');
         $this->db->join('users u', 'm.idusuario = u.id');
         $this->db->join('cliente c', 'c.idcliente = p.idcliente');
         $this->db->where('m.descripcion', $modelo);
+         $this->db->where('p.idparte', $idparte);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();

@@ -161,6 +161,17 @@ public function eliminarposicionesparte($id)
         }
 
     }
+    public function updatePosicionBodega($id, $field)
+    {
+        $this->db->where('idpalletcajas', $id);
+        $this->db->update('parteposicionbodega', $field);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
        public function addMotivoRechazo($data)
     {
         return $this->db->insert('palletcajasestatus', $data);
@@ -181,9 +192,39 @@ public function eliminarposicionesparte($id)
             return false;
         } 
     }
+    public function validarAntesdeModificarPosicion($idpalletcajas)
+    {
+      # code...
+       $this->db->select('ppb.*');
+        $this->db->from('parteposicionbodega ppb'); 
+        $this->db->where('ppb.ordensalida',1);
+        $this->db->where('ppb.idpalletcajas',$idpalletcajas);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        } 
+
+    }
+      public function validarAntesdeRechazar($idpalletcajas)
+    {
+      # code...
+       $this->db->select('ppb.*');
+        $this->db->from('parteposicionbodega ppb'); 
+        $this->db->where('ppb.ordensalida',1);
+        $this->db->where('ppb.idpalletcajas',$idpalletcajas);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        } 
+
+    }
        public function validarRechazo($id){
         $this->db->select('pc.*');
-        $this->db->from('palletcajas pc`'); 
+        $this->db->from('palletcajas pc'); 
         $this->db->where('pc.idpalletcajas',$id);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {

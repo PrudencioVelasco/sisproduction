@@ -180,11 +180,12 @@
     </script>
  
   <script>
-    $(document).ready(function() {
+    $(document).ready(function() { 
       $(".select2_single_cliente").select2({  
-        placeholder: "Seleccionar Cliente",
+       placeholder: "Seleccionar Cliente",
         allowClear: true,
-        width: '100%' 
+        width: '100%' ,
+          minimumResultsForSearch: Infinity
       }); 
         $(".select2_single_modelo").select2({ 
         placeholder: "Seleccionar Modelo",

@@ -13,7 +13,7 @@
                                 <h2><strong>Detalle de Transfrencia</strong></h2>
                             </div>
                             <div class="col-md-6" style="display: flex; justify-content: flex-end">
-                                <h2><strong>Transferencia: # <?php echo $id; ?></strong></h2>
+                                <h2><strong>Transferencia: # <?php echo $folio; ?></strong></h2>
                             </div>
                         </div>
 
@@ -62,9 +62,12 @@
                                                             echo '<label style="color:green;">EN VALIDACIÓN</label>';
                                                         } else if ($value->idestatus == 3) {
                                                             echo '<label style="color:red;">R. A PACKING</label>';
-                                                        } else if ($value->idestatus == 6) {
-                                                            echo '<label style="color:red;">R. A CALIDAD</label>';
-                                                        } else if ($value->idestatus == 1) {
+                                                        }else if ($value->idestatus == 14) {
+                                                            echo '<label style="color:blue;">EN PACKING</label>';
+                                                        } else if ($value->idestatus == 6) {?> 
+                                                            <label id="<?php echo $value->idpalletcajas; ?>" class="edit_data" style="color:red; font-weight: bolder" >R. A CALIDAD</label>
+
+                                                        <?php } else if ($value->idestatus == 1) {
                                                             echo '<label style="color:green;">EN CALIDAD</label>';
                                                         } else if ($value->idestatus == 8) {
                                                             echo '<label style="color:green;">EN ALMACEN</label>';
@@ -162,7 +165,7 @@
 <?php if (isset($datatransferencia) && !empty($datatransferencia)) { ?>
                                                        <button type="button" id="btnubicar" class="btn btn-success btn-sm"> <i class="fa fa-check-circle" aria-hidden="true"></i> Posicionar los Pallet</button>
                                     <button type="button" id="btnrechazar" class="btn btn-danger btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Almacen</button>
-                                                    <a target="_blank" href="<?php echo site_url('calidadp/generarPDFEnvio/' . $id) ?>" class="btn btn-default  btn-sm"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
+                                                    <a target="_blank" href="<?php echo site_url('bodegap/generarPDFEnvio/' . $id) ?>" class="btn btn-default  btn-sm"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
 <?php } ?>  
                                                 </div>
                                             </div>
@@ -267,6 +270,23 @@
 
         });
         //Asignar posicion
+
+
+              $(document).on('click', '.edit_data', function () {
+            var idpalletcajas = $(this).attr("id");
+            //$('#myModalMSG').modal('show');
+            $.ajax({
+                url: "<?php echo site_url('bodegap/rechazopallet'); ?>",
+                method: "POST",
+                data: {idpalletcajas: idpalletcajas},
+                dataType: "json",
+                success: function (data) {
+                    $('#motivomsm').val(data.motivo); 
+                    $('#myModalMSG').modal('show');
+                }
+            });
+        });
+
 
     });
 

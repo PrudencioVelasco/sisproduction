@@ -39,12 +39,13 @@ class Transferencia extends CI_Controller {
         echo json_encode($result);
     }
 
-    public function detalle($id) {
+    public function detalle($id,$folio) {
         # code...
         $datalinea = $this->linea->showAllLinea();
         $datatransferencia = $this->transferencia->listaNumeroParteTransferencia($id);
         $data = array(
             'id' => $id,
+            'folio'=>$folio,
             'datalinea' => $datalinea,
             'datatransferencia' => $datatransferencia);
         $this->load->view('header');
@@ -117,11 +118,11 @@ class Transferencia extends CI_Controller {
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
                 $this->palletcajasproceso->addPalletCajasProceso($dataproceso);
-                echo 1;
+                echo "1";
             } else {
 
                 //No coinciden las etiquetas
-                echo 0;
+                echo "0";
             }
         }
     }
@@ -131,12 +132,64 @@ class Transferencia extends CI_Controller {
         $data = $this->transferencia->motivosrechazo($idpalletcajas);
         echo json_encode($data);
     }
+   public function soloNumeros($laCadena) {
+    $carsValidos = "0123456789";
+    for ($i=0; $i<strlen($laCadena); $i++) {
+      if (strpos($carsValidos, substr($laCadena,$i,1))===false) {
+         return false; 
+      }
+    }
+    return true; 
+}
+public function registrar()
+{
+    $numeroparte = $this->input->post('numeroparte');
+    $cliente = $this->input->post('cliente');
+    $modelo = $this->input->post('modelo');
+    $revision = $this->input->post('revision');
+    $linea = $this->input->post('linea');
+    $cajas = $this->input->post('cajas');
+    $cantidad = $this->input->post('cantidad');
+    $idtransferencia = $this->input->post('idtransferencia');
+    if((isset($numeroparte) && !empty($numeroparte)) && (isset($cliente) && !empty($cliente)) && (isset($modelo) && !empty($modelo)) && (isset($revision) && !empty($revision)) && (isset($linea) && !empty($linea)) && (isset($cajas) && !empty($cajas)) && (isset($cantidad) && !empty($cantidad)) ){
+        
+        if ($this->soloNumeros($cantidad) == true) {
 
+            for ($i=1; $i <= $cantidad; $i++) { 
+                # code...
+
+                $data = array(
+                    'idtransferancia'=>$idtransferencia,
+                    'pallet'=>1,
+                    'idcajas'=>$cajas,
+                    'idlinea'=>$linea,
+                    'idestatus'=>14,
+                    'idusuario' => $this->session->user_id,
+                    'fecharegistro' => date('Y-m-d H:i:s')
+
+            );
+                $this->transferencia->addPalletCajas($data);
+
+            }
+
+  
+} else {
+    echo "2";
+}
+    }else{
+        //El numero de parte  es requerido.
+        echo "1";
+    }
+}
     public function eliminarpallet() {
         $ids = $this->input->post('id');
+        $contador = 0;
         foreach ($ids as $value) {
 
-            $data = array(
+            $val=$this->transferencia->validarEliminacion($value);
+
+            if($value != false){
+                $data = array(
                 'idestatus' => 17
             );
             $this->transferencia->updateEnvio($value, $data);
@@ -148,8 +201,18 @@ class Transferencia extends CI_Controller {
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
             $this->palletcajasproceso->addPalletCajasProceso($dataproceso);
+            }else{
+                $contador++;
+            }
+
+            
         }
-        echo 1;
+        if($contador > 0){
+                echo "0";
+        }else{
+           echo "1"; 
+        }
+       
     }
 
     public function generarPDFEnvio($id) {
@@ -167,7 +230,7 @@ class Transferencia extends CI_Controller {
         }
 
 
-        $detalle = $this->transferencia->detalleTransferencia($id); 
+        $detalle = $this->transferencia->detalleTransferencia($id);  
         $horario = $detalle->horainicial . " - " . $detalle->horafinal;
         $linkimge = base_url() . '/assets/images/woorilogo.png';
         $fechaactual = date('d/m/Y');

@@ -39,7 +39,9 @@ var v = new Vue({
         salidas:[],
         clientes: [],
         newSalida:{
-            idcliente:''
+            idcliente:'',
+            po:'',
+            notas:''
           },
         search: {text: ''},
         emptyResult:false,
@@ -103,6 +105,26 @@ var v = new Vue({
                    }
                   }) 
            },
+                   updateSalida(){
+            var formData = v.formData(v.chooseSalida); axios.post(this.url+"salida/updateSalida", formData).then(function(response){
+                if(response.data.error){
+                    v.formValidate = response.data.msg;
+                    console.log(response.data.error)
+                }else{
+                    //v.successMSG = response.data.success;
+                      swal({
+                            position: 'center',
+                            type: 'success',
+                            title: 'Modificado!',
+                            showConfirmButton: false,
+                            timer: 1500
+                          });
+                    v.clearAll();
+                    v.clearMSG();
+
+                }
+            })
+        },
 
          formData(obj){
 			   var formData = new FormData();

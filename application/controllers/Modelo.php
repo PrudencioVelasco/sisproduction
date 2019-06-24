@@ -23,7 +23,7 @@ class Modelo extends CI_Controller
     public function registrar() {
         $idparte=$this->input->post('idparte');
         $modelo=$this->input->post('modelo');
-        $datavalidar= $this->modelo->validadExistenciaModelo($modelo); 
+        $datavalidar= $this->modelo->validadExistenciaModelo($modelo,$idparte); 
         if($datavalidar == FALSE){
             
              $data =array(

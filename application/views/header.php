@@ -35,6 +35,9 @@
   <link href="<?php echo base_url();?>/assets/js/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" type="text/css" />
   <link href="<?php echo base_url();?>/assets/js/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
   <link href="<?php echo base_url();?>/assets/js/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
   
   <!--[if lt IE 9]>
         <script src="../assets/js/ie8-responsive-file-warning.js"></script>

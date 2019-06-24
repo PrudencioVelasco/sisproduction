@@ -18,7 +18,7 @@
                                 <h2><strong>Agregar Número de Parte</strong></h2>
                             </div>
                             <div class="col-md-6" style="display: flex; justify-content: flex-end">
-                                <h2><strong>Transferencia: # <?php echo $id; ?></strong></h2>
+                                <h2><strong>Transferencia: # <?php echo $folio; ?></strong></h2>
                             </div>
                         </div>
 
@@ -32,7 +32,7 @@
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar parte</button>
                                     </div>
                                 </div><br>
-                                <div class="modal fade bd-example-modal-lg"   role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                <div class="modal fade bd-example-modal-lg" id="myModal"   role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <!-- Modal Header -->
@@ -42,12 +42,18 @@
 
                                             <!-- Modal body -->
                                             <div class="modal-body">
-                                                <form>
+                                                <form  id="registrationForm"  >
                                                     <div class="row">
                                                         <div class="col-md-12">
+                                                             <span style="color: red" id="wd"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                           
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Número de Parte</label>
-                                                                <input type="text" class="form-control"  id="numeroparte" autcomplete="off" autofocus=""> 
+                                                                <input type="text" class="form-control" name="numeroparte"  id="numeroparte" autcomplete="off" autofocus="" required=""> 
                                                             </div> 
                                                         </div> 
 
@@ -56,7 +62,7 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Seleccionar cliente</label> 
-                                                                <select  class="select2_single_cliente form-control " id="listclient">
+                                                                <select  class="select2_single_cliente form-control " name="cliente" id="listclient" required="">
                                                                     <option value="">Seleccionar</option>
 
                                                                 </select>
@@ -67,7 +73,7 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Seleccionar Modelo</label> 
-                                                                <select class="select2_single_modelo form-control " id="listamodelo">
+                                                                <select class="select2_single_modelo form-control " name="modelo" id="listamodelo" required="">
                                                                     <option value="">Seleccionar</option>
 
                                                                 </select>
@@ -78,7 +84,7 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Seleccionar Revisión</label> 
-                                                                <select class="select2_single_revision form-control " id="listarevision">
+                                                                <select class="select2_single_revision form-control " name="revision" id="listarevision" required="">
                                                                     <option value="">Seleccionar</option>
 
                                                                 </select>
@@ -89,7 +95,7 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Seleccionar Linea</label> 
-                                                                <select class="select2_linea form-control ">
+                                                                <select class="select2_linea form-control " name="linea" required="">
                                                                     <?php foreach ($datalinea as $row) { ?>
                                                                         <option value="<?php echo $row->idlinea ?>"><?php echo $row->nombrelinea ?></option>
                                                                     <?php } ?>
@@ -101,7 +107,7 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Seleccionar Cajas por Pallet</label> 
-                                                                <select class="select2_single_cantidad form-control " id="listacantidad">
+                                                                <select class="select2_single_cantidad form-control " name="cajas" id="listacantidad" required="required">
                                                                     <option value="">Seleccionar</option>
 
                                                                 </select>
@@ -112,8 +118,14 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Cantidad de Pallet</label> 
-                                                                <input type="text" class="form-control"  autcomplete="off">
+                                                                <input type="text" class="form-control"  name="cantidad" autcomplete="off">
                                                             </div>  
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <input type="hidden" name="idtransferencia" value="<?php echo $id; ?>">
+                                                            <button type="button" id="btnagregar" class="btn btn-primary">Guardar</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -168,6 +180,8 @@
                                                                                 echo '<label style="color:green;">E. A CALIDAD</label>';
                                                                             } else if ($value->idestatus == 12) {
                                                                                 echo '<label style="color:blue;">EN HOLD</label>';
+                                                                            }  else if ($value->idestatus == 6) {
+                                                                                echo '<label style="color:red;">R. A. CALIDAD</label>';
                                                                             } else if($value->idestatus == 3 ){ ?>
                                                                     <label id="<?php echo $value->idpalletcajas; ?>" class="edit_data" style="color:red; font-weight: bolder" >RECHAZADO</label>
                                                                             <?php } 
@@ -226,12 +240,13 @@
                                                                 <h4 class="modal-title">Escanear código</h4>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <div class="errormsgescaneoa" style="color: red"></div>
+                                                                <div id="errormsgescaneoap" style="color: red; font-weight: bold; font-size: 14px;"></div>
+                                                                <div id="correctomsgescaneoap" style="color: green; font-weight: bold; font-size: 14px;"></div>
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         <div class="form-group">
                                                                             <label><font color="red">*</font> Caja</label>
-                                                                            <input type="text" class="form-control"  id="numerocaja" name="numerocaja" > 
+                                                                            <input type="text" class="form-control"  id="numerocaja" name="numerocaja" onKeyPress="pasacampo(event)"> 
                                                                         </div> 
                                                                     </div> 
 
@@ -277,6 +292,16 @@
 
 
 </div>
+  <script type="text/javascript">
+
+         function pasacampo(key_event) {
+             var k;
+             if (document.all) k = event.keyCode;
+             else k = key_event.which;
+             if (k == 13) document.getElementById('numeroetiqueta').focus();
+         }
+           
+      </script>
 
 <script type="text/javascript">
     $.fn.delayPasteKeyUp = function (fn, ms) {
@@ -401,10 +426,16 @@
                         data: form,
                         success: function (data) {
                             console.log(data);
-                            if(data===1){
+                            if(data==1){
+                                $("#numeroetiqueta").val("");
+                                $("#numerocaja").val("");
+                                $('#errormsgescaneoap').text("");
+                                 $('#correctomsgescaneoap').text("Exito... Espere");
                                 location.reload();
                             }else{
-                                  $('#errormsgescaneoa').text("No coinciden.");
+                                $("#numeroetiqueta").val("");
+                                $("#numerocaja").val("");
+                                  $('#errormsgescaneoap').text("No coinciden.");
                             }
                             //location.reload();
                             //Unterminated String literal fixed
@@ -412,7 +443,7 @@
                 }); 
                 return false;  
                    }else{
-                         $('#errormsgescaneoa').text("Campos obligatorios.");
+                         $('#errormsgescaneoap').text("Campos obligatorios.");
                    }
                 }, 200); 
             } else {
@@ -429,7 +460,13 @@
                         url: "<?php echo site_url('transferencia/eliminarpallet'); ?>",
                         data: form,
                         success: function (data) {
-                           location.reload(true);
+                            if(data == 0){
+                                 $('#errormsg').text("No fueron emilinados todo por el Estatus.");
+                               
+                            }else{
+                                 location.reload(true);
+                            }
+                           
                            
                             //location.reload();
                             //Unterminated String literal fixed
@@ -456,6 +493,41 @@
         });
 
     });
+</script>
+<script>
+ $(document).ready(function () {
+    $('#myModal').on('shown.bs.modal', function () {
+  $('#numeroparte').focus()
+});
+       $('#myModalEscaner').on('shown.bs.modal', function () {
+  $('#numerocaja').focus()
+});
+
+        $('#btnagregar').on('click', function () {
+                var form = $("#registrationForm").serialize();
+                   
+                        $.ajax({
+                        type: "POST",
+                        url: "<?php echo site_url('transferencia/registrar'); ?>",
+                        data: form,
+                        success: function (data) {
+                            // $('#msgerror').text("Seleccionar una casilla.");
+                            console.log(data);
+                            if(data==1){ 
+                               $('#wd').text("Todos los campos son obligatorios.");
+                            }else if(data==2){
+                                $('#wd').text("Cantidad solo permite número.");
+                            }else{
+                                 location.reload();
+                            }
+                            //location.reload();
+                            //Unterminated String literal fixed
+                        }
+                });      
+           
+        });
+
+ });
 </script>
 
 <!-- /page content -->

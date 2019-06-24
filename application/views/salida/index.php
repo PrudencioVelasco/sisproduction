@@ -43,17 +43,17 @@
                                 <thead class="text-white bg-dark" >
                                    <th class="text-white">No. Tranferencia</th>
                                    <th class="text-white">No. Control</th>
+                                   <th class="text-white">P.O.</th>
                                    <th class="text-white">Cliente</th>
                                    <th class="text-white">Estatus</th>
-                                   <th class="text-white">Usuario registro</th>
-                                   <th class="text-white">Fecha</th>
+                                   <th class="text-white">Fecha</th> 
                                    <th class="text-white text-right" align="right">Opción</th>
                                 </thead>
                                 <tbody class="table-light">
                                    <tr v-for="row in salidas" class="table-default">
                                    <td>{{row.idsalida}}</td>
-                                      <td>{{row.numerosalida}}</td>
-                                      <td>{{row.nombre}}</td>
+                                      <td>{{row.numerosalida}}</td> 
+                                        <td>{{row.po}}</td> 
                                       <td>
                                         <h6 style="color:blue" v-if="row.finalizado==0"><strong><i class="fa fa-clock-o" aria-hidden="true"></i> EN PROGRESO</strong></h6>
                                         <h6 style="color:green" v-else><strong><i class="fa fa-thumbs-up" aria-hidden="true"></i>
@@ -62,6 +62,10 @@ FINALIZADO</strong></h6>
                                       <td>{{row.name}}</td>
                                       <td>{{row.fecharegistro}}</td>
                                       <td align="right">
+                                         <button type="button" class="btn btn-icons btn-rounded btn-success btn-xs" @click="editModal = true; selectParte(row)" title="Modificar Datos">
+                                                 <i class="fa  fa-edit"></i> Modificar
+                                                </button>
+
                <a class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'detalleSalida/'+ row.idsalida" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
 Agregar</a>
 

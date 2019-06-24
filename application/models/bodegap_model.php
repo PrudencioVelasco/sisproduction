@@ -47,7 +47,7 @@ class Bodegap_model extends CI_Model {
         $this->db->from('tbltransferencia tt');
         $this->db->join('users u', 'u.id = tt.idusuario');
         $this->db->join('turno t', 't.idturno=u.idturno');
-        $this->db->where('tt.folio', $idtransferencia); 
+        $this->db->where('tt.idtransferancia', $idtransferencia); 
         $query = $this->db->get();
         return $query->first_row();
     }
@@ -56,7 +56,8 @@ class Bodegap_model extends CI_Model {
         $this->db->select('mr.motivo');
         $this->db->from('palletcajasestatus pce');
         $this->db->join('motivorechazo  mr', 'mr.idmotivorechazo = pce.idmotivorechazo');
-        $this->db->where('pce.idpalletcajas', $id);
+        $this->db->where('pce.idpalletcajas', $id); 
+         $this->db->where('mr.idproceso', 3); 
         $this->db->order_by("pce.idpalletcajasestatus", "asc");
         $query = $this->db->get();
         return $query->first_row();
@@ -74,7 +75,7 @@ class Bodegap_model extends CI_Model {
     }
         public function listaNumeroParteTransferencia($idtransferencia) {
           $query = $this->db->query("SELECT pc.idpalletcajas, c.nombre, p.numeroparte, tc.cantidad, tr.descripcion, s.nombrestatus, pc.idestatus,
-                        (SELECT po.nombreposicion FROM parteposicionbodega ppb JOIN posicionbodega po ON ppb.idposicion = po.idposicion WHERE ppb.idpalletcajas = pc.idpalletcajas) as  posicion
+                        (SELECT po.nombreposicion FROM parteposicionbodega ppb JOIN posicionbodega po ON ppb.idposicion = po.idposicion WHERE ppb.idpalletcajas = pc.idpalletcajas LIMIT 1) as  posicion
                         FROM palletcajas pc 
                         JOIN tblcantidad tc ON tc.idcantidad = pc.idcajas 
                         JOIN tblrevision tr ON tr.idrevision = tc.idrevision 
@@ -90,6 +91,7 @@ class Bodegap_model extends CI_Model {
             return false;
         }
     }
+
 
 //    public function addTransferencia($data) {
 //        $this->db->insert('tbltransferencia', $data);

@@ -13,7 +13,7 @@
                                 <h2><strong>Detalle de Transfrencia</strong></h2>
                             </div>
                             <div class="col-md-6" style="display: flex; justify-content: flex-end">
-                                <h2><strong>Transferencia: # <?php echo $id; ?></strong></h2>
+                                <h2><strong>Transferencia: # <?php echo $folio; ?></strong></h2>
                             </div>
                         </div>
 
@@ -72,8 +72,8 @@
                                                                         echo '<label style="color:red;">EN SCRAP</label>';
                                                                     } else if ($value->idestatus == 6) {
                                                                         ?>
-                                                                        <a style="color:red;" class="btnquitar" href="<?php echo site_url('calidad/quitarPalletCajas/' . $value->idpalletcajas . '/' . $detalle->iddetalleparte) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i></a> 
-                                                                        <label style="color:red;">R. A CALIDAD</label> 
+                                                                         
+                                                                        <label id2="<?php echo $value->idpalletcajas; ?>" class="edit_data2" style="color:red; font-weight: bolder" >R. A CALIDAD</label>
                                                                     <?php
                                                                     } else if ($value->idestatus == 14) {
                                                                         echo '<label style="color:black;">EN PACKING</label>';
@@ -108,6 +108,38 @@
                                                                         <div class="form-group">
                                                                             <label>Motivo de rechazo</label>
                                                                             <textarea id="motivomsm" class="md-textarea form-control" rows="3" disabled=""></textarea>
+                                                                        </div> 
+                                                                    </div> 
+
+                                                                </div>
+                                                               
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                                    <div id="myModalMSGaCalidad" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">Error</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="errormsgescaneoa" style="color: red"></div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label>Motivo de rechazo</label>
+                                                                            <textarea id="motivomsmcalidad" class="md-textarea form-control" rows="3" disabled=""></textarea>
                                                                         </div> 
                                                                     </div> 
 
@@ -220,7 +252,7 @@ foreach ($motivosrechazo as $valuemotivo) {
             //$('#frmdetalle').submit();
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
                 $('#idmotivorechazo').show();
-                ('#idmotivoopcion').hide();
+                $('#idmotivoopcion').hide();
                 var optId = $("#motivo").val();
                 if (optId != "") {
                     form = $("#frmdetalle").serialize();
@@ -299,6 +331,21 @@ foreach ($motivosrechazo as $valuemotivo) {
                 success: function (data) {
                     $('#motivomsm').val(data.motivo); 
                     $('#myModalMSG').modal('show');
+                }
+            });
+        });
+
+          $(document).on('click', '.edit_data2', function () {
+            var idpalletcajas = $(this).attr("id2");
+            //$('#myModalMSG').modal('show');
+            $.ajax({
+                url: "<?php echo site_url('calidadp/rechazopalletacalidad'); ?>",
+                method: "POST",
+                data: {idpalletcajas: idpalletcajas},
+                dataType: "json",
+                success: function (data) {
+                    $('#motivomsmcalidad').val(data.motivo); 
+                    $('#myModalMSGaCalidad').modal('show');
                 }
             });
         });

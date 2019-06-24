@@ -33,12 +33,13 @@ class Calidadp extends CI_Controller {
         $this->load->view('calidadp/index',$data);
         $this->load->view('footer');
     }
-    public function detalle($idtransferencia) {
+    public function detalle($idtransferencia,$folio) {
        
         $motivosrechazo = $this->calidad->motivosRechazo();         
         $datatransferencia = $this->transferencia->listaNumeroParteTransferencia($idtransferencia);
         $data = array(
             'id' => $idtransferencia, 
+            'folio'=>$folio,
             'datatransferencia' => $datatransferencia,
              'motivosrechazo'=>$motivosrechazo);
         $this->load->view('header');
@@ -48,6 +49,12 @@ class Calidadp extends CI_Controller {
     public function rechazopallet() {
         $idpalletcajas = $this->input->post('idpalletcajas');
         $data = $this->calidadp->motivosrechazo($idpalletcajas);
+        echo json_encode($data);
+    }
+
+    public function rechazopalletacalidad() {
+        $idpalletcajas = $this->input->post('idpalletcajas');
+        $data = $this->calidadp->motivosrechazoacalidad($idpalletcajas);
         echo json_encode($data);
     }
 
