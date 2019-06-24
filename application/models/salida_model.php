@@ -442,7 +442,7 @@ FROM
     public function obtenerOrdenParciales($idsalida) {
         $query = $this->db->query("SELECT
 COUNT(pc.pallet) as totalpallet,
-SUM( tc.cantidad) as sumacajas,
+SUM( os.caja) as sumacajas,
 tp.numeroparte,
 tm.descripcion as modelo,
 tr.descripcion as revision
