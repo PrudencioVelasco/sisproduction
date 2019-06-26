@@ -242,5 +242,46 @@ class Transferencia_model extends CI_Model {
         }
         
     }
+        public function detalleDelDetallaParte($iddetalle)
+    {
+        // code...
+        $this->db->select(' 
+        p.idparte,
+        tre.folio,
+        c.idcliente,
+        p.numeroparte,
+        c.nombre,
+        u.name,
+        t.nombreturno,
+        t.horainicial,
+        t.horafinal, 
+        u.usuario,
+        pc.fecharegistro,
+        pc.pallet,
+        tm.descripcion as modelo,
+        tr.descripcion as revision,
+        tc.cantidad,
+        l.idlinea,
+        l.nombrelinea, 
+        CONCAT(p.numeroparte) AS codigo'); 
+        $this->db->from('palletcajas pc');
+        $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
+        $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');
+        $this->db->join('tblmodelo  tm', 'tm.idmodelo = tr.idmodelo');
+        $this->db->join('parte  p', 'tm.idparte = p.idparte');
+        $this->db->join('cliente  c', 'c.idcliente = p.idcliente');
+        $this->db->join('status  s', 's.idestatus = pc.idestatus');
+        $this->db->join('users u', 'pc.idusuario=u.id');
+        $this->db->join('linea l', 'pc.idlinea=l.idlinea');
+        $this->db->join('turno t', 't.idturno=u.idturno');
+        $this->db->join('tbltransferencia tre', 'tre.idtransferancia=pc.idtransferancia');
+        //$this->db->join('status s', 's.idestatus=d.idestatus');
+        //$this->db->join('detallestatus ds', 'ds.iddetalleparte=d.iddetalleparte');
+        $this->db->where('pc.idpalletcajas',$iddetalle);
+        $query = $this->db->get();
+
+        return $query->first_row();
+    }
+
     
 }

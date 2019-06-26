@@ -356,8 +356,8 @@ FROM
             's.idsalida',
             's.numerosalida',
             'c.nombre',
-            'c.po',
-            'c.notas',
+            's.po',
+            's.notas',
             's.finalizado',
             'u.name',
             's.fecharegistro'

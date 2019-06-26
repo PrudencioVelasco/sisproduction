@@ -20,7 +20,12 @@ class Revision extends CI_Controller
         $this->load->library('permission');
 
     }
- 
+    public function ver($idmodelo) {
+        $data=array('idmodelo'=>$idmodelo);
+         $this->load->view('header');
+        $this->load->view('revision/index',$data);
+        $this->load->view('footer');
+    }
     public function registrar() {
         $idmodelo=$this->input->post('idmodelo');
         $descripcion =$this->input->post('revision');
