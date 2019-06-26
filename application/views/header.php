@@ -63,18 +63,8 @@
                 display: table-cell;
                 vertical-align: middle;
             }
-            .modal{
-                display: block !important; /* I added this to see the modal, you don't need this */
-            }
-
-            /* Important part */
-            .modal-dialog{
-                overflow-y: initial !important
-            }
-            .modal-body{
-                height: 250px;
-                overflow-y: auto;
-            }
+           
+ 
         </style>
     </head>
     <body class="nav-md">

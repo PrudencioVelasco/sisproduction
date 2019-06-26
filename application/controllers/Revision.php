@@ -167,8 +167,12 @@ class Revision extends CI_Controller
         if ($query) {
             $result['revisiones'] = $query;
         }
-
-        echo json_encode($result);
+        if (isset($result)) {
+            echo json_encode($result);
+        } else {
+            $result['revisiones'] = NULL;
+            echo json_encode($result);
+        }
     }
 
 }

@@ -39,9 +39,10 @@ class Cantidad extends CI_Controller
             array(
                 'field' => 'cantidad',
                 'label' => 'Modelo',
-                'rules' => 'trim|required',
+                'rules' => 'trim|required|integer',
                 'errors' => array(
-                    'required' => 'Campo obligatorio.'
+                    'required' => 'Campo obligatorio.',
+                    'integer'=>'Solo número.'
                 )
             )
         );

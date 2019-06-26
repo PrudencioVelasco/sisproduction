@@ -90,10 +90,10 @@ class Revision_model extends CI_Model
         $field = array(
                  'r.descripcion'
         );
-         $this->db->select('r.idrevision, r.descripcion');    
+        $this->db->select('r.idrevision, r.descripcion');    
         $this->db->from('tblmodelo m');
         $this->db->join('tblrevision r', 'r.idmodelo=m.idmodelo'); 
-         $this->db->where('r.idmodelo',$idmodelo);
+        $this->db->where('r.idmodelo',$idmodelo);
         $this->db->like('concat(' . implode(',', $field) . ')', $match);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {

@@ -36,7 +36,7 @@ Vue.component('modal', {//modal
 var v = new Vue({
     el: '#appmodelo',
     data: {
-        url: 'http://localhost/sisproduction/',
+        url: 'http://localhost:8383/sisproduction/',
         addModal: false,
         editModal: false,
         //passwordModal:false,

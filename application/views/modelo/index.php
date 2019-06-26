@@ -24,7 +24,7 @@
                                             
                                         
                                             <div class="col-md-6 col-sm-12 col-xs-12">
-                                                  <button class="btn btn-round btn-primary" @click="addModal= true">Nueva parte</button>
+                                                  <button class="btn btn-round btn-primary" @click="addModal= true">Agregar</button>
                                             </div>
                                             <div class="col-md-6 col-sm-12 col-xs-12">
                                                 <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchModelo" name="search">
@@ -62,10 +62,13 @@
                                                         </a>
                                                     </td> 
                                                 </tr>
+                                                  <tr v-if="emptyResult">
+                                       <td colspan="6" rowspan="4" class="text-center h4">No encontrado</td>
+                                    </tr>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <td colspan="5" align="right">
+                                                    <td colspan="6" align="right">
                                             <pagination
                                                 :current_page="currentPage"
                                                 :row_count_page="rowCountPage"

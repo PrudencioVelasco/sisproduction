@@ -36,7 +36,7 @@ Vue.component('modal', {//modal
 var v = new Vue({
     el: '#app',
     data: {
-        url: 'http://localhost/sisproduction/',
+        url: 'http://localhost:8383/sisproduction/',
         addModal: false,
         editModal: false,
         //passwordModal:false,
@@ -177,7 +177,7 @@ var v = new Vue({
         noResult() {
 
             v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
-            v.modelos = null
+            v.cantidades = null
             v.totalCantidad = 0 //remove current page if is empty
 
         },

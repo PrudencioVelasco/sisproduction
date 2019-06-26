@@ -43,6 +43,7 @@ class Transferencia extends CI_Controller {
         # code...
         $datalinea = $this->linea->showAllLinea();
         $datatransferencia = $this->transferencia->listaNumeroParteTransferencia($id);
+       
         $data = array(
             'id' => $id,
             'folio' => $folio,

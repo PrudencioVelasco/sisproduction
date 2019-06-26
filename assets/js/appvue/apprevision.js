@@ -36,7 +36,7 @@ Vue.component('modal', {//modal
 var v = new Vue({
     el: '#app',
     data: {
-        url: 'http://localhost/sisproduction/',
+        url: 'http://localhost:8383/sisproduction/',
         addModal: false,
         editModal: false,
         //passwordModal:false,
@@ -86,8 +86,9 @@ var v = new Vue({
 
         searchRevision() {
             var formData = v.formData(v.search);
-            axios.post(this.url + "parte/searchRevision", formData).then(function (response) {
-                if (response.data.modelos == null) {
+                formData.append('idmodelo', this.idmodelo);
+                axios.post(this.url + "revision/searchRevision", formData).then(function (response) {
+                if (response.data.revisiones === null) {
                     v.noResult()
                 } else {
                     v.getData(response.data.revisiones);
@@ -142,15 +143,15 @@ var v = new Vue({
             }
             return formData;
         },
-        getData(revisiones) {
+        getData(revisiones){
             v.emptyResult = false; // become false if has a record
             v.totalRevision = revisiones.length //get total of user
             v.revisiones = revisiones.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
 
-            // if the record is empty, go back a page
-            if (v.modelos.length == 0 && v.currentPage > 0) {
-                v.pageUpdate(v.currentPage - 1)
-                v.clearAll();
+             // if the record is empty, go back a page
+            if(v.revisiones.length == 0 && v.currentPage > 0){
+            v.pageUpdate(v.currentPage - 1)
+            v.clearAll();
             }
         },
 
@@ -176,7 +177,7 @@ var v = new Vue({
         noResult() {
 
             v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
-            v.modelos = null
+            v.revisiones = null
             v.totalRevision = 0 //remove current page if is empty
 
         },

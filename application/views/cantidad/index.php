@@ -46,6 +46,9 @@
                                                         </button> 
                                                     </td> 
                                                 </tr>
+                                                  <tr v-if="emptyResult">
+                                       <td colspan="2" rowspan="4" class="text-center h4">No encontrado</td>
+                                    </tr>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
