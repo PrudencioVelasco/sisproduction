@@ -109,6 +109,11 @@
 <modal v-if="editModal" @close="clearAll()">
     <h3 slot="head" >Editar Modelo</h3>
     <div slot="body">
+         <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                <div class="text-danger" v-html="formValidate.msgerror"></div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 ">
                 <div class="form-group">

@@ -21,7 +21,100 @@ class Cantidad extends CI_Controller
         $this->load->library('permission');
 
     }
+
+    public function ver($idrevision)
+    {
+        # code...
+        $detalle = $this->cantidad->detalleCantidad($idrevision);
+         $para = $detalle->nombre." > ".$detalle->numeroparte." > ".$detalle->modelo." > ".$detalle->revision." > "."Cantidad";
+
+         $data=array('idrevision'=>$idrevision,'text'=>$para);
+         $this->load->view('header');
+        $this->load->view('cantidad/index',$data);
+        $this->load->view('footer');
+    }
  
+  public function addCantidad() {
+        $config = array(
+            array(
+                'field' => 'cantidad',
+                'label' => 'Modelo',
+                'rules' => 'trim|required',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.'
+                )
+            )
+        );
+        $this->form_validation->set_rules($config);
+        if ($this->form_validation->run() == FALSE) {
+            $result['error'] = true;
+            $result['msg'] = array(
+                'cantidad' => form_error('cantidad')
+            );
+        } else {
+            $idrevision = $this->input->post('idrevision');
+            $cantidad = $this->input->post('cantidad'); 
+             $datavalidar= $this->revision->validadExistenciaRevision($idrevision,$cantidad); 
+        if($datavalidar == FALSE){
+            
+             $data =array(
+                 'idrevision'=>$idrevision,
+                 'cantidad'=>$cantidad,
+                 'idusuario' => $this->session->user_id,
+                 'fecharegistro' => date('Y-m-d H:i:s')
+             );
+             $this->cantidad->addCantidad($data);
+            } else {
+                //El numero de modelo ya existe
+                $result['error'] = true;
+                $result['msg'] = array(
+                    'msgerror' => "La Cantidad ya esta registrado."
+                );
+            }
+        }
+        echo json_encode($result);
+    }
+    public function updateCantidad() {
+        $config = array(
+            array(
+                'field' => 'cantidad',
+                'label' => 'Modelo',
+                'rules' => 'trim|required',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.'
+                )
+            )
+        );
+        $this->form_validation->set_rules($config);
+        if ($this->form_validation->run() == FALSE) {
+            $result['error'] = true;
+            $result['msg'] = array(
+                'cantidad' => form_error('cantidad')
+            );
+        } else {
+            $idcantidad = $this->input->post('idcantidad');
+            $cantidad = $this->input->post('cantidad');
+           $datavalidar= $this->cantidad->validadExistenciaCantidadUpdate($idcantidad,$cantidad); 
+        if($datavalidar == FALSE){
+            
+             $data =array( 
+                 'cantidad'=>$cantidad,
+                 'idusuario' => $this->session->user_id,
+                 'fecharegistro' => date('Y-m-d H:i:s')
+             );
+             $this->cantidad->updateCantidad($idcantidad,$data);
+            } else {
+                //El numero de modelo ya existe
+                $result['error'] = true;
+                $result['msg'] = array(
+                    'msgerror' => "La Cantidad ya esta registrado."
+                );
+            }
+        }
+        echo json_encode($result);
+    }
+
+/*
     public function registrar() {
         $idrevision=$this->input->post('idrevision');
         $cantidad =$this->input->post('cantidad');
@@ -63,6 +156,27 @@ class Cantidad extends CI_Controller
             //El numero de modelo ya existe
             echo '2';
         }
+    }*/
+
+     public function showAll() {
+        //Permission::grant(uri_string());
+        $idrevision = $this->input->get('idrevision');
+        $query = $this->cantidad->showAll($idrevision);
+        if ($query) {
+            $result['cantidades'] = $this->cantidad->showAll($idrevision);
+        }
+        echo json_encode($result);
+    }
+
+    public function searchCantidad() {
+        $value = $this->input->post('text');
+        $idrevision = $this->input->post('idrevision');
+        $query = $this->cantidad->searchCantidad($value, $idrevision);
+        if ($query) {
+            $result['cantidades'] = $query;
+        }
+
+        echo json_encode($result);
     }
 
 }

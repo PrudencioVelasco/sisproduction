@@ -95,9 +95,10 @@ class Modelo_model extends CI_Model
         
     }
     public    function detalleModelo($id) {
-        $this->db->select('m.*');
-        $this->db->from('tblmodelo m');
-        $this->db->where('m.idmodelo', $id);
+        $this->db->select('c.nombre, p.numeroparte');
+        $this->db->from('parte p');
+        $this->db->join('cliente c', 'c.idcliente = p.idcliente');
+        $this->db->where('p.idparte', $id);
         $query = $this->db->get();
         return $query->first_row();
     }

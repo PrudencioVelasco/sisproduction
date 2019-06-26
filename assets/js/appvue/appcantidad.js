@@ -1,4 +1,4 @@
-var this_js_script = $('script[src*=appmodelo]');
+var this_js_script = $('script[src*=appcantidad]');
 var my_var_1 = this_js_script.attr('data-my_var_1');   
 if (typeof my_var_1 === "undefined" ) {
    var my_var_1 = 'some_default_value';
@@ -34,42 +34,32 @@ Vue.component('modal', {//modal
     `
 })
 var v = new Vue({
-    el: '#appmodelo',
+    el: '#app',
     data: {
         url: 'http://localhost/sisproduction/',
         addModal: false,
         editModal: false,
         //passwordModal:false,
         //deleteModal:false,
-        modelos: [],
+        cantidades: [],
 
         search: {text: ''},
         emptyResult: false,
-        newModelo: {
-            idparte: '',
-            descripcion: '',
-            nombrehoja: '',
-            fulloneimpresion: '',
-            colorlinea: '', 
-            diucutno: '',
-            platonumero: '',
-            color: '',
-            normascompartidas: '',
-            salida: '',
-            combinacion: '',
+        newCantidad: {
+            cantidad: '',
             msgerror:''
         },
-        chooseModelo: {},
+        chooseCantidad: {},
         formValidate: [],
         successMSG: '',
 
         //pagination
         currentPage: 0,
         rowCountPage: 15,
-        totalModelo: 0,
+        totalCantidad: 0,
         pageRange: 2,
         directives: {columnSortable},
-        idparte: my_var_1
+        idrevision: my_var_1
     },
     created() {
         this.showAll(); 
@@ -77,39 +67,39 @@ var v = new Vue({
     methods: {
         orderBy(sortFn) {
             // sort your array data like this.userArray
-            this.modelos.sort(sortFn);
+            this.cantidades.sort(sortFn);
         },
         showAll() {
-            axios.get(this.url + "modelo/showAll", {
+            axios.get(this.url + "cantidad/showAll", {
                 params: {
-                    idparte: this.idparte
+                    idrevision: this.idrevision
                 }
             }).then(function (response) {
-                if (response.data.modelos == null) {
+                if (response.data.cantidades == null) {
                     v.noResult()
                 } else {
-                    v.getData(response.data.modelos);
+                    v.getData(response.data.cantidades);
                     //console.log(response.data.partes);
                 }
             })
         },
 
-        searchModelo() {
+        searchCantidad() {
             var formData = v.formData(v.search);
-            formData.append('idparte', this.idparte);
-            axios.post(this.url + "modelo/searchModelo", formData).then(function (response) {
-                if (response.data.modelos == null) {
+            formData.append('idrevision', this.idrevision);
+            axios.post(this.url + "cantidad/searchCantidad", formData).then(function (response) {
+                if (response.data.cantidades == null) {
                     v.noResult()
                 } else {
-                    v.getData(response.data.modelos);
+                    v.getData(response.data.cantidades);
 
                 }
             })
         },
-        addModelo() {
-            var formData = v.formData(v.newModelo);
-                formData.append('idparte', this.idparte);
-            axios.post(this.url + "modelo/addModelo", formData).then(function (response) {
+        addCantidad() {
+            var formData = v.formData(v.newCantidad);
+                formData.append('idrevision', this.idrevision);
+            axios.post(this.url + "cantidad/addCantidad", formData).then(function (response) {
                 if (response.data.error) {
                     v.formValidate = response.data.msg;
                 } else {
@@ -126,9 +116,9 @@ var v = new Vue({
                 }
             })
         },
-        updateModelo() {
-            var formData = v.formData(v.chooseModelo);
-            axios.post(this.url + "modelo/updateModelo", formData).then(function (response) {
+        updateCantidad() {
+            var formData = v.formData(v.chooseCantidad);
+            axios.post(this.url + "cantidad/updateCantidad", formData).then(function (response) {
                 if (response.data.error) {
                     v.formValidate = response.data.msg;
                 } else {
@@ -153,20 +143,20 @@ var v = new Vue({
             }
             return formData;
         },
-        getData(modelos) {
+        getData(cantidades) {
             v.emptyResult = false; // become false if has a record
-            v.totalModelo = modelos.length //get total of user
-            v.modelos = modelos.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
+            v.totalCantidad = cantidades.length //get total of user
+            v.cantidades = cantidades.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
 
             // if the record is empty, go back a page
-            if (v.modelos.length == 0 && v.currentPage > 0) {
+            if (v.cantidades.length == 0 && v.currentPage > 0) {
                 v.pageUpdate(v.currentPage - 1)
                 v.clearAll();
             }
         },
 
-        selectModelo(modelo) {
-            v.chooseModelo = modelo;
+        selectCantidad(cantidad) {
+            v.chooseCantidad = cantidad;
         },
         clearMSG() {
             setTimeout(function () {
@@ -174,18 +164,8 @@ var v = new Vue({
             }, 3000); // disappearing message success in 2 sec
         },
         clearAll() {
-            v.newModelo = {
-                idparte: '',
-                descripcion: '',
-                nombrehoja: '',
-                fulloneimpresion: '',
-                colorlinea: '',
-                diucutno: '',
-                platonumero: '',
-                color: '',
-                normascompartidas: '',
-                salida: '',
-                combinacion: '',
+            v.newCantidad = {
+             cantidad: '',
              msgerror:''};
             v.formValidate = false;
             v.addModal = false;
@@ -198,7 +178,7 @@ var v = new Vue({
 
             v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
             v.modelos = null
-            v.totalModelo = 0 //remove current page if is empty
+            v.totalCantidad = 0 //remove current page if is empty
 
         },
 
@@ -207,7 +187,7 @@ var v = new Vue({
             v.refresh()
         },
         refresh() {
-            v.search.text ? v.searchModelo() : v.showAll(); //for preventing
+            v.search.text ? v.searchCantidad() : v.showAll(); //for preventing
 
         }
     }

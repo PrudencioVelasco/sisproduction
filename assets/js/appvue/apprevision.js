@@ -36,7 +36,7 @@ Vue.component('modal', {//modal
 var v = new Vue({
     el: '#app',
     data: {
-        url: 'http://localhost:8383/sisproduction/',
+        url: 'http://localhost/sisproduction/',
         addModal: false,
         editModal: false,
         //passwordModal:false,
@@ -46,17 +46,7 @@ var v = new Vue({
         search: {text: ''},
         emptyResult: false,
         newRevision: {
-            idparte: '',
             descripcion: '',
-            nombrehoja: '',
-            fulloneimpresion: '',
-            colorlinea: '', 
-            diucutno: '',
-            platonumero: '',
-            color: '',
-            normascompartidas: '',
-            salida: '',
-            combinacion: '',
             msgerror:''
         },
         chooseRevision: {},
@@ -72,44 +62,43 @@ var v = new Vue({
         idmodelo: my_var_1
     },
     created() {
-        this.showAll();
-        console.log(  this.showAll());
+        this.showAll(); 
     },
     methods: {
         orderBy(sortFn) {
             // sort your array data like this.userArray
-            this.modelos.sort(sortFn);
+            this.revisiones.sort(sortFn);
         },
         showAll() {
-            axios.get(this.url + "modelo/showAll", {
+            axios.get(this.url + "revision/showAll", {
                 params: {
-                    idparte: this.idparte
+                    idmodelo: this.idmodelo
                 }
             }).then(function (response) {
-                if (response.data.modelos == null) {
+                if (response.data.revisiones == null) {
                     v.noResult()
                 } else {
-                    v.getData(response.data.modelos);
+                    v.getData(response.data.revisiones);
                     //console.log(response.data.partes);
                 }
             })
         },
 
-        searchModelo() {
+        searchRevision() {
             var formData = v.formData(v.search);
-            axios.post(this.url + "parte/searchParte", formData).then(function (response) {
+            axios.post(this.url + "parte/searchRevision", formData).then(function (response) {
                 if (response.data.modelos == null) {
                     v.noResult()
                 } else {
-                    v.getData(response.data.modelos);
+                    v.getData(response.data.revisiones);
 
                 }
             })
         },
-        addModelo() {
-            var formData = v.formData(v.newModelo);
-                formData.append('idparte', this.idparte);
-            axios.post(this.url + "modelo/addModelo", formData).then(function (response) {
+        addRevision() {
+            var formData = v.formData(v.newRevision);
+                formData.append('idmodelo', this.idmodelo);
+            axios.post(this.url + "revision/addRevision", formData).then(function (response) {
                 if (response.data.error) {
                     v.formValidate = response.data.msg;
                 } else {
@@ -126,9 +115,9 @@ var v = new Vue({
                 }
             })
         },
-        updateModelo() {
-            var formData = v.formData(v.chooseModelo);
-            axios.post(this.url + "modelo/updateModelo", formData).then(function (response) {
+        updateRevision() {
+            var formData = v.formData(v.chooseRevision);
+            axios.post(this.url + "revision/updateRevision", formData).then(function (response) {
                 if (response.data.error) {
                     v.formValidate = response.data.msg;
                 } else {
@@ -153,10 +142,10 @@ var v = new Vue({
             }
             return formData;
         },
-        getData(modelos) {
+        getData(revisiones) {
             v.emptyResult = false; // become false if has a record
-            v.totalModelo = modelos.length //get total of user
-            v.modelos = modelos.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
+            v.totalRevision = revisiones.length //get total of user
+            v.revisiones = revisiones.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
 
             // if the record is empty, go back a page
             if (v.modelos.length == 0 && v.currentPage > 0) {
@@ -165,8 +154,8 @@ var v = new Vue({
             }
         },
 
-        selectModelo(modelo) {
-            v.chooseModelo = modelo;
+        selectRevision(revision) {
+            v.chooseRevision = revision;
         },
         clearMSG() {
             setTimeout(function () {
@@ -174,18 +163,8 @@ var v = new Vue({
             }, 3000); // disappearing message success in 2 sec
         },
         clearAll() {
-            v.newModelo = {
-                idparte: '',
-                descripcion: '',
-                nombrehoja: '',
-                fulloneimpresion: '',
-                colorlinea: '',
-                diucutno: '',
-                platonumero: '',
-                color: '',
-                normascompartidas: '',
-                salida: '',
-                combinacion: '',
+            v.newRevision = {
+             descripcion: '',
              msgerror:''};
             v.formValidate = false;
             v.addModal = false;
@@ -198,7 +177,7 @@ var v = new Vue({
 
             v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
             v.modelos = null
-            v.totalModelo = 0 //remove current page if is empty
+            v.totalRevision = 0 //remove current page if is empty
 
         },
 
@@ -207,7 +186,7 @@ var v = new Vue({
             v.refresh()
         },
         refresh() {
-            v.search.text ? v.searchModelo() : v.showAll(); //for preventing
+            v.search.text ? v.searchRevision() : v.showAll(); //for preventing
 
         }
     }

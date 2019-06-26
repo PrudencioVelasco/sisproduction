@@ -12,31 +12,26 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h3>Módulo de Modelo</h3>
+                        <h4><strong><?php echo $paso; ?></strong></h4>
 
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <div id="app">
+                        <div id="appmodelo">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <button class="btn btn-round btn-primary" @click="addModal= true">Nueva parte</button>
-
-                                            </div>
-                                            <div class="col-md-6"></div>
-                                        </div>
-                                        <div class="row">
+                                     
+                                            
+                                        
                                             <div class="col-md-6 col-sm-12 col-xs-12">
+                                                  <button class="btn btn-round btn-primary" @click="addModal= true">Nueva parte</button>
                                             </div>
                                             <div class="col-md-6 col-sm-12 col-xs-12">
                                                 <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchModelo" name="search">
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                        
+                                     
+                                </div> 
                                 <br>
                                 <div class="row"> 
                                     <div class="col-md-12 col-sm-12 col-xs-12">

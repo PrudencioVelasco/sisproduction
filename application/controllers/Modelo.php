@@ -18,6 +18,17 @@ class Modelo extends CI_Controller {
         $this->load->model('modelo_model', 'modelo');
         $this->load->library('permission');
     }
+   public function ver($idparte) { 
+        $detalle = $this->modelo->detalleModelo($idparte); 
+        $para = $detalle->nombre." > ".$detalle->numeroparte." > "."Modelo";
+        $data=array( 
+            'idparte'=>$idparte,
+            'paso'=>$para
+        );
+        $this->load->view('header');
+        $this->load->view('modelo/index',$data);
+        $this->load->view('footer');
+    }
 
     public function addModelo() {
         $config = array(
@@ -69,11 +80,11 @@ class Modelo extends CI_Controller {
         echo json_encode($result);
     }
 
-    public function detalleModelo() {
+    /*public function detalleModelo() {
         $idmodelo = $this->input->post('employee_id');
         $result = $this->modelo->detalleModelo($idmodelo);
         echo json_encode($result);
-    }
+    }*/
 
     public function updateModelo() {
         $config = array(
@@ -124,24 +135,7 @@ class Modelo extends CI_Controller {
         echo json_encode($result);
     }
 
-//    public function modificar() {
-//        $idmodelo = $this->input->post('employee_id');
-//        $modelo = $this->input->post('modelo');
-//        $datavalidar = $this->modelo->validadExistenciaModeloUpdate($idmodelo, $modelo);
-//        if ($datavalidar == FALSE) {
-//
-//            $data = array(
-//                'descripcion' => $modelo,
-//                'idusuario' => $this->session->user_id,
-//                'fecharegistro' => date('Y-m-d H:i:s')
-//            );
-//            $this->modelo->updateModelo($idmodelo, $data);
-//            echo '1';
-//        } else {
-//            //El numero de modelo ya existe
-//            echo '2';
-//        }
-//    }
+ 
 
     public function showAll() {
         //Permission::grant(uri_string());
@@ -153,9 +147,9 @@ class Modelo extends CI_Controller {
         echo json_encode($result);
     }
 
-    public function searchModelos() {
+    public function searchModelo() {
         $value = $this->input->post('text');
-        $idparte = $this->input->get('idparte');
+        $idparte = $this->input->post('idparte');
         $query = $this->modelo->searchModelo($value, $idparte);
         if ($query) {
             $result['modelos'] = $query;

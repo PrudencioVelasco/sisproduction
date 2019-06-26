@@ -57,7 +57,9 @@
                                                             Modificar
                                                         </button>
                                                        
-                                                        <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs" v-if="row.activo==1"   v-bind:href="'modelo/'+ row.idparte" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                         
+
+                                                        <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs" v-if="row.activo==1"   v-bind:href="'../modelo/ver/'+ row.idparte" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                             Ver</a>
                                                         
                                                     </td>
