@@ -16,24 +16,18 @@
                     <div class="x_content">
                         <div id="app">
                             <div class="container">
-                                <div class="row">
-                                  
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <button class="btn btn-round btn-primary" @click="addModal= true">Nueva parte</button>
-                                                
-                                            </div>
-                                            <div class="col-md-6"></div>
-                                        </div>
+                               
+                                   
                                         <div class="row">
                                             <div class="col-md-6 col-sm-12 col-xs-12">
+                                                <button class="btn btn-round btn-primary" @click="addModal= true">Nueva parte</button>
                                             </div>
                                             <div class="col-md-6 col-sm-12 col-xs-12">
                                                 <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchParte" name="search">
                                             </div>
                                         </div>
                                         <br>
+                                         <div class="row">
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
                                             <th class="text-white" v-column-sortable:numeroparte>Número de parte</th>
@@ -83,8 +77,7 @@
                                             </td>
                                             </tr>
                                             </tfoot>
-                                        </table>
-                                    </div>
+                                        </table> 
                                 </div>
                             </div>
                             <?php include 'modal.php'; ?>

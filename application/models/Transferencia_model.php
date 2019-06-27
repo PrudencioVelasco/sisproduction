@@ -180,7 +180,7 @@ class Transferencia_model extends CI_Model {
                                INNER JOIN parte tp  ON tp.idparte = tm.idparte
                                INNER JOIN cliente c  ON c.idcliente = tp.idcliente
                                WHERE pc.idtransferancia= $idtransferencia
-                               AND pc.idestatus not in (17,12)
+                               AND pc.idestatus not in (17,12,14)
                                GROUP by pc.idcajas");
         if ($query->num_rows() > 0) {
             return $query->result();

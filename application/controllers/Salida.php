@@ -465,6 +465,7 @@ class Salida extends CI_Controller {
                                         'fecharegistro' => date('Y-m-d H:i:s')
                                     );
                                     $this->salida->addOrdenSalida($dataordensalida);
+                                    
                                     break;
                                 } else {
                                     if (($totalcajas - $suma) >= $value->cajas) {
@@ -486,7 +487,9 @@ class Salida extends CI_Controller {
                                             'fecharegistro' => date('Y-m-d H:i:s')
                                         );
                                         $this->salida->addOrdenSalida($dataordensalida);
+                                        
                                     } else {
+                                        if(($totalcajas - $suma) > 0){
                                         $id = $value->idparteposicionbodega;
                                         $idpalletcajas = $value->idpalletcajas;
                                         $data = array(
@@ -504,6 +507,8 @@ class Salida extends CI_Controller {
                                             'fecharegistro' => date('Y-m-d H:i:s')
                                         );
                                         $this->salida->addOrdenSalida($dataordensalida);
+                                        
+                                    }
                                         break;
                                     }
                                 }
