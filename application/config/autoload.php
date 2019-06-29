@@ -153,6 +153,7 @@ $autoload['model'] = array('rol_model',
     'transferencia_model',
     'ubicacion_model',
     'calidadp_model',
+    'bodegap_model',
     'motivorechazo_model',
     'palletcajasproceso_model',
     'user_rol_model');

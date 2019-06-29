@@ -18,7 +18,19 @@ class Modelo_model extends CI_Model
     
     public function showAll($idparte)
     {
-        $this->db->select('m.idmodelo,p.numeroparte, c.abreviatura as cliente, m.descripcion ');    
+        $this->db->select('m.idmodelo,'
+                . 'p.numeroparte,'
+                . 'c.abreviatura as cliente,'
+                . 'm.descripcion,'
+                . 'm.nombrehoja,'
+                . 'm.fulloneimpresion,'
+                . 'm.colorlinea,'
+                . 'm.diucutno,'
+                . 'm.platonumero,'
+                . 'm.normascompartidas,'
+                . 'm.salida,'
+                . 'm.combinacion,'
+                . 'm.color');    
         $this->db->from('tblmodelo m');
         $this->db->join('parte p', 'p.idparte = m.idparte');
         $this->db->join('users u', 'm.idusuario = u.id'); 
@@ -31,58 +43,15 @@ class Modelo_model extends CI_Model
             return false;
         }
     }
-//     public function showAllCalidad()
-//    {
-//        $this->db->select('u.id as idusuario,u.name');    
-//        $this->db->from('users u');
-//        $this->db->join('users_rol ur', 'u.id = ur.id_user');
-//        $this->db->join('rol r', 'ur.id_rol = r.id'); 
-//        $this->db->where('r.id',2);
-//        $this->db->where('u.activo',1);
-//        $query = $this->db->get();
-//        if ($query->num_rows() > 0) {
-//            return $query->result();
-//        } else {
-//            return false;
-//        }
-//    }
-//    public function showAllBodega()
-//    {
-//        $this->db->select('u.id as idusuario,u.name');    
-//        $this->db->from('users u');
-//        $this->db->join('users_rol ur', 'u.id = ur.id_user');
-//        $this->db->join('rol r', 'ur.id_rol = r.id'); 
-//        $this->db->where('r.id',4);
-//        $this->db->where('u.activo',1);
-//        $query = $this->db->get();
-//        if ($query->num_rows() > 0) {
-//            return $query->result();
-//        } else {
-//            return false;
-//        }
-//    }
-//    public function showAllPacking()
-//    {
-//        $this->db->select('u.id as idusuario,u.name');    
-//        $this->db->from('users u');
-//        $this->db->join('users_rol ur', 'u.id = ur.id_user');
-//        $this->db->join('rol r', 'ur.id_rol = r.id'); 
-//        $this->db->where('r.id',3);
-//        $this->db->where('u.activo',1);
-//        $query = $this->db->get();
-//        if ($query->num_rows() > 0) {
-//            return $query->result();
-//        } else {
-//            return false;
-//        }
-//    }
-    public function validadExistenciaModelo($modelo) {
+ 
+    public function validadExistenciaModelo($modelo,$idparte) {
         $this->db->select('m.idmodelo,p.numeroparte, c.abreviatura as cliente, m.descripcion ');
         $this->db->from('tblmodelo m');
         $this->db->join('parte p', 'p.idparte = m.idparte');
         $this->db->join('users u', 'm.idusuario = u.id');
         $this->db->join('cliente c', 'c.idcliente = p.idcliente');
         $this->db->where('m.descripcion', $modelo);
+         $this->db->where('p.idparte', $idparte);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -126,90 +95,55 @@ class Modelo_model extends CI_Model
         
     }
     public    function detalleModelo($id) {
-        $this->db->select('m.*');
-        $this->db->from('tblmodelo m');
-        $this->db->where('m.idmodelo', $id);
+        $this->db->select('c.nombre, p.numeroparte');
+        $this->db->from('parte p');
+        $this->db->join('cliente c', 'c.idcliente = p.idcliente');
+        $this->db->where('p.idparte', $id);
         $query = $this->db->get();
         return $query->first_row();
     }
-//        
-//      public function updateUserRol($id, $field)
-//    {
-//        $this->db->where('id_user', $id);
-//        $this->db->update('users_rol', $field);
-//        if ($this->db->affected_rows() > 0) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//        
-//    }
-//      public function passwordupdateUser($id, $field)
-//    {
-//        $this->db->where('id', $id);
-//        $this->db->update('users', $field);
-//        if ($this->db->affected_rows() > 0) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//        
-//    }
-//    public function deleteUser($id)
-//    {
-//        $this->db->where('id', $id);
-//        $this->db->delete('users');
-//        if ($this->db->affected_rows() > 0) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//        
-//    }
-//       public function validarUsuarioRegistrado($usuario )
-//    {
-//        # code...
-//        $this->db->select('u.*');    
-//        $this->db->from('users u');
-//        $this->db->where('u.usuario', $usuario); 
-//        $query = $this->db->get();
-//        //$query = $this->db->get('permissions');
-//        if ($query->num_rows() > 0) {
-//            return $query->result();
-//        } else {
-//            return false;
-//        }
-//    }
-//
-//    public function searchUser($match)
-//    {
-//        $field = array(
-//            'u.usuario',
-//            'u.name'
-//        );
-//        $this->db->select('u.*,r.id as idrol, r.rol as rolnombre');    
-//        $this->db->from('users u');
-//        $this->db->join('users_rol ur', 'u.id = ur.id_user');
-//        $this->db->join('rol r', 'ur.id_rol = r.id'); 
-//        $this->db->like('concat(' . implode(',', $field) . ')', $match);
-//        $query = $this->db->get(); 
-//        if ($query->num_rows() > 0) {
-//            return $query->result();
-//        } else {
-//            return false;
-//        }
-//    }
-//     public function addUserRol($data)
-//    {
-//        return $this->db->insert('users_rol', $data);
-//    }  
-//    function detalleUsuario($idusuario) {
-//        $this->db->select('u.id as idusuario,u.name, u.usuario');
-//        $this->db->from('users u');
-//        $this->db->where('u.id', $idusuario);
-//        $query = $this->db->get();
-//        return $query->first_row();
-//    }
+ 
+    public function searchModelo($match,$idparte) {
+        $field = array(
+                 'p.numeroparte',
+                 'c.abreviatura',
+                 'm.descripcion',
+                 'm.nombrehoja',
+                 'm.fulloneimpresion',
+                 'm.colorlinea',
+                 'm.diucutno',
+                 'm.platonumero',
+                 'm.normascompartidas',
+                 'm.salida',
+                 'm.combinacion',
+                 'm.color'
+        );
+        $this->db->select('m.idmodelo,'
+                . 'p.numeroparte,'
+                . 'c.abreviatura as cliente,'
+                . 'm.descripcion,'
+                . 'm.nombrehoja,'
+                . 'm.fulloneimpresion,'
+                . 'm.colorlinea,'
+                . 'm.diucutno,'
+                . 'm.platonumero,'
+                . 'm.normascompartidas,'
+                . 'm.salida,'
+                . 'm.combinacion,'
+                . 'm.color');
+        $this->db->from('tblmodelo m');
+        $this->db->join('parte p', 'p.idparte = m.idparte');
+        $this->db->join('users u', 'm.idusuario = u.id');
+        $this->db->join('cliente c', 'c.idcliente = p.idcliente');
+        $this->db->where('m.idparte', $idparte);
+        $this->db->like('concat(' . implode(',', $field) . ')', $match);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
 
 }
 ?> 

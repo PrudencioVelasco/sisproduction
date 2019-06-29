@@ -77,11 +77,31 @@ class Cantidad_model extends CI_Model
         
     }
     public    function detalleCantidad($id) {
-        $this->db->select('c.*');
-        $this->db->from('tblcantidad c');
-        $this->db->where('c.idcantidad', $id);
+        $this->db->select('c.nombre, p.numeroparte, m.descripcion as modelo,r.descripcion as revision');
+        $this->db->from('tblmodelo m');
+        $this->db->join('parte p', 'p.idparte = m.idparte');
+        $this->db->join('cliente c', 'c.idcliente = p.idcliente');
+        $this->db->join('tblrevision r', 'r.idmodelo = m.idmodelo');
+        $this->db->where('r.idrevision', $id);
         $query = $this->db->get();
         return $query->first_row();
+    }
+
+    public function searchCantidad($match,$idrevision) {
+        $field = array(
+                 'c.cantidad'
+        );
+          $this->db->select('c.idcantidad, r.descripcion, c.cantidad');   
+        $this->db->from('tblcantidad c');
+        $this->db->join('tblrevision r', 'r.idrevision=c.idrevision'); 
+         $this->db->where('c.idrevision',$idrevision);
+        $this->db->like('concat(' . implode(',', $field) . ')', $match);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
     }
 
 }

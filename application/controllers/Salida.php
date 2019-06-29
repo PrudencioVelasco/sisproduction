@@ -30,7 +30,7 @@ class Salida extends CI_Controller {
     }
 
     public function showAll() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $query = $this->salida->showAllSalidas();
         if ($query) {
             $result['salidas'] = $this->salida->showAllSalidas();
@@ -125,21 +125,24 @@ class Salida extends CI_Controller {
         
         $detalle = $this->salida->detalleSalida($idsalida);
         $idcliente = $detalle->idcliente;
-        $query = $this->salida->showPartesBodega2($idcliente);
+        $query = $this->salida->showPartesBodega2($idcliente); 
         $array = array();
         $i = 0;
+        if($query != false){
         foreach ($query as $row) {
             if ($row->totalcajasdisponibles > 0) {
                 if ($row->cajassalidasporparciales > 0 && $row->totalpalletparacomparar > 1) {
                     //Si hay cajas salidas por parcilas
                     $array[$i] = array();
+                    $array[$i]['idtransferancia'] = $row->idtransferancia;
                     $array[$i]['iddetalleparte'] = $row->iddetalleparte;
                     $array[$i]['numeroparte'] = $row->numeroparte;
                     $array[$i]['folio'] = $row->folio;
                     $array[$i]['modelo'] = $row->modelo;
                     $array[$i]['revision'] = $row->revision;
-                    $array[$i]['linea'] = $row->linea;
-                    $array[$i]['fecharegistro'] = $row->fecharegistro;
+                    $array[$i]['idcajas'] = $row->idcajas;
+                    //$array[$i]['linea'] = $row->linea;
+                    $array[$i]['fecha'] = $row->fecha;
                     $array[$i]['nombre'] = $row->nombre;
                     $array[$i]['totalpallet'] = $row->totalpalletparacomparar;
                     $array[$i]['cajasporpallet'] = $row->cajasporpallet;
@@ -151,13 +154,15 @@ class Salida extends CI_Controller {
                 } else {
                     //Si son puros pallet
                     $array[$i] = array();
+                    $array[$i]['idtransferancia'] = $row->idtransferancia;
                     $array[$i]['iddetalleparte'] = $row->iddetalleparte;
                     $array[$i]['numeroparte'] = $row->numeroparte;
                     $array[$i]['folio'] = $row->folio;
                     $array[$i]['modelo'] = $row->modelo;
                     $array[$i]['revision'] = $row->revision;
-                    $array[$i]['linea'] = $row->linea;
-                    $array[$i]['fecharegistro'] = $row->fecharegistro;
+                    $array[$i]['idcajas'] = $row->idcajas;
+                    //$array[$i]['linea'] = $row->linea;
+                    $array[$i]['fecha'] = $row->fecha;
                     $array[$i]['nombre'] = $row->nombre;
                     $array[$i]['totalpallet'] = $row->totalpalletparacomparar;
                     $array[$i]['cajasporpallet'] = $row->cajasporpallet;
@@ -169,10 +174,8 @@ class Salida extends CI_Controller {
                 }
             }
         }
-        if ($query) {
-            $result['partes'] = $array;
-        }
-        echo json_encode($result);
+    }
+        return $array;
     }
 
     public function generarCodigo($longitud) {
@@ -205,6 +208,8 @@ class Salida extends CI_Controller {
         } else {
             $rowcliente = $this->cliente->detalleCliente($this->input->post('idcliente'));
             $data = array(
+                'po' => $this->input->post('po'),
+                'notas' => $this->input->post('notas'),
                 'idcliente' => $this->input->post('idcliente'),
                 'finalizado' => 0,
                 'idusuario' => $this->session->user_id,
@@ -219,21 +224,62 @@ class Salida extends CI_Controller {
         }
         echo json_encode($result);
     }
+        public function updateSalida() {
+        Permission::grant(uri_string());
+        $config = array(
+            array(
+                'field' => 'idcliente',
+                'label' => 'cliente',
+                'rules' => 'trim|required',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.'
+                )
+            )
+
+        );
+        $this->form_validation->set_rules($config);
+        if ($this->form_validation->run() == FALSE) {
+            $result['error'] = true;
+            $result['msg'] = array(
+                'idcliente' => form_error('idcliente')
+            );
+        } else {
+            $idsalida = $this->input->post('idsalida');
+            $rowcliente = $this->cliente->detalleCliente($this->input->post('idcliente'));
+            $data = array(
+                'po' => $this->input->post('po'),
+                'notas' => $this->input->post('notas'),
+                'idcliente' => $this->input->post('idcliente'), 
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->salida->updateSalida($idsalida, $data);
+
+            $numerosalida = $rowcliente->abreviatura . "-" . date('Ymd') . "-" . $idsalida;
+            $dataupdate = array(
+                'numerosalida' => $numerosalida
+            );
+
+            $this->salida->updateSalida($idsalida, $dataupdate);
+        }
+        echo json_encode($result);
+    }
 
     public function detalleSalida($idsalida) {
         // code...
-        Permission::grant(uri_string());
+       // Permission::grant(uri_string());
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
         $detallepallet = $this->salida->detallepallet($idsalida);
         $detalleparciales = $this->salida->detalleparciales($idsalida);
-       // var_dump($datadetalleorden);
+        $datos=$this->test1($idsalida);  
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
             'idsalida' => $idsalida,
             'detallepallet' => $detallepallet,
-            'detalleparciales' => $detalleparciales);
+            'detalleparciales' => $detalleparciales,
+            'datosparte'=>$datos);
         $this->load->view('header');
         $this->load->view('salida/detalle', $data);
         $this->load->view('footer');
@@ -367,11 +413,15 @@ class Salida extends CI_Controller {
         }
     }
     public function testpallet() {
-        
+        $idtransferecia = 8;
+        $idcajas = 8;
+         $lista = $this->salida->listaPosicionesPallet($idtransferecia, $idcajas);
+         var_dump($lista);
     }
     public function agregarNumeroParteOrder() {
-        $iddetalleparte = $this->input->post('iddetalleparte');
-        $cajasporpallet = $this->input->post('cajasporpallet');
+        $idcajas = $this->input->post('idcajas');
+        $idtransferecia = $this->input->post('idtransferecia');
+        $iddetalleparte = $this->input->post('iddetalleparte'); 
         $idsalida = $this->input->post('idsalida');
         $numeropallet = $this->input->post('pallet');
         $numerocajas = $this->input->post('cajas');
@@ -385,14 +435,14 @@ class Salida extends CI_Controller {
                 if (is_numeric($numerocajas)) {
                     if ($numerocajas > 0) {
                         //Son parciales
-                        $dataexistencia = $this->salida->validarExistenciaParcialesNumeroParte($iddetalleparte, $cajasporpallet);
+                        $dataexistencia = $this->salida->validarExistenciaParcialesNumeroParte($idtransferecia, $idcajas);
                         //$totalexistencia = $dataexistencia->totalstock;
                         $totalexistenciacajas = $dataexistencia->totalcajas;
 
                         $totalcajas = $numerocajas;
 
                         if (($totalcajas <= ($totalexistenciacajas - $dataexistencia->cajassalidas))) {
-                            $lista = $this->salida->listaPosicionesPallet($iddetalleparte, $cajasporpallet);
+                            $lista = $this->salida->listaPosicionesPallet($idtransferecia, $idcajas);
                             $suma = 0;
                             $descontar = 0;
                             foreach ($lista as $value) {
@@ -408,13 +458,14 @@ class Salida extends CI_Controller {
                                         'idsalida' => $idsalida,
                                         'idpalletcajas' => $idpalletcajas,
                                         'tipo' => 1,
-                                        'pallet' => 0,
+                                        'pallet' => 1,
                                         'caja' => $totalcajas,
                                         'revision' => '0',
                                         'idusuario' => $this->session->user_id,
                                         'fecharegistro' => date('Y-m-d H:i:s')
                                     );
                                     $this->salida->addOrdenSalida($dataordensalida);
+                                    
                                     break;
                                 } else {
                                     if (($totalcajas - $suma) >= $value->cajas) {
@@ -428,7 +479,7 @@ class Salida extends CI_Controller {
                                         $dataordensalida = array(
                                             'idsalida' => $idsalida,
                                             'idpalletcajas' => $idpalletcajas,
-                                            'tipo' => 1,
+                                            'tipo' => 0,
                                             'pallet' => 0,
                                             'caja' => $value->cajas,
                                             'revision' => '0',
@@ -436,7 +487,9 @@ class Salida extends CI_Controller {
                                             'fecharegistro' => date('Y-m-d H:i:s')
                                         );
                                         $this->salida->addOrdenSalida($dataordensalida);
+                                        
                                     } else {
+                                        if(($totalcajas - $suma) > 0){
                                         $id = $value->idparteposicionbodega;
                                         $idpalletcajas = $value->idpalletcajas;
                                         $data = array(
@@ -454,6 +507,8 @@ class Salida extends CI_Controller {
                                             'fecharegistro' => date('Y-m-d H:i:s')
                                         );
                                         $this->salida->addOrdenSalida($dataordensalida);
+                                        
+                                    }
                                         break;
                                     }
                                 }
@@ -479,13 +534,13 @@ class Salida extends CI_Controller {
             if ($numeropallet != "") {
                 if (is_numeric($numeropallet)) {
                     if ($numeropallet > 0) {
-                        $dataexistencia = $this->salida->validarExistenciaNumeroParte($iddetalleparte, $cajasporpallet);
+                        $dataexistencia = $this->salida->validarExistenciaNumeroParte($idtransferecia, $idcajas);
                         $totalexistencia = $dataexistencia->totalstock;
                         $totalexistenciacajas = $dataexistencia->totalcajas;
                         //Son por Pallet
                         if ($totalexistencia >= $numeropallet) {
                             //Si existen existencia de numero de parte
-                            $lista = $this->salida->listaPosiciones($iddetalleparte, $cajasporpallet);
+                            $lista = $this->salida->listaPosiciones($idtransferecia, $idcajas);
                             $i = 0;
                             foreach ($lista as $value) {
                                 $i++;
@@ -531,23 +586,30 @@ class Salida extends CI_Controller {
         }
     }
 
-    public   function agregarParteOrdenDetallado($iddetalleparte,$cajasporpallet, $idsalida) {
-       Permission::grant(uri_string());
+    public   function agregarParteOrdenDetallado($idtransferecia,$idcajas, $idsalida) {
+       //Permission::grant(uri_string());
+        //echo $idtransferecia;
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
-        $datadetalleparte = $this->salida->showPartesDetalle($iddetalleparte);
+        $datadetalleparte = $this->salida->showPartesDetalle($idtransferecia,$idcajas);
         $detallepallet = $this->salida->detallepallet($idsalida);
-        $detalleparciales = $this->salida->detalleparciales($idsalida);
+        $detalleparciales = $this->salida->detalleparciales($idsalida); 
+         $datos=$this->test1($idsalida); 
+        // var_dump($datos);
         
+
         
         //var_dump($datadetalleparte);
         $data = array(
+            'datosparte'=>$datos,
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
-            'cajasporpallet' =>$cajasporpallet,
+            'cajasporpallet' =>$datadetalleparte->cajasporpallet,
             'idsalida' => $idsalida,
+            'idtransferecia'=>$idtransferecia,
+            'idcajas'=>$idcajas,
             'detalleparte' => $datadetalleparte,
-            'detallepallet' => $detallepallet,
+            'idsalida' => $idsalida,
             'detalleparciales' => $detalleparciales);
         $this->load->view('header');
         $this->load->view('salida/detalle', $data);
@@ -578,6 +640,7 @@ Permission::grant(uri_string());
         $listaparciales = $this->salida->obtenerOrdenParciales($idsalida);
         $sumatotalcajas = 0;
         $sumatotalpallet = 0;
+        
         foreach($listapallet as $valuepal){
             $sumatotalcajas = $sumatotalcajas + $valuepal->sumacajas;
             $sumatotalpallet = $sumatotalpallet + $valuepal->totalpallet;
@@ -670,7 +733,7 @@ $html = '
     <td width="80">&nbsp;</td>
   </tr>
   <tr>
-    <td width="130" class="bordes">&nbsp;</td>
+    <td width="130" class="bordes" align="center">'.$detalle->po.'</td>
     <td width="90" class="bordes">&nbsp;</td>
     <td width="90" class="bordes" align="center">'.$numerotransferencia.'</td>
     <td width="150">&nbsp;</td>

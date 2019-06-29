@@ -31,7 +31,7 @@ Vue.component('modal',{ //modal
 var v = new Vue({
    el:'#app',
     data:{
-        url:'http://localhost/sisproduction/',
+        url:'http://localhost:8383/sisproduction/',
         addModal: false,
         editModal:false,
         //passwordModal:false,
@@ -52,15 +52,20 @@ var v = new Vue({
 
         //pagination
         currentPage: 0,
-        rowCountPage:5,
+        rowCountPage:15,
         totalParte:0,
-        pageRange:2
+        pageRange:2,
+        directives: {columnSortable}
     },
      created(){
       this.showAll();
        this.showAllClientes();
     },
     methods:{
+          orderBy(sortFn) {
+        // sort your array data like this.userArray
+        this.partes.sort(sortFn);
+      },
          showAll(){ axios.get(this.url+"parte/showAll").then(function(response){
                  if(response.data.partes == null){
                      v.noResult()

@@ -12,25 +12,34 @@
                     </div>
                     <div class="x_content">
                         <div class="row">
-                            <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
-                                    <h4>Número de Control: <strong><?php echo $detallesalida->numerosalida; ?></strong></h4>
+                                    <h4>N. de Control: <strong><?php echo $detallesalida->numerosalida; ?></strong></h4>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-sm-12 col-xs-12 text-right">
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <h4>N. Transferencia: <strong>#<?php echo $detallesalida->idsalida; ?></strong></h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12 col-xs-12 text-right">
                                 <div class="form-group">
                                     <h4>Cliente: <strong><?php echo $detallesalida->nombre; ?></strong></h4>
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                         <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
-                                    <h4>Número de Transferencia: <strong><?php echo $detallesalida->idsalida; ?></strong></h4>
+                                    <h4>P.O.: <strong><?php echo $detallesalida->po; ?></strong></h4>
                                 </div>
                             </div>
-                        </div>
-                        <br>
+                            <div class="col-md-8 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <h4>Notas: <strong><?php echo $detallesalida->notas; ?></strong></h4>
+                                </div>
+                            </div> 
+                        </div>  
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <?php if ($detallesalida->finalizado == 0) { ?>
@@ -44,74 +53,44 @@
 
                                             </div>
                                             <div class="modal-body">
-                                                <div id="app">
-                                                    <div class="row">
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchParte" name="search">
-                                                            </div>
-                                                        </div>
-                                                        <br/>
-                                                        <table class="table table-striped responsive-utilities jambo_table bulk_action"  >
-                                                            <thead class="text-white bg-dark" >
-                                                            <th class="text-white">Trans.</th>
-                                                            <th class="text-white">N. Parte</th>
-                                                            <th class="text-white">Pallet</th>
-                                                            <th class="text-white">Cajas x pallet</th>
-                                                            <th class="text-white">Cajas Disponibles</th>
-                                                            <th class="text-white">N. modelo</th>
-                                                            <th class="text-white">Revisión</th>
-                                                            <th class="text-white">Fecha</th>
-                                                            <th class="text-white text-right" align="right">Opción</th>
-                                                            </thead>
-                                                            <tbody class="table-light">
 
-                                                                <tr v-for="row in partes" class="table-default">
-                                                                    <td v-if="row.totalpallet > 0">{{row.folio}}</td>
-                                                                    <td v-if="row.totalpallet > 0">{{row.numeroparte}}</td>
-                                                                    <td v-if="row.totalpallet > 0">
-                                                                        <label style="color:red;" >{{row.totalpallet}}</label>
-                                                                    </td>
-                                                                    <td v-if="row.totalpallet > 0">
-                                                                        <label style="color:red;">{{row.cajasporpallet}} </label>
-
-                                                                    </td>
-                                                                    <td v-if="row.totalpallet > 0">
-                                                                        <label style="color:green;">{{row.cajasdisponibles}} </label>
-
-                                                                    </td>
-                                                                    <td v-if="row.totalpallet > 0">{{row.modelo}}</td>
-                                                                    <td v-if="row.totalpallet > 0">{{row.revision}}</td>
-                                                                    <td v-if="row.totalpallet > 0">{{row.fecharegistro}}</td>
-                                                                    <td v-if="row.totalpallet > 0" align="right">
-                                                                        <a class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'/sisproduction/salida/agregarParteOrdenDetallado/'+ row.iddetalleparte+'/'+row.cajasporpallet+'/'+<?php echo $idsalida ?>" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                                                            Agregar</a>
-                                                                    </td>
-                                                                </tr> 
-                                                            </tbody>
-                                                            <tfoot>
-                                                                <tr>
-                                                                    <td colspan="8" align="right">
-                                                            <pagination
-                                                                :current_page="currentPage"
-                                                                :row_count_page="rowCountPage"
-                                                                @page-update="pageUpdate"
-                                                                :total_users="totalParte"
-                                                                :page_range="pageRange"
-                                                                >
-                                                            </pagination>
-                                                            </td>
-                                                            </tr>
-                                                            </tfoot>
-                                                        </table>
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+               <th>Trans.</th>
+                <th>N. Parte</th>
+                <th>Pallet</th>
+                <th>CxP</th>
+                <th><strong style="color: green">C. Disponibles</strong></th>
+                <th>N.M.</th>
+                <th>Revisión</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($datosparte as $value) {?>
+            <tr>
+                <td><a href="<?php echo site_url('salida/agregarParteOrdenDetallado/'.$value["idtransferancia"].'/'.$value["idcajas"].'/'.$idsalida ) ?>"> <?php echo $value["folio"]; ?></a></td>
+                 <td><?php echo $value["numeroparte"]; ?></td>
+                <td><?php echo $value["totalpallet"]; ?></td>
+                 <td><?php echo $value["cajasporpallet"]; ?></td>
+                  <td><strong style="color: green"><?php echo $value["cajasdisponibles"]; ?></strong></td>
+                   <td><?php echo $value["modelo"]; ?></td>
+                    <td><?php echo $value["revision"]; ?></td>
+                     <td><?php echo $value["fecha"]; ?></td>
+            </tr>
+            <?php } 
+            ?> 
+    </table>
                                                     </div>
+                                                </div> 
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
 
                                                     </div>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -155,8 +134,9 @@
                                     </div>
                                     <div class="col-md-3 col-sm-12 col-xs-12 ">
                                         <div class="form-group">
-                                            <input type="hidden" name="iddetalleparte" value="<?php echo $detalleparte->iddetalleparte; ?>"/>
+                                            <input type="hidden" name="idtransferecia" value="<?php echo $detalleparte->idtransferencia; ?>"/>
                                             <input type="hidden" name="idsalida" value="<?php echo $idsalida; ?>"/>
+                                            <input type="hidden" name="idcajas" value="<?php echo $idcajas; ?>"/>
                                             <input type="hidden" name="cajasporpallet" value="<?php echo $cajasporpallet ?>"/>
                                             <button type="button" id="btnagregar" style="margin-top:22px;" class="btn btn-default">Agregar</button>
                                         </div>
@@ -390,139 +370,4 @@
 
         });
     });
-</script>
-<script>
-    Vue.config.devtools = true
-    Vue.component('modal', {//modal
-        template: `
-   <transition name="modal">
-      <div class="modal-mask">
-        <div class="modal-wrapper">
-          <div class="modal-dialog">
-                            <div class="modal-content">
-			      
-
-                              <div class="modal-header">
-                                        <h5 class="modal-title"> <slot name="head"></slot></h5> 
-                <i class="fa fa-window-close  icon-md text-danger" @click="$emit('close')"></i>
-                                      </div>
-
-                              <div class="modal-body" style="background-color:#fff;">
-                                 <slot name="body"></slot>
-                              </div>
-                              <div class="modal-footer">
-
-                                 <slot name="foot"></slot>
-                              </div>
-                            </div>
-          </div>
-        </div>
-      </div>
-    </transition> 
-    `
-    })
-    var v = new Vue({
-        el: '#app',
-        data: {
-            url: 'http://localhost:8383/sisproduction/',
-
-            addModal: false,
-            editModal: false,
-            //passwordModal:false,
-            //deleteModal:false,
-            partes: [],
-            search: {text: ''},
-            emptyResult: false,
-            chooseParte: {},
-            formValidate: [],
-            successMSG: '',
-
-            //pagination
-            currentPage: 0,
-            rowCountPage: 5,
-            totalParte: 0,
-            pageRange: 2
-        },
-        created() {
-            this.showAll();
-        },
-        methods: {
-
-            showAll() {
-
-
-                axios.get(this.url + "salida/test1/" +<?php echo $idsalida ?>).then(function (response) {
-                    if (response.data.partes == null) {
-                        v.noResult()
-                    } else {
-                        v.getData(response.data.partes);
-
-                    }
-                })
-            },
-            searchParte() {
-                var formData = v.formData(v.search);
-                axios.post(this.url + "salida/searchPartes", formData).then(function (response) {
-                    if (response.data.partes == null) {
-                        v.noResult()
-                    } else {
-                        v.getData(response.data.partes);
-
-                    }
-                })
-            },
-
-            formData(obj) {
-                var formData = new FormData();
-                for (var key in obj) {
-                    formData.append(key, obj[key]);
-                }
-                return formData;
-            },
-            getData(partes) {
-                v.emptyResult = false; // become false if has a record
-                v.totalParte = partes.length //get total of user
-                v.partes = partes.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
-
-                // if the record is empty, go back a page
-                if (v.partes.length == 0 && v.currentPage > 0) {
-                    v.pageUpdate(v.currentPage - 1)
-                    v.clearAll();
-                }
-            },
-
-            selectParte(parte) {
-                v.chooseParte = parte;
-            },
-            clearMSG() {
-                setTimeout(function () {
-                    v.successMSG = ''
-                }, 3000); // disappearing message success in 2 sec
-            },
-            clearAll() {
-                v.formValidate = false;
-                v.addModal = false;
-                v.editModal = false;
-                v.deleteModal = false;
-                v.refresh()
-
-            },
-            noResult() {
-
-                v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
-                v.partes = null
-                v.totalClient = 0 //remove current page if is empty
-
-            },
-
-            pageUpdate(pageNumber) {
-                v.currentPage = pageNumber; //receive currentPage number came from pagination template
-                v.refresh()
-            },
-            refresh() {
-                v.search.text ? v.searchPartes() : v.showAll(); //for preventing
-
-            }
-        }
-    })
 </script>

@@ -24,10 +24,10 @@ class Transferencia extends CI_Controller {
         //Permission::grant(uri_string());
         $query = $this->transferencia->showAll();
         $data = array(
-            'datatransferencia'=>$query
+            'datatransferencia' => $query
         );
         $this->load->view('header');
-        $this->load->view('transferencia/index',$data);
+        $this->load->view('transferencia/index', $data);
         $this->load->view('footer');
     }
 
@@ -39,12 +39,14 @@ class Transferencia extends CI_Controller {
         echo json_encode($result);
     }
 
-    public function detalle($id) {
+    public function detalle($id, $folio) {
         # code...
         $datalinea = $this->linea->showAllLinea();
         $datatransferencia = $this->transferencia->listaNumeroParteTransferencia($id);
+       
         $data = array(
             'id' => $id,
+            'folio' => $folio,
             'datalinea' => $datalinea,
             'datatransferencia' => $datatransferencia);
         $this->load->view('header');
@@ -117,11 +119,11 @@ class Transferencia extends CI_Controller {
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
                 $this->palletcajasproceso->addPalletCajasProceso($dataproceso);
-                echo 1;
+                echo "1";
             } else {
 
                 //No coinciden las etiquetas
-                echo 0;
+                echo "0";
             }
         }
     }
@@ -132,42 +134,99 @@ class Transferencia extends CI_Controller {
         echo json_encode($data);
     }
 
+    public function soloNumeros($laCadena) {
+        $carsValidos = "0123456789";
+        for ($i = 0; $i < strlen($laCadena); $i++) {
+            if (strpos($carsValidos, substr($laCadena, $i, 1)) === false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function registrar() {
+        $numeroparte = $this->input->post('numeroparte');
+        $cliente = $this->input->post('cliente');
+        $modelo = $this->input->post('modelo');
+        $revision = $this->input->post('revision');
+        $linea = $this->input->post('linea');
+        $cajas = $this->input->post('cajas');
+        $cantidad = $this->input->post('cantidad');
+        $idtransferencia = $this->input->post('idtransferencia');
+        if ((isset($numeroparte) && !empty($numeroparte)) && (isset($cliente) && !empty($cliente)) && (isset($modelo) && !empty($modelo)) && (isset($revision) && !empty($revision)) && (isset($linea) && !empty($linea)) && (isset($cajas) && !empty($cajas)) && (isset($cantidad) && !empty($cantidad))) {
+
+            if ($this->soloNumeros($cantidad) == true) {
+
+                for ($i = 1; $i <= $cantidad; $i++) {
+                    # code...
+
+                    $data = array(
+                        'idtransferancia' => $idtransferencia,
+                        'pallet' => 1,
+                        'idcajas' => $cajas,
+                        'idlinea' => $linea,
+                        'idestatus' => 14,
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                    );
+                    $this->transferencia->addPalletCajas($data);
+                }
+            } else {
+                echo "2";
+            }
+        } else {
+            //El numero de parte  es requerido.
+            echo "1";
+        }
+    }
+
     public function eliminarpallet() {
         $ids = $this->input->post('id');
+        $contador = 0;
         foreach ($ids as $value) {
 
-            $data = array(
-                'idestatus' => 17
-            );
-            $this->transferencia->updateEnvio($value, $data);
+            $val = $this->transferencia->validarEliminacion($value);
 
-            $dataproceso = array(
-                'idpalletcajas' => $value,
-                'idestatus' => 17,
-                'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s')
-            );
-            $this->palletcajasproceso->addPalletCajasProceso($dataproceso);
+            if ($value != false) {
+                $data = array(
+                    'idestatus' => 17
+                );
+                $this->transferencia->updateEnvio($value, $data);
+
+                $dataproceso = array(
+                    'idpalletcajas' => $value,
+                    'idestatus' => 17,
+                    'idusuario' => $this->session->user_id,
+                    'fecharegistro' => date('Y-m-d H:i:s')
+                );
+                $this->palletcajasproceso->addPalletCajasProceso($dataproceso);
+            } else {
+                $contador++;
+            }
         }
-        echo 1;
+        if ($contador > 0) {
+            echo "0";
+        } else {
+            echo "1";
+        }
     }
 
     public function generarPDFEnvio($id) {
         //Permission::grant(uri_string());
         $this->load->library('tcpdf');
-        $listapartes = $this->transferencia->palletReporte($id); 
+        $listapartes = $this->transferencia->palletReporte($id);
         $totalpallet = 0;
         $totalcajas = 0;
         if ($listapartes != false) {
 
             foreach ($listapartes as $value) {
-                $totalpallet =$totalpallet + $value->totalpallet;
+                $totalpallet = $totalpallet + $value->totalpallet;
                 $totalcajas = $totalcajas + $value->totalcajas;
             }
         }
 
 
-        $detalle = $this->transferencia->detalleTransferencia($id); 
+        $detalle = $this->transferencia->detalleTransferencia($id);
         $horario = $detalle->horainicial . " - " . $detalle->horafinal;
         $linkimge = base_url() . '/assets/images/woorilogo.png';
         $fechaactual = date('d/m/Y');
@@ -343,25 +402,242 @@ class Transferencia extends CI_Controller {
     }
 
     public function agregar() {
-        $folio= $this->transferencia->obtenerUltimoFolio();
+        $folio = $this->transferencia->obtenerUltimoFolio();
         $numerofolio = $folio->folio;
-        $nuevo=$numerofolio + 1 ;
+        $nuevo = $numerofolio + 1;
         $data = array(
-            'folio'=>$nuevo,
+            'folio' => $nuevo,
             'idusuario' => $this->session->user_id,
             'fecharegistro' => date('Y-m-d H:i:s')
         );
         $this->transferencia->addTransferencia($data);
         redirect('transferencia/');
     }
+
     public function eliminar($id) {
-        
-        $vali= $this->transferencia->listaPalletCajas($id);
-        if($vali==false){
+
+        $vali = $this->transferencia->listaPalletCajas($id);
+        if ($vali == false) {
             $this->transferencia->deleteTransferencia($id);
         }
-          redirect('transferencia/');
+        redirect('transferencia/');
+    }
+
+    public function set_barcode($code) {
+
+        //load library
+        $this->load->library('zend');
+        //load in folder Zend
+        $this->zend->load('Zend/Barcode');
+        //generate barcode 
+        $file = Zend_Barcode::draw('code128', 'image', array('text' => $code, 'factor' => 1.5, 'stretchText' => true), array());
+        $code = time();
+        $barcodeRealPath = $_SERVER['DOCUMENT_ROOT'] . '/sisproduction/assets/cache/' . $code . '.png';
+
+        // header('Content-Type: image/png');
+        $store_image = imagepng($file, $barcodeRealPath);
+        return base_url() . 'assets/cache/' . $code . '.png';
+    }
+
+    public function etiquetaPacking($idpalletcajas) {
+        // Permission::grant(uri_string());
+        date_default_timezone_set("America/Tijuana");
+        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
+        $barcode = $this->set_barcode($detalle->numeroparte);
+        $hora = date("h:i a");
+        $fecha = date("j/n/Y");
+        $dia = date("j");
+        $semana = date("W");
+        $mes = date("F");
+        $this->load->library('html2pdf');
+        ob_start();
+
+
+        $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
+        $mipdf->pdf->SetDisplayMode('fullpage');
+        $mipdf->writeHTML('<page  format="400x165"  >
+ <style type="text/css">
+            table {border-collapse:collapse}
+            td 
+                {
+                    border:0px  solid black;
+                }
+    </style>
+
+    <br>
+    <table border="1" align="center">  
+        <tr>
+            <td  align="center" height="45" width="200"  style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" >Customer</td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" ></td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>    
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan=""></td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>    
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>    
+                
+        </tr>
+
+        <tr>
+            <td align="center"  height="90"   valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
         
+            
+            <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $detalle->cantidad . '</b></td>
+                
+            <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
+            
+            <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >' . $semana . '</td>
+
+        </tr>
+
+        <tr>
+            <td  align="center" width=""  height=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
+            <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>    
+            <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; ' . $hora . ' </td>
+
+        </tr>
+
+        <tr>
+            <td  align="center" width="" height="50"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; "  colspan="3" >Part Number</td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>        
+        </tr>
+
+        <tr>
+        <td colspan="3" rowspan="2" align="center"  style="font-size:25px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <br><img src="' . $barcode . '" /> </td>
+        <td height="60" colspan="3" align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" > &nbsp; &nbsp; &nbsp;' . $detalle->modelo . '</td>
+
+        </tr>
+
+        <tr>
+        <td align="" height="" style="font-size:25px; font-family:arial; font-weight:bold;  " >&nbsp;</td>
+        <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto; background: #fff; color:#fff; " >Rev No.</td>
+        <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto;background: #fff; color:#fff; "  >Pallet No.</td>
+        </tr>
+
+        <tr>
+            <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" rowspan="2">ROHS</td>
+            <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold; padding-top:15px; " colspan="">' . $detalle->revision . '</td>
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">1</td>    
+        </tr>
+        <tr>
+            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->nombrelinea . '</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
+            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
+            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>    
+        </tr>
+
+    </table>
+</page>
+');
+
+        //$mipdf->pdf->IncludeJS('print(TRUE)');
+        $mipdf->Output(APPPATH . 'pdfs\\' . 'Packing' . date('Ymdgisv') . '.pdf', 'F');
+        $mipdf->Output('Etiqueta_Packing.pdf');
+    }
+    public function imprimirEtiquetaPacking() {
+        
+            date_default_timezone_set("America/Tijuana");
+             $idpalletcajas = $this->input->post('idpalletcajas');
+        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
+        $barcode = $this->set_barcode($detalle->numeroparte);
+        $hora = date("h:i a");
+        $fecha = date("j/n/Y");
+        $dia = date("j");
+        $semana = date("W");
+        $mes = date("F");
+        $this->load->library('html2pdf');
+        ob_start();
+
+
+        $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
+        $mipdf->pdf->SetDisplayMode('fullpage');
+        $mipdf->writeHTML('<page  format="400x165"  >
+ <style type="text/css">
+            table {border-collapse:collapse}
+            td 
+                {
+                    border:0px  solid black;
+                }
+    </style>
+
+    <br>
+    <table border="1" align="center">  
+        <tr>
+            <td  align="center" height="45" width="200"  style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" >Customer</td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" ></td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>    
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan=""></td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>    
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>    
+                
+        </tr>
+
+        <tr>
+            <td align="center"  height="90"   valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
+        
+            
+            <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $detalle->cantidad . '</b></td>
+                
+            <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
+            
+            <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >' . $semana . '</td>
+
+        </tr>
+
+        <tr>
+            <td  align="center" width=""  height=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
+            <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>    
+            <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; ' . $hora . ' </td>
+
+        </tr>
+
+        <tr>
+            <td  align="center" width="" height="50"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; "  colspan="3" >Part Number</td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>        
+        </tr>
+
+        <tr>
+        <td colspan="3" rowspan="2" align="center"  style="font-size:25px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <br><img src="' . $barcode . '" /> </td>
+        <td height="60" colspan="3" align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" > &nbsp; &nbsp; &nbsp;' . $detalle->modelo . '</td>
+
+        </tr>
+
+        <tr>
+        <td align="" height="" style="font-size:25px; font-family:arial; font-weight:bold;  " >&nbsp;</td>
+        <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto; background: #fff; color:#fff; " >Rev No.</td>
+        <td align="center"  style="font-size:30px; font-family:arial; font-weight:bold; overflow:auto;background: #fff; color:#fff; "  >Pallet No.</td>
+        </tr>
+
+        <tr>
+            <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" rowspan="2">ROHS</td>
+            <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold; padding-top:15px; " colspan="">' . $detalle->revision . '</td>
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">1</td>    
+        </tr>
+        <tr>
+            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->nombrelinea . '</td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
+            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
+            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>    
+        </tr>
+
+    </table>
+</page>
+');
+
+        $nombrepdf = APPPATH . 'pdfs\\' . 'Packing' . date('Ymdgisv') . '.pdf';
+        $mipdf->Output($nombrepdf, 'F');
+        $cmd = "C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe /t \"$nombrepdf\" \"HP Officejet Pro 8600 (Red)\"";
+        echo $cmd;
     }
 }
 

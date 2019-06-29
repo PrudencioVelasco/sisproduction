@@ -1,3 +1,9 @@
+var this_js_script = $('script[src*=appcantidad]');
+var my_var_1 = this_js_script.attr('data-my_var_1');   
+if (typeof my_var_1 === "undefined" ) {
+   var my_var_1 = 'some_default_value';
+}
+ 
 Vue.config.devtools = true
 Vue.component('modal', {//modal
     template: `
@@ -35,67 +41,65 @@ var v = new Vue({
         editModal: false,
         //passwordModal:false,
         //deleteModal:false,
-        salidas: [],
-        clientes: [],
-    
-    
-        newSalida: {
-            idcliente: '',
-            po: '',
-            notas: ''
-        },
+        cantidades: [],
+
         search: {text: ''},
         emptyResult: false,
-        chooseSalida: {},
+        newCantidad: {
+            cantidad: '',
+            msgerror:''
+        },
+        chooseCantidad: {},
         formValidate: [],
         successMSG: '',
 
         //pagination
         currentPage: 0,
-        rowCountPage: 5,
-        totalSalida: 0,
+        rowCountPage: 15,
+        totalCantidad: 0,
         pageRange: 2,
-         directives: {columnSortable}
+        directives: {columnSortable},
+        idrevision: my_var_1
     },
     created() {
-        this.showAll();
-        this.showAllClientes();
+        this.showAll(); 
     },
     methods: {
         orderBy(sortFn) {
-        // sort your array data like this.userArray
-        this.salidas.sort(sortFn);
-      },
-   
+            // sort your array data like this.userArray
+            this.cantidades.sort(sortFn);
+        },
         showAll() {
-            axios.get(this.url + "salida/showAll").then(function (response) {
-                if (response.data.salidas == null) {
+            axios.get(this.url + "cantidad/showAll", {
+                params: {
+                    idrevision: this.idrevision
+                }
+            }).then(function (response) {
+                if (response.data.cantidades == null) {
                     v.noResult()
                 } else {
-                    v.getData(response.data.salidas);
-                    //console.log(response.data.salidas);
+                    v.getData(response.data.cantidades);
+                    //console.log(response.data.partes);
                 }
             })
         },
-        showAllClientes() {
-            axios.get(this.url + "client/showAllClientesActivos")
-                    .then(response => (this.clientes = response.data))
 
-        },
-        searchSalida() {
+        searchCantidad() {
             var formData = v.formData(v.search);
-            axios.post(this.url + "salida/searchPartes", formData).then(function (response) {
-                if (response.data.salidas == null) {
+            formData.append('idrevision', this.idrevision);
+            axios.post(this.url + "cantidad/searchCantidad", formData).then(function (response) {
+                if (response.data.cantidades == null) {
                     v.noResult()
                 } else {
-                    v.getData(response.data.salidas);
+                    v.getData(response.data.cantidades);
 
                 }
             })
         },
-        addSalida() {
-            var formData = v.formData(v.newSalida);
-            axios.post(this.url + "salida/addSalida", formData).then(function (response) {
+        addCantidad() {
+            var formData = v.formData(v.newCantidad);
+                formData.append('idrevision', this.idrevision);
+            axios.post(this.url + "cantidad/addCantidad", formData).then(function (response) {
                 if (response.data.error) {
                     v.formValidate = response.data.msg;
                 } else {
@@ -106,19 +110,17 @@ var v = new Vue({
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    //  router.push('/detalle/detalleSalida')
+
                     v.clearAll();
                     v.clearMSG();
-                    //redirect('/salida/detalleSalida');
                 }
             })
         },
-        updateSalida() {
-            var formData = v.formData(v.chooseSalida);
-            axios.post(this.url + "salida/updateSalida", formData).then(function (response) {
+        updateCantidad() {
+            var formData = v.formData(v.chooseCantidad);
+            axios.post(this.url + "cantidad/updateCantidad", formData).then(function (response) {
                 if (response.data.error) {
                     v.formValidate = response.data.msg;
-                    console.log(response.data.error)
                 } else {
                     //v.successMSG = response.data.success;
                     swal({
@@ -134,7 +136,6 @@ var v = new Vue({
                 }
             })
         },
-
         formData(obj) {
             var formData = new FormData();
             for (var key in obj) {
@@ -142,20 +143,20 @@ var v = new Vue({
             }
             return formData;
         },
-        getData(salidas) {
+        getData(cantidades) {
             v.emptyResult = false; // become false if has a record
-            v.totalSalida = salidas.length //get total of user
-            v.salidas = salidas.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
+            v.totalCantidad = cantidades.length //get total of user
+            v.cantidades = cantidades.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
 
             // if the record is empty, go back a page
-            if (v.salidas.length == 0 && v.currentPage > 0) {
+            if (v.cantidades.length == 0 && v.currentPage > 0) {
                 v.pageUpdate(v.currentPage - 1)
                 v.clearAll();
             }
         },
 
-        selectParte(salida) {
-            v.chooseSalida = salida;
+        selectCantidad(cantidad) {
+            v.chooseCantidad = cantidad;
         },
         clearMSG() {
             setTimeout(function () {
@@ -163,6 +164,9 @@ var v = new Vue({
             }, 3000); // disappearing message success in 2 sec
         },
         clearAll() {
+            v.newCantidad = {
+             cantidad: '',
+             msgerror:''};
             v.formValidate = false;
             v.addModal = false;
             v.editModal = false;
@@ -173,8 +177,8 @@ var v = new Vue({
         noResult() {
 
             v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
-            v.salidas = null
-            v.totalSalida = 0 //remove current page if is empty
+            v.cantidades = null
+            v.totalCantidad = 0 //remove current page if is empty
 
         },
 
@@ -183,7 +187,7 @@ var v = new Vue({
             v.refresh()
         },
         refresh() {
-            v.search.text ? v.searchSalida() : v.showAll(); //for preventing
+            v.search.text ? v.searchCantidad() : v.showAll(); //for preventing
 
         }
     }

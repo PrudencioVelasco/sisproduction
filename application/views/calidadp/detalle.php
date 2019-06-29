@@ -10,10 +10,10 @@
                     <div class="x_title">
                         <div class="row">
                             <div class="col-md-6" align="left">
-                                <h2><strong>Modulo Calidad</strong></h2>
+                                <h2><strong>Detalle de Transfrencia</strong></h2>
                             </div>
                             <div class="col-md-6" style="display: flex; justify-content: flex-end">
-                                <h2><strong>Transferencia: # <?php echo $id; ?></strong></h2>
+                                <h2><strong>Transferencia: # <?php echo $folio; ?></strong></h2>
                             </div>
                         </div>
 
@@ -59,9 +59,10 @@
                                                                     <?php
                                                                     if ($value->idestatus == 1) {
                                                                         echo '<label style="color:green;">EN VALIDACIÓN</label>';
-                                                                    } else if ($value->idestatus == 3) {
-                                                                        echo '<label style="color:red;">R. A PACKING</label>';
-                                                                    } else if ($value->idestatus == 4) {
+                                                                    } else if ($value->idestatus == 3) { ?> 
+                                                                         <label id="<?php echo $value->idpalletcajas; ?>" class="edit_data" style="color:red; font-weight: bolder" >R. A PACKING</label>
+
+                                                                    <?php } else if ($value->idestatus == 4) {
                                                                         echo '<label style="color:green;">E. A ALMACEN</label>';
                                                                     } else if ($value->idestatus == 8) {
                                                                         echo '<label style="color:green;">EN ALMACEN</label>';
@@ -71,8 +72,8 @@
                                                                         echo '<label style="color:red;">EN SCRAP</label>';
                                                                     } else if ($value->idestatus == 6) {
                                                                         ?>
-                                                                        <a style="color:red;" class="btnquitar" href="<?php echo site_url('calidad/quitarPalletCajas/' . $value->idpalletcajas . '/' . $detalle->iddetalleparte) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i></a> 
-                                                                        <label style="color:red;">R. A CALIDAD</label> 
+                                                                         
+                                                                        <label id2="<?php echo $value->idpalletcajas; ?>" class="edit_data2" style="color:red; font-weight: bolder" >R. A CALIDAD</label>
                                                                     <?php
                                                                     } else if ($value->idestatus == 14) {
                                                                         echo '<label style="color:black;">EN PACKING</label>';
@@ -82,16 +83,18 @@
                                                                     ?>
                                                                 </td>
                                                                 <td align="center">
-                                                                    <a style="padding-right: 20px" target="_blank" href="<?php echo site_url('parte/etiquetaPacking/' . $value->idpalletcajas) ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
+                                                                    <?php if ($value->idestatus != 14) { ?>
+                                                                    <a style="padding-right: 20px" target="_blank" href="<?php echo site_url('calidadp/etiquetaCalidad/' . $value->idpalletcajas) ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
                                                                     <input type="hidden" class="idpalletcajas" value="<?php echo $value->idpalletcajas; ?>"/>
                                                                     <a href=""> <i class="fa fa-print fa-2x btnimprimirpdf"  aria-hidden="true"></i></a>
+                                                                <?php } ?>
                                                                 </td>
                                                             </tr>
         <?php
     }
 }
 ?> 
-                                                <div id="myModalMSG" class="modal fade" role="dialog">
+                                              <div id="myModalMSG" class="modal fade" role="dialog">
                                                     <div class="modal-dialog">
 
                                                         <!-- Modal content-->
@@ -106,12 +109,44 @@
                                                                     <div class="col-md-12">
                                                                         <div class="form-group">
                                                                             <label>Motivo de rechazo</label>
-                                                                            <textarea class="md-textarea form-control" rows="3" disabled=""></textarea>
+                                                                            <textarea id="motivomsm" class="md-textarea form-control" rows="3" disabled=""></textarea>
                                                                         </div> 
                                                                     </div> 
 
                                                                 </div>
+                                                               
 
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                                    <div id="myModalMSGaCalidad" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">Error</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="errormsgescaneoa" style="color: red"></div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <label>Motivo de rechazo</label>
+                                                                            <textarea id="motivomsmcalidad" class="md-textarea form-control" rows="3" disabled=""></textarea>
+                                                                        </div> 
+                                                                    </div> 
+
+                                                                </div>
+                                                               
 
                                                             </div>
                                                             <div class="modal-footer">
@@ -157,7 +192,7 @@ foreach ($motivosrechazo as $valuemotivo) {
                                                         <button type="button" id="btnenviar" name="enviar" class="btn btn-success  btn-sm"><i class="fa fa-send" aria-hidden="true"></i> Enviar</button>
                                                          <button type="button" id="btnhold"   class="btn btn-info btn-sm"><i class="fa fa-clock-o" aria-hidden="true"></i> Hold</button>
                                                         <button type="button" id="btnrechazar" class="btn btn-danger btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Packing</button>
-                                                    <a target="_blank" href="<?php echo site_url('transferencia/generarPDFEnvio/' . $id) ?>" class="btn btn-default  btn-sm"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
+                                                    <a target="_blank" href="<?php echo site_url('calidadp/generarPDFEnvio/' . $id) ?>" class="btn btn-default  btn-sm"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
 <?php } ?>  
                                                 </div>
                                             </div>
@@ -219,7 +254,7 @@ foreach ($motivosrechazo as $valuemotivo) {
             //$('#frmdetalle').submit();
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
                 $('#idmotivorechazo').show();
-
+                $('#idmotivoopcion').hide();
                 var optId = $("#motivo").val();
                 if (optId != "") {
                     form = $("#frmdetalle").serialize();
@@ -253,7 +288,7 @@ foreach ($motivosrechazo as $valuemotivo) {
         $('#btnhold').on('click', function () {
             //$('#frmdetalle').submit();
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
-
+                $('#idmotivorechazo').hide();
                 $('#idmotivoopcion').show();
                 var optId = $("#motivoopcion").val();
                 if (optId !== "") {
@@ -285,19 +320,51 @@ foreach ($motivosrechazo as $valuemotivo) {
                 $('#errormsg').text("Seleccionar una casilla.");
             }
         });
+
+
+         $(document).on('click', '.edit_data', function () {
+            var idpalletcajas = $(this).attr("id");
+            //$('#myModalMSG').modal('show');
+            $.ajax({
+                url: "<?php echo site_url('calidadp/rechazopallet'); ?>",
+                method: "POST",
+                data: {idpalletcajas: idpalletcajas},
+                dataType: "json",
+                success: function (data) {
+                    $('#motivomsm').val(data.motivo); 
+                    $('#myModalMSG').modal('show');
+                }
+            });
+        });
+
+          $(document).on('click', '.edit_data2', function () {
+            var idpalletcajas = $(this).attr("id2");
+            //$('#myModalMSG').modal('show');
+            $.ajax({
+                url: "<?php echo site_url('calidadp/rechazopalletacalidad'); ?>",
+                method: "POST",
+                data: {idpalletcajas: idpalletcajas},
+                dataType: "json",
+                success: function (data) {
+                    $('#motivomsmcalidad').val(data.motivo); 
+                    $('#myModalMSGaCalidad').modal('show');
+                }
+            });
+        });
+
+
     });
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
 
         $('.btnimprimirpdf').on('click', function () {
-            var parametros = {
-                "iddetalleparte": $('.iddetalleparte').val(),
+            var parametros = { 
                 "idpalletcajas": $('.idpalletcajas').val()
             };
             $.ajax({
                 type: "POST",
-                url: "<?php echo site_url('parte/imprimirEtiquetaCalidad'); ?>",
+                url: "<?php echo site_url('calidadp/imprimirEtiquetaCalidad'); ?>",
                 data: parametros,
 
                 success: function (data) {
