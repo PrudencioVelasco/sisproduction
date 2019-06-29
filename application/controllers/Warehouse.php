@@ -42,7 +42,44 @@ class Warehouse extends CI_Controller {
         $second_date = $this->input->post('fechafin');
         $tipo = $this->input->post('tipo');
 
-        $data['exits'] = $this->almacen->getDataExits($first_date,$second_date,$tipo);
+        $exits = $this->almacen->getDataExits($first_date,$second_date,$tipo);
+
+        $render = "";
+        $render .='<table id="datatable" class="table">
+        <thead>
+        <tr>
+        <th scope="col">No. salida</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">No. Parte</th>
+        <th scope="col">Revision</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Posicion</th>
+        <th scope="col">No. Salida</th>';
+        if ($tipo == '1') {
+            $render .='<th scope="col">Cajas</th>';
+        }
+        $render .='</tr>';
+        $render .='</thead>';
+        $render .='<tbody>';
+        if (isset($exits) && !empty($exits)){
+            foreach ($exits as $value){
+                $render .='<tr>';
+                $render .='<td>'. $value->idtransferancia .'</td>';
+                $render .='<td>'. $value->nombre .'</td>';
+                $render .='<td>'. $value->numeroparte .'</td>';
+                $render .='<td>'.$value->descripcion .'</td>';
+                $render .='<td>'.$value->cantidad .'</td>';
+                $render .='<td>'.$value->nombreposicion .'</td>';
+                $render .='<td>'.$value->numerosalida .'</td>';
+                if ($tipo == '1') {
+                    $render .='<td>'.$value->caja .'</td>';
+                }
+                $render .='</tr>';
+            }
+        } 
+        $render .= '</tbody>
+        </table>';
+        $data['exits'] = $render;
 
         $this->load->view('header');
         $this->load->view('warehouse/exit',$data);
@@ -50,7 +87,7 @@ class Warehouse extends CI_Controller {
     }
 
     public function wharehouse() {
-        //Permission::grant(uri_string());
+    //Permission::grant(uri_string());
         $data['informacion'] = $this->almacen->getDataPallets();
 
         $this->load->view('header');

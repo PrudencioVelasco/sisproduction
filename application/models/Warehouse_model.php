@@ -56,7 +56,7 @@ class Warehouse_model extends CI_Model {
 
     public function getDataExits($first_date='',$second_date='',$tipo=''){
         $this->db->select('pc.idpalletcajas,pc.idestatus,pc.idtransferancia,c.nombre,p.numeroparte,
-            tc.cantidad,tr.descripcion,s.nombrestatus,pb.nombreposicion,os.idordensalida,
+            tc.cantidad,tr.descripcion,s.nombrestatus,pb.nombreposicion,os.caja,os.idordensalida,
             sal.numerosalida,sal.orden,sal.finalizado');
         $this->db->from('palletcajas pc');
         $this->db->join('tblcantidad tc','tc.idcantidad = pc.idcajas');
@@ -70,15 +70,18 @@ class Warehouse_model extends CI_Model {
         $this->db->join('ordensalida os ',' pc.idpalletcajas = os.idpalletcajas');
         $this->db->join('salida sal ',' os.idsalida = sal.idsalida');
         
-        if (!empty($first_date) && !empty($second_date) && $tipo != 0) {
+        if (!empty($first_date) && !empty($second_date) && $tipo == "0") {
             $this->db->where('os.fecharegistro >=', $first_date);
             $this->db->where('os.fecharegistro <=', $second_date);
             $this->db->where('os.tipo', $tipo);
-        }else if(!empty($first_date) && !empty($second_date)){
+        }else if(!empty($first_date) && !empty($second_date) && $tipo == "1"){
             $this->db->where('os.fecharegistro >=', $first_date);
             $this->db->where('os.fecharegistro <=', $second_date);
-        }else{
-            //
+            $this->db->where('os.tipo', $tipo);
+        }else if(!empty($first_date) && !empty($second_date) && $tipo == "2"){
+            $this->db->where('os.fecharegistro >=', $first_date);
+            $this->db->where('os.fecharegistro <=', $second_date);
+            $this->db->where('os.tipo', $tipo);
         }
         $this->db->where('pc.idestatus', 8);
         $this->db->where('ppb.ordensalida', 1);

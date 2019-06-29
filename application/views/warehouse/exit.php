@@ -48,7 +48,10 @@
          <div class="container">
           <div class="row">
             <div class="col-md-12">
-              <table id="datatable" class="table">
+              <?php if(!empty($exits)):?>
+                <?php echo $exits; ?>
+              <?php endif;?>
+              <!--<table id="datatable" class="table">
                 <thead>
                   <tr>
                     <th scope="col">No. salida</th>
@@ -57,6 +60,7 @@
                     <th scope="col">Revision</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Posicion</th>
+                    <th scope="col">No. Salida</th>
                     <th scope="col" id="datacol">Cajas</th> 
                   </tr>
                 </thead>
@@ -70,14 +74,13 @@
                       <td><?php echo $value->descripcion; ?></td>
                       <td><?php echo $value->cantidad; ?></td>
                       <td><?php echo $value->nombreposicion; ?></td>
-                      <?php if (!empty($value->caja)): ?>
-                        <td id="data"><?php echo $value->caja; ?></td>
-                      <?php endif ?>
+                      <td><?php echo $value->numerosalida; ?></td>
+                      <td><?php echo $value->caja; ?></td>
                     </tr>
                   <?php endforeach;?>
                 <?php endif;?> 
               </tbody>
-            </table>
+            </table>-->
           </div> 
         </div> 
       </div>
@@ -87,11 +90,18 @@
 </div>
 <script type="text/javascript">
   $( document ).ready(function() {
-    var attr = $(this).attr('#data');
-    if (typeof attr !== typeof undefined && attr !== false) {
-      $("#datacol").show();
-    }else{
-      $("#datacol").hide();
-    }
+
+    //var tipo = $('#tipo').val();
+    //console.log(tipo);
+    //var attr = $('td:nth-child(8):empty');
+    //if (attr) {
+      //alert('No tiene datos')
+      //$('th:nth-child(7)').show();
+      //$('td:nth-child(7)').show();
+    //}else{
+      //$("#datacol").hide();
+      //$('th:nth-child(7)').hide();
+      //$('td:nth-child(7)').hide();
+    //}
   });
 </script>
