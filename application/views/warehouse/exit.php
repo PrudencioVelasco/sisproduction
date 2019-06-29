@@ -57,9 +57,7 @@
                     <th scope="col">Revision</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Posicion</th>
-                    <th scope="col">No. Salida</th>
                     <th scope="col" id="datacol">Cajas</th> 
-                    <th>Estatus</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -72,12 +70,9 @@
                       <td><?php echo $value->descripcion; ?></td>
                       <td><?php echo $value->cantidad; ?></td>
                       <td><?php echo $value->nombreposicion; ?></td>
-                      <td><?php echo $value->numerosalida; ?></td>
                       <?php if (!empty($value->caja)): ?>
                         <td id="data"><?php echo $value->caja; ?></td>
                       <?php endif ?>
-                      <td><label style="color:green;"><?php echo $value->nombrestatus;?></label>
-                      </td>
                     </tr>
                   <?php endforeach;?>
                 <?php endif;?> 
