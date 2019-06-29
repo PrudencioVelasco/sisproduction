@@ -28,9 +28,8 @@ class Warehouse extends CI_Controller {
         //Permission::grant(uri_string());
         $first_date = $this->input->post('fechainicio');
         $second_date = $this->input->post('fechafin');
-        $tipo = $this->input->post('tipo');
         
-        $data['entries'] = $this->almacen->getDataEntry($first_date,$second_date,$tipo);
+        $data['entries'] = $this->almacen->getDataEntry($first_date,$second_date);
 
         $this->load->view('header');
         $this->load->view('warehouse/entry',$data);
