@@ -3,8 +3,14 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel">
         <div class="x_title">
-          <h3>Reporte de Salidas</h3>
-
+          <div class="row">  
+              <div class="col-md-11 col-sm-12 col-xs-12">
+                <h3>Reporte de Salidas</h3>
+              </div>
+              <div class="col-md-1 col-sm-12 col-xs-12">
+                <a href="<?php echo base_url('warehouse/index')?>" class="btn btn-success"><i class="fa fa-home" aria-hidden="true"></i></a>
+              </div>
+            </div>
           <div class="clearfix"></div>
         </div>
 
@@ -90,18 +96,12 @@
 </div>
 <script type="text/javascript">
   $( document ).ready(function() {
-
-    //var tipo = $('#tipo').val();
-    //console.log(tipo);
-    //var attr = $('td:nth-child(8):empty');
-    //if (attr) {
-      //alert('No tiene datos')
-      //$('th:nth-child(7)').show();
-      //$('td:nth-child(7)').show();
-    //}else{
-      //$("#datacol").hide();
-      //$('th:nth-child(7)').hide();
-      //$('td:nth-child(7)').hide();
-    //}
+    $('#datatableexit').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'excelHtml5',
+            'pdfHtml5'
+        ]
+    } );
   });
 </script>

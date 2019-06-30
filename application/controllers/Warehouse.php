@@ -45,16 +45,15 @@ class Warehouse extends CI_Controller {
         $exits = $this->almacen->getDataExits($first_date,$second_date,$tipo);
 
         $render = "";
-        $render .='<table id="datatable" class="table">
+        $render .='<table id="datatableexit" class="table">
         <thead>
         <tr>
-        <th scope="col">No. salida</th>
+        <th scope="col">No. Salida</th>
         <th scope="col">Cliente</th>
         <th scope="col">No. Parte</th>
         <th scope="col">Revision</th>
         <th scope="col">Cantidad</th>
-        <th scope="col">Posicion</th>
-        <th scope="col">No. Salida</th>';
+        <th scope="col">Posicion</th>';
         if ($tipo == '1') {
             $render .='<th scope="col">Cajas</th>';
         }
@@ -64,13 +63,12 @@ class Warehouse extends CI_Controller {
         if (isset($exits) && !empty($exits)){
             foreach ($exits as $value){
                 $render .='<tr>';
-                $render .='<td>'. $value->idtransferancia .'</td>';
+                $render .='<td>'.$value->numerosalida .'</td>';
                 $render .='<td>'. $value->nombre .'</td>';
                 $render .='<td>'. $value->numeroparte .'</td>';
                 $render .='<td>'.$value->descripcion .'</td>';
                 $render .='<td>'.$value->cantidad .'</td>';
                 $render .='<td>'.$value->nombreposicion .'</td>';
-                $render .='<td>'.$value->numerosalida .'</td>';
                 if ($tipo == '1') {
                     $render .='<td>'.$value->caja .'</td>';
                 }
