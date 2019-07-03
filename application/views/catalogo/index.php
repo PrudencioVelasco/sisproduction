@@ -80,7 +80,7 @@
                 </div>
                 <div class="count">---</div>
 
-                <h3><a href="<?php echo site_url('inventario/') ?>">Movimientos</a></h3>
+                <h3><a href="<?php echo site_url('warehouse/') ?>">Movimientos</a></h3>
                 <p>Movimientos de partes.</p>
               </div>
             </div> 
