@@ -12,15 +12,14 @@ class Hold_model extends CI_Model {
         $this->db->close();
     }
 
-    public function selectCantidades($id='')
+    public function selectCantidades($id)
     {
 
-        $this->db->select('*');
-        $this->db->from('tblcantidad');
-        if (!empty($id)) {
-            $this->db->where('idcantidad',$id);
-        }
-        $this->db->order_by('cantidad', 'ASC');
+        $this->db->select('pc.*,tc.*,tr.*');
+        $this->db->from('palletcajas pc');
+        $this->db->join('tblcantidad tc ',' pc.idcajas = tc.idcantidad');
+        $this->db->join('tblrevision tr ',' tc.idrevision = tr.idrevision');
+        $this->db->where('pc.idpalletcajas',$id);
         $query = $this->db->get();
         return $query->result();
     }

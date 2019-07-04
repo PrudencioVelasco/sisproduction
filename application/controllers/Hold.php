@@ -34,7 +34,7 @@ class Hold extends CI_Controller {
     public function detalle($idpalletcajas) {
 
         $data['informacion'] = $this->hold->detalleParteTransferencia($idpalletcajas);
-        $data['cantidades'] = $this->hold->selectCantidades();
+        $data['cantidades'] = $this->hold->selectCantidades($idpalletcajas);
 
         $this->load->view('header');
         $this->load->view('hold/detalle', $data);
