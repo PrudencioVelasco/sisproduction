@@ -31,6 +31,7 @@
                                                 <?php
                                                 if (isset($datatransferencia) && !empty($datatransferencia)) {
                                                     foreach ($datatransferencia as $value) {
+                                                          if(!empty($value->estatus)){
                                                         ?>
                                                         <tr   class="table-default"> 
                                                             <td><?php echo $value->folio; ?></td>
@@ -52,6 +53,7 @@
                                                         </tr>
                                                         <?php
                                                     }
+                                                }
                                                 }
                                                 ?>
                                             </tbody>

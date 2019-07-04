@@ -100,14 +100,14 @@
             serialized = myform.serialize();
             $.ajax({
              method: "POST",
-             url: "http://localhost/sisproduction/hold/sendQuality",
+             url: "<?php echo site_url('hold/sendQuality'); ?>",
              data: serialized,
              beforeSend: function( xhr ) {
                 //xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
             }
         }).done(function(data) {
            if (data == true) {
-            window.location.href = "http://localhost/sisproduction/hold/index";
+            window.location.href = "<?php echo site_url('hold/index'); ?>";
         }
     });
                         // Volver a deshabilitar el conjunto de entradas que previamente habilitó
@@ -123,14 +123,14 @@
             serialized = myform.serialize();
             $.ajax({
                 method: "POST",
-                url: "http://localhost/sisproduction/hold/sendAllQuality",
+                url: "<?php echo site_url('hold/sendAllQuality'); ?>",
                 data: serialized,
                 beforeSend: function( xhr ) {
                 //xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
             }
         }).done(function(data) {
             if (data == true) {
-                window.location.href = "http://localhost/sisproduction/hold/index";
+                window.location.href = "<?php echo site_url('hold/index'); ?>";
             }
         });
                         // Volver a deshabilitar el conjunto de entradas que previamente habilitó
@@ -145,14 +145,14 @@
             serialized = myform.serialize();
             $.ajax({
                 method: "POST",
-                url: "http://localhost/sisproduction/hold/sendTrash",
+                url: "<?php echo site_url('hold/sendTrash'); ?>",
                 data: serialized,
                 beforeSend: function( xhr ) {
                 //xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
             }
         }).done(function(data) {
             if (data == true) {
-                window.location.href = "http://localhost/sisproduction/hold/index";
+                window.location.href = "<?php echo site_url('hold/index'); ?>";
             }
         });
                         // Volver a deshabilitar el conjunto de entradas que previamente habilitó
@@ -164,7 +164,7 @@
             var cantidad = $('#cantidad').val();
             $.ajax({
                 method: "POST",
-                url: "http://localhost/sisproduction/hold/validQuantity",
+                url: "<?php echo site_url('hold/validQuantity'); ?>",
                 data: {id:id},
                 beforeSend: function( xhr ) {
                 //xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
