@@ -15,13 +15,30 @@ class Hold_model extends CI_Model {
     public function selectCantidades($id)
     {
 
-        $this->db->select('pc.*,tc.*,tr.*');
+        $this->db->select('tc.*');
         $this->db->from('palletcajas pc');
         $this->db->join('tblcantidad tc ',' pc.idcajas = tc.idcantidad');
         $this->db->join('tblrevision tr ',' tc.idrevision = tr.idrevision');
         $this->db->where('pc.idpalletcajas',$id);
         $query = $this->db->get();
-        return $query->result();
+          return $query->first_row();
+    }
+     public function listaCantidades($idpalletcajas,$cantidad)
+    {
+        # code...
+    $query = $this->db->query("SELECT ca.* FROM tblcantidad ca WHERE ca.idrevision in (
+                                SELECT r.idrevision FROM tblrevision r, tblcantidad c, palletcajas pc
+                                    WHERE pc.idcajas = c.idcantidad
+                                    AND c.idrevision =r.idrevision
+                                   
+                                    AND pc.idpalletcajas = $idpalletcajas)
+                                 AND ca.cantidad <= $cantidad
+                                    "); 
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
     }
 
     public function listaNumeroParteTransferencia() {

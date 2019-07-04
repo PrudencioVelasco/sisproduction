@@ -33,7 +33,7 @@
                                                 <?php if (isset($datatransferencia) && !empty($datatransferencia)):?>
                                                 <?php foreach ($datatransferencia as $value):?>
                                                     <tr>
-                                                        <td><?php echo $value->idtransferancia; ?></td>
+                                                        <td><?php echo $value->folio; ?></td>
                                                         <td><?php echo $value->nombre; ?></td>
                                                         <td><?php echo $value->numeroparte; ?></td>
                                                         <td><?php echo $value->descripcion; ?></td>

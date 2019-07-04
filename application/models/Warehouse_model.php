@@ -73,15 +73,15 @@ class Warehouse_model extends CI_Model {
         if (!empty($first_date) && !empty($second_date) && $tipo == "0") {
             $this->db->where('os.fecharegistro >=', $first_date);
             $this->db->where('os.fecharegistro <=', $second_date);
-            $this->db->where('os.tipo', $tipo);
+            //$this->db->where('os.tipo', $tipo);
         }else if(!empty($first_date) && !empty($second_date) && $tipo == "1"){
             $this->db->where('os.fecharegistro >=', $first_date);
             $this->db->where('os.fecharegistro <=', $second_date);
-            $this->db->where('os.tipo', $tipo);
+            $this->db->where('os.tipo', 0);
         }else if(!empty($first_date) && !empty($second_date) && $tipo == "2"){
             $this->db->where('os.fecharegistro >=', $first_date);
             $this->db->where('os.fecharegistro <=', $second_date);
-            $this->db->where('os.tipo', $tipo);
+            $this->db->where('os.tipo', 1);
         }
         $this->db->where('pc.idestatus', 8);
         $this->db->where('ppb.ordensalida', 1);

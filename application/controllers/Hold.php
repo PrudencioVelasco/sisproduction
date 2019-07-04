@@ -32,9 +32,11 @@ class Hold extends CI_Controller {
         $this->load->view('footer');
     }
     public function detalle($idpalletcajas) {
+        $detalle = $this->hold->selectCantidades($idpalletcajas);
+        $cantidad = $detalle->cantidad;
 
         $data['informacion'] = $this->hold->detalleParteTransferencia($idpalletcajas);
-        $data['cantidades'] = $this->hold->selectCantidades($idpalletcajas);
+        $data['cantidades'] = $this->hold->listaCantidades($idpalletcajas,$cantidad);
 
         $this->load->view('header');
         $this->load->view('hold/detalle', $data);
@@ -71,7 +73,7 @@ class Hold extends CI_Controller {
         if ($result) {
             $resultQuantity = $this->hold->selectCantidades($idcantidad);
 
-            $cantidadHold = $cantidad - $resultQuantity[0]->cantidad;
+            $cantidadHold = $cantidad - $resultQuantity->cantidad;
 
             $dataTrash = array(
                 'idpalletcajas' => $idpalletcajas, 
@@ -126,7 +128,7 @@ class Hold extends CI_Controller {
     public function validQuantity(){
         $id = $this->input->post('id');
         $result = $this->hold->selectCantidades($id);
-        echo $result[0]->cantidad;
+        echo $result->cantidad;
     }
 }
 

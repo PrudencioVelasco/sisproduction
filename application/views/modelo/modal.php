@@ -1,6 +1,6 @@
 <!--add modal-->
 <modal v-if="addModal" @close="clearAll()">
-    <h3 slot="head" >Agregar nueva Modelo</h3>
+    <h3 slot="head" >Agregar  Modelo</h3>
     <div slot="body"  >
         <div style=" height: 250px;overflow-x: hidden; overflow-y: scroll;">
         <div class="row">
