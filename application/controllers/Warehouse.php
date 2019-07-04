@@ -36,7 +36,7 @@ class Warehouse extends CI_Controller {
         $this->load->view('footer');
     }
 
-    public function exit() {
+    public function exitWareHouse() {
         //Permission::grant(uri_string());
         $first_date = $this->input->post('fechainicio');
         $second_date = $this->input->post('fechafin');

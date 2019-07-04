@@ -20,7 +20,7 @@
                             Entradas</a>
                         </div>
                         <div class="col-md-4">
-                            <a href="<?php echo base_url('warehouse/exit')?>" class="btn btn-round btn-danger">
+                            <a href="<?php echo base_url('warehouse/exitWareHouse')?>" class="btn btn-round btn-danger">
                                 <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
                             Salidas</a>
                         </div>
