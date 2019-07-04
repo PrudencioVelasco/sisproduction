@@ -1,32 +1,5 @@
--- phpMyAdmin SQL Dump
--- version 4.8.2
--- https://www.phpmyadmin.net/
---
--- Servidor: localhost
--- Tiempo de generación: 29-06-2019 a las 05:57:51
--- Versión del servidor: 10.1.34-MariaDB
--- Versión de PHP: 7.2.8
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Base de datos: `dbproduction`
---
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `cliente`
---
+CREATE DATABASE dbproduction;
+USE dbproduction;
 
 CREATE TABLE `cliente` (
   `idcliente` int(11) NOT NULL,

@@ -26,8 +26,9 @@ class Hold_model extends CI_Model {
     }
 
     public function listaNumeroParteTransferencia() {
-        $this->db->select('pc.idpalletcajas,pc.idtransferancia,c.nombre,p.numeroparte,tc.cantidad, tr.descripcion, s.nombrestatus, pc.idestatus');
+        $this->db->select('pc.idpalletcajas,pc.idtransferancia,ttran.folio,c.nombre,p.numeroparte,tc.cantidad, tr.descripcion, s.nombrestatus, pc.idestatus');
         $this->db->from('palletcajas pc');
+        $this->db->join('tbltransferencia  ttran', 'ttran.idtransferancia = pc.idtransferancia');
         $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
         $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');
         $this->db->join('tblmodelo  tm', 'tm.idmodelo = tr.idmodelo');
