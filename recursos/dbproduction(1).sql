@@ -1,5 +1,32 @@
-CREATE DATABASE dbproduction;
-USE dbproduction;
+-- phpMyAdmin SQL Dump
+-- version 4.8.2
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: localhost
+-- Tiempo de generación: 07-07-2019 a las 23:03:09
+-- Versión del servidor: 10.1.34-MariaDB
+-- Versión de PHP: 7.2.8
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `dbproduction`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cliente`
+--
 
 CREATE TABLE `cliente` (
   `idcliente` int(11) NOT NULL,
@@ -167,6 +194,7 @@ CREATE TABLE `ordensalida` (
   `pallet` int(11) NOT NULL,
   `caja` int(11) NOT NULL,
   `revision` varchar(20) NOT NULL,
+  `po` varchar(100) NOT NULL,
   `idusuario` int(11) NOT NULL,
   `fecharegistro` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -175,20 +203,22 @@ CREATE TABLE `ordensalida` (
 -- Volcado de datos para la tabla `ordensalida`
 --
 
-INSERT INTO `ordensalida` (`idordensalida`, `idsalida`, `idpalletcajas`, `tipo`, `pallet`, `caja`, `revision`, `idusuario`, `fecharegistro`) VALUES
-(28, 1, 9, 0, 0, 10, '0', 3, '2019-06-26 19:35:23'),
-(29, 1, 11, 0, 0, 10, '0', 3, '2019-06-26 19:35:23'),
-(30, 1, 12, 0, 0, 10, '0', 3, '2019-06-26 19:35:23'),
-(31, 1, 13, 0, 0, 10, '0', 3, '2019-06-26 19:35:23'),
-(32, 1, 14, 0, 0, 10, '0', 3, '2019-06-26 19:35:23'),
-(33, 1, 15, 0, 0, 10, '0', 3, '2019-06-26 19:35:23'),
-(34, 1, 9, 1, 1, 9, '0', 3, '2019-06-26 19:35:56'),
-(35, 1, 1, 0, 0, 30, '0', 3, '2019-06-26 19:36:41'),
-(36, 1, 2, 0, 0, 30, '0', 3, '2019-06-26 19:36:41'),
-(37, 1, 3, 0, 0, 30, '0', 3, '2019-06-26 19:36:41'),
-(38, 1, 4, 0, 0, 30, '0', 3, '2019-06-26 19:36:41'),
-(39, 1, 5, 0, 0, 30, '0', 3, '2019-06-26 19:36:41'),
-(40, 1, 6, 1, 0, 28, '0', 3, '2019-06-26 19:36:41');
+INSERT INTO `ordensalida` (`idordensalida`, `idsalida`, `idpalletcajas`, `tipo`, `pallet`, `caja`, `revision`, `po`, `idusuario`, `fecharegistro`) VALUES
+(68, 2, 1, 0, 1, 0, '0', '', 3, '2019-07-03 21:13:07'),
+(69, 2, 2, 0, 1, 0, '0', '', 3, '2019-07-03 21:13:08'),
+(70, 2, 3, 0, 1, 0, '0', '', 3, '2019-07-03 21:13:08'),
+(71, 2, 4, 0, 1, 0, '0', '', 3, '2019-07-03 21:13:08'),
+(72, 2, 5, 0, 1, 0, '0', '', 3, '2019-07-03 21:13:08'),
+(73, 2, 6, 0, 1, 0, '0', '', 3, '2019-07-03 21:13:08'),
+(74, 2, 9, 0, 0, 10, '0', '', 3, '2019-07-03 21:13:33'),
+(75, 2, 11, 0, 0, 10, '0', '', 3, '2019-07-03 21:13:33'),
+(76, 2, 12, 0, 0, 10, '0', '', 3, '2019-07-03 21:13:33'),
+(77, 2, 13, 0, 0, 10, '0', '', 3, '2019-07-03 21:13:33'),
+(78, 2, 14, 0, 0, 10, '0', '', 3, '2019-07-03 21:13:33'),
+(79, 2, 15, 0, 0, 10, '0', '', 3, '2019-07-03 21:13:33'),
+(80, 2, 16, 1, 0, 5, '0', '', 3, '2019-07-03 21:13:33'),
+(81, 2, 9, 1, 1, 5, '0', '', 3, '2019-07-03 21:53:50'),
+(82, 1, 7, 0, 1, 0, '0', '12', 3, '2019-07-05 20:52:54');
 
 -- --------------------------------------------------------
 
@@ -218,8 +248,8 @@ INSERT INTO `palletcajas` (`idpalletcajas`, `idtransferancia`, `pallet`, `idcaja
 (4, 1, 1, 17, 1, 8, 3, '2019-06-26 19:09:47'),
 (5, 1, 1, 17, 2, 8, 3, '2019-06-26 19:09:47'),
 (6, 1, 1, 17, 2, 8, 3, '2019-06-26 19:09:55'),
-(7, 6, 1, 17, 1, 12, 3, '2019-06-26 19:21:18'),
-(8, 6, 1, 17, 1, 12, 3, '2019-06-26 19:21:18'),
+(7, 6, 1, 15, 1, 8, 3, '2019-07-03 22:34:56'),
+(8, 6, 1, 16, 1, 8, 3, '2019-07-03 22:34:56'),
 (9, 6, 1, 15, 3, 8, 3, '2019-06-26 19:26:04'),
 (10, 6, 1, 15, 3, 17, 3, '2019-06-26 19:24:58'),
 (11, 6, 1, 15, 3, 8, 3, '2019-06-26 19:26:04'),
@@ -227,7 +257,15 @@ INSERT INTO `palletcajas` (`idpalletcajas`, `idtransferancia`, `pallet`, `idcaja
 (13, 6, 1, 15, 3, 8, 3, '2019-06-26 19:23:31'),
 (14, 6, 1, 15, 3, 8, 3, '2019-06-26 19:23:32'),
 (15, 6, 1, 15, 3, 8, 3, '2019-06-26 19:23:32'),
-(16, 6, 1, 15, 3, 8, 3, '2019-06-26 19:23:33');
+(16, 6, 1, 15, 3, 8, 3, '2019-06-26 19:23:33'),
+(17, 8, 1, 17, 4, 8, 3, '2019-07-03 21:48:02'),
+(18, 8, 1, 17, 4, 8, 3, '2019-07-03 21:48:02'),
+(19, 8, 1, 17, 4, 8, 3, '2019-07-03 21:48:02'),
+(20, 8, 1, 17, 4, 8, 3, '2019-07-03 21:45:18'),
+(21, 8, 1, 22, 4, 8, 3, '2019-07-03 21:45:18'),
+(22, 8, 1, 19, 4, 13, 3, '2019-07-03 22:33:30'),
+(23, 9, 1, 20, 3, 13, 3, '2019-07-03 22:46:33'),
+(24, 9, 1, 22, 3, 13, 3, '2019-07-03 22:46:33');
 
 -- --------------------------------------------------------
 
@@ -259,7 +297,10 @@ INSERT INTO `palletcajasestatus` (`idpalletcajasestatus`, `idpalletcajas`, `idmo
 (9, 11, 12, 3, '2019-06-26 19:24:09'),
 (10, 9, 4, 3, '2019-06-26 19:24:58'),
 (11, 10, 4, 3, '2019-06-26 19:24:58'),
-(12, 11, 4, 3, '2019-06-26 19:24:58');
+(12, 11, 4, 3, '2019-06-26 19:24:58'),
+(13, 17, 8, 3, '2019-07-03 21:45:13'),
+(14, 18, 8, 3, '2019-07-03 21:45:13'),
+(15, 19, 8, 3, '2019-07-03 21:45:13');
 
 -- --------------------------------------------------------
 
@@ -350,7 +391,44 @@ INSERT INTO `palletcajasproceso` (`idpalletcajasproceso`, `idpalletcajas`, `ides
 (68, 9, 4, 3, '2019-06-26 19:26:04'),
 (69, 11, 4, 3, '2019-06-26 19:26:04'),
 (70, 9, 8, 3, '2019-06-26 19:26:20'),
-(71, 11, 8, 3, '2019-06-26 19:26:20');
+(71, 11, 8, 3, '2019-06-26 19:26:20'),
+(72, 17, 1, 3, '2019-07-03 21:36:41'),
+(73, 18, 1, 3, '2019-07-03 21:36:51'),
+(74, 19, 1, 3, '2019-07-03 21:36:58'),
+(75, 20, 1, 3, '2019-07-03 21:37:13'),
+(76, 21, 1, 3, '2019-07-03 21:37:40'),
+(77, 22, 1, 3, '2019-07-03 21:37:49'),
+(78, 17, 3, 3, '2019-07-03 21:45:13'),
+(79, 18, 3, 3, '2019-07-03 21:45:13'),
+(80, 19, 3, 3, '2019-07-03 21:45:13'),
+(81, 20, 4, 3, '2019-07-03 21:45:18'),
+(82, 21, 4, 3, '2019-07-03 21:45:18'),
+(83, 22, 12, 3, '2019-07-03 21:45:25'),
+(84, 20, 8, 3, '2019-07-03 21:45:49'),
+(85, 21, 8, 3, '2019-07-03 21:45:49'),
+(86, 17, 1, 3, '2019-07-03 21:46:18'),
+(87, 18, 1, 3, '2019-07-03 21:46:27'),
+(88, 19, 1, 3, '2019-07-03 21:46:35'),
+(89, 17, 4, 3, '2019-07-03 21:48:02'),
+(90, 18, 4, 3, '2019-07-03 21:48:02'),
+(91, 19, 4, 3, '2019-07-03 21:48:02'),
+(92, 17, 8, 3, '2019-07-03 21:48:23'),
+(93, 18, 8, 3, '2019-07-03 21:48:23'),
+(94, 19, 8, 3, '2019-07-03 21:48:23'),
+(95, 22, 12, 3, '2019-07-03 22:21:02'),
+(96, 22, 12, 3, '2019-07-03 22:33:30'),
+(97, 7, 12, 3, '2019-07-03 22:33:50'),
+(98, 8, 12, 3, '2019-07-03 22:33:50'),
+(99, 7, 4, 3, '2019-07-03 22:34:56'),
+(100, 8, 4, 3, '2019-07-03 22:34:56'),
+(101, 7, 8, 3, '2019-07-03 22:35:20'),
+(102, 8, 8, 3, '2019-07-03 22:35:20'),
+(103, 23, 1, 3, '2019-07-03 22:45:32'),
+(104, 24, 1, 3, '2019-07-03 22:45:39'),
+(105, 23, 12, 3, '2019-07-03 22:45:53'),
+(106, 24, 12, 3, '2019-07-03 22:45:53'),
+(107, 23, 12, 3, '2019-07-03 22:46:33'),
+(108, 24, 12, 3, '2019-07-03 22:46:33');
 
 -- --------------------------------------------------------
 
@@ -752,7 +830,8 @@ INSERT INTO `parte` (`idparte`, `numeroparte`, `idcliente`, `idusuario`, `activo
 (382, '200-32CT-002G-ATV', 34, 3, 1, '2019-04-10 00:00:00'),
 (383, '200-SI32J-02G-JVC', 34, 3, 1, '2019-04-10 00:00:00'),
 (384, '7501020670370', 1, 3, 1, '2019-06-20 00:00:00'),
-(385, '7509552912968', 1, 3, 1, '2019-06-26 18:30:19');
+(385, '7509552912968', 1, 3, 1, '2019-06-26 18:30:19'),
+(386, '7501035914070', 1, 3, 1, '2019-07-03 21:31:17');
 
 -- --------------------------------------------------------
 
@@ -786,9 +865,16 @@ INSERT INTO `parteposicionbodega` (`idparteposicionbodega`, `idpalletcajas`, `nu
 (8, 13, 1, 11, 1, 0, 3, '2019-06-26 19:24:28'),
 (9, 14, 1, 11, 1, 0, 3, '2019-06-26 19:24:28'),
 (10, 15, 1, 11, 1, 0, 3, '2019-06-26 19:24:28'),
-(11, 16, 1, 11, 0, 0, 3, '2019-06-26 19:24:28'),
+(11, 16, 1, 11, 1, 0, 3, '2019-06-26 19:24:28'),
 (12, 9, 1, 17, 1, 0, 3, '2019-06-26 19:26:20'),
-(13, 11, 1, 17, 1, 0, 3, '2019-06-26 19:26:20');
+(13, 11, 1, 17, 1, 0, 3, '2019-06-26 19:26:20'),
+(14, 20, 1, 16, 0, 0, 3, '2019-07-03 21:45:48'),
+(15, 21, 1, 16, 0, 0, 3, '2019-07-03 21:45:49'),
+(16, 17, 1, 5, 0, 0, 3, '2019-07-03 21:48:23'),
+(17, 18, 1, 5, 0, 0, 3, '2019-07-03 21:48:23'),
+(18, 19, 1, 5, 0, 0, 3, '2019-07-03 21:48:23'),
+(19, 7, 1, 16, 1, 0, 3, '2019-07-03 22:35:19'),
+(20, 8, 1, 16, 0, 0, 3, '2019-07-03 22:35:20');
 
 -- --------------------------------------------------------
 
@@ -1049,7 +1135,8 @@ CREATE TABLE `salida` (
 --
 
 INSERT INTO `salida` (`idsalida`, `numerosalida`, `idcliente`, `po`, `notas`, `orden`, `finalizado`, `idusuario`, `fecharegistro`) VALUES
-(1, 'LG-20190626-1', 1, '', '', 0, 1, 3, '2019-06-26 19:39:56');
+(1, 'LG-20190626-1', 1, '', '', 0, 0, 3, '2019-06-26 19:39:56'),
+(2, 'LG-20190703-2', 1, '98', 'notas', 0, 1, 3, '2019-07-03 22:10:15');
 
 -- --------------------------------------------------------
 
@@ -1108,7 +1195,12 @@ INSERT INTO `tblcantidad` (`idcantidad`, `idrevision`, `cantidad`, `idusuario`, 
 (15, 8, 10, 3, '2019-06-26 18:30:55'),
 (16, 8, 20, 3, '2019-06-26 18:30:59'),
 (17, 8, 30, 3, '2019-06-26 18:31:04'),
-(18, 8, 40, 3, '2019-06-26 18:31:09');
+(18, 8, 40, 3, '2019-06-26 18:31:09'),
+(19, 9, 10, 3, '2019-07-03 21:32:06'),
+(20, 9, 20, 3, '2019-07-03 21:32:11'),
+(21, 9, 30, 3, '2019-07-03 21:32:19'),
+(22, 9, 40, 3, '2019-07-03 21:32:25'),
+(23, 9, 50, 3, '2019-07-03 21:32:31');
 
 -- --------------------------------------------------------
 
@@ -1165,7 +1257,8 @@ INSERT INTO `tblmodelo` (`idmodelo`, `idparte`, `descripcion`, `nombrehoja`, `fu
 (25, 15, 'h', '', '', '', '', '', '', '', '', '', 3, '2019-06-25 12:46:39'),
 (26, 15, 'Mode 1', '21', '212', '212', '2121', '21212', '12121', '2121', '21', '11', 3, '2019-06-25 15:38:15'),
 (27, 15, 'Modelo 1', 's', '', '', '', '', '', '', '', '', 3, '2019-06-25 16:04:44'),
-(28, 385, 'Placa 1', '', '', '', '', '', '', '', '', '', 3, '2019-06-26 18:30:36');
+(28, 385, 'Placa 1', '', '', '', '', '', '', '', '', '', 3, '2019-06-26 18:30:36'),
+(29, 386, 'modelo 1', '', '', '', '', '', '', '', '', '', 3, '2019-07-03 21:31:47');
 
 -- --------------------------------------------------------
 
@@ -1193,7 +1286,8 @@ INSERT INTO `tblrevision` (`idrevision`, `idmodelo`, `descripcion`, `idusuario`,
 (5, 1, 'Modelo 14', 3, '2019-06-25 20:44:29'),
 (6, 1, 'Modelo 15', 3, '2019-06-25 20:29:14'),
 (7, 3, '1.0', 3, '2019-06-25 22:25:42'),
-(8, 28, 'Modelo 1', 3, '2019-06-26 18:30:45');
+(8, 28, '1.9', 3, '2019-07-03 21:35:50'),
+(9, 29, '1.0', 3, '2019-07-03 21:31:57');
 
 -- --------------------------------------------------------
 
@@ -1215,7 +1309,8 @@ CREATE TABLE `tbltransferencia` (
 INSERT INTO `tbltransferencia` (`idtransferancia`, `folio`, `idusuario`, `fecharegistro`) VALUES
 (1, 1, 3, '2019-06-19 00:00:00'),
 (6, 3, 3, '2019-06-20 15:24:39'),
-(8, 4, 3, '2019-06-20 15:40:32');
+(8, 4, 3, '2019-06-20 15:40:32'),
+(9, 5, 3, '2019-07-03 22:09:48');
 
 -- --------------------------------------------------------
 
@@ -1233,6 +1328,20 @@ CREATE TABLE `tbltrash` (
   `idusuario` int(11) NOT NULL,
   `fecha` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `tbltrash`
+--
+
+INSERT INTO `tbltrash` (`idtbltrash`, `idpalletcajas`, `idtransferencia`, `pallet`, `cajas`, `idstatus`, `idusuario`, `fecha`) VALUES
+(1, 22, 8, 1, 40, 12, 3, '2019-07-03 22:20:33'),
+(2, 22, 8, 1, 30, 12, 3, '2019-07-03 22:20:43'),
+(3, 7, 6, 1, 20, 12, 3, '2019-07-03 22:33:03'),
+(4, 7, 6, 1, 10, 12, 3, '2019-07-03 22:34:20'),
+(5, 22, 8, 1, 10, 12, 3, '2019-07-03 22:34:39'),
+(6, 23, 9, 1, 10, 12, 3, '2019-07-03 22:46:10'),
+(7, 23, 9, 1, 20, 12, 3, '2019-07-03 22:46:49'),
+(8, 24, 9, 1, 40, 12, 3, '2019-07-03 22:46:52');
 
 -- --------------------------------------------------------
 
@@ -1312,6 +1421,34 @@ INSERT INTO `users_rol` (`id`, `id_rol`, `id_user`) VALUES
 (5, 5, 7),
 (6, 4, 8),
 (7, 2, 9);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `viewprocesopallet`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `viewprocesopallet` (
+`folio` int(11)
+,`nombrecliente` varchar(200)
+,`numeroparte` varchar(200)
+,`nombremodelo` varchar(255)
+,`nombrerevision` varchar(255)
+,`cantidad` int(11)
+,`estatuspallet` int(11)
+,`idpalletcajas` int(11)
+,`idestatus` int(11)
+,`fecha` datetime
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `viewprocesopallet`
+--
+DROP TABLE IF EXISTS `viewprocesopallet`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `viewprocesopallet`  AS  select `t`.`folio` AS `folio`,`cl`.`nombre` AS `nombrecliente`,`p`.`numeroparte` AS `numeroparte`,`m`.`descripcion` AS `nombremodelo`,`r`.`descripcion` AS `nombrerevision`,`ca`.`cantidad` AS `cantidad`,`pc`.`idestatus` AS `estatuspallet`,`pcp`.`idpalletcajas` AS `idpalletcajas`,`pcp`.`idestatus` AS `idestatus`,max(`pcp`.`fecharegistro`) AS `fecha` from (((((((`tbltransferencia` `t` join `palletcajas` `pc` on((`pc`.`idtransferancia` = `t`.`idtransferancia`))) join `tblcantidad` `ca` on((`ca`.`idcantidad` = `pc`.`idcajas`))) join `tblrevision` `r` on((`r`.`idrevision` = `ca`.`idrevision`))) join `tblmodelo` `m` on((`m`.`idmodelo` = `r`.`idmodelo`))) join `parte` `p` on((`p`.`idparte` = `m`.`idmodelo`))) join `cliente` `cl` on((`cl`.`idcliente` = `p`.`idcliente`))) join `palletcajasproceso` `pcp` on((`pc`.`idpalletcajas` = `pcp`.`idpalletcajas`))) where (`pc`.`idestatus` not in (12,13,17)) group by `pcp`.`idpalletcajas`,`pcp`.`idestatus` order by `t`.`folio`,`pcp`.`idestatus` desc ;
 
 --
 -- Índices para tablas volcadas
@@ -1556,37 +1693,37 @@ ALTER TABLE `motivorechazo`
 -- AUTO_INCREMENT de la tabla `ordensalida`
 --
 ALTER TABLE `ordensalida`
-  MODIFY `idordensalida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `idordensalida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT de la tabla `palletcajas`
 --
 ALTER TABLE `palletcajas`
-  MODIFY `idpalletcajas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idpalletcajas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de la tabla `palletcajasestatus`
 --
 ALTER TABLE `palletcajasestatus`
-  MODIFY `idpalletcajasestatus` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `idpalletcajasestatus` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `palletcajasproceso`
 --
 ALTER TABLE `palletcajasproceso`
-  MODIFY `idpalletcajasproceso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `idpalletcajasproceso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT de la tabla `parte`
 --
 ALTER TABLE `parte`
-  MODIFY `idparte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=386;
+  MODIFY `idparte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=387;
 
 --
 -- AUTO_INCREMENT de la tabla `parteposicionbodega`
 --
 ALTER TABLE `parteposicionbodega`
-  MODIFY `idparteposicionbodega` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `idparteposicionbodega` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `permissions`
@@ -1622,7 +1759,7 @@ ALTER TABLE `rol`
 -- AUTO_INCREMENT de la tabla `salida`
 --
 ALTER TABLE `salida`
-  MODIFY `idsalida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idsalida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `status`
@@ -1634,31 +1771,31 @@ ALTER TABLE `status`
 -- AUTO_INCREMENT de la tabla `tblcantidad`
 --
 ALTER TABLE `tblcantidad`
-  MODIFY `idcantidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `idcantidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `tblmodelo`
 --
 ALTER TABLE `tblmodelo`
-  MODIFY `idmodelo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `idmodelo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `tblrevision`
 --
 ALTER TABLE `tblrevision`
-  MODIFY `idrevision` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idrevision` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbltransferencia`
 --
 ALTER TABLE `tbltransferencia`
-  MODIFY `idtransferancia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idtransferancia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `tbltrash`
 --
 ALTER TABLE `tbltrash`
-  MODIFY `idtbltrash` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idtbltrash` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `turno`
