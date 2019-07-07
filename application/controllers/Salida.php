@@ -425,6 +425,7 @@ class Salida extends CI_Controller {
         $idsalida = $this->input->post('idsalida');
         $numeropallet = $this->input->post('pallet');
         $numerocajas = $this->input->post('cajas');
+        $po = $this->input->post('po');
         $tipo = $this->input->post('tipo');
 
         //Tipo de mensajes
@@ -461,6 +462,7 @@ class Salida extends CI_Controller {
                                         'pallet' => 1,
                                         'caja' => $totalcajas,
                                         'revision' => '0',
+                                        'po'=>$po,
                                         'idusuario' => $this->session->user_id,
                                         'fecharegistro' => date('Y-m-d H:i:s')
                                     );
@@ -483,6 +485,7 @@ class Salida extends CI_Controller {
                                             'pallet' => 0,
                                             'caja' => $value->cajas,
                                             'revision' => '0',
+                                            'po'=>$po,
                                             'idusuario' => $this->session->user_id,
                                             'fecharegistro' => date('Y-m-d H:i:s')
                                         );
@@ -503,6 +506,7 @@ class Salida extends CI_Controller {
                                             'pallet' => 0,
                                             'caja' => ($totalcajas - $suma),
                                             'revision' => '0',
+                                            'po'=>$po,
                                             'idusuario' => $this->session->user_id,
                                             'fecharegistro' => date('Y-m-d H:i:s')
                                         );
@@ -558,6 +562,7 @@ class Salida extends CI_Controller {
                                         'pallet' => 1,
                                         'caja' => 0,
                                         'revision' => '0',
+                                        'po'=>$po,
                                         'idusuario' => $this->session->user_id,
                                         'fecharegistro' => date('Y-m-d H:i:s')
                                     );
@@ -760,7 +765,7 @@ $html = '
                 <td width="45" align="right" style="font-size:9px">&nbsp;</td>
                 <td width="45" align="right" style="font-size:9px">&nbsp;</td>
                 <td width="45" align="center" style="font-size:9px">&nbsp;'.$valurpal->sumacajas.'</td>
-                <td width="45">&nbsp;</td>
+                <td width="45">'.$valuepal->po.'</td>
                 <td width="45">&nbsp;</td>
                 <td width="160">&nbsp;</td>
               </tr>'; 
@@ -774,7 +779,7 @@ $html = '
                 <td width="45" align="center" style="font-size:9px">1</td>
                 <td width="45" align="center" style="font-size:9px">'.$valurpar->sumacajas.'</td>
                 <td width="45" align="center" style="font-size:9px">&nbsp;'.$valurpar->sumacajas.'</td>
-                <td width="45">&nbsp;</td>
+                <td width="45">'.$valuepar->po.'</td>
                 <td width="45">&nbsp;</td>
                 <td width="160">&nbsp;</td>
               </tr>'; 
@@ -793,138 +798,7 @@ $html = '
     <td width="45">&nbsp;</td>
     <td width="160">&nbsp;</td>
   </tr>
-  <tr>
-    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="160">&nbsp;</td>
-  </tr>
-  <tr>
-    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="160">&nbsp;</td>
-  </tr>
-  <tr>
-    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="160">&nbsp;</td>
-  </tr>
-  <tr>
-    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="160">&nbsp;</td>
-  </tr>
-  <tr>
-    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="160">&nbsp;</td>
-  </tr>
-  <tr>
-    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="160">&nbsp;</td>
-  </tr>
-  <tr>
-    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="160">&nbsp;</td>
-  </tr>
-  <tr>
-    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="160">&nbsp;</td>
-  </tr>
-  <tr>
-    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="160">&nbsp;</td>
-  </tr>
-  <tr>
-    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="160">&nbsp;</td>
-  </tr>
-  <tr>
-    <td width="130" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="45">&nbsp;</td>
-    <td width="160">&nbsp;</td>
-  </tr>
+
   <tr>
     <td width="130" align="center" style="font-size:9px">&nbsp;</td>
     <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;</td>
@@ -951,7 +825,7 @@ $html = '
   <tr>
     <td width="130" style="font-size:9px">&nbsp;</td>
     <td width="90" style="font-size:9px">&nbsp;</td>
-    <td width="565" colspan="9">&nbsp;</td>
+    <td width="565" colspan="9">'.$detalle->notas.'</td>
     
   </tr>
 </table>

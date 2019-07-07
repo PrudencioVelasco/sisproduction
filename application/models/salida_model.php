@@ -411,7 +411,8 @@ COUNT(pc.pallet) as totalpallet,
 SUM( tc.cantidad) as sumacajas,
 tp.numeroparte,
 tm.descripcion as modelo,
-tr.descripcion as revision
+tr.descripcion as revision,
+os.po
 FROM
     palletcajas pc
         INNER JOIN
@@ -445,7 +446,8 @@ COUNT(pc.pallet) as totalpallet,
 SUM( os.caja) as sumacajas,
 tp.numeroparte,
 tm.descripcion as modelo,
-tr.descripcion as revision
+tr.descripcion as revision,
+os.po
 FROM
     palletcajas pc
         INNER JOIN
@@ -518,7 +520,7 @@ FROM
     }
     public function detallesDeOrden($idsalida) {
         // code...
-        $this->db->select('pc.idpalletcajas, o.idordensalida,s.idsalida, p.numeroparte,o.tipo, o.pallet,o.caja, tc.cantidad as cajaspallet, tm.descripcion as modelo, tr.descripcion as revision');
+        $this->db->select('pc.idpalletcajas, o.idordensalida,s.idsalida, p.numeroparte,o.tipo, o.pallet,o.caja, tc.cantidad as cajaspallet, tm.descripcion as modelo, tr.descripcion as revision, pb.nombreposicion');
         $this->db->from('salida s');
         $this->db->join('ordensalida o', 's.idsalida=o.idsalida');
         $this->db->join('palletcajas pc', 'o.idpalletcajas=pc.idpalletcajas');
@@ -528,6 +530,8 @@ FROM
         $this->db->join('parte  p', 'tm.idparte = p.idparte');
         $this->db->join('cliente  c', 'c.idcliente = p.idcliente');
         $this->db->join('status  es', 'es.idestatus = pc.idestatus');
+        $this->db->join('parteposicionbodega  ppb', 'ppb.idpalletcajas = o.idpalletcajas');
+        $this->db->join('posicionbodega  pb', 'ppb.idposicion = pb.idposicion');
         $this->db->where('s.idsalida', $idsalida);
         //$this->db->where('pd.idestatus', 8);
         $query = $this->db->get();

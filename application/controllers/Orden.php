@@ -60,25 +60,80 @@ class Orden extends CI_Controller {
     }
 
     public function detalle($idsalida) {
-        $datadetallesalida = $this->orden->detalleSalida($idsalida);
-        $datadetalleorden = $this->orden->detallesDeOrden($idsalida);
-        $datadetalleordenparciales = $this->orden->detallesDeOrdenParciales($idsalida);
+       $datadetallesalida = $this->salida->detalleSalida($idsalida);
+        $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
         $detallepallet = $this->salida->detallepallet($idsalida);
         $detalleparciales = $this->salida->detalleparciales($idsalida);
-        //var_dump($datadetalleordenparciales);
+        $datos=$this->test1($idsalida);  
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
-            'detalleordenparciales'=>$datadetalleordenparciales,
             'idsalida' => $idsalida,
             'detallepallet' => $detallepallet,
-            'detalleparciales' => $detalleparciales);
+            'detalleparciales' => $detalleparciales,
+            'datosparte'=>$datos);
 
         $this->load->view('header');
         $this->load->view('orden/detalle', $data);
         $this->load->view('footer');
     }
-   
+    public function test1($idsalida) {
+
+        
+        $detalle = $this->salida->detalleSalida($idsalida);
+        $idcliente = $detalle->idcliente;
+        $query = $this->salida->showPartesBodega2($idcliente); 
+        $array = array();
+        $i = 0;
+        if($query != false){
+        foreach ($query as $row) {
+            if ($row->totalcajasdisponibles > 0) {
+                if ($row->cajassalidasporparciales > 0 && $row->totalpalletparacomparar > 1) {
+                    //Si hay cajas salidas por parcilas
+                    $array[$i] = array();
+                    $array[$i]['idtransferancia'] = $row->idtransferancia;
+                    $array[$i]['iddetalleparte'] = $row->iddetalleparte;
+                    $array[$i]['numeroparte'] = $row->numeroparte;
+                    $array[$i]['folio'] = $row->folio;
+                    $array[$i]['modelo'] = $row->modelo;
+                    $array[$i]['revision'] = $row->revision;
+                    $array[$i]['idcajas'] = $row->idcajas;
+                    //$array[$i]['linea'] = $row->linea;
+                    $array[$i]['fecha'] = $row->fecha;
+                    $array[$i]['nombre'] = $row->nombre;
+                    $array[$i]['totalpallet'] = $row->totalpalletparacomparar;
+                    $array[$i]['cajasporpallet'] = $row->cajasporpallet;
+                    $array[$i]['totalcajas'] = $row->totalcajas;
+                    $array[$i]['cajassalidas'] = $row->totalcajassalidas;
+                    $array[$i]['test'] = 0;
+                    $array[$i]['cajasdisponibles'] = $row->totalcajasdisponibles;
+                    $i++;
+                } else {
+                    //Si son puros pallet
+                    $array[$i] = array();
+                    $array[$i]['idtransferancia'] = $row->idtransferancia;
+                    $array[$i]['iddetalleparte'] = $row->iddetalleparte;
+                    $array[$i]['numeroparte'] = $row->numeroparte;
+                    $array[$i]['folio'] = $row->folio;
+                    $array[$i]['modelo'] = $row->modelo;
+                    $array[$i]['revision'] = $row->revision;
+                    $array[$i]['idcajas'] = $row->idcajas;
+                    //$array[$i]['linea'] = $row->linea;
+                    $array[$i]['fecha'] = $row->fecha;
+                    $array[$i]['nombre'] = $row->nombre;
+                    $array[$i]['totalpallet'] = $row->totalpalletparacomparar;
+                    $array[$i]['cajasporpallet'] = $row->cajasporpallet;
+                    $array[$i]['totalcajas'] = $row->totalcajas;
+                    $array[$i]['cajassalidas'] = $row->totalcajassalidas;
+                    $array[$i]['test'] = 0;
+                    $array[$i]['cajasdisponibles'] = $row->totalcajasdisponibles;
+                    $i++;
+                }
+            }
+        }
+    }
+        return $array;
+    }
     public function validar() {
         $item = $_POST['item'];
         $idsalida = $_POST["idsalida"];

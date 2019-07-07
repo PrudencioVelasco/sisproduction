@@ -163,8 +163,9 @@
                                             <div class="row">
                                                 <div class="col-sm-12" align="right">
 <?php if (isset($datatransferencia) && !empty($datatransferencia)) { ?>
-                                                       <button type="button" id="btnubicar" class="btn btn-success btn-sm"> <i class="fa fa-check-circle" aria-hidden="true"></i> Posicionar los Pallet</button>
-                                    <button type="button" id="btnrechazar" class="btn btn-danger btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Almacen</button>
+                                                       <button type="button" id="btnubicar" class="btn btn-success btn-sm"> <i class="fa fa-check-circle" aria-hidden="true"></i> Posicionar</button>
+                                    <button type="button" id="btnrechazar" class="btn btn-danger btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> R. a Calidad</button>
+                                     <button type="button" id="btnrechazarpacking" class="btn btn-warning btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> R. a Packing</button>
                                                     <a target="_blank" href="<?php echo site_url('bodegap/generarPDFEnvio/' . $id) ?>" class="btn btn-default  btn-sm"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
 <?php } ?>  
                                                 </div>
@@ -201,6 +202,37 @@
                     $.ajax({
                         type: "POST",
                         url: "<?php echo site_url('bodega/rechazarACalidad'); ?>",
+                        data: form,
+
+                        success: function (data) {
+                            //console.log(data);
+                            location.reload();
+                            //Unterminated String literal fixed
+                        }
+
+                    });
+                    //event.preventDefault();
+                    return false;  //stop the actual form post !important!
+
+                    //$('#frmdetalle').submit();
+                } else {
+                    $('#errormsg').text("Seleccionar una motivo.");
+                }
+            } else {
+                $('#errormsg').text("Seleccionar una casilla.");
+            }
+
+        });
+           $('#btnrechazarpacking').on('click', function () {
+            if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
+                $('#idmotivorechazo').show();
+                 $('#idubicacion').hide();
+                var optId = $("#motivo").val();
+                if(optId != ""){
+                    form = $("#frmdetalle").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "<?php echo site_url('bodega/rechazarAPacking'); ?>",
                         data: form,
 
                         success: function (data) {

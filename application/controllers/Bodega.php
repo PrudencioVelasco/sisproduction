@@ -155,6 +155,45 @@ class Bodega extends CI_Controller {
          }  
         
     }
+        public function rechazarAPacking() {
+         Permission::grant(uri_string());
+        $iddetalleparte = $this->input->post('iddetalleparte');
+        $motivorechazo = $this->input->post('motivorechazo');
+        //$operador = $this->input->post('operador');
+        $ids = $this->input->post('id');
+        foreach ($ids as $value) { 
+
+            if($this->bodega->validarAntesdeRechazar($value) == false){
+                $this->bodega->eliminarposicionesparte($value);
+            $data = array(
+                'idestatus' => 3,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->palletcajas->updatePalletCajas($value, $data);
+
+             $datarechazo = array(
+                    'idpalletcajas' => $value,
+                    'idmotivorechazo' => $motivorechazo,
+                    'idusuario' => $this->session->user_id,
+                    'fecharegistro' => date('Y-m-d H:i:s')
+                );
+                $this->calidad->addMotivoRechazo($datarechazo);
+
+              $datap = array(
+                'idpalletcajas'=>$value,
+                'idestatus' => 3,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->palletcajasproceso->addPalletCajasProceso($datap);
+
+              
+        }
+           
+         }  
+        
+    }
     
       public function agregarAUbicacion() {
            Permission::grant(uri_string());
@@ -188,6 +227,17 @@ class Bodega extends CI_Controller {
             $data = array(
                 'idpalletcajas'=>$valueproceso,
                 'idestatus' => 8,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->palletcajasproceso->addPalletCajasProceso($data);
+            
+        }
+           foreach ($ids as $valueproceso2) {
+             
+            $data = array(
+                'idpalletcajas'=>$valueproceso2,
+                'idestatus' => 2,
                 'idusuario' => $this->session->user_id,
                 'fecharegistro' => date('Y-m-d H:i:s')
             );

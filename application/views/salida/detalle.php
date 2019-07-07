@@ -119,20 +119,26 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-sm-12 col-xs-12 " id="pallet">
+                                    <div class="col-md-2 col-sm-12 col-xs-12 " id="pallet">
                                         <div class="form-group">
                                             <label><font color="red">*</font> C. Pallet</label>
         <input type="text" name="pallet" id="ppallet" class="form-control" placeholder="C. Pallet">
                                         </div>
                                     </div>
                                     
-                                    <div class="col-md-3 col-sm-12 col-xs-12" id="cajas">
+                                    <div class="col-md-2 col-sm-12 col-xs-12" id="cajas">
                                         <div class="form-group">
                                             <label><font color="red">*</font> Total Cajas</label>
                                             <input type="text" name="cajas" id="pcajas" class="form-control" placeholder="Total Cajas" >
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-sm-12 col-xs-12 ">
+                                    <div class="col-md-2 col-sm-12 col-xs-12" id="cajas">
+                                        <div class="form-group">
+                                            <label>P.O.</label>
+                                            <input type="text" name="po" class="form-control" placeholder="P.O." >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-12 col-xs-12 ">
                                         <div class="form-group">
                                             <input type="hidden" name="idtransferecia" value="<?php echo $detalleparte->idtransferencia; ?>"/>
                                             <input type="hidden" name="idsalida" value="<?php echo $idsalida; ?>"/>

@@ -26,104 +26,33 @@ class Reporte extends CI_Controller {
         $usuario = $this->usuario->showAllPacking();
         $data = array('usuarios' => $usuario);
         $this->load->view('header');
-        $this->load->view('reporte/packing', $data);
+        $this->load->view('reporte/transferencia', $data);
         $this->load->view('footer');
     }
 
     public function buscar() {
         # code...
-        Permission::grant(uri_string());
-        $usuario = $this->input->post('usuario');
-        $fechainicio = $this->input->post('fechainicio');
-        $fechafin = $this->input->post('fechafin');
-        $estatus = $this->input->post('estatus');
-        if ($usuario == "all") {
-            $result = $this->reporte->packingTodos($estatus, $fechainicio, $fechafin);
-            $usuario = $this->usuario->showAllPacking();
-            //var_dump($result);
-            $data = array('usuarios' => $usuario, 'resultall' => $result);
+        //Permission::grant(uri_string());
+        
+           $fechainicio = $this->input->post('fechainicio');
+           $fechafin = $this->input->post('fechafin');
+            $modulo = $this->input->post('modulo');
+            $result="";
+            if($modulo == "1"){
+                $result = $this->reporte->allTransferenciaPacking($fechainicio,$fechafin);
+                
+            }elseif ($modulo=="2") {
+                $result = $this->reporte->allTransferenciaCalidad($fechainicio,$fechafin);
+            }elseif ($modulo=="3") {
+                $result = $this->reporte->allTransferenciaBodega($fechainicio,$fechafin);
+            }
+            $data = array('result' => $result,'modulo'=>$modulo);
             $this->load->view('header');
-            $this->load->view('reporte/packing', $data);
+            $this->load->view('reporte/transferencia', $data);
             $this->load->view('footer');
-        } else {
-            $result = $this->reporte->packingPorUsuario($usuario, $estatus, $fechainicio, $fechafin);
-            $usuario = $this->usuario->showAllPacking();
-            // var_dump($result);
-            $data = array('usuarios' => $usuario, 'resultusers' => $result);
-            $this->load->view('header');
-            $this->load->view('reporte/packing', $data);
-            $this->load->view('footer');
-        }
+       
+       
     }
-
-    public function calidad() {
-        Permission::grant(uri_string());
-        $usuario = $this->usuario->showAllCalidad();
-        $data = array('usuarios' => $usuario);
-        $this->load->view('header');
-        $this->load->view('reporte/calidad', $data);
-        $this->load->view('footer');
-    }
-
-    public function buscarCalidad() {
-        # code...
-        Permission::grant(uri_string());
-        $usuario = $this->input->post('usuario');
-        $fechainicio = $this->input->post('fechainicio');
-        $fechafin = $this->input->post('fechafin');
-        $estatus = $this->input->post('estatus');
-        if ($usuario == "all") {
-            $result = $this->reporte->calidadTodos($estatus, $fechainicio, $fechafin);
-            $usuario = $this->usuario->showAllCalidad();
-            //var_dump($result);
-            $data = array('usuarios' => $usuario, 'resultall' => $result);
-            $this->load->view('header');
-            $this->load->view('reporte/calidad', $data);
-            $this->load->view('footer');
-        } else {
-            $result = $this->reporte->calidadPorUsuario($usuario, $estatus, $fechainicio, $fechafin);
-            $usuario = $this->usuario->showAllCalidad();
-            // var_dump($result);
-            $data = array('usuarios' => $usuario, 'resultusers' => $result);
-            $this->load->view('header');
-            $this->load->view('reporte/calidad', $data);
-            $this->load->view('footer');
-        }
-    }
-
-    public function bodega() {
-        Permission::grant(uri_string());
-        $usuario = $this->usuario->showAllBodega();
-        $data = array('usuarios' => $usuario);
-        $this->load->view('header');
-        $this->load->view('reporte/bodega', $data);
-        $this->load->view('footer');
-    }
-
-    public function buscarBodega() {
-        # code...
-        Permission::grant(uri_string());
-        $usuario = $this->input->post('usuario');
-        $fechainicio = $this->input->post('fechainicio');
-        $fechafin = $this->input->post('fechafin');
-        $estatus = $this->input->post('estatus');
-        if ($usuario == "all") {
-            $result = $this->reporte->calidadTodos($estatus, $fechainicio, $fechafin);
-            $usuario = $this->usuario->showAllBodega();
-            //var_dump($result);
-            $data = array('usuarios' => $usuario, 'resultall' => $result);
-            $this->load->view('header');
-            $this->load->view('reporte/bodega', $data);
-            $this->load->view('footer');
-        } else {
-            $result = $this->reporte->calidadPorUsuario($usuario, $estatus, $fechainicio, $fechafin);
-            $usuario = $this->usuario->showAllBodega();
-            // var_dump($result);
-            $data = array('usuarios' => $usuario, 'resultusers' => $result);
-            $this->load->view('header');
-            $this->load->view('reporte/bodega', $data);
-            $this->load->view('footer');
-        }
-    }
+ 
 
 }
