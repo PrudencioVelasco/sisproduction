@@ -520,7 +520,7 @@ FROM
     }
     public function detallesDeOrden($idsalida) {
         // code...
-        $this->db->select('pc.idpalletcajas, o.idordensalida,s.idsalida, p.numeroparte,o.tipo, o.pallet,o.caja, tc.cantidad as cajaspallet, tm.descripcion as modelo, tr.descripcion as revision, pb.nombreposicion');
+        $this->db->select('pc.idpalletcajas, o.idordensalida,s.idsalida, p.numeroparte,o.tipo, o.pallet,o.caja, tc.cantidad as cajaspallet, tm.descripcion as modelo, tr.descripcion as revision, pb.nombreposicion,ppb.salida');
         $this->db->from('salida s');
         $this->db->join('ordensalida o', 's.idsalida=o.idsalida');
         $this->db->join('palletcajas pc', 'o.idpalletcajas=pc.idpalletcajas');
@@ -534,6 +534,53 @@ FROM
         $this->db->join('posicionbodega  pb', 'ppb.idposicion = pb.idposicion');
         $this->db->where('s.idsalida', $idsalida);
         //$this->db->where('pd.idestatus', 8);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+     public function detallesDeOrdenPallet($idsalida) {
+        // code...
+        $this->db->select('pc.idpalletcajas, o.idordensalida,s.idsalida, p.numeroparte,o.tipo, o.pallet,o.caja, tc.cantidad as cajaspallet, tm.descripcion as modelo, tr.descripcion as revision, pb.nombreposicion,ppb.salida');
+        $this->db->from('salida s');
+        $this->db->join('ordensalida o', 's.idsalida=o.idsalida');
+        $this->db->join('palletcajas pc', 'o.idpalletcajas=pc.idpalletcajas');
+        $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
+        $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');
+        $this->db->join('tblmodelo  tm', 'tm.idmodelo = tr.idmodelo');
+        $this->db->join('parte  p', 'tm.idparte = p.idparte');
+        $this->db->join('cliente  c', 'c.idcliente = p.idcliente');
+        $this->db->join('status  es', 'es.idestatus = pc.idestatus');
+        $this->db->join('parteposicionbodega  ppb', 'ppb.idpalletcajas = o.idpalletcajas');
+        $this->db->join('posicionbodega  pb', 'ppb.idposicion = pb.idposicion');
+        $this->db->where('s.idsalida', $idsalida);
+        $this->db->where('o.tipo', 0);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+     public function detallesDeOrdenParciales($idsalida) {
+        // code...
+        $this->db->select('pc.idpalletcajas, o.idordensalida,s.idsalida, p.numeroparte,o.tipo, o.pallet,o.caja, tc.cantidad as cajaspallet, tm.descripcion as modelo, tr.descripcion as revision, pb.nombreposicion,ppb.salida, sum(o.caja) as totalcajas');
+        $this->db->from('salida s');
+        $this->db->join('ordensalida o', 's.idsalida=o.idsalida');
+        $this->db->join('palletcajas pc', 'o.idpalletcajas=pc.idpalletcajas');
+        $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
+        $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');
+        $this->db->join('tblmodelo  tm', 'tm.idmodelo = tr.idmodelo');
+        $this->db->join('parte  p', 'tm.idparte = p.idparte');
+        $this->db->join('cliente  c', 'c.idcliente = p.idcliente');
+        $this->db->join('status  es', 'es.idestatus = pc.idestatus');
+        $this->db->join('parteposicionbodega  ppb', 'ppb.idpalletcajas = o.idpalletcajas');
+        $this->db->join('posicionbodega  pb', 'ppb.idposicion = pb.idposicion');
+        $this->db->where('s.idsalida', $idsalida);
+        $this->db->where('o.tipo', 1);
+         $this->db->group_by('pc.idcajas'); 
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
