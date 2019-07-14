@@ -23,26 +23,30 @@
                                     <table id="datatablewarehouse" class="table">
                                         <thead>
                                             <tr>
-                                                <th scope="col">No. Transferencia</th>
                                                 <th scope="col">Cliente</th>
                                                 <th scope="col">No. Parte</th>
-                                                <th scope="col">Revision</th>
-                                                <th scope="col">Cantidad</th>
-                                                <th scope="col">Posicion</th> 
-                                                <th>Estatus</th>
+                                                <th scope="col">Modelo</th>
+                                                <th scope="col">Version</th>
+                                                <th scope="col">Existencia</th> 
+                                                <th scope="col">Salidas</th> 
+                                                <th class="text-center">Accion</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php if (isset($informacion) && !empty($informacion)):?>
                                             <?php foreach ($informacion as $value):?>
                                                 <tr>
-                                                    <td><?php echo $value->idtransferancia; ?></td>
                                                     <td><?php echo $value->nombre; ?></td>
                                                     <td><?php echo $value->numeroparte; ?></td>
-                                                    <td><?php echo $value->descripcion; ?></td>
-                                                    <td><?php echo $value->cantidad; ?></td>
-                                                    <td><?php echo $value->nombreposicion; ?></td>
-                                                    <td><label style="color:green;"><?php echo $value->nombrestatus;?></label>
+                                                    <td><?php echo $value->nombremodelo; ?></td>
+                                                    <td><?php echo $value->nombrerevision; ?></td>
+                                                    <td><?php echo $value->total;?></td>
+                                                    <td>
+                                                        <label style="color:red;"><?php echo $value->totalsalidaparciales + $value->totalsalidapallet;?></label>
+                                                    </td>
+                                                    <td align="center">
+                                                        <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('warehouse/historial/'.$value->idrevision) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
+                                                        Historial</a>
                                                     </td>
                                                 </tr>
                                             <?php endforeach;?>
