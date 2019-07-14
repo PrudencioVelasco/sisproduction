@@ -44,13 +44,13 @@
                         <div class="row">
                             <div class="col-md-10 col-sm-10 col-xs-10 ">
                                 <div class="form-group">
-                                    <input type="text" class="form-control"  autofocus="" id="codigo" placeholder="Codigo de Barra"  name="po">  
+                                    <!--<input type="text" class="form-control"  autofocus="" id="codigo" placeholder="Codigo de Barra"  name="po">  -->
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-2 col-xs-2 ">
                                 <div class="form-group" align="right">
                                     <input type="hidden" name="" id="idsalida" value="<?php echo $detallesalida->idsalida; ?>">
-                                    <button type="button" id="btnacepta" class="btn btn-primary">Buscar</button> 
+                                    <!--<button type="button" id="btnacepta" class="btn btn-primary">Buscar</button> -->
                                 </div>
                             </div>
                         </div>
