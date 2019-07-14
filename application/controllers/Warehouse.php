@@ -36,6 +36,18 @@ class Warehouse extends CI_Controller {
         $this->load->view('footer');
     }
 
+    public function historial($id) {
+        //Permission::grant(uri_string());
+    
+        $data['entradas'] = $this->almacen->getDataEntradas($id);
+        $data['salidasparciales']= $this->almacen->getDataSalidaParcial($id);
+        $data['salidaspallet']= $this->almacen->getDataSalidaPallet($id);
+
+        $this->load->view('header');
+        $this->load->view('warehouse/detalle',$data);
+        $this->load->view('footer');
+    }
+
     public function exitWareHouse() {
         //Permission::grant(uri_string());
         $first_date = $this->input->post('fechainicio');
