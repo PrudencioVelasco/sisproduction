@@ -49,7 +49,7 @@ class Warehouse_model extends CI_Model {
     }
 
     public function getDataEntry($first_date='',$second_date=''){
-        $this->db->select('pc.idpalletcajas,pc.idtransferancia,pc.pallet,pc.idcajas,pc.idestatus, p.idparte,c.nombre,p.numeroparte,tc.cantidad, tr.descripcion, s.nombrestatus, pc.idestatus,pb.nombreposicion');
+        $this->db->select('pc.idpalletcajas,pc.idtransferancia,pc.pallet,pc.idcajas,pc.idestatus, p.idparte,c.nombre,p.numeroparte,count(tc.idcantidad) as totalpallet,tc.cantidad as cantidadxpallet, sum(tc.cantidad) as cantidad, tr.descripcion, s.nombrestatus, pc.idestatus,pb.nombreposicion');
         $this->db->from('palletcajas pc');
         $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
         $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');
@@ -62,12 +62,12 @@ class Warehouse_model extends CI_Model {
         $this->db->where('pc.idestatus', 8);
         
         if (!empty($first_date) && !empty($second_date)) {
-            $this->db->where('ppb.fecharegistro >=', $first_date);
-            $this->db->where('ppb.fecharegistro <=', $second_date);
+            $this->db->where('date(ppb.fecharegistro) >=', $first_date);
+            $this->db->where('date(ppb.fecharegistro) <=', $second_date);
         }
-        $this->db->where('pc.idestatus', 8);
-        $this->db->where('ppb.ordensalida', 0);
-        
+        //$this->db->where('pc.idestatus', 8);
+        //$this->db->where('ppb.ordensalida', 0);
+         $this->db->group_by('tc.idcantidad'); 
         $query = $this->db->get();
         
         return $query->num_rows() > 0 ? $query->result() : FALSE ; 
@@ -75,7 +75,7 @@ class Warehouse_model extends CI_Model {
 
     public function getDataExits($first_date='',$second_date='',$tipo=''){
         $this->db->select('pc.idpalletcajas,pc.idestatus,pc.idtransferancia,c.nombre,p.numeroparte,
-            tc.cantidad,tr.descripcion,s.nombrestatus,pb.nombreposicion,os.caja,os.idordensalida,
+            sum(tc.cantidad) as cantidad,count(tc.idcantidad) as totalpallet,tc.cantidad as cantidadxpallet,tr.descripcion,s.nombrestatus,pb.nombreposicion,os.caja,os.idordensalida,
             sal.numerosalida,sal.orden,sal.finalizado');
         $this->db->from('palletcajas pc');
         $this->db->join('tblcantidad tc','tc.idcantidad = pc.idcajas');
@@ -90,20 +90,21 @@ class Warehouse_model extends CI_Model {
         $this->db->join('salida sal ',' os.idsalida = sal.idsalida');
         
         if (!empty($first_date) && !empty($second_date) && $tipo == "0") {
-            $this->db->where('os.fecharegistro >=', $first_date);
-            $this->db->where('os.fecharegistro <=', $second_date);
+            $this->db->where('date(os.fecharegistro) >=', $first_date);
+            $this->db->where('date(os.fecharegistro) <=', $second_date);
             //$this->db->where('os.tipo', $tipo);
         }else if(!empty($first_date) && !empty($second_date) && $tipo == "1"){
-            $this->db->where('os.fecharegistro >=', $first_date);
-            $this->db->where('os.fecharegistro <=', $second_date);
+            $this->db->where('date(os.fecharegistro) >=', $first_date);
+            $this->db->where('date(os.fecharegistro) <=', $second_date);
             $this->db->where('os.tipo', 0);
         }else if(!empty($first_date) && !empty($second_date) && $tipo == "2"){
-            $this->db->where('os.fecharegistro >=', $first_date);
-            $this->db->where('os.fecharegistro <=', $second_date);
+            $this->db->where('date(os.fecharegistro) >=', $first_date);
+            $this->db->where('date(os.fecharegistro) <=', $second_date);
             $this->db->where('os.tipo', 1);
         }
         $this->db->where('pc.idestatus', 8);
         $this->db->where('ppb.ordensalida', 1);
+        $this->db->group_by('tc.idcantidad'); 
         
         $query = $this->db->get();
         

@@ -30,7 +30,7 @@ class Warehouse extends CI_Controller {
         $second_date = $this->input->post('fechafin');
         
         $data['entries'] = $this->almacen->getDataEntry($first_date,$second_date);
-
+//var_dump($this->almacen->getDataEntry($first_date,$second_date));
         $this->load->view('header');
         $this->load->view('warehouse/entry',$data);
         $this->load->view('footer');
@@ -63,10 +63,15 @@ class Warehouse extends CI_Controller {
         <th scope="col">No. Salida</th>
         <th scope="col">Cliente</th>
         <th scope="col">No. Parte</th>
-        <th scope="col">Revision</th>
+        <th scope="col">Revision</th>';
+ if ($tipo == '1') {
+         $render .='<th scope="col">Pallet</th>
+        <th scope="col">CantidadxPallet</th>
         <th scope="col">Cantidad</th>
         <th scope="col">Posicion</th>';
-        if ($tipo == '1') {
+    }
+        if ($tipo == '2') {
+            $render .='<th scope="col">Pallet</th>';
             $render .='<th scope="col">Cajas</th>';
         }
         $render .='</tr>';
@@ -79,10 +84,15 @@ class Warehouse extends CI_Controller {
                 $render .='<td>'. $value->nombre .'</td>';
                 $render .='<td>'. $value->numeroparte .'</td>';
                 $render .='<td>'.$value->descripcion .'</td>';
+                if ($tipo == '1') {
+                $render .='<td>'.$value->totalpallet .'</td>';
+                $render .='<td>'.$value->cantidadxpallet .'</td>';
                 $render .='<td>'.$value->cantidad .'</td>';
                 $render .='<td>'.$value->nombreposicion .'</td>';
-                if ($tipo == '1') {
-                    $render .='<td>'.$value->caja .'</td>';
+            }
+                if ($tipo == '2') {
+                    $render .='<td><strong>1</strong></td>';
+                    $render .='<td><strong>'.$value->caja .'</strong></td>';
                 }
                 $render .='</tr>';
             }

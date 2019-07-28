@@ -79,45 +79,23 @@ class Orden extends CI_Controller {
         $this->load->view('footer');
     }
    
-    public function test()
-    {
-        # code...
-        $ca=$this->orden->validarOrdenSalida(2);
-        $data = $this->orden->listaDeNumeroParteSalida('7509552912968',2);
-         foreach ($data as $value) {
-                    $idpalletcajas = $value->idpalletcajas;
-                    $dataupdate = array(
-                        'salida' => 1
-                    );
-
-                   // $this->orden->updateEstatusPosicion($dataupdate, $idpalletcajas);
-                   // echo 2;
-                }
-    }
+   
     public function validar() {
-             $numeroparte = $_POST['codigo'];
-            $idsalida = $_POST["idsalida"];  
-            if ($this->orden->validarOrdenSalida($idsalida) != FALSE) {
-
-                $data = $this->orden->listaDeNumeroParteSalida($numeroparte,$idsalida);
-                if($data != false){
-                //var_dump($data);
-                foreach ($data as $value) {
-                    $idpalletcajas = $value->idpalletcajas;
+         $numeroparte = $_POST['codigo'];
+         $idpalletcajas = $_POST["idpalletcajas"];
+         $idsalida = $_POST["idsalida"];
+         $data = $this->orden->listaDeNumeroParteSalida($numeroparte,$idsalida,$idpalletcajas);
+         if($data != FALSE){
                     $dataupdate = array(
                         'salida' => 1
-                    );
+                        );
 
                     $this->orden->updateEstatusPosicion($dataupdate, $idpalletcajas);
-                    echo 1;
-                }
-            }else{
-                echo 0;
-            }
-            } else {
-                //Ya se lleno  la orden, y todavia sigue escaneando
-                echo 0;
-            }
+                    echo  1;
+         }else{
+                 //Ya se lleno  la orden, y todavia sigue escaneando
+              echo 0;
+         }
         
     }
 

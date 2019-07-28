@@ -35,7 +35,7 @@
                   <label for="tipo"><font color="red">*</font> Tipo</label>
                   <select class="form-control" id="tipo" name="tipo" required>
                     <option value="">Seleccione una opcion</option>
-                    <option value="0">Todos</option>
+                   
                     <option value="1">Pallet</option>
                     <option value="2">Parciales</option>
                   </select>
@@ -57,36 +57,7 @@
               <?php if(!empty($exits)):?>
                 <?php echo $exits; ?>
               <?php endif;?>
-              <!--<table id="datatable" class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">No. salida</th>
-                    <th scope="col">Cliente</th>
-                    <th scope="col">No. Parte</th>
-                    <th scope="col">Revision</th>
-                    <th scope="col">Cantidad</th>
-                    <th scope="col">Posicion</th>
-                    <th scope="col">No. Salida</th>
-                    <th scope="col" id="datacol">Cajas</th> 
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php if (isset($exits) && !empty($exits)):?>
-                  <?php foreach ($exits as $value):?>
-                    <tr>
-                      <td><?php echo $value->idtransferancia; ?></td>
-                      <td><?php echo $value->nombre; ?></td>
-                      <td><?php echo $value->numeroparte; ?></td>
-                      <td><?php echo $value->descripcion; ?></td>
-                      <td><?php echo $value->cantidad; ?></td>
-                      <td><?php echo $value->nombreposicion; ?></td>
-                      <td><?php echo $value->numerosalida; ?></td>
-                      <td><?php echo $value->caja; ?></td>
-                    </tr>
-                  <?php endforeach;?>
-                <?php endif;?> 
-              </tbody>
-            </table>-->
+               
           </div> 
         </div> 
       </div>

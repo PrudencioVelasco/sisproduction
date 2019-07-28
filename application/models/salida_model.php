@@ -286,37 +286,32 @@ FROM
 
     public function validarExistenciaParcialesNumeroParte($idtransferencia, $idcajas) {
         $query = $this->db->query("
-SELECT  COALESCE(SUM(os.caja),0) AS cajassalidas,
-(SELECT
-    COALESCE(SUM(tc2.cantidad),0)
-  FROM palletcajas pc2, tblcantidad tc2
-  WHERE   pc2.idtransferancia = pc.idtransferancia
-   AND tc2.idcantidad = pc2.idcajas
-  AND pc2.idestatus = 8  )AS totalcajas
-
-  
-
-FROM
-    palletcajas pc
-        INNER JOIN
-    tblcantidad tc ON pc.idcajas = tc.idcantidad
-        INNER JOIN
-    tblrevision tr ON tr.idrevision = tc.idrevision
-        INNER JOIN
-    tblmodelo tm ON tm.idmodelo = tr.idmodelo
-        INNER JOIN
-    parte tp ON tp.idparte = tm.idparte
-        INNER JOIN
-    cliente c ON c.idcliente = tp.idcliente 
-       INNER JOIN
-    tbltransferencia t ON t.idtransferancia = pc.idtransferancia  
-  INNER JOIN
-    parteposicionbodega ppb ON pc.idpalletcajas = ppb.idpalletcajas
-    INNER JOIN  
-    ordensalida os oN pc.idpalletcajas = os.idpalletcajas
-    WHERE pc.idestatus = 8
-    AND pc.idtransferancia = $idtransferencia
-    AND pc.idcajas =$idcajas");
+                SELECT (SELECT COALESCE(Sum(os.caja), 0)
+                        FROM   ordensalida os
+                        WHERE  pc.idpalletcajas = os.idpalletcajas)AS cajassalidas,
+                       (SELECT COALESCE(Sum(tc2.cantidad), 0)
+                        FROM   palletcajas pc2,
+                               tblcantidad tc2
+                        WHERE  pc2.idtransferancia = pc.idtransferancia
+                               AND tc2.idcantidad = pc2.idcajas)   AS totalcajas
+                FROM   palletcajas pc
+                       INNER JOIN tblcantidad tc
+                               ON pc.idcajas = tc.idcantidad
+                       INNER JOIN tblrevision tr
+                               ON tr.idrevision = tc.idrevision
+                       INNER JOIN tblmodelo tm
+                               ON tm.idmodelo = tr.idmodelo
+                       INNER JOIN parte tp
+                               ON tp.idparte = tm.idparte
+                       INNER JOIN cliente c
+                               ON c.idcliente = tp.idcliente
+                       INNER JOIN tbltransferencia t
+                               ON t.idtransferancia = pc.idtransferancia
+                       INNER JOIN parteposicionbodega ppb
+                               ON pc.idpalletcajas = ppb.idpalletcajas
+                WHERE  pc.idtransferancia = $idtransferencia
+                       AND pc.idcajas = $idcajas
+                GROUP  BY pc.idcajas");
         //$query = $this->db->get();
         return $query->first_row();
     }

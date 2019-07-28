@@ -25,7 +25,7 @@ class Transferencia extends CI_Controller {
         $query = $this->transferencia->showAll();
         $data = array(
             'datatransferencia' => $query
-        );
+        ); 
         $this->load->view('header');
         $this->load->view('transferencia/index', $data);
         $this->load->view('footer');

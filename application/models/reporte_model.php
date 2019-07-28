@@ -17,7 +17,7 @@ class Reporte_model extends CI_Model {
     {
         $query =$this->db->query('SELECT * FROM viewprocesopallet
                                 WHERE (CONVERT(fecha, DATE) BETWEEN "'.$fechainicio.'" AND "'.$fechafin.'")
-                                AND idestatus IN (1,2,3,8)');
+                                AND idestatus IN (1,3,8)');
          return $query->result();
     }
      public function allTransferenciaCalidad($fechainicio,$fechafin)

@@ -30,8 +30,7 @@
                                             <tbody>
                                                 <?php
                                                 if (isset($datatransferencia) && !empty($datatransferencia)) {
-                                                    foreach ($datatransferencia as $value) {
-                                                          if(!empty($value->estatus)){
+                                                    foreach ($datatransferencia as $value) { 
                                                         ?>
                                                         <tr   class="table-default"> 
                                                             <td><?php echo $value->folio; ?></td>
@@ -39,7 +38,7 @@
                                                             <td><?php echo $value->fecharegistro ?></td> 
                                                             <td>
                                                                 <?php
-                                                                if(!empty($value->estatus)){
+                                                                if(!empty($value->estatus) && !is_null($value->estatus)){
                                                                     echo '<label>'.$value->estatus.'</label>';
                                                                 }else if(empty ($value->estatusall)){
                                                                     echo '<label>VACIO</label>';
@@ -53,7 +52,7 @@
                                                         </tr>
                                                         <?php
                                                     }
-                                                }
+                                                
                                                 }
                                                 ?>
                                             </tbody>

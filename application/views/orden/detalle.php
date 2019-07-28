@@ -54,12 +54,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12 ">
-                                <label id="msgerror" style="color:red;"></label>
-                                 <label id="msgcorrecto" style="color:green;"></label>
-                            </div>
-                        </div>
+                       
 
 <div class="modal" id="my_modal">
   <div class="modal-dialog">
@@ -71,12 +66,18 @@
       <div class="modal-body"> 
          <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                <label id="msgerror" style="color:red;"></label>
+                                 <label id="msgcorrecto" style="color:green;"></label>
+                            </div>
+                        </div>
+         <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12 ">
                                 <div class="form-group">
                                     <input type="text" class="form-control"  autofocus="" id="codigoescaneado" placeholder="Código de Barra"  name="codigoescaneado">  
                                 </div>
                             </div>
         </div>
-        <input type="hidden" name="bookId" value=""/>
+        <input type="hidden" name="bookId" id="idpalletcajas" value=""/>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -244,59 +245,30 @@ $('#my_modal').on('show.bs.modal', function(e) {
 
 </script>
   <script type="text/javascript">
-         $.fn.delayPasteKeyUp = function(fn, ms) {
-              var timer = 0;
-              $(this).on("propertychange input", function() {
-                  clearTimeout(timer);
-                  timer = setTimeout(fn, ms);
-              });
-          };
-          
-          $(document).ready(function() {
-              $("#codigo").delayPasteKeyUp(function() {
-          
-                  codigo = $("#codigo").val();
-                  idsalida = $("#idsalida").val();
-                  $.ajax({
-                      type: "POST",
-                      url: "<?= base_url('orden/validar') ?>",
-                      data: "codigo=" + codigo + "&idsalida=" + idsalida,
-                      dataType: "html",
-                      beforeSend: function() {
-                          //imagen de carga
-                          //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
-                      },
-                      error: function() {
-                          alert("error petición ajax");
-                      },
-                      success: function(data) {
 
-                         //var getContact = JSON.parse(data);
-                    //console.log(getContact.incorrecto); 
-                    if (data === 1) {
-                         $('#msgerror').hide();
-                         $('#msgcorrecto').text("Codigo no encontrado en Orde.");
-
-                    } else{
-                        $('#msgerror').text("Codigo no encontrado en Orde.");
-                    }
-                  }, 
+     $.fn.delayPasteKeyUp = function(fn, ms)
+ {
+   var timer = 0;
+   $(this).on("propertychange input", function()
+   {
+     clearTimeout(timer);
+     timer = setTimeout(fn, ms);
+   });
+ };
+ 
+ //la utilizamos
+ $(document).ready(function()
+ {
+  $("#codigoescaneado").delayPasteKeyUp(function(){
 
 
-              }, 200);
-          });
-    });
-
-                    $(document).ready(function() {
-                    $("#codigoescaneado").delayPasteKeyUp(function() {
-          
                   codigo = $("#codigoescaneado").val();
-                  idsalida = $("#idsalida").val();
-                  console.log(codigo);
+                  idpalletcajas = $("#idpalletcajas").val();
+                  idsalida = $("#idsalida").val(); 
                   $.ajax({
                       type: "POST",
                       url: "<?= base_url('orden/validar') ?>",
-                      data: "codigo=" + codigo + "&idsalida=" + idsalida,
+                      data: "codigo=" + codigo + "&idpalletcajas=" + idpalletcajas + "&idsalida=" + idsalida,
                       dataType: "html",
                       beforeSend: function() {
                           //imagen de carga
@@ -308,55 +280,34 @@ $('#my_modal').on('show.bs.modal', function(e) {
                       success: function(data) {
 
                          //var getContact = JSON.parse(data);
-                    //console.log(getContact.incorrecto); 
-                    if (data === 1) {
+                    //console.log(data); 
+                    if (data == 1) {
                          $('#msgerror').hide();
-                         $('#msgcorrecto').text("Codigo no encontrado en Orde.");
+                         $('#msgcorrecto').text("Espere un momento...");
+                         $("#codigoescaneado").val("");
+                           location.reload();
 
-                    } else{
-                        $('#msgerror').text("Codigo no encontrado en Orde.");
+                    } else if(data == 0){
+                       $('#msgerror').text("Codigo no encontrado en Orde.");
+                       $("#codigoescaneado").val("");
+                    }
+                    else{
+                        $('#msgerror').text("Fuera.");
                     }
                   }, 
 
 
-              }, 200);
-          });
-    });
+              });
+
+
+ }, 200);
+ });
+
 
  
       </script>
 
 
       <script>
-$('#btnacepta').click(function(){
-
-      codigo = $("#codigo").val();
-                  idsalida = $("#idsalida").val();
-                  $.ajax({
-                      type: "POST",
-                      url: "<?= base_url('orden/validar') ?>",
-                      data: "codigo=" + codigo + "&idsalida=" + idsalida,
-                      dataType: "html",
-                      beforeSend: function() {
-                          //imagen de carga
-                          //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
-                      },
-                      error: function(data) {
-                        console.log(data) 
-                      },
-                      success: function(data) {
-
-                         //var getContact = JSON.parse(data);
-                    //console.log(getContact.incorrecto); 
-                    if (data === 1) { 
- $('#msgerror').hide();
-                         $('#msgcorrecto').text("Codigo no encontrado en Orde.");
-                    } else{
-                        $('#msgerror').text("Codigo no encontrado en Orde.");
-                    }
-                  }, 
-
-
-              }, 200);
-});
+ 
 </script>

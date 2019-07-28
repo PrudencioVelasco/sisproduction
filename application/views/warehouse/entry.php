@@ -47,12 +47,13 @@
               <table id="datatableentry" class="table">
                 <thead>
                   <tr>
-                    <th scope="col">No. Transferencia</th>
-                    <th scope="col">Pallet</th>
+                    <th scope="col">Transferencia</th> 
                     <th scope="col">Cliente</th>
                     <th scope="col">No. Parte</th>
                     <th scope="col">Revision</th>
-                    <th scope="col">Cantidad</th>
+                    <th scope="col">Pallet</th>
+                     <th scope="col">CajasxPallet</th>
+                    <th scope="col">T. Cajas</th>
                     <th scope="col">Posicion</th> 
                   </tr>
                 </thead>
@@ -60,12 +61,13 @@
                   <?php if (isset($entries) && !empty($entries)):?>
                   <?php foreach ($entries as $value):?>
                     <tr>
-                      <td><?php echo $value->idtransferancia; ?></td>
-                      <td><?php echo $value->pallet; ?></td>
+                      <td><?php echo $value->idtransferancia; ?></td> 
                       <td><?php echo $value->nombre; ?></td>
                       <td><?php echo $value->numeroparte; ?></td>
                       <td><?php echo $value->descripcion; ?></td>
-                      <td><?php echo $value->cantidad; ?></td>
+                      <td><strong><?php echo $value->totalpallet; ?></strong></td>
+                      <td><strong><?php echo $value->cantidadxpallet; ?></strong></td>
+                      <td><strong><?php echo $value->cantidad; ?></strong></td>
                       <td><?php echo $value->nombreposicion; ?></td>
                     </tr>
                   <?php endforeach;?>

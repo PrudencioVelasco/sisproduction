@@ -73,6 +73,7 @@
                                                 <td><?php echo date("d/m/Y", strtotime($value->fecha));  ?></td>  
                                                 <td>
                                                     <?php 
+                                                    
                                                     if($modulo=="1"){
                                                     switch ($value->idestatus) {
                                                         case 1:
