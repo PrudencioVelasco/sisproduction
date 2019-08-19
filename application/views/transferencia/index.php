@@ -18,7 +18,7 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-md-12">
+                                   <div class="col-md-12 col-sm-12 col-xs-12 ">
                                         <table class="table is-bordered is-hoverable" id="datatable">
                                             <thead class="text-white bg-dark" >
                                             <th>Transferencia</th>
@@ -28,10 +28,9 @@
                                             <th>Opción</th>
                                             </thead>
                                             <tbody>
-                                                <?php
+                                                <?php 
                                                 if (isset($datatransferencia) && !empty($datatransferencia)) {
                                                     foreach ($datatransferencia as $value) {
-                                                          if(!empty($value->estatus)){
                                                         ?>
                                                         <tr   class="table-default"> 
                                                             <td><?php echo $value->folio; ?></td>
@@ -41,7 +40,9 @@
                                                                 <?php
                                                                 if(!empty($value->estatus)){
                                                                     echo '<label>'.$value->estatus.'</label>';
-                                                                }else if(empty ($value->estatusall)){
+                                                                }else if(!empty($value->estatusall)){
+                                                                     echo '<label>'.$value->estatusall.'</label>';
+                                                                }else{
                                                                     echo '<label>VACIO</label>';
                                                                 }
                                                                 ?>
@@ -52,7 +53,7 @@
                                                             </td>
                                                         </tr>
                                                         <?php
-                                                    }
+                                                    
                                                 }
                                                 }
                                                 ?>

@@ -10,10 +10,10 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <div class="row">
-                            <div class="col-md-6" align="left">
+                            <div class="col-md-6 col-sm-6 col-xs-6 " align="left">
                                 <h2><strong>Agregar Número de Parte</strong></h2>
                             </div>
-                            <div class="col-md-6" style="display: flex; justify-content: flex-end">
+                           <div class="col-md-6 col-sm-6 col-xs-6 " style="display: flex; justify-content: flex-end">
                                 <h2><strong>Transferencia: # <?php echo $folio; ?></strong></h2>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                            
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Número de Parte</label>
@@ -55,7 +55,7 @@
 
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Seleccionar cliente</label> 
                                                                 <select  class="select2_single_cliente form-control " name="cliente" id="listclient" required="">
@@ -66,7 +66,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Seleccionar Modelo</label> 
                                                                 <select class="select2_single_modelo form-control " name="modelo" id="listamodelo" required="">
@@ -77,7 +77,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Seleccionar Revisión</label> 
                                                                 <select class="select2_single_revision form-control " name="revision" id="listarevision" required="">
@@ -88,7 +88,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Seleccionar Linea</label> 
                                                                 <select class="select2_linea form-control " name="linea" required="">
@@ -100,7 +100,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Seleccionar Cajas por Pallet</label> 
                                                                 <select class="select2_single_cantidad form-control " name="cajas" id="listacantidad" required="required">
@@ -111,7 +111,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Cantidad de Pallet</label> 
                                                                 <input type="text" class="form-control"  name="cantidad" autcomplete="off">
@@ -119,7 +119,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12">
+                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                             <input type="hidden" name="idtransferencia" value="<?php echo $id; ?>">
                                                             <button type="button" id="btnagregar" class="btn btn-primary">Guardar</button>
                                                         </div>
@@ -136,7 +136,7 @@
                                 </div> 
 
                                 <div class="row">
-                                    <div class="col-md-12">
+                                   <div class="col-md-12 col-sm-12 col-xs-12 ">
                                         <label id="errormsg" style="color:red;"></label>
                                         <form method="post" id="frmenviar"  action="#">
                                             <table id="datatable" class="table">
@@ -208,7 +208,7 @@
                                                             <div class="modal-body">
                                                                 <div class="errormsgescaneoa" style="color: red"></div>
                                                                 <div class="row">
-                                                                    <div class="col-md-12">
+                                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                                         <div class="form-group">
                                                                             <label>Motivo de rechazo</label>
                                                                             <textarea id="motivo" class="md-textarea form-control" rows="3" disabled=""></textarea>
@@ -239,7 +239,7 @@
                                                                 <div id="errormsgescaneoap" style="color: red; font-weight: bold; font-size: 14px;"></div>
                                                                 <div id="correctomsgescaneoap" style="color: green; font-weight: bold; font-size: 14px;"></div>
                                                                 <div class="row">
-                                                                    <div class="col-md-12">
+                                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                                         <div class="form-group">
                                                                             <label><font color="red">*</font> Caja</label>
                                                                             <input type="text" class="form-control"  id="numerocaja" name="numerocaja" onKeyPress="pasacampo(event)"> 
@@ -248,7 +248,7 @@
 
                                                                 </div>
                                                                 <div class="row">
-                                                                    <div class="col-md-12">
+                                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                                         <div class="form-group">
                                                                             <label><font color="red">*</font> Etiqueta</label> 
                                                                             <input type="text" class="form-control"  id="numeroetiqueta" name="numeroetiqueta" > 
@@ -267,7 +267,7 @@
                                                 </tbody>
                                             </table>
                                             <div class="row">
-                                                <div class="col-sm-12" align="right">
+                                                <div class="col-md-12 col-sm-12 col-xs-12" align="right">
                                             <?php   if (isset($datatransferencia) && !empty($datatransferencia)) { ?>
                                             <button type="button" id="btnenviar" name="enviar" class="btn btn-success  btn-sm"><i class="fa fa-send" aria-hidden="true"></i> Enviar</button>
                                             <button type="button" id="btneliminar" name="btneliminar" class="btn btn-danger  btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</button>
@@ -540,7 +540,7 @@
                 success: function (data) {
 
                     
-                    var uriWS = "ws://localhost:8080/websocketwoori/imprimir";
+                    var uriWS = "ws://desktop-r1af0qb:8080/wswoori5569430796882482717/printpacking";
                     var miWebsocket = new WebSocket(uriWS);
                  
                 miWebsocket.onopen = function (evento) {

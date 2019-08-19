@@ -251,6 +251,7 @@ class Transferencia_model extends CI_Model {
         c.idcliente,
         p.numeroparte,
         c.nombre,
+        c.clave,
         u.name,
         t.nombreturno,
         t.horainicial,

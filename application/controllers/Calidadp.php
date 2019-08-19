@@ -16,37 +16,39 @@ class Calidadp extends CI_Controller {
         $this->load->model('transferencia_model', 'transferencia');
         $this->load->model('revision_model', 'revision');
         $this->load->model('modelo_model', 'modelo');
-         $this->load->model('calidadp_model', 'calidadp');
-          $this->load->model('calidad_model', 'calidad');
-          $this->load->model('user_model', 'usuario');
+        $this->load->model('calidadp_model', 'calidadp');
+        $this->load->model('calidad_model', 'calidad');
+        $this->load->model('user_model', 'usuario');
         $this->load->model('palletcajasproceso_model', 'palletcajasproceso');
-        //$this->load->library('permission');
+        $this->load->library('permission');
     }
 
     public function index() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $query = $this->calidadp->showAll();
         $data = array(
-            'datatransferencia'=>$query
+            'datatransferencia' => $query
         );
-        
+
         $this->load->view('header');
-        $this->load->view('calidadp/index',$data);
+        $this->load->view('calidadp/index', $data);
         $this->load->view('footer');
     }
-    public function detalle($idtransferencia,$folio) {
-       
-        $motivosrechazo = $this->calidad->motivosRechazo();         
+
+    public function detalle($idtransferencia, $folio) {
+
+        $motivosrechazo = $this->calidad->motivosRechazo();
         $datatransferencia = $this->transferencia->listaNumeroParteTransferencia($idtransferencia);
         $data = array(
-            'id' => $idtransferencia, 
-            'folio'=>$folio,
+            'id' => $idtransferencia,
+            'folio' => $folio,
             'datatransferencia' => $datatransferencia,
-             'motivosrechazo'=>$motivosrechazo);
+            'motivosrechazo' => $motivosrechazo);
         $this->load->view('header');
         $this->load->view('calidadp/detalle', $data);
         $this->load->view('footer');
     }
+
     public function rechazopallet() {
         $idpalletcajas = $this->input->post('idpalletcajas');
         $data = $this->calidadp->motivosrechazo($idpalletcajas);
@@ -59,22 +61,22 @@ class Calidadp extends CI_Controller {
         echo json_encode($data);
     }
 
-     public function generarPDFEnvio($id) {
+    public function generarPDFEnvio($id) {
         //Permission::grant(uri_string());
         $this->load->library('tcpdf');
-        $listapartes = $this->calidadp->palletReporte($id); 
+        $listapartes = $this->calidadp->palletReporte($id);
         $totalpallet = 0;
         $totalcajas = 0;
         if ($listapartes != false) {
 
             foreach ($listapartes as $value) {
-                $totalpallet =$totalpallet + $value->totalpallet;
+                $totalpallet = $totalpallet + $value->totalpallet;
                 $totalcajas = $totalcajas + $value->totalcajas;
             }
         }
 
 
-        $detalle = $this->calidadp->detalleTransferencia($id); 
+        $detalle = $this->calidadp->detalleTransferencia($id);
         $horario = $detalle->horainicial . " - " . $detalle->horafinal;
         $linkimge = base_url() . '/assets/images/woorilogo.png';
         $fechaactual = date('d/m/Y');
@@ -248,10 +250,10 @@ class Calidadp extends CI_Controller {
 
         $pdf->Output('My-File-Name.pdf', 'I');
     }
- 
+
     public function etiquetaCalidad($idpalletcajas) {
         //Permission::grant(uri_string());
-        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
+        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
         $datausuario = $this->usuario->detalleUsuario($this->session->user_id);
 
         $hora = date("h:i:s a");
@@ -320,10 +322,11 @@ class Calidadp extends CI_Controller {
         $mipdf->Output(APPPATH . 'pdfs\\' . 'Calidad' . date('Ymdgisv') . '.pdf', 'F');
         $mipdf->Output('Etiqueta_Calidad.pdf');
     }
+
     public function imprimirEtiquetaCalidad() {
         //Permission::grant(uri_string());
-         $idpalletcajas = $this->input->post('idpalletcajas');
-        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
+        $idpalletcajas = $this->input->post('idpalletcajas');
+        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
         $datausuario = $this->usuario->detalleUsuario($this->session->user_id);
 
         $hora = date("h:i:s a");
@@ -388,12 +391,18 @@ class Calidadp extends CI_Controller {
 
 </page>');
 
-        //$mipdf->pdf->IncludeJS('print(TRUE)');
-          $nombrepdf = APPPATH . 'pdfs\\' . 'Calidad' . date('Ymdgisv') . '.pdf';
-        $mipdf->Output($nombrepdf, 'F');
-        $cmd = "C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe /t \"$nombrepdf\" \"HP Officejet Pro 8600 (Red)\"";
-        echo $cmd;
+      /*  //$mipdf->pdf->IncludeJS('print(TRUE)');
+    $nombrepdf = APPPATH . 'pdfs\\' . 'Calidad' . date('Ymdgisv') . '.pdf';
+       $mipdf->Output($nombrepdf, 'F');
+        $cmd = "C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe /t \"$nombrepdf\" \"Zebra ZT230\"";
+        echo $cmd;*/
+
+           $nombredelpdf = 'Calidad' . date('Ymdgisv') . '.pdf';
+        $ruta = APPPATH . 'pdfs\\' .$nombredelpdf;
+        $mipdf->Output($ruta, 'F');  
+        echo $nombredelpdf;  
     }
+
 }
 
 ?>

@@ -23,7 +23,7 @@
                         <div id="app">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
                                         <label id="errormsg" style="color:red;"></label>
                                         <form method="post" id="frmdetalle"  action="#">
                                             <table id="datatable" class="table">
@@ -106,7 +106,7 @@
                                                             <div class="modal-body">
                                                                 <div class="errormsgescaneoa" style="color: red"></div>
                                                                 <div class="row">
-                                                                    <div class="col-md-12">
+                                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                                         <div class="form-group">
                                                                             <label>Motivo de rechazo</label>
                                                                             <textarea id="motivomsm" class="md-textarea form-control" rows="3" disabled=""></textarea>
@@ -138,7 +138,7 @@
                                                             <div class="modal-body">
                                                                 <div class="errormsgescaneoa" style="color: red"></div>
                                                                 <div class="row">
-                                                                    <div class="col-md-12">
+                                                                   <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                                         <div class="form-group">
                                                                             <label>Motivo de rechazo</label>
                                                                             <textarea id="motivomsmcalidad" class="md-textarea form-control" rows="3" disabled=""></textarea>
@@ -370,7 +370,7 @@ foreach ($motivosrechazo as $valuemotivo) {
                 success: function (data) {
 
 
-                    var uriWS = "ws://localhost:8080/websocketwoori/imprimir";
+                    var uriWS = "ws://desktop-r1af0qb:8080/wswoori5569430796882482717/printcalidad";
                     var miWebsocket = new WebSocket(uriWS);
 
                     miWebsocket.onopen = function (evento) {

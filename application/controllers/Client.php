@@ -72,6 +72,13 @@ class Client extends CI_Controller {
                 'errors' => array(
                     'required' => 'Campo obligatorio.'
                 )
+            ),  array(
+                'field' => 'clave',
+                'label' => 'clave',
+                'rules' => 'trim|required',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.'
+                )
             ), array(
                 'field' => 'direccion',
                 'label' => 'direccion',
@@ -95,6 +102,7 @@ class Client extends CI_Controller {
                 'rfc' => form_error('rfc'),
                 'nombre' => form_error('nombre'),
                 'abreviatura' => form_error('abreviatura'),
+                'clave' => form_error('clave'),
                 'direccion' => form_error('direccion'),
                 'direccionfacturacion' => form_error('direccionfacturacion')
             );
@@ -103,6 +111,7 @@ class Client extends CI_Controller {
                 'rfc' => $this->input->post('rfc'),
                 'nombre' => $this->input->post('nombre'),
                 'abreviatura' => $this->input->post('abreviatura'),
+                'clave' => $this->input->post('clave'),
                 'direccion' => $this->input->post('direccion'),
                 'direccionfacturacion' => $this->input->post('direccionfacturacion'),
                 'activo' => 1,
@@ -139,6 +148,13 @@ class Client extends CI_Controller {
                 'errors' => array(
                     'required' => 'Campo obligatorio.'
                 )
+            ),array(
+                'field' => 'clave',
+                'label' => 'clave',
+                'rules' => 'trim|required',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.'
+                )
             ), array(
                 'field' => 'direccion',
                 'label' => 'direccion',
@@ -163,6 +179,7 @@ class Client extends CI_Controller {
                 'rfc' => form_error('rfc'),
                 'nombre' => form_error('nombre'),
                 'abreviatura' => form_error('abreviatura'),
+                'clave' => form_error('clave'),
                 'direccion' => form_error('direccion'),
                 'direccionfacturacion' => form_error('direccionfacturacion')
             );
@@ -171,6 +188,8 @@ class Client extends CI_Controller {
             $data = array(
                 'rfc' => $this->input->post('rfc'),
                 'nombre' => $this->input->post('nombre'),
+                 'abreviatura' => $this->input->post('abreviatura'),
+                'clave' => $this->input->post('clave'),
                 'direccion' => $this->input->post('direccion'),
                 'direccionfacturacion' => $this->input->post('direccionfacturacion'),
                 'activo' => $this->input->post('activo'),

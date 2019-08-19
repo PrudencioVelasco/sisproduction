@@ -24,7 +24,7 @@
                             <div class="container">
                                 
                                 <div class="row">
-                                    <div class="col-md-12">
+                                   <div class="col-md-12 col-sm-12 col-xs-12 ">
                                         <table class="table is-bordered is-hoverable" id="datatable">
                                             <thead class="text-white bg-dark" >
                                             <th>Transferencia</th>

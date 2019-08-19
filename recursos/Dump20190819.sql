@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `dbproduction` /*!40100 DEFAULT CHARACTER SET lat
 USE `dbproduction`;
 -- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
 --
--- Host: 127.0.0.1    Database: dbproduction
+-- Host: localhost    Database: dbproduction
 -- ------------------------------------------------------
 -- Server version	5.7.24
 
@@ -29,6 +29,7 @@ CREATE TABLE `cliente` (
   `rfc` varchar(20) NOT NULL,
   `nombre` varchar(200) NOT NULL,
   `abreviatura` varchar(20) NOT NULL,
+  `clave` varchar(20) NOT NULL,
   `direccion` varchar(250) NOT NULL,
   `direccionfacturacion` varchar(255) NOT NULL,
   `activo` tinyint(1) NOT NULL,
@@ -46,7 +47,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (1,'VEPP9004288D4','LG MXLI','LG','Calle Órbita 36, Parque Industrial Mexicali II, 21397, Pimsa II, Mexicali, B.C.','Calle Órbita 36, Parque Industrial Mexicali II, 21397, Pimsa II, Mexicali, B.C.',1,3,'2019-04-25 15:06:53'),(2,'XXXXXXXXXXXXXXXX','20','20','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(3,'XXXXXXXXXXXXXXXX','53','53','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(5,'XXXXXXXXXXXXXXXX','ACE','ACE','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(6,'XXXXXXXXXXXXXXXX','B','B','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(7,'XXXXXXXXXXXXXXXX','BIOPAPEL','BIOPAPEL','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(8,'XXXXXXXXXXXXXXXX','B-ROLLER','B-ROLLER','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(9,'XXXXXXXXXXXXXXXX','C Y S','C Y S','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(10,'XXXXXXXXXXXXXXXX','DDCAM','DDCAM','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(11,'XXXXXXXXXXXXXXXX','DELTA','DELTA','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(12,'XXXXXXXXXXXXXXXX','EATON','EATON','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(13,'XXXXXXXXXXXXXXXX','FEDERICO','FEDERICO','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(14,'XXXXXXXXXXXXXXXX','H','H','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(15,'XXXXXXXXXXXXXXXX','HANA','HANA','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(16,'XXXXXXXXXXXXXXXX','HANIL','HANIL','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(17,'XXXXXXXXXXXXXXXX','J.COX','J.COX','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(18,'XXXXXXXXXXXXXXXX','JM','JM','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(19,'XXXXXXXXXXXXXXXX','KANG SEO','KANG SEO','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(20,'XXXXXXXXXXXXXXXX','LG','LG','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(21,'XXXXXXXXXXXXXXXX','LG CHICAGO','LG CHICAGO','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(22,'XXXXXXXXXXXXXXXX','LGERS','LGERS','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(24,'XXXXXXXXXXXXXXXX','LM','LM','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(25,'XXXXXXXXXXXXXXXX','LOURDES','LOURDES','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(26,'XXXXXXXXXXXXXXXX','OH SUNG','OH SUNG','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(28,'XXXXXXXXXXXXXXXX','OH SUNG D','OH SUNG D','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(29,'XXXXXXXXXXXXXXXX','OH SUNG E','OH SUNG E','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(31,'XXXXXXXXXXXXXXXX','QT','QT','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(32,'XXXXXXXXXXXXXXXX','RASTA AFRI','RASTA AFRI','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(33,'XXXXXXXXXXXXXXXX','SHAWMUT','SHAWMUT','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(34,'XXXXXXXXXXXXXXXX','SKD','SKD','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(35,'XXXXXXXXXXXXXXXX','TCL','TCL','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(36,'XXXXXXXXXXXXXXXX','TRIMEK','TRIMEK','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(37,'XXXXXXXXXXXXXXXX','WISE UNI.INC','WISE UNI.INC','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(38,'XXXXXXXXXXXXXXXX','WOORI USA','WOORI USA','NO DEFINIDO','',1,3,'2019-04-10 00:00:00');
+INSERT INTO `cliente` VALUES (1,'VEPP9004288D4','LG MXLI','LG','001','Calle Órbita 36, Parque Industrial Mexicali II, 21397, Pimsa II, Mexicali, B.C.','Calle Órbita 36, Parque Industrial Mexicali II, 21397, Pimsa II, Mexicali, B.C.',1,3,'2019-04-25 15:06:53'),(2,'XXXXXXXXXXXXXXXX','20','20','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(3,'XXXXXXXXXXXXXXXX','53','53','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(5,'XXXXXXXXXXXXXXXX','ACE','ACE','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(6,'XXXXXXXXXXXXXXXX','B','B','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(7,'XXXXXXXXXXXXXXXX','BIOPAPEL','BIOPAPEL','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(8,'XXXXXXXXXXXXXXXX','B-ROLLER','B-ROLLER','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(9,'XXXXXXXXXXXXXXXX','C Y S','C Y S','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(10,'XXXXXXXXXXXXXXXX','DDCAM','DDCAM','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(11,'XXXXXXXXXXXXXXXX','DELTA','DELTA','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(12,'XXXXXXXXXXXXXXXX','EATON','EATON','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(13,'XXXXXXXXXXXXXXXX','FEDERICO','FEDERICO','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(14,'XXXXXXXXXXXXXXXX','H','H','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(15,'XXXXXXXXXXXXXXXX','HANA','HANA','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(16,'XXXXXXXXXXXXXXXX','HANIL','HANIL','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(17,'XXXXXXXXXXXXXXXX','J.COX','J.COX','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(18,'XXXXXXXXXXXXXXXX','JM','JM','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(19,'XXXXXXXXXXXXXXXX','KANG SEO','KANG SEO','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(20,'XXXXXXXXXXXXXXXX','LG','LG','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(21,'XXXXXXXXXXXXXXXX','LG CHICAGO','LG CHICAGO','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(22,'XXXXXXXXXXXXXXXX','LGERS','LGERS','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(24,'XXXXXXXXXXXXXXXX','LM','LM','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(25,'XXXXXXXXXXXXXXXX','LOURDES','LOURDES','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(26,'XXXXXXXXXXXXXXXX','OH SUNG','OH SUNG','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(28,'XXXXXXXXXXXXXXXX','OH SUNG D','OH SUNG D','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(29,'XXXXXXXXXXXXXXXX','OH SUNG E','OH SUNG E','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(31,'XXXXXXXXXXXXXXXX','QT','QT','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(32,'XXXXXXXXXXXXXXXX','RASTA AFRI','RASTA AFRI','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(33,'XXXXXXXXXXXXXXXX','SHAWMUT','SHAWMUT','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(34,'XXXXXXXXXXXXXXXX','SKD','SKD','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(35,'XXXXXXXXXXXXXXXX','TCL','TCL','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(36,'XXXXXXXXXXXXXXXX','TRIMEK','TRIMEK','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(37,'XXXXXXXXXXXXXXXX','WISE UNI.INC','WISE UNI.INC','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00'),(38,'XXXXXXXXXXXXXXXX','WOORI USA','WOORI USA','','NO DEFINIDO','',1,3,'2019-04-10 00:00:00');
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -404,7 +405,7 @@ CREATE TABLE `permission_rol` (
   KEY `rol_id` (`rol_id`),
   CONSTRAINT `permission_rol_ibfk_1` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`),
   CONSTRAINT `permission_rol_ibfk_2` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -413,7 +414,7 @@ CREATE TABLE `permission_rol` (
 
 LOCK TABLES `permission_rol` WRITE;
 /*!40000 ALTER TABLE `permission_rol` DISABLE KEYS */;
-INSERT INTO `permission_rol` VALUES (40,30,5),(41,14,1),(42,21,1),(43,22,1),(44,24,1),(45,25,1),(46,26,1),(47,27,1),(48,28,1),(49,29,1),(50,30,1),(51,31,1),(52,32,1),(58,29,4),(59,33,4),(60,34,4),(61,39,4),(62,22,3),(63,39,3),(64,44,3),(65,28,2),(66,33,2),(67,34,2),(68,44,2);
+INSERT INTO `permission_rol` VALUES (40,30,5),(58,29,4),(62,22,3),(65,28,2),(69,14,1),(70,21,1),(71,22,1),(72,24,1),(73,25,1),(74,26,1),(75,27,1),(76,28,1),(77,29,1),(78,30,1),(79,31,1),(80,32,1),(81,48,1);
 /*!40000 ALTER TABLE `permission_rol` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -429,7 +430,7 @@ CREATE TABLE `permissions` (
   `uri` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(120) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -438,7 +439,7 @@ CREATE TABLE `permissions` (
 
 LOCK TABLES `permissions` WRITE;
 /*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
-INSERT INTO `permissions` VALUES (14,'permiso/*','Permiso - Todos'),(21,'client/*','Cliente - Todos'),(22,'parte/*','Modulo Packing - Todos'),(24,'rol/*','Rol - Todos'),(25,'user/*','Usuario - Todos'),(26,'turno/*','Turno - Todos'),(27,'reporte/*','Modulo Reporte - Todos'),(28,'calidad/*','Modulo Calidad - Todos'),(29,'bodega/*','Modulo Almacen - Todos'),(30,'salida/*','Modulo Salida - Todos'),(31,'inventario/*','Modulo Inventario - Todos'),(32,'orden/*','Ordenes de Salidas - Todos'),(33,'parte/index','Modulo de Packing - Inicio'),(34,'parte/verEnviados','Modulo de Packing - Enviados'),(35,'parte/detalleenvio','Modulo de Packing - ver detalle'),(36,'parte/packing','Modulo de Packing - Agregar'),(37,'parte/addPart','Parte - Agregar numero de parte'),(38,'parte/updateParte','Parte - Modificar numero de parte'),(39,'calidad/index','Modulo Calidad - Inicio'),(40,'calidad/detalleenvio','Modulo Calidad - detalle envio'),(41,'calidad/enviarBodegaNew','Modulo Calidad - enviar a almacen'),(42,'calidad/rechazarAPackingNew','Modulo Calidad - rechazar a packing'),(43,'calidad/ponerEnHold','Modulo Calidad - mover a Hold'),(44,'bodega/index','Modulo Almacen - Inicio'),(45,'bodega/verDetalle','Modulo Almacen - detalle envio'),(46,'bodega/rechazarACalidad','Modulo Almacen - rechazar a calidad'),(47,'bodega/agregarAUbicacion','Modulo Almacen - asignar ubicacion');
+INSERT INTO `permissions` VALUES (14,'permiso/*','Permiso - Todos'),(21,'client/*','Cliente - Todos'),(22,'transferencia/*','Modulo Packing - Todos'),(24,'rol/*','Rol - Todos'),(25,'user/*','Usuario - Todos'),(26,'turno/*','Turno - Todos'),(27,'reporte/*','Modulo Reporte - Todos'),(28,'calidadp/*','Modulo Calidad - Todos'),(29,'bodega/*','Modulo Almacen - Todos'),(30,'salida/*','Modulo Salida - Todos'),(31,'inventario/*','Modulo Inventario - Todos'),(32,'orden/*','Ordenes de Salidas - Todos'),(48,'parte/*','Partes');
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -881,4 +882,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-23 16:40:41
+-- Dump completed on 2019-08-19 15:19:02

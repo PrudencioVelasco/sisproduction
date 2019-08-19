@@ -438,12 +438,28 @@ class Transferencia extends CI_Controller {
         $store_image = imagepng($file, $barcodeRealPath);
         return base_url() . 'assets/cache/' . $code . '.png';
     }
+       public function set_barcode_cliente($code) {
+
+        //load library
+        $this->load->library('zend');
+        //load in folder Zend
+        $this->zend->load('Zend/Barcode');
+        //generate barcode 
+        $file = Zend_Barcode::draw('code128', 'image', array('text' => $code, 'factor' => 1.5, 'stretchText' => true), array());
+        $code = time();
+        $barcodeRealPath = $_SERVER['DOCUMENT_ROOT'] . '/sisproduction/assets/barcodecliente/' . $code . '.png';
+
+        // header('Content-Type: image/png');
+        $store_image = imagepng($file, $barcodeRealPath);
+        return base_url() . 'assets/barcodecliente/' . $code . '.png';
+    }
 
     public function etiquetaPacking($idpalletcajas) {
         // Permission::grant(uri_string());
         date_default_timezone_set("America/Tijuana");
         $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
         $barcode = $this->set_barcode($detalle->numeroparte);
+        $barcodecliente = $this->set_barcode_cliente($detalle->clave);
         $hora = date("h:i a");
         $fecha = date("j/n/Y");
         $dia = date("j");
@@ -477,7 +493,7 @@ class Transferencia extends CI_Controller {
         </tr>
 
         <tr>
-            <td align="center"  height="90"   valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
+            <td align="center"  height="90"   valign="bottom" colspan="2"><img src="' . $barcodecliente . '" style="height:80px;" /><b style="font-size:50px; font-family:arial; font-weight:bold;  " >' . $detalle->nombre . '</b></td>    
         
             
             <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $detalle->cantidad . '</b></td>
@@ -503,7 +519,7 @@ class Transferencia extends CI_Controller {
         </tr>
 
         <tr>
-        <td colspan="3" rowspan="2" align="center"  style="font-size:25px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <br><img src="' . $barcode . '" /> </td>
+        <td colspan="3" rowspan="2" align="center"  style="font-size:30px;  font-family:arial; font-weight:bold; overflow:auto; height:145px; "  >' . $detalle->numeroparte . ' <br><img src="' . $barcode . '" style="height:117px;" /> </td>
         <td height="60" colspan="3" align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" > &nbsp; &nbsp; &nbsp;' . $detalle->modelo . '</td>
 
         </tr>
@@ -603,7 +619,7 @@ class Transferencia extends CI_Controller {
         </tr>
 
         <tr>
-        <td colspan="3" rowspan="2" align="center"  style="font-size:25px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <br><img src="' . $barcode . '" /> </td>
+        <td colspan="3" rowspan="2" align="center"  style="font-size:25px;  font-family:arial; font-weight:bold; overflow:auto; height:120px; "  >' . $detalle->numeroparte . ' <br><img src="' . $barcode . '" style="height:123px;" /> </td>
         <td height="60" colspan="3" align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" > &nbsp; &nbsp; &nbsp;' . $detalle->modelo . '</td>
 
         </tr>
@@ -633,11 +649,17 @@ class Transferencia extends CI_Controller {
     </table>
 </page>
 ');
+   $nombredelpdf = 'Packing' . date('Ymdgisv') . '.pdf';
+        $ruta = APPPATH . 'pdfs\\' .$nombredelpdf;
+        $mipdf->Output($ruta, 'F'); 
+       //echo "C:\\\\wamp64\\\\www\\\\sisproduction\\\\application\\\\pdfs\\\\Packing2019081093609000.pdf";
+        echo $nombredelpdf;  
+        
 
-        $nombrepdf = APPPATH . 'pdfs\\' . 'Packing' . date('Ymdgisv') . '.pdf';
+        /*$nombrepdf = APPPATH . 'pdfs\\' . 'Packing' . date('Ymdgisv') . '.pdf';
         $mipdf->Output($nombrepdf, 'F');
-        $cmd = "C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe /t \"$nombrepdf\" \"HP Officejet Pro 8600 (Red)\"";
-        echo $cmd;
+        $cmd = "C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe /t \"$nombrepdf\" \"Zebra 90XiIII Plus\"";
+        echo $cmd;*/
     }
 }
 
