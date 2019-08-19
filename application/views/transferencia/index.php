@@ -30,11 +30,9 @@
                                             <tbody>
                                                 <?php 
                                                 if (isset($datatransferencia) && !empty($datatransferencia)) {
-<<<<<<< HEAD
-                                                    foreach ($datatransferencia as $value) {
-=======
+
                                                     foreach ($datatransferencia as $value) { 
->>>>>>> master
+
                                                         ?>
                                                         <tr   class="table-default"> 
                                                             <td><?php echo $value->folio; ?></td>
@@ -57,13 +55,11 @@
                                                             </td>
                                                         </tr>
                                                         <?php
-<<<<<<< HEAD
+
                                                     
                                                 }
-=======
-                                                    }
                                                 
->>>>>>> master
+
                                                 }
                                                 ?>
                                             </tbody>
