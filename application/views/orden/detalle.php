@@ -54,6 +54,7 @@
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
 
 
                         <div class="modal" id="my_modal">
@@ -85,6 +86,39 @@
                                 </div>
                             </div>
                         </div>
+=======
+                       
+
+<div class="modal" id="my_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+          <h4 class="modal-title"><strong>Escanear el código</strong></h4>
+      </div>
+      <div class="modal-body"> 
+         <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                <label id="msgerror" style="color:red;"></label>
+                                 <label id="msgcorrecto" style="color:green;"></label>
+                            </div>
+                        </div>
+         <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="form-group">
+                                    <input type="text" class="form-control"  autofocus="" id="codigoescaneado" placeholder="Código de Barra"  name="codigoescaneado">  
+                                </div>
+                            </div>
+        </div>
+        <input type="hidden" name="bookId" id="idpalletcajas" value=""/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+>>>>>>> master
 
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -240,6 +274,7 @@
 
 
 </script>
+<<<<<<< HEAD
 <script type="text/javascript">
     $.fn.delayPasteKeyUp = function (fn, ms) {
         var timer = 0;
@@ -311,16 +346,72 @@
 
                     } else {
                         $('#msgerror').text("Codigo no encontrado en Orde.");
+=======
+  <script type="text/javascript">
+
+     $.fn.delayPasteKeyUp = function(fn, ms)
+ {
+   var timer = 0;
+   $(this).on("propertychange input", function()
+   {
+     clearTimeout(timer);
+     timer = setTimeout(fn, ms);
+   });
+ };
+ 
+ //la utilizamos
+ $(document).ready(function()
+ {
+  $("#codigoescaneado").delayPasteKeyUp(function(){
+
+
+                  codigo = $("#codigoescaneado").val();
+                  idpalletcajas = $("#idpalletcajas").val();
+                  idsalida = $("#idsalida").val(); 
+                  $.ajax({
+                      type: "POST",
+                      url: "<?= base_url('orden/validar') ?>",
+                      data: "codigo=" + codigo + "&idpalletcajas=" + idpalletcajas + "&idsalida=" + idsalida,
+                      dataType: "html",
+                      beforeSend: function() {
+                          //imagen de carga
+                          //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
+                      },
+                      error: function() {
+                          alert("error petición ajax");
+                      },
+                      success: function(data) {
+
+                         //var getContact = JSON.parse(data);
+                    //console.log(data); 
+                    if (data == 1) {
+                         $('#msgerror').hide();
+                         $('#msgcorrecto').text("Espere un momento...");
+                         $("#codigoescaneado").val("");
+                           location.reload();
+
+                    } else if(data == 0){
+                       $('#msgerror').text("Codigo no encontrado en Orde.");
+                       $("#codigoescaneado").val("");
+                    }
+                    else{
+                        $('#msgerror').text("Fuera.");
+>>>>>>> master
                     }
                 },
 
+<<<<<<< HEAD
             }, 200);
         });
     });
 
+=======
+              });
+>>>>>>> master
 
 </script>
 
+<<<<<<< HEAD
 
 <script>
     $('#btnacepta').click(function () {
@@ -340,6 +431,14 @@
                 console.log(data)
             },
             success: function (data) {
+=======
+ }, 200);
+ });
+
+
+ 
+      </script>
+>>>>>>> master
 
                 //var getContact = JSON.parse(data);
                 //console.log(getContact.incorrecto); 
@@ -351,6 +450,11 @@
                 }
             },
 
+<<<<<<< HEAD
         }, 200);
     });
+=======
+      <script>
+ 
+>>>>>>> master
 </script>

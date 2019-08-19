@@ -30,7 +30,11 @@
                                             <tbody>
                                                 <?php 
                                                 if (isset($datatransferencia) && !empty($datatransferencia)) {
+<<<<<<< HEAD
                                                     foreach ($datatransferencia as $value) {
+=======
+                                                    foreach ($datatransferencia as $value) { 
+>>>>>>> master
                                                         ?>
                                                         <tr   class="table-default"> 
                                                             <td><?php echo $value->folio; ?></td>
@@ -38,7 +42,7 @@
                                                             <td><?php echo $value->fecharegistro ?></td> 
                                                             <td>
                                                                 <?php
-                                                                if(!empty($value->estatus)){
+                                                                if(!empty($value->estatus) && !is_null($value->estatus)){
                                                                     echo '<label>'.$value->estatus.'</label>';
                                                                 }else if(!empty($value->estatusall)){
                                                                      echo '<label>'.$value->estatusall.'</label>';
@@ -53,8 +57,13 @@
                                                             </td>
                                                         </tr>
                                                         <?php
+<<<<<<< HEAD
                                                     
                                                 }
+=======
+                                                    }
+                                                
+>>>>>>> master
                                                 }
                                                 ?>
                                             </tbody>

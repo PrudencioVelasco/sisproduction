@@ -46,6 +46,7 @@ class Reporte extends CI_Controller {
             }elseif ($modulo=="3") {
                 $result = $this->reporte->allTransferenciaBodega($fechainicio,$fechafin);
             }
+            //var_dump($result);
             $data = array('result' => $result,'modulo'=>$modulo);
             $this->load->view('header');
             $this->load->view('reporte/transferencia', $data);

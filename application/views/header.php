@@ -36,8 +36,8 @@
         <link href="<?php echo base_url(); ?>/assets/js/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url(); ?>/assets/js/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
 
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
+        <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/bootstrapvalidator/bootstrapValidator.min.css"/>
+        <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/bootstrapvalidator/bootstrapValidator.min.js"></script>
 
         <!--[if lt IE 9]>
               <script src="../assets/js/ie8-responsive-file-warning.js"></script>
@@ -63,11 +63,36 @@
                 display: table-cell;
                 vertical-align: middle;
             }
-           
+            .preloader2 {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 9999;
+                background-color: #fff;
+            }
+            .preloader2 .loading2 {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+              
  
         </style>
+         <script>
+            $(document).ready(function () {
+                $(".preloader2").fadeOut();
+            })
+        </script>
     </head>
     <body class="nav-md">
+          <div class="preloader2">
+            <div class="loading2">
+                <img src="<?php echo base_url('assets/images/loading.gif'); ?>" width="80">
+                <p><strong>Cargando SIPA</strong></p>
+            </div>
+        </div>
         <div class="container body">
             <div class="main_container">
                 <div class="col-md-3 left_col">

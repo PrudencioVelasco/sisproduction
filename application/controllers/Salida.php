@@ -420,7 +420,7 @@ class Salida extends CI_Controller {
     }
     public function agregarNumeroParteOrder() {
         $idcajas = $this->input->post('idcajas');
-        $idtransferecia = $this->input->post('idtransferecia');
+          $idtransferecia = $this->input->post('idtransferecia');
         $iddetalleparte = $this->input->post('iddetalleparte'); 
         $idsalida = $this->input->post('idsalida');
         $numeropallet = $this->input->post('pallet');
@@ -437,10 +437,11 @@ class Salida extends CI_Controller {
                     if ($numerocajas > 0) {
                         //Son parciales
                         $dataexistencia = $this->salida->validarExistenciaParcialesNumeroParte($idtransferecia, $idcajas);
+                        echo $idcajas;
                         //$totalexistencia = $dataexistencia->totalstock;
-                        $totalexistenciacajas = $dataexistencia->totalcajas;
+                         $totalexistenciacajas = $dataexistencia->totalcajas;
 
-                        $totalcajas = $numerocajas;
+                          $totalcajas = $numerocajas;
 
                         if (($totalcajas <= ($totalexistenciacajas - $dataexistencia->cajassalidas))) {
                             $lista = $this->salida->listaPosicionesPallet($idtransferecia, $idcajas);
