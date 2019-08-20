@@ -109,7 +109,8 @@
                                                                     <div class="col-md-12">
                                                                         <div class="form-group">
                                                                             <label>Motivo de rechazo</label>
-                                                                            <textarea id="motivomsm" class="md-textarea form-control" rows="3" disabled=""></textarea>
+                                                                            <input type="" name="" id="motivomsm" class="form-control" disabled="">
+                                                                            <textarea id="motivonotas" class="md-textarea form-control" rows="5" disabled=""></textarea>
                                                                         </div> 
                                                                     </div> 
 
@@ -132,8 +133,8 @@
                                           
                                     <div class="col-md-6 col-sm-12 col-xs-12" >
                                      <div class="form-group"  id="idmotivorechazo">
-                                        <label>Seleccionar motivo de rechazo</label>
-                                        <select  class="form-control" id="motivo" name="motivorechazo" required> 
+                                        <label><font color="red">*</font> Motivo de rechazo a Calidad</label>
+                                        <select  class="form-control" id="motivo" name="motivosrechazocalidad" required> 
                                            <option value="">Seleccionar</option>
                                             <?php
                                                 foreach($motivosrechazo as $valuemotivo){
@@ -143,11 +144,43 @@
                                         </select>
                                     </div>
                                     </div>
+                                     <div class="col-md-6 col-sm-12 col-xs-12" >
+                                                    <div class="form-group"  id="notasmotivorechazo">
+                                                        <label>Notas</label> 
+
+  <textarea class="form-control" rows="5" id="notasrechazo" name="notascalidad"></textarea>
+                                                    </div>
+                                                </div>
                                     </div>
+
+                                      <div class="row">
+                                          
+                                    <div class="col-md-6 col-sm-12 col-xs-12" >
+                                     <div class="form-group"  id="idmotivorechazopacking">
+                                        <label><font color="red">*</font> Motivo de rechazo a Packing</label>
+                                        <select  class="form-control" id="motivocalidad" name="motivorechazopacking" required> 
+                                           <option value="">Seleccionar</option>
+                                            <?php
+                                                foreach($motivosrechazocalidad as $valuemotivo){
+                                                    echo '<option value='.$valuemotivo->idmotivorechazo.'>'.$valuemotivo->motivo.'</option>';
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    </div>
+                                     <div class="col-md-6 col-sm-12 col-xs-12" >
+                                                    <div class="form-group"  id="notasmotivorechazocalidad">
+                                                        <label>Notas</label> 
+
+  <textarea class="form-control" rows="5" id="notasrechazo" name="notaspacking"></textarea>
+                                                    </div>
+                                                </div>
+                                    </div>
+
                                     <div class="row">
                                       <div class="col-md-6 col-sm-12 col-xs-12" >
                                      <div class="form-group"  id="idubicacion">
-                                        <label>Seleccionar Ubicación</label>
+                                        <label><font color="red">*</font> Seleccionar Ubicación</label>
                                         <select  class="form-control" id="ubicacion" name="ubicacion" required> 
                                            <option value="">Seleccionar</option>
                                             <?php foreach ($arrayposicionesbodega as $value2) { ?>
@@ -191,10 +224,16 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#idmotivorechazo').hide();
+         $('#idmotivorechazopacking').hide();
+        $('#notasmotivorechazo').hide();
+         $('#notasmotivorechazocalidad').hide();
         $('#idubicacion').hide();
         $('#btnrechazar').on('click', function () {
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
                 $('#idmotivorechazo').show();
+                $('#notasmotivorechazo').show();
+                 $('#idmotivorechazopacking').hide();
+                $('#notasmotivorechazocalidad').hide();
                  $('#idubicacion').hide();
                 var optId = $("#motivo").val();
                 if(optId != ""){
@@ -225,9 +264,12 @@
         });
            $('#btnrechazarpacking').on('click', function () {
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
-                $('#idmotivorechazo').show();
+                $('#idmotivorechazo').hide();
+                $('#notasmotivorechazo').hide();
+                $('#idmotivorechazopacking').show();
+                $('#notasmotivorechazocalidad').show();
                  $('#idubicacion').hide();
-                var optId = $("#motivo").val();
+                var optId = $("#motivocalidad").val();
                 if(optId != ""){
                     form = $("#frmdetalle").serialize();
                     $.ajax({
@@ -313,7 +355,8 @@
                 data: {idpalletcajas: idpalletcajas},
                 dataType: "json",
                 success: function (data) {
-                    $('#motivomsm').val(data.motivo); 
+                    $('#motivomsm').val(data.motivo);
+                    $('#motivonotas').val(data.notas); 
                     $('#myModalMSG').modal('show');
                 }
             });

@@ -53,7 +53,7 @@ class Bodegap_model extends CI_Model {
     }
 
     public function motivosrechazo($id) {
-        $this->db->select('mr.motivo');
+        $this->db->select('mr.motivo, pce.notas');
         $this->db->from('palletcajasestatus pce');
         $this->db->join('motivorechazo  mr', 'mr.idmotivorechazo = pce.idmotivorechazo');
         $this->db->where('pce.idpalletcajas', $id); 
@@ -66,6 +66,17 @@ class Bodegap_model extends CI_Model {
         $this->db->select('mr.idmotivorechazo, mr.motivo');
         $this->db->from('motivorechazo mr');
         $this->db->where('mr.idproceso', 3);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+     public function motivosRechazoCalidad() {
+        $this->db->select('mr.idmotivorechazo, mr.motivo');
+        $this->db->from('motivorechazo mr');
+        $this->db->where('mr.idproceso', 2);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();

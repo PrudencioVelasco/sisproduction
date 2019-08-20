@@ -175,6 +175,7 @@ class Calidad extends CI_Controller {
     public function rechazarAPackingNew() {
         
         $motivorechazo = $this->input->post('motivorechazo');
+        $notasrechazo = $this->input->post('notasrechazo');
         $ids = $this->input->post('id');
         foreach ($ids as $value) {
             $data = array(
@@ -188,6 +189,7 @@ class Calidad extends CI_Controller {
                 $datarechazo = array(
                     'idpalletcajas' => $value2,
                     'idmotivorechazo' => $motivorechazo,
+                    'notas' => $notasrechazo,
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );

@@ -119,7 +119,8 @@ class Bodega extends CI_Controller {
     public function rechazarACalidad() {
          Permission::grant(uri_string());
         $iddetalleparte = $this->input->post('iddetalleparte');
-        $motivorechazo = $this->input->post('motivorechazo');
+        $motivorechazo = $this->input->post('motivosrechazocalidad');
+        $notas = $this->input->post('notascalidad');
         //$operador = $this->input->post('operador');
         $ids = $this->input->post('id');
         foreach ($ids as $value) { 
@@ -136,6 +137,7 @@ class Bodega extends CI_Controller {
              $datarechazo = array(
                     'idpalletcajas' => $value,
                     'idmotivorechazo' => $motivorechazo,
+                     'notas' => $notas,
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
@@ -158,7 +160,8 @@ class Bodega extends CI_Controller {
         public function rechazarAPacking() {
          Permission::grant(uri_string());
         $iddetalleparte = $this->input->post('iddetalleparte');
-        $motivorechazo = $this->input->post('motivorechazo');
+        $motivorechazo = $this->input->post('motivorechazopacking');
+         $notas = $this->input->post('notaspacking');
         //$operador = $this->input->post('operador');
         $ids = $this->input->post('id');
         foreach ($ids as $value) { 
@@ -175,6 +178,7 @@ class Bodega extends CI_Controller {
              $datarechazo = array(
                     'idpalletcajas' => $value,
                     'idmotivorechazo' => $motivorechazo,
+                     'notas' => $notas,
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );

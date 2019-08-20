@@ -37,7 +37,8 @@ class Bodegap extends CI_Controller {
     }
     public function detalle($idtransferencia,$folio) {
        
-        $motivosrechazo = $this->bodegap->motivosRechazoBodega();         
+        $motivosrechazo = $this->bodegap->motivosRechazoBodega(); 
+        $motivosrechazocalidad = $this->bodegap->motivosRechazoCalidad();         
         $datatransferencia = $this->bodegap->listaNumeroParteTransferencia($idtransferencia); 
         $arrayposicionesbodega = $this->posicionbodega->posicionesBodega();
         //var_dump($arrayposicionesbodega);
@@ -46,6 +47,7 @@ class Bodegap extends CI_Controller {
             'folio'=>$folio,
             'datatransferencia' => $datatransferencia,
              'motivosrechazo'=>$motivosrechazo,
+             'motivosrechazocalidad'=>$motivosrechazocalidad,
              'arrayposicionesbodega'=>$arrayposicionesbodega);
         $this->load->view('header');
         $this->load->view('bodegap/detalle', $data);

@@ -8,14 +8,7 @@
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
-            <div id="app">
-              <!--<div class="row">
-                <div class="col-md-6">
-                </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                  <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchDetalleStatus" name="search">
-                </div>
-              </div>-->
+            <div id="app"> 
               <br>
               <?php  if(isset($information) && !empty($information)){ ?>
                 <table id="datatable-buttons" class="table table-striped table-bordered">

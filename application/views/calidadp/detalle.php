@@ -109,7 +109,8 @@
                                                                     <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                                         <div class="form-group">
                                                                             <label>Motivo de rechazo</label>
-                                                                            <textarea id="motivomsm" class="md-textarea form-control" rows="3" disabled=""></textarea>
+                                                                            <input type="text" class="form-control" name="" id="motivomsm" disabled="">
+                                                                            <textarea id="motivonotas" class="md-textarea form-control" rows="5" disabled=""></textarea>
                                                                         </div> 
                                                                     </div> 
 
@@ -141,7 +142,8 @@
                                                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                                         <div class="form-group">
                                                                             <label>Motivo de rechazo</label>
-                                                                            <textarea id="motivomsmcalidad" class="md-textarea form-control" rows="3" disabled=""></textarea>
+                                                                            <input type="" name="" id="motivomsmcalidad" disabled="" class="form-control">
+                                                                            <textarea id="motivonotascalidad" class="md-textarea form-control" rows="5" disabled=""></textarea>
                                                                         </div> 
                                                                     </div> 
 
@@ -162,7 +164,7 @@
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-12 col-xs-12" >
                                                     <div class="form-group"  id="idmotivorechazo">
-                                                        <label>Seleccionar motivo de rechazo</label>
+                                                        <label><font color="red">*</font> Seleccionar motivo de rechazo</label>
                                                         <select  class="form-control" id="motivo" name="motivorechazo" required> 
                                                             <option value="">Seleccionar</option>
 <?php
@@ -173,12 +175,19 @@ foreach ($motivosrechazo as $valuemotivo) {
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-6 col-sm-12 col-xs-12" >
+                                                    <div class="form-group"  id="notasmotivorechazo">
+                                                        <label>Notas</label> 
+
+  <textarea class="form-control" rows="5" id="notasrechazo" name="notasrechazo"></textarea>
+                                                    </div>
+                                                </div>
                                             </div> 
 
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-12 col-xs-12" >
                                                     <div class="form-group"  id="idmotivoopcion">
-                                                        <label>Seleccionar Opción</label>
+                                                        <label><font color="red">*</font> Seleccionar Opción</label>
                                                         <select  class="form-control" id="motivoopcion" name="opcionhold" required> 
                                                             <option value="">Seleccionar</option>
                                                             <option value="12">EN HOLD</option> 
@@ -217,6 +226,7 @@ foreach ($motivosrechazo as $valuemotivo) {
 <script>
     $(document).ready(function () {
         $('#idmotivorechazo').hide();
+        $('#notasmotivorechazo').hide();
         $('#idmotivoopcion').hide();
         $('#inputrechazar').hide();
         $('#inputenviar').hide();
@@ -225,6 +235,8 @@ foreach ($motivosrechazo as $valuemotivo) {
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
 
                 $('#idmotivorechazo').hide();
+
+                $('#notasmotivorechazo').hide();
 
 
                 //$('#frmdetalle').submit();
@@ -254,6 +266,7 @@ foreach ($motivosrechazo as $valuemotivo) {
             //$('#frmdetalle').submit();
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
                 $('#idmotivorechazo').show();
+                $('#notasmotivorechazo').show();
                 $('#idmotivoopcion').hide();
                 var optId = $("#motivo").val();
                 if (optId != "") {
@@ -289,6 +302,7 @@ foreach ($motivosrechazo as $valuemotivo) {
             //$('#frmdetalle').submit();
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
                 $('#idmotivorechazo').hide();
+                $('#notasmotivorechazo').hide();
                 $('#idmotivoopcion').show();
                 var optId = $("#motivoopcion").val();
                 if (optId !== "") {
@@ -332,6 +346,7 @@ foreach ($motivosrechazo as $valuemotivo) {
                 dataType: "json",
                 success: function (data) {
                     $('#motivomsm').val(data.motivo); 
+                    $('#motivonotas').val(data.notas); 
                     $('#myModalMSG').modal('show');
                 }
             });
@@ -347,6 +362,7 @@ foreach ($motivosrechazo as $valuemotivo) {
                 dataType: "json",
                 success: function (data) {
                     $('#motivomsmcalidad').val(data.motivo); 
+                    $('#motivonotascalidad').val(data.notas); 
                     $('#myModalMSGaCalidad').modal('show');
                 }
             });

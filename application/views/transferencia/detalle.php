@@ -211,7 +211,8 @@
                                                                     <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                                         <div class="form-group">
                                                                             <label>Motivo de rechazo</label>
-                                                                            <textarea id="motivo" class="md-textarea form-control" rows="3" disabled=""></textarea>
+                                                                            <input type="" class="form-control" id="motivo" name="" disabled="">
+                                                                            <textarea id="motivonotas" class="md-textarea form-control" rows="5" disabled=""></textarea>
                                                                         </div> 
                                                                     </div> 
 
@@ -483,6 +484,7 @@
                 dataType: "json",
                 success: function (data) {
                     $('#motivo').val(data.motivo); 
+                    $('#motivonotas').val(data.notas); 
                     $('#myModalMSG').modal('show');
                 }
             });

@@ -162,7 +162,7 @@ class Transferencia_model extends CI_Model {
     }
 
     public function motivosrechazo($id) {
-        $this->db->select('mr.motivo');
+        $this->db->select('mr.motivo, pce.notas');
         $this->db->from('palletcajasestatus pce');
         $this->db->join('motivorechazo  mr', 'mr.idmotivorechazo = pce.idmotivorechazo');
         $this->db->where('pce.idpalletcajas', $id);
