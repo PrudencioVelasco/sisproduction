@@ -115,6 +115,8 @@
 
 
       </div>
-      <!-- /page content -->
+      <!-- /page content -->  
+     <script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url();?>/assets/js/appvue/app.js"></script> 
 
-     <script src="<?php echo base_url();?>/assets/js/appvue/app.js"></script> 
+
+

@@ -54,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-<<<<<<< HEAD
+ 
 
 
                         <div class="modal" id="my_modal">
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                         </div>
-=======
+ 
                        
 
 <div class="modal" id="my_modal">
@@ -118,7 +118,7 @@
     </div>
   </div>
 </div>
->>>>>>> master
+ 
 
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -261,117 +261,37 @@
     </div>
 </div>
 <script type="text/javascript">
+    
+      $('#my_modal').on('shown.bs.modal', function () {
+  $('#codigoescaneado').focus()
+});
 
-    $('#my_modal').on('shown.bs.modal', function () {
-        $('#codigoescaneado').focus()
-    });
-
-    $('#my_modal').on('show.bs.modal', function (e) {
-        var bookId = $(e.relatedTarget).data('book-id');
-        $(e.currentTarget).find('input[name="bookId"]').val(bookId);
-        $('#codigoescaneado').focus()
-    });
+$('#my_modal').on('show.bs.modal', function(e) {
+    var bookId = $(e.relatedTarget).data('book-id');
+    $(e.currentTarget).find('input[name="bookId"]').val(bookId);
+      $('#codigoescaneado').focus()
+});
 
 
 </script>
-<<<<<<< HEAD
-<script type="text/javascript">
-    $.fn.delayPasteKeyUp = function (fn, ms) {
-        var timer = 0;
-        $(this).on("propertychange input", function () {
-            clearTimeout(timer);
-            timer = setTimeout(fn, ms);
-        });
-    };
-
-    $(document).ready(function () {
-        $("#codigo").delayPasteKeyUp(function () {
-
-            codigo = $("#codigo").val();
-            idsalida = $("#idsalida").val();
-            $.ajax({
-                type: "POST",
-                url: "<?= base_url('orden/validar') ?>",
-                data: "codigo=" + codigo + "&idsalida=" + idsalida,
-                dataType: "html",
-                beforeSend: function () {
-                    //imagen de carga
-                    //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
-                },
-                error: function () {
-                    alert("error petición ajax");
-                },
-                success: function (data) {
-
-                    //var getContact = JSON.parse(data);
-                    //console.log(getContact.incorrecto); 
-                    if (data === 1) {
-                        $('#msgerror').hide();
-                        $('#msgcorrecto').text("Codigo no encontrado en Orde.");
-
-                    } else {
-                        $('#msgerror').text("Codigo no encontrado en Orde.");
-                    }
-                },
-
-            }, 200);
-        });
-    });
-
-    $(document).ready(function () {
-        $("#codigoescaneado").delayPasteKeyUp(function () {
-
-            codigo = $("#codigoescaneado").val();
-            idsalida = $("#idsalida").val();
-            console.log(codigo);
-            $.ajax({
-                type: "POST",
-                url: "<?= base_url('orden/validar') ?>",
-                data: "codigo=" + codigo + "&idsalida=" + idsalida,
-                dataType: "html",
-                beforeSend: function () {
-                    //imagen de carga
-                    //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
-                },
-                error: function () {
-                    alert("error petición ajax");
-                },
-                success: function (data) {
-
-                    //var getContact = JSON.parse(data);
-                    //console.log(getContact.incorrecto); 
-                    if (data === 1) {
-                        $('#msgerror').hide();
-                        $('#msgcorrecto').text("Codigo no encontrado en Orde.");
-
-                    } else {
-                        $('#msgerror').text("Codigo no encontrado en Orde.");
-=======
   <script type="text/javascript">
-
-     $.fn.delayPasteKeyUp = function(fn, ms)
- {
-   var timer = 0;
-   $(this).on("propertychange input", function()
-   {
-     clearTimeout(timer);
-     timer = setTimeout(fn, ms);
-   });
- };
- 
- //la utilizamos
- $(document).ready(function()
- {
-  $("#codigoescaneado").delayPasteKeyUp(function(){
-
-
-                  codigo = $("#codigoescaneado").val();
-                  idpalletcajas = $("#idpalletcajas").val();
-                  idsalida = $("#idsalida").val(); 
+         $.fn.delayPasteKeyUp = function(fn, ms) {
+              var timer = 0;
+              $(this).on("propertychange input", function() {
+                  clearTimeout(timer);
+                  timer = setTimeout(fn, ms);
+              });
+          };
+          
+          $(document).ready(function() {
+              $("#codigo").delayPasteKeyUp(function() {
+          
+                  codigo = $("#codigo").val();
+                  idsalida = $("#idsalida").val();
                   $.ajax({
                       type: "POST",
                       url: "<?= base_url('orden/validar') ?>",
-                      data: "codigo=" + codigo + "&idpalletcajas=" + idpalletcajas + "&idsalida=" + idsalida,
+                      data: "codigo=" + codigo + "&idsalida=" + idsalida,
                       dataType: "html",
                       beforeSend: function() {
                           //imagen de carga
@@ -383,78 +303,91 @@
                       success: function(data) {
 
                          //var getContact = JSON.parse(data);
-                    //console.log(data); 
-                    if (data == 1) {
+                    //console.log(getContact.incorrecto); 
+                    if (data === 1) {
                          $('#msgerror').hide();
-                         $('#msgcorrecto').text("Espere un momento...");
-                         $("#codigoescaneado").val("");
-                           location.reload();
+                         $('#msgcorrecto').text("Codigo no encontrado en Orde.");
 
-                    } else if(data == 0){
-                       $('#msgerror').text("Codigo no encontrado en Orde.");
-                       $("#codigoescaneado").val("");
+                    } else{
+                        $('#msgerror').text("Codigo no encontrado en Orde.");
                     }
-                    else{
-                        $('#msgerror').text("Fuera.");
->>>>>>> master
-                    }
-                },
+                  }, 
 
-<<<<<<< HEAD
-            }, 200);
-        });
+
+              }, 200);
+          });
     });
 
-=======
-              });
->>>>>>> master
+                    $(document).ready(function() {
+                    $("#codigoescaneado").delayPasteKeyUp(function() {
+          
+                  codigo = $("#codigoescaneado").val();
+                  idsalida = $("#idsalida").val();
+                  console.log(codigo);
+                  $.ajax({
+                      type: "POST",
+                      url: "<?= base_url('orden/validar') ?>",
+                      data: "codigo=" + codigo + "&idsalida=" + idsalida,
+                      dataType: "html",
+                      beforeSend: function() {
+                          //imagen de carga
+                          //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
+                      },
+                      error: function() {
+                          alert("error petición ajax");
+                      },
+                      success: function(data) {
 
-</script>
+                         //var getContact = JSON.parse(data);
+                    //console.log(getContact.incorrecto); 
+                    if (data === 1) {
+                         $('#msgerror').hide();
+                         $('#msgcorrecto').text("Codigo no encontrado en Orde.");
 
-<<<<<<< HEAD
+                    } else{
+                        $('#msgerror').text("Codigo no encontrado en Orde.");
+                    }
+                  }, 
 
-<script>
-    $('#btnacepta').click(function () {
 
-        codigo = $("#codigo").val();
-        idsalida = $("#idsalida").val();
-        $.ajax({
-            type: "POST",
-            url: "<?= base_url('orden/validar') ?>",
-            data: "codigo=" + codigo + "&idsalida=" + idsalida,
-            dataType: "html",
-            beforeSend: function () {
-                //imagen de carga
-                //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
-            },
-            error: function (data) {
-                console.log(data)
-            },
-            success: function (data) {
-=======
- }, 200);
- });
-
+              }, 200);
+          });
+    });
 
  
       </script>
->>>>>>> master
 
-                //var getContact = JSON.parse(data);
-                //console.log(getContact.incorrecto); 
-                if (data === 1) {
-                    $('#msgerror').hide();
-                    $('#msgcorrecto').text("Codigo no encontrado en Orde.");
-                } else {
-                    $('#msgerror').text("Codigo no encontrado en Orde.");
-                }
-            },
 
-<<<<<<< HEAD
-        }, 200);
-    });
-=======
       <script>
- 
->>>>>>> master
+$('#btnacepta').click(function(){
+
+      codigo = $("#codigo").val();
+                  idsalida = $("#idsalida").val();
+                  $.ajax({
+                      type: "POST",
+                      url: "<?= base_url('orden/validar') ?>",
+                      data: "codigo=" + codigo + "&idsalida=" + idsalida,
+                      dataType: "html",
+                      beforeSend: function() {
+                          //imagen de carga
+                          //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
+                      },
+                      error: function(data) {
+                        console.log(data) 
+                      },
+                      success: function(data) {
+
+                         //var getContact = JSON.parse(data);
+                    //console.log(getContact.incorrecto); 
+                    if (data === 1) { 
+ $('#msgerror').hide();
+                         $('#msgcorrecto').text("Codigo no encontrado en Orde.");
+                    } else{
+                        $('#msgerror').text("Codigo no encontrado en Orde.");
+                    }
+                  }, 
+
+
+              }, 200);
+});
 </script>

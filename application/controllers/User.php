@@ -25,6 +25,10 @@ class User extends CI_Controller
         $this->load->view('usuario/index');
         $this->load->view('footer');
     }
+
+ 
+
+      
     public function allTurnos()
    {
          //Permission::grant(uri_string());

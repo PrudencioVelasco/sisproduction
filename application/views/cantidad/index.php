@@ -83,4 +83,4 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue-column-sortable@0.0.1/dist/vue-column-sortable.js"></script>
-<script data-my_var_1="<?php echo $idrevision; ?>" src="<?php echo base_url(); ?>/assets/js/appvue/appcantidad.js"></script>
+<script data-my_var_1="<?php echo $idrevision; ?>" data-my_var_2="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/appcantidad.js"></script>

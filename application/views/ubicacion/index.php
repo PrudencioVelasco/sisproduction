@@ -86,4 +86,4 @@
 </div>
 <!-- /page content -->
 
-<script src="<?php echo base_url(); ?>/assets/js/appvue/appubicacion.js"></script> 
+<script data-my_var_1="<?php echo base_url() ?>"  src="<?php echo base_url(); ?>/assets/js/appvue/appubicacion.js"></script> 

@@ -1,3 +1,10 @@
+
+var this_js_script = $('script[src*=appsalida]');
+var my_var_1 = this_js_script.attr('data-my_var_1'); 
+if (typeof my_var_1 === "undefined") {
+    var my_var_1 = 'some_default_value';
+} 
+
 Vue.config.devtools = true
 Vue.component('modal', {//modal
     template: `
@@ -30,7 +37,7 @@ Vue.component('modal', {//modal
 var v = new Vue({
     el: '#app',
     data: {
-        url: 'http://localhost:8383/sisproduction/',
+        url: my_var_1,
         addModal: false,
         editModal: false,
         //passwordModal:false,
