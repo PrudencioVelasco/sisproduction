@@ -82,9 +82,10 @@ class Orden extends CI_Controller {
    
     public function validar() {
         $numeroparte = $_POST['codigo'];
+        $cantidad = $_POST['cantidad'];
         $idpalletcajas = $_POST["idpalletcajas"];
         $idsalida = $_POST["idsalida"];
-        $data = $this->orden->listaDeNumeroParteSalida($numeroparte, $idsalida, $idpalletcajas);
+        $data = $this->orden->listaDeNumeroParteSalida($numeroparte, $idsalida, $idpalletcajas,$cantidad);
         if ($data != FALSE) {
             $dataupdate = array(
                 'salida' => 1

@@ -74,7 +74,7 @@
                                             <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                 <div class="form-group">
                                                     <label><font color="red">*</font> Código de Barra</label>
-                                                    <input type="text" class="form-control"  autofocus="" id="codigoescaneado" placeholder="Código de Barra"  name="codigoescaneado">  
+                                                    <input type="text" class="form-control" onKeyPress="pasacampo(event)"   autofocus="" id="codigoescaneado" placeholder="Código de Barra"  name="codigoescaneado">  
                                                 </div>
                                             </div>
                                         </div>
@@ -235,6 +235,15 @@
         </div>
     </div>
 </div>
+ <script type="text/javascript">
+         function pasacampo(key_event) {
+             var k;
+             if (document.all) k = event.keyCode;
+             else k = key_event.which;
+             if (k == 13) document.getElementById('cantidadescaneado').focus();
+         }
+           
+      </script>
 <script type="text/javascript">
 
     $('#my_modal').on('shown.bs.modal', function () {
@@ -259,7 +268,7 @@
     };
  
     $(document).ready(function () {
-        $("#codigoescaneado").delayPasteKeyUp(function () {
+        $("#cantidadescaneado").delayPasteKeyUp(function () {
 
            var codigo = $("#codigoescaneado").val();
            var idsalida = $("#idsalida").val();
@@ -283,10 +292,10 @@
                     //console.log(getContact.incorrecto); 
                     if (data === 1) {
                         $('#msgerror').hide();
-                        $('#msgcorrecto').text("Codigo no encontrado en Orde.");
+                        $('#msgcorrecto').text("Exito... espere un momento");
 
                     } else {
-                        $('#msgerror').text("Codigo no encontrado en Orde.");
+                        $('#msgerror').text("Codigo no encontrado en la Orde.");
                     }
                 },
 
