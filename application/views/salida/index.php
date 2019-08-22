@@ -41,7 +41,7 @@
                                         <br>
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white"  v-column-sortable:idsalida >No. Tranferencia</th>
+                                            <th class="text-white"  v-column-sortable:idsalida >No. Transferencia</th>
                                             <th class="text-white" v-column-sortable:numerosalida>No. Control</th>
                                             <th class="text-white" v-column-sortable:po>P.O.</th>
                                             <th class="text-white" v-column-sortable:nombre>Cliente</th>

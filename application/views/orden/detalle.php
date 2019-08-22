@@ -50,11 +50,10 @@
                             <div class="col-md-2 col-sm-2 col-xs-2 ">
                                 <div class="form-group" align="right">
                                     <input type="hidden" name="" id="idsalida" value="<?php echo $detallesalida->idsalida; ?>">
-                                    <!--<button type="button" id="btnacepta" class="btn btn-primary">Buscar</button> -->
-                                </div>
+                                 </div>
                             </div>
                         </div>
- 
+
 
 
                         <div class="modal" id="my_modal">
@@ -74,7 +73,16 @@
                                         <div class="row">
                                             <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                 <div class="form-group">
+                                                    <label><font color="red">*</font> Código de Barra</label>
                                                     <input type="text" class="form-control"  autofocus="" id="codigoescaneado" placeholder="Código de Barra"  name="codigoescaneado">  
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                                <div class="form-group">
+                                                      <label><font color="red">*</font> Código de Cantidad</label>
+                                                    <input type="text" class="form-control"  id="cantidadescaneado" placeholder="Código de Cantidad"  name="cantidadescaneado">  
                                                 </div>
                                             </div>
                                         </div>
@@ -85,40 +93,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
- 
-                       
-
-<div class="modal" id="my_modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-          <h4 class="modal-title"><strong>Escanear el código</strong></h4>
-      </div>
-      <div class="modal-body"> 
-         <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12 ">
-                                <label id="msgerror" style="color:red;"></label>
-                                 <label id="msgcorrecto" style="color:green;"></label>
-                            </div>
-                        </div>
-         <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12 ">
-                                <div class="form-group">
-                                    <input type="text" class="form-control"  autofocus="" id="codigoescaneado" placeholder="Código de Barra"  name="codigoescaneado">  
-                                </div>
-                            </div>
-        </div>
-        <input type="hidden" name="bookId" id="idpalletcajas" value=""/>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
- 
+                        </div> 
 
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -184,9 +159,9 @@
                                 </table>
                             </div>
                         </div>
-                                    <?php
-                                    if (isset($detallepallet) && !empty($detallepallet)) {
-                                        ?>
+                        <?php
+                        if (isset($detallepallet) && !empty($detallepallet)) {
+                            ?>
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12 ">
 
@@ -209,41 +184,41 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-    <?php
-    $totalpallet = 0;
-    $totalcajas = 0;
-    if (isset($detallepallet) && !empty($detallepallet)) {
-        foreach ($detallepallet as $value) {
-            $totalpallet += $value->totalpallet;
-            $totalcajas += $value->sumacajas;
-            echo "<tr>";
-            echo "<td><i class='fa fa-check'  style='color:#8938f5;' aria-hidden='true'></i> $value->numeroparte </td>";
-            echo "<td>$value->modelo</td>";
-            echo "<td>$value->totalpallet</td>";
-            echo "<td>$value->sumacajas</td>";
-            echo "</tr>";
-        }
-    }
-    if (isset($detalleparciales) && !empty($detalleparciales)) {
-        foreach ($detalleparciales as $value) {
-            $totalpallet += 1;
-            $totalcajas += $value->sumacajas;
-            echo "<tr>";
-            echo "<td><i class='fa fa-check'  style='color:#1abd53;' aria-hidden='true'></i> $value->numeroparte </td>";
-            echo "<td>$value->modelo</td>";
-            echo "<td>1</td>";
-            echo "<td>$value->sumacajas</td>";
-            echo "</tr>";
-        }
-    }
+                                                            <?php
+                                                            $totalpallet = 0;
+                                                            $totalcajas = 0;
+                                                            if (isset($detallepallet) && !empty($detallepallet)) {
+                                                                foreach ($detallepallet as $value) {
+                                                                    $totalpallet += $value->totalpallet;
+                                                                    $totalcajas += $value->sumacajas;
+                                                                    echo "<tr>";
+                                                                    echo "<td><i class='fa fa-check'  style='color:#8938f5;' aria-hidden='true'></i> $value->numeroparte </td>";
+                                                                    echo "<td>$value->modelo</td>";
+                                                                    echo "<td>$value->totalpallet</td>";
+                                                                    echo "<td>$value->sumacajas</td>";
+                                                                    echo "</tr>";
+                                                                }
+                                                            }
+                                                            if (isset($detalleparciales) && !empty($detalleparciales)) {
+                                                                foreach ($detalleparciales as $value) {
+                                                                    $totalpallet += 1;
+                                                                    $totalcajas += $value->sumacajas;
+                                                                    echo "<tr>";
+                                                                    echo "<td><i class='fa fa-check'  style='color:#1abd53;' aria-hidden='true'></i> $value->numeroparte </td>";
+                                                                    echo "<td>$value->modelo</td>";
+                                                                    echo "<td>1</td>";
+                                                                    echo "<td>$value->sumacajas</td>";
+                                                                    echo "</tr>";
+                                                                }
+                                                            }
 
-    echo "<tr>";
-    echo "<td></td>";
-    echo "<td></td>";
-    echo "<td><strong>" . number_format($totalpallet) . "</strong></td>";
-    echo "<td><strong>" . number_format($totalcajas) . "</strong></td>";
-    echo "</tr>";
-    ?>
+                                                            echo "<tr>";
+                                                            echo "<td></td>";
+                                                            echo "<td></td>";
+                                                            echo "<td><strong>" . number_format($totalpallet) . "</strong></td>";
+                                                            echo "<td><strong>" . number_format($totalcajas) . "</strong></td>";
+                                                            echo "</tr>";
+                                                            ?>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -253,7 +228,7 @@
 
                                 </div>
                             </div>
-<?php } ?> 
+                        <?php } ?> 
                     </div>
                 </div>
             </div>
@@ -261,133 +236,65 @@
     </div>
 </div>
 <script type="text/javascript">
-    
-      $('#my_modal').on('shown.bs.modal', function () {
-  $('#codigoescaneado').focus()
-});
 
-$('#my_modal').on('show.bs.modal', function(e) {
-    var bookId = $(e.relatedTarget).data('book-id');
-    $(e.currentTarget).find('input[name="bookId"]').val(bookId);
-      $('#codigoescaneado').focus()
-});
+    $('#my_modal').on('shown.bs.modal', function () {
+        $('#codigoescaneado').focus()
+    });
+
+    $('#my_modal').on('show.bs.modal', function (e) {
+        var bookId = $(e.relatedTarget).data('book-id');
+        $(e.currentTarget).find('input[name="bookId"]').val(bookId);
+        $('#codigoescaneado').focus()
+    });
 
 
 </script>
-  <script type="text/javascript">
-         $.fn.delayPasteKeyUp = function(fn, ms) {
-              var timer = 0;
-              $(this).on("propertychange input", function() {
-                  clearTimeout(timer);
-                  timer = setTimeout(fn, ms);
-              });
-          };
-          
-          $(document).ready(function() {
-              $("#codigo").delayPasteKeyUp(function() {
-          
-                  codigo = $("#codigo").val();
-                  idsalida = $("#idsalida").val();
-                  $.ajax({
-                      type: "POST",
-                      url: "<?= base_url('orden/validar') ?>",
-                      data: "codigo=" + codigo + "&idsalida=" + idsalida,
-                      dataType: "html",
-                      beforeSend: function() {
-                          //imagen de carga
-                          //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
-                      },
-                      error: function() {
-                          alert("error petición ajax");
-                      },
-                      success: function(data) {
-
-                         //var getContact = JSON.parse(data);
-                    //console.log(getContact.incorrecto); 
-                    if (data === 1) {
-                         $('#msgerror').hide();
-                         $('#msgcorrecto').text("Codigo no encontrado en Orde.");
-
-                    } else{
-                        $('#msgerror').text("Codigo no encontrado en Orde.");
-                    }
-                  }, 
-
-
-              }, 200);
-          });
-    });
-
-                    $(document).ready(function() {
-                    $("#codigoescaneado").delayPasteKeyUp(function() {
-          
-                  codigo = $("#codigoescaneado").val();
-                  idsalida = $("#idsalida").val();
-                  console.log(codigo);
-                  $.ajax({
-                      type: "POST",
-                      url: "<?= base_url('orden/validar') ?>",
-                      data: "codigo=" + codigo + "&idsalida=" + idsalida,
-                      dataType: "html",
-                      beforeSend: function() {
-                          //imagen de carga
-                          //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
-                      },
-                      error: function() {
-                          alert("error petición ajax");
-                      },
-                      success: function(data) {
-
-                         //var getContact = JSON.parse(data);
-                    //console.log(getContact.incorrecto); 
-                    if (data === 1) {
-                         $('#msgerror').hide();
-                         $('#msgcorrecto').text("Codigo no encontrado en Orde.");
-
-                    } else{
-                        $('#msgerror').text("Codigo no encontrado en Orde.");
-                    }
-                  }, 
-
-
-              }, 200);
-          });
-    });
-
+<script type="text/javascript">
+    $.fn.delayPasteKeyUp = function (fn, ms) {
+        var timer = 0;
+        $(this).on("propertychange input", function () {
+            clearTimeout(timer);
+            timer = setTimeout(fn, ms);
+        });
+    };
  
-      </script>
+    $(document).ready(function () {
+        $("#codigoescaneado").delayPasteKeyUp(function () {
 
+           var codigo = $("#codigoescaneado").val();
+           var idsalida = $("#idsalida").val();
+           var cantidad =$("#cantidadescaneado").val();
+            console.log(codigo);
+            $.ajax({
+                type: "POST",
+                url: "<?= base_url('orden/validar') ?>",
+                data: "codigo=" + codigo + "&cantidad=" + cantidad + "&idsalida=" + idsalida,
+                dataType: "html",
+                beforeSend: function () {
+                    //imagen de carga
+                    //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
+                },
+                error: function () {
+                    alert("error petición ajax");
+                },
+                success: function (data) {
 
-      <script>
-$('#btnacepta').click(function(){
-
-      codigo = $("#codigo").val();
-                  idsalida = $("#idsalida").val();
-                  $.ajax({
-                      type: "POST",
-                      url: "<?= base_url('orden/validar') ?>",
-                      data: "codigo=" + codigo + "&idsalida=" + idsalida,
-                      dataType: "html",
-                      beforeSend: function() {
-                          //imagen de carga
-                          //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
-                      },
-                      error: function(data) {
-                        console.log(data) 
-                      },
-                      success: function(data) {
-
-                         //var getContact = JSON.parse(data);
+                    //var getContact = JSON.parse(data);
                     //console.log(getContact.incorrecto); 
-                    if (data === 1) { 
- $('#msgerror').hide();
-                         $('#msgcorrecto').text("Codigo no encontrado en Orde.");
-                    } else{
+                    if (data === 1) {
+                        $('#msgerror').hide();
+                        $('#msgcorrecto').text("Codigo no encontrado en Orde.");
+
+                    } else {
                         $('#msgerror').text("Codigo no encontrado en Orde.");
                     }
-                  }, 
+                },
+
+            }, 200);
+        
+        
+        });
+    });
 
 
-              }, 200);
-});
-</script>
+</script> 

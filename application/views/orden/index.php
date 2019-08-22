@@ -36,7 +36,7 @@
                             <br>
                              <table class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                 <thead class="text-white bg-dark" >
-                                   <th class="text-white">No. Tranferencia</th>
+                                   <th class="text-white">No. Transferencia</th>
                                    <th class="text-white">No. Control</th>
                                    <th class="text-white">Cliente</th>
                                    <th class="text-white">Estatus</th>

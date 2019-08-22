@@ -5,7 +5,7 @@
       <div class="row">
          <div class="col-md-12 col-sm-12 col-xs-12 ">
          <div class="form-group">
-            <label>* Cliente</label>
+             <label><font color="red">*</font> Cliente</label>
              <select v-model="newSalida.idcliente" class="form-control"  :class="{'is-invalid': formValidate.idcliente}"class="form-control">
                 <option   v-for="option in clientes" v-bind:value="option.idcliente">
                 {{ option.nombre }}
