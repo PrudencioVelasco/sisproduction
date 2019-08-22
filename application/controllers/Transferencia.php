@@ -453,6 +453,21 @@ class Transferencia extends CI_Controller {
         $store_image = imagepng($file, $barcodeRealPath);
         return base_url() . 'assets/barcodecliente/' . $code . '.png';
     }
+       public function set_barcode_cantidad($code) {
+
+        //load library
+        $this->load->library('zend');
+        //load in folder Zend
+        $this->zend->load('Zend/Barcode');
+        //generate barcode 
+        $file = Zend_Barcode::draw('code128', 'image', array('text' => $code, 'factor' => 1.5, 'stretchText' => true), array());
+        $code = time();
+        $barcodeRealPath = $_SERVER['DOCUMENT_ROOT'] . '/sisproduction/assets/barcodecantidad/' . $code . '.png';
+
+        // header('Content-Type: image/png');
+        $store_image = imagepng($file, $barcodeRealPath);
+        return base_url() . 'assets/barcodecantidad/' . $code . '.png';
+    }
 
     public function etiquetaPacking($idpalletcajas) {
         // Permission::grant(uri_string());
@@ -460,6 +475,7 @@ class Transferencia extends CI_Controller {
         $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
         $barcode = $this->set_barcode($detalle->numeroparte);
         $barcodecliente = $this->set_barcode_cliente($detalle->clave);
+        $barcodecantidad= $this->set_barcode_cantidad($detalle->cantidad);
         $hora = date("h:i a");
         $fecha = date("j/n/Y");
         $dia = date("j");
@@ -493,10 +509,10 @@ class Transferencia extends CI_Controller {
         </tr>
 
         <tr>
-            <td align="center"  height="90"   valign="bottom" colspan="2"><img src="' . $barcodecliente . '" style="height:80px;" /><b style="font-size:50px; font-family:arial; font-weight:bold;  " >' . $detalle->nombre . '</b></td>    
+            <td align="center"  height="90"   valign="bottom" colspan="2"><img src="' . $barcodecliente . '" style="height:80px;" /><b style="font-size:40px; font-family:arial; font-weight:bold;  " >' . $detalle->nombre . '</b></td>    
         
             
-            <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $detalle->cantidad . '</b></td>
+            <td align="center" width="250"  style="font-size:60px; font-family:arial; font-weight:bold;  " colspan=""><img src="' . $barcodecantidad . '" style="height:80px;" /><b>' . $detalle->cantidad . '</b></td>
                 
             <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
             
