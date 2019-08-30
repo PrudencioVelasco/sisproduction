@@ -38,7 +38,7 @@
                                         <table   class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                             <thead>
                                                 <tr class="table-dark">
-                                                    <th  v-column-sortable:descripcion>Modelo</th>
+                                                    <th  v-column-sortable:descripcion>Módelo</th>
                                                     <th  v-column-sortable:nombrehoja>Nom. Caja</th>
                                                     <th  v-column-sortable:fulloneimpresion>Full/One/Impresion</th>
                                                     <th  v-column-sortable:colorlinea>Liner Color</th>
@@ -55,10 +55,10 @@
                                                     <td>{{row.color}}</td> 
                                                     <td align="right">
                                                         <button type="button" class="btn btn-icons btn-rounded btn-success btn-xs" @click="editModal = true; selectModelo(row)" title="Modificar Datos">
-                                                            <i class="fa  fa-edit"></i> 
+                                                            <i class="fa  fa-edit"></i> Modificar
                                                         </button>
-                                                        <a v-bind:href="'../../revision/ver/'+ row.idmodelo" class="btn btn-icons btn-rounded btn-info btn-xs " title="Ver">
-                                                              <i class="fa  fa-eye"></i> 
+                                                        <a v-bind:href="'../../revision/ver/'+ row.idmodelo" class="btn btn-icons btn-rounded btn-info btn-xs " title="Agregar revisión">
+                                                              <i class="fa  fa-eye"></i> A. Revisión
                                                         </a>
                                                     </td> 
                                                 </tr>

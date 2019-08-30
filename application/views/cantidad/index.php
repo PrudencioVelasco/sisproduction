@@ -42,7 +42,7 @@
                                                    
                                                     <td align="right">
                                                         <button type="button" class="btn btn-icons btn-rounded btn-success btn-xs" @click="editModal = true; selectCantidad(row)" title="Modificar Datos">
-                                                            <i class="fa  fa-edit"></i> 
+                                                            <i class="fa  fa-edit"></i> Modificar
                                                         </button> 
                                                     </td> 
                                                 </tr>

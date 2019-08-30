@@ -46,10 +46,10 @@
                                                    
                                                     <td align="right">
                                                         <button type="button" class="btn btn-icons btn-rounded btn-success btn-xs" @click="editModal = true; selectRevision(row)" title="Modificar Datos">
-                                                            <i class="fa  fa-edit"></i> 
+                                                            <i class="fa  fa-edit"></i> Modificar
                                                         </button>
-                                                        <a v-bind:href="'../../cantidad/ver/'+ row.idrevision" class="btn btn-icons btn-rounded btn-info btn-xs " title="Ver">
-                                                              <i class="fa  fa-eye"></i> 
+                                                        <a v-bind:href="'../../cantidad/ver/'+ row.idrevision" class="btn btn-icons btn-rounded btn-info btn-xs " title="Agregar cantidad">
+                                                              <i class="fa  fa-eye"></i> A. Cantidad
                                                         </a>
                                                     </td> 
                                                 </tr>

@@ -14,7 +14,7 @@
                                 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <table class="table is-bordered is-hoverable" id="datatable">
+                                        <table class="table is-bordered is-hoverable" id="datatable2">
                                             <thead class="text-white bg-dark" >
                                             <th>Transferencia</th> 
                                             <th>Fecha</th> 

@@ -30,9 +30,9 @@
                                          <div class="row">
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white" v-column-sortable:numeroparte>Número de parte</th>
+                                            <th class="text-white" v-column-sortable:numeroparte>N° de Parte</th>
                                             <th class="text-white" v-column-sortable:nombre>Cliente</th>
-                                            <th class="text-white" v-column-sortable:name>Usuario registro</th>
+                                            <th class="text-white" v-column-sortable:name>Usuario</th>
                                             <th class="text-white" v-column-sortable:activo>Estatus</th>
                                             <th class="text-white text-right" align="right">Opción</th>
                                             </thead>
@@ -54,7 +54,7 @@
                                                          
 
                                                         <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs" v-if="row.activo==1"   v-bind:href="'../modelo/ver/'+ row.idparte" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                                            Ver</a>
+                                                            A. Módelo</a>
                                                         
                                                     </td>
                                                 </tr>
