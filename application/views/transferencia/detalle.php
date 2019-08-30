@@ -51,20 +51,10 @@
                                                                 <label><font color="red">*</font> Número de Parte</label>
                                                                 <input type="text" class="form-control" name="numeroparte"  id="numeroparte" autcomplete="off" autofocus="" required=""> 
                                                             </div> 
+                                                            <span style="color: red;" id="msgerrornumero"></span>
                                                         </div> 
 
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12 col-sm-12 col-xs-12 ">
-                                                            <div class="form-group">
-                                                                <label><font color="red">*</font> Seleccionar cliente</label> 
-                                                                <select  class="select2_single_cliente form-control " name="cliente" id="listclient" required="">
-                                                                    <option value="">Seleccionar</option>
-
-                                                                </select>
-                                                            </div>  
-                                                        </div>
-                                                    </div>
+                                                    </div> 
                                                     <div class="row">
                                                         <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                             <div class="form-group">
@@ -102,11 +92,8 @@
                                                     <div class="row">
                                                         <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                             <div class="form-group">
-                                                                <label><font color="red">*</font> Seleccionar Cajas por Pallet</label> 
-                                                                <select class="select2_single_cantidad form-control " name="cajas" id="listacantidad" required="required">
-                                                                    <option value="">Seleccionar</option>
-
-                                                                </select>
+                                                                <label><font color="red">*</font> Cantidad de cajas por pallet</label> 
+                                                                 <input type="text" class="form-control"  name="cajasxpallet" required="" autcomplete="off">
                                                             </div>  
                                                         </div>
                                                     </div>
@@ -114,7 +101,7 @@
                                                         <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Cantidad de Pallet</label> 
-                                                                <input type="text" class="form-control"  name="cantidad" autcomplete="off">
+                                                                <input type="text" class="form-control" required="" name="cantidad" autcomplete="off">
                                                             </div>  
                                                         </div>
                                                     </div>
@@ -129,7 +116,7 @@
 
                                             <!-- Modal footer -->
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -327,9 +314,14 @@
                     alert("error petición ajax");
                 },
                 success: function (data) {
-                    console.log(data);
-                    $(".select2_single_cliente").prop("disabled", false);
-                    $("#listclient").append(data);
+                    if (data == 1) {
+                        $('#msgerrornumero').text("Número de parte no existe.");
+
+                    }else{
+                    //console.log(data);
+                    $(".select2_single_modelo").prop("disabled", false);
+                    $("#listamodelo").append(data);
+                }
 
 
                 }
@@ -347,34 +339,7 @@
 
     $(document).ready(function () {
 
-        $("#listclient").change(function () {
-            var idparte = $("#listclient").find("option:selected").val();
-
-            $.ajax({
-                type: "POST",
-                url: "<?= base_url('transferencia/seleccionarCliente') ?>",
-                data: "idparte=" + idparte,
-                dataType: "html",
-                beforeSend: function () {
-                    //  $('#mensajeslo').show();
-                    //$('#mensajeslo').val("sss");
-                },
-                complete: function () {
-                    // $('#mensajeslo').hide();
-                },
-                success: function (response) {
-                    console.log(response);
-                    //$('#listamunicipio').removeAttr('disabled');
-                    //$(".select2_municipio").empty();   
-                    //$(".select2_colonia").empty();   
-                    $(".select2_single_modelo").prop("disabled", false);
-                    $("#listamodelo").append(response);
-                    //$('#listacolonia').attr('disabled', 'disabled');
-                }
-            });
-
-
-        });
+         
 
         $("#listamodelo").change(function () {
             var idmodelo = $("#listamodelo").find("option:selected").val();
@@ -386,21 +351,6 @@
                 success: function (response) {
                     $(".select2_single_revision").prop("disabled", false);
                     $("#listarevision").append(response);
-
-                }
-            });
-
-        });
-        $("#listarevision").change(function () {
-            var idrevision = $("#listarevision").find("option:selected").val();
-            $.ajax({
-                type: "POST",
-                url: "<?= base_url('transferencia/seleccionarRevision') ?>",
-                data: "idrevision=" + idrevision,
-                dataType: "html",
-                success: function (response) {
-                    $(".select2_single_cantidad").prop("disabled", false);
-                    $("#listacantidad").append(response);
 
                 }
             });

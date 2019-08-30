@@ -53,8 +53,22 @@ class Transferencia_model extends CI_Model {
         $this->db->where('p.numeroparte', $numeroparte);
         $this->db->where('p.activo', 1);
         $query = $this->db->get();
+        if ($query->num_rows() > 0) { 
+            return $query->first_row();
+        } else {
+            return false;
+        }
+    }
+
+    public function validadCantidadVersion($idrevision, $catidadcajas)
+    {
+        $this->db->select('c.idcantidad, c.cantidad');
+        $this->db->from('tblcantidad c');
+        $this->db->where('c.idrevision', $idrevision);
+        $this->db->where('c.cantidad', $catidadcajas);
+        $query = $this->db->get();
         if ($query->num_rows() > 0) {
-            return $query->result();
+            return $query->first_row();
         } else {
             return false;
         }

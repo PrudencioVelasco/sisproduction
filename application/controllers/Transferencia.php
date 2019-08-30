@@ -13,6 +13,7 @@ class Transferencia extends CI_Controller {
         $this->load->helper('url');
         $this->load->model('almacen_model', 'almacen');
         $this->load->model('linea_model', 'linea');
+        $this->load->model('cantidad_model', 'cantidad');
         $this->load->model('transferencia_model', 'transferencia');
         $this->load->model('revision_model', 'revision');
         $this->load->model('modelo_model', 'modelo');
@@ -59,10 +60,11 @@ class Transferencia extends CI_Controller {
         $numrtoparte = $this->input->post('numeroparte');
         $datavali = $this->transferencia->validarExistenciaNumeroParte($numrtoparte);
         if ($datavali != FALSE) {
-            $datavalista = $this->transferencia->listaClientexNumeroParte($numrtoparte);
-            foreach ($datavalista as $value) {
-                $option .= "<option value='" . $value->idparte . "'>" . $value->nombre . "</option>";
-            }
+            $idparte = $datavali->idparte;
+           $datavalista = $this->transferencia->listaModeloxNumeroParte($idparte);
+        foreach ($datavalista as $value) {
+            $option .= "<option value='" . $value->idmodelo . "'>" . $value->descripcion . "</option>";
+        }
             echo $option;
         } else {
             //El numero de parte de existe.
@@ -146,31 +148,55 @@ class Transferencia extends CI_Controller {
 
     public function registrar() {
         $numeroparte = $this->input->post('numeroparte');
-        $cliente = $this->input->post('cliente');
+        //$cliente = $this->input->post('cliente');
         $modelo = $this->input->post('modelo');
         $revision = $this->input->post('revision');
         $linea = $this->input->post('linea');
-        $cajas = $this->input->post('cajas');
+        $cajas = $this->input->post('cajasxpallet');
         $cantidad = $this->input->post('cantidad');
         $idtransferencia = $this->input->post('idtransferencia');
-        if ((isset($numeroparte) && !empty($numeroparte)) && (isset($cliente) && !empty($cliente)) && (isset($modelo) && !empty($modelo)) && (isset($revision) && !empty($revision)) && (isset($linea) && !empty($linea)) && (isset($cajas) && !empty($cajas)) && (isset($cantidad) && !empty($cantidad))) {
+        if ((isset($numeroparte) && !empty($numeroparte))   && (isset($modelo) && !empty($modelo)) && (isset($revision) && !empty($revision)) && (isset($linea) && !empty($linea)) && (isset($cajas) && !empty($cajas)) && (isset($cantidad) && !empty($cantidad))) {
 
-            if ($this->soloNumeros($cantidad) == true) {
-
-                for ($i = 1; $i <= $cantidad; $i++) {
-                    # code...
-
-                    $data = array(
-                        'idtransferancia' => $idtransferencia,
-                        'pallet' => 1,
-                        'idcajas' => $cajas,
-                        'idlinea' => $linea,
-                        'idestatus' => 14,
-                        'idusuario' => $this->session->user_id,
-                        'fecharegistro' => date('Y-m-d H:i:s')
-                    );
-                    $this->transferencia->addPalletCajas($data);
+            if ($this->soloNumeros($cantidad) == true && $this->soloNumeros($cajas) == true) {
+                $result = $this->transferencia->validadCantidadVersion($revision,$cajas);
+                if($result != false ){
+                    $idcantidad = $result->idcantidad;
+                    for ($i = 1; $i <= $cantidad; $i++) { 
+                        $data = array(
+                            'idtransferancia' => $idtransferencia,
+                            'pallet' => 1,
+                            'idcajas' => $idcantidad,
+                            'idlinea' => $linea,
+                            'idestatus' => 14,
+                            'idusuario' => $this->session->user_id,
+                            'fecharegistro' => date('Y-m-d H:i:s')
+                        );
+                        $this->transferencia->addPalletCajas($data);
                 }
+            }else{
+
+                $dataadd = array(
+                    'idrevision'=>$revision,
+                    'cantidad'=>$cajas,
+                    'idusuario' => $this->session->user_id,
+                    'fecharegistro' => date('Y-m-d H:i:s')
+                );
+                $idcantidad = $this->cantidad->addCantidad($dataadd);
+                for ($i = 1; $i <= $cantidad; $i++) { 
+                        $data = array(
+                            'idtransferancia' => $idtransferencia,
+                            'pallet' => 1,
+                            'idcajas' => $idcantidad,
+                            'idlinea' => $linea,
+                            'idestatus' => 14,
+                            'idusuario' => $this->session->user_id,
+                            'fecharegistro' => date('Y-m-d H:i:s')
+                        );
+                        $this->transferencia->addPalletCajas($data);
+                }
+
+            }
+
             } else {
                 echo "2";
             }

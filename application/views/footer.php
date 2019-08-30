@@ -211,7 +211,7 @@
  
   <script>
     $(document).ready(function() { 
-      $(".select2_single_cliente").select2({  
+      /*$(".select2_single_cliente").select2({  
        placeholder: "Seleccionar Cliente",
         allowClear: true,
         width: '100%' ,
@@ -237,7 +237,7 @@
         placeholder: "Seleccionar Linea",
         allowClear: true,
         width: '100%' 
-      });
+      });*/
       $(".select2_group").select2({});
       $(".select2_multiple").select2({
         maximumSelectionLength: 4,
