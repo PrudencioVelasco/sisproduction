@@ -65,7 +65,7 @@ class Orden extends CI_Controller {
         $datadetalleordenpar = $this->salida->detallesDeOrdenParciales($idsalida);
         //var_dump($datadetalleordenpar);
         $detallepallet = $this->salida->detallepallet($idsalida);
-        $detalleparciales = $this->salida->detalleparciales($idsalida);  
+        $detalleparciales = $this->salida->detalleparciales($idsalida); 
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,

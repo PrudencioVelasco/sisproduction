@@ -16,7 +16,7 @@ class Warehouse_model extends CI_Model {
 
         $query = $this->db->query("
             select r.idrevision, cl.nombre, p.numeroparte, m.descripcion as nombremodelo, r.descripcion as nombrerevision,
-            (select sum(c2.cantidad) from parteposicionbodega ppb2, palletcajas pc2, tblcantidad c2 
+            (select COALESCE(sum(c2.cantidad),0) from parteposicionbodega ppb2, palletcajas pc2, tblcantidad c2 
             WHERE ppb2.idpalletcajas = pc2.idpalletcajas AND pc2.idcajas = c2.idcantidad  AND c2.idrevision = r.idrevision AND ppb2.ordensalida = 0 AND ppb2.salida = 0)  as total,
             (select 
 

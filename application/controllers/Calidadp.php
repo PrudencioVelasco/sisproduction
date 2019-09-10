@@ -67,6 +67,7 @@ class Calidadp extends CI_Controller {
         $listapartes = $this->calidadp->palletReporte($id);
         $totalpallet = 0;
         $totalcajas = 0;
+        $hora = date("h:i:s a");
         if ($listapartes != false) {
 
             foreach ($listapartes as $value) {
@@ -134,7 +135,7 @@ class Calidadp extends CI_Controller {
       <td colspan="3" align="center" class="textgeneral" style="border-top:solid 1px #000; border-right:solid 1px #000; border-left:solid 1px #000; border-bottom:solid 1px #000;">PRODUCCIÓN</td>
   </tr>
   <tr>
-    <td class="textgeneral lineabajo">HORA: ' . $horario . '</td>
+    <td class="textgeneral lineabajo">HORA: ' . $hora . '</td>
     <td>&nbsp;</td>
     <td colspan="3" class="textgeneral lineabajo">HECHA POR: ' . $detalle->name . '</td>
   </tr>
@@ -254,8 +255,14 @@ class Calidadp extends CI_Controller {
     public function etiquetaCalidad($idpalletcajas) {
         //Permission::grant(uri_string());
         $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
+       $idtransferencia= $detalle->idtransferancia;
+       $idcajas = $detalle->idcajas;
         $datausuario = $this->usuario->detalleUsuario($this->session->user_id);
-
+        $totalpallet = 0;
+        if($this->transferencia->totalpallet($idtransferencia,$idcajas) != false){
+           $det =$this->transferencia->totalpallet($idtransferencia,$idcajas);
+            $totalpallet=$det->total;
+        }
         $hora = date("h:i:s a");
         $fecha = date("d-M-Y");
         $semana = date("W");
@@ -293,7 +300,7 @@ class Calidadp extends CI_Controller {
 		</tr>
 		<tr>
 			<td  align="center" height="50px" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " >' . $detalle->numeroparte . '</td>
-			<td  align="center" style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >' . $cajas . '</td>
+			<td  align="center" style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >' . $detalle->cantidad . '</td>
 		</tr>
 		<tr>
 			<td  align="" height="50" style="font-size:20px; font-family:arial; font-weight:bold; background: #;color:#fff; " >MODEL</td>

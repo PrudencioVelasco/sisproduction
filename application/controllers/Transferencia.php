@@ -254,6 +254,7 @@ class Transferencia extends CI_Controller {
 
         $detalle = $this->transferencia->detalleTransferencia($id);
         $horario = $detalle->horainicial . " - " . $detalle->horafinal;
+        $hora = date("h:i:s a");
         $linkimge = base_url() . '/assets/images/woorilogo.png';
         $fechaactual = date('d/m/Y');
         $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -310,7 +311,7 @@ class Transferencia extends CI_Controller {
       <td colspan="3" align="center" class="textgeneral" style="border-top:solid 1px #000; border-right:solid 1px #000; border-left:solid 1px #000; border-bottom:solid 1px #000;">PRODUCCIÓN</td>
   </tr>
   <tr>
-    <td class="textgeneral lineabajo">HORA: ' . $horario . '</td>
+    <td class="textgeneral lineabajo">HORA: ' . $hora . '</td>
     <td>&nbsp;</td>
     <td colspan="3" class="textgeneral lineabajo">HECHA POR: ' . $detalle->name . '</td>
   </tr>
@@ -535,12 +536,12 @@ class Transferencia extends CI_Controller {
         </tr>
 
         <tr>
-            <td align="center"  height="90"   valign="bottom" colspan="2"><img src="' . $barcodecliente . '" style="height:80px;" /><b style="font-size:40px; font-family:arial; font-weight:bold;  " >' . $detalle->nombre . '</b></td>    
+            <td align="left"  height="90"  colspan="2"><img src="' . $barcodecliente . '" style="height:100px; width:150;" /><b style="font-size:40px; font-family:arial; font-weight:bold;  " >' . $detalle->nombre . '</b></td>    
         
             
-            <td align="center" width="250"  style="font-size:60px; font-family:arial; font-weight:bold;  " colspan=""><img src="' . $barcodecantidad . '" style="height:80px;" /><b>' . $detalle->cantidad . '</b></td>
+            <td align="right" width="250"  style="font-size:60px; font-family:arial; font-weight:bold;  "><img src="' . $barcodecantidad . '" style="height:100px; width:140px;" />' . $detalle->cantidad . '</td>
                 
-            <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
+            <td align="center" style="font-size:50px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
             
             <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >' . $semana . '</td>
 
@@ -561,7 +562,7 @@ class Transferencia extends CI_Controller {
         </tr>
 
         <tr>
-        <td colspan="3" rowspan="2" align="center"  style="font-size:30px;  font-family:arial; font-weight:bold; overflow:auto; height:145px; "  >' . $detalle->numeroparte . ' <br><img src="' . $barcode . '" style="height:117px;" /> </td>
+        <td colspan="3" rowspan="2" align="center"  style="font-size:27px;  font-family:arial; font-weight:bold; overflow:auto; height:145px; "  >' . $detalle->numeroparte . '<br><b> <img src="' . $barcode . '" style="height:118px;" /></b> </td>
         <td height="60" colspan="3" align="center"  style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold; overflow:auto;" > &nbsp; &nbsp; &nbsp;' . $detalle->modelo . '</td>
 
         </tr>

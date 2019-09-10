@@ -214,7 +214,7 @@ class Bodega extends CI_Controller {
         
         foreach ($ids as $value2) {
             if($this->bodega->validarAntesdeModificarPosicion($value2) == false){ 
-                 $this->bodega->eliminarposicionesparte($valuede);
+                 $this->bodega->eliminarposicionesparte($value2);
                     $dataadd = array(
                     'idpalletcajas' => $value2,
                     'numero' => 1,
