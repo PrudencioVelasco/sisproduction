@@ -16,6 +16,7 @@ class Turno extends CI_Controller
         $this->load->model('user_model', 'user');
         $this->load->model('turno_model', 'turno');  
         $this->load->library('permission');
+        $this->load->library('session');
         
     }
     public function index()

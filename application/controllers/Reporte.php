@@ -16,13 +16,13 @@ class Reporte extends CI_Controller {
         $this->load->model('data_model');
         $this->load->model('rol_model', 'rol');
         $this->load->model('reporte_model', 'reporte');
-        
+        $this->load->library('session');
         $this->load->model('user_model', 'usuario');
         $this->load->library('permission');
     }
   
     public function transferencia() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $usuario = $this->usuario->showAllPacking();
         $data = array('usuarios' => $usuario);
         $this->load->view('header');
@@ -32,7 +32,7 @@ class Reporte extends CI_Controller {
 
     public function buscar() {
         # code...
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         
            $fechainicio = $this->input->post('fechainicio');
            $fechafin = $this->input->post('fechafin');

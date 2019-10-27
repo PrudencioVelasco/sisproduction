@@ -19,6 +19,7 @@ class Calidad extends CI_Controller {
         $this->load->library('tcpdf');
         $this->load->model('palletcajas_model', 'palletcajas');
         $this->load->model('palletcajasproceso_model', 'palletcajasproceso');
+        $this->load->library('session');
     }
 
     public function index() {
@@ -51,6 +52,7 @@ class Calidad extends CI_Controller {
     }
 
     public function quitarPalletCajas($idpalletcaja, $iddetalleparte) {
+        Permission::grant(uri_string()); 
         $this->palletcajas->eliminarPalletCajas($idpalletcaja);
         redirect('calidad/detalleenvio/' . $iddetalleparte);
     }
@@ -150,6 +152,7 @@ class Calidad extends CI_Controller {
     }
 
     public function enviarBodegaNew() {
+        Permission::grant(uri_string()); 
         $iddetalleparte = $this->input->post('iddetalleparte');
         $ids = $this->input->post('id');
         foreach ($ids as $value) {
@@ -173,7 +176,7 @@ class Calidad extends CI_Controller {
     }
 
     public function rechazarAPackingNew() {
-        
+        Permission::grant(uri_string()); 
         $motivorechazo = $this->input->post('motivorechazo');
         $notasrechazo = $this->input->post('notasrechazo');
         $ids = $this->input->post('id');
@@ -208,7 +211,7 @@ class Calidad extends CI_Controller {
 
     // Mostrar todas las partes enviados de Modulo[Packing]
     public function showAllEnviados() {
-       // Permission::grant(uri_string());
+       Permission::grant(uri_string());
         //Parametro 7 Indica el estatus enviado a bodega
 
         $query = $this->calidad->showAllEnviados($this->session->user_id);
@@ -251,6 +254,7 @@ class Calidad extends CI_Controller {
     }
     
     public function ponerEnHold(){
+        Permission::grant(uri_string()); 
         $ids = $this->input->post('id');
         $opcion = $this->input->post('opcionhold');
         foreach ($ids as $value) {

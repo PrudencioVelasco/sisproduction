@@ -20,9 +20,11 @@ class Salida extends CI_Controller {
         $this->load->model('salida_model', 'salida');
         $this->load->model('posicionbodega_model', 'posicionbodega');
         $this->load->library('permission');
+        $this->load->library('session');
     }
 
     public function index() {
+        Permission::grant(uri_string());
         Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('salida/index');
@@ -30,7 +32,7 @@ class Salida extends CI_Controller {
     }
 
     public function showAll() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $query = $this->salida->showAllSalidas();
         if ($query) {
             $result['salidas'] = $this->salida->showAllSalidas();
@@ -121,7 +123,7 @@ class Salida extends CI_Controller {
     }
 
     public function test1($idsalida) {
-
+Permission::grant(uri_string());
         
         $detalle = $this->salida->detalleSalida($idsalida);
         $idcliente = $detalle->idcliente;
@@ -267,7 +269,7 @@ class Salida extends CI_Controller {
 
     public function detalleSalida($idsalida) {
         // code...
-       // Permission::grant(uri_string());
+       Permission::grant(uri_string());
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
         $detallepallet = $this->salida->detallepallet($idsalida);
@@ -419,6 +421,7 @@ class Salida extends CI_Controller {
          var_dump($lista);
     }
     public function agregarNumeroParteOrder() {
+        Permission::grant(uri_string());
         $idcajas = $this->input->post('idcajas');
           $idtransferecia = $this->input->post('idtransferecia');
         $iddetalleparte = $this->input->post('iddetalleparte'); 
@@ -591,9 +594,15 @@ class Salida extends CI_Controller {
             //El tipo no existe
         }
     }
+    
+    
+    public function test4() {
+         $dataexistencia = $this->salida->validarExistenciaNumeroParte(22, 33);
+    }
+    
 
     public   function agregarParteOrdenDetallado($idtransferecia,$idcajas, $idsalida) {
-       //Permission::grant(uri_string());
+       Permission::grant(uri_string());
         //echo $idtransferecia;
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);

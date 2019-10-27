@@ -10,19 +10,19 @@ class Almacen extends CI_Controller {
         }
         $this->load->helper('url');
         $this->load->model('almacen_model', 'almacen');
-        //$this->load->library('permission');
+        $this->load->library('permission');
+        $this->load->library('session');
     }
 
     public function index() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('almacen/index');
         $this->load->view('footer');
     }
 
     public function getAllPallets() {
-        //Permission::grant(uri_string());
-
+        Permission::grant(uri_string()); 
         $query = $this->almacen->getAllPallets();
         if ($query) {
             $result['detallestatus'] = $this->almacen->getAllPallets();
@@ -31,7 +31,7 @@ class Almacen extends CI_Controller {
     }
 
     public function search() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $value = $this->input->post('text');
         $query = $this->almacen->search($value);
         if ($query) {
@@ -41,10 +41,8 @@ class Almacen extends CI_Controller {
     }
 
     public function detallepallet($idpallet) {
-        //Permission::grant(uri_string());
-    
-        $data['information'] = $this->almacen->detallepallet($idpallet);
-    
+        Permission::grant(uri_string()); 
+        $data['information'] = $this->almacen->detallepallet($idpallet); 
         $this->load->view('header');
         $this->load->view('almacen/detalle_pallet', $data);
         $this->load->view('footer');

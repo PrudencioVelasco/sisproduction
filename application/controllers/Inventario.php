@@ -18,9 +18,11 @@ class Inventario extends CI_Controller
         $this->load->model('inventario_model', 'inventario');
         $this->load->model('posicionbodega_model', 'posicionbodega');
         $this->load->library('permission');
+        $this->load->library('session');
 
     }
      public function index() {
+         Permission::grant(uri_string());
         $queryentradas = $this->inventario->showAllEntradas();
          $querysalidacompleta = $this->inventario->showAllSalidasCompletos();
          $querysalidaparciales = $this->inventario->showAllSalidasParciales();
@@ -44,6 +46,7 @@ class Inventario extends CI_Controller
         echo json_encode($result);
     }
     public function searchDate(){
+        Permission::grant(uri_string());
         $date1 = date("Y-m-d", strtotime($_POST['date1']));
         $date2 = date("Y-m-d", strtotime($_POST['date2']));
         $query = $this->inventario->searchEntradasDate($date1,$date2);
@@ -79,7 +82,7 @@ class Inventario extends CI_Controller
     }
     
     public function searchDatePallet(){
-        
+        Permission::grant(uri_string());
         $date3 = date("Y-m-d", strtotime($_POST['date3']));
         $date4 = date("Y-m-d", strtotime($_POST['date4']));
         
@@ -116,6 +119,7 @@ class Inventario extends CI_Controller
     }
     
     public function searchDateParciales(){
+        Permission::grant(uri_string());
         $date5 = date("Y-m-d", strtotime($_POST['date5']));
         $date6 = date("Y-m-d", strtotime($_POST['date6']));
         $query = $this->inventario->showAllDateSalidasParciales($date5,$date6);

@@ -17,8 +17,10 @@ class Modelo extends CI_Controller {
         $this->load->model('turno_model', 'turno');
         $this->load->model('modelo_model', 'modelo');
         $this->load->library('permission');
+        $this->load->library('session');
     }
    public function ver($idparte) { 
+       Permission::grant(uri_string());
         $detalle = $this->modelo->detalleModelo($idparte); 
         $para = $detalle->nombre." > ".$detalle->numeroparte." > "."Modelo";
         $data=array( 
@@ -31,6 +33,7 @@ class Modelo extends CI_Controller {
     }
 
     public function addModelo() {
+        Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'descripcion',
@@ -87,6 +90,7 @@ class Modelo extends CI_Controller {
     }*/
 
     public function updateModelo() {
+        Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'descripcion',
@@ -138,7 +142,7 @@ class Modelo extends CI_Controller {
  
 
     public function showAll() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $idparte = $this->input->get('idparte');
         $query = $this->modelo->showAll($idparte);
         if ($query) {

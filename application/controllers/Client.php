@@ -15,6 +15,7 @@ class Client extends CI_Controller {
         $this->load->model('data_model');
         $this->load->model('client_model', 'client');
         $this->load->library('permission');
+        $this->load->library('session');
     }
 
     public function index() {
@@ -34,7 +35,7 @@ class Client extends CI_Controller {
     }
 
     public function showAllClientesActivos() {
-    //Permission::grant(uri_string());
+       Permission::grant(uri_string());
         $query = $this->client_model->showAllClientesActivos();
 
         echo json_encode($query);

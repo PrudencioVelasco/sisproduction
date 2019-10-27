@@ -19,12 +19,14 @@ class Cantidad extends CI_Controller
          $this->load->model('revision_model', 'revision');
          $this->load->model('cantidad_model', 'cantidad');
         $this->load->library('permission');
+        $this->load->library('session');
 
     }
 
     public function ver($idrevision)
     {
         # code...
+        Permission::grant(uri_string()); 
         $detalle = $this->cantidad->detalleCantidad($idrevision);
          $para = $detalle->nombre." > ".$detalle->numeroparte." > ".$detalle->modelo." > ".$detalle->revision." > "."Cantidad";
 
@@ -35,6 +37,7 @@ class Cantidad extends CI_Controller
     }
  
   public function addCantidad() {
+      Permission::grant(uri_string()); 
         $config = array(
             array(
                 'field' => 'cantidad',
@@ -76,6 +79,7 @@ class Cantidad extends CI_Controller
         echo json_encode($result);
     }
     public function updateCantidad() {
+        Permission::grant(uri_string()); 
         $config = array(
             array(
                 'field' => 'cantidad',
@@ -160,7 +164,7 @@ class Cantidad extends CI_Controller
     }*/
 
      public function showAll() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $idrevision = $this->input->get('idrevision');
         $query = $this->cantidad->showAll($idrevision);
         if ($query) {
@@ -170,6 +174,7 @@ class Cantidad extends CI_Controller
     }
 
     public function searchCantidad() {
+        Permission::grant(uri_string()); 
         $value = $this->input->post('text');
         $idrevision = $this->input->post('idrevision');
         $query = $this->cantidad->searchCantidad($value, $idrevision);

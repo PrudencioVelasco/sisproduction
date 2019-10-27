@@ -18,9 +18,11 @@ class Revision extends CI_Controller
          $this->load->model('modelo_model', 'modelo');
          $this->load->model('revision_model', 'revision');
         $this->load->library('permission');
+        $this->load->library('session');
 
     }
     public function ver($idmodelo) {
+        Permission::grant(uri_string());
         $detalle = $this->revision->detalleRevision($idmodelo);
          $para = $detalle->nombre." > ".$detalle->numeroparte." > ".$detalle->modelo." > "."Revisión";
         $data=array('idmodelo'=>$idmodelo,'text'=>$para);
@@ -29,6 +31,7 @@ class Revision extends CI_Controller
         $this->load->view('footer');
     }
       public function addRevision() {
+          Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'descripcion',
@@ -69,6 +72,7 @@ class Revision extends CI_Controller
         echo json_encode($result);
     }
     public function updateRevision() {
+        Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'descripcion',
@@ -151,7 +155,7 @@ class Revision extends CI_Controller
     }*/
 
         public function showAll() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $idmodelo = $this->input->get('idmodelo');
         $query = $this->revision->showAll($idmodelo);
         if ($query) {
@@ -161,6 +165,7 @@ class Revision extends CI_Controller
     }
 
     public function searchRevision() {
+        Permission::grant(uri_string());
         $value = $this->input->post('text');
         $idmodelo = $this->input->post('idmodelo');
         $query = $this->revision->searchRevision($value, $idmodelo);

@@ -15,6 +15,7 @@ class Permiso extends CI_Controller {
 		$this->load->model('data_model');
 		$this->load->model('permiso_model','permiso');
 		$this->load->library('permission'); 
+                $this->load->library('session');
 	}
 
 	public function index()

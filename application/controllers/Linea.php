@@ -18,14 +18,17 @@ class Linea extends CI_Controller {
         $this->load->model('modelo_model', 'modelo');
         $this->load->model('linea_model', 'linea');
         $this->load->library('permission');
+        $this->load->library('session');
     }
-   public function index() {  
+   public function index() { 
+       Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('linea/index');
         $this->load->view('footer');
     }
 
     public function addLinea() {
+        Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'nombrelinea',
@@ -71,6 +74,7 @@ class Linea extends CI_Controller {
     }*/
 
     public function updateLinea() {
+        Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'nombrelinea',
@@ -113,7 +117,7 @@ class Linea extends CI_Controller {
  
 
     public function showAll() {
-        //Permission::grant(uri_string()); 
+        Permission::grant(uri_string()); 
         $query = $this->linea->showAllLinea();
         if ($query) {
             $result['lineas'] = $this->linea->showAllLinea();

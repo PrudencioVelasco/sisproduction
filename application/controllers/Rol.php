@@ -15,6 +15,7 @@ class Rol extends CI_Controller {
 		$this->load->model('data_model');
 		$this->load->model('rol_model','rol'); 
 		$this->load->library('permission'); 
+                $this->load->library('session');
 	}
 
 	public function index()

@@ -22,11 +22,13 @@ class Catalogo extends CI_Controller
         $this->load->model('linea_model', 'linea');
         $this->load->model('admin_model', 'adminmodel');
         $this->load->library('permission');
+        $this->load->library('session');
         
 
     }
     public function index()
     {
+        Permission::grant(uri_string()); 
         $totalusuarios = count($this->user->showAll()); 
         $totalcliente = count($this->cliente->showAll());
         $totalturno = count($this->turno->showAll());

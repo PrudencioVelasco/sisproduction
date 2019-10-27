@@ -21,6 +21,7 @@ class Bodega extends CI_Controller {
         $this->load->model('palletcajasproceso_model', 'palletcajasproceso');
         $this->load->model('posicionbodega_model', 'posicionbodega');
         $this->load->library('permission');
+        $this->load->library('session');
     }
 
     public function index() {
@@ -31,7 +32,7 @@ class Bodega extends CI_Controller {
     }
 
     public function showAllEnviados() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $query = $this->bodega->showAllEnviados();
         if ($query) {
             $result['detallestatus'] = $this->bodega->showAllEnviados();
@@ -92,6 +93,7 @@ class Bodega extends CI_Controller {
     }
 
     public function addPositionWereHouse() {
+        Permission::grant(uri_string()); 
         $iddetalleparte = $_POST['iddetalleparte'];
         $data = $_POST['posicion'];
         $porciones = explode("-", $data);
@@ -214,7 +216,7 @@ class Bodega extends CI_Controller {
         
         foreach ($ids as $value2) {
             if($this->bodega->validarAntesdeModificarPosicion($value2) == false){ 
-                 $this->bodega->eliminarposicionesparte($valuede);
+                 $this->bodega->eliminarposicionesparte($value2);
                     $dataadd = array(
                     'idpalletcajas' => $value2,
                     'numero' => 1,

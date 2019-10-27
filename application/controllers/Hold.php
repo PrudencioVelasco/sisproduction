@@ -20,11 +20,12 @@ class Hold extends CI_Controller {
         $this->load->model('calidad_model', 'calidad');
         $this->load->model('hold_model', 'hold');
         $this->load->model('palletcajasproceso_model', 'palletcajasproceso');
-        //$this->load->library('permission');
+        $this->load->library('permission');
+        $this->load->library('session');
     }
 
     public function index() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $data['datatransferencia'] = $this->hold->listaNumeroParteTransferencia();
 
         $this->load->view('header');
@@ -32,6 +33,7 @@ class Hold extends CI_Controller {
         $this->load->view('footer');
     }
     public function detalle($idpalletcajas) {
+        Permission::grant(uri_string());
         $detalle = $this->hold->selectCantidades($idpalletcajas);
         $cantidad = $detalle->cantidad;
 
@@ -43,6 +45,7 @@ class Hold extends CI_Controller {
         $this->load->view('footer');
     }
     public function sendAllQuality(){
+        Permission::grant(uri_string());
         $idpalletcajas = $this->input->post('idpalletcajas');
         $data = array(
             'idestatus' => 1
@@ -55,7 +58,7 @@ class Hold extends CI_Controller {
         }
     }
     public function sendQuality(){
-
+Permission::grant(uri_string());
         $idpalletcajas = $this->input->post('idpalletcajas');
         $idcantidad = $this->input->post('idnuevacantidad');
         $cantidad = $this->input->post('cantidad');
@@ -94,7 +97,7 @@ class Hold extends CI_Controller {
     }
 
     public function sendTrash(){
-
+Permission::grant(uri_string());
         $idpalletcajas = $this->input->post('idpalletcajas');
         $cantidad = $this->input->post('cantidad');
         $idtransferencia = $this->input->post('idtransferencia');
@@ -126,6 +129,7 @@ class Hold extends CI_Controller {
     }
 
     public function validQuantity(){
+        Permission::grant(uri_string());
         $id = $this->input->post('id');
         $result = $this->hold->selectCantidades($id);
         echo $result->cantidad;

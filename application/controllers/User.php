@@ -16,6 +16,7 @@ class User extends CI_Controller
         $this->load->model('user_model', 'user');
          $this->load->model('turno_model', 'turno');
         $this->load->library('permission');
+        $this->load->library('session');
 
     }
     public function index()
@@ -31,7 +32,7 @@ class User extends CI_Controller
       
     public function allTurnos()
    {
-         //Permission::grant(uri_string());
+         Permission::grant(uri_string());
        $query = $this->turno->showAll();
        echo json_encode($query);
    }

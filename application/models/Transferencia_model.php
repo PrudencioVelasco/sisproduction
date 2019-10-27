@@ -231,6 +231,20 @@ class Transferencia_model extends CI_Model {
             return false;
         }
     }
+         public function totalpallet($idtransferencia,$idcajas) {
+        $this->db->select('sum(c.cantidad) as total');
+        $this->db->from('palletcajas pc');
+        $this->db->where('pc.idtransferancia', $idtransferencia);
+        $this->db->join('tblcantidad c', 'c.idcantidad = pc.idcajas');
+        $this->db->where('pc.idcajas', $idcajas);
+        $this->db->where('pc.idestatus in (1,2,4,5,7,8)');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+             return $query->first_row();
+        } else {
+            return false;
+        }
+    }
         public function validarEliminacion($idpalletcajas) {
         $this->db->select('pc.idpalletcajas');
         $this->db->from('palletcajas pc');  
@@ -261,6 +275,8 @@ class Transferencia_model extends CI_Model {
         // code...
         $this->db->select(' 
         p.idparte,
+        pc.idtransferancia,
+        pc.idcajas,
         tre.folio,
         c.idcliente,
         p.numeroparte,

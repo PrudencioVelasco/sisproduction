@@ -22,6 +22,7 @@ class Parte extends CI_Controller {
            $this->load->model('revision_model', 'revision');
            $this->load->model('cantidad_model', 'cantidad');
         $this->load->library('permission');
+        $this->load->library('session');
     }
 
     public function set_barcode($code) {
@@ -41,7 +42,7 @@ class Parte extends CI_Controller {
     }
 
     public function etiquetaCalidad($id, $idpalletcajas, $cajas) {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $detalle = $this->parte->detalleDelDetallaParte($id);
         $lista = $this->parte->cantidadesPartes($id);
         $datausuario = $this->usuario->detalleUsuario($this->session->user_id);
@@ -114,7 +115,7 @@ class Parte extends CI_Controller {
     }
 
     public function imprimirEtiquetaCalidad($id, $idpalletcajas, $cajas) {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $detalle = $this->parte->detalleDelDetallaParte($id);
         $lista = $this->parte->cantidadesPartes($id);
         $datausuario = $this->usuario->detalleUsuario($this->session->user_id);
@@ -194,8 +195,8 @@ class Parte extends CI_Controller {
         $this->load->view('footer');
     }
     public function modelo($idparte) {
-         $datamodelo = $this->modelo->showAll($idparte);
-        
+        Permission::grant(uri_string());
+         $datamodelo = $this->modelo->showAll($idparte); 
         $data=array(
             'datamodelo'=>$datamodelo,
             'idparte'=>$idparte
@@ -205,6 +206,7 @@ class Parte extends CI_Controller {
         $this->load->view('footer');
     }
     public function revision($idmodelo) {
+        Permission::grant(uri_string());
           $datarevision = $this->revision->showAll($idmodelo);
         
         $data=array(
@@ -216,6 +218,7 @@ class Parte extends CI_Controller {
         $this->load->view('footer');
     }
     public function cantidad($idrevision) {
+        Permission::grant(uri_string());
          $datacantidad = $this->cantidad->showAll($idrevision);
         
         $data=array(
@@ -236,7 +239,7 @@ class Parte extends CI_Controller {
 
 
     public function etiquetaPacking($id, $idpalletcajas) {
-        // Permission::grant(uri_string());
+         Permission::grant(uri_string());
         date_default_timezone_set("America/Tijuana");
         $detalle = $this->parte->detalleDelDetallaParte($id);
         //var_dump($detalle);
@@ -346,7 +349,7 @@ class Parte extends CI_Controller {
     }
 
     public function imprimirEtiquetaPacking() {
-        // Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $id = $this->input->post('iddetalleparte');
         $idpalletcajas = $this->input->post('idpalletcajas');
         date_default_timezone_set("America/Tijuana");
@@ -463,7 +466,7 @@ class Parte extends CI_Controller {
     }
 
     public function generarPDFEnvio($id) {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $this->load->library('tcpdf');
         $listapartes = $this->parte->palletReporte($id);
         $lista = $this->parte->cantidadesPartes($id);
@@ -915,11 +918,13 @@ class Parte extends CI_Controller {
     }
 
     public function quitarPalletCajas($idpalletcaja, $iddetalleparte) {
+        Permission::grant(uri_string());
         $this->palletcajas->eliminarPalletCajas($idpalletcaja);
         redirect('parte/detalleenvio/' . $iddetalleparte);
     }
 
     public function agregarPalletCajas() {
+        Permission::grant(uri_string());
         $data = array(
             'iddetalleparte' => $this->input->post('iddetalleparte'),
             'pallet' => 1,
@@ -989,6 +994,7 @@ class Parte extends CI_Controller {
     }
 
     public function enviarCalidadNew() {
+        Permission::grant(uri_string());
         $id = $this->input->post('idparte');
         if ($this->input->post('cajas') != FALSE) {
             $data = array(
@@ -1059,7 +1065,7 @@ class Parte extends CI_Controller {
     }
 
     public function showAll() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $query = $this->parte->showAll();
         if ($query) {
             $result['partes'] = $this->parte->showAll();
@@ -1068,7 +1074,7 @@ class Parte extends CI_Controller {
     }
 
     public function showAllEnviados() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $query = $this->parte->showAllEnviados($this->session->user_id);
         if ($query) {
             $result['detallestatus'] = $this->parte->showAllEnviados($this->session->user_id);

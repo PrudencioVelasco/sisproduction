@@ -16,6 +16,7 @@ class Admin extends CI_Controller
         $this->load->model('user_model', 'user');
          $this->load->model('admin_model', 'adminmodel');
         $this->load->library('permission');
+        $this->load->library('session');
         
 
     }

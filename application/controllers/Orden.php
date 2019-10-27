@@ -17,6 +17,7 @@ class Orden extends CI_Controller {
         $this->load->model('orden_model', 'orden');
         $this->load->model('salida_model', 'salida');
         $this->load->library('permission');
+        $this->load->library('session');
     }
 
     public function index() {
@@ -49,7 +50,7 @@ class Orden extends CI_Controller {
     }
     
     public function marcar($idpalletcajas,$idsalida){
-                   
+              Permission::grant(uri_string());     
                   $dataupdate = array(
                         'salida' => 1
                     );
@@ -60,12 +61,13 @@ class Orden extends CI_Controller {
     }
 
     public function detalle($idsalida) {
+        Permission::grant(uri_string());
        $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrdenPallet($idsalida);
         $datadetalleordenpar = $this->salida->detallesDeOrdenParciales($idsalida);
         //var_dump($datadetalleordenpar);
         $detallepallet = $this->salida->detallepallet($idsalida);
-        $detalleparciales = $this->salida->detalleparciales($idsalida);  
+        $detalleparciales = $this->salida->detalleparciales($idsalida); 
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
@@ -81,6 +83,7 @@ class Orden extends CI_Controller {
    
    
     public function validar() {
+        Permission::grant(uri_string());
         $numeroparte = $_POST['codigo'];
         $cantidad = $_POST['cantidad'];
         $idpalletcajas = $_POST["idpalletcajas"];
