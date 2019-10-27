@@ -255,8 +255,13 @@ class Calidadp extends CI_Controller {
     }
 
     public function etiquetaCalidad($idpalletcajas) {
+<<<<<<< HEAD
        Permission::grant(uri_string());
        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
+=======
+        //Permission::grant(uri_string());
+        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
+>>>>>>> master
        $idtransferencia= $detalle->idtransferancia;
        $idcajas = $detalle->idcajas;
         $datausuario = $this->usuario->detalleUsuario($this->session->user_id);
