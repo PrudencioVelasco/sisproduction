@@ -254,14 +254,10 @@ class Calidadp extends CI_Controller {
         $pdf->Output('My-File-Name.pdf', 'I');
     }
 
-    public function etiquetaCalidad($idpalletcajas) {
-<<<<<<< HEAD
+    public function etiquetaCalidad($idpalletcajas) { 
        Permission::grant(uri_string());
        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
-=======
-        //Permission::grant(uri_string());
-        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
->>>>>>> master
+ 
        $idtransferencia= $detalle->idtransferancia;
        $idcajas = $detalle->idcajas;
         $datausuario = $this->usuario->detalleUsuario($this->session->user_id);
