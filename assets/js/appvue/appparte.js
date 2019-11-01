@@ -1,14 +1,14 @@
 
 var this_js_script = $('script[src*=appparte]');
-var my_var_1 = this_js_script.attr('data-my_var_1'); 
+var my_var_1 = this_js_script.attr('data-my_var_1');
 if (typeof my_var_1 === "undefined") {
     var my_var_1 = 'some_default_value';
-} 
+}
 
 
 Vue.config.devtools = true
-Vue.component('modal',{ //modal
-    template:`
+Vue.component('modal', {//modal
+    template: `
    <transition name="modal">
       <div class="modal-mask">
 
@@ -36,161 +36,171 @@ Vue.component('modal',{ //modal
     `
 })
 var v = new Vue({
-   el:'#app',
-    data:{
-        url:my_var_1,
+    el: '#app',
+    data: {
+        url: my_var_1,
         addModal: false,
-        editModal:false,
+        editModal: false,
         //passwordModal:false,
         //deleteModal:false,
-        partes:[],
-         clientes: [],
+        partes: [],
+        clientes: [],
+        categorias: [],
         search: {text: ''},
-        emptyResult:false,
-        newParte:{
-            numeroparte:'',
-            idcliente:'',
+        emptyResult: false,
+        newParte: {
+            numeroparte: '',
+            idcliente: '',
+            idcategoria:'',
             smserror: '',
-            activo:''
-          },
-        chooseParte:{},
-        formValidate:[],
-        successMSG:'',
+            activo: ''
+        },
+        chooseParte: {},
+        formValidate: [],
+        successMSG: '',
 
         //pagination
         currentPage: 0,
-        rowCountPage:15,
-        totalParte:0,
-        pageRange:2,
+        rowCountPage: 15,
+        totalParte: 0,
+        pageRange: 2,
         directives: {columnSortable}
     },
-     created(){
-      this.showAll();
-       this.showAllClientes();
+    created() {
+        this.showAll();
+        this.showAllClientes();
+        this.showAllCategorias();
     },
-    methods:{
-          orderBy(sortFn) {
-        // sort your array data like this.userArray
-        this.partes.sort(sortFn);
-      },
-         showAll(){ axios.get(this.url+"parte/showAll").then(function(response){
-                 if(response.data.partes == null){
-                     v.noResult()
-                    }else{
-                        v.getData(response.data.partes);
-                        //console.log(response.data.partes);
-                    }
+    methods: {
+        orderBy(sortFn) {
+            // sort your array data like this.userArray
+            this.partes.sort(sortFn);
+        },
+        showAll() {
+            axios.get(this.url + "parte/showAll").then(function (response) {
+                if (response.data.partes == null) {
+                    v.noResult()
+                } else {
+                    v.getData(response.data.partes);
+                    //console.log(response.data.partes);
+                }
             })
         },
-         showAllClientes() {
-                axios.get(this.url + "client/showAllClientesActivos")
+        showAllClientes() {
+            axios.get(this.url + "client/showAllClientesActivos")
                     .then(response => (this.clientes = response.data))
 
-            },
-          searchParte(){
+        },
+         showAllCategorias() {
+            axios.get(this.url + "categoria/showAllCategoriasActivos")
+                    .then(response => (this.categorias = response.data))
+
+        },
+        searchParte() {
             var formData = v.formData(v.search);
-              axios.post(this.url+"parte/searchParte", formData).then(function(response){
-                  if(response.data.partes == null){
-                      v.noResult()
-                    }else{
-                      v.getData(response.data.partes);
+            axios.post(this.url + "parte/searchParte", formData).then(function (response) {
+                if (response.data.partes == null) {
+                    v.noResult()
+                } else {
+                    v.getData(response.data.partes);
 
-                    }
+                }
             })
         },
-     addParte(){
+        addParte() {
             var formData = v.formData(v.newParte);
-              axios.post(this.url+"parte/addPart", formData).then(function(response){
-                if(response.data.error){
+            axios.post(this.url + "parte/addPart", formData).then(function (response) {
+                if (response.data.error) {
                     v.formValidate = response.data.msg;
-                }else{
+                } else {
                     swal({
-            position: 'center',
-            type: 'success',
-            title: 'Exito!',
-            showConfirmButton: false,
-            timer: 1500
-          });
+                        position: 'center',
+                        type: 'success',
+                        title: 'Exito!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
 
                     v.clearAll();
                     v.clearMSG();
                 }
-               })
+            })
         },
-        updateParte(){
-            var formData = v.formData(v.chooseParte); axios.post(this.url+"parte/updateParte", formData).then(function(response){
-                if(response.data.error){
+        updateParte() {
+            var formData = v.formData(v.chooseParte);
+            axios.post(this.url + "parte/updateParte", formData).then(function (response) {
+                if (response.data.error) {
                     v.formValidate = response.data.msg;
-                }else{
+                } else {
                     //v.successMSG = response.data.success;
-                      swal({
-                            position: 'center',
-                            type: 'success',
-                            title: 'Modificado!',
-                            showConfirmButton: false,
-                            timer: 1500
-                          });
+                    swal({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Modificado!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                     v.clearAll();
                     v.clearMSG();
 
                 }
             })
         },
-         formData(obj){
-			   var formData = new FormData();
-		      for ( var key in obj ) {
-		          formData.append(key, obj[key]);
-		      }
-		      return formData;
-		},
-        getData(partes){
+        formData(obj) {
+            var formData = new FormData();
+            for (var key in obj) {
+                formData.append(key, obj[key]);
+            }
+            return formData;
+        },
+        getData(partes) {
             v.emptyResult = false; // become false if has a record
             v.totalParte = partes.length //get total of user
             v.partes = partes.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
 
-             // if the record is empty, go back a page
-            if(v.partes.length == 0 && v.currentPage > 0){
-            v.pageUpdate(v.currentPage - 1)
-            v.clearAll();
+            // if the record is empty, go back a page
+            if (v.partes.length == 0 && v.currentPage > 0) {
+                v.pageUpdate(v.currentPage - 1)
+                v.clearAll();
             }
         },
 
-        selectParte(parte){
+        selectParte(parte) {
             v.chooseParte = parte;
         },
-        clearMSG(){
-            setTimeout(function(){
-			 v.successMSG=''
-			 },3000); // disappearing message success in 2 sec
+        clearMSG() {
+            setTimeout(function () {
+                v.successMSG = ''
+            }, 3000); // disappearing message success in 2 sec
         },
-        clearAll(){
+        clearAll() {
             v.newParte = {
-            numeroparte:'',
-            idcliente:'',
-            smserror: '',
-            activo:'' };
+                numeroparte: '',
+                idcliente: '',
+                idcategoria: '',
+                smserror: '',
+                activo: ''};
             v.formValidate = false;
-            v.addModal= false;
-            v.editModal=false;
-            v.deleteModal=false;
+            v.addModal = false;
+            v.editModal = false;
+            v.deleteModal = false;
             v.refresh()
 
         },
-        noResult(){
+        noResult() {
 
-               v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
-                      v.partes = null
-                     v.totalParte = 0 //remove current page if is empty
+            v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
+            v.partes = null
+            v.totalParte = 0 //remove current page if is empty
 
         },
 
-
-        pageUpdate(pageNumber){
-              v.currentPage = pageNumber; //receive currentPage number came from pagination template
-                v.refresh()
+        pageUpdate(pageNumber) {
+            v.currentPage = pageNumber; //receive currentPage number came from pagination template
+            v.refresh()
         },
-        refresh(){
-             v.search.text ? v.searchParte() : v.showAll(); //for preventing
+        refresh() {
+            v.search.text ? v.searchParte() : v.showAll(); //for preventing
 
         }
     }

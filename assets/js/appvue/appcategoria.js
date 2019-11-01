@@ -1,5 +1,5 @@
 
-var this_js_script = $('script[src*=appclient]');
+var this_js_script = $('script[src*=appcategoria]');
 var my_var_1 = this_js_script.attr('data-my_var_1'); 
 if (typeof my_var_1 === "undefined") {
     var my_var_1 = 'some_default_value';
@@ -41,61 +41,59 @@ var v = new Vue({
         editModal: false,
         //passwordModal:false,
         //deleteModal:false,
-        clientes: [],
+        categorias: [],
         search: {text: ''},
         emptyResult: false,
-        newClient: {
-            rfc: '',
-            nombre: '',
-            abreviatura:'',
-            direccion: '',
-            direccionfacturacion: ''
+        newCategoria: {
+            nombrecategoria: '',
+            activo: ''
 
         },
-        chooseClient: {},
+        chooseCategoria: {},
         formValidate: [],
         successMSG: '',
 
         //pagination
         currentPage: 0,
         rowCountPage: 5,
-        totalClient: 0,
-        pageRange: 2, 
+        totalCategoria: 0,
+        pageRange: 2,
          directives: {columnSortable}
     },
     created() {
         this.showAll();
     },
     methods: {
-         orderBy(sortFn) {
+        orderBy(sortFn) {
             // sort your array data like this.userArray
-            this.clientes.sort(sortFn);
+            this.categorias.sort(sortFn);
         },
         showAll() {
-            axios.get(this.url + "client/showAll").then(function (response) {
-                if (response.data.clientes == null) {
+            axios.get(this.url + "categoria/showAll").then(function (response) {
+                if (response.data.categorias == null) {
                     v.noResult()
                 } else {
-                    v.getData(response.data.clientes);
+                    v.getData(response.data.categorias);
                 }
             })
         },
-        searchClient() {
+        searchCategoria() {
             var formData = v.formData(v.search);
-            axios.post(this.url + "client/searchClient", formData).then(function (response) {
-                if (response.data.clientes == null) {
+            axios.post(this.url + "categoria/searchCategoria", formData).then(function (response) {
+                if (response.data.categorias == null) {
                     v.noResult()
                 } else {
-                    v.getData(response.data.clientes);
+                    v.getData(response.data.categorias);
 
                 }
             })
         },
-        addClient() {
-            var formData = v.formData(v.newClient);
-            axios.post(this.url + "client/addClient", formData).then(function (response) {
+        addCategoria() {
+            var formData = v.formData(v.newCategoria);
+            axios.post(this.url + "categoria/addCategoria", formData).then(function (response) {
                 if (response.data.error) {
                     v.formValidate = response.data.msg;
+                    console.log( response.data.msg)
                 } else {
                     swal({
                         position: 'center',
@@ -110,9 +108,9 @@ var v = new Vue({
                 }
             })
         },
-        updateClient() {
-            var formData = v.formData(v.chooseClient);
-            axios.post(this.url + "client/updateClient", formData).then(function (response) {
+        updateCategoria() {
+            var formData = v.formData(v.chooseCategoria);
+            axios.post(this.url + "categoria/updateCategoria", formData).then(function (response) {
                 if (response.data.error) {
                     v.formValidate = response.data.msg;
                 } else {
@@ -148,20 +146,20 @@ var v = new Vue({
             }
             return formData;
         },
-        getData(clientes) {
+        getData(categorias) {
             v.emptyResult = false; // become false if has a record
-            v.totalClient = clientes.length //get total of user
-            v.clientes = clientes.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
+            v.totalCategoria = categorias.length //get total of user
+            v.categorias = categorias.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
 
             // if the record is empty, go back a page
-            if (v.clientes.length == 0 && v.currentPage > 0) {
+            if (v.categorias.length == 0 && v.currentPage > 0) {
                 v.pageUpdate(v.currentPage - 1)
                 v.clearAll();
             }
         },
 
-        selectRol(client) {
-            v.chooseClient = client;
+        selectCategoria(categoria) {
+            v.chooseCategoria = categoria;
         },
         clearMSG() {
             setTimeout(function () {
@@ -169,11 +167,8 @@ var v = new Vue({
             }, 3000); // disappearing message success in 2 sec
         },
         clearAll() {
-            v.newClient = {
-                rfc: '',
-                nombre: '',
-                abreviatura:'',
-                direccion: '', 
+            v.newCategoria = {
+                nombrecategoria: '', 
                 activo: ''};
             v.formValidate = false;
             v.addModal = false;
@@ -185,8 +180,8 @@ var v = new Vue({
         noResult() {
 
             v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
-            v.clientes = null
-            v.totalClient = 0 //remove current page if is empty
+            v.categorias = null
+            v.totalCategoria = 0 //remove current page if is empty
 
         },
 
@@ -195,7 +190,7 @@ var v = new Vue({
             v.refresh()
         },
         refresh() {
-            v.search.text ? v.searchRol() : v.showAll(); //for preventing
+            v.search.text ? v.searchCategoria() : v.showAll(); //for preventing
 
         }
     }

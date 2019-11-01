@@ -9,7 +9,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Administrar Cliente</h2>
+                        <h2>Administrar Categoria</h2>
 
                         <div class="clearfix"></div>
                     </div>
@@ -27,7 +27,7 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <button class="btn btn-round btn-primary" @click="addModal= true">Nuevo Cliente</button>
+                                                <button class="btn btn-round btn-primary" @click="addModal= true">Nueva Categoria</button>
 
 
                                             </div>
@@ -37,48 +37,42 @@
                                             <div class="col-md-6">
                                             </div>
                                             <div class="col-md-6">
-                                                <input placeholder="Buscar" type="search" class="form-control" v-model="search.text" @keyup="searchClient" name="search">
+                                                <input placeholder="Buscar" type="search" class="form-control" v-model="search.text" @keyup="searchCategoria" name="search">
                                             </div>
                                         </div>
                                         <br>
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white" v-column-sortable:rfc>RFC</th>
-                                            <th class="text-white" v-column-sortable:nombre>Nombre del cliente</th>
-                                            <th class="text-white" v-column-sortable:abreviatura>Abreviatura</th>
-                                            <th class="text-white" v-column-sortable:direccion>Dirección</th>
+                                            <th class="text-white" v-column-sortable:nombrecategoria>Nombre de la Categoria</th> 
                                             <th class="text-white" v-column-sortable:activo>Estatus</th>
-                                            <th class="text-white">Opción</th>
+                                            <th class="text-white"  >Opción</th>
                                             </thead>
                                             <tbody class="table-light">
-                                                <tr v-for="row in clientes" class="table-default">
-                                                    <td>{{row.rfc}}</td> 
-                                                    <td>{{row.nombre}}</td> 
-                                                    <td>{{row.abreviatura}}</td> 
-                                                    <td>{{row.direccion}}</td> 
+                                                <tr v-for="row in categorias" class="table-default"> 
+                                                    <td>{{row.nombrecategoria}}</td> 
                                                     <td >
                                                         <span v-if="row.activo==1" class="label label-success">Activo</span>
                                                         <span v-else class="label label-danger">Inactivo</span>
                                                     </td>
-                                                    <td align="">
-                                                        <button type="button" class="btn btn-icons btn-rounded btn-success" @click="editModal = true; selectRol(row)" title="Modificar Datos">
+                                                    <td align=" ">
+                                                        <button type="button" class="btn btn-icons btn-rounded btn-success" @click="editModal = true; selectCategoria(row)" title="Modificar Datos">
                                                             <i class="fa  fa-edit"></i>
                                                         </button> 
 
                                                     </td>
                                                 </tr>
                                                 <tr v-if="emptyResult">
-                                                    <td colspan="9" rowspan="4" class="text-center h4">No encontrado</td>
+                                                    <td colspan="3" class="text-center h4">No encontrado</td>
                                                 </tr>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <td colspan="5" align="right">
+                                                    <td colspan="3" align="right">
                                             <pagination
                                                 :current_page="currentPage"
                                                 :row_count_page="rowCountPage"
                                                 @page-update="pageUpdate"
-                                                :total_users="totalClient"
+                                                :total_users="totalCategoria"
                                                 :page_range="pageRange"
                                                 >
                                             </pagination>
@@ -101,4 +95,4 @@
 </div>
 <!-- /page content -->
 <script src="https://cdn.jsdelivr.net/npm/vue-column-sortable@0.0.1/dist/vue-column-sortable.js"></script>
-<script data-my_var_1="<?php echo base_url() ?>"  src="<?php echo base_url(); ?>/assets/js/appvue/appclient.js"></script> 
+<script data-my_var_1="<?php echo base_url() ?>"  src="<?php echo base_url(); ?>/assets/js/appvue/appcategoria.js"></script> 

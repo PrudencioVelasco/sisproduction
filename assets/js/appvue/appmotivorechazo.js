@@ -59,13 +59,18 @@ var v = new Vue({
         currentPage: 0,
         rowCountPage: 5,
         totalMotivo: 0,
-        pageRange: 2
+        pageRange: 2,
+          directives: {columnSortable}
     },
     created() {
         this.showAll();
         this.showAllProcesos(); 
     },
     methods: {
+         orderBy(sortFn) {
+            // sort your array data like this.userArray
+            this.motivos.sort(sortFn);
+        },
         showAll() {
             axios.get(this.url + "motivorechazo/showAll").then(function (response) {
                 if (response.data.motivos == null) {

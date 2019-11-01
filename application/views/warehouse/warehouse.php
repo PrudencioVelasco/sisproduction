@@ -25,11 +25,12 @@
                                             <tr>
                                                 <th scope="col">Cliente</th>
                                                 <th scope="col">No. Parte</th>
+                                                <th scope="col">Categoria</th>
                                                 <th scope="col">Modelo</th>
-                                                <th scope="col">Version</th>
+                                                <th scope="col">Revisión</th>
                                                 <th scope="col">Existencia</th> 
                                                 <th scope="col">Salidas</th> 
-                                                <th class="text-center">Accion</th>
+                                                <th class="text-center">Acción</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -38,9 +39,12 @@
                                                 <tr>
                                                     <td><?php echo $value->nombre; ?></td>
                                                     <td><?php echo $value->numeroparte; ?></td>
+                                                    <td><?php echo $value->nombrecategoria; ?></td>
                                                     <td><?php echo $value->nombremodelo; ?></td>
                                                     <td><?php echo $value->nombrerevision; ?></td>
-                                                    <td><?php echo $value->total;?></td>
+                                                    <td>
+                                                        <label style="color:green;"><?php echo $value->total;?></label>                                                        
+                                                      </td>
                                                     <td>
                                                         <label style="color:red;"><?php echo $value->totalsalidaparciales + $value->totalsalidapallet;?></label>
                                                     </td>

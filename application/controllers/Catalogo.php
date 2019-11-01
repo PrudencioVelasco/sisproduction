@@ -21,6 +21,7 @@ class Catalogo extends CI_Controller
         $this->load->model('ubicacion_model', 'ubicacion');
         $this->load->model('linea_model', 'linea');
         $this->load->model('admin_model', 'adminmodel');
+        $this->load->model('categorias_model', 'categorias');
         $this->load->library('permission');
         $this->load->library('session');
         
@@ -36,6 +37,7 @@ class Catalogo extends CI_Controller
         $totalubicacion = count($this->ubicacion->showAll());
         $totalmotivo = count($this->motivo->showAll());
         $totallinea = count($this->linea->showAllLinea());
+         $totalcategorias = count($this->categorias->showAll());
         $data = array(
         'totalusuario'=>$totalusuarios,
         'totalcliente'=>$totalcliente,
@@ -43,6 +45,7 @@ class Catalogo extends CI_Controller
         'totalubicacion'=>$totalubicacion,
         'totalnumeroparte'=>$totalnumeroparte,
         'totallinea'=>$totallinea,
+        'totalcategorias'=>$totalcategorias,
         'totalmotivo'=>$totalmotivo);
         $this->load->view('header');
         $this->load->view('catalogo/index',$data);

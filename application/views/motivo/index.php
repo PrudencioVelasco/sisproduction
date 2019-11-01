@@ -32,11 +32,11 @@
                                                 
                                             </div>
                                         </div>  
-                                        <table class="table is-bordered is-hoverable">
+                                       <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white">Motivo</th>
-                                            <th class="text-white">Proceso</th>
-                                             <th class="text-white">Estatus</th>
+                                            <th class="text-white" v-column-sortable:motivo>Motivo</th>
+                                            <th class="text-white" v-column-sortable:nombreproceso>Proceso</th>
+                                             <th class="text-white" v-column-sortable:activo>Estatus</th>
                                             <th class="text-white">Opción</th>
                                             </thead>
                                             <tbody class="table-light">
@@ -55,12 +55,12 @@
                                                     </td>
                                                 </tr>
                                                 <tr v-if="emptyResult">
-                                                    <td colspan="9" rowspan="4" class="text-center h4">No encontrado</td>
+                                                    <td colspan="4" rowspan="4" class="text-center h4">No encontrado</td>
                                                 </tr>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <td colspan="5" align="right">
+                                                    <td colspan="4" align="right">
                                             <pagination
                                                 :current_page="currentPage"
                                                 :row_count_page="rowCountPage"
@@ -87,5 +87,5 @@
 
 </div>
 <!-- /page content -->
-
+<script src="https://cdn.jsdelivr.net/npm/vue-column-sortable@0.0.1/dist/vue-column-sortable.js"></script>
 <script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/appmotivorechazo.js"></script> 

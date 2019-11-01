@@ -15,9 +15,10 @@ class Parte_model extends CI_Model {
 
     public function showAll()
     {
-        $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name, p.activo');
+        $this->db->select('p.idparte,c.idcliente,p.idcategoria, ca.nombrecategoria, p.numeroparte,c.nombre,u.name, p.activo');
         $this->db->from('parte p');
         $this->db->join('cliente c', 'p.idcliente=c.idcliente');
+        $this->db->join('tblcategoria ca', 'p.idcategoria=ca.idcategoria');
         $this->db->join('users u', 'p.idusuario=u.id');
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -31,12 +32,14 @@ class Parte_model extends CI_Model {
     {
         $field = array(
             'p.numeroparte',
-            'c.nombre'
+            'c.nombre',
+            'ca.nombrecategoria'
         );
 
-        $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name, p.activo');
+        $this->db->select('p.idparte,c.idcliente, p.numeroparte,c.nombre,u.name,ca.nombrecategoria, p.idcategoria, p.activo');
         $this->db->from('parte p');
         $this->db->join('cliente c', 'p.idcliente=c.idcliente');
+        $this->db->join('tblcategoria ca', 'p.idcategoria=ca.idcategoria');
         $this->db->join('users u', 'p.idusuario=u.id');
         $this->db->like('concat(' . implode(',', $field) . ')', $match);
         $query = $this->db->get();

@@ -32,10 +32,10 @@
                                                 
                                             </div>
                                         </div>  
-                                        <table class="table is-bordered is-hoverable">
+                                        <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white">Ubicación</th>
-                                            <th class="text-white">Estatus</th>
+                                            <th class="text-white" v-column-sortable:nombreposicion>Ubicación</th>
+                                            <th class="text-white" v-column-sortable:activo>Estatus</th>
                                             <th class="text-white">Opción</th>
                                             </thead>
                                             <tbody class="table-light">
@@ -85,5 +85,5 @@
 
 </div>
 <!-- /page content -->
-
+<script src="https://cdn.jsdelivr.net/npm/vue-column-sortable@0.0.1/dist/vue-column-sortable.js"></script>
 <script data-my_var_1="<?php echo base_url() ?>"  src="<?php echo base_url(); ?>/assets/js/appvue/appubicacion.js"></script> 

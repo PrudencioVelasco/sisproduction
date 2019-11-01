@@ -1093,6 +1093,14 @@ class Parte extends CI_Controller {
                     'required' => 'Campo obligatorio.'
                 )
             ),
+             array(
+                'field' => 'idcategoria',
+                'label' => 'Categoria',
+                'rules' => 'trim|required',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.'
+                )
+            ),
             array(
                 'field' => 'idcliente',
                 'label' => 'Cliente',
@@ -1108,6 +1116,7 @@ class Parte extends CI_Controller {
             $result['error'] = true;
             $result['msg'] = array(
                 'numeroparte' => form_error('numeroparte'),
+                'idcategoria' => form_error('idcategoria'),
                 'idcliente' => form_error('idcliente')
             );
         } else {
@@ -1118,6 +1127,7 @@ class Parte extends CI_Controller {
                 $data = array(
                     'numeroparte' => $this->input->post('numeroparte'),
                     'idcliente' => $this->input->post('idcliente'),
+                    'idcategoria' => $this->input->post('idcategoria'),
                     'idusuario' => $this->session->user_id,
                     'activo' => 1,
                     'fecharegistro' => date('Y-m-d H:i:s')
@@ -1144,6 +1154,14 @@ class Parte extends CI_Controller {
                     'required' => 'Campo obligatorio.'
                 )
             ),
+             array(
+                'field' => 'idcategoria',
+                'label' => 'Categoria',
+                'rules' => 'trim|required',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.'
+                )
+            ),
             array(
                 'field' => 'idcliente',
                 'label' => 'Cliente',
@@ -1159,10 +1177,12 @@ class Parte extends CI_Controller {
             $result['error'] = true;
             $result['msg'] = array(
                 'numeroparte' => form_error('numeroparte'),
+                'idcategoria' => form_error('idcategoria'),
                 'idcliente' => form_error('idcliente')
             );
         } else {
             $idcliente = $this->input->post('idcliente');
+            $idcategoria = $this->input->post('idcategoria');
             $numeroparte = $this->input->post('numeroparte');
             $idparte = $this->input->post('idparte');
             $resuldovalidacion = $this->parte->validarClientePartePorIdParte($idparte, $idcliente, $numeroparte);
@@ -1170,6 +1190,7 @@ class Parte extends CI_Controller {
                 $data = array(
                     'numeroparte' => $this->input->post('numeroparte'),
                     'idcliente' => $this->input->post('idcliente'),
+                    'idcategoria' => $this->input->post('idcategoria'),
                     'idusuario' => $this->session->user_id,
                     'activo' => $this->input->post('activo'),
                     'fecharegistro' => date('Y-m-d H:i:s')

@@ -59,7 +59,7 @@ var v = new Vue({
         rowCountPage: 15,
         totalLinea: 0,
         pageRange: 2,
-        directives: {columnSortable}, 
+        directives: {columnSortable}
     },
     created() {
         this.showAll(); 

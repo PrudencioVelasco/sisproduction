@@ -63,7 +63,8 @@ var v = new Vue({
         currentPage: 0,
         rowCountPage:5,
         totalUsers:0,
-        pageRange:2
+        pageRange:2,
+         directives: {columnSortable}
     },
      created(){
       this.showAll();
@@ -71,6 +72,10 @@ var v = new Vue({
       this.allTurnos(); 
     },
     methods:{
+         orderBy(sortFn) {
+            // sort your array data like this.userArray
+            this.users.sort(sortFn);
+        },
          showAll(){ axios.get(this.url+"user/showAll").then(function(response){
                  if(response.data.users == null){
                      v.noResult()

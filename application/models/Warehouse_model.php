@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Warehouse_model extends CI_Model {
@@ -15,7 +16,7 @@ class Warehouse_model extends CI_Model {
     public function getDataPallets() {
 
         $query = $this->db->query("
-            select r.idrevision, cl.nombre, p.numeroparte, m.descripcion as nombremodelo, r.descripcion as nombrerevision,
+            select r.idrevision, cl.nombre,ca.nombrecategoria, p.numeroparte, m.descripcion as nombremodelo, r.descripcion as nombrerevision,
             (select COALESCE(sum(c2.cantidad),0) from parteposicionbodega ppb2, palletcajas pc2, tblcantidad c2 
             WHERE ppb2.idpalletcajas = pc2.idpalletcajas AND pc2.idcajas = c2.idcantidad  AND c2.idrevision = r.idrevision AND ppb2.ordensalida = 0 AND ppb2.salida = 0)  as total,
             (select 
@@ -41,6 +42,7 @@ class Warehouse_model extends CI_Model {
             inner join tblrevision r on r.idrevision =  c.idrevision
             inner join tblmodelo m  on m.idmodelo = r.idmodelo
             inner join parte p on p.idparte = m.idparte
+            inner join tblcategoria ca on p.idcategoria = ca.idcategoria
             inner join cliente cl on cl.idcliente = p.idcliente
             inner join parteposicionbodega ppb on ppb.idpalletcajas = pc.idpalletcajas
             group by r.idrevision");
@@ -48,70 +50,121 @@ class Warehouse_model extends CI_Model {
         return $query->result();
     }
 
-    public function getDataEntry($first_date='',$second_date=''){
-        $this->db->select('pc.idpalletcajas,pc.idtransferancia,pc.pallet,pc.idcajas,pc.idestatus, p.idparte,c.nombre,p.numeroparte,count(tc.idcantidad) as totalpallet,tc.cantidad as cantidadxpallet, sum(tc.cantidad) as cantidad, tr.descripcion, s.nombrestatus, pc.idestatus,pb.nombreposicion');
+    public function getDataEntry($first_date = '', $second_date = '', $categoria = '', $parte = '') {
+        $this->db->select('pc.idpalletcajas,pc.idtransferancia,pc.pallet,DATE_FORMAT(ppb.fecharegistro,  "%d/%m/%Y") as fecha,ca.nombrecategoria, pc.idcajas,pc.idestatus, p.idparte,c.nombre,p.numeroparte,count(tc.idcantidad) as totalpallet,tc.cantidad as cantidadxpallet, sum(tc.cantidad) as cantidad, tr.descripcion, s.nombrestatus, pc.idestatus,pb.nombreposicion');
         $this->db->from('palletcajas pc');
         $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
         $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');
         $this->db->join('tblmodelo  tm', 'tm.idmodelo = tr.idmodelo');
         $this->db->join('parte  p', 'tm.idparte = p.idparte');
+        $this->db->join('tblcategoria  ca', 'ca.idcategoria = p.idcategoria');
         $this->db->join('cliente  c', 'c.idcliente = p.idcliente');
         $this->db->join('status  s', 's.idestatus = pc.idestatus');
         $this->db->join('parteposicionbodega  ppb', 'pc.idpalletcajas = ppb.idpalletcajas');
         $this->db->join('posicionbodega  pb', 'ppb.idposicion = pb.idposicion');
         $this->db->where('pc.idestatus', 8);
-        
+
         if (!empty($first_date) && !empty($second_date)) {
             $this->db->where('date(ppb.fecharegistro) >=', $first_date);
             $this->db->where('date(ppb.fecharegistro) <=', $second_date);
         }
+        if(!empty($categoria) && $categoria != 0){
+            $this->db->where('p.idcategoria', $categoria);
+        }
+        if(!empty($parte)){
+            $this->db->like('p.numeroparte', $parte);
+        }
         //$this->db->where('pc.idestatus', 8);
         //$this->db->where('ppb.ordensalida', 0);
-         $this->db->group_by('tc.idcantidad'); 
+        $this->db->group_by('tc.idcantidad');
         $query = $this->db->get();
-        
-        return $query->num_rows() > 0 ? $query->result() : FALSE ; 
+
+        return $query->num_rows() > 0 ? $query->result() : FALSE;
     }
 
-    public function getDataExits($first_date='',$second_date='',$tipo=''){
-        $this->db->select('pc.idpalletcajas,pc.idestatus,pc.idtransferancia,c.nombre,p.numeroparte,
-            sum(tc.cantidad) as cantidad,count(tc.idcantidad) as totalpallet,tc.cantidad as cantidadxpallet,tr.descripcion,s.nombrestatus,pb.nombreposicion,os.caja,os.idordensalida,
-            sal.numerosalida,sal.orden,sal.finalizado');
+    public function getDataExits($first_date = '', $second_date = '', $tipo = '', $categoria = '', $parte = '', $salida = '') {
+        $this->db->select('pc.idpalletcajas,
+       pc.idestatus,
+       pc.idtransferancia,
+       c.nombre,
+       p.numeroparte,
+       DATE_FORMAT(os.fecharegistro,  "%d/%m/%Y") as fecha,
+       Sum(tc.cantidad)     AS cantidad,
+       Count(
+			   CASE
+					WHEN os.tipo = 0  THEN 0
+					WHEN  os.tipo = 1 THEN 1
+					ELSE 0
+				END
+       ) AS totalpallet, 
+       tc.cantidad  AS cantidadxpallet,
+       tr.descripcion,
+       s.nombrestatus,
+       pb.nombreposicion,
+       os.caja,
+       os.idordensalida,
+       sal.numerosalida,
+       ca.nombrecategoria,
+       sal.orden,
+       sal.finalizado,
+        os.tipo,
+        sum(
+        CASE
+			WHEN os.tipo = 0 && os.caja = 0 THEN tc.cantidad 
+                        WHEN os.tipo = 0 && os.caja > 0 THEN os.caja 
+			ELSE 0
+		END
+        ) totalcajaspallet,
+         sum(
+        CASE
+			WHEN os.tipo = 1 THEN os.caja
+			ELSE 0
+		END
+        ) totalcajasparciales');
         $this->db->from('palletcajas pc');
-        $this->db->join('tblcantidad tc','tc.idcantidad = pc.idcajas');
-        $this->db->join('tblrevision tr ','tr.idrevision = tc.idrevision');
-        $this->db->join('tblmodelo tm ',' tm.idmodelo = tr.idmodelo');
-        $this->db->join('parte p ',' tm.idparte = p.idparte');
-        $this->db->join('cliente c ',' c.idcliente = p.idcliente');
-        $this->db->join('status s ',' s.idestatus = pc.idestatus');
-        $this->db->join('parteposicionbodega ppb ',' pc.idpalletcajas = ppb.idpalletcajas');
-        $this->db->join('posicionbodega pb ',' ppb.idposicion = pb.idposicion');
-        $this->db->join('ordensalida os ',' pc.idpalletcajas = os.idpalletcajas');
-        $this->db->join('salida sal ',' os.idsalida = sal.idsalida');
-        
-        if (!empty($first_date) && !empty($second_date) && $tipo == "0") {
+        $this->db->join('tblcantidad tc', 'tc.idcantidad = pc.idcajas');
+        $this->db->join('tblrevision tr ', 'tr.idrevision = tc.idrevision');
+        $this->db->join('tblmodelo tm ', ' tm.idmodelo = tr.idmodelo');
+        $this->db->join('parte p ', ' tm.idparte = p.idparte');
+        $this->db->join('tblcategoria ca ', ' ca.idcategoria = p.idcategoria');
+        $this->db->join('cliente c ', ' c.idcliente = p.idcliente');
+        $this->db->join('status s ', ' s.idestatus = pc.idestatus');
+        $this->db->join('parteposicionbodega ppb ', ' pc.idpalletcajas = ppb.idpalletcajas');
+        $this->db->join('posicionbodega pb ', ' ppb.idposicion = pb.idposicion');
+        $this->db->join('ordensalida os ', ' pc.idpalletcajas = os.idpalletcajas');
+        $this->db->join('salida sal ', ' os.idsalida = sal.idsalida');
+
+        if (!empty($first_date) && !empty($second_date)) {
             $this->db->where('date(os.fecharegistro) >=', $first_date);
             $this->db->where('date(os.fecharegistro) <=', $second_date);
             //$this->db->where('os.tipo', $tipo);
-        }else if(!empty($first_date) && !empty($second_date) && $tipo == "1"){
-            $this->db->where('date(os.fecharegistro) >=', $first_date);
-            $this->db->where('date(os.fecharegistro) <=', $second_date);
-            $this->db->where('os.tipo', 0);
-        }else if(!empty($first_date) && !empty($second_date) && $tipo == "2"){
-            $this->db->where('date(os.fecharegistro) >=', $first_date);
-            $this->db->where('date(os.fecharegistro) <=', $second_date);
-            $this->db->where('os.tipo', 1);
+        } 
+        if (!empty($tipo) && $tipo != 2) {
+            //$this->db->where('date(os.fecharegistro) >=', $first_date);
+            //$this->db->where('date(os.fecharegistro) <=', $second_date);
+            $this->db->where('os.tipo', $tipo);
+        } 
+         
+        if (!empty($categoria) && $categoria != 0) {
+            $this->db->where('p.idcategoria', $categoria);
+        }
+        if (!empty($parte)) {
+            $this->db->like('p.numeroparte', $parte);
+        }
+        if (!empty($salida)) {
+            $this->db->like('sal.numerosalida', $salida);
         }
         $this->db->where('pc.idestatus', 8);
         $this->db->where('ppb.ordensalida', 1);
-        $this->db->group_by('tc.idcantidad'); 
-        
+        $this->db->group_by('tc.idcantidad');
+        $this->db->group_by('os.idsalida');
+        $this->db->group_by('os.tipo');
         $query = $this->db->get();
-        
-        return $query->num_rows() > 0 ? $query->result() : FALSE ; 
+
+        return $query->num_rows() > 0 ? $query->result() : FALSE;
     }
 
-    public function getDataEntradas($id){
+    public function getDataEntradas($id) {
         $query = $this->db->query("
             SELECT pc.idpalletcajas, pc.idtransferancia, pc.pallet, pc.idcajas, pc.idestatus,
             pc.fecharegistro, p.idparte, c.nombre, p.numeroparte, tc.cantidad, tr.descripcion,
@@ -129,9 +182,9 @@ class Warehouse_model extends CI_Model {
             ORDER BY pc.idpalletcajas ASC ");
 
         return $query->result();
-    } 
+    }
 
-    public function getDataSalidaParcial($id){
+    public function getDataSalidaParcial($id) {
         $query = $this->db->query("
             SELECT pc.idpalletcajas, pc.idtransferancia, pc.pallet, pc.idcajas, pc.idestatus, 
             pc.fecharegistro, p.idparte, c.nombre, p.numeroparte, tc.cantidad, tr.descripcion, 
@@ -153,7 +206,7 @@ class Warehouse_model extends CI_Model {
         return $query->result();
     }
 
-    public function getDataSalidaPallet($id){
+    public function getDataSalidaPallet($id) {
         $query = $this->db->query("
             SELECT pc.idpalletcajas, pc.idtransferancia, pc.pallet, pc.idcajas, pc.idestatus, 
             pc.fecharegistro, p.idparte, c.nombre, p.numeroparte, tc.cantidad, tr.descripcion, 
@@ -173,6 +226,6 @@ class Warehouse_model extends CI_Model {
             ORDER BY pc.idpalletcajas ASC");
 
         return $query->result();
-    }    
+    }
 
 }
