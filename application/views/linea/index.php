@@ -36,15 +36,15 @@
                                             <thead>
                                                 <tr class="table-dark">
                                                     <th  v-column-sortable:nombrelinea>Nombre Linea</th> 
-                                                    <th></th> 
+                                                    <td align="right" ><strong>Opción</strong></td> 
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="row in lineas" >
                                                     <td><strong>{{row.nombrelinea}}</strong></td>  
                                                     <td align="right">
-                                                        <button type="button" class="btn btn-icons btn-rounded btn-success btn-xs" @click="editModal = true; selectLinea(row)" title="Modificar Datos">
-                                                            <i class="fa  fa-edit"></i> 
+                                                        <button type="button" class="btn btn-icons btn-rounded btn-info btn-xs" @click="editModal = true; selectLinea(row)" title="Modificar Datos">
+                                                           Editar
                                                         </button> 
                                                     </td> 
                                                 </tr>

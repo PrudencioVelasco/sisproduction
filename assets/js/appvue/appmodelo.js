@@ -1,13 +1,13 @@
 var this_js_script = $('script[src*=appmodelo]');
 var my_var_1 = this_js_script.attr('data-my_var_1');
-var my_var_2 = this_js_script.attr('data-my_var_2');   
-if (typeof my_var_1 === "undefined" ) {
-   var my_var_1 = 'some_default_value';
+var my_var_2 = this_js_script.attr('data-my_var_2');
+if (typeof my_var_1 === "undefined") {
+    var my_var_1 = 'some_default_value';
 }
-if (typeof my_var_2 === "undefined" ) {
-   var my_var_2 = 'some_default_value';
+if (typeof my_var_2 === "undefined") {
+    var my_var_2 = 'some_default_value';
 }
- 
+
 Vue.config.devtools = true
 Vue.component('modal', {//modal
     template: `
@@ -53,15 +53,21 @@ var v = new Vue({
             idparte: '',
             descripcion: '',
             nombrehoja: '',
+            customer: '',
             fulloneimpresion: '',
-            colorlinea: '', 
+            colorlinea: '',
             diucutno: '',
             platonumero: '',
             color: '',
+            blanksize: '',
+            sheetsize: '',
+            score: '',
             normascompartidas: '',
             salida: '',
             combinacion: '',
-            msgerror:''
+            lithoname: '',
+            comment: '',
+            msgerror: ''
         },
         chooseModelo: {},
         formValidate: [],
@@ -76,7 +82,7 @@ var v = new Vue({
         idparte: my_var_1
     },
     created() {
-        this.showAll(); 
+        this.showAll();
     },
     methods: {
         orderBy(sortFn) {
@@ -112,7 +118,7 @@ var v = new Vue({
         },
         addModelo() {
             var formData = v.formData(v.newModelo);
-                formData.append('idparte', this.idparte);
+            formData.append('idparte', this.idparte);
             axios.post(this.url + "modelo/addModelo", formData).then(function (response) {
                 if (response.data.error) {
                     v.formValidate = response.data.msg;
@@ -180,17 +186,23 @@ var v = new Vue({
         clearAll() {
             v.newModelo = {
                 idparte: '',
-                descripcion: '',
+                 descripcion: '',
                 nombrehoja: '',
+                customer: '',
                 fulloneimpresion: '',
                 colorlinea: '',
                 diucutno: '',
                 platonumero: '',
                 color: '',
+                blanksize: '',
+                sheetsize: '',
+                score: '',
                 normascompartidas: '',
                 salida: '',
                 combinacion: '',
-             msgerror:''};
+                lithoname: '',
+                comment: '',
+                msgerror: ''};
             v.formValidate = false;
             v.addModal = false;
             v.editModal = false;

@@ -61,8 +61,8 @@
                                                         <span v-else class="label label-danger">Inactivo</span>
                                                     </td>
                                                     <td align="">
-                                                        <button type="button" class="btn btn-icons btn-rounded btn-success" @click="editModal = true; selectRol(row)" title="Modificar Datos">
-                                                            <i class="fa  fa-edit"></i>
+                                                        <button type="button" class="btn btn-icons btn-xs btn-rounded btn-info" @click="editModal = true; selectRol(row)" title="Modificar Datos">
+                                                            Editar
                                                         </button> 
 
                                                     </td>

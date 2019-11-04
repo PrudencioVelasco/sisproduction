@@ -45,7 +45,7 @@
                                             <thead class="text-white bg-dark" >
                                             <th class="text-white" v-column-sortable:nombrecategoria>Nombre de la Categoria</th> 
                                             <th class="text-white" v-column-sortable:activo>Estatus</th>
-                                            <th class="text-white"  >Opción</th>
+                                            <td class="text-white" align="right" ><strong>Opción</strong></td>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="row in categorias" class="table-default"> 
@@ -54,9 +54,9 @@
                                                         <span v-if="row.activo==1" class="label label-success">Activo</span>
                                                         <span v-else class="label label-danger">Inactivo</span>
                                                     </td>
-                                                    <td align=" ">
-                                                        <button type="button" class="btn btn-icons btn-rounded btn-success" @click="editModal = true; selectCategoria(row)" title="Modificar Datos">
-                                                            <i class="fa  fa-edit"></i>
+                                                    <td align="right">
+                                                        <button type="button" class="btn btn-icons btn-rounded btn-info btn-xs" @click="editModal = true; selectCategoria(row)" title="Modificar Datos">
+                                                           Editar
                                                         </button> 
 
                                                     </td>

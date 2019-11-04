@@ -60,11 +60,15 @@ class Modelo extends CI_Controller {
                     'idparte' => $idparte,
                     'descripcion' => $modelo,
                     'nombrehoja' => $this->input->post('nombrehoja'),
+                    'customer' => "",
                     'fulloneimpresion ' => $this->input->post('fulloneimpresion'),
                     'colorlinea ' => $this->input->post('colorlinea'),
                     'diucutno' => $this->input->post('diucutno'),
                     'platonumero' => $this->input->post('platonumero'),
                     'color' => $this->input->post('color'),
+                    'blanksize' => $this->input->post('blanksize'),
+                    'sheetsize' => $this->input->post('sheetsize'),
+                    'score' => $this->input->post('score'),
                     'normascompartidas' => $this->input->post('normascompartidas'),
                     'salida' => $this->input->post('salida'),
                     'combinacion' => $this->input->post('combinacion'),
@@ -113,14 +117,18 @@ class Modelo extends CI_Controller {
             $datavalidar = $this->modelo->validadExistenciaModeloUpdate($idmodelo, $modelo);
             if ($datavalidar == FALSE) {
 
-                $data = array(
-                    'descripcion' => $modelo,
+                $data = array(                     
+                   'descripcion' => $modelo,
                     'nombrehoja' => $this->input->post('nombrehoja'),
+                    'customer' => "",
                     'fulloneimpresion ' => $this->input->post('fulloneimpresion'),
                     'colorlinea ' => $this->input->post('colorlinea'),
                     'diucutno' => $this->input->post('diucutno'),
                     'platonumero' => $this->input->post('platonumero'),
                     'color' => $this->input->post('color'),
+                    'blanksize' => $this->input->post('blanksize'),
+                    'sheetsize' => $this->input->post('sheetsize'),
+                    'score' => $this->input->post('score'),
                     'normascompartidas' => $this->input->post('normascompartidas'),
                     'salida' => $this->input->post('salida'),
                     'combinacion' => $this->input->post('combinacion'),
