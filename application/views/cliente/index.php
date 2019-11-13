@@ -43,15 +43,17 @@
                                         <br>
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white" v-column-sortable:rfc>RFC</th>
-                                            <th class="text-white" v-column-sortable:nombre>Nombre del cliente</th>
-                                            <th class="text-white" v-column-sortable:abreviatura>Abreviatura</th>
-                                            <th class="text-white" v-column-sortable:direccion>Dirección</th>
-                                            <th class="text-white" v-column-sortable:activo>Estatus</th>
+                                            <th class="text-white" v-column-sortable:idcliente>N° </th>
+                                            <th class="text-white" v-column-sortable:rfc>RFC </th>
+                                            <th class="text-white" v-column-sortable:nombre>Nombre del cliente </th>
+                                            <th class="text-white" v-column-sortable:abreviatura>Abreviatura </th>
+                                            <th class="text-white" v-column-sortable:direccion>Dirección </th>
+                                            <th class="text-white" v-column-sortable:activo>Estatus </th>
                                             <th class="text-white">Opción</th>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="row in clientes" class="table-default">
+                                                     <td>{{row.idcliente}}</td> 
                                                     <td>{{row.rfc}}</td> 
                                                     <td>{{row.nombre}}</td> 
                                                     <td>{{row.abreviatura}}</td> 

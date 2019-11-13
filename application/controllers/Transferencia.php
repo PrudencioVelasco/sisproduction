@@ -553,7 +553,7 @@ Permission::grant(uri_string());
             <td align="left"  height="90"  colspan="2"><img src="' . $barcodecliente . '" style="height:100px; width:150;" /><b style="font-size:40px; font-family:arial; font-weight:bold;  " >' . $detalle->nombre . '</b></td>    
         
             
-            <td align="right" width="250"  style="font-size:60px; font-family:arial; font-weight:bold;  "><img src="' . $barcodecantidad . '" style="height:100px; width:140px;" />' . $detalle->cantidad . '</td>
+            <td align="right" width="250"  style="font-size:40px; font-family:arial; font-weight:bold;  "><img src="' . $barcodecantidad . '" style="height:100px; width:130px;" />'.$detalle->cantidad.'</td>
                 
             <td align="center" style="font-size:50px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
             
