@@ -55,7 +55,7 @@ var v = new Vue({
 
         //pagination
         currentPage: 0,
-        rowCountPage: 5,
+        rowCountPage: 10,
         totalCategoria: 0,
         pageRange: 2,
          directives: {columnSortable}

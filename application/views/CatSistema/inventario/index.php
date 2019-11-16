@@ -14,7 +14,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label><font color="red">*</font> Numero identificador</label>
+                                        <label><font color="red">*</font> Número identificador</label>
                                         <input type="text"    name="identificador"   class="form-control" value="<?php echo set_value('identificador'); ?>">
                                         <div class="text-danger"  > <?php echo form_error('identificador'); ?>  </div>
                                     </div>

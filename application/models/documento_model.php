@@ -12,18 +12,18 @@ class Documento_model extends CI_Model {
     public function __destruct() {
         $this->db->close();
     }
-    public function showAllDocumentos()
-    {
+
+    public function showAllDocumentos() {
         $this->db->select('d.identificador,u.name,DATE_FORMAT(d.fecharegistro, "%d/%m/%Y") as fecha, SUM(CASE 
              WHEN d.subido = 1 THEN 1
              ELSE 0
            END) AS subido, SUM(CASE 
              WHEN d.subido = 0 THEN 1
              ELSE 0
-           END) AS nosubido');    
+           END) AS nosubido');
         $this->db->from('tbldocumento d');
-        $this->db->join('users u', 'u.id = d.idusuario'); 
-        $this->db->group_by(array("d.identificador", "d.idusuario",'DATE(d.fecharegistro)'));  
+        $this->db->join('users u', 'u.id = d.idusuario');
+        $this->db->group_by(array("d.identificador", "d.idusuario", 'DATE(d.fecharegistro)'));
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -31,8 +31,8 @@ class Documento_model extends CI_Model {
             return false;
         }
     }
-      public function showAllDocumentosId($id)
-    {
+
+    public function showAllDocumentosId($id) {
         $this->db->select('d.*,(select 
 CASE
     WHEN count(*)  > 0 THEN "Okey"
@@ -50,15 +50,23 @@ CASE
     WHEN count(*)  > 0 THEN "Okey"
      ELSE "No existe la locacion."
 END
-from tblcategoria ca where ca.nombrecategoria=d.categoria  ) as existencategoria,
+from tblcategoria ca where ca.idcategoria=d.categoria  ) as existencategoria,
 (select 
-CASE
-    WHEN count(*)  > 0 THEN "Okey"
-     ELSE "No existe el numero parte."
+CASE 
+    WHEN count(p.idparte) > 0 && count(cat.idcategoria) > 0 THEN "Categoria no relacionada con el N° Parte"
+	
+    ELSE "No existe el numero parte."
 END
-from parte p where p.numeroparte=d.numeroparte  ) as existennumeroparte');    
+from parte p, tblcategoria cat where  p.idcategoria= cat.idcategoria and  p.numeroparte=d.numeroparte  ) as existennumeroparte,
+(select 
+CASE 
+    WHEN count(p.idparte) > 0 && count(cli.idcliente) > 0 THEN "N° Parte no tiene relacion con Cliente."
+	
+    ELSE "Okey"
+END
+from parte p, cliente cli where  p.idcliente= cli.idcliente and  p.numeroparte=d.numeroparte  ) as existennumeropartecliente');
         $this->db->from('tbldocumento d');
-        $this->db->where('d.identificador', $id);  
+        $this->db->where('d.identificador', $id);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -66,11 +74,11 @@ from parte p where p.numeroparte=d.numeroparte  ) as existennumeroparte');
             return false;
         }
     }
-  public function validarIdentificador($id)
-    {
-        $this->db->select('d.*');    
+
+    public function validarIdentificador($id) {
+        $this->db->select('d.*');
         $this->db->from('tbldocumento d');
-         $this->db->where('d.identificador',$id);
+        $this->db->where('d.identificador', $id);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -78,14 +86,76 @@ from parte p where p.numeroparte=d.numeroparte  ) as existennumeroparte');
             return false;
         }
     }
-    public function updateDetalleParte($id, $data) {
-        $this->db->where('iddetalleparte', $id);
-        $this->db->update('detalleparte', $data);
+
+    public function validar_existencia_numeroparte($numeroparte) {
+        $this->db->select('d.*');
+        $this->db->from('tbldocumento d');
+        $this->db->where('d.numeroparte', $numeroparte);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->first_row();
+        } else {
+            return false;
+        }
+    }
+
+    public function validar_numeroparte_modelo($idparte, $modelo) {
+        $this->db->select('m.*');
+        $this->db->from('parte p');
+        $this->db->join('tblmodelo m', 'p.idparte = m.idparte');
+        $this->db->where('p.idparte', $idparte);
+        $this->db->where('m.descripcion', $modelo);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->first_row();
+        } else {
+            return false;
+        }
+    }
+
+    public function validar_modelo_revision($idmodelo, $revision) {
+        $this->db->select('r.*');
+        $this->db->from('tblmodelo m');
+        $this->db->join('tblrevision r', 'm.idmodelo = r.idmodelo');
+        $this->db->where('m.idmodelo', $idmodelo);
+        $this->db->where('r.descripcion', $revision);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->first_row();
+        } else {
+            return false;
+        }
+    }
+
+    public function validar_revision_cantidad($idrevision, $cantidad) {
+        $this->db->select('c.*');
+        $this->db->from('tblcantidad c');
+        $this->db->where('c.idrevision', $idrevision);
+        $this->db->where('c.cantidad', $cantidad);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->first_row();
+        } else {
+            return false;
+        }
+    }
+
+    public function updateDocumento($id, $data) {
+        $this->db->where('iddocumento', $id);
+        $this->db->update('tbldocumento', $data);
         if ($this->db->affected_rows() > 0) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public function detalleDocumento($id) {
+        $this->db->select('d.*');
+        $this->db->from('tbldocumento d');
+        $this->db->where('d.iddocumento', $id);
+        $query = $this->db->get();
+        return $query->first_row();
     }
 
     // Agregar informacion a la tabla detalle status(Historial)
@@ -98,40 +168,32 @@ from parte p where p.numeroparte=d.numeroparte  ) as existennumeroparte');
         }
     }
 
-    public function searchPartes2($match, $user) {
-        $field = array(
-            'p.numeroparte'
-        );
-
-        $this->db->select('d.iddetalleparte,
-        p.idparte,
-        c.idcliente, 
-        s.idestatus, 
-        p.numeroparte,
-        c.nombre,
-        u.name,
-        uo.name as nombreoperador,
-        d.fecharegistro,
-        d.pallet,
-        d.cantidad,
-        s.nombrestatus');
-        $this->db->from('parte p');
-        $this->db->join('cliente c', 'p.idcliente = c.idcliente');
-        $this->db->join('detalleparte d', 'p.idparte = d.idparte');
-        $this->db->join('users u', 'd.idusuario = u.id');
-        $this->db->join('users uo ', 'd.idoperador = uo.id');
-        $this->db->join('status s', 's.idestatus = d.idestatus');
-        $this->db->where('d.idusuario', $user);
-        $this->db->where('d.idestatus', 4);
-        $this->db->or_where('d.idestatus', 6);
-        $this->db->like('concat(' . implode(',', $field) . ')', $match);
-        $query = $this->db->get();
-
-        if ($query->num_rows() > 0) {
-            return $query->result();
+    public function deleteregistro($id) {
+        $this->db->where('iddocumento', $id);
+        $this->db->delete('tbldocumento');
+        if ($this->db->affected_rows() > 0) {
+            return true;
         } else {
             return false;
         }
+    }
+      public function addCantidad($data)
+    {
+        $this->db->insert('tblcantidad', $data);
+        $insert_id = $this->db->insert_id(); 
+        return  $insert_id;
+    }
+     public function addRevision($data)
+    {
+        $this->db->insert('tblrevision', $data);
+        $insert_id = $this->db->insert_id(); 
+        return  $insert_id;
+    }
+     public function addModelo($data)
+    {
+        $this->db->insert('tblmodelo', $data);
+        $insert_id = $this->db->insert_id(); 
+        return  $insert_id;
     }
 
 }

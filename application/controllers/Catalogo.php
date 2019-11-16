@@ -262,16 +262,143 @@ class Catalogo extends CI_Controller {
         $checkbox1 = $this->input->post('table_records');
         $ididentificador = $this->input->post('ididentificador');
         if (isset($formdata['subir'])) {
-            echo "1";
+            $datos = array();
+            //Subir
+            $i = 0;
             foreach ($checkbox1 as $chk1) {
-               echo $id= $chk1;
+                $i++;
+                $id = $chk1;
+                $row = $this->documento->detalleDocumento($id);
+                $numeroparte = $row->numeroparte;
+                $modelo = $row->modelo;
+                $revision = $row->revision;
+                $cantidad_cajas = $row->cantidadcajas;
+                $validar_numero_parte = $this->documento->validar_existencia_numeroparte($numeroparte);
+                if ($validar_numero_parte) {
+                    //El numero de parte existe
+                    $idparte = $validar_numero_parte->idparte;
+                    $detalle_parte_modelo = $this->documento->validar_numeroparte_modelo($idparte, $modelo);
+                    if ($detalle_parte_modelo) {
+                        //El mode existe
+                        $idmodelo = $detalle_parte_modelo->idmodelo;
+                        $datelle_modelo_revision = $this->documento->validar_modelo_revision($idmodelo, $revision);
+                        if ($datelle_modelo_revision) {
+                            //La revision si existe
+                            $idrevision = $detalle_parte_modelo->idrevision;
+                            $detalle_revision_cantidad = $this->documento->validar_revision_cantidad($idrevision, $cantidad_cajas);
+                            if ($detalle_revision_cantidad) {
+                                //Si existe la cantidad
+                                $idcantidad = $detalle_revision_cantidad->idcantidad;
+                                $datos[$i] = array();
+                                $datos[$i]['idcantidad'] = $idcantidad;
+                            } else {
+                                //No existe la cantidad
+                                $data_insert_cantidad = array(
+                                    'idrevision' => $idrevision,
+                                    'cantidad' => $cantidad_cajas,
+                                    'idusuario' => $this->session->user_id,
+                                    'fecharegistro' => date('Y-m-d H:i:s')
+                                );
+                                $idcantidad = $this->documento->addCantidad($data_insert_cantidad);
+                                $datos[$i] = array();
+                                $datos[$i]['idcantidad'] = $idcantidad;
+                            }
+                        } else {
+                            //La revision no existe
+                            $data_insert_revision = array(
+                                'idmodelo' => $idmodelo,
+                                'descripcion' => $revision,
+                                'idusuario' => $this->session->user_id,
+                                'fecharegistro' => date('Y-m-d H:i:s')
+                            );
+                            $idrevision = $this->documento->addRevision($data_insert_revision);
+                            $data_insert_cantidad = array(
+                                'idrevision' => $idrevision,
+                                'cantidad' => $cantidad_cajas,
+                                'idusuario' => $this->session->user_id,
+                                'fecharegistro' => date('Y-m-d H:i:s')
+                            );
+                            $idcantidad = $this->documento->addCantidad($data_insert_cantidad);
+                            $datos[$i] = array();
+                            $datos[$i]['idcantidad'] = $idcantidad;
+                        }
+                    } else {
+                        //El modelo NO existe
+                        $data_insert_modelo = array(
+                            'idparte' => $idparte,
+                            'descripcion' => $modelo,
+                            'nombrehoja' => "",
+                            'customer' => "",
+                            'fulloneimpresion' => "",
+                            'colorlinea' => "",
+                            'diucutno' => "",
+                            'platonumero' => "",
+                            'color' => "",
+                            'blanksize' => "",
+                            'sheetsize' => "",
+                            'score' => "",
+                            'normascompartidas' => "",
+                            'salida' => "",
+                            'combinacion' => "",
+                            'idusuario' => $this->session->user_id,
+                            'fecharegistro' => date('Y-m-d H:i:s')
+                        );
+                        $idmodelo = $this->documento->$data_insert_modelo();
+                        $data_insert_revision = array(
+                            'idmodelo' => $idmodelo,
+                            'descripcion' => $revision,
+                            'idusuario' => $this->session->user_id,
+                            'fecharegistro' => date('Y-m-d H:i:s')
+                        );
+                        $idrevision = $this->documento->addRevision($data_insert_revision);
+                        $data_insert_cantidad = array(
+                            'idrevision' => $idrevision,
+                            'cantidad' => $cantidad_cajas,
+                            'idusuario' => $this->session->user_id,
+                            'fecharegistro' => date('Y-m-d H:i:s')
+                        );
+                        $idcantidad = $this->documento->addCantidad($data_insert_cantidad);
+                        $datos[$i] = array();
+                        $datos[$i]['idcantidad'] = $idcantidad;
+                    }
+                } else {
+                    //El numero de parte NO existe
+                }
             }
         } else {
-            echo "2";
+            //Eliminar
             foreach ($checkbox1 as $chk1) {
-                $id= $chk1;
+                $id = $chk1;
+                $this->documento->deleteregistro($id);
             }
         }
+    }
+
+    public function modificar() {
+        $id = $this->input->post('id');
+        $ididentificador = $this->input->post('ididentificador');
+        $data_update = array(
+            'numeroparte' => $this->input->post('numeroparte'),
+            'modelo' => $this->input->post('modelo'),
+            'revision' => $this->input->post('revision'),
+            'cantidadcajas' => $this->input->post('cantidadcajas'),
+            'cantidadpallet' => $this->input->post('cantidadpallet'),
+            'cliente' => $this->input->post('cliente'),
+            'proveedor' => $this->input->post('proveedor'),
+            'locacion' => $this->input->post('locacion'),
+            'categoria' => $this->input->post('categoria'),
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+        );
+        $data = array(
+            'ididentificador' => $ididentificador,
+            'datos' => $this->documento->showAllDocumentosId($ididentificador)
+        );
+        $this->documento->updateDocumento($id, $data_update);
+        // var_dump($data);
+        $this->load->view('header');
+        $this->load->view('CatSistema/inventario/detalle', $data);
+        $this->load->view('footer');
     }
 
 }

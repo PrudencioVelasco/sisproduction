@@ -119,7 +119,17 @@
                                     <h3><a href="<?php echo site_url('categoria/') ?>">Categorias</a></h3>
                                     <p>Categorias de Número de Parte.</p>
                                 </div>
-                            </div>  
+                            </div> 
+                              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="tile-stats">
+                                    <div class="icon"><i class="fa fa-upload"></i>
+                                    </div>
+                                    <div class="count">---</div>
+
+                                    <h3><a href="<?php echo site_url('catalogo/subir') ?>">Subir</a></h3>
+                                    <p>Subir inventario al Sistema.</p>
+                                </div>
+                            </div> 
                         </div> 
 
                     </div>

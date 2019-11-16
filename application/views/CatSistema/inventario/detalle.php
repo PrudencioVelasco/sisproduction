@@ -1,4 +1,63 @@
 <!-- page content -->
+<style type="text/css">
+    .checkbox2 label:after, 
+.radio label:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.checkbox2 .cr,
+.radio .cr {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #a9a9a9;
+    border-radius: .25em;
+    width: 1.3em;
+    height: 1.3em;
+    margin-right: .5em;
+}
+
+.radio .cr {
+    border-radius: 50%;
+}
+
+.checkbox2 .cr .cr-icon,
+.radio .cr .cr-icon {
+    position: absolute;
+    font-size: .8em;
+    line-height: 0;
+    top: 50%;
+    left: 20%;
+}
+
+.radio .cr .cr-icon {
+    margin-left: 0.04em;
+}
+
+.checkbox2 label input[type="checkbox"],
+.radio label input[type="radio"] {
+    display: none;
+}
+
+.checkbox2 label input[type="checkbox"] + .cr > .cr-icon,
+.radio label input[type="radio"] + .cr > .cr-icon {
+    transform: scale(3) rotateZ(-20deg);
+    opacity: 0;
+    transition: all .3s ease-in;
+}
+
+.checkbox2 label input[type="checkbox"]:checked + .cr > .cr-icon,
+.radio label input[type="radio"]:checked + .cr > .cr-icon {
+    transform: scale(1) rotateZ(0deg);
+    opacity: 1;
+}
+
+.checkbox label input[type="checkbox"]:disabled + .cr,
+.radio label input[type="radio"]:disabled + .cr {
+    opacity: .5;
+}
+</style>
 <div class="right_col" role="main">
     <div class="">
         <div class="clearfix"></div>
@@ -6,16 +65,24 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Subir Inventario</h2>
+                        <h2><strong>Subir Inventario</strong></h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content"> 
+                        
+                        
                          <form   method="POST" action="<?php echo base_url('Catalogo/operacion'); ?>">
+                             <div class="table-responsive">
                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
                             <thead>
                                 <tr class="headings">
                                     <th>
-                                        <input type="checkbox" id="check-all" class="flat">
+                                        <div class="checkbox2">
+                                            <label>
+                                                <input type="checkbox" id="select_all">
+                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok" style="color:green"></i></span>
+                                            </label>
+                                        </div>
                                     </th>
                                     <th class="column-title">Parte <i class="fa fa-sort" aria-hidden="true"></i> </th>
                                     <th class="column-title" style="width: 20px;">Modelo <i class="fa fa-sort" aria-hidden="true"></i> </th>
@@ -27,10 +94,7 @@
                                     <th class="column-title">Locación <i class="fa fa-sort" aria-hidden="true"></i> </th>
                                     <th class="column-title">Categoria <i class="fa fa-sort" aria-hidden="true"></i> </th>
                                     <th></th>
-                                    <th></th>
-                                    <th class="bulk-actions" colspan="9">
-                                        <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                                    </th>
+                                    <th></th> 
                                 </tr>
                             </thead>
                             <tbody>                 
@@ -38,12 +102,17 @@
                            
                                     <tr class="odd pointer">
                                         <td class="a-center ">
-                                            <?php //if($value->existenciacliente == "Okey" && $value->existencialocacion == "Okey" && $value->existencategoria == "Okey"){ ?>
-                                            <input type="checkbox" class="flat" name="table_records[]" value="<?php echo $value->iddocumento ?>">
+                                            <?php //if($value->existenciacliente == "Okey" && $value->existencialocacion == "Okey" && $value->existencategoria == "Okey" && $value->existencategoria == "Categoria no relacionada a la Parte"){ ?>
+                                            <div class="checkbox2">
+                                                    <label>
+                                                        <input type="checkbox" class="checkbox" name="table_records[]" value="<?php echo $value->iddocumento ?>">
+                                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok" style="color:green"></i></span>
+                                                    </label>
+                                                </div>
                                 <?php //} ?>
                                         </td>
                                         <td class=" "><?= $value->numeroparte ?></td>
-                                        <td  class="col-md-1"><?php //echo $value->modelo   ?></td>
+                                        <td ><?php echo $value->modelo   ?></td>
                                         <td class=" "><?= $value->revision ?></td>
                                         <td class=" "><?= $value->cantidadcajas ?></td>
                                         <td class=" "><?= $value->cantidadpallet ?></td>
@@ -62,8 +131,13 @@
                                             if($value->existencategoria!="Okey"){ 
                                                  echo '<span class="label label-danger">'.$value->existencategoria.'</span></br>'; 
                                             }
-                                            if($value->existennumeroparte!="Okey"){ 
+                                            if($value->existennumeroparte=="No existe el numero parte."){ 
                                                  echo '<span class="label label-warning">'.$value->existennumeroparte.'</span></br>'; 
+                                            }else{
+                                                 echo '<span class="label label-danger">'.$value->existennumeroparte.'</span></br>'; 
+                                            }
+                                             if($value->existennumeropartecliente!="Okey"){ 
+                                                 echo '<span class="label label-danger">'.$value->existennumeropartecliente.'</span></br>'; 
                                             }
                                             ?>
                                         </td>
@@ -90,10 +164,10 @@
                                 <?php } ?>
                             </tbody>
                         </table>
-                            
+                             </div>
                              <input type="hidden" name="ididentificador" value="<?php echo $ididentificador; ?>"/>
-                              <button type="submit" name="subir" class="btn btn-success btn-sm">Subir registro(s)</button>
-                               <button type="submit" name="eliminar" class="btn btn-danger btn-sm">Eliminar registro(s)</button>
+                             <button type="submit" id="subir" name="subir" class="btn btn-success btn-sm">Subir registro(s)</button>
+                             <button type="submit" id="eliminar" name="eliminar" class="btn btn-danger btn-sm">Eliminar registro(s)</button>
                          </form>
                         <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="edit-data" class="modal fade">
                             <div class="modal-dialog">
@@ -102,61 +176,62 @@
                                         <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
                                         <h4 class="modal-title"><strong>Modificar</strong></h4>
                                     </div>
-                                    <form class="form-horizontal" action="<?php echo base_url('admin/ubah') ?>" method="post" enctype="multipart/form-data" role="form">
+                                    <form class="form-horizontal" action="<?php echo base_url('catalogo/modificar') ?>" method="post" enctype="multipart/form-data" role="form">
                                         <div class="modal-body">
                                             <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Parte</label>
                                                 <div class="col-lg-10">
                                                     <input type="hidden" id="id" name="id">
-                                                    <input type="text" class="form-control" id="numeroparte" name="numeroparte" placeholder="Tuliskan Nama">
+                                                    <input type="hidden" id="ididentificador" name="ididentificador" value="<?php echo $ididentificador; ?>" >
+                                                    <input type="text" class="form-control" id="numeroparte" name="numeroparte" required="" >
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Modelo</label>
                                                 <div class="col-lg-10"> 
-                                                    <input type="text" class="form-control" id="modelo" name="modelo" placeholder="Tuliskan Nama">
+                                                    <input type="text" class="form-control" id="modelo" name="modelo" required="">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Revisión</label>
                                                 <div class="col-lg-10"> 
-                                                    <input type="text" class="form-control" id="revision" name="revision" placeholder="Tuliskan Nama">
+                                                    <input type="text" class="form-control" id="revision" name="revision" required="">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">C. Cajas</label>
                                                 <div class="col-lg-10"> 
-                                                    <input type="text" class="form-control" id="cantidadcajas" name="cantidadcajas" placeholder="Tuliskan Nama">
+                                                    <input type="text" class="form-control" id="cantidadcajas" name="cantidadcajas" required="">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">C. Pallet</label>
                                                 <div class="col-lg-10"> 
-                                                    <input type="text" class="form-control" id="cantidadpallet" name="cantidadpallet" placeholder="Tuliskan Nama">
+                                                    <input type="text" class="form-control" id="cantidadpallet" name="cantidadpallet" required="">
                                                 </div>
                                             </div>
                                               <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Cliente</label>
                                                 <div class="col-lg-10"> 
-                                                    <input type="text" class="form-control" id="cliente" name="cliente" placeholder="Tuliskan Nama">
+                                                    <input type="text" class="form-control" id="cliente" name="cliente" required="">
                                                 </div>
                                             </div>
                                               <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Proveedor</label>
                                                 <div class="col-lg-10"> 
-                                                    <input type="text" class="form-control" id="proveedor" name="proveedor" placeholder="Tuliskan Nama">
+                                                    <input type="text" class="form-control" id="proveedor" name="proveedor" required="">
                                                 </div>
                                             </div>
                                               <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Locación</label>
                                                 <div class="col-lg-10"> 
-                                                    <input type="text" class="form-control" id="locacion" name="locacion" placeholder="Tuliskan Nama">
+                                                    <input type="text" class="form-control" id="locacion" name="locacion" required="">
                                                 </div>
                                             </div>
                                              <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Categoria</label>
                                                 <div class="col-lg-10"> 
-                                                    <input type="text" class="form-control" id="categoria" name="categoria" placeholder="Tuliskan Nama">
+                                                    <input type="text" class="form-control" id="categoria" name="categoria" required="">
                                                 </div>
                                             </div>
                                         </div>
@@ -173,8 +248,27 @@
             </div>
         </div>
     </div>
+    
 </div>
+
 </div> 
+
+<script>
+    $(document).ready(function() {
+    $("#subir").click(function(event) {
+        if( !confirm('Esta seguro de subir los registros?') ){
+            event.preventDefault();
+        } 
+
+    });
+     $("#eliminar").click(function(event) {
+        if( !confirm('Esta seguro de eliminar los registros?') ){
+            event.preventDefault();
+        } 
+
+    });
+});
+</script>
 </div> 
 	<script>
 	    $(document).ready(function() {
@@ -237,4 +331,29 @@
             });
         });
     });
+</script>
+<script>
+var select_all = document.getElementById("select_all"); //select all checkbox
+var checkboxes = document.getElementsByClassName("checkbox"); //checkbox items
+
+//select all checkboxes
+select_all.addEventListener("change", function(e){
+	for (i = 0; i < checkboxes.length; i++) { 
+		checkboxes[i].checked = select_all.checked;
+	}
+});
+
+
+for (var i = 0; i < checkboxes.length; i++) {
+	checkboxes[i].addEventListener('change', function(e){ //".checkbox" change 
+		//uncheck "select all", if one of the listed checkbox item is unchecked
+		if(this.checked == false){
+			select_all.checked = false;
+		}
+		//check "select all" if all checkbox items are checked
+		if(document.querySelectorAll('.checkbox:checked').length == checkboxes.length){
+			select_all.checked = true;
+		}
+	});
+}
 </script>

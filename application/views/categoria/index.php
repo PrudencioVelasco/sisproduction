@@ -43,12 +43,14 @@
                                         <br>
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white" v-column-sortable:nombrecategoria>Nombre de la Categoria</th> 
-                                            <th class="text-white" v-column-sortable:activo>Estatus</th>
-                                            <td class="text-white" align="right" ><strong>Opción</strong></td>
+                                            <th class="text-white" v-column-sortable:idcategoria>N° </th> 
+                                            <th class="text-white" v-column-sortable:nombrecategoria>Nombre de la Categoria </th> 
+                                            <th class="text-white" v-column-sortable:activo>Estatus </th>
+                                            <td class="text-white" align="right" ><strong>Opción </strong></td>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="row in categorias" class="table-default"> 
+                                                    <td>{{row.idcategoria}}</td>
                                                     <td>{{row.nombrecategoria}}</td> 
                                                     <td >
                                                         <span v-if="row.activo==1" class="label label-success">Activo</span>
