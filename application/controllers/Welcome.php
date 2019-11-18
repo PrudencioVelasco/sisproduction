@@ -12,7 +12,12 @@ class Welcome extends CI_Controller {
     }
 
     public function index() {
+        if ($this->session->user_id) {
+
+            redirect('admin/');
+        } else{
         $this->load->view('admin/login');
+        }
     }
 
     public function login() {

@@ -20,32 +20,7 @@
           <div class="clearfix"></div>
         </div>
 
-        <div class="x_content">
-
-          <!--<form method="POST" action="<?= base_url('warehouse/entry') ?>"> 
-            <div class="row">  
-              <div class="col-md-3 col-sm-12 col-xs-12">
-                <div class="form-group">
-                  <label><font color="red">*</font> Fecha Inicial</label>
-                  <input type="date" name="fechainicio" class="form-control" required/>
-                </div>
-              </div>
-              <div class="col-md-3 col-sm-12 col-xs-12">
-                <div class="form-group">
-                  <label><font color="red">*</font> Fecha Final</label>
-                  <input type="date" name="fechafin" class="form-control" required/>
-                </div>
-              </div>
-              <div class="col-md-3 col-sm-12 col-xs-12">
-               <div class="form-group"  >
-                 <button type="submit"  style="margin-top: 25px" class="btn btn-primary">BUSCAR</button>
-               </div>
-             </div>
-
-           </div> 
-         </form>-->
-         <br>
-         <br>
+        <div class="x_content">  
          <div class="container">
           <div class="row">
             <div class="col-md-12">
@@ -54,9 +29,9 @@
                   <tr>
                     <th scope="col">Cliente</th>
                     <th scope="col">No. Parte</th>
-                    <th scope="col">Revision</th>
+                    <th scope="col">Revisión</th>
                     <th scope="col">Cantidad</th>
-                    <th scope="col">Posicion</th> 
+                    <th scope="col">Ubicación</th> 
                     <th scope="col">Fecha</th> 
                     <th scope="col">Hora</th> 
                     <th scope="col">Estatus</th> 
@@ -71,10 +46,11 @@
                       <td><?php echo $value->nombre; ?></td>
                       <td><?php echo $value->numeroparte; ?></td>
                       <td><?php echo $value->descripcion; ?></td>
-                      <td><?php echo $value->cantidad; ?></td>
+                      <td><strong><?php echo number_format($value->cantidad); ?></strong></td>
                       <td><?php echo $value->nombreposicion; ?></td>
-                      <td><?php echo date("Y-m-d", strtotime($value->fecharegistro));?></td>
-                      <td><?php echo date("h:i:s a", strtotime($value->fecharegistro));?></td>
+                      <td><?php echo date("d/m/Y", strtotime($value->fecharegistro));?></td>
+                      <td><?php echo date("h:i:s a", strtotime($value->fecharegistro));?> 
+                      </td>
                       <td> <label style="color:green;">ENTRADA</label> </td>
                       <td><label style="color:green;">ENTRADA</label></td>
                     </tr>
@@ -89,10 +65,11 @@
                     <td><?php echo $value->nombre; ?></td>
                     <td><?php echo $value->numeroparte; ?></td>
                     <td><?php echo $value->descripcion; ?></td>
-                    <td><?php echo $value->caja; ?></td>
+                    <td><strong><?php echo number_format($value->caja); ?></strong></td>
                     <td><?php echo $value->nombreposicion; ?></td>
-                    <td><?php echo date("Y-m-d", strtotime($value->fecharegistro));?></td>
-                    <td><?php echo date("h:i:s a", strtotime($value->fecharegistro));?></td>
+                    <td><?php echo date("d/m/Y", strtotime($value->fecharegistro));?></td>
+                    <td><?php echo date("h:i:s a", strtotime($value->fecharegistro));?> 
+                    </td>
                     <td> <label style="color:red;">SALIDA</label> </td>
                     <td><label style="color:orange;">PARCIAL</label></td>
                   </tr>
@@ -106,9 +83,9 @@
                   <td><?php echo $value->nombre; ?></td>
                   <td><?php echo $value->numeroparte; ?></td>
                   <td><?php echo $value->descripcion; ?></td>
-                  <td><?php echo $value->cantidad; ?></td>
+                  <td></strong><?php echo number_format($value->cantidad); ?></strong></td>
                   <td><?php echo $value->nombreposicion; ?></td>
-                  <td><?php echo date("Y-m-d", strtotime($value->fecharegistro));?></td>
+                  <td><?php echo date("d/m/Y", strtotime($value->fecharegistro));?></td>
                   <td><?php echo date("h:i:s a", strtotime($value->fecharegistro));?></td>
                   <td> <label style="color:red;">SALIDA</label> </td>
                   <td><label style="color: #3633ff ;">PALLET</label></td>
@@ -117,8 +94,7 @@
             <?php endif;?> 
 
           </tbody>
-        </table>
-        <?php $total = $sumparcial = $sumpallet; ?>
+        </table> 
       </div> 
     </div> 
   </div>

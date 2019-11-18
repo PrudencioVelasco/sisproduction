@@ -25,14 +25,13 @@ class Salida extends CI_Controller {
 
     public function index() {
         Permission::grant(uri_string());
-        Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('salida/index');
         $this->load->view('footer');
     }
 
     public function showAll() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $query = $this->salida->showAllSalidas();
         if ($query) {
             $result['salidas'] = $this->salida->showAllSalidas();
@@ -43,7 +42,7 @@ class Salida extends CI_Controller {
     }
 
     public function showAllParte() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $query = $this->salida->showPartesBodega();
         if ($query) {
             $result['partes'] = $this->salida->showPartesBodega();
@@ -123,7 +122,7 @@ class Salida extends CI_Controller {
     }
 
     public function test1($idsalida) {
-Permission::grant(uri_string());
+    //Permission::grant(uri_string());
         
         $detalle = $this->salida->detalleSalida($idsalida);
         $idcliente = $detalle->idcliente;
@@ -190,7 +189,7 @@ Permission::grant(uri_string());
     }
 
     public function addSalida() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'idcliente',
@@ -227,7 +226,7 @@ Permission::grant(uri_string());
         echo json_encode($result);
     }
         public function updateSalida() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'idcliente',
@@ -269,7 +268,7 @@ Permission::grant(uri_string());
 
     public function detalleSalida($idsalida) {
         // code...
-       Permission::grant(uri_string());
+       //Permission::grant(uri_string());
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
         $detallepallet = $this->salida->detallepallet($idsalida);
@@ -288,7 +287,7 @@ Permission::grant(uri_string());
     }
 
     public function validaranumeroparte() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         // code...
         $numeroparte = $_POST['numeroparte'];
         //var_dump($this->salida->validarExistenciaNumeroParte($numeroparte));
@@ -302,7 +301,7 @@ Permission::grant(uri_string());
     }
 
     function eliminarParteOrden($idordensalida, $idsalida,$idpalletcajas) {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $this->salida->eliminarParteOrden($idordensalida);
         $data = array(
             'ordensalida'=>0
@@ -313,7 +312,7 @@ Permission::grant(uri_string());
 
     public function terminarOrdenSalida() {
         // code...
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $idsalida = $this->input->post('idsalida');
         $dataupdate = array(
             'finalizado' => 1,
@@ -324,7 +323,7 @@ Permission::grant(uri_string());
     }
 
     public function searchPartes() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $value = $this->input->post('text');
         $query = $this->salida->buscarNumeroParte($value);
         if ($query) {
@@ -421,7 +420,7 @@ Permission::grant(uri_string());
          var_dump($lista);
     }
     public function agregarNumeroParteOrder() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $idcajas = $this->input->post('idcajas');
           $idtransferecia = $this->input->post('idtransferecia');
         $iddetalleparte = $this->input->post('iddetalleparte'); 
@@ -602,7 +601,7 @@ Permission::grant(uri_string());
     
 
     public   function agregarParteOrdenDetallado($idtransferecia,$idcajas, $idsalida) {
-       Permission::grant(uri_string());
+       //Permission::grant(uri_string());
         //echo $idtransferecia;
         $datadetallesalida = $this->salida->detalleSalida($idsalida);
         $datadetalleorden = $this->salida->detallesDeOrden($idsalida);
@@ -633,7 +632,7 @@ Permission::grant(uri_string());
 
     public function agregarParteOrden() {
 
-Permission::grant(uri_string());
+//Permission::grant(uri_string());
         $datainsert = array(
             'idsalida' => $this->input->post('idsalida'),
             'iddetalleparte' => $this->input->post('iddetalleparte'),
@@ -647,7 +646,7 @@ Permission::grant(uri_string());
     }
 
     public function generarPDFOrden($idsalida) {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $this->load->library('tcpdf'); 
         $detalle= $this->salida->detalleSalidaOrden($idsalida); 
         $lista= array();
@@ -770,11 +769,11 @@ $html = '
         $html.='<tr>
                 <td width="130" align="center" style="font-size:9px">&nbsp;'.$valurpal->numeroparte.'</td>
                 <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;'.$valurpal->modelo.'</td>
-                <td width="45" align="center" style="font-size:9px">'.$valurpal->totalpallet.'</td>
-                <td width="45" align="center" style="font-size:9px">'.$valurpal->sumacajas / $valurpal->totalpallet.'</td>
+                <td width="45" align="center" style="font-size:9px">'. number_format($valurpal->totalpallet).'</td>
+                <td width="45" align="center" style="font-size:9px">'.number_format($valurpal->sumacajas / $valurpal->totalpallet).'</td>
                 <td width="45" align="right" style="font-size:9px">&nbsp;</td>
                 <td width="45" align="right" style="font-size:9px">&nbsp;</td>
-                <td width="45" align="center" style="font-size:9px">&nbsp;'.$valurpal->sumacajas.'</td>
+                <td width="45" align="center" style="font-size:9px">&nbsp;'.number_format($valurpal->sumacajas).'</td>
                 <td width="45">'.$valuepal->po.'</td>
                 <td width="45">&nbsp;</td>
                 <td width="160">&nbsp;</td>
@@ -787,8 +786,8 @@ $html = '
                 <td width="45" align="center" style="font-size:9px"></td>
                 <td width="45" align="center" style="font-size:9px"></td>
                 <td width="45" align="center" style="font-size:9px">1</td>
-                <td width="45" align="center" style="font-size:9px">'.$valurpar->sumacajas.'</td>
-                <td width="45" align="center" style="font-size:9px">&nbsp;'.$valurpar->sumacajas.'</td>
+                <td width="45" align="center" style="font-size:9px">'.number_format($valurpar->sumacajas).'</td>
+                <td width="45" align="center" style="font-size:9px">&nbsp;'.number_format($valurpar->sumacajas).'</td>
                 <td width="45">'.$valuepar->po.'</td>
                 <td width="45">&nbsp;</td>
                 <td width="160">&nbsp;</td>

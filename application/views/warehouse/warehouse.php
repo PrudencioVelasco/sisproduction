@@ -28,8 +28,10 @@
                                                 <th scope="col">Categoria</th>
                                                 <th scope="col">Modelo</th>
                                                 <th scope="col">Revisión</th>
-                                                <th scope="col">Existencia</th> 
+                                                <th scope="col">Entradas</th> 
                                                 <th scope="col">Salidas</th> 
+                                                <th scope="col">Existencia</th> 
+                                                
                                                 <th class="text-center">Acción</th>
                                             </tr>
                                         </thead>
@@ -43,11 +45,15 @@
                                                     <td><?php echo $value->nombremodelo; ?></td>
                                                     <td><?php echo $value->nombrerevision; ?></td>
                                                     <td>
-                                                        <label style="color:green;"><?php echo $value->total;?></label>                                                        
-                                                      </td>
-                                                    <td>
-                                                        <label style="color:red;"><?php echo $value->totalsalidaparciales + $value->totalsalidapallet;?></label>
+                                                        <label style="color:green;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet + $value->total);?></label>
                                                     </td>
+                                                    <td>
+                                                        <label style="color:red;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet);?></label>
+                                                    </td>
+                                                    <td>
+                                                        <label style="color:green;"><?php echo number_format($value->total);?></label>                                                        
+                                                      </td>
+                                                    
                                                     <td align="center">
                                                         <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('warehouse/historial/'.$value->idrevision) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
                                                         Historial</a>

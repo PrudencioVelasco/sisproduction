@@ -29,11 +29,11 @@
               <!-- Tabla de datos -->
               <table class="table table-striped responsive-utilities jambo_table bulk_action">
                 <thead class="text-white bg-dark" >
-                  <th class="text-white">Cliente</th>
-                  <th class="text-white">Número de parte</th>
-                  <th class="text-white">Total pallets</th>
-                  <th class="text-white">Total cajas</th>
-                  <th class="text-white">Opción</th>
+                  <th class="text-white">Cliente </th>
+                  <th class="text-white">Número de parte </th>
+                  <th class="text-white">Total pallets </th>
+                  <th class="text-white">Total cajas </th>
+                  <th class="text-white">Opción </th>
                 </thead>
                 <tbody>
                   <tr v-for="row in detallestatus" class="table-default">

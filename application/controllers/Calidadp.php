@@ -36,7 +36,7 @@ class Calidadp extends CI_Controller {
     }
 
     public function detalle($idtransferencia, $folio) {
-        Permission::grant(uri_string()); 
+        //Permission::grant(uri_string()); 
         $motivosrechazo = $this->calidad->motivosRechazo();
         $datatransferencia = $this->transferencia->listaNumeroParteTransferencia($idtransferencia);
         $data = array(
@@ -50,21 +50,21 @@ class Calidadp extends CI_Controller {
     }
 
     public function rechazopallet() {
-        Permission::grant(uri_string()); 
+        //Permission::grant(uri_string()); 
         $idpalletcajas = $this->input->post('idpalletcajas');
         $data = $this->calidadp->motivosrechazo($idpalletcajas);
         echo json_encode($data);
     }
 
     public function rechazopalletacalidad() {
-        Permission::grant(uri_string()); 
+        //Permission::grant(uri_string()); 
         $idpalletcajas = $this->input->post('idpalletcajas');
         $data = $this->calidadp->motivosrechazoacalidad($idpalletcajas);
         echo json_encode($data);
     }
 
     public function generarPDFEnvio($id) {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $this->load->library('tcpdf');
         $listapartes = $this->calidadp->palletReporte($id);
         $totalpallet = 0;
@@ -255,7 +255,7 @@ class Calidadp extends CI_Controller {
     }
 
     public function etiquetaCalidad($idpalletcajas) { 
-       Permission::grant(uri_string());
+       //Permission::grant(uri_string());
        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
  
        $idtransferencia= $detalle->idtransferancia;
@@ -334,7 +334,7 @@ class Calidadp extends CI_Controller {
     }
 
     public function imprimirEtiquetaCalidad() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $idpalletcajas = $this->input->post('idpalletcajas');
         $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
         $datausuario = $this->usuario->detalleUsuario($this->session->user_id);

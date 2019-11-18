@@ -7,15 +7,10 @@
                     <div class="x_title">
                   <h2><i class="fa fa-align-left"></i> <strong>Administrar Calidad</strong></h2>
                   <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li><a href="<?= base_url('/hold/') ?>"><strong>Holder</strong></a>
-                        </li> 
-                      </ul>
+                    <li> 
                     </li> 
+                    <a href="<?php echo site_url('hold/') ?>" class="btn btn-success btn-sm">Módulo Hold</a>
+                       
                   </ul>
                   <div class="clearfix"></div>
                 </div>
@@ -27,8 +22,7 @@
                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
                                         <table class="table is-bordered is-hoverable" id="datatable2">
                                             <thead class="text-white bg-dark" >
-                                            <th>Transferencia</th>
-                                            <th>Usuario</th>
+                                            <th>Transferencia</th> 
                                             <th>Fecha</th> 
                                             <th>Estatus</th> 
                                             <th>Opción</th>
@@ -41,8 +35,7 @@
                                                         ?>
                                                         <tr   class="table-default"> 
                                                             <td><strong><?php echo $value->folio; ?></strong></td>
-                                                            <td><?php echo $value->nombre ?></td>
-                                                            <td><?php echo $value->fecharegistro ?></td> 
+                                                            <td><?php echo date_format(date_create($value->fecharegistro),"d/m/Y h:i A") ?></td> 
                                                             <td>
                                                                 <?php
                                                                 if(!empty($value->estatus)){

@@ -32,7 +32,7 @@
                                         <table   class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                             <thead>
                                                 <tr class="table-dark">
-                                                    <th  v-column-sortable:cantidad>Cantidad</th> 
+                                                    <th  v-column-sortable:cantidad>Cantidad </th> 
                                                     <th></th> 
                                                 </tr>
                                             </thead>

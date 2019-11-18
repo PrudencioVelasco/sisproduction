@@ -58,7 +58,7 @@
                                             if($value->nosubido > 0){echo '<span class="label label-danger">Pendientes</span>';}else{echo'<span class="label label-success">Subidos</span>';}
                                             ?></td>
                                             <td align="right">
-                                                 <a href="<?php echo site_url('catalogo/detalle/'.$value->identificador) ?>"  onclick="return confirm('Esta seguro de Eliminar?')" class="btn btn-danger btn-sm">Eliminar</a>
+                                                 <a href="<?php echo site_url('catalogo/eliminar_all/'.$value->identificador) ?>"  onclick="return confirm('Esta seguro de Eliminar todos los Registros?')" class="btn btn-danger btn-sm">Eliminar</a>
                                            
                                                 <a href="<?php echo site_url('catalogo/detalle/'.$value->identificador) ?>" class="btn btn-primary btn-sm">Detalle</a> 
                                              </td>

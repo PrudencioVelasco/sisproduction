@@ -14,7 +14,7 @@ class Orden_model extends CI_Model {
     }
 
     public function showAllSalidas() {
-        $this->db->select('s.idsalida,s.numerosalida,c.nombre,s.orden,u.name,s.fecharegistro');
+        $this->db->select('s.idsalida,s.numerosalida,c.nombre,s.orden,u.name,DATE_FORMAT(s.fecharegistro, "%d/%m/%Y %h:%i %p") AS fecharegistro');
         $this->db->from('salida s');
         $this->db->join('cliente c', 's.idcliente=c.idcliente');
         $this->db->join('users u', 's.idusuario=u.id');

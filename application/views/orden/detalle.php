@@ -132,7 +132,7 @@
                                             echo '<label style="color:#8938f5;">Por pallet</label>';
                                             echo '</td>';
                                             echo "<td>1</td>";
-                                            echo "<td>" . $value->cajaspallet . "</td>";
+                                            echo "<td>" .number_format($value->cajaspallet) . "</td>";
                                             echo "<td>" . $value->modelo . "</td>";
                                             echo "<td>" . $value->revision . "</td>";
                                             echo "<td>" . $value->nombreposicion . "</td>";
@@ -148,7 +148,7 @@
                                             echo '<label style="color:#1abd53;">Parciales</label>';
                                             echo '</td>';
                                             echo "<td>1</td>";
-                                            echo "<td>" . $value->totalcajas . "</td>";
+                                            echo "<td>" .number_format($value->totalcajas) . "</td>";
                                             echo "<td>" . $value->modelo . "</td>";
                                             echo "<td>" . $value->revision . "</td>";
                                             echo "<td> --- </td>";
@@ -194,8 +194,8 @@
                                                                     echo "<tr>";
                                                                     echo "<td><i class='fa fa-check'  style='color:#8938f5;' aria-hidden='true'></i> $value->numeroparte </td>";
                                                                     echo "<td>$value->modelo</td>";
-                                                                    echo "<td>$value->totalpallet</td>";
-                                                                    echo "<td>$value->sumacajas</td>";
+                                                                    echo "<td>".number_format($value->totalpallet)."</td>";
+                                                                    echo "<td>".number_format($value->sumacajas)."</td>";
                                                                     echo "</tr>";
                                                                 }
                                                             }
@@ -207,7 +207,7 @@
                                                                     echo "<td><i class='fa fa-check'  style='color:#1abd53;' aria-hidden='true'></i> $value->numeroparte </td>";
                                                                     echo "<td>$value->modelo</td>";
                                                                     echo "<td>1</td>";
-                                                                    echo "<td>$value->sumacajas</td>";
+                                                                    echo "<td>".number_format($value->sumacajas)."</td>";
                                                                     echo "</tr>";
                                                                 }
                                                             }

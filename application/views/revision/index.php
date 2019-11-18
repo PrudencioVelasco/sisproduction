@@ -36,7 +36,7 @@
                                         <table   class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                             <thead>
                                                 <tr class="table-dark">
-                                                    <th  v-column-sortable:descripcion>Revisión</th> 
+                                                    <th  v-column-sortable:descripcion>Revisión </th> 
                                                     <th></th> 
                                                 </tr>
                                             </thead>

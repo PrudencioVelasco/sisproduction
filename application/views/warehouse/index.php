@@ -7,7 +7,7 @@
                     <div class="x_title">
                         <div class="row">
                             <div class="col-md-6" align="left">
-                                <h2><strong>Modulo Almacen (refactor)</strong></h2>
+                                <h2><strong>Módulo Almacen</strong></h2>
                             </div>
                         </div>
                         <div class="clearfix"></div>

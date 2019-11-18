@@ -35,8 +35,8 @@
                                         <table   class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                             <thead>
                                                 <tr class="table-dark">
-                                                    <th  v-column-sortable:nombrelinea>Nombre Linea</th> 
-                                                    <td align="right" ><strong>Opción</strong></td> 
+                                                    <th  v-column-sortable:nombrelinea>Nombre Linea </th> 
+                                                    <td align="right" ><strong>Opción </strong></td> 
                                                 </tr>
                                             </thead>
                                             <tbody>

@@ -14,7 +14,7 @@ class Salida_model extends CI_Model {
     }
 
     public function showAllSalidas() {
-        $this->db->select('s.idcliente,s.idsalida,s.numerosalida,s.po,s.notas,c.nombre,s.finalizado,u.name,s.fecharegistro');
+        $this->db->select('s.idcliente,s.idsalida,s.numerosalida,s.po,s.notas,c.nombre,s.finalizado,u.name,DATE_FORMAT(s.fecharegistro, "%d/%m/%Y %h:%i %p") AS fecharegistro');
         $this->db->from('salida s');
         $this->db->join('cliente c', 's.idcliente=c.idcliente');
         $this->db->join('users u', 's.idusuario=u.id');

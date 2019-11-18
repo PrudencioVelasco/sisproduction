@@ -167,7 +167,7 @@ class Warehouse_model extends CI_Model {
     public function getDataEntradas($id) {
         $query = $this->db->query("
             SELECT pc.idpalletcajas, pc.idtransferancia, pc.pallet, pc.idcajas, pc.idestatus,
-            pc.fecharegistro, p.idparte, c.nombre, p.numeroparte, tc.cantidad, tr.descripcion,
+            ppb.fecharegistro, p.idparte, c.nombre, p.numeroparte, tc.cantidad, tr.descripcion,
             s.nombrestatus, pc.idestatus, pb.nombreposicion, ppb.ordensalida, ppb.salida
             FROM palletcajas pc
             JOIN tblcantidad tc ON tc.idcantidad = pc.idcajas 
@@ -178,7 +178,7 @@ class Warehouse_model extends CI_Model {
             JOIN status s ON s.idestatus = pc.idestatus 
             JOIN parteposicionbodega ppb ON pc.idpalletcajas = ppb.idpalletcajas 
             JOIN posicionbodega pb ON ppb.idposicion = pb.idposicion
-            WHERE tr.idrevision = $id AND ppb.ordensalida = 0 AND ppb.salida = 0 
+            WHERE tr.idrevision = $id  
             ORDER BY pc.idpalletcajas ASC ");
 
         return $query->result();
@@ -187,7 +187,7 @@ class Warehouse_model extends CI_Model {
     public function getDataSalidaParcial($id) {
         $query = $this->db->query("
             SELECT pc.idpalletcajas, pc.idtransferancia, pc.pallet, pc.idcajas, pc.idestatus, 
-            pc.fecharegistro, p.idparte, c.nombre, p.numeroparte, tc.cantidad, tr.descripcion, 
+            os.fecharegistro, p.idparte, c.nombre, p.numeroparte, tc.cantidad, tr.descripcion, 
             s.nombrestatus, pc.idestatus, pb.nombreposicion, ppb.ordensalida, ppb.salida,os.caja
             FROM palletcajas pc 
             JOIN tblcantidad tc ON tc.idcantidad = pc.idcajas 

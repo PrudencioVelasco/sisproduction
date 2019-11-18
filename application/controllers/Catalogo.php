@@ -23,6 +23,7 @@ class Catalogo extends CI_Controller {
         $this->load->model('admin_model', 'adminmodel');
         $this->load->model('categorias_model', 'categorias');
         $this->load->model('documento_model', 'documento');
+        $this->load->model('transferencia_model', 'transferencia');
         $this->load->library('permission');
         $this->load->library('session');
         $this->load->library('excel');
@@ -74,7 +75,7 @@ class Catalogo extends CI_Controller {
             'ididentificador' => $id_detalle,
             'datos' => $this->documento->showAllDocumentosId($id_detalle)
         );
-        // var_dump($data);
+    //var_dump($this->documento->showAllDocumentosId($id_detalle));
         $this->load->view('header');
         $this->load->view('CatSistema/inventario/detalle', $data);
         $this->load->view('footer');
@@ -271,9 +272,13 @@ class Catalogo extends CI_Controller {
                 $row = $this->documento->detalleDocumento($id);
                 $numeroparte = $row->numeroparte;
                 $modelo = $row->modelo;
+                $idcliente = $row->cliente;
+                $idcategoria = $row->categoria;
                 $revision = $row->revision;
+                $locacion = $row->locacion;
                 $cantidad_cajas = $row->cantidadcajas;
                 $validar_numero_parte = $this->documento->validar_existencia_numeroparte($numeroparte);
+                //var_dump($validar_numero_parte);
                 if ($validar_numero_parte) {
                     //El numero de parte existe
                     $idparte = $validar_numero_parte->idparte;
@@ -284,7 +289,8 @@ class Catalogo extends CI_Controller {
                         $datelle_modelo_revision = $this->documento->validar_modelo_revision($idmodelo, $revision);
                         if ($datelle_modelo_revision) {
                             //La revision si existe
-                            $idrevision = $detalle_parte_modelo->idrevision;
+                            //var_dump($datelle_modelo_revision);
+                            $idrevision = $datelle_modelo_revision->idrevision;
                             $detalle_revision_cantidad = $this->documento->validar_revision_cantidad($idrevision, $cantidad_cajas);
                             if ($detalle_revision_cantidad) {
                                 //Si existe la cantidad
@@ -343,7 +349,7 @@ class Catalogo extends CI_Controller {
                             'idusuario' => $this->session->user_id,
                             'fecharegistro' => date('Y-m-d H:i:s')
                         );
-                        $idmodelo = $this->documento->$data_insert_modelo();
+                        $idmodelo = $this->documento->addModelo($data_insert_modelo);
                         $data_insert_revision = array(
                             'idmodelo' => $idmodelo,
                             'descripcion' => $revision,
@@ -363,8 +369,100 @@ class Catalogo extends CI_Controller {
                     }
                 } else {
                     //El numero de parte NO existe
+
+                    $data_insert_parte = array(
+                      'numeroparte'=>$numeroparte,
+                      'idcliente'=>$idcliente,
+                      'idcategoria'=>$idcategoria,
+                      'idusuario' => $this->session->user_id,
+                      'activo'=>1,
+                      'fecharegistro' => date('Y-m-d H:i:s'));
+                    $idparte = $this->documento->addParte($data_insert_parte);
+                    $data_insert_modelo = array(
+                            'idparte' => $idparte,
+                            'descripcion' => $modelo,
+                            'nombrehoja' => "",
+                            'customer' => "",
+                            'fulloneimpresion' => "",
+                            'colorlinea' => "",
+                            'diucutno' => "",
+                            'platonumero' => "",
+                            'color' => "",
+                            'blanksize' => "",
+                            'sheetsize' => "",
+                            'score' => "",
+                            'normascompartidas' => "",
+                            'salida' => "",
+                            'combinacion' => "",
+                            'idusuario' => $this->session->user_id,
+                            'fecharegistro' => date('Y-m-d H:i:s')
+                        );
+                        $idmodelo = $this->documento->addModelo($data_insert_modelo);
+                        $data_insert_revision = array(
+                            'idmodelo' => $idmodelo,
+                            'descripcion' => $revision,
+                            'idusuario' => $this->session->user_id,
+                            'fecharegistro' => date('Y-m-d H:i:s')
+                        );
+                        $idrevision = $this->documento->addRevision($data_insert_revision);
+                        $data_insert_cantidad = array(
+                            'idrevision' => $idrevision,
+                            'cantidad' => $cantidad_cajas,
+                            'idusuario' => $this->session->user_id,
+                            'fecharegistro' => date('Y-m-d H:i:s')
+                        );
+                        $idcantidad = $this->documento->addCantidad($data_insert_cantidad);
+                        $datos[$i] = array();
+                        $datos[$i]['idcantidad'] = $idcantidad;
+
+
+
                 }
             }
+            //Crear una Transferencia
+            $folio = $this->transferencia->obtenerUltimoFolio();
+            $numerofolio = $folio->folio;
+            $nuevo = $numerofolio + 1;
+            $date_insert_transferencia = array(
+                'folio'=>$nuevo,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+           $idtransferencia =  $this->transferencia->addTransferencia($date_insert_transferencia);
+
+           foreach($datos as $value){
+                $data_insert_detalle_transferencia = array(
+                    'idtransferancia'=>$idtransferencia,
+                    'pallet'=>1,
+                    'idcajas'=>$value["idcantidad"],
+                    'idlinea'=>1,
+                    'idestatus'=>8,
+                    'idusuario' => $this->session->user_id,
+                    'fecharegistro' => date('Y-m-d H:i:s')
+                );
+                $idpalletcajas =  $this->transferencia->addPalletCajas($data_insert_detalle_transferencia);
+                
+                //Insertar locacion pallet
+                $detalle_locacion  = $this->documento->seleccion_locacion($locacion);
+                $idposicion_bodega = $detalle_locacion->idposicion;
+                $data_insert_locacion = array(
+                    'idpalletcajas'=>$idpalletcajas,
+                    'numero'=>1,
+                    'idposicion'=>$idposicion_bodega,
+                    'ordensalida'=>0,
+                    'salida'=>0,
+                    'idusuario' => $this->session->user_id,
+                    'fecharegistro' => date('Y-m-d H:i:s')
+                );
+                $this->documento->addPartePosicionBodega($data_insert_locacion);
+
+                $data_update_documento= array(
+                    'subido'=>1
+                );
+                $this->documento->updateDocumento($id,$data_update_documento);
+
+            }
+
         } else {
             //Eliminar
             foreach ($checkbox1 as $chk1) {
@@ -372,6 +470,16 @@ class Catalogo extends CI_Controller {
                 $this->documento->deleteregistro($id);
             }
         }
+
+        $data = array(
+            'ididentificador' => $ididentificador,
+            'datos' => $this->documento->showAllDocumentosId($ididentificador)
+        );
+    //var_dump($this->documento->showAllDocumentosId($id_detalle));
+        $this->load->view('header');
+        $this->load->view('CatSistema/inventario/detalle', $data);
+        $this->load->view('footer');
+        
     }
 
     public function modificar() {
@@ -398,6 +506,18 @@ class Catalogo extends CI_Controller {
         // var_dump($data);
         $this->load->view('header');
         $this->load->view('CatSistema/inventario/detalle', $data);
+        $this->load->view('footer');
+    }
+
+    public function eliminar_all($identificador)
+    {
+        # code...
+        $this->documento->deleteregistrosall($identificador); 
+        $data = array(
+            'datos' => $this->documento->showAllDocumentos()
+        );
+        $this->load->view('header');
+        $this->load->view('CatSistema/inventario/index', $data);
         $this->load->view('footer');
     }
 

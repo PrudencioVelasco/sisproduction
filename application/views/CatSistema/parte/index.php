@@ -30,12 +30,12 @@
                                          <div class="row">
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white" v-column-sortable:numeroparte>N° de Parte</th>
-                                            <th class="text-white" v-column-sortable:nombrecategoria>Categoria</th>
-                                            <th class="text-white" v-column-sortable:nombre>Cliente</th>
-                                            <th class="text-white" v-column-sortable:name>Usuario</th>
-                                            <th class="text-white" v-column-sortable:activo>Estatus</th>
-                                            <th class="text-white text-right" align="right">Opción</th>
+                                            <th class="text-white" v-column-sortable:numeroparte>N° de Parte </th>
+                                            <th class="text-white" v-column-sortable:nombrecategoria>Categoria </th>
+                                            <th class="text-white" v-column-sortable:nombre>Cliente </th>
+                                            <th class="text-white" v-column-sortable:name>Usuario </th>
+                                            <th class="text-white" v-column-sortable:activo>Estatus </th>
+                                            <th class="text-white text-right" align="right">Opción </th>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="row in partes" class="table-default">

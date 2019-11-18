@@ -36,12 +36,12 @@
                                         <br>
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white" v-column-sortable:nombreturno>Nombre del turno</th>
-                                            <th class="text-white" v-column-sortable:horainicial>Hora inicial</th>
-                                            <th class="text-white" v-column-sortable:horafinal>Hora final</th>
-                                            <th class="text-white">Siguiente dia</th>
-                                            <th class="text-white">Estatus</th>
-                                            <th class="text-right text-white">Opción</th>
+                                            <th class="text-white" v-column-sortable:nombreturno>Nombre del turno </th>
+                                            <th class="text-white" v-column-sortable:horainicial>Hora inicial </th>
+                                            <th class="text-white" v-column-sortable:horafinal>Hora final </th>
+                                            <th class="text-white">Siguiente dia </th>
+                                            <th class="text-white">Estatus </th>
+                                            <th class="text-right text-white">Opción </th>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="row in turnos" class="table-default">

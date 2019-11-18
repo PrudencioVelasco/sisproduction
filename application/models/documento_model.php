@@ -42,13 +42,13 @@ from cliente c where c.idcliente=d.cliente  ) as existenciacliente,
 (select 
 CASE
     WHEN count(*)  > 0 THEN "Okey"
-     ELSE "No existe la categoria."
+     ELSE "No existe la Locación"
 END
 from posicionbodega pb where pb.nombreposicion=d.locacion  ) as existencialocacion,
 (select 
 CASE
     WHEN count(*)  > 0 THEN "Okey"
-     ELSE "No existe la locacion."
+     ELSE "No existe la Categoria."
 END
 from tblcategoria ca where ca.idcategoria=d.categoria  ) as existencategoria,
 (select 
@@ -88,9 +88,9 @@ from parte p, cliente cli where  p.idcliente= cli.idcliente and  p.numeroparte=d
     }
 
     public function validar_existencia_numeroparte($numeroparte) {
-        $this->db->select('d.*');
-        $this->db->from('tbldocumento d');
-        $this->db->where('d.numeroparte', $numeroparte);
+        $this->db->select('p.*');
+        $this->db->from('parte p');
+        $this->db->where('p.numeroparte', $numeroparte);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->first_row();
@@ -139,6 +139,17 @@ from parte p, cliente cli where  p.idcliente= cli.idcliente and  p.numeroparte=d
             return false;
         }
     }
+    public function seleccion_locacion($locacion) {
+        $this->db->select('pb.*');
+        $this->db->from('posicionbodega pb');
+        $this->db->where('pb.nombreposicion', $locacion); 
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->first_row();
+        } else {
+            return false;
+        }
+    }
 
     public function updateDocumento($id, $data) {
         $this->db->where('iddocumento', $id);
@@ -177,6 +188,15 @@ from parte p, cliente cli where  p.idcliente= cli.idcliente and  p.numeroparte=d
             return false;
         }
     }
+    public function deleteregistrosall($identificador) {
+        $this->db->where('identificador', $identificador);
+        $this->db->delete('tbldocumento');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
       public function addCantidad($data)
     {
         $this->db->insert('tblcantidad', $data);
@@ -192,6 +212,18 @@ from parte p, cliente cli where  p.idcliente= cli.idcliente and  p.numeroparte=d
      public function addModelo($data)
     {
         $this->db->insert('tblmodelo', $data);
+        $insert_id = $this->db->insert_id(); 
+        return  $insert_id;
+    }
+     public function addParte($data)
+    {
+        $this->db->insert('parte', $data);
+        $insert_id = $this->db->insert_id(); 
+        return  $insert_id;
+    }
+    public function addPartePosicionBodega($data)
+    {
+        $this->db->insert('parteposicionbodega', $data);
         $insert_id = $this->db->insert_id(); 
         return  $insert_id;
     }

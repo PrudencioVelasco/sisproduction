@@ -64,11 +64,11 @@
                                             <th scope="col">Cliente</th>
                                             <th scope="col">Parte</th>
                                             <th scope="col">Categoria</th>
-                                            <th scope="col">Revision</th>
+                                            <th scope="col">Revisión</th>
                                             <th scope="col">Pallet</th>
                                             <th scope="col">CajasxPallet</th>
                                             <th scope="col">T. Cajas</th>
-                                            <th scope="col">Ubicación</th> 
+                                            <th scope="col">Locación</th> 
                                             <th scope="col">Fecha</th>
                                         </tr>
                                     </thead>
@@ -82,8 +82,8 @@
                                                     <td><?php echo $value->nombrecategoria; ?></td>
                                                     <td><?php echo $value->descripcion; ?></td>
                                                     <td><strong><?php echo $value->totalpallet; ?></strong></td>
-                                                    <td><strong><?php echo $value->cantidadxpallet; ?></strong></td>
-                                                    <td><strong><?php echo $value->cantidad; ?></strong></td>
+                                                    <td><strong><?php echo number_format($value->cantidadxpallet); ?></strong></td>
+                                                    <td><strong><?php echo number_format($value->cantidad); ?></strong></td>
                                                     <td><?php echo $value->nombreposicion; ?></td>
                                                     <td><?php echo $value->fecha; ?></td>
                                                 </tr>

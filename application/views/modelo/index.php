@@ -38,11 +38,11 @@
                                         <table   class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                             <thead>
                                                 <tr class="table-dark">
-                                                    <th  v-column-sortable:descripcion>Módelo</th>
-                                                    <th  v-column-sortable:nombrehoja>Nom. Caja</th>
-                                                    <th  v-column-sortable:fulloneimpresion>Full/One/Impresion</th>
-                                                    <th  v-column-sortable:colorlinea>Liner Color</th>
-                                                    <th  v-column-sortable:color>Color</th> 
+                                                    <th  v-column-sortable:descripcion>Módelo </th>
+                                                    <th  v-column-sortable:nombrehoja>Nom. Caja </th>
+                                                    <th  v-column-sortable:fulloneimpresion>Full/One/Impresion </th>
+                                                    <th  v-column-sortable:colorlinea>Liner Color </th>
+                                                    <th  v-column-sortable:color>Color </th> 
                                                     <th></th> 
                                                 </tr>
                                             </thead>

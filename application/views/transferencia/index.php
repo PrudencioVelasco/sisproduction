@@ -37,7 +37,7 @@
                                                         <tr   class="table-default"> 
                                                             <td><strong><?php echo $value->folio; ?></strong></td>
                                                             <td><?php echo $value->nombre ?></td>
-                                                            <td><?php echo $value->fecharegistro ?></td> 
+                                                            <td><?php echo date_format(date_create($value->fecharegistro),"d/m/Y h:i A") ?></td> 
                                                             <td>
                                                                 <?php
                                                                 if(!empty($value->estatus) && !is_null($value->estatus)){

@@ -34,10 +34,10 @@
                                         </div>  
                                        <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white" v-column-sortable:motivo>Motivo</th>
-                                            <th class="text-white" v-column-sortable:nombreproceso>Proceso</th>
-                                             <th class="text-white" v-column-sortable:activo>Estatus</th>
-                                             <td align="right" class="text-white"><strong>Opción</strong></td>
+                                            <th class="text-white" v-column-sortable:motivo>Motivo </th>
+                                            <th class="text-white" v-column-sortable:nombreproceso>Proceso </th>
+                                             <th class="text-white" v-column-sortable:activo>Estatus </th>
+                                             <td align="right" class="text-white"><strong>Opción </strong></td>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="row in motivos" class="table-default">

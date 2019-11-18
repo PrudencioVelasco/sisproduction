@@ -34,9 +34,9 @@
                                         </div>  
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white" v-column-sortable:nombreposicion>Ubicación</th>
-                                            <th class="text-white" v-column-sortable:activo>Estatus</th>
-                                            <td class="text-white" align="right"><strong>Opción</strong></td>
+                                            <th class="text-white" v-column-sortable:nombreposicion>Ubicación </th>
+                                            <th class="text-white" v-column-sortable:activo>Estatus </th>
+                                            <td class="text-white" align="right"><strong>Opción </strong></td>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="row in ubicaciones" class="table-default">

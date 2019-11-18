@@ -41,13 +41,13 @@
                                         <br>
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white"  v-column-sortable:idsalida >No. Transferencia</th>
-                                            <th class="text-white" v-column-sortable:numerosalida>No. Control</th>
-                                            <th class="text-white" v-column-sortable:po>P.O.</th>
-                                            <th class="text-white" v-column-sortable:nombre>Cliente</th>
-                                            <th class="text-white" v-column-sortable:finalizado>Estatus</th>
-                                            <th class="text-white" v-column-sortable:fecharegistro> Fecha</th> 
-                                            <th class="text-white text-right" align="right">Opción</th>
+                                            <th class="text-white"  v-column-sortable:idsalida >No. Transferencia </th>
+                                            <th class="text-white" v-column-sortable:numerosalida>No. Control </th>
+                                            <th class="text-white" v-column-sortable:po>P.O. </th>
+                                            <th class="text-white" v-column-sortable:nombre>Cliente </th>
+                                            <th class="text-white" v-column-sortable:finalizado>Estatus </th>
+                                            <th class="text-white" v-column-sortable:fecharegistro> Fecha </th> 
+                                            <th class="text-white text-right" align="right">Opción </th>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="row in salidas" class="table-default">

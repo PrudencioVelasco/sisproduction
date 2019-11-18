@@ -73,7 +73,7 @@ class Warehouse extends CI_Controller {
         <th scope="col">Cliente</th>
         <th scope="col">No. Parte</th>
         <th scope="col">Categoria</th>
-        <th scope="col">Revision</th>
+        <th scope="col">Revisión</th>
         <th scope="col">CxP</th>
         <th scope="col">Pallet</th>
         <th scope="col">Cajas</th>  
@@ -91,23 +91,23 @@ class Warehouse extends CI_Controller {
                 $render .= '<td>' . $value->nombrecategoria . '</td>';
                 $render .= '<td>' . $value->descripcion . '</td>';
               if($value->tipo == 0){
-                      $render .= '<td>' . $value->cantidadxpallet . '</td>';
+                      $render .= '<td>' . number_format( $value->cantidadxpallet) . '</td>';
                 }else{
                       $render .= '<td><strong>---</strong></td>'; 
                 }
                
                 if ($value->tipo == 0) {
-                    $render .= '<td><strong>' . $value->totalpallet . '</strong></td>'; 
-                    $render .= '<td><strong>' . $value->totalcajaspallet . '</strong></td>'; 
+                    $render .= '<td><strong>' . number_format($value->totalpallet) . '</strong></td>'; 
+                    $render .= '<td><strong>' . number_format($value->totalcajaspallet) . '</strong></td>'; 
                 }
                 if ($value->tipo == 1) {
                     $render .= '<td><strong>1</strong></td>'; 
-                    $render .= '<td><strong>' . $value->totalcajasparciales . '</strong></td>'; 
+                    $render .= '<td><strong>' . number_format($value->totalcajasparciales) . '</strong></td>'; 
                 }
                 if($value->tipo == 0){
-                      $render .= '<td><strong>Pallet</strong></td>'; 
+                      $render .= '<td><strong style="color:green;">PALLET</strong></td>'; 
                 }else{
-                      $render .= '<td><strong>Parciales</strong></td>'; 
+                      $render .= '<td><strong style="color:blue;">PARCIALES</strong></td>'; 
                 }
                  $render .= '<td>' . $value->fecha . '</td>';
                 $render .= '</tr>';

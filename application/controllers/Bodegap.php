@@ -37,7 +37,7 @@ class Bodegap extends CI_Controller {
         $this->load->view('footer');
     }
     public function detalle($idtransferencia,$folio) {
-         Permission::grant(uri_string()); 
+         //Permission::grant(uri_string()); 
         $motivosrechazo = $this->bodegap->motivosRechazoBodega(); 
         $motivosrechazocalidad = $this->bodegap->motivosRechazoCalidad();         
         $datatransferencia = $this->bodegap->listaNumeroParteTransferencia($idtransferencia); 
@@ -55,14 +55,14 @@ class Bodegap extends CI_Controller {
         $this->load->view('footer');
     }
     public function rechazopallet() {
-        Permission::grant(uri_string()); 
+        //Permission::grant(uri_string()); 
         $idpalletcajas = $this->input->post('idpalletcajas');
         $data = $this->bodegap->motivosrechazo($idpalletcajas);
         echo json_encode($data);
     }
  
  public function generarPDFEnvio($id) {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $this->load->library('tcpdf');
         $listapartes = $this->calidadp->palletReporte($id); 
         $totalpallet = 0;

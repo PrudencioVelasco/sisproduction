@@ -102,16 +102,25 @@
                            
                                     <tr class="odd pointer">
                                         <td class="a-center ">
-                                            <?php //if($value->existenciacliente == "Okey" && $value->existencialocacion == "Okey" && $value->existencategoria == "Okey" && $value->existencategoria == "Categoria no relacionada a la Parte"){ ?>
+                                            <?php if($value->existenciacliente == "Okey" && $value->existencialocacion == "Okey" && $value->existencategoria == "Okey" && $value->existennumeropartecliente == "Okey" &&  $value->subido == "0"){ ?>
                                             <div class="checkbox2">
                                                     <label>
                                                         <input type="checkbox" class="checkbox" name="table_records[]" value="<?php echo $value->iddocumento ?>">
                                                         <span class="cr"><i class="cr-icon glyphicon glyphicon-ok" style="color:green"></i></span>
                                                     </label>
                                                 </div>
-                                <?php //} ?>
+                                <?php } ?>
                                         </td>
-                                        <td class=" "><?= $value->numeroparte ?></td>
+                                        <td class="">
+                                            <?php
+                                                if($value->subido == "1"){
+                                                    echo '<label><strong>'.$value->numeroparte.'</strong></label>';
+                                                }else {
+                                                    # code...
+                                                    echo '<label><strong>'.$value->numeroparte.'</strong></label>';
+                                                }
+                                            ?>
+                                        </td>
                                         <td ><?php echo $value->modelo   ?></td>
                                         <td class=" "><?= $value->revision ?></td>
                                         <td class=" "><?= $value->cantidadcajas ?></td>
@@ -122,6 +131,9 @@
                                         <td><?= $value->categoria ?></td>
                                         <td>
                                             <?php 
+                                            if($value->subido == "1"){
+                                                echo '<span class="label label-success">SUBIDO</span>';
+                                            }else{
                                             if($value->existenciacliente!="Okey"){
                                                 echo '<span class="label label-danger">'.$value->existenciacliente.'</span></br>'; 
                                             }
@@ -139,11 +151,12 @@
                                              if($value->existennumeropartecliente!="Okey"){ 
                                                  echo '<span class="label label-danger">'.$value->existennumeropartecliente.'</span></br>'; 
                                             }
+                                        }
                                             ?>
                                         </td>
                                         <td>
-
-                                            <a href="javascript:;"
+                                            <?php   if($value->subido == "0") { ?>
+                                                <a href="javascript:;"
                                                data-id="<?= $value->iddocumento ?>"
                                                data-numeroparte="<?= $value->numeroparte ?>"
                                                data-modelo="<?= $value->modelo ?>"
@@ -157,6 +170,9 @@
                                                data-toggle="modal" data-target="#edit-data">
                                                 <button  data-toggle="modal" data-target="#ubah-data"  class="btn btn-primary btn-xs">Modificar</button>
                                             </a>
+                                             <?php   }
+                                            ?>
+                                          
                                         </td>
 
                                     </tr> 

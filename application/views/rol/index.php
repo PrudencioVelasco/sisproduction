@@ -40,9 +40,9 @@
                                         <br>
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white" v-column-sortable:rol>Rol</th>
+                                            <th class="text-white" v-column-sortable:rol>Rol </th>
 
-                                            <th class="text-right text-white" >Opción</th>
+                                            <th class="text-right text-white" >Opción </th>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="rol in roles" class="table-default">

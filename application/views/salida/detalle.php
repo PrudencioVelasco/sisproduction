@@ -75,8 +75,8 @@
                 <td><a href="<?php echo site_url('salida/agregarParteOrdenDetallado/'.$value["idtransferancia"].'/'.$value["idcajas"].'/'.$idsalida ) ?>"> <?php echo $value["folio"]; ?></a></td>
                  <td><?php echo $value["numeroparte"]; ?></td>
                 <td><?php echo $value["totalpallet"]; ?></td>
-                 <td><?php echo $value["cajasporpallet"]; ?></td>
-                  <td><strong style="color: green"><?php echo $value["cajasdisponibles"]; ?></strong></td>
+                 <td><?php echo number_format($value["cajasporpallet"]); ?></td>
+                  <td><strong style="color: green"><?php echo number_format($value["cajasdisponibles"]); ?></strong></td>
                    <td><?php echo $value["modelo"]; ?></td>
                     <td><?php echo $value["revision"]; ?></td>
                      <td><?php echo $value["fecha"]; ?></td>
@@ -197,9 +197,9 @@
                                             <td>
                                                 <?php
                                                 if ($value->tipo == 0) {
-                                                    echo $value->cajaspallet;
+                                                    echo number_format($value->cajaspallet);
                                                 } else {
-                                                    echo $value->caja;
+                                                    echo number_format($value->caja);
                                                 }
                                                 ?>
                                             </td>
@@ -259,8 +259,8 @@
                                                                 echo "<tr>";
                                                                 echo "<td><i class='fa fa-check'  style='color:#8938f5;' aria-hidden='true'></i> $value->numeroparte </td>";
                                                                 echo "<td>$value->modelo</td>";
-                                                                echo "<td>$value->totalpallet</td>";
-                                                                echo "<td>$value->sumacajas</td>";
+                                                                echo "<td>".number_format($value->totalpallet)."</td>";
+                                                                echo "<td>".number_format($value->sumacajas)."</td>";
                                                                 echo "</tr>";
                                                             }
                                                         }
@@ -272,7 +272,7 @@
                                                                 echo "<td><i class='fa fa-check'  style='color:#1abd53;' aria-hidden='true'></i> $value->numeroparte </td>";
                                                                 echo "<td>$value->modelo</td>";
                                                                 echo "<td>1</td>";
-                                                                echo "<td>$value->sumacajas</td>";
+                                                                echo "<td>".number_format($value->sumacajas)."</td>";
                                                                 echo "</tr>";
                                                             }
                                                         }
