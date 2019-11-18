@@ -91,18 +91,18 @@ class Warehouse extends CI_Controller {
                 $render .= '<td>' . $value->nombrecategoria . '</td>';
                 $render .= '<td>' . $value->descripcion . '</td>';
               if($value->tipo == 0){
-                      $render .= '<td>' . number_format( $value->cantidadxpallet) . '</td>';
+                      $render .= '<td style="color:red;">' . number_format( $value->cantidadxpallet) . '</td>';
                 }else{
-                      $render .= '<td><strong>---</strong></td>'; 
+                      $render .= '<td style="color:red;"><strong>---</strong></td>'; 
                 }
                
                 if ($value->tipo == 0) {
-                    $render .= '<td><strong>' . number_format($value->totalpallet) . '</strong></td>'; 
-                    $render .= '<td><strong>' . number_format($value->totalcajaspallet) . '</strong></td>'; 
+                    $render .= '<td style="color:red;"><strong>' . number_format($value->totalpallet) . '</strong></td>'; 
+                    $render .= '<td style="color:red;"><strong>' . number_format($value->totalcajaspallet) . '</strong></td>'; 
                 }
                 if ($value->tipo == 1) {
-                    $render .= '<td><strong>1</strong></td>'; 
-                    $render .= '<td><strong>' . number_format($value->totalcajasparciales) . '</strong></td>'; 
+                    $render .= '<td style="color:red;"><strong>1</strong></td>'; 
+                    $render .= '<td style="color:red;"><strong>' . number_format($value->totalcajasparciales) . '</strong></td>'; 
                 }
                 if($value->tipo == 0){
                       $render .= '<td><strong style="color:green;">PALLET</strong></td>'; 

@@ -30,7 +30,7 @@
                                                 <th scope="col">Revisión</th>
                                                 <th scope="col">Entradas</th> 
                                                 <th scope="col">Salidas</th> 
-                                                <th scope="col">Existencia</th> 
+                                                <th scope="col">Existencias</th> 
                                                 
                                                 <th class="text-center">Acción</th>
                                             </tr>
@@ -45,7 +45,7 @@
                                                     <td><?php echo $value->nombremodelo; ?></td>
                                                     <td><?php echo $value->nombrerevision; ?></td>
                                                     <td>
-                                                        <label style="color:green;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet + $value->total);?></label>
+                                                        <label style="color:blue;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet + $value->total);?></label>
                                                     </td>
                                                     <td>
                                                         <label style="color:red;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet);?></label>
@@ -81,7 +81,32 @@
         buttons: [
         'excelHtml5',
         'pdfHtml5'
-        ]
+        ],
+        "order": [[0, "desc"]],
+                    "language": {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        }
+                    }
     } );
 });
 </script>

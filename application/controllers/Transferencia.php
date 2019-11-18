@@ -511,7 +511,7 @@ Permission::grant(uri_string());
 
     public function etiquetaPacking($idpalletcajas) {
         // Permission::grant(uri_string());
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         date_default_timezone_set("America/Tijuana");
         $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
         $barcode = $this->set_barcode($detalle->numeroparte);

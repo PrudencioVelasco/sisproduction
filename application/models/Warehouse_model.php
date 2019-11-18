@@ -82,7 +82,7 @@ class Warehouse_model extends CI_Model {
         return $query->num_rows() > 0 ? $query->result() : FALSE;
     }
 
-    public function getDataExits($first_date = '', $second_date = '', $tipo = '', $categoria = '', $parte = '', $salida = '') {
+    public function getDataExits($first_date = '', $second_date = '', $tipo, $categoria = '', $parte = '', $salida = '') {
         $this->db->select('pc.idpalletcajas,
        pc.idestatus,
        pc.idtransferancia,
@@ -139,7 +139,7 @@ class Warehouse_model extends CI_Model {
             $this->db->where('date(os.fecharegistro) <=', $second_date);
             //$this->db->where('os.tipo', $tipo);
         } 
-        if (!empty($tipo) && $tipo != 2) {
+        if (isset($tipo)  && $tipo != 2) {
             //$this->db->where('date(os.fecharegistro) >=', $first_date);
             //$this->db->where('date(os.fecharegistro) <=', $second_date);
             $this->db->where('os.tipo', $tipo);

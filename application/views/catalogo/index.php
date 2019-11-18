@@ -86,22 +86,6 @@
                             </div> 
                             <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-map-marker"></i>
-                                    </div>
-                                    <div class="count">---</div>
-
-                                    <h3><a href="<?php echo site_url('almacen/') ?>">Locación</a></h3>
-                                    <p>Ubicar los pallet en el almacen.</p>
-                                </div>
-                            </div> 
-                        </div>
-
-
-
-
-                        <div class="row top_tiles">
-                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="tile-stats">
                                     <div class="icon"><i class="fa fa-archive"></i>
                                     </div>
                                     <div class="count"><?php echo $totalnumeroparte; ?></div>
@@ -110,9 +94,16 @@
                                     <p>Catalogo de Número Parte.</p>
                                 </div>
                             </div>  
+                        </div>
+
+
+
+
+                        <div class="row top_tiles">
+                             
                             <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-archive"></i>
+                                    <div class="icon"><i class="fa fa-flag-o"></i>
                                     </div>
                                     <div class="count"><?php echo $totalcategorias; ?></div>
 
