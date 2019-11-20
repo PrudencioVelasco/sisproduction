@@ -62,14 +62,7 @@ class Catalogo extends CI_Controller {
         $this->load->view('header');
         $this->load->view('CatSistema/inventario/index', $data);
         $this->load->view('footer');
-    }
-
-    public function test() {
-        $foo = (object) null; //create an empty object
-        $foo->bar = "12345";
-        var_dump($foo);
-    }
-
+    } 
     public function detalle($id_detalle) {
         $data = array(
             'ididentificador' => $id_detalle,
@@ -194,6 +187,12 @@ class Catalogo extends CI_Controller {
 
                   } */
             }
+            $data = array(
+                'datos' => $this->documento->showAllDocumentos()
+            );
+            $this->load->view('header');
+            $this->load->view('CatSistema/inventario/index', $data);
+            $this->load->view('footer');
             // Crea un nuevo objeto PHPExcel 
             // load excel library
             /*

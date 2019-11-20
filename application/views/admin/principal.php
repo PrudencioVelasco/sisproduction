@@ -16,7 +16,8 @@
     <div class="row" align="center">
        
         <img src="<?php echo base_url();?>/assets/images/woorilogo.png" width="60%"/>
-         <h1>Sistema de Producción Woori</h1>
+         <h1>Sistema de Producción Woori</h1> 
+         <small><strong>Versión: 1 Build: 10</strong></small> 
     </div>
 
 </div>

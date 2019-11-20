@@ -62,6 +62,7 @@
      <div class="col-md-12">
        <div class="text-danger" v-html="formValidate.smserror"> </div>
     </div>
+    <div class="row">
       <div class="col-md-6">
 
          <div class="form-group">
@@ -94,6 +95,24 @@
          </div>
 
       </div>
+      </div>
+
+<div class="row">
+
+<div class="col-md-6">
+         <div class="form-group">
+            <label><font color="red">*</font> Turno</label>
+            <select class="form-control" v-model="chooseUser.idturno" >
+                  <option v-for="option in turnos"  :selected="option.idturno == chooseUser.idturno ? 'selected' : ''" :value="option.idturno" >
+                      {{ option.nombreturno }}
+                  </option>
+             </select>
+         </div> 
+
+      </div>
+      
+</div>
+
    </div>
    <div slot="foot">
       <button class="btn btn-danger" @click="clearAll">Cancelar</button>

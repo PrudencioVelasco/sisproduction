@@ -110,7 +110,8 @@ class User extends CI_Controller
                 'name' => form_error('name'),
                 'password1' => form_error('password1'),
                 'password2' => form_error('password2'),
-                'rol' => form_error('rol')
+                'rol' => form_error('rol'),
+                'idturno' => form_error('idturno')
             );
 
         } else {

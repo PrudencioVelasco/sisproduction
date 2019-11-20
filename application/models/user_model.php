@@ -18,10 +18,11 @@ class User_model extends CI_Model
     
     public function showAll()
     {
-        $this->db->select('u.*,r.id as idrol, r.rol as rolnombre');    
+        $this->db->select('u.*,r.id as idrol, t.idturno, t.nombreturno,  r.rol as rolnombre');    
         $this->db->from('users u');
         $this->db->join('users_rol ur', 'u.id = ur.id_user');
         $this->db->join('rol r', 'ur.id_rol = r.id'); 
+        $this->db->join('turno t', 't.idturno = u.idturno'); 
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();

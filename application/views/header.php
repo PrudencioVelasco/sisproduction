@@ -79,7 +79,8 @@
                 position: absolute;
                 left: 50%;
                 top: 50%;
-                transform: translate(-50%,-50%);
+                transform: translate(-50%,-50%)
+                };
               
  
         </style>
@@ -123,12 +124,12 @@
                                 <h3><?php echo $this->session->rol
 ?></h3>
                                 <ul class="nav side-menu">
-                                    <li><a href="<?= base_url('/admin/index') ?>"><i class="fa fa-home"></i> Inicio</a> </li>
+                                    <li><a href="<?= base_url('/admin/') ?>"><i class="fa fa-home"></i> Inicio</a> </li>
                                     <li><a href="<?= base_url('/transferencia/') ?>"><i class="fa fa-archive" aria-hidden="true"></i> Packing</a> </li>
                                     <li><a href="<?= base_url('/calidadp/') ?>"><i class="fa fa-thumbs-o-up"></i> Calidad</a> </li>
                                     <li><a href="<?= base_url('/bodegap/') ?>"><i class="fa fa-home"></i> Almacen</a> </li>
-                                    <li><a href="<?= base_url('/salida/index') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i>Salida</a> </li>
-                                    <li><a href="<?= base_url('/orden/index') ?>"><i class="fa fa-check-square-o" aria-hidden="true"></i>Orden</a> </li>
+                                    <li><a href="<?= base_url('/salida/') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i>Salida</a> </li>
+                                    <li><a href="<?= base_url('/orden/') ?>"><i class="fa fa-check-square-o" aria-hidden="true"></i>Orden</a> </li>
                                     <li><a href="<?= base_url('/catalogo/') ?>"><i class="fa fa-folder-open" aria-hidden="true"></i>Catalogo</a> </li>
                                    <li><a><i class="fa fa-bar-chart" aria-hidden="true"></i> Reporte <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none"> 
