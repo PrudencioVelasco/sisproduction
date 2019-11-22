@@ -13,22 +13,50 @@
                         <div class="clearfix"></div>
                     </div>
                     
-                    <div class="row" align="center">
-                        <div class="col-md-4">
-                            <a href="<?php echo base_url('warehouse/entry')?>" class="btn btn-round btn-primary">
-                                <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-                            Entradas</a>
+                    <div class="row top_tiles">
+                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="tile-stats">
+                                    <div class="icon"><i style="color:blue;" class="fa fa-sign-in"></i>
+                                    </div>
+                                    <div class="count">---</div>
+
+                                    <h3><a href="<?php echo base_url('warehouse/entry')?>">Entradas</a></h3>
+                                    <p>Admin. Entradas.</p>
+                                </div>
+                            </div>
+                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="tile-stats">
+                                    <div class="icon"><i style="color:red;" class="fa fa-sign-out"></i>
+                                    </div>
+                                    <div class="count">---</div>
+
+                                    <h3><a href="<?php echo base_url('warehouse/exitWareHouse')?>">Salidas</a></h3>
+                                    <p>Admin. Salidas.</p>
+                                </div>
+                            </div>
+                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="tile-stats">
+                                    <div class="icon"><i style="color:green;" class="fa fa-database"></i>
+                                    </div>
+                                    <div class="count">---</div>
+
+                                    <h3><a href="<?php echo base_url('warehouse/wharehouse')?>">Almacen</a></h3>
+                                    <p>Admin. Almacen.</p>
+                                </div>
+                            </div>
+                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="tile-stats">
+                                    <div class="icon"><i class="fa fa-check-square-o"></i>
+                                    </div>
+                                    <div class="count">---</div>
+
+                                    <h3><a href="<?php echo site_url('laminas/') ?>">Laminas</a></h3>
+                                    <p>Admin Laminas</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <a href="<?php echo base_url('warehouse/exitWareHouse')?>" class="btn btn-round btn-danger">
-                                <i class="fa fa-chevron-circle-up" aria-hidden="true"></i>
-                            Salidas</a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="<?php echo base_url('warehouse/wharehouse')?>" class="btn btn-round btn-success"><i class="fa fa-database" aria-hidden="true"></i>
-                            Almacen</a>
-                        </div>
-                    </div>
+
+ 
 
                 </div>
             </div>
