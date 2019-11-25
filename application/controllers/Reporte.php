@@ -29,6 +29,49 @@ class Reporte extends CI_Controller {
         $this->load->view('reporte/transferencia', $data);
         $this->load->view('footer');
     }
+    public function test()
+    {
+        # code...
+        var_dump($this->reporte->busqueda_proceso());
+    }
+    public function procesos()
+    {
+        # code...
+       // var_dump($this->reporte->allNumeroPartes());
+        $data  = array(
+            'partes'=>$this->reporte->allNumeroPartes(),
+            'procesos' => $this->reporte->allProcesos(),
+            'maquinas'=>$this->reporte->allMaquinas()
+             );
+         $this->load->view('header');
+        $this->load->view('reporte/procesos',$data);
+        $this->load->view('footer');
+    }
+    public function buscar_reporte_proceso()
+    {
+        # code...
+
+        $idlamina = $this->input->post('idlamina');
+        //$idparte = $this->input->post('idparte');
+        $fechainicio = $this->input->post('fechainicio');
+        $fechafin = $this->input->post('fechafin'); 
+        $idmaquina = $this->input->post('idmaquina');
+        $idproceso = $this->input->post('idproceso');
+        //$idparte = $this->input->post('idparte');
+        //$idparte = $this->input->post('idparte');
+
+       $datareporte =  $this->reporte->busqueda_proceso($fechainicio,$fechafin,$idlamina,$idproceso,$idmaquina);
+       $data  = array(
+            'partes'=>$this->reporte->allNumeroPartes(),
+            'procesos' => $this->reporte->allProcesos(),
+            'maquinas'=>$this->reporte->allMaquinas(),
+            'datareporte'=>$datareporte
+             );
+         $this->load->view('header');
+        $this->load->view('reporte/procesos',$data);
+        $this->load->view('footer');
+
+    }
 
     public function buscar() {
         # code...

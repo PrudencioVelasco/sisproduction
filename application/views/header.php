@@ -130,10 +130,12 @@
                                     <li><a href="<?= base_url('/bodegap/') ?>"><i class="fa fa-home"></i> Almacen</a> </li>
                                     <li><a href="<?= base_url('/salida/') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i>Salida</a> </li>
                                     <li><a href="<?= base_url('/orden/') ?>"><i class="fa fa-check-square-o" aria-hidden="true"></i>Orden</a> </li>
+                                    <li><a href="<?= base_url('/proceso/') ?>"><i class="fa fa-flag-o" aria-hidden="true"></i>Procesos</a> </li>
                                     <li><a href="<?= base_url('/catalogo/') ?>"><i class="fa fa-folder-open" aria-hidden="true"></i>Catalogo</a> </li>
                                    <li><a><i class="fa fa-bar-chart" aria-hidden="true"></i> Reporte <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none"> 
                                             <li><a href="<?= base_url('/reporte/transferencia') ?>"> Transferencia</a> </li>
+                                             <li><a href="<?= base_url('/reporte/procesos') ?>"> Procesos</a> </li>
                                         </ul>
                                     </li>
                                 </ul>
