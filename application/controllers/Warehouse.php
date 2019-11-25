@@ -19,7 +19,6 @@ class Warehouse extends CI_Controller {
 
     public function index() {
         Permission::grant(uri_string());
-        //$data['datatransferencia'] = $this->hold->listaNumeroParteTransferencia();
 
         $this->load->view('header');
         $this->load->view('warehouse/index');
@@ -37,7 +36,6 @@ class Warehouse extends CI_Controller {
             'entries' => $this->almacen->getDataEntry($first_date, $second_date, $categoria, $parte),
             'categorias' => $this->categorias->showAll()
         );
-//var_dump($this->almacen->getDataEntry($first_date,$second_date));
         $this->load->view('header');
         $this->load->view('warehouse/entry', $datos);
         $this->load->view('footer');
@@ -55,6 +53,18 @@ class Warehouse extends CI_Controller {
         $this->load->view('footer');
     }
 
+    public function historialposicion($idposicionbodega) {
+        Permission::grant(uri_string());
+
+        $data['entradas'] = $this->almacen->getDataEntradasPosicion($idposicionbodega);
+        $data['salidasparciales'] = $this->almacen->getDataSalidaParcialPosicion($idposicionbodega);
+        $data['salidaspallet'] = $this->almacen->getDataSalidaPalletPosicion($idposicionbodega);
+
+        $this->load->view('header');
+        $this->load->view('warehouse/detalleposicion', $data);
+        $this->load->view('footer');
+    }
+
     public function exitWareHouse() {
         Permission::grant(uri_string());
         $first_date = $this->input->post('fechainicio');
@@ -62,9 +72,9 @@ class Warehouse extends CI_Controller {
         $tipo = $this->input->post('tipo');
         $categoria = $this->input->post('categoria');
         $parte = $this->input->post('parte');
-         $salida = $this->input->post('salida');
+        $salida = $this->input->post('salida');
         $exits = $this->almacen->getDataExits($first_date, $second_date, $tipo,$categoria,$parte,$salida);
-        //var_dump($exits);
+        
         $render = "";
         $render .= '<table id="datatableexit" class="table">
         <thead>
@@ -115,7 +125,6 @@ class Warehouse extends CI_Controller {
         }
         $render .= '</tbody>
         </table>';
-        //$data['exits'] = $render;
         
         $datos = array(
             'exits'=>$render,
@@ -130,6 +139,7 @@ class Warehouse extends CI_Controller {
     public function wharehouse() {
         Permission::grant(uri_string());
         $data['informacion'] = $this->almacen->getDataPallets();
+        $data['posiciones'] = $this->almacen->getDataPalletsPosicion();
 
         $this->load->view('header');
         $this->load->view('warehouse/warehouse', $data);

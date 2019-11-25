@@ -50,6 +50,44 @@ class Warehouse_model extends CI_Model {
         return $query->result();
     }
 
+    public function getDataPalletsPosicion() {
+
+        $query = $this->db->query("
+            select ppb.idposicion,r.idrevision, cl.nombre,ca.nombrecategoria, p.numeroparte, m.descripcion as nombremodelo, r.descripcion as nombrerevision,pb.nombreposicion,
+            (select COALESCE(sum(c2.cantidad),0) from parteposicionbodega ppb2, palletcajas pc2, tblcantidad c2 
+            WHERE ppb2.idpalletcajas = pc2.idpalletcajas AND pc2.idcajas = c2.idcantidad  AND c2.idrevision = r.idrevision AND ppb2.ordensalida = 0 AND ppb2.salida = 0)  as total,
+            (select 
+
+            COALESCE(sum(
+            CASE 
+            WHEN os.tipo  = 1 THEN os.caja 
+            ELSE 0
+            END),0)
+            from parteposicionbodega ppb2, palletcajas pc2, tblcantidad c2, ordensalida os
+            WHERE ppb2.idpalletcajas = pc2.idpalletcajas AND pc2.idcajas = c2.idcantidad AND pc2.idpalletcajas = os.idpalletcajas  AND c2.idrevision = r.idrevision AND ppb2.ordensalida = 1)  as totalsalidaparciales,
+            (select 
+
+            COALESCE(sum(
+            CASE 
+            WHEN os.tipo  = 0 THEN c2.cantidad 
+            ELSE 0
+            END),0)
+            from parteposicionbodega ppb2, palletcajas pc2, tblcantidad c2, ordensalida os
+            WHERE ppb2.idpalletcajas = pc2.idpalletcajas AND pc2.idcajas = c2.idcantidad AND pc2.idpalletcajas = os.idpalletcajas  AND c2.idrevision = r.idrevision AND ppb2.ordensalida = 1)  as totalsalidapallet
+            from palletcajas pc 
+            inner join tblcantidad c on c.idcantidad = pc.idcajas
+            inner join tblrevision r on r.idrevision =  c.idrevision
+            inner join tblmodelo m  on m.idmodelo = r.idmodelo
+            inner join parte p on p.idparte = m.idparte
+            inner join tblcategoria ca on p.idcategoria = ca.idcategoria
+            inner join cliente cl on cl.idcliente = p.idcliente
+            inner join parteposicionbodega ppb on ppb.idpalletcajas = pc.idpalletcajas
+            inner join posicionbodega pb on ppb.idposicion = pb.idposicion
+            group by ppb.idposicion");
+
+        return $query->result();
+    }
+
     public function getDataEntry($first_date = '', $second_date = '', $categoria = '', $parte = '') {
         $this->db->select('pc.idpalletcajas,pc.idtransferancia,pc.pallet,DATE_FORMAT(ppb.fecharegistro,  "%d/%m/%Y") as fecha,ca.nombrecategoria, pc.idcajas,pc.idestatus, p.idparte,c.nombre,p.numeroparte,count(tc.idcantidad) as totalpallet,tc.cantidad as cantidadxpallet, sum(tc.cantidad) as cantidad, tr.descripcion, s.nombrestatus, pc.idestatus,pb.nombreposicion');
         $this->db->from('palletcajas pc');
@@ -224,6 +262,68 @@ class Warehouse_model extends CI_Model {
             JOIN salida sal ON os.idsalida = sal.idsalida
             WHERE tr.idrevision = $id AND os.tipo = 0
             ORDER BY pc.idpalletcajas ASC");
+
+        return $query->result();
+    }
+
+    // Obtener datos posicion historial
+    public function getDataEntradasPosicion($idposicion) {
+        $query = $this->db->query("
+            SELECT pc.idpalletcajas, pc.idtransferancia, pc.pallet, pc.idcajas, pc.idestatus,
+            ppb.fecharegistro, p.idparte, c.nombre, p.numeroparte, tc.cantidad, tr.descripcion,
+            s.nombrestatus, pc.idestatus, pb.nombreposicion, ppb.ordensalida, ppb.salida
+            FROM palletcajas pc
+            JOIN tblcantidad tc ON tc.idcantidad = pc.idcajas 
+            JOIN tblrevision tr ON tr.idrevision = tc.idrevision
+            JOIN tblmodelo tm ON tm.idmodelo = tr.idmodelo 
+            JOIN parte p ON tm.idparte = p.idparte 
+            JOIN cliente c ON c.idcliente = p.idcliente 
+            JOIN status s ON s.idestatus = pc.idestatus 
+            JOIN parteposicionbodega ppb ON pc.idpalletcajas = ppb.idpalletcajas 
+            JOIN posicionbodega pb ON ppb.idposicion = pb.idposicion
+            WHERE ppb.idposicion = $idposicion ");
+
+        return $query->result();
+    }
+
+    public function getDataSalidaParcialPosicion($idposicion) {
+        $query = $this->db->query("
+            SELECT pc.idpalletcajas, pc.idtransferancia, pc.pallet, pc.idcajas, pc.idestatus, 
+            os.fecharegistro, p.idparte, c.nombre, p.numeroparte, tc.cantidad, tr.descripcion, 
+            s.nombrestatus, pc.idestatus, pb.nombreposicion, ppb.ordensalida, ppb.salida,os.caja
+            FROM palletcajas pc 
+            JOIN tblcantidad tc ON tc.idcantidad = pc.idcajas 
+            JOIN tblrevision tr ON tr.idrevision = tc.idrevision 
+            JOIN tblmodelo tm ON tm.idmodelo = tr.idmodelo
+            JOIN parte p ON tm.idparte = p.idparte
+            JOIN cliente c ON c.idcliente = p.idcliente 
+            JOIN STATUS s ON s.idestatus = pc.idestatus
+            JOIN parteposicionbodega ppb ON pc.idpalletcajas = ppb.idpalletcajas
+            JOIN posicionbodega pb ON ppb.idposicion = pb.idposicion 
+            JOIN ordensalida os ON pc.idpalletcajas = os.idpalletcajas
+            JOIN salida sal ON os.idsalida = sal.idsalida
+            WHERE ppb.idposicion = $idposicion AND os.tipo = 1 AND ppb.ordensalida = 1");
+
+        return $query->result();
+    }
+
+    public function getDataSalidaPalletPosicion($idposicion) {
+        $query = $this->db->query("
+            SELECT pc.idpalletcajas, pc.idtransferancia, pc.pallet, pc.idcajas, pc.idestatus, 
+            pc.fecharegistro, p.idparte, c.nombre, p.numeroparte, tc.cantidad, tr.descripcion, 
+            s.nombrestatus, pc.idestatus, pb.nombreposicion, ppb.ordensalida, ppb.salida,tc.cantidad
+            FROM palletcajas pc 
+            JOIN tblcantidad tc ON tc.idcantidad = pc.idcajas 
+            JOIN tblrevision tr ON tr.idrevision = tc.idrevision 
+            JOIN tblmodelo tm ON tm.idmodelo = tr.idmodelo
+            JOIN parte p ON tm.idparte = p.idparte
+            JOIN cliente c ON c.idcliente = p.idcliente 
+            JOIN STATUS s ON s.idestatus = pc.idestatus
+            JOIN parteposicionbodega ppb ON pc.idpalletcajas = ppb.idpalletcajas
+            JOIN posicionbodega pb ON ppb.idposicion = pb.idposicion 
+            JOIN ordensalida os ON pc.idpalletcajas = os.idpalletcajas
+            JOIN salida sal ON os.idsalida = sal.idsalida
+            WHERE ppb.idposicion = $idposicion AND os.tipo = 0");
 
         return $query->result();
     }
