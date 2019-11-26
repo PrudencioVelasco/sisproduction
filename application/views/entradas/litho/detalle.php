@@ -114,17 +114,34 @@
                 <td><i class="fa fa-undo" aria-hidden="true"></i>
                  <span class="label label-danger">DEVOLUCIONES</span></td>
                  <td><strong style="color:red;"><?php echo number_format($value->cantidad) ?></strong></td> 
-                 <td> </td>
-               </tr> 
-               <?php
-             }
-           } 
-           ?>
-         </tbody>
-       </table>
-     </div>
-   </div>
- </div>
+                 <td>
+                  <a  href="javascript:void(0)"  class="edit_button_devolucion btn btn-primary btn-xs"
+                  data-toggle="modal" data-target="#myModalDevolucion"
+                  data-idparte="<?php echo $value->idparte;?>"
+                  data-idlithodevolucion="<?php echo $value->idlithodevolucion;?>"
+                  data-cantidad="<?php echo $value->cantidad;?>"
+                  data-numeroparte="<?php echo $value->numeroparte;?>"
+                  data-comentarios="<?php echo $value->comentarios;?>"
+                  data-transferencia="<?php echo $value->transferencia;?>">
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                Modificar</a>
+                <a  href="javascript:void(0)" 
+                data-idlithodevolucion="<?php echo $value->idlithodevolucion;?>"
+                data-idparte="<?php echo $value->idparte;?>"
+                class="delete_button_devolucion btn btn-danger btn-xs">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              Eliminar</a>                   
+            </td>
+          </tr> 
+          <?php
+        }
+      } 
+      ?>
+    </tbody>
+  </table>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -177,7 +194,7 @@
         <div class="modal-body">
           <div class="alert alert-danger print-error-msg" style="display:none"></div>
           <div class="form-group">
-            <input class="form-control idparte" type="hidden" name="idparte">
+            <input class="form-control idpartesalida" type="hidden" name="idparte">
             <input class="form-control idlithosalida" type="hidden" name="idlithosalida">
           </div>
           <div class="form-group">
@@ -196,6 +213,44 @@
        <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="button" id="btnupdatesalida" class="btn btn-primary">Aceptar</button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+
+
+<!--Modal devoluciones-->
+<div class="modal fade" id="myModalDevolucion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title " id="myModalLabel">Devolución a: <label id="entradanumeroparte_devolucion"></label> </h3>
+      </div>
+      <form method="post" action="" id="frmupdateinfodevolucion">
+        <div class="modal-body">
+          <div class="alert alert-danger print-error-msg" style="display:none"></div>
+          <div class="form-group">
+            <input class="form-control idpartedevolucion" type="hidden" name="idparte">
+            <input class="form-control idlithodevolucion" type="hidden" name="idlithodevolucion">
+          </div>
+          <div class="form-group">
+           <label ><font color="red">*</font> Cantidad</label><br>
+           <input type="text" class="form-control cantidad_devolucion" name="cantidad">
+         </div>
+         <div class="form-group">
+           <label >Comentarios</label><br>
+           <textarea  class="form-control comentarios_devolucion" name="comentarios"></textarea>
+         </div> 
+         <div class="form-group">
+           <label >Transferencia</label><br>
+           <textarea  class="form-control transferencia_devolucion" name="transferencia"></textarea>
+         </div>  
+       </div>
+       <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="btnupdatedevolucion" class="btn btn-primary">Aceptar</button>
       </div>
     </form>
   </div>
@@ -245,45 +300,43 @@
     
 
     var dataString = 'idparte='+ idparte + '&idlitho=' + idlitho;
-        //var dataString = 'idlitho=' + idlitho;
-        
-        Swal.fire({
-          title: '¿Eliminar elemento?',
-          text: "Realmente desea eliminar el elemento seleccionado",
-          type: 'info',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Eliminar',
-          cancelButtonText: 'Cancelar'
-        }).then((result) => {
-          if (result.value) {
-            $.ajax({
-              type: "POST",
-              url: "<?php echo site_url('litho/eliminar_parte');?>",
-              data: dataString,
-              success: function(data) {
-                var msg = $.parseJSON(data);
-                console.log(msg.response);
-                if(msg.response == true){
-                  alert('Elemento eliminado exitosamente.') ? "" : location.reload();
-                }else if(msg.response == 'time'){
-                  Swal.fire(
-                    'Tiempo excedido',
-                    'Ya no puede eliminar la entrada, ha excedido el numero de horas.',
-                    'warning'
-                    ) 
-                }
-              }
-            });
-          }
-        })
 
-      });
+    Swal.fire({
+      title: '¿Eliminar elemento?',
+      text: "Realmente desea eliminar el elemento seleccionado",
+      type: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+          type: "POST",
+          url: "<?php echo site_url('litho/eliminar_parte');?>",
+          data: dataString,
+          success: function(data) {
+            var msg = $.parseJSON(data);
+            console.log(msg.response);
+            if(msg.response == true){
+              alert('Elemento eliminado exitosamente.') ? "" : location.reload();
+            }else if(msg.response == 'time'){
+              Swal.fire(
+                'Tiempo excedido',
+                'Ya no puede eliminar la entrada, ha excedido el numero de horas.',
+                'warning'
+                ) 
+            }
+          }
+        });
+      }
+    })
+
+  });
 
 
   /*Funciones para SALIDAS*/
-
   $(document).on( "click", '.edit_button_salida',function(e) { 
     var idparte = $(this).data('idparte'); 
     var idlithosalida = $(this).data('idlithosalida');
@@ -292,7 +345,7 @@
     var cantidad = $(this).data('cantidad');
     var numeroparte = $(this).data('numeroparte');
 
-    $(".idparte").val(idparte);  
+    $(".idpartesalida").val(idparte);  
     $(".idlithosalida").val(idlithosalida);  
     $(".comentarios_salida").val(comentarios);
     $(".transferencia_salida").val(transferencia);   
@@ -323,39 +376,123 @@
   });
 
   $(document).on( "click", '.delete_button_salida',function(e) { 
-        //var idparte = $(this).data('idparte'); 
-        var idlithosalida = $(this).data('idlithosalida');
-        //console.log(idparte);
-        //console.log(idlitho);
 
-        //var dataString = 'idparte='+ idparte + '&idlitho=' + idlitho;
-        var dataString = 'idlithosalida=' + idlithosalida;
-        
-        Swal.fire({
-          title: '¿Eliminar elemento?',
-          text: "Realmente desea eliminar el elemento seleccionado",
-          type: 'info',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Eliminar',
-          cancelButtonText: 'Cancelar'
-        }).then((result) => {
-          if (result.value) {
-            $.ajax({
-              type: "POST",
-              url: "<?php echo site_url('litho/eliminar_parte_salida');?>",
-              data: dataString,
-              success: function(data) {
-                var msg = $.parseJSON(data);
-                console.log(msg);
-                if(msg == true){
-                  alert("Elemento eliminado exitosamente.") ? "" : location.reload();
-                }
-              }
-            });
+    var idparte = $(this).data('idparte'); 
+    var idlithosalida = $(this).data('idlithosalida');
+    
+
+    var dataString = 'idparte='+ idparte + '&idlithosalida=' + idlithosalida;
+
+    Swal.fire({
+      title: '¿Eliminar elemento?',
+      text: "Realmente desea eliminar el elemento seleccionado",
+      type: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+          type: "POST",
+          url: "<?php echo site_url('litho/eliminar_parte_salida');?>",
+          data: dataString,
+          success: function(data) {
+            var msg = $.parseJSON(data);
+            if(msg.response == true){
+              alert('Elemento eliminado exitosamente.') ? "" : location.reload();
+            }else if(msg.response == 'time'){
+              Swal.fire(
+                'Tiempo excedido',
+                'Ya no puede eliminar la entrada, ha excedido el numero de horas.',
+                'warning'
+                ) 
+            }
           }
-        })
+        });
+      }
+    })
 
-      });
-    </script>
+  });
+
+  /*Funciones para DEVOLUCIONES*/
+  $(document).on( "click", '.edit_button_devolucion',function(e) {
+
+    var idparte = $(this).data('idparte'); 
+    var idlithodevolucion = $(this).data('idlithodevolucion');
+    var comentarios = $(this).data('comentarios');
+    var transferencia = $(this).data('transferencia');
+    var cantidad = $(this).data('cantidad');
+    var numeroparte = $(this).data('numeroparte');
+
+    $(".idpartedevolucion").val(idparte);  
+    $(".idlithodevolucion").val(idlithodevolucion);  
+    $(".comentarios_devolucion").val(comentarios);
+    $(".transferencia_devolucion").val(transferencia);   
+    $(".cantidad_devolucion").val(cantidad);
+    $("#entradanumeroparte_devolucion").text(numeroparte);    
+  });
+
+
+  $("#btnupdatedevolucion").click(function(){
+
+    $.ajax({
+      type: "POST",
+      url: "<?php echo site_url('litho/actualizar_devolucion');?>",
+      data: $('#frmupdateinfodevolucion').serialize(),
+      success: function(data) {
+        var msg = $.parseJSON(data);
+        console.log(msg);
+        if((typeof msg.error === "undefined")){ 
+          $(".print-error-msg").css('display','none'); 
+          alert(msg.success) ? "" : location.reload(); 
+        }else{ 
+          $(".print-error-msg").css('display','block'); 
+          $(".print-error-msg").html(msg.error);
+          setTimeout(function() {$('.print-error-msg').fadeOut('fast');}, 3000);
+        }
+      }
+    });
+  });
+
+  $(document).on( "click", '.delete_button_devolucion',function(e) {
+    var idparte = $(this).data('idparte');  
+    var idlithodevolucion = $(this).data('idlithodevolucion');
+
+    var dataString = 'idparte='+ idparte + '&idlithodevolucion=' + idlithodevolucion;
+
+    Swal.fire({
+      title: '¿Eliminar elemento?',
+      text: "Realmente desea eliminar el elemento seleccionado",
+      type: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        $.ajax({
+          type: "POST",
+          url: "<?php echo site_url('litho/eliminar_parte_devolucion');?>",
+          data: dataString,
+          success: function(data) {
+            var msg = $.parseJSON(data);
+            console.log(msg);
+            if(msg.response == true){
+              alert('Elemento eliminado exitosamente.') ? "" : location.reload();
+            }else if(msg.response == 'time'){
+              Swal.fire(
+                'Tiempo excedido',
+                'Ya no puede eliminar la entrada, ha excedido el numero de horas.',
+                'warning'
+                ) 
+            }
+          }
+        });
+      }
+    })
+
+  });
+</script>
