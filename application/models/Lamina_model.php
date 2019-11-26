@@ -102,7 +102,7 @@ class Lamina_model extends CI_Model {
 
     public function detalle_devoluciones($idparte)
     {
-        $this->db->select('p.idparte,c.idcliente,p.idcategoria, ca.nombrecategoria, p.numeroparte,c.nombre,u.name, d.cantidad, p.activo, m.descripcion as modelo, r.descripcion as revision,d.fecharegistro');
+        $this->db->select('p.idparte,c.idcliente,p.idcategoria, ca.nombrecategoria, p.numeroparte,c.nombre,u.name, d.idlaminadevolucion,d.idparte,d.idcliente,d.cantidad,d.comentarios, p.activo, m.descripcion as modelo, r.descripcion as revision,d.fecharegistro');
         $this->db->from('parte p');
         $this->db->join('cliente c', 'p.idcliente=c.idcliente');
         $this->db->join('tblcategoria ca', 'p.idcategoria=ca.idcategoria');
@@ -277,6 +277,61 @@ class Lamina_model extends CI_Model {
         $this->db->set('activo', 0);
         $this->db->where('idlaminasalida', $idlaminasalida);
         $this->db->update('tbllaminasalida');
+
+        return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
+    }
+
+    // Seccion DETALLE [Devoluciones]
+
+    public function totaldevolucioneswithout($idparte,$idlaminadevolucion)
+    {
+        $this->db->select('d.cantidad');
+        $this->db->from('tbllaminadevolucion d'); 
+        $this->db->where('d.activo',1); 
+        $this->db->where('d.idparte',$idparte);
+        $this->db->where_not_in('d.idlaminadevolucion',$idlaminadevolucion);      
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
+    public function actualizarlaminadevolucion($idlaminadevolucion,$data)
+    {
+        $this->db->where('idlaminadevolucion', $idlaminadevolucion);
+        $this->db->update('tbllaminadevolucion', $data);
+
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function buscar_fecha_parte_devolucion($idlaminadevolucion,$idparte)
+    {
+        $this->db->select('fecharegistro');
+        $this->db->from('tbllaminadevolucion'); 
+        $this->db->where('activo',1); 
+        $this->db->where('idlaminadevolucion',$idlaminadevolucion);
+        $this->db->where('idparte',$idparte); 
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
+    public function eliminar_devolucion($idlaminadevolucion)
+    {
+        $this->db->set('activo', 0);
+        $this->db->where('idlaminadevolucion', $idlaminadevolucion);
+        $this->db->update('tbllaminadevolucion');
 
         return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
     }
