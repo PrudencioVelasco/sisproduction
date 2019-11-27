@@ -12,7 +12,7 @@
                         <div id="app">
                             <div class="container">  
                                 <div class="row">
-                                   <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                 <div class="col-md-12 col-sm-12 col-xs-12 ">
                                     <table class="table is-bordered is-hoverable" id="datatable2">
                                         <thead class="text-white bg-dark" >
                                             <th>Cliente/Proveedor</th>
@@ -90,19 +90,19 @@
                         <input class="form-control business_skill_id" type="hidden" name="idparte">
                     </div>
                     <div class="form-group">
-                     <label ><font color="red">*</font> Cantidad</label><br>
-                     <input type="text" name="cantidad"  class="form-control">
-                 </div>
-                 <div class="form-group">
-                     <label >Comentarios</label><br>
-                     <textarea  class="form-control" name="comentarios"></textarea>
-                 </div>
-                 <div class="form-group">
-                     <label >Transferencia</label><br>
-                     <textarea  class="form-control" name="transferencia"></textarea>
-                 </div> 
-             </div>
-             <div class="modal-footer">
+                       <label ><font color="red">*</font> Cantidad</label><br>
+                       <input type="text" name="cantidad"  class="form-control">
+                   </div>
+                   <div class="form-group">
+                       <label >Comentarios</label><br>
+                       <textarea  class="form-control" name="comentarios"></textarea>
+                   </div>
+                   <div class="form-group">
+                       <label >Transferencia</label><br>
+                       <textarea  class="form-control" name="transferencia"></textarea>
+                   </div> 
+               </div>
+               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 <button type="button" id="btnentrada" class="btn btn-primary">Aceptar</button>
             </div>
@@ -124,25 +124,25 @@
                     <div class="form-group">
                         <input class="form-control business_skill_id" type="hidden" name="idparte">
                     </div>
-                <div class="form-group">
-                 <label ><font color="red">*</font> Cantidad</label><br>
-                 <input type="text" name="cantidad"  class="form-control">
-             </div>
-             <div class="form-group">
-                 <label >Comentarios</label><br>
-                 <textarea  class="form-control" name="comentarios"></textarea>
-             </div>
-             <div class="form-group">
-                 <label >Transferencia</label><br>
-                 <textarea  class="form-control" name="transferencia"></textarea>
-             </div>  
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="button" id="btnsalida" class="btn btn-primary">Aceptar</button>
-        </div>
-    </form>
-</div>
+                    <div class="form-group">
+                       <label ><font color="red">*</font> Cantidad</label><br>
+                       <input type="text" name="cantidad"  class="form-control">
+                   </div>
+                   <div class="form-group">
+                       <label >Comentarios</label><br>
+                       <textarea  class="form-control" name="comentarios"></textarea>
+                   </div>
+                   <div class="form-group">
+                       <label >Transferencia</label><br>
+                       <textarea  class="form-control" name="transferencia"></textarea>
+                   </div>  
+               </div>
+               <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="btnsalida" class="btn btn-primary">Aceptar</button>
+            </div>
+        </form>
+    </div>
 </div>
 </div>
 
@@ -160,38 +160,25 @@
                     <div class="form-group">
                         <input class="form-control business_skill_id" type="hidden" name="idparte">
                     </div>
-                    <!--<div class="form-group">
-                     <label ><font color="red">*</font> Proveedor</label><br>
-                     <select class="form-control" name="cliente">
-                         <?php
-                         if(isset($clientes) && !empty($clientes)){
-                            foreach($clientes as $value){?>
-                                <option value="<?php echo $value->idcliente ?>"><?php echo $value->nombre ?></option>
-                            <?php }
-                        }
-                        ?>
-
-                    </select>
-                </div>-->
-                <div class="form-group">
-                 <label ><font color="red">*</font> Cantidad</label><br>
-                 <input type="text" name="cantidad"  class="form-control">
-             </div>
-             <div class="form-group">
-                 <label >Comentarios</label><br>
-                 <textarea  class="form-control" name="comentarios"></textarea>
-             </div> 
-             <div class="form-group">
-                 <label >Transferencia</label><br>
-                 <textarea  class="form-control" name="transferencia"></textarea>
-             </div>  
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="button" id="btndevolucion" class="btn btn-primary">Aceptar</button>
-        </div>
-    </form>
-</div>
+                    <div class="form-group">
+                       <label ><font color="red">*</font> Cantidad</label><br>
+                       <input type="text" name="cantidad"  class="form-control">
+                   </div>
+                   <div class="form-group">
+                       <label >Comentarios</label><br>
+                       <textarea  class="form-control" name="comentarios"></textarea>
+                   </div> 
+                   <div class="form-group">
+                       <label >Transferencia</label><br>
+                       <textarea  class="form-control" name="transferencia"></textarea>
+                   </div>  
+               </div>
+               <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="btndevolucion" class="btn btn-primary">Aceptar</button>
+            </div>
+        </form>
+    </div>
 </div>
 </div>
 

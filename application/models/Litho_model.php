@@ -103,7 +103,7 @@ public function detalle_salidas($idparte)
 
 public function detalle_devoluciones($idparte)
 {
-  $this->db->select('p.idparte,c.idcliente,p.idcategoria, ca.nombrecategoria, p.numeroparte,c.nombre,u.name, d.cantidad, p.activo, m.descripcion as modelo, r.descripcion as revision,d.fecharegistro');
+  $this->db->select('p.idparte,c.idcliente,p.idcategoria, ca.nombrecategoria, p.numeroparte,c.nombre,u.name, d.idlithodevolucion,d.cantidad,d.comentarios,d.transferencia, p.activo, m.descripcion as modelo, r.descripcion as revision,d.fecharegistro');
   $this->db->from('parte p');
   $this->db->join('cliente c', 'p.idcliente=c.idcliente');
   $this->db->join('tblcategoria ca', 'p.idcategoria=ca.idcategoria');
@@ -279,6 +279,79 @@ public function buscar_fecha_parte_entrada($idlitho,$idparte)
   } else {
     return false;
   }
+}
+
+
+public function buscar_fecha_parte_salidas($idlithosalida,$idparte)
+{
+  $this->db->select('fecharegistro');
+  $this->db->from('tbllithosalida'); 
+  $this->db->where('activo',1); 
+  $this->db->where('idlithosalida',$idlithosalida);
+  $this->db->where('idparte',$idparte); 
+  $query = $this->db->get();
+  
+  if ($query->num_rows() > 0) {
+    return $query->result();
+  } else {
+    return false;
+  }
+}
+
+// Seccion DETALLES [Devoluciones]
+public function totaldevolucioneswithout($idparte,$idlithodevolucion)
+{
+  $this->db->select('cantidad');
+  $this->db->from('tbllithodevolucion'); 
+  $this->db->where('activo',1); 
+  $this->db->where('idparte',$idparte);
+  $this->db->where_not_in('idlithodevolucion',$idlithodevolucion);      
+  $query = $this->db->get();
+  
+  if ($query->num_rows() > 0) {
+    return $query->result();
+  } else {
+    return false;
+  }
+}
+
+public function actualizarlithodevolucion($idlithodevolucion,$data)
+{
+  $this->db->where('idlithodevolucion', $idlithodevolucion);
+  $this->db->update('tbllithodevolucion', $data);
+  
+  if ($this->db->affected_rows() > 0) {
+    return true;
+  } else {
+    return false;
+  }
+
+}
+
+public function buscar_fecha_parte_devolucion($idlithodevolucion,$idparte)
+{
+  $this->db->select('fecharegistro');
+  $this->db->from('tbllithodevolucion'); 
+  $this->db->where('activo',1); 
+  $this->db->where('idlithodevolucion',$idlithodevolucion);
+  $this->db->where('idparte',$idparte); 
+  $query = $this->db->get();
+  
+  if ($query->num_rows() > 0) {
+    return $query->result();
+  } else {
+    return false;
+  }
+}
+
+public function eliminar_devolucion($idlithodevolucion)
+{
+  $this->db->set('activo', 0);
+  $this->db->where('idlithodevolucion', $idlithodevolucion);
+  $this->db->update('tbllithodevolucion');
+
+  return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
+
 }
 
 }
