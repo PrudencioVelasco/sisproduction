@@ -29,10 +29,15 @@ class Reporte extends CI_Controller {
         $this->load->view('reporte/transferencia', $data);
         $this->load->view('footer');
     }
-    public function test()
+    public function procesofinal()
     {
         # code...
-        var_dump($this->reporte->busqueda_proceso());
+         $data  = array(
+            'partes'=>$this->reporte->allNumeroPartes()
+             );
+        $this->load->view('header');
+        $this->load->view('reporte/procesofinal',$data);
+        $this->load->view('footer');
     }
     public function procesos()
     {
@@ -45,6 +50,25 @@ class Reporte extends CI_Controller {
              );
          $this->load->view('header');
         $this->load->view('reporte/procesos',$data);
+        $this->load->view('footer');
+    }
+    public function buscar_reporte_proceso_final()
+    {
+        # code...
+         $idlamina = $this->input->post('idlamina'); 
+         $fechainicio = $this->input->post('fechainicio');
+        $nueva_fecha_inicio = $fechainicio.":00";
+        $fechafin = $this->input->post('fechafin'); 
+         $nueva_fecha_fin = $fechafin.":00";
+        $idproceso = $this->input->post('idproceso');
+        $datareporte =  $this->reporte->busqueda_proceso_final($nueva_fecha_inicio,$nueva_fecha_fin,$idlamina,$idproceso);
+        //var_dump($datareporte);
+       $data  = array(
+            'partes'=>$this->reporte->allNumeroPartes(),
+            'datareporte'=>$datareporte
+             );
+         $this->load->view('header');
+        $this->load->view('reporte/procesofinal',$data);
         $this->load->view('footer');
     }
     public function buscar_reporte_proceso()

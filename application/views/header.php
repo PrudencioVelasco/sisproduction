@@ -42,6 +42,10 @@
         <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/bootstrapvalidator/bootstrapValidator.min.css"/>
         <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/bootstrapvalidator/bootstrapValidator.min.js"></script>
 
+  
+
+
+
         <!--[if lt IE 9]>
               <script src="../assets/js/ie8-responsive-file-warning.js"></script>
             <![endif]-->
@@ -135,7 +139,8 @@
                                    <li><a><i class="fa fa-bar-chart" aria-hidden="true"></i> Reporte <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none"> 
                                             <li><a href="<?= base_url('/reporte/transferencia') ?>"> Transferencia</a> </li>
-                                             <li><a href="<?= base_url('/reporte/procesos') ?>"> Procesos</a> </li>
+                                             <li><a href="<?= base_url('/reporte/procesos') ?>"> Procesos detallado</a> </li>
+                                                <li><a href="<?= base_url('/reporte/procesofinal') ?>"> Procesos Final</a> </li>
                                         </ul>
                                     </li>
                                 </ul>
