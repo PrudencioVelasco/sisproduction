@@ -259,9 +259,10 @@ class Catalogo extends CI_Controller {
 
     public function operacion() {
         $formdata = $this->input->post();
-        $checkbox1 = $this->input->post('table_records');
+        
         $ididentificador = $this->input->post('ididentificador');
         if (isset($formdata['subir'])) {
+          $checkbox1 = $this->input->post('table_records');
             $datos = array();
             //Subir
             $i = 0;
@@ -463,6 +464,7 @@ class Catalogo extends CI_Controller {
             }
 
         } else {
+          $checkbox1 = $this->input->post('table_records_delete');
             //Eliminar
             foreach ($checkbox1 as $chk1) {
                 $id = $chk1;

@@ -26,13 +26,13 @@
                             <div class="col-md-2 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label><font color="red">*</font> Fecha Inicial</label>
-                                    <input type="date" name="fechainicio" class="form-control" required/>
+                                    <input type="date" name="fechainicio" id="fechainicio" class="form-control" required/>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label><font color="red">*</font> Fecha Final</label>
-                                    <input type="date" name="fechafin" class="form-control" required/>
+                                    <input type="date" name="fechafin" id="fechafin" class="form-control" required/>
                                 </div>
                             </div>
                              <div class="col-md-3 col-sm-12 col-xs-12">
@@ -99,6 +99,10 @@
         </div>
     </div>
 </div>
+   <script type="text/javascript">
+        document.getElementById('fechainicio').valueAsDate = new Date();
+        document.getElementById('fechafin').valueAsDate = new Date();
+    </script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#datatableentry').DataTable({

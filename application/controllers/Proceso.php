@@ -19,7 +19,7 @@ class Proceso extends CI_Controller {
     }
 
     public function index() {
-        //Permission::grant(uri_string());
+        Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('proceso/principal');
         $this->load->view('footer');
@@ -232,10 +232,9 @@ public function eliminar_entrada($identrada)
     # code...
     $validacion = $this->proceso->validar_activo_detalle_entrada($identrada);
     if($validacion == FALSE){
-        $data = array(
-        'eliminado'=> 1
-        );
-        $this->proceso->updateEntrada($identrada,$data);
+        
+        $this->proceso->deleteDetalleEntradaPorId($identrada);
+        $this->proceso->deleteEntradaPorId($identrada);
     }
     redirect('proceso/entrada/'); 
 
@@ -388,7 +387,7 @@ public function siguiente_proceso()
                 'label' => 'cantidadbien',
                 'rules' => 'trim|required|is_natural',
                 'errors' => array(
-                    'required' => 'Cantidad a enviar es campo obligatorio.', 
+                    'required' => 'Cantidad Buenas es campo obligatorio.', 
                     'is_natural'=> 'Solo número positivo.'
                 )
             ),
@@ -397,7 +396,7 @@ public function siguiente_proceso()
                 'label' => 'cantidaderror',
                 'rules' => 'trim|required|is_natural',
                 'errors' => array(
-                    'required' => 'Cantidad erroneos es campo obligatorio.', 
+                    'required' => 'Cantidad Malas es campo obligatorio.', 
                     'is_natural'=> 'Solo número positivo.'
                 )
             )

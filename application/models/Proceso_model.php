@@ -397,7 +397,28 @@ and   idproceso = $idproceso and activo =1");
               return false;
           }
         }
-
+public function deleteDetalleEntradaPorId($id)
+    {
+        $this->db->where('identradaproceso', $id);
+        $this->db->delete('tblentradadetalleproceso');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+    public function deleteEntradaPorId($id)
+    {
+        $this->db->where('identradaproceso', $id);
+        $this->db->delete('tblentrada_proceso');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
 
 
 }

@@ -33,13 +33,13 @@
                             <div class="col-md-2 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label><font color="red">*</font> De</label>
-                                    <input type="date" name="fechainicio" class="form-control" required/>
+                                    <input type="date" name="fechainicio" id="fechainicio" class="form-control" required/>
                                 </div>
                             </div>
                             <div class="col-md-2 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label><font color="red">*</font> a</label>
-                                    <input type="date" name="fechafin" class="form-control" required/>
+                                    <input type="date" name="fechafin" id="fechafin" class="form-control" required/>
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-12 col-xs-12">
@@ -95,7 +95,9 @@
                                             <th scope="col">C. Entrada</th>
                                             <th scope="col">C. Erroneas</th>
                                             <th scope="col">C. Salidas</th>
+                                            <th scope="col">P. Finalizado</th>
                                              <th scope="col">T. Transcurrido</th>
+                                             <th scope="col">Fecha</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -120,12 +122,24 @@
                                                     <td><strong style="color:blue;"><?php echo number_format($value->cantidadsalida); ?></strong></td> 
                                                     <td>
                                                         <?php
+                                                            if ($value->finalizadoproceso == 1) {
+                                                                # code...
+                                                                echo '<label style="color:green;"><strong>SI</strong></label>';
+                                                            }else{
+                                                                 echo '<label style="color:red;"><strong>NO</strong></label>';
+
+                                                            }
+                                                        ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
                                                             $fecha1 = new DateTime($value->fecharegistro);
     $fecha2 = new DateTime($value->fechaliberado);
     $fecha = $fecha1->diff($fecha2);
-    printf('%d horas, %d minutos', $fecha->y, $fecha->m, $fecha->d, $fecha->h, $fecha->i);
+    printf('%d H, %d M', $fecha->h, $fecha->i);
                                                         ?>
                                                     </td>
+                                                    <td><?php echo $value->fecharegistro; ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         <?php endif; ?> 
@@ -139,6 +153,10 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        document.getElementById('fechainicio').valueAsDate = new Date();
+        document.getElementById('fechafin').valueAsDate = new Date();
+    </script>
 <script >
     // In your Javascript (external .js resource or <script> tag)
 $(document).ready(function() {
@@ -158,6 +176,7 @@ $(document).ready(function() {
 <script type="text/javascript">
     $(document).ready(function () {
         $('#datatableentry').DataTable({
+            "scrollX": true,
             dom: 'Bfrtip',
             buttons: [
                 'excelHtml5',

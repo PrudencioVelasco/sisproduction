@@ -50,9 +50,9 @@
                                             <th>Lamina</th>
                                             <th>Num. Parte</th>  
                                             <th>Proceso Actual</th>  
-                                            <th>Entrada</th>
-                                            <th>Errones</th>
-                                            <th>Salidas</th> 
+                                            <th>C. Recibida (IN)</th>
+                                            <th>Malas (NG)</th>
+                                            <th>Salidas (FG)</th> 
                                             <th>Opción</th>
                                             </thead>
                                             <tbody>
@@ -116,16 +116,15 @@
           
 <br>
           <table   class="table table-striped table-bordered example" style="width:100%">
-        <thead>
-            <tr>
+        <thead> 
                <th>Lamina</th>
                                             <th>Num. Parte</th>  
                                             <th>Proceso Actual</th>  
-                                            <th>Entrada</th>
-                                            <th>Errones</th>
-                                            <th>Salidas</th> 
+                                            <th>C. Recibida (IN)</th>
+                                            <th>Malas (NG)</th>
+                                            <th>Salidas (FG)</th> 
                                             <th>Opción</th>
-            </tr>
+             
         </thead>
         <tbody>
            <?php 
@@ -227,7 +226,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title " id="myModalLabel">Entrada: <label class="titlecantidad"></label> </h3>
+                <h3 class="modal-title " id="myModalLabel">CANTIDAD RECIBIDA: <label class="titlecantidad"></label> </h3>
             </div>
             <form method="post" action="" id="frmenviar">
                 <div class="modal-body">
@@ -239,11 +238,11 @@
                         <input   type="hidden" name="maquina" value="<?php echo $maquina ?>">
                      </div>
                      <div class="form-group">
-                         <label ><font color="red">*</font> Cantidad a enviar</label><br>
+                         <label ><font color="red">*</font> Cantidad Buenas (FG) </label><br>
                         <input type="text" name="cantidadbien"  class="form-control">
                     </div>
                     <div class="form-group">
-                         <label ><font color="red">*</font> Cantidad  erroneas</label><br>
+                         <label ><font color="red">*</font> Cantidad Malas (NG)</label><br>
                         <input type="text" name="cantidaderror"  class="form-control">
                     </div>
                 </div>
@@ -271,8 +270,12 @@ $(document).on( "click", '.edit_button_enviar',function(e) {
     $("#iddetalle").val(id); 
     $("#cantidad").val(cantidad);
     $("#identradaproceso").val(identradaproceso); 
-    $(".titlecantidad").text(cantidad);   
+
+    $(".titlecantidad").text(formatNumber( cantidad));   
 });
+function formatNumber(num) {
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
  
 </script>
 

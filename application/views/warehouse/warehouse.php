@@ -20,11 +20,11 @@
                         <div class="container">
                             <div class="bs-example">
                              <ul class="nav nav-tabs nav-pills">
-                                <li class="active">
-                                    <a data-toggle="tab" href="#sectionA"><h2>Listado General</h2></a>
+                                <li class="active" style="">
+                                    <a data-toggle="tab" href="#sectionA">Listado General</a>
                                 </li>
                                 <li>
-                                    <a data-toggle="tab" href="#sectionB"><h2>Listado por Ubicación</h2></a>
+                                    <a data-toggle="tab" href="#sectionB">Listado por Ubicación</a>
                                 </li>
                             </ul>
                         </div>
@@ -103,7 +103,7 @@
                                                         <table id="datatablewarehouseposicion" class="table" width="100%" cellspacing="0">
                                                             <thead>
                                                                 <tr>
-                                                                    <th scope="col">Posicion</th>
+                                                                    <th scope="col">Ubicación</th>
                                                                     <th scope="col">Entradas</th> 
                                                                     <th scope="col">Salidas</th> 
                                                                     <th scope="col">Existencias</th> 
@@ -147,155 +147,7 @@
                 </div>
             </div>
         </div>
-        <!--<div class="clearfix"></div>
-        
-        <div class="bs-example">
-           <ul class="nav nav-tabs">
-            <li class="active">
-                <a data-toggle="tab" href="#sectionA"><h2>General</h2></a></li>
-                <li><a data-toggle="tab" href="#sectionB"><h2>Posicion</h2></a></li>
-            </ul>
-        </div>
-        <div class="tab-content">
-            <div id="sectionA" class="tab-pane fade in active">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="x_panel">
-                            <div class="x_title">
-                                <div class="row">  
-                                  <div class="col-md-11 col-sm-12 col-xs-12">
-                                    <h3>Listado General</h3>
-                                </div>
-                                <div class="col-md-1 col-sm-12 col-xs-12">
-                                    <a href="<?php echo base_url('warehouse/index')?>" class="btn btn-success"><i class="fa fa-home" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-                            <div id="app">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <table id="datatablewarehouse" class="table" width="100%" cellspacing="0">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">Cliente</th>
-                                                        <th scope="col">No. Parte</th>
-                                                        <th scope="col">Categoria</th>
-                                                        <th scope="col">Modelo</th>
-                                                        <th scope="col">Revisión</th>
-                                                        <th scope="col">Entradas</th> 
-                                                        <th scope="col">Salidas</th> 
-                                                        <th scope="col">Existencias</th> 
-
-                                                        <th class="text-center">Acción</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php if (isset($informacion) && !empty($informacion)):?>
-                                                    <?php foreach ($informacion as $value):?>
-                                                        <tr>
-                                                            <td><?php echo $value->nombre; ?></td>
-                                                            <td><?php echo $value->numeroparte; ?></td>
-                                                            <td><?php echo $value->nombrecategoria; ?></td>
-                                                            <td><?php echo $value->nombremodelo; ?></td>
-                                                            <td><?php echo $value->nombrerevision; ?></td>
-                                                            <td>
-                                                                <label style="color:blue;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet + $value->total);?></label>
-                                                            </td>
-                                                            <td>
-                                                                <label style="color:red;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet);?></label>
-                                                            </td>
-                                                            <td>
-                                                                <label style="color:green;"><?php echo number_format($value->total);?></label>                                                        
-                                                            </td>
-
-                                                            <td align="center">
-                                                                <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('warehouse/historial/'.$value->idrevision) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
-                                                                Historial</a>
-                                                            </td>
-                                                        </tr>
-                                                    <?php endforeach;?>
-                                                <?php endif;?> 
-                                            </tbody>
-                                        </table>
-                                    </div> 
-                                </div> 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="sectionB" class="tab-pane fade">
-      <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <div class="row">  
-                      <div class="col-md-11 col-sm-12 col-xs-12">
-                        <h3>Listado Posicion</h3>
-                    </div>
-                    <div class="col-md-1 col-sm-12 col-xs-12">
-                        <a href="<?php echo base_url('warehouse/index')?>" class="btn btn-success"><i class="fa fa-home" aria-hidden="true"></i></a>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-                <div id="app">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <table id="datatablewarehouseposicion" class="table" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Posicion</th>
-                                            <th scope="col">Entradas</th> 
-                                            <th scope="col">Salidas</th> 
-                                            <th scope="col">Existencias</th> 
-
-                                            <th class="text-center">Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php if (isset($posiciones) && !empty($posiciones)):?>
-                                        <?php foreach ($posiciones as $value):?>
-                                            <tr>
-                                                <td><?php echo $value->nombreposicion; ?>
-                                            </td>
-                                            <td>
-                                                <label style="color:blue;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet + $value->total);?></label>
-                                            </td>
-                                            <td>
-                                                <label style="color:red;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet);?></label>
-                                            </td>
-                                            <td>
-                                                <label style="color:green;"><?php echo number_format($value->total);?></label>                                                        
-                                            </td>
-
-                                            <td align="center">
-                                                <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('warehouse/historialposicion/'.$value->idposicion) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
-                                                Historial</a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach;?>
-                                <?php endif;?> 
-                            </tbody>
-                        </table>
-                    </div> 
-                </div> 
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-</div>
-
-</div>-->
+    
 
 </div>
 </div>
