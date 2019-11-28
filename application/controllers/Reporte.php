@@ -33,7 +33,8 @@ class Reporte extends CI_Controller {
     {
         # code...
          $data  = array(
-            'partes'=>$this->reporte->allNumeroPartes()
+            'partes'=>$this->reporte->allNumeroPartes(),
+            'maquinas'=>$this->reporte->maquinas_activas()
              );
         $this->load->view('header');
         $this->load->view('reporte/procesofinal',$data);
@@ -54,18 +55,19 @@ class Reporte extends CI_Controller {
     }
     public function buscar_reporte_proceso_final()
     {
-        # code...
-         $idlamina = $this->input->post('idlamina'); 
+
+          $idlamina = $this->input->post('idlamina'); 
          $fechainicio = $this->input->post('fechainicio');
         $nueva_fecha_inicio = $fechainicio.":00";
         $fechafin = $this->input->post('fechafin'); 
          $nueva_fecha_fin = $fechafin.":00";
-        $idproceso = $this->input->post('idproceso');
-        $datareporte =  $this->reporte->busqueda_proceso_final($nueva_fecha_inicio,$nueva_fecha_fin,$idlamina,$idproceso);
+          $idproceso = $this->input->post('idproceso');
+        $datareporte =  $this->reporte->busqueda_proceso_final($nueva_fecha_inicio,$nueva_fecha_fin,$idproceso);
         //var_dump($datareporte);
        $data  = array(
             'partes'=>$this->reporte->allNumeroPartes(),
-            'datareporte'=>$datareporte
+            'datareporte'=>$datareporte,
+            'maquinas'=>$this->reporte->maquinas_activas()
              );
          $this->load->view('header');
         $this->load->view('reporte/procesofinal',$data);

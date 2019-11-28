@@ -59,6 +59,7 @@
 <!-- select2 -->
 <script src="<?php echo base_url(); ?>/assets/js/select/select2.full.js"></script>
 
+
 <script>
     var handleDataTableButtons = function () {
         "use strict";

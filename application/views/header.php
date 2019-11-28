@@ -138,8 +138,7 @@
                                     <li><a href="<?= base_url('/catalogo/') ?>"><i class="fa fa-folder-open" aria-hidden="true"></i>Catalogo</a> </li>
                                    <li><a><i class="fa fa-bar-chart" aria-hidden="true"></i> Reporte <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none"> 
-                                            <li><a href="<?= base_url('/reporte/transferencia') ?>"> Transferencia</a> </li>
-                                             <li><a href="<?= base_url('/reporte/procesos') ?>"> Procesos detallado</a> </li>
+                                            <li><a href="<?= base_url('/reporte/transferencia') ?>"> Transferencia</a> </li> 
                                                 <li><a href="<?= base_url('/reporte/procesofinal') ?>"> Procesos Final</a> </li>
                                         </ul>
                                     </li>

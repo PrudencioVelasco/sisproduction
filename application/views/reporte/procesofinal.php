@@ -66,10 +66,14 @@
                             <div class="col-md-2 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label>Procesos</label>
-                                   <select name="tipoproceso" name="idproceso" class="form-control">
-                                       <option value="">TODOS</option>
-                                       <option value="1">FINALIZADO</option>
-                                       <option value="0">EN PROCESO</option>
+                                   <select   name="idproceso" class="form-control">
+                                    <option value="">SELECCIONAR</option>
+                                        <?php
+                foreach ($maquinas as  $value) {
+                    # code...
+                    echo ' <option   value="'.$value->idmaquina.'">'.$value->nombremaquina.'</option> ';
+                }
+            ?>
                                    </select>
                                 </div>
                             </div> 
@@ -86,50 +90,70 @@
                             <table id="datatableentry" class="table">
                                     <thead>
                                         <tr>
-                                             <th scope="col">N Entrada</th> 
+                                             <th scope="col">No</th> 
                                             <th scope="col">Lamina</th> 
-                                            <th scope="col">Parte</th>
-                                            <th scope="col">Procesos</th>
-                                            <th scope="col">Actual</th>
-                                            <th scope="col">C. Entrada</th>
-                                            <th scope="col">C. Erroneas</th>
-                                            <th scope="col">C. Salidas</th>
-                                            <th scope="col">P. Finalizado</th> 
+                                            <th scope="col">Parte</th> 
+                                            <th scope="col">C. Meta</th>
+                                            <th scope="col">C. Entrada (IN)</th>
+                                            <th scope="col">C. Malas (NG)</th>
+                                            <th scope="col">C. Salidas (FG)</th> 
+                                             <th scope="col">Estatus</th> 
                                              <th scope="col">Fecha</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php if (isset($datareporte) && !empty($datareporte)): ?>
-                                            <?php foreach ($datareporte as $value): ?>
+                                            <?php foreach ($datareporte as $value): 
+
+                                                $entrada=$value->testca;
+                                                $salida=0;
+                                                $mal=0;
+
+                                                ?>
                                                 <tr>
                                                     <td><?php echo $value->identradaproceso; ?></td> 
                                                     <td><?php echo $value->lamina; ?></td> 
                                                     <td><?php echo $value->numeroparte; ?></td>
-                                                    <td><?php echo $value->pasos; ?></td>
-                                                    <td>
-                                                    <?php
-                                                                if($value->finalizado == 1){ ?>
-                                                                   <span style="font-size: 12px" class="label label-success "><strong><?php echo $value->numerodelproceso.'.- '.$value->maquinaactual; ?></strong></span>
-                                                                <?php }else{ ?>
-                                                                   <span style="font-size: 12px" class="label label-warning "><strong><?php echo $value->numerodelproceso.'.- '.$value->maquinaactual; ?></strong></span>
-                                                               <?php  }
-                                                              ?>
-                                                        </td>
-                                                    <td><strong style="color:green;"><?php echo number_format($value->cantidadinicial); ?></strong></td>
-                                                    <td><strong style="color:red;"><?php echo number_format($value->totalerronea); ?></strong></td>
-                                                    <td><strong style="color:blue;"><?php echo number_format($value->cantidadsalida); ?></strong></td> 
-                                                    <td>
-                                                        <?php
-                                                            if ($value->finalizadoproceso == 1) {
-                                                                # code...
-                                                                echo '<label style="color:green;"><strong>SI</strong></label>';
-                                                            }else{
-                                                                 echo '<label style="color:red;"><strong>NO</strong></label>';
 
-                                                            }
-                                                        ?>
-                                                    </td> 
-                                                    </td>
+                                                    <td><strong style="color:black;"><?php echo number_format($value->metaproduccion ); ?></strong></td>
+
+                                                    <td><strong style="color:green;"><?php
+                                                     echo number_format($value->testca);
+
+                                                      ?></strong></td>
+
+
+                                                    <td><strong style="color:red;">
+                                                        <?php
+                                                        
+
+
+                                                         if($value->idmaquina ==7){
+                                                             
+                                                             if($value->totalerroneascrap == 0){
+                                                                $mal=$value->cantidaderronea;
+                                                            echo number_format($value->cantidaderronea );
+                                                             }else{
+                                                                echo number_format($value->totalerroneascrap);
+                                                                 $mal=$value->totalerroneascrap;
+                                                             } 
+
+                                                         }else{
+                                                            $mal=$value->cantidaderronea;
+                                                              echo number_format($value->cantidaderronea); 
+
+                                                         }
+                                                         ?></strong></td> 
+                                                    <td><strong style="color:blue;"><?php
+                                                    $salida =$value->cantidadsalida;
+                                                     echo number_format($value->cantidadsalida); ?></strong></td>  
+                                                     <td><?php
+                                                        if((($salida + $mal) - $entrada )== 0){
+                                                            echo "<strong style='color:green;'>FINALIZADO</strong>";
+                                                        }else{
+                                                             echo "<strong style='color:#e1c40a;'>EN PROCESO</strong>";
+                                                        }
+                                                     ?></td> 
                                                     <td><?php echo $value->fecharegistro; ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
@@ -162,8 +186,7 @@ $(document).ready(function() {
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#datatableentry').DataTable({
-            "scrollX": true,
+        $('#datatableentry').DataTable({ 
             dom: 'Bfrtip',
             buttons: [
                 'excelHtml5',

@@ -20,7 +20,7 @@
                            <h3><strong>Administrar Procesos</strong></h3>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12" align="right">
-                           <h3><strong><?php echo $detallemaquina->nombremaquina; ?></strong></h3>
+                           <h3><strong>SCRAP</strong></h3>
                         </div>
                       </div>
                        
@@ -49,13 +49,13 @@
 
    <table   class="table table-striped table-bordered example" style="width:100%">
                                             <thead class="text-white bg-dark" >
-                                            <th>No</th>
+                                              <th>No</th>
                                             <th>Lamina</th>
-                                            <th>Num. Parte</th>   
+                                            <th>Num. Parte</th>     
                                             <th>C. Recibida (IN)</th>
                                             <th>Malas (NG)</th>
                                             <th>Salidas (FG)</th> 
-                                            <th>Opción</th>
+                                            <th><center>Opción</center></th>
                                             </thead>
                                             <tbody>
                                                
@@ -67,29 +67,28 @@
                                                         if($value->tuturno == $maquina && $value->finalizado == 0){
                                                         // echo $value->tuturno ;
                                                         ?>
-                                                        <tr >
-                                                         <td><strong><?php echo $value->id; ?></strong></td> 
+                                                        <tr > 
+                                                           <td><strong><?php echo $value->id; ?></strong></td>
                                                             <td><strong><?php echo $value->lamina; ?></strong></td>
                                                             <td><strong><?php echo $value->numeroparte;?></strong></td> 
-                                                            <td align="center">
-                                                              <?php if($value->descrap == 0){ ?>
-                                                              <strong style="color: green"><?php echo number_format($value->cantidadentrada); ?></strong>
-                                                            <?php }else{?>
-                                                               <strong style="color: green">Re-trabajar: <?php echo number_format($value->cantidadentrada); ?></strong>
-                                                            <?php } ?>
-                                                            </td>
+                                                            <td align="center"><strong style="color: green"><?php echo number_format($value->cantidadentrada); ?></strong></td>
                                                             <td align="center"><strong style="color: red"><?php echo number_format($value->cantidadmal); ?></strong></td>
                                                             <td align="center"><strong style="color: blue"><?php echo number_format($value->cantidadsalida); ?></strong></td>
-                                                            <td>
-                                                              <a  title="Dar click para Ver el Proceso."  href="" class="btn btn-info btn-sm edit_button" data-toggle="modal" data-target="#myModal"
+                                                            <td align="center">
+
+                                                              <a   href="" class="btn btn-info btn-sm edit_button" data-toggle="modal" data-target="#myModal"
                                                               data-procesos="<?php echo $value->pasos;?>" >
-                                                              <i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                               <a   title="Dar click para Enviar al siguiente Proceso."   href="" class="btn btn-primary btn-sm edit_button_enviar"
+                                                             Ver</a>
+
+
+                                                              <a class="btn btn-danger btn-sm" href="<?php echo site_url('proceso/ascrap/'.$value->id.'/'.$value->cantidadentrada) ?>"> Eliminar</a>
+
+                                                               <a  href="" class="btn btn-primary btn-sm edit_button_enviar"
                                                                 data-toggle="modal" data-target="#myModalEnviar"
                                                               data-id="<?php echo $value->id;?>"
                                                               data-identradaproceso="<?php echo $value->identradaproceso;?>"
                                                               data-cantidad="<?php echo $value->cantidadentrada;?>"
-                                                               ><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                               >Enviar</a>
 </a>
         
                                                             </td>
@@ -116,11 +115,11 @@
         <thead> 
           <th>No</th>
                <th>Lamina</th>
-                                            <th>Num. Parte</th>   
+                                            <th>Num. Parte</th>    
                                             <th>C. Recibida (IN)</th>
                                             <th>Malas (NG)</th>
                                             <th>Salidas (FG)</th> 
-                                            <th>Opción</th>
+                                            <th><center>Opción</center></th>
              
         </thead>
         <tbody>
@@ -129,35 +128,27 @@
 
                                                     foreach ($registros as $value) { 
                                                        //echo $value->pasoporaqui;
-                                                        if($value->tuturno == $maquina){
+                                                        if($value->tuturno  == 3){
                                                         // echo $value->tuturno ;
                                                         ?>
-                                                        <tr > 
-                                                           <td><strong><?php echo $value->id; ?></strong></td>
+                                                        <tr >
+                                                        <td><strong><?php echo $value->id; ?></strong></td> 
                                                             <td><strong><?php echo $value->lamina; ?></strong></td>
                                                             <td><strong><?php echo $value->numeroparte;?></strong></td> 
-                                                            </td>
-                                                            <td align="center">
-                                                              
-                                                               <?php if($value->descrap == 0){ ?>
-                                                              <strong style="color: green"><?php echo number_format($value->cantidadentrada); ?></strong>
-                                                            <?php }else{?>
-                                                               <strong style="color: green">Re-trabajado: <?php echo number_format($value->cantidadentrada); ?></strong>
-                                                            <?php } ?>
-
-                                                            </td>
+                                                            <td align="center"><strong style="color: green"><?php echo number_format($value->cantidadentrada); ?></strong></td>
                                                             <td align="center"><strong style="color: red"><?php echo number_format($value->cantidadmal); ?></strong></td>
                                                             <td align="center"><strong style="color: blue"><?php echo number_format($value->cantidadsalida); ?></strong></td>
                                                             <td>
-                                                              <a  title="Dar click para Ver el Proceso."   href="" class="btn btn-info btn-sm edit_button" data-toggle="modal" data-target="#myModal"
+                                                              <a title="Ver Proceso"  href="" class="btn btn-info btn-sm edit_button" data-toggle="modal" data-target="#myModal"
                                                               data-procesos="<?php echo $value->pasos;?>" >
-                                                              <i class="fa fa-eye" aria-hidden="true"></i></a>
-                                                               <a   title="Click para Enviar al siguiente Proceso"href="" class="btn btn-primary btn-sm edit_button_enviar"
+                                                             Ver
+                                                           </a>
+                                                               <a title="Enviar al siguiente Proceso" href="" class="btn btn-primary btn-sm edit_button_enviar"
                                                                 data-toggle="modal" data-target="#myModalEnviar"
                                                               data-id="<?php echo $value->id;?>"
                                                               data-identradaproceso="<?php echo $value->identradaproceso;?>"
                                                               data-cantidad="<?php echo $value->cantidadentrada;?>"
-                                                               ><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                               >Enviar</a>
 </a>
         
                                                             </td>
@@ -365,7 +356,7 @@ function formatNumber(num) {
        if (confirm('Despues de enviarlo ya no podra ser modificado, ESTA SEGURO DE ENVIARLO?')) {
             $.ajax({
                 type: "POST",
-                url: "<?php echo site_url('proceso/siguiente_proceso');?>",
+                url: "<?php echo site_url('proceso/siguiente_proceso_scrap');?>",
                 data: $('#frmenviar').serialize(),
                 success: function(data) {
                     var msg = $.parseJSON(data);

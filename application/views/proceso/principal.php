@@ -103,6 +103,22 @@
                                 </div>
                             </div>
                         </div>
+                            <div class="row top_tiles">
+                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="tile-stats">
+                                    <div class="icon"><i class="fa fa-cogs" aria-hidden="true"></i>
+
+                                    </div>
+                                    <div class="count">---</div>
+
+                                    <h3><a href="<?php echo base_url('proceso/scrap/3')?>">SCRAP</a></h3>
+                                    <p>Proceso de Scrap</p>
+                                </div>
+                            </div> 
+                        </div>
+
+
+
 
  
 

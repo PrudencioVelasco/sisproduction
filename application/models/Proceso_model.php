@@ -17,7 +17,7 @@ class Proceso_model extends CI_Model {
         $this->db->select("p.idproceso, p.activo, p.fecharegistro,  p.nombreproceso,(SELECT  
                             GROUP_CONCAT(CONCAT_WS('.- ', dp.numero, m.nombremaquina) ORDER BY dp.numero ASC SEPARATOR ', ')
                             FROM tbldetalle_proceso dp
-                            INNER JOIN tblmaquina m ON dp.idmaquina = m.idmaquina
+                            INNER JOIN tblmaquina m ON dp.idmaquina = m.idmaquina 
                             WHERE dp.idproceso = p.idproceso AND dp.activo = 1   group by dp.idproceso ORDER BY dp.numero ASC) as pasos");
         $this->db->from('tblproceso p'); 
          $query = $this->db->get();
@@ -30,7 +30,7 @@ class Proceso_model extends CI_Model {
     public function allParteProcesos()
     {
       # code... 
-        $query = $this->db->query("SELECT e.idparte, e.idlamina, e.fecharegistro, e.identradaproceso, p.numeroparte as numeroparte, p2.numeroparte as lamina, pr.nombreproceso, e.cantidad,
+        $query = $this->db->query("SELECT e.idparte,e.metaproduccion, e.idlamina, e.fecharegistro, e.identradaproceso, p.numeroparte as numeroparte, p2.numeroparte as lamina, pr.nombreproceso, e.cantidad,
 (SELECT  
                             GROUP_CONCAT(CONCAT_WS('.- ', dp.numero, m.nombremaquina) ORDER BY dp.numero ASC SEPARATOR ', ')
                             FROM tbldetalle_proceso dp
@@ -38,12 +38,11 @@ class Proceso_model extends CI_Model {
                             WHERE dp.idproceso = pr.idproceso  AND dp.activo = 1  group by dp.idproceso ORDER BY dp.numero ASC) as pasos,
 (
 SELECT CONCAT_WS('.- ', edp.numerodetalleproceso, ma.nombremaquina)   FROM tblentradadetalleproceso edp, tblmaquina ma WHERE edp.identradaproceso = e.identradaproceso
-AND ma.idmaquina = edp.idmaquina ORDER by  edp.identradadetalleproceso DESC LIMIT 1) as procesoactual,
+AND ma.idmaquina = edp.idmaquina AND edp.idmaquina != 3 ORDER by  edp.identradadetalleproceso DESC LIMIT 1) as procesoactual,
 
 (SELECT edp2.cantidadentrada  FROM tblentradadetalleproceso edp2 WHERE edp2.identradaproceso = e.identradaproceso ORDER by  edp2.identradadetalleproceso ASC LIMIT 1) as cantidadentrada,
 (SELECT edp3.cantidadsalida   FROM tblentradadetalleproceso edp3 WHERE edp3.identradaproceso = e.identradaproceso ORDER by  edp3.identradadetalleproceso ASC LIMIT 1) as cantidadsalida,
-(SELECT edp4.cantidaderronea  FROM tblentradadetalleproceso edp4 WHERE edp4.identradaproceso = e.identradaproceso ORDER by  edp4.identradadetalleproceso ASC LIMIT 1) as cantidadmal,
-(SELECT edp5.cantidadliberado  FROM tblentradadetalleproceso edp5 WHERE edp5.identradaproceso = e.identradaproceso ORDER by  edp5.identradadetalleproceso ASC LIMIT 1) as cantidadliberado
+(SELECT edp4.cantidaderronea  FROM tblentradadetalleproceso edp4 WHERE edp4.identradaproceso = e.identradaproceso ORDER by  edp4.identradadetalleproceso ASC LIMIT 1) as cantidadmal
 
  FROM tblentrada_proceso e 
 INNER JOIN parte p ON p.idparte = e.idparte
@@ -282,32 +281,93 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
             public function allProcesosTrabajar($idmaquina)
     {
       # code... 
-        $query = $this->db->query(" SELECT e.idparte, e.idlamina,e.identradaproceso, p.numeroparte as numeroparte, p2.numeroparte as lamina, pr.nombreproceso, e.cantidad,
-(SELECT  
-                            GROUP_CONCAT(CONCAT_WS('.- ', dp.numero, m.nombremaquina) ORDER BY dp.numero ASC SEPARATOR ', ')
-                            FROM tbldetalle_proceso dp
-                            INNER JOIN tblmaquina m ON dp.idmaquina = m.idmaquina
-                            WHERE dp.idproceso = pr.idproceso  AND dp.activo = 1  group by dp.idproceso ORDER BY dp.numero ASC) as pasos,
-(
-SELECT CONCAT_WS('.- ', edp.numerodetalleproceso, ma.nombremaquina)   FROM tblentradadetalleproceso edp, tblmaquina ma WHERE edp.identradaproceso = e.identradaproceso
-AND ma.idmaquina = edp.idmaquina ORDER by  edp.identradadetalleproceso DESC LIMIT 1) as procesoactual,
-
-(SELECT edp2.cantidadentrada  FROM tblentradadetalleproceso edp2 WHERE edp2.identradaproceso = e.identradaproceso AND edp2.idmaquina =   $idmaquina  ORDER by  edp2.identradadetalleproceso ASC LIMIT 1) as cantidadentrada,
-(SELECT edp3.cantidadsalida   FROM tblentradadetalleproceso edp3 WHERE edp3.identradaproceso = e.identradaproceso AND edp3.idmaquina =   $idmaquina  ORDER by  edp3.identradadetalleproceso ASC LIMIT 1) as cantidadsalida,
-(SELECT edp4.cantidaderronea  FROM tblentradadetalleproceso edp4 WHERE edp4.identradaproceso = e.identradaproceso AND edp4.idmaquina =   $idmaquina  ORDER by  edp4.identradadetalleproceso ASC LIMIT 1) as cantidadmal,
-(SELECT edp5.cantidadliberado  FROM tblentradadetalleproceso edp5 WHERE edp5.identradaproceso = e.identradaproceso  AND edp5.idmaquina =   $idmaquina ORDER by  edp5.identradadetalleproceso ASC LIMIT 1) as cantidadliberado,
-(SELECT ma.idmaquina  FROM tblentradadetalleproceso edp, tblmaquina ma WHERE edp.identradaproceso = e.identradaproceso
-AND ma.idmaquina = edp.idmaquina ORDER by  edp.identradadetalleproceso desc LIMIT 1) as tuturno,
-(SELECT tdp2.finalizado  FROM tblentradadetalleproceso tdp2  WHERE  tdp2.idmaquina =  $idmaquina AND tdp2.identradaproceso = e.identradaproceso) as finalizado,
-(SELECT tdp3.identradadetalleproceso  FROM tblentradadetalleproceso tdp3  WHERE  tdp3.idmaquina =  $idmaquina AND tdp3.identradaproceso = e.identradaproceso) as id,
-
-(SELECT count(edp6.identradaproceso)  FROM tblentradadetalleproceso edp6 WHERE edp6.identradaproceso = e.identradaproceso AND edp6.idmaquina = $idmaquina ) as pasoporaqui
-
+        $query = $this->db->query("SELECT 
+          edp.identradadetalleproceso as id,
+ e.idparte,
+    e.idlamina,
+    e.identradaproceso,
+    p.numeroparte AS numeroparte,
+    p2.numeroparte AS lamina,
+    pr.nombreproceso,
+    e.cantidad,
+    edp.cantidadentrada,
+       edp.cantidadsalida,
+       edp.cantidaderronea as cantidadmal,
+       edp.idmaquina as tuturno,
+       edp.finalizado,
+        edp.descrap,
+ (SELECT 
+            GROUP_CONCAT(CONCAT_WS('.- ', dp.numero, m.nombremaquina)
+                    ORDER BY dp.numero ASC
+                    SEPARATOR ', ')
+        FROM
+            tbldetalle_proceso dp
+                INNER JOIN
+            tblmaquina m ON dp.idmaquina = m.idmaquina
+        WHERE
+            dp.idproceso = pr.idproceso
+                AND dp.activo = 1
+        GROUP BY dp.idproceso
+        ORDER BY dp.numero ASC) AS pasos,
+       
+       (SELECT ma.nombremaquina FROM tblmaquina ma WHERE ma.idmaquina = edp.idmaquina) as procesoactual
+        
  FROM tblentrada_proceso e 
 INNER JOIN parte p ON p.idparte = e.idparte
 INNER JOIN parte p2 ON p2.idparte = e.idlamina
 INNER JOIN tblproceso pr ON pr.idproceso = e.idproceso
-WHERE e.eliminado = 0");
+INNER JOIN tblentradadetalleproceso edp ON e.identradaproceso = edp.identradaproceso
+WHERE e.eliminado = 0
+AND edp.idmaquina = $idmaquina");
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+     
+    }
+
+         public function allProcesosScrap($idmaquina = 3)
+    {
+      # code... 
+        $query = $this->db->query("SELECT 
+edp.identradadetalleproceso as id,
+ e.idparte,
+    e.idlamina,
+    e.identradaproceso,
+    p.numeroparte AS numeroparte,
+    p2.numeroparte AS lamina,
+    pr.nombreproceso,
+    e.cantidad,
+    edp.cantidadentrada,
+       edp.cantidadsalida,
+       edp.cantidaderronea as cantidadmal,
+       edp.idmaquina as tuturno,
+       edp.finalizado,
+       edp.descrap,
+ (SELECT 
+            GROUP_CONCAT(CONCAT_WS('.- ', dp.numero, m.nombremaquina)
+                    ORDER BY dp.numero ASC
+                    SEPARATOR ', ')
+        FROM
+            tbldetalle_proceso dp
+                INNER JOIN
+            tblmaquina m ON dp.idmaquina = m.idmaquina
+        WHERE
+            dp.idproceso = pr.idproceso
+                AND dp.activo = 1
+        GROUP BY dp.idproceso
+        ORDER BY dp.numero ASC) AS pasos,
+       
+       (SELECT ma.nombremaquina FROM tblmaquina ma WHERE ma.idmaquina = edp.idmaquina) as procesoactual
+        
+ FROM tblentrada_proceso e 
+INNER JOIN parte p ON p.idparte = e.idparte
+INNER JOIN parte p2 ON p2.idparte = e.idlamina
+INNER JOIN tblproceso pr ON pr.idproceso = e.idproceso
+INNER JOIN tblentradadetalleproceso edp ON e.identradaproceso = edp.identradaproceso
+WHERE e.eliminado = 0 
+AND idmaquina = 3");
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -375,6 +435,22 @@ and   idproceso = $idproceso and activo =1");
           $this->db->where('dp.identradaproceso',$identradaproceso);
            $this->db->where('dp.idmaquina',$idmaquina);
           //$this->db->where('dp.activo',1);
+          //$this->db->order_by("dp.numero", "asc");
+          $query = $this->db->get();
+          if ($query->num_rows() > 0) {
+              return $query->first_row();
+          } else {
+              return false;
+          }
+        }
+          public function validar_existencia_proceso_activo($identradaproceso,$idmaquina)
+        {
+          $this->db->select('dp.*');
+          $this->db->from('tblentradadetalleproceso dp');
+          //$this->db->join('tblmaquina m', 'm.idmaquina=dp.idmaquina');
+          $this->db->where('dp.identradaproceso',$identradaproceso);
+          $this->db->where('dp.idmaquina',$idmaquina);
+          $this->db->where('dp.finalizado',0);
           //$this->db->order_by("dp.numero", "asc");
           $query = $this->db->get();
           if ($query->num_rows() > 0) {

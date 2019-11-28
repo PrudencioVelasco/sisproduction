@@ -36,13 +36,12 @@
 
 <table class="table is-bordered is-hoverable" id="datatable2">
                                             <thead class="text-white bg-dark" >
+                                              <th>No</th>
                                             <th>Lamina</th>
                                             <th>Num. Parte</th>
-                                            <th>Procesos</th>  
-                                            <th>Preceso Actual</th>  
-                                            <th>Entrada Inicial</th>
-                                            <!--<th>Errones</th>
-                                            <th>Salidas</th> -->
+                                            <th>Procesos</th>   
+                                            <th>E. Inicial</th> 
+                                            <th>Meta</th> 
                                             <th>Fecha</th>
                                             <th>Opción</th>
                                             </thead>
@@ -55,22 +54,21 @@
 
                                                         ?>
                                                         <tr > 
+                                                          <td><strong><?php echo $value->identradaproceso; ?></strong></td>
                                                             <td><strong><?php echo $value->lamina; ?></strong></td>
                                                             <td><strong><?php echo $value->numeroparte;?></strong></td>
                                                             <td>
                                                               <a href="" class="edit_button"  data-toggle="modal" data-target="#myModal"
                                                               data-procesos="<?php echo $value->pasos;?>" 
                                                               ><strong>Ver procesos</strong></a>
-                                                            </td>
-                                                            <td><span style="font-size: 12px" class="label label-success "><strong><?php echo $value->procesoactual; ?></strong></span></td>
-                                                            <td align="center"><strong style="color: green"><?php echo number_format($value->cantidadentrada); ?></strong></td>
-                                                            <!--<td align="center"><strong style="color: red"><?php //echo number_format($value->cantidadmal); ?></strong></td>
-                                                            <td align="center"><strong style="color: blue"><?php //echo number_format($value->cantidadsalida); ?></strong></td>-->
+                                                            </td> 
+                                                            <td align="center"><strong style="color: green"><?php echo number_format($value->cantidadentrada); ?></strong></td> 
+                                                            <td align="center"><strong><?php echo number_format($value->metaproduccion); ?></strong></td> 
                                                             <td>
                                                               <?php echo date_format(date_create($value->fecharegistro),"d/m/Y h:i A") ?>
                                                             </td>
-                                                            <td>
-                                                              <a onclick="return confirm('Esta seguro de Eliminar la Entrada?')"  href="<?php echo site_url('/proceso/eliminar_entrada/'.$value->identradaproceso) ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                            <td> 
+                                                              <a data-toggle="tooltip" data-placement="top" title="Dar click para Eliminar la Entrada."  onclick="return confirm('Esta seguro de Eliminar la Entrada?')"  href="<?php echo site_url('/proceso/eliminar_entrada/'.$value->identradaproceso) ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash" aria-hidden="true"></i></a>
         
                                                             </td>
                                                              
@@ -144,10 +142,20 @@
         </select>
           
         </div>
-         <div class="md-form mb-5">
+        <div class="row">
+          <div class="col-md-6 col-sm-12 col-xs-12 ">
+            <div class="form-group">
           <label ><font color="red">*</font>Cantidad a ingresar</label>
            <input type="text" class="form-control" name="cantidad"  placeholder="Cantidad">
         </div>
+         </div>
+          <div class="col-md-6 col-sm-12 col-xs-12 ">
+            <div class="form-group">
+          <label ><font color="red">*</font>Meta de producción</label>
+           <input type="text" class="form-control" name="metaproduccion"  placeholder="Meta de producción">
+        </div>
+        </div>
+      </div>
 
 
        

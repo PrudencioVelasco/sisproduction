@@ -86,20 +86,82 @@ class Reporte_model extends CI_Model {
     public function busqueda_proceso_final($finicio = '',$ffin = '',$proceso = '')
     {
         # code...
-              $this->db->select("ep.identradaproceso, ep.cantidad as cantidadinicial, sum(d.cantidaderronea) as totalerronea, p.idproceso, p.nombreproceso, d.finalizado, ep.finalizado as finalizadoproceso,
-(SELECT pa.numeroparte FROM parte pa WHERE pa.idparte = ep.idparte) as numeroparte,
-(SELECT pa2.numeroparte FROM parte pa2 WHERE pa2.idparte = ep.idlamina) as lamina,
-(SELECT   GROUP_CONCAT(CONCAT_WS('.- ', dp.numero, m.nombremaquina) ORDER BY dp.numero ASC SEPARATOR ', ')
-                            FROM tbldetalle_proceso dp
-                            INNER JOIN tblmaquina m ON dp.idmaquina = m.idmaquina
-                            WHERE dp.idproceso = p.idproceso  AND dp.activo = 1  group by dp.idproceso ORDER BY dp.numero ASC) as pasos,
-                            (
-SELECT CONCAT_WS('.- ', edp.numerodetalleproceso, ma.nombremaquina)   FROM tblentradadetalleproceso edp, tblmaquina ma WHERE edp.identradaproceso = ep.identradaproceso
-AND ma.idmaquina = edp.idmaquina ORDER by  edp.identradadetalleproceso DESC LIMIT 1) as procesoactual,
-
-
-d.cantidadentrada, d.cantidadsalida, d.cantidaderronea, d.fecharegistro, d.fechaliberado,
-(SELECT maq.nombremaquina FROM tblmaquina maq, tbldetalle_proceso dpr WHERE dpr.idmaquina =maq.idmaquina AND  dpr.iddetalle = d.iddetalleproceso ) AS maquinaactual,
+              $this->db->select("ep.identradaproceso,
+    ep.cantidad AS cantidadinicial,
+    SUM(d.cantidaderronea) AS totalerronea,
+    p.idproceso,
+    ep.metaproduccion,
+    p.nombreproceso,
+    d.finalizado,
+    d.idmaquina,
+    ep.finalizado AS finalizadoproceso,
+    (
+    SELECT
+        pa.numeroparte
+    FROM
+        parte pa
+    WHERE
+        pa.idparte = ep.idparte
+) AS numeroparte,
+(
+    SELECT
+        pa2.numeroparte
+    FROM
+        parte pa2
+    WHERE
+        pa2.idparte = ep.idlamina
+) AS lamina,
+(
+    SELECT
+        GROUP_CONCAT(
+            CONCAT_WS(
+                '.- ',
+                dp.numero,
+                m.nombremaquina
+            )
+        ORDER BY
+            dp.numero ASC SEPARATOR ', '
+        )
+    FROM
+        tbldetalle_proceso dp
+    INNER JOIN tblmaquina m ON
+        dp.idmaquina = m.idmaquina
+    WHERE
+        dp.idproceso = p.idproceso AND dp.activo = 1
+    GROUP BY
+        dp.idproceso
+    ORDER BY
+        dp.numero ASC
+) AS pasos,
+(
+    SELECT
+        CONCAT_WS(
+            '.- ',
+            edp.numerodetalleproceso,
+            ma.nombremaquina
+        )
+    FROM
+        tblentradadetalleproceso edp,
+        tblmaquina ma
+    WHERE
+        edp.identradaproceso = ep.identradaproceso AND ma.idmaquina = edp.idmaquina
+    ORDER BY
+        edp.identradadetalleproceso
+    DESC
+LIMIT 1
+) AS procesoactual, d.cantidadentrada as testca,
+sum(d.cantidadentrada) as cantidadentrada, SUM(d.cantidadsalida) AS cantidadsalida, sum(d.cantidaderronea) as cantidaderronea , 
+(select sum(edp4.cantidaderronea) from tblentradadetalleproceso as  edp4 WHERE edp4.identradaproceso = d.identradaproceso  AND edp4.idmaquina = 3) as totalerroneascrap,
+(select sum(edp6.cantidadentrada) from tblentradadetalleproceso as  edp6 WHERE edp6.identradaproceso = d.identradaproceso  AND edp6.idmaquina = 3 AND edp6.finalizado = 0) as totalenespera,
+d.fecharegistro, d.fechaliberado,(
+    SELECT
+        maq.nombremaquina
+    FROM
+        tblmaquina maq,
+        tbldetalle_proceso dpr
+    WHERE
+        dpr.idmaquina = maq.idmaquina AND dpr.iddetalle = d.iddetalleproceso
+) AS maquinaactual,
 d.numerodetalleproceso AS numerodelproceso");
         $this->db->from('tblproceso p'); 
         $this->db->join('tblentrada_proceso ep', 'p.idproceso = ep.idproceso');
@@ -115,7 +177,7 @@ d.numerodetalleproceso AS numerodelproceso");
             $this->db->where('(ep.idparte = '.$lamina.' or ep.idlamina = '.$lamina.')'); 
         }
          if (!empty($proceso)) { 
-           $this->db->where('ep.finalizado', $proceso);
+           $this->db->where('d.idmaquina', $proceso);
         } 
         $this->db->group_by("ep.identradaproceso");
         $query = $this->db->get();
@@ -129,20 +191,79 @@ d.numerodetalleproceso AS numerodelproceso");
     public function busqueda_proceso($finicio = '',$ffin = '',$lamina = '',$proceso = '',$maquina = '')
     {
         # code...
-        $this->db->select("ep.identradaproceso, p.idproceso, p.nombreproceso, d.finalizado, ep.finalizado as finalizadoproceso,
-(SELECT pa.numeroparte FROM parte pa WHERE pa.idparte = ep.idparte) as numeroparte,
-(SELECT pa2.numeroparte FROM parte pa2 WHERE pa2.idparte = ep.idlamina) as lamina,
-(SELECT   GROUP_CONCAT(CONCAT_WS('.- ', dp.numero, m.nombremaquina) ORDER BY dp.numero ASC SEPARATOR ', ')
-                            FROM tbldetalle_proceso dp
-                            INNER JOIN tblmaquina m ON dp.idmaquina = m.idmaquina
-                            WHERE dp.idproceso = p.idproceso  AND dp.activo = 1  group by dp.idproceso ORDER BY dp.numero ASC) as pasos,
-                            (
-SELECT CONCAT_WS('.- ', edp.numerodetalleproceso, ma.nombremaquina)   FROM tblentradadetalleproceso edp, tblmaquina ma WHERE edp.identradaproceso = ep.identradaproceso
-AND ma.idmaquina = edp.idmaquina ORDER by  edp.identradadetalleproceso DESC LIMIT 1) as procesoactual,
-
-
-d.cantidadentrada, d.cantidadsalida, d.cantidaderronea, d.fecharegistro, d.fechaliberado,
-(SELECT maq.nombremaquina FROM tblmaquina maq, tbldetalle_proceso dpr WHERE dpr.idmaquina =maq.idmaquina AND  dpr.iddetalle = d.iddetalleproceso ) AS maquinaactual,
+        $this->db->select("ep.identradaproceso,
+    ep.cantidad AS cantidadinicial,
+    SUM(d.cantidaderronea) AS totalerronea,
+    p.idproceso,
+    p.nombreproceso,
+    d.finalizado,
+    ep.finalizado AS finalizadoproceso,
+    (
+    SELECT
+        pa.numeroparte
+    FROM
+        parte pa
+    WHERE
+        pa.idparte = ep.idparte
+) AS numeroparte,
+(
+    SELECT
+        pa2.numeroparte
+    FROM
+        parte pa2
+    WHERE
+        pa2.idparte = ep.idlamina
+) AS lamina,
+(
+    SELECT
+        GROUP_CONCAT(
+            CONCAT_WS(
+                '.- ',
+                dp.numero,
+                m.nombremaquina
+            )
+        ORDER BY
+            dp.numero ASC SEPARATOR ', '
+        )
+    FROM
+        tbldetalle_proceso dp
+    INNER JOIN tblmaquina m ON
+        dp.idmaquina = m.idmaquina
+    WHERE
+        dp.idproceso = p.idproceso AND dp.activo = 1
+    GROUP BY
+        dp.idproceso
+    ORDER BY
+        dp.numero ASC
+) AS pasos,
+(
+    SELECT
+        CONCAT_WS(
+            '.- ',
+            edp.numerodetalleproceso,
+            ma.nombremaquina
+        )
+    FROM
+        tblentradadetalleproceso edp,
+        tblmaquina ma
+    WHERE
+        edp.identradaproceso = ep.identradaproceso AND ma.idmaquina = edp.idmaquina
+    ORDER BY
+        edp.identradadetalleproceso
+    DESC
+LIMIT 1
+) AS procesoactual, d.cantidadentrada as testca,
+sum(d.cantidadentrada) as cantidadentrada, SUM(d.cantidadsalida) AS cantidadsalida, sum(d.cantidaderronea) as cantidaderronea , 
+(select sum(edp4.cantidaderronea) from tblentradadetalleproceso as  edp4 WHERE edp4.identradaproceso = d.identradaproceso  AND edp4.idmaquina = 3) as totalerroneascrap,
+d.fecharegistro, d.fechaliberado,(
+    SELECT
+        maq.nombremaquina
+    FROM
+        tblmaquina maq,
+        tbldetalle_proceso dpr
+    WHERE
+        dpr.idmaquina = maq.idmaquina AND dpr.iddetalle = d.iddetalleproceso
+) AS maquinaactual,
 d.numerodetalleproceso AS numerodelproceso");
         $this->db->from('tblproceso p'); 
         $this->db->join('tblentrada_proceso ep', 'p.idproceso = ep.idproceso');
@@ -170,6 +291,19 @@ d.numerodetalleproceso AS numerodelproceso");
         }
 
     }
+
+        public function maquinas_activas()
+        {
+          $this->db->select('m.*');
+          $this->db->from('tblmaquina m'); 
+          $this->db->where('m.activo',1); 
+          $query = $this->db->get();
+          if ($query->num_rows() > 0) {
+              return $query->result();
+          } else {
+              return false;
+          }
+        }
 
 
     

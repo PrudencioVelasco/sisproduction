@@ -31,6 +31,7 @@ class Proceso extends CI_Controller {
         $this->load->view('proceso/index');
         $this->load->view('footer');
     }
+   
  public function showAllProcesos() {
         
         $query = $this->proceso->showAllProcesos();
@@ -253,6 +254,14 @@ public function agregar_entrada()
                     'required' => 'Cantidad campo obligatorio.', 
                     'is_natural'=> 'Solo número positivo.'
                 )
+            ),array(
+                'field' => 'metaproduccion',
+                'label' => 'Meta de Produccion',
+                'rules' => 'trim|required|is_natural',
+                'errors' => array(
+                    'required' => 'Cantidad campo obligatorio.', 
+                    'is_natural'=> 'Solo número positivo.'
+                )
             ),
              array(
                 'field' => 'idlamina',
@@ -295,6 +304,7 @@ public function agregar_entrada()
                 'idparte'=> $this->input->post('idparte'),
                 'idlamina'=> $this->input->post('idlamina'),
                 'idproceso'=> $this->input->post('idproceso'),
+                'metaproduccion'=> $this->input->post('metaproduccion'),
                 'cantidad'=> $this->input->post('cantidad'),
                 'finalizado'=> 0,
                 'eliminado '=>0,
@@ -314,8 +324,7 @@ public function agregar_entrada()
             'numerodetalleproceso'=>$numero_paso,
             'cantidadentrada'=>$this->input->post('cantidad'),
             'cantidadsalida'=>0,
-            'cantidaderronea'=>0,
-            'cantidadliberado'=>0,
+            'cantidaderronea'=>0, 
             'finalizado'=>0,
             'idusuario' => $this->session->user_id,
             'fecharegistro' => date('Y-m-d H:i:s'),
@@ -331,12 +340,10 @@ public function agregar_entrada()
 
 public function trabajar($idmaquina)
 {
-    # code...
-
-     //$data = $this->proceso->allProcesosTrabajar($idmaquina);
-     //var_dump($data);
+    # code... 
     $data = array(
         'registros' =>$this->proceso->allProcesosTrabajar($idmaquina),
+        //'scrap'=>$this->proceso->allProcesosScrap(),
         'maquina'=>$idmaquina,
         'detallemaquina'=>$this->proceso->detalle_maquina($idmaquina) );
    
@@ -344,6 +351,20 @@ public function trabajar($idmaquina)
         $this->load->view('proceso/trabajar',$data);
         $this->load->view('footer');
 }
+
+ public function scrap()
+    {
+        # code...
+         $data = array(
+        //'registros' =>$this->proceso->allProcesosTrabajar($idmaquina),
+        'registros'=>$this->proceso->allProcesosScrap(),
+        'maquina'=>3);
+   
+      $this->load->view('header');
+        $this->load->view('proceso/scrap',$data);
+        $this->load->view('footer');
+    }
+
 
 public function test()
 {
@@ -378,6 +399,111 @@ public function test()
         //Ya no hay siguiente paso y finaliza el proceso
     }
 }
+public function siguiente_proceso_scrap()
+{
+    # code...
+
+      # code...
+         $config = array(
+            array(
+                'field' => 'cantidadbien',
+                'label' => 'cantidadbien',
+                'rules' => 'trim|required|is_natural',
+                'errors' => array(
+                    'required' => 'Cantidad Buenas es campo obligatorio.', 
+                    'is_natural'=> 'Solo número positivo.'
+                )
+            ),
+            array(
+                'field' => 'cantidaderror',
+                'label' => 'cantidaderror',
+                'rules' => 'trim|required|is_natural',
+                'errors' => array(
+                    'required' => 'Cantidad Malas es campo obligatorio.', 
+                    'is_natural'=> 'Solo número positivo.'
+                )
+            )
+        );
+        $this->form_validation->set_rules($config);
+
+        if ($this->form_validation->run() == FALSE){
+
+            $errors = validation_errors();
+
+            echo json_encode(['error'=>$errors]);
+
+
+        }else{
+            $cantidad =$this->input->post('cantidad');
+            $cantidadok =$this->input->post('cantidadbien');
+            $cantidaderror =$this->input->post('cantidaderror');
+            $iddetalle =$this->input->post('iddetalle');
+            $maquina =$this->input->post('maquina');
+            $identradaproceso =$this->input->post('identradaproceso');
+            $total_sum = ($cantidadok + $cantidaderror);
+            if($cantidad == $total_sum){ 
+
+                //Averiguar si un PROCESO DE INSPECCION esta Activo
+
+                $data_validar = $this->proceso->validar_existencia_proceso_activo($identradaproceso,7);
+                if($data_validar){
+                    //Si hay actvo solo se debe de modificar las cantidades
+
+                      $data_update = array(
+                    'cantidadsalida'=>$cantidadok,
+                    'cantidaderronea'=>$cantidaderror,
+                    'finalizado'=>1,
+                    'fechaliberado'=> date('Y-m-d H:i:s')
+                 );
+                     $this->proceso->updateSeguimientoProceso($iddetalle,$data_update);
+
+                      $data_update_next = array(
+                    'cantidadentrada'=>$cantidadok, 
+                    'fecharegistro'=> date('Y-m-d H:i:s'),
+                    'fechaliberado'=> date('Y-m-d H:i:s')
+                        );
+                      $id_nuevo=$data_validar->identradadetalleproceso;
+                      $this->proceso->updateSeguimientoProceso($id_nuevo,$data_update_next);
+
+
+
+                }else{
+                      $data_update = array(
+                    'cantidadsalida'=>$cantidadok,
+                    'cantidaderronea'=>$cantidaderror,
+                    'finalizado'=>1,
+                    'fechaliberado'=> date('Y-m-d H:i:s')
+                 );
+                       $this->proceso->updateSeguimientoProceso($iddetalle,$data_update);
+                    //Se agregar un nuevo registro
+                     $data_inicio = array(
+                            'identradaproceso'=>$identradaproceso,
+                            'iddetalleproceso'=>0,
+                            'idmaquina'=>7,
+                            'numerodetalleproceso'=>0,
+                            'cantidadentrada'=>$cantidadok,
+                            'cantidadsalida'=>0,
+                            'cantidaderronea'=>0, 
+                            'descrap'=>1,
+                            'finalizado'=>0,
+                            'idusuario' => $this->session->user_id,
+                            'fecharegistro' => date('Y-m-d H:i:s'),
+                            'fechaliberado' => date('Y-m-d H:i:s')
+                           );
+                           $this->proceso->addInicioProceso($data_inicio);
+                }
+
+
+            }else{
+               echo json_encode(['error'=>'Las cantidades debe de coicidir.']);
+            }
+
+
+        }
+    }
+
+
+ 
 public function siguiente_proceso()
 {
     # code...
@@ -418,16 +544,7 @@ public function siguiente_proceso()
             $maquina =$this->input->post('maquina');
             $identradaproceso =$this->input->post('identradaproceso');
             $total_sum = ($cantidadok + $cantidaderror);
-            if($cantidad == $total_sum){
-                 //echo json_encode(['success'=>'Se agrego la entrada con Exito.']);
-                // $detalle = $this->procesos->detalle_entrada_proceso($iddetalle);
-                 //$idproceso_detalle = $detalle->iddetalleproceso;
-
- 
-
-                 //$detalle = $this->procesos->detalle_entrada_proceso($iddetalle);
-
-
+            if($cantidad == $total_sum){ 
 
     $detalle = $this->proceso->detalle_proceso_maquina($iddetalle,$maquina);
     $numero = $detalle->numero;
@@ -489,8 +606,7 @@ public function siguiente_proceso()
             'numerodetalleproceso'=>$idnueva_numero_proceso,
             'cantidadentrada'=>$cantidadok,
             'cantidadsalida'=>0,
-            'cantidaderronea'=>0,
-            'cantidadliberado'=>0,
+            'cantidaderronea'=>0, 
             'finalizado'=>0,
             'idusuario' => $this->session->user_id,
             'fecharegistro' => date('Y-m-d H:i:s'),
@@ -502,6 +618,7 @@ public function siguiente_proceso()
   echo json_encode(['success'=>'Se envio la información con exito.']);
             }
     }else{
+         //Ya no hay siguiente paso y finaliza el proceso
         $finalizo_proceso = array(
                    'cantidadsalida'=>$cantidadok,
                     'cantidaderronea'=>$cantidaderror,
@@ -515,7 +632,26 @@ $this->proceso->updateSeguimientoProceso($iddetalle,$finalizo_proceso);
 
          $this->proceso->updateEntrada($identradaproceso,$update_finalizo_proceso);
 
-        //Ya no hay siguiente paso y finaliza el proceso
+         if($cantidaderror > 0){
+             $data_inicio = array(
+            'identradaproceso'=>$identradaproceso,
+            'iddetalleproceso'=>0,
+            'idmaquina'=>3,
+            'numerodetalleproceso'=>0,
+            'cantidadentrada'=>$cantidaderror,
+            'cantidadsalida'=>0,
+            'cantidaderronea'=>0, 
+            'descrap'=>0, 
+            'finalizado'=>0,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s'),
+            'fechaliberado' => date('Y-m-d H:i:s')
+           );
+           $this->proceso->addInicioProceso($data_inicio);
+
+         }
+
+       
          echo json_encode(['success'=>'Se envio la información con exito.']);
     }
 
@@ -527,7 +663,28 @@ $this->proceso->updateSeguimientoProceso($iddetalle,$finalizo_proceso);
 
 
         }
-}
+    }
+
+    public function ascrap($id,$cantidad)
+    {
+        # code...
+
+        $data = array(
+            'finalizado'=>1,
+            'todoascreap'=>1,
+            'cantidaderronea'=>$cantidad
+        );
+        $this->proceso->updateSeguimientoProceso($id,$data);
+         $data = array(
+        //'registros' =>$this->proceso->allProcesosTrabajar($idmaquina),
+        'registros'=>$this->proceso->allProcesosScrap(),
+        'maquina'=>3);
+   
+      $this->load->view('header');
+        $this->load->view('proceso/scrap',$data);
+        $this->load->view('footer');
+    
+    }
 
 }
 
