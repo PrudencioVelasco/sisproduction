@@ -42,7 +42,7 @@
                                 <div class="form-group">
                                     <label><font color="red">*</font> De</label>
                                               <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control"  name="fechainicio"  />
+                    <input type='text' class="form-control"  name="fechainicio" required=""  />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -53,7 +53,7 @@
                                 <div class="form-group">
                                     <label><font color="red">*</font> a</label>
                                        <div class='input-group date' id='datetimepicker2'>
-                    <input type='text' class="form-control " name="fechafin"  />
+                    <input type='text' class="form-control " name="fechafin" required="" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -66,7 +66,7 @@
                             <div class="col-md-2 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label>Procesos</label>
-                                   <select   name="idproceso" class="form-control">
+                                   <select   name="idproceso" class="form-control" required="">
                                     <option value="">SELECCIONAR</option>
                                         <?php
                 foreach ($maquinas as  $value) {

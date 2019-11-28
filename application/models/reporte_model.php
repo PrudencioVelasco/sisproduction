@@ -306,6 +306,40 @@ d.numerodetalleproceso AS numerodelproceso");
         }
 
 
+    public function getAllInfoReporte($idparte='',$fechainicio='',$fechafin='')
+{
+
+    $this->db->select("p.numeroparte as numeroparte,tm.descripcion as modelo, tc.cantidad, tr.descripcion as revision, l.nombrelinea as tiempo, COUNT(pc.pallet) as totalpallet");
+    $this->db->from('palletcajas pc');
+    $this->db->join('tblcantidad tc', 'tc.idcantidad = pc.idcajas');
+    $this->db->join('tblrevision tr', 'tr.idrevision = tc.idrevision');
+    $this->db->join('tblmodelo tm', 'tm.idmodelo = tr.idmodelo');
+    $this->db->join('parte p', 'tm.idparte = p.idparte');
+    $this->db->join('cliente c', 'c.idcliente = p.idcliente');
+    $this->db->join('status s', 's.idestatus = pc.idestatus');
+    $this->db->join('tbltransferencia t', 'pc.idtransferancia = t.idtransferancia');
+    $this->db->join('linea l', 'pc.idlinea = l.idlinea');
+    $this->db->join('users u', 't.idusuario = u.id');
+
+    // Condicionales
+    if (!empty($fechainicio) && !empty($fechafin)) {
+        $this->db->where('t.fecharegistro >=', $fechainicio);
+        $this->db->where('t.fecharegistro <=', $fechafin); 
+    } 
+
+    if (!empty($idparte)) { 
+        $this->db->where('p.idparte',$idparte); 
+    }
+
+    $this->db->group_by('tc.cantidad');
     
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+        return $query->result();
+    } else {
+        return false;
+    }
+} 
+
 
 }
