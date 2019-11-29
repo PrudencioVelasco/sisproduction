@@ -144,16 +144,31 @@
 
                                                          }
                                                          ?></strong></td> 
-                                                    <td><strong style="color:blue;"><?php
+                                                    <td><strong style="color:blue;">
+                                                        <?php
+                                                          if($value->idmaquina != 3){
+
                                                     $salida =$value->cantidadsalida;
-                                                     echo number_format($value->cantidadsalida); ?></strong></td>  
+                                                     echo number_format($value->cantidadsalida); 
+                                                 }else{
+                                                    echo "<strong>---</strong>";
+                                                 }
+
+
+                                                     ?></strong></td>  
                                                      <td><?php
+                                                     if($value->idmaquina != 3){
                                                         if((($salida + $mal) - $entrada )== 0){
                                                             echo "<strong style='color:green;'>FINALIZADO</strong>";
                                                         }else{
                                                              echo "<strong style='color:#e1c40a;'>EN PROCESO</strong>";
                                                         }
+                                                    }else{
+                                                        echo "<strong>---</strong>";
+
+                                                    }
                                                      ?></td> 
+                                                    
                                                     <td><?php echo $value->fecharegistro; ?></td>
                                                 </tr>
                                             <?php endforeach; ?>

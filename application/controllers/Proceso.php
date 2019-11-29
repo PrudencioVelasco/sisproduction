@@ -464,7 +464,7 @@ public function siguiente_proceso_scrap()
                         );
                       $id_nuevo=$data_validar->identradadetalleproceso;
                       $this->proceso->updateSeguimientoProceso($id_nuevo,$data_update_next);
-
+ echo json_encode(['success'=>'Se envio la información con exito.']);
 
 
                 }else{
@@ -491,6 +491,7 @@ public function siguiente_proceso_scrap()
                             'fechaliberado' => date('Y-m-d H:i:s')
                            );
                            $this->proceso->addInicioProceso($data_inicio);
+                            echo json_encode(['success'=>'Se envio la información con exito.']);
                 }
 
 

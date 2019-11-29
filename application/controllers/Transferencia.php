@@ -661,7 +661,7 @@ Permission::grant(uri_string());
             table {border-collapse:collapse}
             td 
                 {
-                    border:1px  solid black;
+                    border:0px  solid black;
                 }
     </style>
 
