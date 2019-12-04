@@ -44,7 +44,7 @@
                         <td> 
                           <a  href="javascript:void(0)"  class="edit_button btn btn-primary btn-xs"
                           data-toggle="modal" data-target="#myModal"
-                          data-idparte="<?php echo $value->idparte;?>"
+                          data-idrevision="<?php echo $value->idrevision;?>"
                           data-idlitho="<?php echo $value->idlitho;?>"
                           data-cantidad="<?php echo $value->cantidad;?>"
                           data-numeroparte="<?php echo $value->numeroparte;?>"
@@ -54,7 +54,7 @@
                         Modificar</a>
                         <a  href="javascript:void(0)" 
                         data-idlitho="<?php echo $value->idlitho;?>"
-                        data-idparte="<?php echo $value->idparte;?>"
+                        data-idrevision="<?php echo $value->idrevision;?>"
                         class="delete_button btn btn-danger btn-xs">
                         <i class="fa fa-trash" aria-hidden="true"></i>
                       Eliminar</a>
@@ -81,7 +81,7 @@
                      <td> 
                       <a  href="javascript:void(0)"  class="edit_button_salida btn btn-primary btn-xs"
                       data-toggle="modal" data-target="#myModalSalida"
-                      data-idparte="<?php echo $value->idparte;?>"
+                      data-idrevision="<?php echo $value->idrevision;?>"
                       data-idlithosalida="<?php echo $value->idlithosalida;?>"
                       data-cantidad="<?php echo $value->cantidad;?>"
                       data-numeroparte="<?php echo $value->numeroparte;?>"
@@ -91,7 +91,7 @@
                     Modificar</a>
                     <a  href="javascript:void(0)" 
                     data-idlithosalida="<?php echo $value->idlithosalida;?>"
-                    data-idparte="<?php echo $value->idparte;?>"
+                    data-idrevision="<?php echo $value->idrevision;?>"
                     class="delete_button_salida btn btn-danger btn-xs">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                   Eliminar</a>
@@ -117,7 +117,7 @@
                  <td>
                   <a  href="javascript:void(0)"  class="edit_button_devolucion btn btn-primary btn-xs"
                   data-toggle="modal" data-target="#myModalDevolucion"
-                  data-idparte="<?php echo $value->idparte;?>"
+                  data-idrevision="<?php echo $value->idrevision;?>"
                   data-idlithodevolucion="<?php echo $value->idlithodevolucion;?>"
                   data-cantidad="<?php echo $value->cantidad;?>"
                   data-numeroparte="<?php echo $value->numeroparte;?>"
@@ -127,7 +127,7 @@
                 Modificar</a>
                 <a  href="javascript:void(0)" 
                 data-idlithodevolucion="<?php echo $value->idlithodevolucion;?>"
-                data-idparte="<?php echo $value->idparte;?>"
+                data-idrevision="<?php echo $value->idrevision;?>"
                 class="delete_button_devolucion btn btn-danger btn-xs">
                 <i class="fa fa-trash" aria-hidden="true"></i>
               Eliminar</a>                   
@@ -157,7 +157,7 @@
         <div class="modal-body">
           <div class="alert alert-danger print-error-msg" style="display:none"></div>
           <div class="form-group">
-            <input class="form-control idparte" type="hidden" name="idparte">
+            <input class="form-control idrevision" type="hidden" name="idrevision">
             <input class="form-control idlitho" type="hidden" name="idlitho">
           </div>
           <div class="form-group">
@@ -194,7 +194,7 @@
         <div class="modal-body">
           <div class="alert alert-danger print-error-msg" style="display:none"></div>
           <div class="form-group">
-            <input class="form-control idpartesalida" type="hidden" name="idparte">
+            <input class="form-control idrevisionsalida" type="hidden" name="idrevision">
             <input class="form-control idlithosalida" type="hidden" name="idlithosalida">
           </div>
           <div class="form-group">
@@ -232,7 +232,7 @@
         <div class="modal-body">
           <div class="alert alert-danger print-error-msg" style="display:none"></div>
           <div class="form-group">
-            <input class="form-control idpartedevolucion" type="hidden" name="idparte">
+            <input class="form-control idrevisiondevolucion" type="hidden" name="idrevision">
             <input class="form-control idlithodevolucion" type="hidden" name="idlithodevolucion">
           </div>
           <div class="form-group">
@@ -295,11 +295,11 @@
   });
   
   $(document).on( "click", '.delete_button',function(e) { 
-    var idparte = $(this).data('idparte'); 
+    var idrevision = $(this).data('idrevision'); 
     var idlitho = $(this).data('idlitho');
     
 
-    var dataString = 'idparte='+ idparte + '&idlitho=' + idlitho;
+    var dataString = 'idrevision='+ idrevision + '&idlitho=' + idlitho;
 
     Swal.fire({
       title: '¿Eliminar elemento?',
@@ -338,14 +338,14 @@
 
   /*Funciones para SALIDAS*/
   $(document).on( "click", '.edit_button_salida',function(e) { 
-    var idparte = $(this).data('idparte'); 
+    var idrevision = $(this).data('idrevision'); 
     var idlithosalida = $(this).data('idlithosalida');
     var comentarios = $(this).data('comentarios');
     var transferencia = $(this).data('transferencia');
     var cantidad = $(this).data('cantidad');
     var numeroparte = $(this).data('numeroparte');
 
-    $(".idpartesalida").val(idparte);  
+    $(".idrevisionsalida").val(idrevision);  
     $(".idlithosalida").val(idlithosalida);  
     $(".comentarios_salida").val(comentarios);
     $(".transferencia_salida").val(transferencia);   
@@ -377,11 +377,11 @@
 
   $(document).on( "click", '.delete_button_salida',function(e) { 
 
-    var idparte = $(this).data('idparte'); 
+    var idrevision = $(this).data('idrevision'); 
     var idlithosalida = $(this).data('idlithosalida');
     
 
-    var dataString = 'idparte='+ idparte + '&idlithosalida=' + idlithosalida;
+    var dataString = 'idrevision='+ idrevision + '&idlithosalida=' + idlithosalida;
 
     Swal.fire({
       title: '¿Eliminar elemento?',
@@ -419,14 +419,14 @@
   /*Funciones para DEVOLUCIONES*/
   $(document).on( "click", '.edit_button_devolucion',function(e) {
 
-    var idparte = $(this).data('idparte'); 
+    var idrevision = $(this).data('idrevision'); 
     var idlithodevolucion = $(this).data('idlithodevolucion');
     var comentarios = $(this).data('comentarios');
     var transferencia = $(this).data('transferencia');
     var cantidad = $(this).data('cantidad');
     var numeroparte = $(this).data('numeroparte');
 
-    $(".idpartedevolucion").val(idparte);  
+    $(".idrevisiondevolucion").val(idrevision);  
     $(".idlithodevolucion").val(idlithodevolucion);  
     $(".comentarios_devolucion").val(comentarios);
     $(".transferencia_devolucion").val(transferencia);   
@@ -457,10 +457,10 @@
   });
 
   $(document).on( "click", '.delete_button_devolucion',function(e) {
-    var idparte = $(this).data('idparte');  
+    var idrevision = $(this).data('idrevision');  
     var idlithodevolucion = $(this).data('idlithodevolucion');
 
-    var dataString = 'idparte='+ idparte + '&idlithodevolucion=' + idlithodevolucion;
+    var dataString = 'idrevision='+ idrevision + '&idlithodevolucion=' + idlithodevolucion;
 
     Swal.fire({
       title: '¿Eliminar elemento?',

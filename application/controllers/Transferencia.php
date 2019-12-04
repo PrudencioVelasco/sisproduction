@@ -44,7 +44,7 @@ class Transferencia extends CI_Controller {
 
     public function detalle($id, $folio) {
         # code...
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $datalinea = $this->linea->showAllLinea();
         $datatransferencia = $this->transferencia->listaNumeroParteTransferencia($id);
        
@@ -532,20 +532,20 @@ Permission::grant(uri_string());
         <style type="text/css">
             table {
             border-collapse:collapse;
-            margin-left:40px;
+            margin-left:0px;
             margin-top:13px;
             }
             .nombrecliente{
             font-weight:bold;
-            font-size:40px; 
+            font-size:50px; 
             }
              .cantidad{
             font-weight:bold;
-            font-size:40px; 
+            font-size:55px; 
             }
             .numeroparte{
             font-weight:bold;
-            font-size:40px; 
+            font-size:70px; 
             }
             .mes{
              font-weight:bold;
@@ -553,11 +553,138 @@ Permission::grant(uri_string());
             }
             .semana{
              font-weight:bold;
-            font-size:40px; 
+            font-size:45px; 
             }
             .modelo{
              font-weight:bold;
+            font-size:50px; 
+            }
+            .revision{
+             font-weight:bold;
             font-size:40px; 
+            }
+            .linea{
+             font-weight:bold;
+            font-size:40px; 
+            }
+            .cantidadpallet{
+            font-weight:bold;
+            font-size:40px; 
+            }
+            td 
+                {
+                    border:0px  solid black;
+                }
+    </style>
+<table   border="0">
+  <tr>
+    <td colspan="2" height="45" width="350" align="center">ddd</td>
+    <td colspan="2" height="45" width="350" align="center">ddd</td>
+    <td colspan="3" height="45" width="750"  >ddd</td>
+  </tr>
+  <tr>
+    <td height="80" align="left"  colspan="2" class="nombrecliente">&nbsp;' . $detalle->nombre . '</td>
+    <td colspan="2" align="center" class="cantidad">&nbsp;'.number_format($detalle->cantidad).'</td>
+    <td colspan="3" align="center" class="numeroparte" rowspan="3">&nbsp;' . $detalle->numeroparte . '</td>
+  </tr>
+  <tr>
+    <td colspan="2" height="40"  align="center"></td>
+    <td colspan="2" height="40" ></td>
+  </tr>
+  <tr>
+    <td colspan="2" height="60" class="mes" align="center">&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
+    <td colspan="2" height="60" class="semana" align="center">&nbsp;' . $semana . '</td>
+  </tr>
+  <tr>
+    <td height="40" width="20" ></td>
+    <td height="40" width="100" ></td>
+    <td height="40" ></td>
+    <td height="40" ></td>
+    <td colspan="3"    height="40" ></td>
+  </tr>
+  <tr>
+    <td width="112" class="linea" align="left" >&nbsp;' . $detalle->nombrelinea . '</td>
+    <td width="80">&nbsp;</td>
+    <td width="65">&nbsp;</td>
+    <td width="71" align="left" class="cantidadpallet">&nbsp;1</td>
+    <td colspan="3"    rowspan="2" align="center">&nbsp;<img src="' . $barcode . '" style="height:120px;" /></td>
+  </tr> 
+   <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td colspan="4">&nbsp;</td>
+    <td colspan="2" width="585" height="45" ></td>
+    <td width="20" height="30" ></td>
+  </tr>
+  <tr> 
+    <td colspan="5" rowspan="2">&nbsp;</td>
+    <td  width="256" height="90" align="center" class="modelo" rowspan="2">' . $detalle->modelo . '</td>
+  </tr>
+  <tr>
+    <td height="90" align="right" class="revision" >&nbsp;' . $detalle->revision . '</td>
+  </tr>
+</table>
+</page>
+');
+
+        //$mipdf->pdf->IncludeJS('print(TRUE)');
+       // $mipdf->Output(APPPATH . 'pdfs\\' . 'Packing' . date('Ymdgisv') . '.pdf', 'F');
+        $mipdf->Output('Etiqueta_Packing.pdf');
+    }
+     public function nuevaetiquetacopia($idpalletcajas)
+    {
+        # code...
+         date_default_timezone_set("America/Tijuana");
+        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
+        $barcode = $this->set_barcode($detalle->numeroparte);
+        $barcodecliente = $this->set_barcode_cliente($detalle->clave);
+        $barcodecantidad= $this->set_barcode_cantidad($detalle->cantidad);
+        $hora = date("h:i a");
+        $fecha = date("j/n/Y");
+        $dia = date("j");
+        $semana = date("W");
+        $mes = date("F");
+        $this->load->library('html2pdf');
+        ob_start();
+
+
+        $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
+        $mipdf->pdf->SetDisplayMode('fullpage');
+        $mipdf->writeHTML('<page  format="400x165"  >
+        <style type="text/css">
+            table {
+            border-collapse:collapse;
+            margin-left:40px;
+            margin-top:13px;
+            }
+            .nombrecliente{
+            font-weight:bold;
+            font-size:50px; 
+            }
+             .cantidad{
+            font-weight:bold;
+            font-size:55px; 
+            }
+            .numeroparte{
+            font-weight:bold;
+            font-size:65px; 
+            }
+            .mes{
+             font-weight:bold;
+            font-size:40px; 
+            }
+            .semana{
+             font-weight:bold;
+            font-size:45px; 
+            }
+            .modelo{
+             font-weight:bold;
+            font-size:45px; 
             }
             .revision{
              font-weight:bold;
@@ -583,7 +710,7 @@ Permission::grant(uri_string());
     <td colspan="3" height="45"  >Parte Number</td>
   </tr>
   <tr>
-    <td height="80" align="center"  colspan="2" class="nombrecliente">&nbsp;' . $detalle->nombre . '</td>
+    <td height="80" align="left"  colspan="2" class="nombrecliente">&nbsp;' . $detalle->nombre . '</td>
     <td colspan="2" align="center" class="cantidad">&nbsp;'.number_format($detalle->cantidad).'</td>
     <td colspan="3" align="center" class="numeroparte" rowspan="3">&nbsp;' . $detalle->numeroparte . '</td>
   </tr>
@@ -596,17 +723,17 @@ Permission::grant(uri_string());
     <td colspan="2" height="60" class="semana" align="center">&nbsp;' . $semana . '</td>
   </tr>
   <tr>
-    <td height="45" >Line No</td>
-    <td height="45" >Prod</td>
-    <td height="45" >W/H</td>
-    <td height="45" >Pallet No</td>
-    <td colspan="3"    height="45" >Part Number Code</td>
+    <td height="40" width="20" >Line No</td>
+    <td height="40" width="100" >Prod</td>
+    <td height="40" >W/H</td>
+    <td height="40" >Pallet No</td>
+    <td colspan="3"    height="40" >Part Number Code</td>
   </tr>
   <tr>
-    <td width="112" class="linea" align="center" >&nbsp;' . $detalle->nombrelinea . '</td>
+    <td width="112" class="linea" align="left" >&nbsp;' . $detalle->nombrelinea . '</td>
     <td width="80">&nbsp;fff</td>
     <td width="65">&nbsp;</td>
-    <td width="71" align="center" class="cantidadpallet">&nbsp;1</td>
+    <td width="71" align="left" class="cantidadpallet">&nbsp;1</td>
     <td colspan="3"    rowspan="2" align="center">&nbsp;<img src="' . $barcode . '" style="height:118px;" /></td>
   </tr> 
    <tr>
@@ -619,14 +746,14 @@ Permission::grant(uri_string());
   <tr>
     <td colspan="4">&nbsp;</td>
     <td colspan="2" width="500" height="45" >Model Name</td>
-    <td width="150" height="45" >Rev. no</td>
+    <td width="100" height="45" >Rev. no</td>
   </tr>
   <tr> 
     <td colspan="5" rowspan="2">&nbsp;</td>
     <td  width="256" height="90" align="center" class="modelo" rowspan="2">' . $detalle->modelo . '</td>
   </tr>
   <tr>
-    <td height="90" align="center" class="revision" >&nbsp;' . $detalle->revision . '</td>
+    <td height="90" align="right" class="revision" >&nbsp;' . $detalle->revision . '</td>
   </tr>
 </table>
 </page>

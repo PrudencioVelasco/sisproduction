@@ -139,8 +139,10 @@
                                     <li><a><i class="fa fa-bar-chart" aria-hidden="true"></i> Reporte <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none"> 
  
-                                        <li><a href="<?= base_url('/reporte/transferencia') ?>"> Transferencia</a> </li> 
-                                              <li><a href="<?= base_url('/reporte/reporteturnos') ?>"> Reporte turnos</a> </li>
+                                       <li><a href="<?= base_url('/reporte/transferencia') ?>"> Transferencia</a> </li> 
+                                              <li><a href="<?= base_url('/reporte/reportepacking') ?>"> Reporte packing</a> </li>
+                                              <li><a href="<?= base_url('/reporte/reportecalidad') ?>"> Reporte calidad</a> </li>
+                                              <li><a href="<?= base_url('/reporte/reportealmacen') ?>"> Reporte almacen</a> </li>
                                                 <li><a href="<?= base_url('/reporte/procesofinal') ?>"> Procesos Final</a> </li>
  
                                         </ul>

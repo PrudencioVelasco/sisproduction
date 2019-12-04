@@ -32,12 +32,12 @@ class Litho extends CI_Controller {
         $this->load->view('footer');
     }
 
-    public function detalle($idparte)
+    public function detalle($idrevision)
     {
         $data = array(
-            'entradas'=>$this->litho->detalle_entradas($idparte),
-            'salidas'=>$this->litho->detalle_salidas($idparte),
-            'devoluciones'=>$this->litho->detalle_devoluciones($idparte)
+            'entradas'=>$this->litho->detalle_entradas($idrevision),
+            'salidas'=>$this->litho->detalle_salidas($idrevision),
+            'devoluciones'=>$this->litho->detalle_devoluciones($idrevision)
         );
 
         $this->load->view('header');
@@ -85,7 +85,7 @@ class Litho extends CI_Controller {
             echo json_encode(['error'=>$errors]);
         }else{
             $data = array(
-                'idparte'=> $this->input->post('idparte'),
+                'idrevision'=> $this->input->post('idrevision'),
                 'cantidad'=> $this->input->post('cantidad'),
                 'comentarios'=> $this->input->post('comentarios'),
                 'transferencia'=> $this->input->post('transferencia'),
@@ -139,22 +139,22 @@ class Litho extends CI_Controller {
 
         }else{
             $cantidad = $this->input->post('cantidad');
-            $idparte = $this->input->post('idparte');
+            $idrevision = $this->input->post('idrevision');
 
-            if($this->litho->totalentradas($idparte)){
+            if($this->litho->totalentradas($idrevision)){
                 $total_entrada=0;
                 $total_salida=0;
                 $total_devolucion=0;
-                foreach($this->litho->totalentradas($idparte) as $value){
+                foreach($this->litho->totalentradas($idrevision) as $value){
                  $total_entrada+=$value->cantidad;   
              }
-             if($this->litho->totalsalidas($idparte)){
-                foreach($this->litho->totalsalidas($idparte) as $value){
+             if($this->litho->totalsalidas($idrevision)){
+                foreach($this->litho->totalsalidas($idrevision) as $value){
                     $total_salida+=$value->cantidad;   
                 }
             }
-            if($this->litho->totaldevolucion($idparte)){
-                foreach($this->litho->totaldevolucion($idparte) as $value){
+            if($this->litho->totaldevolucion($idrevision)){
+                foreach($this->litho->totaldevolucion($idrevision) as $value){
                     $total_devolucion+=$value->cantidad;   
                 }
             }
@@ -162,7 +162,7 @@ class Litho extends CI_Controller {
             
             if($cantidad <= $total_entrada ){
                 $data = array(
-                    'idparte'=> $this->input->post('idparte'),
+                    'idrevision'=> $this->input->post('idrevision'),
                     'cantidad'=> $this->input->post('cantidad'),
                     'comentarios'=> $this->input->post('comentarios'),
                     'transferencia'=> $this->input->post('transferencia'),
@@ -224,26 +224,26 @@ public function devolucion()
 
         echo json_encode(['error'=>$errors]);
     }else{
-        $idparte =  $this->input->post('idparte');
+        $idrevision =  $this->input->post('idrevision');
         $cantidad =  $this->input->post('cantidad');
         
         $total_entrada = 0;
         $total_salida = 0;
         $total_devolucion = 0;
         
-        if($this->litho->totalentradas($idparte)){
-            foreach($this->litho->totalentradas($idparte) as $value){
+        if($this->litho->totalentradas($idrevision)){
+            foreach($this->litho->totalentradas($idrevision) as $value){
                 $total_entrada+=$value->cantidad;   
             }
         }
 
-        if($this->litho->totalsalidas($idparte)){
-            foreach($this->litho->totalsalidas($idparte) as $value){
+        if($this->litho->totalsalidas($idrevision)){
+            foreach($this->litho->totalsalidas($idrevision) as $value){
                 $total_salida+=$value->cantidad;   
             }
         }
-        if($this->litho->totaldevolucion($idparte)){
-            foreach($this->litho->totaldevolucion($idparte) as $value){
+        if($this->litho->totaldevolucion($idrevision)){
+            foreach($this->litho->totaldevolucion($idrevision) as $value){
                 $total_devolucion+=$value->cantidad;   
             }
         }
@@ -252,7 +252,7 @@ public function devolucion()
         if($cantidad <= $total_stock && $total_stock > 0){
 
             $data = array(
-                'idparte'=> $this->input->post('idparte'),
+                'idrevision'=> $this->input->post('idrevision'),
                 'cantidad'=> $this->input->post('cantidad'),
                 'comentarios'=> $this->input->post('comentarios'),
                 'transferencia'=> $this->input->post('transferencia'),
@@ -365,27 +365,27 @@ public function actualizar_salida()
         echo json_encode(['error'=>$errors]);
     }else{
         $idlithosalida = $this->input->post('idlithosalida'); 
-        $idparte =  $this->input->post('idparte');
+        $idrevision =  $this->input->post('idrevision');
         $cantidad =  $this->input->post('cantidad');
 
         $total_entrada = 0;
         $total_salida = 0;
         $total_devolucion = 0;
 
-        if($this->litho->totalentradas($idparte)){
-            foreach($this->litho->totalentradas($idparte) as $value){
+        if($this->litho->totalentradas($idrevision)){
+            foreach($this->litho->totalentradas($idrevision) as $value){
                 $total_entrada+=$value->cantidad;   
             }
         }
 
-        if($this->litho->totalsalidaswithout($idparte,$idlithosalida)){
-            foreach($this->litho->totalsalidaswithout($idparte,$idlithosalida) as $value){
+        if($this->litho->totalsalidaswithout($idrevision,$idlithosalida)){
+            foreach($this->litho->totalsalidaswithout($idrevision,$idlithosalida) as $value){
                 $total_salida+=$value->cantidad;   
             }
         }
 
-        if($this->litho->totaldevolucion($idparte)){
-            foreach($this->litho->totaldevolucion($idparte) as $value){
+        if($this->litho->totaldevolucion($idrevision)){
+            foreach($this->litho->totaldevolucion($idrevision) as $value){
                 $total_devolucion+=$value->cantidad;   
             }
         }
@@ -417,9 +417,9 @@ public function actualizar_salida()
 public function eliminar_parte()
 {
     $idlitho = $this->input->post('idlitho');
-    $idparte = $this->input->post('idparte');
+    $idrevision = $this->input->post('idrevision');
 
-    $data = $this->litho->buscar_fecha_parte_entrada($idlitho,$idparte);
+    $data = $this->litho->buscar_fecha_parte_entrada($idlitho,$idrevision);
 
     $date1 = new DateTime(date("Y-m-d H:i:s",time()));
     $date2 = new DateTime($data[0]->fecharegistro);
@@ -443,9 +443,9 @@ public function eliminar_parte()
 public function eliminar_parte_salida()
 {
     $idlithosalida = $this->input->post('idlithosalida');
-    $idparte = $this->input->post('idparte');
+    $idrevision = $this->input->post('idrevision');
 
-    $data = $this->litho->buscar_fecha_parte_salidas($idlithosalida,$idparte);
+    $data = $this->litho->buscar_fecha_parte_salidas($idlithosalida,$idrevision);
 
     $date1 = new DateTime(date("Y-m-d H:i:s",time()));
     $date2 = new DateTime($data[0]->fecharegistro);
@@ -506,27 +506,27 @@ public function actualizar_devolucion()
         echo json_encode(['error'=>$errors]);
     }else{
         $idlithodevolucion = $this->input->post('idlithodevolucion'); 
-        $idparte =  $this->input->post('idparte');
+        $idrevision =  $this->input->post('idrevision');
         $cantidad =  $this->input->post('cantidad');
 
         $total_entrada = 0;
         $total_salida = 0;
         $total_devolucion = 0;
 
-        if($this->litho->totalentradas($idparte)){
-            foreach($this->litho->totalentradas($idparte) as $value){
+        if($this->litho->totalentradas($idrevision)){
+            foreach($this->litho->totalentradas($idrevision) as $value){
                 $total_entrada+=$value->cantidad;   
             }
         }
 
-        if($this->litho->totalsalidas($idparte)){
-            foreach($this->litho->totalsalidas($idparte) as $value){
+        if($this->litho->totalsalidas($idrevision)){
+            foreach($this->litho->totalsalidas($idrevision) as $value){
                 $total_salida+=$value->cantidad;   
             }
         }
 
-        if($this->litho->totaldevolucioneswithout($idparte,$idlithodevolucion)){
-            foreach($this->litho->totaldevolucioneswithout($idparte,$idlithodevolucion) as $value){
+        if($this->litho->totaldevolucioneswithout($idrevision,$idlithodevolucion)){
+            foreach($this->litho->totaldevolucioneswithout($idrevision,$idlithodevolucion) as $value){
                 $total_devolucion+=$value->cantidad;   
             }
         }
@@ -536,7 +536,7 @@ public function actualizar_devolucion()
 
         if ($cantidad > 0 && $cantidad <= $total_stock) {
             $data = array(
-                'idparte'=> $this->input->post('idparte'),
+                'idrevision'=> $this->input->post('idrevision'),
                 'cantidad'=> $this->input->post('cantidad'),
                 'comentarios'=> $this->input->post('comentarios'),
                 'transferencia'=> $this->input->post('transferencia'),
@@ -560,9 +560,9 @@ public function actualizar_devolucion()
 public function eliminar_parte_devolucion()
 {
     $idlithodevolucion = $this->input->post('idlithodevolucion');
-    $idparte = $this->input->post('idparte');
+    $idrevision = $this->input->post('idrevision');
 
-    $data = $this->litho->buscar_fecha_parte_devolucion($idlithodevolucion,$idparte);
+    $data = $this->litho->buscar_fecha_parte_devolucion($idlithodevolucion,$idrevision);
 
     $date1 = new DateTime(date("Y-m-d H:i:s",time()));
     $date2 = new DateTime($data[0]->fecharegistro);

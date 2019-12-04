@@ -64,22 +64,84 @@
                                                                                 <td><?php echo $value->nombremodelo; ?></td>
                                                                                 <td><?php echo $value->nombrerevision; ?></td>
                                                                                 <td>
-                                                                                    <label style="color:blue;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet + $value->total);?></label>
+                                                                                    <label style="color:blue;"><?php echo $value->totalsalidaparciales + $value->totalsalidapallet + $value->total;?></label>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <label style="color:red;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet);?></label>
+                                                                                    <label style="color:red;"><?php echo $value->totalsalidaparciales + $value->totalsalidapallet;?></label>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <label style="color:green;"><?php echo number_format($value->total);?></label>                                                        
+                                                                                    <label style="color:green;"><?php echo $value->total;?></label>                                                        
                                                                                 </td>
 
                                                                                 <td align="center">
-                                                                                    <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('warehouse/historial/'.$value->idrevision) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
+                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('warehouse/historial/'.$value->idrevision) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
                                                                                     Historial</a>
                                                                                 </td>
                                                                             </tr>
                                                                         <?php endforeach;?>
                                                                     <?php endif;?> 
+                                                                          <?php
+                                                                          
+                                                                          if(isset($laminas) && !empty($laminas)){
+                                                                              foreach ($laminas as $valuel){ 
+                                                                                  if($valuel->totalexistencia > 0){
+                                                                                  ?>
+                                                                                         <tr>
+                                                                                <td>--</td>
+                                                                                <td><?php echo $valuel->numeroparte; ?></td>
+                                                                                <td>LAMINAS</td>
+                                                                                <td><?php echo $valuel->modelo; ?></td>
+                                                                                <td><?php echo $valuel->revision; ?></td>
+                                                                                <td>
+                                                                                    <label style="color:blue;"><?php echo $valuel->totalentradas;?></label>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <label style="color:red;"><?php echo $valuel->totalsalidas;?></label>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <label style="color:green;"><?php echo $valuel->totalexistencia;?></label>                                                        
+                                                                                </td>
+
+                                                                                <td align="center">
+                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('laminas/detalle/'.$valuel->idparte) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
+                                                                                    Historial</a>
+                                                                                </td>
+                                                                            </tr>
+                                                                              <?php }
+                                                                              }
+                                                                          }
+                                                                          ?>
+                                                                          <?php
+                                                                          
+                                                                          if(isset($lithos) && !empty($lithos)){
+                                                                              foreach ($lithos as $valueli){
+                                                                                  if($valueli->totalexistencia > 0){
+                                                                                  ?>
+                                                                                         <tr>
+                                                                                <td>--</td>
+                                                                                <td><?php echo $valueli->numeroparte; ?></td>
+                                                                                <td>LITHO</td>
+                                                                                <td><?php echo $valueli->modelo; ?></td>
+                                                                                <td><?php echo $valueli->revision; ?></td>
+                                                                                <td>
+                                                                                    <label style="color:blue;"><?php echo $valueli->totalentradas;?></label>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <label style="color:red;"><?php echo $valueli->totalsalidas;?></label>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <label style="color:green;"><?php echo $valueli->totalexistencia;?></label>                                                        
+                                                                                </td>
+
+                                                                                <td align="center">
+                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('litho/detalle/'.$valueli->idrevision) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
+                                                                                    Historial</a>
+                                                                                </td>
+                                                                            </tr>
+                                                                              <?php }
+                                                                              }
+                                                                          }
+                                                                          ?>
                                                                 </tbody>
                                                             </table>
                                                         </div> 
@@ -118,13 +180,13 @@
                                                                         <td><?php echo $value->nombreposicion; ?>
                                                                     </td>
                                                                     <td>
-                                                                        <label style="color:blue;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet + $value->total);?></label>
+                                                                        <label style="color:blue;"><?php echo $value->totalsalidaparciales + $value->totalsalidapallet + $value->total;?></label>
                                                                     </td>
                                                                     <td>
-                                                                        <label style="color:red;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet);?></label>
+                                                                        <label style="color:red;"><?php echo $value->totalsalidaparciales + $value->totalsalidapallet;?></label>
                                                                     </td>
                                                                     <td>
-                                                                        <label style="color:green;"><?php echo number_format($value->total);?></label>                                                        
+                                                                        <label style="color:green;"><?php echo $value->total;?></label>                                                        
                                                                     </td>
 
                                                                     <td align="center">

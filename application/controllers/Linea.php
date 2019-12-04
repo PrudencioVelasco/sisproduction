@@ -28,7 +28,7 @@ class Linea extends CI_Controller {
     }
 
     public function addLinea() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'nombrelinea',
@@ -74,7 +74,7 @@ class Linea extends CI_Controller {
     }*/
 
     public function updateLinea() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'nombrelinea',
@@ -117,7 +117,7 @@ class Linea extends CI_Controller {
  
 
     public function showAll() {
-        Permission::grant(uri_string()); 
+        //Permission::grant(uri_string()); 
         $query = $this->linea->showAllLinea();
         if ($query) {
             $result['lineas'] = $this->linea->showAllLinea();

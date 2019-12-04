@@ -27,7 +27,7 @@ class Ubicacion extends CI_Controller {
     }
 
     public function showAll() {
-        Permission::grant(uri_string());
+       // Permission::grant(uri_string());
         $query = $this->ubicacion->showAll();
         if ($query) {
             $result['ubicaciones'] = $this->ubicacion->showAll();
@@ -38,7 +38,7 @@ class Ubicacion extends CI_Controller {
    
 
     public function addUbicacion() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'nombreposicion',
@@ -66,7 +66,7 @@ class Ubicacion extends CI_Controller {
     }
 
     public function updateUbicacion() {
-       Permission::grant(uri_string());
+       //Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'nombreposicion',
@@ -98,7 +98,7 @@ class Ubicacion extends CI_Controller {
     }
 
     public function searchUbicacion() {
-       Permission::grant(uri_string());
+       //Permission::grant(uri_string());
         $value = $this->input->post('text');
         $query = $this->ubicacion->searchUbicacion($value);
         if ($query) {

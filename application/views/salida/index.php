@@ -67,7 +67,10 @@
                                                             <i class="fa  fa-edit"></i> Modificar
                                                         </button>
 
-                                                        <a class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'detalleSalida/'+ row.idsalida" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                        <a  v-if="row.idcliente == 48" class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'detalleSalidaMaster/'+ row.idsalida" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                            Agregar</a>
+
+                                                              <a  v-else class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'detalleSalida/'+ row.idsalida" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                             Agregar</a>
 
 

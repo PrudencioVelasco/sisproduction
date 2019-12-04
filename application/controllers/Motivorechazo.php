@@ -28,7 +28,7 @@ class Motivorechazo extends CI_Controller {
     }
 
     public function showAll() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $query = $this->motivo->showAll();
         if ($query) {
             $result['motivos'] = $this->motivo->showAll();
@@ -36,7 +36,7 @@ class Motivorechazo extends CI_Controller {
         echo json_encode($result);
     }
      public function showAllProcesos() {
-        Permission::grant(uri_string());
+       // Permission::grant(uri_string());
         $query = $this->motivo->showAllProcesos(); 
         echo json_encode($query);
     }
@@ -44,7 +44,7 @@ class Motivorechazo extends CI_Controller {
    
 
     public function addMotivo() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'motivo',
@@ -82,7 +82,7 @@ class Motivorechazo extends CI_Controller {
     }
 
     public function updateMotivo() {
-        Permission::grant(uri_string());
+       // Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'motivo',
@@ -124,7 +124,7 @@ class Motivorechazo extends CI_Controller {
     }
 
     public function searchMotivo() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $value = $this->input->post('text');
         $query = $this->motivo->searchMotivo($value);
         if ($query) {

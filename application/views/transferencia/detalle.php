@@ -177,6 +177,7 @@
                                                                     <a style="padding-right: 20px" target="_blank" href="<?php echo site_url('transferencia/etiquetaPacking/' . $value->idpalletcajas) ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
                                                                     <input type="hidden" class="idpalletcajas" value="<?php echo $value->idpalletcajas; ?>"/>
                                                                     <a href=""> <i class="fa fa-print fa-2x btnimprimirpdf"  aria-hidden="true"></i></a>
+                                                                    <a style="padding-left: 20px" target="_blank" href="<?php echo site_url('transferencia/nuevaetiqueta/' . $value->idpalletcajas) ?>"><i style="color:green;" class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a> 
                                                                 </td>
                                                             </tr>
                                                             <?php

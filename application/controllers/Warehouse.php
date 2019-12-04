@@ -15,6 +15,8 @@ class Warehouse extends CI_Controller {
         $this->load->library('session');
         $this->load->model('warehouse_model', 'almacen');
         $this->load->model('categorias_model', 'categorias');
+         $this->load->model('lamina_model', 'lamina');
+         $this->load->model('litho_model', 'litho');
     }
 
     public function index() {
@@ -26,7 +28,7 @@ class Warehouse extends CI_Controller {
     }
 
     public function entry() {
-        Permission::grant(uri_string());
+       // Permission::grant(uri_string());
         $first_date = $this->input->post('fechainicio');
         $second_date = $this->input->post('fechafin');
         $categoria = $this->input->post('categoria');
@@ -42,7 +44,7 @@ class Warehouse extends CI_Controller {
     }
 
     public function historial($id) {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
 
         $data['entradas'] = $this->almacen->getDataEntradas($id);
         $data['salidasparciales'] = $this->almacen->getDataSalidaParcial($id);
@@ -54,7 +56,7 @@ class Warehouse extends CI_Controller {
     }
 
     public function historialposicion($idposicionbodega) {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
 
         $data['entradas'] = $this->almacen->getDataEntradasPosicion($idposicionbodega);
         $data['salidasparciales'] = $this->almacen->getDataSalidaParcialPosicion($idposicionbodega);
@@ -66,7 +68,7 @@ class Warehouse extends CI_Controller {
     }
 
     public function exitWareHouse() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $first_date = $this->input->post('fechainicio');
         $second_date = $this->input->post('fechafin');
         $tipo = $this->input->post('tipo');
@@ -137,9 +139,11 @@ class Warehouse extends CI_Controller {
     }
 
     public function wharehouse() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $data['informacion'] = $this->almacen->getDataPallets();
         $data['posiciones'] = $this->almacen->getDataPalletsPosicion();
+         $data['laminas'] = $this->lamina->showAllLaminas();
+          $data['lithos'] = $this->litho->showAllLitho();
 
         $this->load->view('header');
         $this->load->view('warehouse/warehouse', $data);
@@ -147,7 +151,7 @@ class Warehouse extends CI_Controller {
     }
 
     public function detalle($idpalletcajas) {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $data['informacion'] = $this->hold->detalleParteTransferencia($idpalletcajas);
         $data['cantidades'] = $this->hold->selectCantidades();
 
@@ -157,7 +161,7 @@ class Warehouse extends CI_Controller {
     }
 
     public function sendAllQuality() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $idpalletcajas = $this->input->post('idpalletcajas');
         $data = array(
             'idestatus' => 1
@@ -171,7 +175,7 @@ class Warehouse extends CI_Controller {
     }
 
     public function sendQuality() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $idpalletcajas = $this->input->post('idpalletcajas');
         $idcantidad = $this->input->post('idnuevacantidad');
         $cantidad = $this->input->post('cantidad');
@@ -209,7 +213,7 @@ class Warehouse extends CI_Controller {
     }
 
     public function sendTrash() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $idpalletcajas = $this->input->post('idpalletcajas');
         $cantidad = $this->input->post('cantidad');
         $idtransferencia = $this->input->post('idtransferencia');

@@ -130,7 +130,7 @@ class Catalogo extends CI_Controller {
                 $cliente = $allDataInSheet[$i]["F"];
                 $proveedor = $allDataInSheet[$i]["G"];
                 $locacion = $allDataInSheet[$i]["H"];
-                $categoria = $allDataInSheet[$i]["J"];
+                $categoria = $allDataInSheet[$i]["I"];
                 if (!empty($cantidad_cajas) && $cantidad_cajas > 0 && !empty($modelo)) {
                     $data_insert = array(
                         'identificador' => $identificador,
@@ -275,7 +275,7 @@ class Catalogo extends CI_Controller {
                 $idcliente = $row->cliente;
                 $idcategoria = $row->categoria;
                 $revision = $row->revision;
-                $locacion = $row->locacion;
+                $locacion2 = $row->locacion;
                 $cantidad_cajas = $row->cantidadcajas;
                 $validar_numero_parte = $this->documento->validar_existencia_numeroparte($numeroparte);
                 //var_dump($validar_numero_parte);
@@ -297,6 +297,7 @@ class Catalogo extends CI_Controller {
                                 $idcantidad = $detalle_revision_cantidad->idcantidad;
                                 $datos[$i] = array();
                                 $datos[$i]['idcantidad'] = $idcantidad;
+                                 $datos[$i]['locat'] = $locacion2;
                             } else {
                                 //No existe la cantidad
                                 $data_insert_cantidad = array(
@@ -308,6 +309,7 @@ class Catalogo extends CI_Controller {
                                 $idcantidad = $this->documento->addCantidad($data_insert_cantidad);
                                 $datos[$i] = array();
                                 $datos[$i]['idcantidad'] = $idcantidad;
+                                $datos[$i]['locat'] = $locacion2;
                             }
                         } else {
                             //La revision no existe
@@ -327,6 +329,7 @@ class Catalogo extends CI_Controller {
                             $idcantidad = $this->documento->addCantidad($data_insert_cantidad);
                             $datos[$i] = array();
                             $datos[$i]['idcantidad'] = $idcantidad;
+                            $datos[$i]['locat'] = $locacion2;
                         }
                     } else {
                         //El modelo NO existe
@@ -366,6 +369,7 @@ class Catalogo extends CI_Controller {
                         $idcantidad = $this->documento->addCantidad($data_insert_cantidad);
                         $datos[$i] = array();
                         $datos[$i]['idcantidad'] = $idcantidad;
+                        $datos[$i]['locat'] = $locacion2;
                     }
                 } else {
                     //El numero de parte NO existe
@@ -414,6 +418,7 @@ class Catalogo extends CI_Controller {
                         $idcantidad = $this->documento->addCantidad($data_insert_cantidad);
                         $datos[$i] = array();
                         $datos[$i]['idcantidad'] = $idcantidad;
+                        $datos[$i]['locat'] = $locacion2;
 
 
 
@@ -429,7 +434,7 @@ class Catalogo extends CI_Controller {
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
            $idtransferencia =  $this->transferencia->addTransferencia($date_insert_transferencia);
-
+           //var_dump($datos);
            foreach($datos as $value){
                 $data_insert_detalle_transferencia = array(
                     'idtransferancia'=>$idtransferencia,
@@ -441,9 +446,9 @@ class Catalogo extends CI_Controller {
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
                 $idpalletcajas =  $this->transferencia->addPalletCajas($data_insert_detalle_transferencia);
-                
+               // echo $value['locat'];
                 //Insertar locacion pallet
-                $detalle_locacion  = $this->documento->seleccion_locacion($locacion);
+                $detalle_locacion  = $this->documento->seleccion_locacion($value['locat']);
                 $idposicion_bodega = $detalle_locacion->idposicion;
                 $data_insert_locacion = array(
                     'idpalletcajas'=>$idpalletcajas,

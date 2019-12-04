@@ -53,16 +53,16 @@ END
 from tblcategoria ca where ca.idcategoria=d.categoria  ) as existencategoria,
 (select 
 CASE 
-    WHEN count(p.idparte) > 0 && count(cat.idcategoria) > 0 THEN "Categoria no relacionada con el N° Parte"
+    WHEN count(p.idparte) > 0 && count(cat.idcategoria) > 0 THEN "Okey"
 	
-    ELSE "No existe el numero parte."
+    ELSE "Categoria no relacionada con el N° Parte."
 END
 from parte p, tblcategoria cat where  p.idcategoria= cat.idcategoria and  p.numeroparte=d.numeroparte  ) as existennumeroparte,
 (select 
 CASE 
-    WHEN count(p.idparte) > 0 && count(cli.idcliente) > 0 THEN "N° Parte no tiene relacion con Cliente."
+    WHEN count(p.idparte) > 0 && count(cli.idcliente) > 0 THEN "Okey"
 	
-    ELSE "Okey"
+    ELSE "N° Parte no tiene relacion con Cliente"
 END
 from parte p, cliente cli where  p.idcliente= cli.idcliente and  p.numeroparte=d.numeroparte  ) as existennumeropartecliente');
         $this->db->from('tbldocumento d');
