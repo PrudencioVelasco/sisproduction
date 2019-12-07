@@ -1,5 +1,10 @@
 <!-- page content -->
-
+<style type="text/css">
+    .subrayado{
+        font-weight: bold;
+        text-decoration-line: underline;
+    }
+</style>
 <div class="right_col" role="main">
     <div class="">
         <div class="clearfix"></div>
@@ -86,7 +91,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="bookId" value=""/>
+                                        <input type="hidden" name="bookId" id="bookId" value=""/>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -106,7 +111,7 @@
                                             <th><strong>Caja x Pallet</strong></th>
                                             <th><strong>Modelo</strong></th>
                                             <th><strong>Revisión</strong></th>
-                                            <th><strong>Ubicación</strong></th>
+                                            <th><strong>P. Ubicación</strong></th>
                                             <?php if ($detallesalida->finalizado == 0) { ?>
                                                 <th></th>
                                             <?php } ?>
@@ -123,7 +128,7 @@
                                             } else {
                                                 echo "<td>";
                                                 ?> 
-                                                <a href="#my_modal" data-toggle="modal" data-book-id="<?php echo $value->idpalletcajas; ?>" ><?php echo $value->numeroparte; ?></a>
+                                               <span class='glyphicon glyphicon-exclamation-sign' style=''></span>  <a href="#my_modal" class="subrayado" data-toggle="modal" data-book-id="<?php echo $value->idpalletcajas; ?>" ><?php echo $value->numeroparte; ?></a>
 
                                                 <?php
                                                 echo "</td>";
@@ -273,11 +278,12 @@
            var codigo = $("#codigoescaneado").val();
            var idsalida = $("#idsalida").val();
            var cantidad =$("#cantidadescaneado").val();
+           var idpalletcajas =$("#bookId").val();
             console.log(codigo);
             $.ajax({
                 type: "POST",
                 url: "<?= base_url('orden/validar') ?>",
-                data: "codigo=" + codigo + "&cantidad=" + cantidad + "&idsalida=" + idsalida,
+                data: "codigo=" + codigo + "&cantidad=" + cantidad + "&idsalida=" + idsalida+ "&idpalletcajas=" + idpalletcajas,
                 dataType: "html",
                 beforeSend: function () {
                     //imagen de carga
@@ -290,9 +296,11 @@
 
                     //var getContact = JSON.parse(data);
                     //console.log(getContact.incorrecto); 
-                    if (data === 1) {
+                    if (data == 1) {
                         $('#msgerror').hide();
+                        $('#msgerror').text("");
                         $('#msgcorrecto').text("Exito... espere un momento");
+                         location.reload();
 
                     } else {
                         $('#msgerror').text("Codigo no encontrado en la Orde.");

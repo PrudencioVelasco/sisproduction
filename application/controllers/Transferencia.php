@@ -315,7 +315,7 @@ class Transferencia extends CI_Controller {
     <td width="22">&nbsp;</td>
     <td width="96">&nbsp;</td>
     <td width="100" align="center" style="border-left:solid 1px #000000; border-right:solid 1px #000000; border-top:solid 1px #000"><p class="textgeneral">TRANSFERENCIA NÚMERO</p></td>
-    <td width="82" align="center" style="border-top:solid 1px #000000; border-right:solid #000 1px">' . $detalle->folio . '</td>
+    <td width="82" align="center" style="border-top:solid 1px #000000; font-size:20px; font-weight:bolder; border-right:solid #000 1px">' . $detalle->folio . '</td>
   </tr>
   <tr>
     <td class="textgeneral lineabajo">FECHA: ' . $fechaactual . '</td>
@@ -337,12 +337,13 @@ class Transferencia extends CI_Controller {
 <table width="536"  style="margin-top:10px" cellpadding="1" cellspacing="1">
   <tr class="textgeneral">
     <td width="58" align="center" valign="middle" style="border:solid 1px #000000">CLIENTE</td>
-    <td width="125" align="center" valign="middle"  style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">NUM. PARTE</td>
+    <td width="100" align="center" valign="middle"  style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">NUM. PARTE</td>
+    <td width="50" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">REVISIÓN</td>
     <td width="52" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">MODELO</td>
-    <td width="66" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD POR PALLET</td>
-    <td width="67" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">TOTAL DE PALLET</td>
+    <td width="64" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD POR PALLET</td>
+    <td width="64" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">TOTAL DE PALLET</td>
     <td width="66" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD TOTAL</td>
-    <td width="100" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">ALMACEN VERIFICACIÓN</td>
+    <td width="80" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">ALMACEN VERIFICACIÓN</td>
   </tr>
   ';
         foreach ($listapartes as $value) {
@@ -350,6 +351,7 @@ class Transferencia extends CI_Controller {
     <td style="border-left:solid 1px
     #000000; border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . $value->nombrecliente . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;' . $value->numeroparte . '</td>
+     <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;' . $value->descripcionrevision . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;' . $value->descripcionmodelo . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format($value->cantidad) . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format($value->totalpallet) . '</td>
@@ -364,6 +366,7 @@ class Transferencia extends CI_Controller {
     #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td class="textfooter" style="border-bottom:solid 1px #000; border-right:solid 1px #000;">TOTAL:</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px; margin-top:20px;">&nbsp;' . $totalpallet . ' </td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;' . number_format(($totalcajas / $totalpallet) * ($totalpallet)) . '</td>
@@ -375,7 +378,7 @@ class Transferencia extends CI_Controller {
     <td >&nbsp;</td>
     <td>&nbsp; </td>
     <td >&nbsp;</td>
-    <td colspan="2" align="right" class="textfooter" >WBKP-PR-FO-007</td>
+    <td colspan="3" align="right" class="textfooter" >WBKP-PR-FO-007</td>
   </tr>
  <tr>
     <td >&nbsp;</td>
@@ -383,7 +386,7 @@ class Transferencia extends CI_Controller {
     <td >&nbsp;</td>
     <td>&nbsp; </td>
     <td >&nbsp;</td>
-    <td colspan="2" align="right" class="textfooter" >Rev. 01</td>
+    <td colspan="3" align="right" class="textfooter" >Rev. 01</td>
   </tr>
     <tr>
     <td >&nbsp;</td>
@@ -453,6 +456,7 @@ class Transferencia extends CI_Controller {
         $this->transferencia->addTransferencia($data);
         redirect('transferencia/');
     }
+   
 
     public function eliminar($id) {
 Permission::grant(uri_string());

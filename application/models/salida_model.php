@@ -341,6 +341,7 @@ FROM
       INNER JOIN
     posicionbodega pb ON ppb.idposicion = pb.idposicion
     WHERE pc.idestatus = 8 
+    AND ppb.ordensalida = 0
     AND pc.idtransferancia = $idtransferencia
     AND pc.idcajas = $idcajas");
         if ($query->num_rows() > 0) {

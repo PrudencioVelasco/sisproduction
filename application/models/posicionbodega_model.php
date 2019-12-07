@@ -21,6 +21,16 @@ class posicionbodega_model extends CI_Model {
             return $query->result();
         } else {
             return false;
+    }
+}
+       
+            public function posicionesBodegaActivo()
+    {
+        $query = $this->db->get('posicionbodega');
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
         }
     }
     public function addPartePosicionBodega($data)

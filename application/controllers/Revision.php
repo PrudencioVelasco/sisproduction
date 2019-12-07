@@ -91,6 +91,7 @@ class Revision extends CI_Controller
             );
         } else {
             $idrevision = $this->input->post('idrevision');
+            $idmodelo = $this->input->post('idmodelo');
             $revision = $this->input->post('descripcion');
             $datavalidar = $this->revision->validadExistenciaRevisionUpdate($idrevision, $revision);
             if ($datavalidar == FALSE) {

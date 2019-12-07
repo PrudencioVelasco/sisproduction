@@ -19,6 +19,7 @@ class Modelo_model extends CI_Model
     public function showAll($idparte)
     {
         $this->db->select('m.idmodelo,'
+               . 'p.idparte,'
                 . 'p.numeroparte,'
                 . 'c.abreviatura as cliente,'
                 . 'm.descripcion,'
@@ -59,13 +60,14 @@ class Modelo_model extends CI_Model
             return false;
         }
     }
-       public function validadExistenciaModeloUpdate($idmodelo,$modelo) {
+       public function validadExistenciaModeloUpdate($idmodelo,$modelo,$idparte) {
         $this->db->select('m.idmodelo,p.numeroparte, c.abreviatura as cliente, m.descripcion ');
         $this->db->from('tblmodelo m');
         $this->db->join('parte p', 'p.idparte = m.idparte');
         $this->db->join('users u', 'm.idusuario = u.id');
         $this->db->join('cliente c', 'c.idcliente = p.idcliente');
         $this->db->where('m.descripcion', $modelo);
+         $this->db->where('m.idparte', $idparte);
          $this->db->where('m.idmodelo !=', $idmodelo);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {

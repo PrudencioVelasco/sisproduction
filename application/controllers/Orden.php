@@ -80,15 +80,22 @@ class Orden extends CI_Controller {
         $this->load->view('orden/detalle', $data);
         $this->load->view('footer');
     }
+
+    public function test()
+    {
+        # code...
+         $data = $this->orden->listaDeNumeroParteSalida('MAY69380803', $idsalida, $idpalletcajas,'160');
+    }
    
    
     public function validar() {
-        Permission::grant(uri_string());
+       // Permission::grant(uri_string());
         $numeroparte = $_POST['codigo'];
         $cantidad = $_POST['cantidad'];
-        $idpalletcajas = $_POST["idpalletcajas"];
-        $idsalida = $_POST["idsalida"];
+          $idpalletcajas = $_POST["idpalletcajas"];
+         $idsalida = $_POST["idsalida"];
         $data = $this->orden->listaDeNumeroParteSalida($numeroparte, $idsalida, $idpalletcajas,$cantidad);
+
         if ($data != FALSE) {
             $dataupdate = array(
                 'salida' => 1

@@ -113,8 +113,9 @@ class Modelo extends CI_Controller {
             );
         } else {
             $idmodelo = $this->input->post('idmodelo');
+            $idparte = $this->input->post('idparte');
             $modelo = $this->input->post('descripcion');
-            $datavalidar = $this->modelo->validadExistenciaModeloUpdate($idmodelo, $modelo);
+            $datavalidar = $this->modelo->validadExistenciaModeloUpdate($idmodelo, $modelo,$idparte);
             if ($datavalidar == FALSE) {
 
                 $data = array(                     
