@@ -60,8 +60,14 @@ class Hold_model extends CI_Model {
         }
     }
 
+
+    public function validadCantidadCajas($cantidad,$idrevision)
+    {
+        # code...
+    }
+
     public function detalleParteTransferencia($id) {
-        $this->db->select('pc.idpalletcajas,pc.idtransferancia,pc.pallet,pc.idcajas,pc.idestatus, p.idparte,c.nombre,p.numeroparte,tc.cantidad, tr.descripcion, s.nombrestatus, pc.idestatus');
+        $this->db->select('pc.idpalletcajas,pc.idtransferancia,pc.pallet,pc.idcajas,pc.idestatus, p.idparte,c.nombre,p.numeroparte,tc.cantidad,tr.idrevision, tr.descripcion, s.nombrestatus, pc.idestatus');
         $this->db->from('palletcajas pc');
         $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
         $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');

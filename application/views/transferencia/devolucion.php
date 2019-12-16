@@ -24,10 +24,15 @@
                         <div id="app">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar parte</button>
+                                   <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar Parte</button>
                                     </div>
-                                </div><br>
+                                    <div class="col-md-6 col-sm-12 col-xs-12" align="right">
+                                         
+                                        <label style="color: red;"><h4><strong>RETORNO</strong></h4></label>
+                                    </div>
+                                </div>
+
                                 <div class="modal fade bd-example-modal-lg" id="myModal"   role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
@@ -477,40 +482,5 @@
         });
 
  });
-</script>
-<script type="text/javascript">
-    $(document).ready(function () {
-    
-        $('.btnimprimirpdf').on('click', function () {
-            var parametros = {
-                "idpalletcajas" : $('.idpalletcajas').val()
-        };
-            $.ajax({
-                type: "POST",
-                url: "<?php echo site_url('transferencia/imprimirEtiquetaPacking'); ?>",
-                data: parametros,
-
-                success: function (data) {
-
-                    
-                    var uriWS = "ws://desktop-r1af0qb:8080/wswoori5569430796882482717/printpacking";
-                    var miWebsocket = new WebSocket(uriWS);
-                 
-                miWebsocket.onopen = function (evento) {
-                    
-                    miWebsocket.send(data);
-                }
-                miWebsocket.onmessage = function (evento) {
-                    console.log(evento.data);
-                }
-         
-                }
-
-            }); 
-            return false;  
-
-
-        });
-    });
-</script>
+</script> 
 <!-- /page content -->

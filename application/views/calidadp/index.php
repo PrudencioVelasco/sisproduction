@@ -24,7 +24,8 @@
                                             <thead class="text-white bg-dark" >
                                             <th>Transferencia</th> 
                                             <th>Fecha</th> 
-                                            <th>Estatus</th> 
+                                            <th>Estatus</th>
+                                            <th>Retorno</th> 
                                             <th>Opción</th>
                                             </thead>
                                             <tbody>
@@ -41,6 +42,15 @@
                                                                 if(!empty($value->estatus)){
                                                                     echo '<label>'.$value->estatus.'</label>';
                                                                 } 
+                                                                ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php
+                                                                if($value->devolucion == 1){
+                                                                    echo '<label class="label label-success">SI</label>';
+                                                                }else{
+                                                                     echo '<label class="label label-danger">NO</label>';
+                                                                }
                                                                 ?>
                                                             </td>
                                                             <td align="right"> 

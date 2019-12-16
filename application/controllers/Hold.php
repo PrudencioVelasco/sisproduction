@@ -39,7 +39,7 @@ class Hold extends CI_Controller {
 
         $data['informacion'] = $this->hold->detalleParteTransferencia($idpalletcajas);
         $data['cantidades'] = $this->hold->listaCantidades($idpalletcajas,$cantidad);
-
+        var_dump($this->hold->detalleParteTransferencia($idpalletcajas));
         $this->load->view('header');
         $this->load->view('hold/detalle', $data);
         $this->load->view('footer');
@@ -58,12 +58,38 @@ class Hold extends CI_Controller {
         }
     }
     public function sendQuality(){
-Permission::grant(uri_string());
+//Permission::grant(uri_string());
+$config = array(
+            array(
+                'field' => 'ccajas',
+                'label' => 'ccajas',
+                'rules' => 'trim|required|is_natural',
+                'errors' => array(
+                    'required' => 'La cantidad de cajas es campo Obligatorio', 
+                    'is_natural'=> 'Solo número positivo.'
+                )
+            )
+        );
+        $this->form_validation->set_rules($config);
+
+        if ($this->form_validation->run() == FALSE){
+
+            $errors = validation_errors();
+
+            echo json_encode(['error'=>$errors]);
+
+
+        }else{
+        $cantidadcajas = $this->input->post('cantidadcajas');
+        $nueva_cantidadcajas = $this->input->post('ccajas');
+        if($nueva_cantidadcajas < $cantidadcajas){
         $idpalletcajas = $this->input->post('idpalletcajas');
-        $idcantidad = $this->input->post('idnuevacantidad');
-        $cantidad = $this->input->post('cantidad');
+        //$idcantidad = $this->input->post('idnuevacantidad');
+        //$idcajas = $this->input->post('idcajas');
+        //$cantidad = $this->input->post('cantidad');
         $idtransferencia = $this->input->post('idtransferencia');
-        $pallet = $this->input->post('pallet');
+        $idrevision = $this->input->post('idrevision');
+        //$pallet = $this->input->post('pallet');
         $idusuario = $_SESSION['user_id'];
 
         $data = array(
@@ -81,7 +107,7 @@ Permission::grant(uri_string());
             $dataTrash = array(
                 'idpalletcajas' => $idpalletcajas, 
                 'idtransferencia' => $idtransferencia,
-                'pallet' => $pallet,
+                'pallet' => 1,
                 'cajas' => $cantidadHold,
                 'idstatus' => 12,
                 'idusuario'=> $idusuario,
@@ -93,6 +119,10 @@ Permission::grant(uri_string());
                 echo $resultTrash;
             }
         }
+    }else{
+          echo json_encode(['error'=>'La cantidad de cajas debe de ser menor o igual.']);
+    }
+}
 
     }
 

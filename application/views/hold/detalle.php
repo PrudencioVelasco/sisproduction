@@ -18,25 +18,30 @@
                         <form id="editInformation">
                             <div class="row">
                                 <div class="col-md-4 col-sm-12 col-xs-12">
+
                                     <div class="form-group">
-                                        <label>Numero de parte</label>
+                                        <label>Número de parte</label>
                                         <input type="text" class="form-control" name="numeroparte" value="<?php echo $informacion[0]->numeroparte;?>" disabled>
                                         <input type="hidden" name="idpalletcajas" value="<?php echo $informacion[0]->idpalletcajas; ?>">
                                         <input type="hidden" name="idtransferencia" value="<?php echo $informacion[0]->idtransferancia; ?>">
                                         <input type="hidden" name="pallet" value="<?php echo $informacion[0]->pallet; ?>">
                                         <input type="hidden" name="idcajas" value="<?php echo $informacion[0]->idcajas; ?>">
+                                        <input type="hidden" name="cantidadcajas" value="<?php echo $informacion[0]->cantidad; ?>">
                                         <input type="hidden" name="idestatus" value="<?php echo $informacion[0]->idestatus; ?>">
+                                         <input type="hidden" name="idrevision" value="<?php echo $informacion[0]->idrevision; ?>">
+
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-12 col-xs-12">
                                     <div class="form-group">
-                                        <label>Revision</label>
+                                        <label>Revisión</label>
                                         <input type="text" class="form-control" name="descripcion" autcomplete="off" placeholder="Revision" value="<?php echo $informacion[0]->descripcion; ?>" disabled>
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-sm-12 col-xs-12">
+                                    
                                     <div class="form-group">
-                                        <label>Cantidad</label>
+                                        <label>Cantidad de Cajas</label>
                                         <input type="text" class="form-control" id="cantidad" name="cantidad" autcomplete="off" placeholder="Revision" value="<?php echo $informacion[0]->cantidad; ?>" disabled>
                                     </div>
                                 </div> 
@@ -46,14 +51,8 @@
                                 <div class="col-md-4 col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label for="idnuevacantidad"><font color="red">*</font> Nueva cantidad</label>
-                                        <select class="form-control" id="idnuevacantidad" name="idnuevacantidad">
-                                            <option value="">Seleccione una cantidad</option>
-                                            <?php if(!empty($cantidades)):?>
-                                                <?php foreach($cantidades as $data):?>
-                                                    <option value="<?php echo $data->idcantidad;?>"><?php echo $data->cantidad; ?></option>
-                                                <?php endforeach;?>
-                                            <?php endif;?>
-                                        </select>
+                                        <input type="text" name="ccajas" id="ccajas" class="form-control"  placeholder="Cantidad de Cajas"><br>
+                                          <div class="alert alert-danger print-error-msg" style="display:none"></div>
                                     </div>
                                 </div>
                             </div>
@@ -64,13 +63,13 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-12 col-xs-12" align="left">
                                 <button type="button" id="btnSendAllQuality" class="btn btn-primary"><i class="fa fa-paper-plane" aria-hidden="true"></i>
-                                Enviar todo</button>
+                                Enviar todo a Calidad</button>
                                 <button type="button" id="btnSendQuality" class="btn btn-success"><i class="fa fa-paper-plane" aria-hidden="true"></i>
-                                Enviar por parte</button>
+                                Enviar por parte a Calidad</button>
                             </div>
                             <div class="col-md-6 col-sm-12 col-xs-12" align="right">
                                 <button type="button" id="btnSendTrash" class="btn btn-dark"><i class="fa fa-trash" aria-hidden="true"></i>
-                                Enviar a Basura</button>
+                                Enviar todo a Basura</button>
                                 <a  class="btn btn-danger" href="<?php echo base_url('hold/index'); ?>"><i class="fa fa-ban" aria-hidden="true"></i>
                                 Cancelar</a>
                             </div>
@@ -89,10 +88,7 @@
         var serialized;
 
         $("#btnSendQuality").click(function(){
-
-            if ($("#idnuevacantidad").val() === '') {
-                alert("Seleccione una cantidad");
-            }else{
+ 
                 myform = $('#editInformation');
             // Encuentra entradas deshabilitadas, y elimina el atributo "deshabilitado"
             disabled = myform.find(':input:disabled').removeAttr('disabled');
@@ -106,13 +102,24 @@
                 //xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
             }
         }).done(function(data) {
-           if (data == true) {
-            window.location.href = "<?php echo site_url('hold/index'); ?>";
-        }
+            console.log(data);
+             var msg = $.parseJSON(data);
+                    console.log(msg.error);
+                    if((typeof msg.error === "undefined")){ 
+                    $(".print-error-msg").css('display','none'); 
+                    alert(msg.success) ? "" : location.reload(); 
+                    }else{ 
+                    $(".print-error-msg").css('display','block'); 
+                    $(".print-error-msg").html(msg.error);
+
+                    }
+         //  if (data == true) {
+           // window.location.href = "<?php //echo site_url('hold/index'); ?>";
+       // }
     });
                         // Volver a deshabilitar el conjunto de entradas que previamente habilitó
                         disabled.attr('disabled','disabled');
-                    }
+                    
                 });
         $("#btnSendAllQuality").click(function(){
 

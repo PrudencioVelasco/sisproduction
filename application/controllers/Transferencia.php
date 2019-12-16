@@ -285,21 +285,21 @@ class Transferencia extends CI_Controller {
         $tbl = '
 <style type="text/css">
 .textgeneral{
-	font-size:8px;
-	color:#000;
-	font-weight:bold;
-	font-family:Verdana, Geneva, sans-serif
-	}
-	.textfooter{
-	font-size:8px;
-	color:#000;
-	font-weight:bold;
-	font-family:Verdana, Geneva, sans-serif
-	}
+    font-size:8px;
+    color:#000;
+    font-weight:bold;
+    font-family:Verdana, Geneva, sans-serif
+    }
+    .textfooter{
+    font-size:8px;
+    color:#000;
+    font-weight:bold;
+    font-family:Verdana, Geneva, sans-serif
+    }
 
 .lineabajo{
-	border-bottom:solid 1px #000000;
-	}
+    border-bottom:solid 1px #000000;
+    }
 .imgtitle{ width:120px;}
 
 </style>
@@ -561,7 +561,7 @@ Permission::grant(uri_string());
             }
             .modelo{
              font-weight:bold;
-            font-size:50px; 
+            font-size:40px;
             }
             .revision{
              font-weight:bold;
@@ -582,9 +582,9 @@ Permission::grant(uri_string());
     </style>
 <table   border="0">
   <tr>
-    <td colspan="2" height="45" width="350" align="center">ddd</td>
-    <td colspan="2" height="45" width="350" align="center">ddd</td>
-    <td colspan="3" height="45" width="750"  >ddd</td>
+    <td colspan="2" height="50" width="350" align="center"></td>
+    <td colspan="2" height="50" width="350" align="center"></td>
+    <td colspan="3" height="50" width="750"  ></td>
   </tr>
   <tr>
     <td height="80" align="left"  colspan="2" class="nombrecliente">&nbsp;' . $detalle->nombre . '</td>
@@ -592,45 +592,42 @@ Permission::grant(uri_string());
     <td colspan="3" align="center" class="numeroparte" rowspan="3">&nbsp;' . $detalle->numeroparte . '</td>
   </tr>
   <tr>
-    <td colspan="2" height="40"  align="center"></td>
-    <td colspan="2" height="40" ></td>
+    <td colspan="2" height="60"  align="center"></td>
+    <td colspan="2" height="60" ></td>
   </tr>
   <tr>
-    <td colspan="2" height="60" class="mes" align="center">&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
-    <td colspan="2" height="60" class="semana" align="center">&nbsp;' . $semana . '</td>
+    <td colspan="2" height="65" class="mes" align="left">&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
+    <td colspan="2" height="65" class="semana" align="left">&nbsp;' . $semana . '</td>
   </tr>
   <tr>
-    <td height="40" width="20" ></td>
-    <td height="40" width="100" ></td>
-    <td height="40" ></td>
-    <td height="40" ></td>
-    <td colspan="3"    height="40" ></td>
+    <td height="20" width="20" ></td>
+    <td height="20" width="100" ></td>
+    <td height="20" ></td>
+    <td height="20" ></td>
+    <td colspan="3"    height="20" ></td>
   </tr>
   <tr>
     <td width="112" class="linea" align="left" >&nbsp;' . $detalle->nombrelinea . '</td>
     <td width="80">&nbsp;</td>
     <td width="65">&nbsp;</td>
     <td width="71" align="left" class="cantidadpallet">&nbsp;1</td>
-    <td colspan="3"    rowspan="2" align="center">&nbsp;<img src="' . $barcode . '" style="height:120px;" /></td>
+    <td colspan="3" height="190"   rowspan="2" align="center">&nbsp;<img src="' . $barcode . '" style="height:165px; margin-top:-25px;" /></td>
   </tr> 
    <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td  height="0">&nbsp;</td>
+    <td  height="0">&nbsp;</td>
+    <td  height="0">&nbsp;</td>
+    <td  height="0">&nbsp;</td>
   </tr>
   
-  <tr>
-    <td colspan="4">&nbsp;</td>
-    <td colspan="2" width="585" height="45" ></td>
-    <td width="20" height="30" ></td>
-  </tr>
+ 
   <tr> 
-    <td colspan="5" rowspan="2">&nbsp;</td>
-    <td  width="256" height="90" align="center" class="modelo" rowspan="2">' . $detalle->modelo . '</td>
-  </tr>
-  <tr>
-    <td height="90" align="right" class="revision" >&nbsp;' . $detalle->revision . '</td>
+    <td colspan="5" rowspan="2 >&nbsp;</td>
+    <td  width="256" height="0" align="center"   style="  font-weight:bold;
+            font-size:38px; padding-top:9px; padding-bottom:-30px;"  rowspan="2">' . $detalle->modelo . '</td>
+  
+    <td height="0" align="right"   style="  font-weight:bold;
+            font-size:30px; padding-top:0px; "  >&nbsp;' . $detalle->revision . '</td>
   </tr>
 </table>
 </page>
