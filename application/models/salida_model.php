@@ -168,6 +168,122 @@ WHERE
         }
     }
 
+
+        public function showPartesBodega3() {
+        $query = $this->db->query(" SELECT  
+          pc.idpalletcajas as iddetalleparte,
+         pc.idtransferancia,
+
+    tp.numeroparte,
+    t.folio,
+    pc.idcajas,
+    tm.descripcion as modelo,
+    tr.descripcion as revision, 
+       DATE_FORMAT(t.fecharegistro,'%d/%m/%Y') as fecha,
+    c.nombre,
+    COUNT(pc.pallet) AS totalpallet,
+    SUM(tc.cantidad) AS totalcajas,
+     tc.cantidad AS cajasporpallet,
+     
+     (SELECT
+    COALESCE(count(pc2.idcajas),0)
+  FROM palletcajas pc2, ordensalida os
+  WHERE  os.idpalletcajas = pc2.idpalletcajas
+  AND pc2.idtransferancia = pc.idtransferancia
+  AND pc2.idestatus = 8
+  AND pc2.idcajas = pc.idcajas
+  AND os.tipo = 0)  AS totalpalletsalido,
+  
+    (SELECT
+    COALESCE(SUM(tc2.cantidad),0)
+  FROM palletcajas pc2, ordensalida os, tblcantidad tc2
+  WHERE  os.idpalletcajas = pc2.idpalletcajas
+  AND tc2.idcantidad = pc2.idcajas
+  AND pc2.idtransferancia = pc.idtransferancia
+  AND pc2.idestatus = 8
+    AND pc2.idcajas = pc.idcajas
+  AND os.tipo = 0 )  AS cajassalidasporpallet,
+  (SELECT
+    COALESCE(SUM(os.caja),0)
+  FROM palletcajas pc2, ordensalida os
+  WHERE  os.idpalletcajas = pc2.idpalletcajas
+  AND pc2.idtransferancia = pc.idtransferancia
+  AND pc2.idestatus = 8
+    AND pc2.idcajas = pc.idcajas
+  AND os.tipo = 1  ) AS cajassalidasporparciales,
+  
+  
+   ((SELECT
+    COALESCE(SUM(tc2.cantidad),0)
+  FROM palletcajas pc2, ordensalida os, tblcantidad tc2
+  WHERE  os.idpalletcajas = pc2.idpalletcajas
+  AND pc2.idtransferancia = pc.idtransferancia
+    AND tc2.idcantidad = pc2.idcajas
+    AND pc2.idcajas = pc.idcajas
+  AND pc2.idestatus = 8
+  AND os.tipo = 0 ) + (SELECT
+    COALESCE(SUM(os.caja),0)
+  FROM palletcajas pc2, ordensalida os
+  WHERE  os.idpalletcajas = pc2.idpalletcajas
+  AND pc2.idtransferancia = pc.idtransferancia
+  AND pc2.idestatus = 8
+  AND os.tipo = 1 ) ) as totalcajassalidas,
+  
+  
+  (SUM(tc.cantidad) - ((SELECT
+    COALESCE(SUM(tc2.cantidad),0)
+  FROM palletcajas pc2, ordensalida os, tblcantidad tc2
+  WHERE  os.idpalletcajas = pc2.idpalletcajas
+  AND pc2.idtransferancia = pc.idtransferancia
+   AND tc2.idcantidad = pc2.idcajas
+   AND pc2.idcajas = pc.idcajas
+  AND pc2.idestatus = 8
+  AND os.tipo = 0 ) + (SELECT
+    COALESCE(SUM(os.caja),0)
+  FROM palletcajas pc2, ordensalida os
+  WHERE  os.idpalletcajas = pc2.idpalletcajas
+  AND pc2.idtransferancia = pc.idtransferancia
+  AND pc2.idcajas = pc.idcajas
+  AND pc2.idestatus = 8
+  AND os.tipo = 1 ))) as totalcajasdisponibles,
+  
+  
+  (COUNT(pc.pallet) - (SELECT
+    COALESCE(count(tc2.cantidad),0)
+  FROM palletcajas pc2, ordensalida os,  tblcantidad tc2
+  WHERE  os.idpalletcajas = pc2.idpalletcajas
+  AND pc2.idtransferancia = pc.idtransferancia
+    AND tc2.idcantidad = pc2.idcajas
+  AND pc2.idestatus = 8
+    AND pc2.idcajas = pc.idcajas
+  AND os.tipo = 0 ) ) AS totalpalletparacomparar 
+FROM
+    palletcajas pc
+        INNER JOIN
+    tblcantidad tc ON pc.idcajas = tc.idcantidad
+        INNER JOIN
+    tblrevision tr ON tr.idrevision = tc.idrevision
+        INNER JOIN
+    tblmodelo tm ON tm.idmodelo = tr.idmodelo
+        INNER JOIN
+    parte tp ON tp.idparte = tm.idparte
+        INNER JOIN
+    cliente c ON c.idcliente = tp.idcliente
+        INNER JOIN
+    parteposicionbodega ppb ON ppb.idpalletcajas = pc.idpalletcajas  
+       INNER JOIN
+    tbltransferencia t ON t.idtransferancia = pc.idtransferancia  
+WHERE
+    pc.idestatus = 8  
+    GROUP BY pc.idcajas,
+         t.idtransferancia");
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
     public function showPartesBodega() {
         $query = $this->db->query('SELECT
   dp.iddetalleparte,
@@ -225,6 +341,7 @@ FROM
       INNER JOIN
     posicionbodega pb ON ppb.idposicion = pb.idposicion
     WHERE pc.idestatus = 8 
+    AND ppb.ordensalida = 0
     AND pc.idtransferancia = $idtransferencia
     AND pc.idcajas = $idcajas");
         if ($query->num_rows() > 0) {

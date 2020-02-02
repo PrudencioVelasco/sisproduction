@@ -22,7 +22,7 @@ class Modelo extends CI_Controller {
    public function ver($idparte) { 
        Permission::grant(uri_string());
         $detalle = $this->modelo->detalleModelo($idparte); 
-        $para = $detalle->nombre." > ".$detalle->numeroparte." > "."Modelo";
+        $para = $detalle->nombre." > ".$detalle->numeroparte." > "."Módelo";
         $data=array( 
             'idparte'=>$idparte,
             'paso'=>$para
@@ -52,26 +52,26 @@ class Modelo extends CI_Controller {
             );
         } else {
             $idparte = $this->input->post('idparte');
-            $modelo = $this->input->post('descripcion');
+            $modelo = trim($this->input->post('descripcion'));
             $datavalidar = $this->modelo->validadExistenciaModelo($modelo, $idparte);
             if ($datavalidar == FALSE) {
 
                 $data = array(
                     'idparte' => $idparte,
-                    'descripcion' => $modelo,
-                    'nombrehoja' => $this->input->post('nombrehoja'),
+                    'descripcion' => strtoupper($modelo),
+                    'nombrehoja' => strtoupper($this->input->post('nombrehoja')),
                     'customer' => "",
-                    'fulloneimpresion' => $this->input->post('fulloneimpresion'),
-                    'colorlinea' => $this->input->post('colorlinea'),
-                    'diucutno' => $this->input->post('diucutno'),
-                    'platonumero' => $this->input->post('platonumero'),
-                    'color' => $this->input->post('color'),
-                    'blanksize' => $this->input->post('blanksize'),
-                    'sheetsize' => $this->input->post('sheetsize'),
-                    'score' => $this->input->post('score'),
-                    'normascompartidas' => $this->input->post('normascompartidas'),
-                    'salida' => $this->input->post('salida'),
-                    'combinacion' => $this->input->post('combinacion'),
+                    'fulloneimpresion' => strtoupper($this->input->post('fulloneimpresion')),
+                    'colorlinea' => strtoupper($this->input->post('colorlinea')),
+                    'diucutno' => strtoupper($this->input->post('diucutno')),
+                    'platonumero' => strtoupper($this->input->post('platonumero')),
+                    'color' => strtoupper($this->input->post('color')),
+                    'blanksize' => strtoupper($this->input->post('blanksize')),
+                    'sheetsize' => strtoupper($this->input->post('sheetsize')),
+                    'score' => strtoupper($this->input->post('score')),
+                    'normascompartidas' => strtoupper($this->input->post('normascompartidas')),
+                    'salida' => strtoupper($this->input->post('salida')),
+                    'combinacion' => strtoupper($this->input->post('combinacion')),
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
@@ -113,24 +113,25 @@ class Modelo extends CI_Controller {
             );
         } else {
             $idmodelo = $this->input->post('idmodelo');
-            $modelo = $this->input->post('descripcion');
-            $datavalidar = $this->modelo->validadExistenciaModeloUpdate($idmodelo, $modelo);
+            $idparte = $this->input->post('idparte');
+            $modelo = trim($this->input->post('descripcion'));
+            $datavalidar = $this->modelo->validadExistenciaModeloUpdate($idmodelo, $modelo,$idparte);
             if ($datavalidar == FALSE) {
 
                 $data = array(                     
-                   'descripcion' => $modelo,
-                    'nombrehoja' => $this->input->post('nombrehoja'),
+                   'descripcion' => strtoupper($modelo),
+                    'nombrehoja' => strtoupper($this->input->post('nombrehoja')),
                     'customer' => "",
-                    'fulloneimpresion' => $this->input->post('fulloneimpresion'),
-                    'colorlinea' => $this->input->post('colorlinea'),
-                    'diucutno' => $this->input->post('diucutno'),
-                    'platonumero' => $this->input->post('platonumero'),
-                    'color' => $this->input->post('color'),
-                    'blanksize' => $this->input->post('blanksize'),
-                    'sheetsize' => $this->input->post('sheetsize'),
-                    'score' => $this->input->post('score'),
-                    'normascompartidas' => $this->input->post('normascompartidas'),
-                    'salida' => $this->input->post('salida'),
+                    'fulloneimpresion' => strtoupper($this->input->post('fulloneimpresion')),
+                    'colorlinea' => strtoupper($this->input->post('colorlinea')),
+                    'diucutno' => strtoupper($this->input->post('diucutno')),
+                    'platonumero' => strtoupper($this->input->post('platonumero')),
+                    'color' => strtoupper($this->input->post('color')),
+                    'blanksize' => strtoupper($this->input->post('blanksize')),
+                    'sheetsize' => strtoupper($this->input->post('sheetsize')),
+                    'score' => strtoupper($this->input->post('score')),
+                    'normascompartidas' => strtoupper($this->input->post('normascompartidas')),
+                    'salida' => strtoupper($this->input->post('salida')),
                     'combinacion' => $this->input->post('combinacion'),
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
@@ -167,6 +168,17 @@ class Modelo extends CI_Controller {
             $result['modelos'] = $query;
         }
 
+        echo json_encode($result);
+    }
+
+    public function deleteModelo()
+    {
+        # code...
+        $idmodelo = $this->input->get('idmodelo');
+        $query = $this->modelo->deleteModelo($idmodelo);
+        if ($query) {
+            $result['modelos'] = true;
+        } 
         echo json_encode($result);
     }
 

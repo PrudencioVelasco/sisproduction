@@ -120,7 +120,7 @@ class User extends CI_Controller
             if (!empty($resuldovalidacion)) {
                 $result['error'] = true;
                     $result['msg']   = array(
-                        'smserror' => "El nombre de usuario ya se encuentran registrado."
+                        'smserror' => "El nombre del usuario ya se encuentra registrado."
                     );
             }else{
             $data     = array(

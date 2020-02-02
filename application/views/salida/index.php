@@ -9,7 +9,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h3>Módulo de Salida</h3>
+                        <h3><strong>Módulo de Salida</strong></h3>
 
                         <div class="clearfix"></div>
                     </div>
@@ -27,7 +27,7 @@
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <button class="btn btn-round btn-primary" @click="addModal= true">Nueva salida</button>
+                                                <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i> Nueva Salida</button>
                                             </div>
                                             <div class="col-md-6"></div>
                                         </div>
@@ -41,7 +41,7 @@
                                         <br>
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white"  v-column-sortable:idsalida >No. Transferencia </th>
+                                            <th class="text-white"  v-column-sortable:idsalida >No. </th>
                                             <th class="text-white" v-column-sortable:numerosalida>No. Control </th>
                                             <th class="text-white" v-column-sortable:po>P.O. </th>
                                             <th class="text-white" v-column-sortable:nombre>Cliente </th>
@@ -63,11 +63,17 @@
                                                     </td>
                                                     <td>{{row.fecharegistro}}</td>
                                                     <td align="right">
-                                                        <button type="button" class="btn btn-icons btn-rounded btn-success btn-xs" @click="editModal = true; selectParte(row)" title="Modificar Datos">
+                                                        <button type="button" class="btn btn-icons btn-success btn-sm" @click="editModal = true; selectParte(row)" title="Modificar Datos">
                                                             <i class="fa  fa-edit"></i> Modificar
                                                         </button>
+                                                        <button type="button" class="btn btn-icons  btn-danger btn-sm" @click="deleteSalida(row.idsalida)" >
+                                                            <i class="fa fa-trash" aria-hidden="true"></i></i> Eliminar
+                                                        </button>
 
-                                                        <a class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'detalleSalida/'+ row.idsalida" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                        <a  v-if="row.idcliente == 48" class="btn btn-icons btn-info btn-sm" v-bind:href="'detalleSalidaMaster/'+ row.idsalida" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                            Agregar</a>
+
+                                                              <a  v-else class="btn btn-icons btn-info btn-sm" v-bind:href="'detalleSalida/'+ row.idsalida" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                             Agregar</a>
 
 
@@ -110,5 +116,5 @@
 
 </div>
 <!-- /page content -->
-<script src="https://cdn.jsdelivr.net/npm/vue-column-sortable@0.0.1/dist/vue-column-sortable.js"></script>
+ <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
 <script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/appsalida.js"></script> 

@@ -33,38 +33,91 @@ class Documento_model extends CI_Model {
     }
 
     public function showAllDocumentosId($id) {
-        $this->db->select('d.*,(select 
-CASE
-    WHEN count(*)  > 0 THEN "Okey"
-     ELSE "No existe el cliente."
-END
-from cliente c where c.idcliente=d.cliente  ) as existenciacliente,
-(select 
-CASE
-    WHEN count(*)  > 0 THEN "Okey"
-     ELSE "No existe la Locación"
-END
-from posicionbodega pb where pb.nombreposicion=d.locacion  ) as existencialocacion,
-(select 
-CASE
-    WHEN count(*)  > 0 THEN "Okey"
-     ELSE "No existe la Categoria."
-END
-from tblcategoria ca where ca.idcategoria=d.categoria  ) as existencategoria,
-(select 
-CASE 
-    WHEN count(p.idparte) > 0 && count(cat.idcategoria) > 0 THEN "Categoria no relacionada con el N° Parte"
-	
-    ELSE "No existe el numero parte."
-END
-from parte p, tblcategoria cat where  p.idcategoria= cat.idcategoria and  p.numeroparte=d.numeroparte  ) as existennumeroparte,
-(select 
-CASE 
-    WHEN count(p.idparte) > 0 && count(cli.idcliente) > 0 THEN "N° Parte no tiene relacion con Cliente."
-	
-    ELSE "Okey"
-END
-from parte p, cliente cli where  p.idcliente= cli.idcliente and  p.numeroparte=d.numeroparte  ) as existennumeropartecliente');
+        $this->db->select("d.*,
+    (SELECT 
+            CASE
+                    WHEN COUNT(*) > 0 THEN 'Okey'
+                    ELSE 'No existe el cliente.'
+                END
+        FROM
+            cliente c
+        WHERE
+            c.idcliente = d.cliente) AS existenciacliente,
+    (SELECT 
+            CASE
+                    WHEN COUNT(*) > 0 THEN 'Okey'
+                    ELSE 'No existe la Locación'
+                END
+        FROM
+            posicionbodega pb
+        WHERE
+            pb.nombreposicion = d.locacion) AS existencialocacion,
+    (SELECT 
+            CASE
+                    WHEN COUNT(*) > 0 THEN 'Okey'
+                    ELSE 'No existe la Categoria.'
+                END
+        FROM
+            tblcategoria ca
+        WHERE
+            ca.idcategoria = d.categoria) AS existencategoria,
+    (SELECT 
+            CASE
+                    WHEN
+                        COUNT(p.idparte) > 0
+                            && COUNT(cat.idcategoria) > 0
+                    THEN
+                        'Okey'
+                    ELSE 'Categoria no relacionada con el N° Parte.'
+                END
+        FROM
+            parte p,
+            tblcategoria cat
+        WHERE
+            p.idcategoria = cat.idcategoria
+                AND p.numeroparte = d.numeroparte) AS existennumeroparte,
+    (SELECT 
+            CASE
+                    WHEN
+                        COUNT(p.idparte) > 0
+                            && COUNT(cli.idcliente) > 0
+                    THEN
+                        'Okey'
+                    ELSE 'N° Parte no tiene relacion con Cliente'
+                END
+        FROM
+            parte p,
+            cliente cli
+        WHERE
+            p.idcliente = cli.idcliente
+                AND p.numeroparte = d.numeroparte) AS existennumeropartecliente,
+    (SELECT 
+            CASE
+                    WHEN COUNT(modelo2.descripcion) > 0 THEN 'Okey'
+                    ELSE 'No existe en modelo'
+                END
+        FROM
+            parte p2,
+            tblmodelo modelo2
+        WHERE
+            p2.idparte = modelo2.idparte
+                AND TRIM(p2.numeroparte) = TRIM(d.numeroparte)
+                AND TRIM(modelo2.descripcion) = TRIM(d.modelo)) numeropartemodelo,
+    (SELECT 
+            CASE
+                    WHEN COUNT(r2.descripcion) > 0 THEN 'Okey'
+                    ELSE 'No existe la revision'
+                END
+        FROM
+            parte p2,
+            tblmodelo modelo2,
+            tblrevision r2
+        WHERE p2.idparte = modelo2.idparte
+        AND modelo2.idmodelo = r2.idmodelo
+        AND TRIM(p2.numeroparte) = TRIM(d.numeroparte)
+        AND TRIM(modelo2.descripcion) = TRIM(d.modelo)
+        AND TRIM(r2.descripcion) = TRIM(d.revision)) modelorevision
+ ");
         $this->db->from('tbldocumento d');
         $this->db->where('d.identificador', $id);
         $query = $this->db->get();
@@ -90,7 +143,7 @@ from parte p, cliente cli where  p.idcliente= cli.idcliente and  p.numeroparte=d
     public function validar_existencia_numeroparte($numeroparte) {
         $this->db->select('p.*');
         $this->db->from('parte p');
-        $this->db->where('p.numeroparte', $numeroparte);
+        $this->db->where('trim(p.numeroparte)', $numeroparte);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->first_row();
@@ -104,7 +157,7 @@ from parte p, cliente cli where  p.idcliente= cli.idcliente and  p.numeroparte=d
         $this->db->from('parte p');
         $this->db->join('tblmodelo m', 'p.idparte = m.idparte');
         $this->db->where('p.idparte', $idparte);
-        $this->db->where('m.descripcion', $modelo);
+        $this->db->where('trim(m.descripcion)', $modelo);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->first_row();
@@ -118,7 +171,7 @@ from parte p, cliente cli where  p.idcliente= cli.idcliente and  p.numeroparte=d
         $this->db->from('tblmodelo m');
         $this->db->join('tblrevision r', 'm.idmodelo = r.idmodelo');
         $this->db->where('m.idmodelo', $idmodelo);
-        $this->db->where('r.descripcion', $revision);
+        $this->db->where('trim(r.descripcion)', $revision);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->first_row();
@@ -131,7 +184,7 @@ from parte p, cliente cli where  p.idcliente= cli.idcliente and  p.numeroparte=d
         $this->db->select('c.*');
         $this->db->from('tblcantidad c');
         $this->db->where('c.idrevision', $idrevision);
-        $this->db->where('c.cantidad', $cantidad);
+        $this->db->where('trim(c.cantidad)', $cantidad);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->first_row();

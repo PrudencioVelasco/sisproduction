@@ -29,7 +29,7 @@ class Turno extends CI_Controller
     
     public function showAll()
     {
-        Permission::grant(uri_string());
+    //    Permission::grant(uri_string());
         $query = $this->turno->showAll(); 
         if ($query) {
             $result['turnos'] = $this->turno->showAll();
@@ -41,7 +41,7 @@ class Turno extends CI_Controller
     
     public function addTurno()
     {
-          Permission::grant(uri_string());
+          //Permission::grant(uri_string());
         $config = array( 
             array(
                 'field' => 'nombreturno',
@@ -116,7 +116,7 @@ class Turno extends CI_Controller
     
     public function updateTurno()
     {
-       Permission::grant(uri_string());
+       //Permission::grant(uri_string());
         $config = array( 
             array(
                 'field' => 'nombreturno',
@@ -188,7 +188,7 @@ class Turno extends CI_Controller
     }
         public function searchTurno()
     {
-        Permission::grant(uri_string());
+       // Permission::grant(uri_string());
         $value = $this->input->post('text');
         $query = $this->turno->searchTurno($value);
         if ($query) {

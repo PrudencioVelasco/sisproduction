@@ -27,6 +27,26 @@
 
 <script src="<?php echo base_url(); ?>/assets/js/custom.js"></script>
 
+  
+ 
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="<?php echo base_url(); ?>/assets/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="<?php echo base_url(); ?>/assets/plugins/node-waves/waves.js"></script>
+
+    <!-- Autosize Plugin Js -->
+    <script src="<?php echo base_url(); ?>/assets/plugins/autosize/autosize.js"></script>
+
+    <!-- Moment Plugin Js -->
+    <script src="<?php echo base_url(); ?>/assets/plugins/momentjs/moment.js"></script>
+
+        <script src="<?php echo base_url(); ?>/assets/js/admin.js"></script>
+
+   
+
+
 <!-- flot js -->
 <!--[if lte IE 8]><script type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
 <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/flot/jquery.flot.js"></script>
@@ -118,10 +138,58 @@
         responsive: true
     });
 </script>
+      <script>
+       function check_uncheck_checkbox(isChecked) {
+    if(isChecked) {
+        $('input[name="id[]"]').each(function() { 
+            this.checked = true; 
+        });
+    } else {
+        $('input[name="id[]"]').each(function() {
+            this.checked = false;
+        });
+    }
+}
+      </script>
 <script type="text/javascript">
     $(document).ready(function () {
+      
         $('#datatable').dataTable(
+                { 
+                    "language": {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_ registros",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "Ningún dato disponible en esta tabla",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": "Siguiente",
+                            "sPrevious": "Anterior"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                        }
+                    }
+                }
+        );
+         $('#datatablebodega').dataTable(
                 {
+                    paging:false,
+                    scrollY:400,
+                    "columnDefs": [ {
+"targets": 0,
+"orderable": false
+} ],
                     "language": {
                         "sProcessing": "Procesando...",
                         "sLengthMenu": "Mostrar _MENU_ registros",

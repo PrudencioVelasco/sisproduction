@@ -13,7 +13,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Administrar Usuarios</h2>
+                         <h2><strong>Administrar Usuarios</strong></h2>
 
                         <div class="clearfix"></div>
                     </div>
@@ -32,7 +32,7 @@
 
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <button class="btn btn-round btn-primary" @click="addModal= true">Nuevo</button>
+                                                <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i> Nuevo Usuario</button>
                                                 <a  href="<?= base_url('/rol/index') ?>" class="btn btn-round btn-default">Rol</a>
 
 
@@ -59,7 +59,7 @@
                                             <tbody class="table-light">
                                                 <tr v-for="user in users" class="table-default">
 
-                                                    <td>{{user.usuario}}</td>
+                                                    <td><strong>{{user.usuario}}</strong></td>
                                                     <td>{{user.name}}</td>
                                                     <td>{{user.rolnombre}}</td>
                                                     <td>
@@ -69,11 +69,11 @@
                                                     <td align="right">
 
 
-                                                        <button type="button" class="btn btn-icons btn-rounded btn-success btn-xs" @click="editModal = true; selectUser(user)" title="Modificar Datos">
-                                                          Editar
+                                                        <button type="button" class="btn btn-icons btn-rounded btn-success btn-sm" @click="editModal = true; selectUser(user)" title="Modificar Datos">
+                                                          <i class='fa fa-edit'></i> Editar
                                                         </button>
-                                                        <button type="button" class="btn btn-icons btn-rounded btn-primary btn-xs" @click="passwordModal = true; selectUser(user)">
-                                                            Contraseña
+                                                        <button type="button" class="btn btn-icons btn-rounded btn-primary btn-sm" @click="passwordModal = true; selectUser(user)">
+                                                            <i class='fa fa-key'></i> Cambiar Contraseña
                                                         </button>
 
                                                     </td>
@@ -108,8 +108,8 @@
         </div>
     </div>
 </div>
-<!-- /page content -->  
-<script src="https://cdn.jsdelivr.net/npm/vue-column-sortable@0.0.1/dist/vue-column-sortable.js"></script>
+
+ <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
 <script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/app.js"></script> 
 
 

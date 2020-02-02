@@ -21,16 +21,22 @@
          </div>
          <div class="form-group">
             <label><font color="red">*</font> Siguiente dia</label><br/>
-             <input type="radio" name="siguientedia"  :class="{'is-invalid': formValidate.horafinal}"  v-model="newturno.siguientedia" value="0"> NO  
-             <input type="radio" name="siguientedia"  :class="{'is-invalid': formValidate.horafinal}"  v-model="newturno.siguientedia" value="1"> SI  
-            <div class="text-danger" v-html="formValidate.siguientedia"> </div>
+            <div class="demo-radio-button">  
+                                <input name="group5" type="radio" id="radio_31" class="with-gap radio-col-green" :class="{'is-invalid': formValidate.horafinal}"  v-model="newturno.siguientedia" value="0"/>
+                                <label for="radio_31">NO</label>
+                                <input name="group5" type="radio" id="radio_32" class="with-gap radio-col-red"  :class="{'is-invalid': formValidate.horafinal}"  v-model="newturno.siguientedia" value="1"/>
+                                <label for="radio_32">SI</label>
+                            </div>
+               <div class="text-danger" v-html="formValidate.siguientedia"> </div>
+
+ 
          </div>
           
       </div> 
    </div>
    <div slot="foot">
-       <button class="btn btn-danger" @click="clearAll">Cancelar</button>
-      <button class="btn btn-primary" @click="addTurno">Agregar</button>
+       <button class="btn btn-danger" @click="clearAll"><i class='fa fa-ban'></i> Cancelar</button>
+      <button class="btn btn-primary" @click="addTurno"><i class='fa fa-floppy-o'></i> Agregar</button>
    </div>
 </modal>
 <!--update modal-->
@@ -55,20 +61,31 @@
          </div>
          <div class="form-group">
             <label><font color="red">*</font> Estatus</label><br/>
-            <label class="radio-inline"> <input type="radio" name="status" v-model="chooseTurno.activo" value="1" :checked="chooseTurno.activo==1"> Activo </label>
-            <label class="radio-inline">  <input type="radio" name="status" v-model="chooseTurno.activo" value="0" :checked="chooseTurno.activo==0"> Inactivo </label>
+
+            <div class="demo-radio-button">  
+                                <input name="group5" type="radio" id="radio_31" class="with-gap radio-col-green" v-model="chooseTurno.activo" value="1" :checked="chooseTurno.activo==1" />
+                                <label for="radio_31">ACTIVO</label>
+                                <input name="group5" type="radio" id="radio_32" class="with-gap radio-col-red"  v-model="chooseTurno.activo" value="0" :checked="chooseTurno.activo==0" />
+                                <label for="radio_32">INACTIVO</label>
+                            </div> 
          </div>
           <div class="form-group">
             <label><font color="red">*</font> Siguiente dia</label><br/>
-            <label class="radio-inline"> <input type="radio" name="siguientedia" v-model="chooseTurno.siguientedia" value="1" :checked="chooseTurno.siguientedia==1"> SI </label>
-            <label class="radio-inline">  <input type="radio" name="siguientedia" v-model="chooseTurno.siguientedia" value="0" :checked="chooseTurno.siguientedia==0"> NO </label>
+
+            <div class="demo-radio-button">  
+                                <input name="group6" type="radio" id="radio_33" class="with-gap radio-col-green" v-model="chooseTurno.siguientedia" value="1" :checked="chooseTurno.siguientedia==1"/>
+                                <label for="radio_33">SI</label>
+                                <input name="group7" type="radio" id="radio_34" class="with-gap radio-col-red"  v-model="chooseTurno.siguientedia" value="0" :checked="chooseTurno.siguientedia==0" />
+                                <label for="radio_34">NO</label>
+                            </div> 
+ 
          </div>
         
       </div>
      
    </div>
    <div slot="foot"> 
-     <button class="btn btn-danger" @click="clearAll">Cancelar</button>
-      <button class="btn btn-primary" @click="updateTurno">Modificar</button>
+     <button class="btn btn-danger" @click="clearAll"><i class='fa fa-ban'></i>  Cancelar</button>
+      <button class="btn btn-primary" @click="updateTurno"><i class='fa fa-edit'></i> Modificar</button>
    </div>
 </modal>

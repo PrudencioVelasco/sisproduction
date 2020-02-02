@@ -18,7 +18,7 @@ class Cantidad_model extends CI_Model
     
     public function showAll($idrevision)
     {
-        $this->db->select('c.idcantidad, r.descripcion, c.cantidad');    
+        $this->db->select('c.idcantidad, r.descripcion, c.cantidad, r.idrevision');    
         $this->db->from('tblcantidad c');
         $this->db->join('tblrevision r', 'r.idrevision=c.idrevision'); 
          $this->db->where('c.idrevision',$idrevision);
@@ -30,12 +30,12 @@ class Cantidad_model extends CI_Model
         }
     }
 
-    public function validadExistenciaRevision($idmodelo,$revision) {
-         $this->db->select('r.idrevision, m.descripcion, r.descripcion as descrevision');    
-        $this->db->from('tblmodelo m');
-        $this->db->join('tblrevision r', 'r.idmodelo=m.idmodelo'); 
-         $this->db->where('r.idmodelo',$idmodelo);
-        $this->db->where('r.descripcion', $revision);
+    public function validadExistenciaCantidad($idrevision,$cantidad) {
+         $this->db->select('r.idrevision, c.cantidad, r.descripcion as descrevision');    
+        $this->db->from('tblcantidad c');
+        $this->db->join('tblrevision r', 'r.idrevision=c.idrevision'); 
+         $this->db->where('c.idrevision',$idrevision);
+        $this->db->where('TRIM(c.cantidad)', $cantidad);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -43,12 +43,13 @@ class Cantidad_model extends CI_Model
             return false;
         }
     }
-       public function validadExistenciaCantidadUpdate($idcantidad,$cantidad) {
+       public function validadExistenciaCantidadUpdate($idcantidad,$idrevision,$cantidad) {
           $this->db->select('c.idcantidad, r.descripcion, c.cantidad');    
         $this->db->from('tblcantidad c');
         $this->db->join('tblrevision r', 'r.idrevision=c.idrevision'); 
-        $this->db->where('c.cantidad', $cantidad);
+        $this->db->where('TRIM(c.cantidad)', $cantidad);
          $this->db->where('c.idcantidad !=', $idcantidad);
+         $this->db->where('r.idrevision', $idrevision);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -103,6 +104,18 @@ class Cantidad_model extends CI_Model
             return false;
         }
     }
+     public function deleteCantidad($id)
+    {
+        $this->db->where('idcantidad', $id);
+        $this->db->delete('tblcantidad');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+
 
 }
 ?> 

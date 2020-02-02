@@ -13,7 +13,7 @@
                                 <h2><strong>Detalle de Transfrencia</strong></h2>
                             </div>
                             <div class="col-md-6" style="display: flex; justify-content: flex-end">
-                                <h2><strong>Transferencia: # <?php echo $folio; ?></strong></h2>
+                                <h2><strong>Transferencia: #<?php echo $folio; ?></strong></h2>
                             </div>
                         </div>
 
@@ -31,8 +31,8 @@
                                                     <tr>
                                                         <th></th>
                                                         <th scope="col">Cliente</th>
-                                                        <th scope="col">No. P.</th>
-                                                        <th scope="col">Cajas.</th>
+                                                        <th scope="col">No. Parte</th>
+                                                        <th scope="col">Cajas</th>
                                                         <th scope="col">Rev.</th> 
                                                         <th>Estatus</th>
                                                         <th></th>
@@ -47,12 +47,13 @@
                                                                 <td>
                                                                     <?php if ($value->idestatus == 1 || $value->idestatus == 6) { ?>
                                                                         <div class="checkbox-group required">
-                                                                            <input type="checkbox" name="id[]" value="<?php echo $value->idpalletcajas; ?>">
+                                                                            <input type="checkbox"  name="id[]" value="<?php echo $value->idpalletcajas; ?>" id="remember_me<?php echo $value->idpalletcajas ?>" class="filled-in">
+                                <label for="remember_me<?php echo $value->idpalletcajas ?>"></label> 
                                                                         </div>
                                                                     <?php } ?>
                                                                 </td>
                                                                 <td scope="row"><?php echo $value->nombre; ?></td>
-                                                                <td><?php echo $value->numeroparte; ?></td>
+                                                                <td><strong><?php echo $value->numeroparte; ?></strong></td>
                                                                 <td><?php echo number_format($value->cantidad); ?></td>
                                                                 <td><?php echo $value->descripcion; ?></td>
                                                                 <td>

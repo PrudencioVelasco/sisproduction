@@ -6,7 +6,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Administrar Turnos</h2>
+                        <h2><strong>Administrar Turnos</strong></h2>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -21,7 +21,7 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <button class="btn btn-round btn-primary" @click="addModal= true">Nuevo Turno</button> 
+                                                <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i> Nuevo Turno</button> 
 
                                             </div>
                                             <div class="col-md-6"></div>
@@ -36,9 +36,9 @@
                                         <br>
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white" v-column-sortable:nombreturno>Nombre del turno </th>
-                                            <th class="text-white" v-column-sortable:horainicial>Hora inicial </th>
-                                            <th class="text-white" v-column-sortable:horafinal>Hora final </th>
+                                            <th class="text-white" v-column-sortable:nombreturno>  Turno</th>
+                                            <th class="text-white" v-column-sortable:horainicial> Hora inicial </th>
+                                            <th class="text-white" v-column-sortable:horafinal> Hora final </th>
                                             <th class="text-white">Siguiente dia </th>
                                             <th class="text-white">Estatus </th>
                                             <th class="text-right text-white">Opción </th>
@@ -57,8 +57,8 @@
                                                         <span v-else class="label label-danger">Inactivo</span>
                                                     </td> 
                                                     <td align="right">
-                                                        <button type="button" class="btn btn-icons btn-rounded btn-info btn-xs" @click="editModal = true; selectTurno(row)" title="Modificar Datos">
-                                                            Editar
+                                                        <button type="button" class="btn btn-icons btn-rounded btn-info btn-sm" @click="editModal = true; selectTurno(row)" title="Modificar Datos">
+                                                            <i class='fa fa-edit'></i> Editar
                                                         </button>
 
 
@@ -97,5 +97,5 @@
     </div>
 </div>
 <!-- /page content -->
-<script src="https://cdn.jsdelivr.net/npm/vue-column-sortable@0.0.1/dist/vue-column-sortable.js"></script>
+ <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
 <script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/appturno.js"></script> 

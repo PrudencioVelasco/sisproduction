@@ -28,6 +28,30 @@ class Ubicacion_model extends CI_Model {
     {
         return $this->db->insert('posicionbodega', $data);
     }  
+    public function validadAddNombre($nombre) {
+        $this->db->select('p.*');
+        $this->db->from('posicionbodega p'); 
+        $this->db->where('trim(p.nombreposicion)', $nombre); 
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+      public function validadExistenciaUpdate($id,$nombre) {
+        $this->db->select('p.*');
+        $this->db->from('posicionbodega p'); 
+        $this->db->where('trim(p.nombreposicion)', $nombre); 
+         $this->db->where('p.idposicion !=', $id);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
      public function updateUbicacion($id, $field)
     {
         $this->db->where('idposicion', $id);

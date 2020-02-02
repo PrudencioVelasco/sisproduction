@@ -28,7 +28,7 @@ class Motivorechazo extends CI_Controller {
     }
 
     public function showAll() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $query = $this->motivo->showAll();
         if ($query) {
             $result['motivos'] = $this->motivo->showAll();
@@ -36,7 +36,7 @@ class Motivorechazo extends CI_Controller {
         echo json_encode($result);
     }
      public function showAllProcesos() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $query = $this->motivo->showAllProcesos(); 
         echo json_encode($query);
     }
@@ -44,7 +44,7 @@ class Motivorechazo extends CI_Controller {
    
 
     public function addMotivo() {
-        Permission::grant(uri_string());
+       // Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'motivo',
@@ -71,18 +71,29 @@ class Motivorechazo extends CI_Controller {
                 'idproceso' => form_error('idproceso')
             );
         } else {
+            $idproceso = $this->input->post('idproceso');
+            $nombre = trim($this->input->post('motivo'));
+            $validar = $this->motivo->validadAddMotivo($idproceso,$nombre);
+            if($validar == FALSE){
             $data = array(
                 'motivo' => $this->input->post('motivo'),
                 'idproceso' => $this->input->post('idproceso'),
                 'activo' => 1
             );
             $this->motivo->addMotivo($data);
+            }else{
+                $result['error'] = true;
+                $result['msg'] = array(
+                    'msgerror' => "La Motivo ya se encuentra resgistrada."
+                );
+
+            }
         }
         echo json_encode($result);
     }
 
     public function updateMotivo() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'motivo',
@@ -110,6 +121,10 @@ class Motivorechazo extends CI_Controller {
             );
         } else {
             $id = $this->input->post('idmotivorechazo');
+            $idproceso = $this->input->post('idproceso');
+            $nombre = trim($this->input->post('motivo'));
+            $validar = $this->motivo->validadMotivoUpdate($id,$idproceso,$nombre);
+            if($validar == FALSE){
             $data = array(
                 'motivo' => $this->input->post('motivo'), 
                 'idproceso' => $this->input->post('idproceso'), 
@@ -119,12 +134,18 @@ class Motivorechazo extends CI_Controller {
                 $result['error'] = false;
                 $result['success'] = 'User updated successfully';
             }
+        }else{
+             $result['error'] = true;
+                $result['msg'] = array(
+                    'msgerror' => "La Motivo ya se encuentra resgistrada."
+                );
+            }
         }
         echo json_encode($result);
     }
 
     public function searchMotivo() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $value = $this->input->post('text');
         $query = $this->motivo->searchMotivo($value);
         if ($query) {

@@ -16,9 +16,25 @@ class Calidadp_model extends CI_Model {
     public function showAll() {
          $query = $this->db->query("SELECT tt.idtransferancia, tt.folio, u.name as nombre, tt.fecharegistro, 
                             (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia AND  pc2.idestatus   in (1,3,4,5,6,15,8,12) ) AS estatus,
-                            (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia ) AS estatusall
+                            (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia ) AS estatusall,
+                            (SELECT
+                            COUNT(*)
+                            FROM tbldevolucion d WHERE tt. idtransferancia =  d.idtransferencia ) AS devolucion
                             FROM   tbltransferencia tt   
                             INNER JOIN users u ON u.id = tt.idusuario"); 
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+     public function validarExistenciaRetorno($idtransferencia)
+    {
+        # code...
+        $this->db->select('d.*');
+        $this->db->from('tbldevolucion d');
+        $this->db->where('d.idtransferencia', $idtransferencia);
+        $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {

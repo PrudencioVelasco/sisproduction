@@ -46,7 +46,8 @@ var v = new Vue({
         emptyResult: false,
         newCategoria: {
             nombrecategoria: '',
-            activo: ''
+            activo: '',
+            smserror: '',
 
         },
         chooseCategoria: {},
@@ -169,7 +170,8 @@ var v = new Vue({
         clearAll() {
             v.newCategoria = {
                 nombrecategoria: '', 
-                activo: ''};
+                activo: '',
+                smserror:''};
             v.formValidate = false;
             v.addModal = false;
             v.editModal = false;

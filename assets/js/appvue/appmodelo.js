@@ -156,6 +156,45 @@ var v = new Vue({
                 }
             })
         },
+        deleteModelo(id){
+            Swal.fire({
+          title: '¿Eliminar Modelo?',
+          text: "Realmente desea eliminar el Modelo.",
+          type: 'info',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Eliminar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.value) {
+
+              axios.get(this.url + "modelo/deleteModelo", {
+                params: {
+                    idmodelo: id
+                }
+            }).then(function (response) {
+                if (response.data.modelos == true) {
+                    //v.noResult()
+                     swal({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Eliminado!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    v.clearAll();
+                    v.clearMSG();
+                } else {
+                   swal("Error", "No se puede eliminar el Modelo", "error")
+                }
+                console.log(response);
+            }).catch((error) => {
+                swal("Error", "No se puede eliminar el Modelo", "error")
+            })
+            }
+            })
+        },
         formData(obj) {
             var formData = new FormData();
             for (var key in obj) {

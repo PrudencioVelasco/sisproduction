@@ -18,7 +18,7 @@ class Revision_model extends CI_Model
     
     public function showAll($idmodelo)
     {
-        $this->db->select('r.idrevision, r.descripcion');    
+        $this->db->select('r.idrevision,r.idmodelo, r.descripcion');    
         $this->db->from('tblmodelo m');
         $this->db->join('tblrevision r', 'r.idmodelo=m.idmodelo'); 
          $this->db->where('r.idmodelo',$idmodelo);
@@ -31,11 +31,11 @@ class Revision_model extends CI_Model
     }
 
     public function validadExistenciaRevision($idmodelo,$revision) {
-         $this->db->select('r.idrevision, m.descripcion, r.descripcion as descrevision');    
+        $this->db->select('r.idrevision, m.descripcion, r.descripcion as descrevision');    
         $this->db->from('tblmodelo m');
         $this->db->join('tblrevision r', 'r.idmodelo=m.idmodelo'); 
-         $this->db->where('r.idmodelo',$idmodelo);
-        $this->db->where('r.descripcion', $revision);
+        $this->db->where('r.idmodelo',$idmodelo);
+         $this->db->where('TRIM(r.descripcion)', $revision);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -43,12 +43,13 @@ class Revision_model extends CI_Model
             return false;
         }
     }
-       public function validadExistenciaRevisionUpdate($idrevision,$revision) {
+       public function validadExistenciaRevisionUpdate($idrevision,$revision,$idmodelo) {
         $this->db->select('r.idrevision, m.descripcion, r.descripcion as descrevision');    
         $this->db->from('tblmodelo m');
         $this->db->join('tblrevision r', 'r.idmodelo=m.idmodelo'); 
-        $this->db->where('r.descripcion', $revision);
-         $this->db->where('r.idrevision !=', $idrevision);
+        $this->db->where('TRIM(r.descripcion)', $revision);
+        $this->db->where('r.idmodelo', $idmodelo);
+        $this->db->where('r.idrevision !=', $idrevision);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -101,6 +102,17 @@ class Revision_model extends CI_Model
         } else {
             return false;
         }
+    }
+     public function deleteRevision($id)
+    {
+        $this->db->where('idrevision', $id);
+        $this->db->delete('tblrevision');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
 
 }

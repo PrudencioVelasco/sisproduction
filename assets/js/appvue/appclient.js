@@ -49,7 +49,8 @@ var v = new Vue({
             nombre: '',
             abreviatura:'',
             direccion: '',
-            direccionfacturacion: ''
+            direccionfacturacion: '',
+            msgerror: ''
 
         },
         chooseClient: {},
@@ -174,7 +175,8 @@ var v = new Vue({
                 nombre: '',
                 abreviatura:'',
                 direccion: '', 
-                activo: ''};
+                activo: '',
+                msgerror: ''};
             v.formValidate = false;
             v.addModal = false;
             v.editModal = false;

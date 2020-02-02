@@ -40,7 +40,7 @@ Vue.component('modal', {//modal
 var v = new Vue({
     el: '#app',
     data: {
-        url: my_var_2,
+        url: my_var_1,
         addModal: false,
         editModal: false,
         //passwordModal:false,
@@ -50,6 +50,7 @@ var v = new Vue({
         search: {text: ''},
         emptyResult: false,
         newRevision: {
+            idmodelo:my_var_2,
             descripcion: '',
             msgerror:''
         },
@@ -63,7 +64,7 @@ var v = new Vue({
         totalRevision: 0,
         pageRange: 2,
         directives: {columnSortable},
-        idmodelo: my_var_1
+        idmodelo: my_var_2
     },
     created() {
         this.showAll(); 
@@ -102,7 +103,7 @@ var v = new Vue({
         },
         addRevision() {
             var formData = v.formData(v.newRevision);
-                formData.append('idmodelo', this.idmodelo);
+                //formData.append('idmodelo', this.idmodelo);
             axios.post(this.url + "revision/addRevision", formData).then(function (response) {
                 if (response.data.error) {
                     v.formValidate = response.data.msg;
@@ -118,6 +119,7 @@ var v = new Vue({
                     v.clearAll();
                     v.clearMSG();
                 }
+                console.log(response.data);
             })
         },
         updateRevision() {
@@ -158,7 +160,45 @@ var v = new Vue({
             v.clearAll();
             }
         },
+ deleteRevision(id){
+            Swal.fire({
+          title: '¿Eliminar Revisión?',
+          text: "Realmente desea eliminar el Revisión.",
+          type: 'info',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Eliminar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.value) {
 
+              axios.get(this.url + "revision/deleteRevision", {
+                params: {
+                    idrevision: id
+                }
+            }).then(function (response) {
+                if (response.data.revisiones == true) {
+                    //v.noResult()
+                     swal({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Eliminado!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    v.clearAll();
+                    v.clearMSG();
+                } else {
+                   swal("Error", "No se puede eliminar el Revisión", "error")
+                }
+                console.log(response.data.revisiones);
+            }).catch((error) => {
+                swal("Error", "No se puede eliminar el Revisión", "error")
+            })
+            }
+            })
+        },
         selectRevision(revision) {
             v.chooseRevision = revision;
         },
@@ -169,6 +209,7 @@ var v = new Vue({
         },
         clearAll() {
             v.newRevision = {
+            idmodelo:my_var_2,
              descripcion: '',
              msgerror:''};
             v.formValidate = false;

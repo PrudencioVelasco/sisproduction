@@ -78,7 +78,15 @@ class Calidadp extends CI_Controller {
             }
         }
 
-
+ $produccion="";
+        $datav = $this->calidadp->validarExistenciaRetorno($id);
+        if ($datav == FALSE) {
+            # code...
+            $produccion = "PRODUCCIÓN";
+        } else {
+            # code...
+            $produccion = "RETORNO";
+        }
         $detalle = $this->calidadp->detalleTransferencia($id);
         $horario = $detalle->horainicial . " - " . $detalle->horafinal;
         $linkimge = base_url() . '/assets/images/woorilogo.png';
@@ -129,12 +137,12 @@ class Calidadp extends CI_Controller {
     <td width="22">&nbsp;</td>
     <td width="96">&nbsp;</td>
     <td width="100" align="center" style="border-left:solid 1px #000000; border-right:solid 1px #000000; border-top:solid 1px #000"><p class="textgeneral">TRANSFERENCIA NÚMERO</p></td>
-    <td width="82" align="center" style="border-top:solid 1px #000000; border-right:solid #000 1px">' . $detalle->folio . '</td>
+    <td width="82" align="center" style="border-top:solid 1px #000000; font-size:20px; font-weight:bolder; border-right:solid #000 1px">' . $detalle->folio . '</td>
   </tr>
   <tr>
     <td class="textgeneral lineabajo">FECHA: ' . $fechaactual . '</td>
     <td>&nbsp;</td>
-      <td colspan="3" align="center" class="textgeneral" style="border-top:solid 1px #000; border-right:solid 1px #000; border-left:solid 1px #000; border-bottom:solid 1px #000;">PRODUCCIÓN</td>
+      <td colspan="3" align="center" class="textgeneral" style="border-top:solid 1px #000; border-right:solid 1px #000; border-left:solid 1px #000; border-bottom:solid 1px #000;">'.$produccion.'</td>
   </tr>
   <tr>
     <td class="textgeneral lineabajo">HORA: ' . $hora . '</td>
@@ -151,12 +159,13 @@ class Calidadp extends CI_Controller {
 <table width="536"  style="margin-top:10px" cellpadding="1" cellspacing="1">
   <tr class="textgeneral">
     <td width="58" align="center" valign="middle" style="border:solid 1px #000000">CLIENTE</td>
-    <td width="125" align="center" valign="middle"  style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">NUM. PARTE</td>
+    <td width="120" align="center" valign="middle"  style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">NUM. PARTE</td>
+     <td width="50" align="center" valign="middle"  style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">VERSIÓN</td>
     <td width="52" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">MODELO</td>
     <td width="66" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD POR PALLET</td>
-    <td width="67" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">TOTAL DE PALLET</td>
-    <td width="66" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD TOTAL</td>
-    <td width="100" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">ALMACEN VERIFICACIÓN</td>
+    <td width="60" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">TOTAL DE PALLET</td>
+    <td width="60" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD TOTAL</td>
+    <td width="70" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">ALMACEN VERIFICACIÓN</td>
   </tr>
   ';
         foreach ($listapartes as $value) {
@@ -164,6 +173,7 @@ class Calidadp extends CI_Controller {
     <td style="border-left:solid 1px
     #000000; border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . $value->nombrecliente . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;' . $value->numeroparte . '</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;' . $value->descripcionrevision . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;' . $value->descripcionmodelo . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format($value->cantidad) . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format($value->totalpallet) . '</td>
@@ -178,6 +188,7 @@ class Calidadp extends CI_Controller {
     #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td class="textfooter" style="border-bottom:solid 1px #000; border-right:solid 1px #000;">TOTAL:</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px; margin-top:20px;">&nbsp;' . $totalpallet . ' </td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;' . number_format(($totalcajas / $totalpallet) * ($totalpallet)) . '</td>
@@ -189,7 +200,7 @@ class Calidadp extends CI_Controller {
     <td >&nbsp;</td>
     <td>&nbsp; </td>
     <td >&nbsp;</td>
-    <td colspan="2" align="right" class="textfooter" >WBKP-PR-FO-007</td>
+    <td colspan="3" align="right" class="textfooter" >WBKP-PR-FO-007</td>
   </tr>
  <tr>
     <td >&nbsp;</td>
@@ -197,7 +208,7 @@ class Calidadp extends CI_Controller {
     <td >&nbsp;</td>
     <td>&nbsp; </td>
     <td >&nbsp;</td>
-    <td colspan="2" align="right" class="textfooter" >Rev. 01</td>
+    <td colspan="3" align="right" class="textfooter" >Rev. 01</td>
   </tr>
     <tr>
     <td >&nbsp;</td>
@@ -232,7 +243,7 @@ class Calidadp extends CI_Controller {
     <td >&nbsp;</td>
   </tr>
     <tr>
-    <td colspan="2" class="textfooter" style="border-bottom:solid 1px #000; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000; padding-left:5px;" >&nbsp;&nbsp;2DA INSTAPECCION EXTERNA</td>
+    <td colspan="2" class="textfooter" style="border-bottom:solid 1px #000; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000; padding-left:5px;" >&nbsp;&nbsp;2DA INSPECCIÓN EXTERNA</td>
     <td colspan="4" class="lineabajo" >&nbsp;</td>
     <td >&nbsp;</td>
   </tr>

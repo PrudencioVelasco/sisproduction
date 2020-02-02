@@ -87,12 +87,12 @@ class Orden_model extends CI_Model {
           $this->db->join('tblmodelo  tm', 'tm.idmodelo = tr.idmodelo');
           $this->db->join('parte  p', 'tm.idparte = p.idparte');
           $this->db->join('cliente  c', 'c.idcliente = p.idcliente'); 
-          $this->db->where('p.numeroparte',$numeroparte); 
+          $this->db->where('trim(p.numeroparte)',$numeroparte); 
           $this->db->where('ppb.ordensalida',1);
           $this->db->where('ppb.salida',0);
           $this->db->where('os.idsalida',$idsalida);
           $this->db->where('pc.idpalletcajas',$idpalletcajas);
-           $this->db->where('tc.cantidad',$cantidad);
+           $this->db->where('trim(tc.cantidad)',$cantidad);
           $this->db->where('os.tipo',0);
          // $this->db->limit(1); 
           $query = $this->db->get();

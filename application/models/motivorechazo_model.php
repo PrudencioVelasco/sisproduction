@@ -51,7 +51,32 @@ class Motivorechazo_model extends CI_Model {
         }
         
     }
-   
+      public function validadAddMotivo($idproceso,$nombre) {
+        $this->db->select('m.*');
+        $this->db->from('motivorechazo m'); 
+        $this->db->where('trim(m.motivo)', $nombre); 
+         $this->db->where('m.idproceso', $idproceso);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+     public function validadMotivoUpdate($idmotivo,$idproceso,$nombre) {
+        $this->db->select('m.*');
+        $this->db->from('motivorechazo m'); 
+        $this->db->where('trim(m.motivo)', $nombre); 
+        $this->db->where('m.idmotivorechazo !=', $idmotivo);
+        $this->db->where('m.idproceso', $idproceso);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
       public function searchMotivo($match)
     {
         $field = array(

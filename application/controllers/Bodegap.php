@@ -64,14 +64,15 @@ class Bodegap extends CI_Controller {
  public function generarPDFEnvio($id) {
         //Permission::grant(uri_string());
         $this->load->library('tcpdf');
-        $listapartes = $this->calidadp->palletReporte($id); 
+        $listapartes = $this->bodegap->palletReporte($id); 
+        //var_dump($listapartes);
         $totalpallet = 0;
         $totalcajas = 0;
         if ($listapartes != false) {
 
             foreach ($listapartes as $value) {
-                $totalpallet =$totalpallet + $value->totalpallet;
-                $totalcajas = $totalcajas + $value->totalcajas;
+                $totalpallet =$totalpallet + 1;
+                $totalcajas = $totalcajas + $value->cantidad;
             }
         }
 
@@ -148,12 +149,12 @@ class Bodegap extends CI_Controller {
 <table width="536"  style="margin-top:10px" cellpadding="1" cellspacing="1">
   <tr class="textgeneral">
     <td width="58" align="center" valign="middle" style="border:solid 1px #000000">CLIENTE</td>
-    <td width="125" align="center" valign="middle"  style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">NUM. PARTE</td>
-    <td width="52" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">MODELO</td>
+    <td width="100" align="center" valign="middle"  style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">NUM. PARTE</td>
+    <td width="77" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">MODELO</td>
     <td width="66" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD POR PALLET</td>
     <td width="67" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">TOTAL DE PALLET</td>
     <td width="66" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD TOTAL</td>
-    <td width="100" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">ALMACEN VERIFICACIÓN</td>
+    <td width="100" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">ALMACEN UBICACIÓN</td>
   </tr>
   ';
         foreach ($listapartes as $value) {
@@ -163,9 +164,9 @@ class Bodegap extends CI_Controller {
     <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;' . $value->numeroparte . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;' . $value->descripcionmodelo . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format($value->cantidad) . '</td>
-    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format($value->totalpallet) . '</td>
-    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format($value->totalcajas) . '</td>
-    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format(1) . '</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format($value->cantidad) . '</td>
+    <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">'.$value->nombreposicion.'</td>
   </tr>';
         }
         $tbl .= ' 
@@ -248,7 +249,7 @@ class Bodegap extends CI_Controller {
     ob_end_clean();
 
 
-        $pdf->Output('My-File-Name.pdf', 'I');
+    $pdf->Output('My-File-Name.pdf', 'I');
     }
 
 //    public function showAll() {

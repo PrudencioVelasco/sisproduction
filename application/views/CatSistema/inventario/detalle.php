@@ -84,14 +84,6 @@
                                             </label>
                                         </div>
                                     </th>
-                                     <th>
-                                        <div class="checkbox2">
-                                            <label>
-                                                <input type="checkbox" id="select_all_delete">
-                                                <span class="cr"><i class="cr-icon glyphicon glyphicon-ok" style="color:red"></i></span>
-                                            </label>
-                                        </div>
-                                    </th>
                                     <th class="column-title">Parte <i class="fa fa-sort" aria-hidden="true"></i> </th>
                                     <th class="column-title" style="width: 20px;">Modelo <i class="fa fa-sort" aria-hidden="true"></i> </th>
                                     <th class="column-title">Revisión <i class="fa fa-sort" aria-hidden="true"></i> </th>
@@ -121,15 +113,7 @@
                                                     </label>
                                                 </div>
                                 <?php } ?>
-                                        </td>
-                                        <td>
-                                             <div class="checkbox2">
-                                                    <label>
-                                                        <input type="checkbox" class="checkboxdelete" name="table_records_delete[]" value="<?php echo $value->iddocumento ?>">
-                                                        <span class="cr"><i class="cr-icon glyphicon glyphicon-ok" style="color:red"></i></span>
-                                                    </label>
-                                                </div>
-                                        </td>
+                                        </td> 
                                         <td class="">
                                             <?php
                                                 if($value->subido == "1"){
@@ -162,6 +146,14 @@
                                             if($value->existencategoria!="Okey"){ 
                                                  echo '<span class="label label-danger">'.$value->existencategoria.'</span></br>'; 
                                             }
+                                            
+                                            if($value->numeropartemodelo!="Okey"){ 
+                                                 echo '<span class="label label-danger">'.$value->numeropartemodelo.'</span></br>'; 
+                                            }
+                                            if($value->modelorevision!="Okey"){ 
+                                                 echo '<span class="label label-danger">'.$value->modelorevision.'</span></br>'; 
+                                            }
+
                                             if($value->existennumeroparte=="No existe el numero parte."){ 
                                                  echo '<span class="label label-warning">'.$value->existennumeroparte.'</span></br>'; 
                                             }else{
@@ -390,31 +382,5 @@ for (var i = 0; i < checkboxes.length; i++) {
 			select_all.checked = true;
 		}
 	});
-}
-</script>
-
-<script>
-var select_all = document.getElementById("select_all_delete"); //select all checkbox
-var checkboxes = document.getElementsByClassName("checkboxdelete"); //checkbox items
-
-//select all checkboxes
-select_all.addEventListener("change", function(e){
-    for (i = 0; i < checkboxes.length; i++) { 
-        checkboxes[i].checked = select_all.checked;
-    }
-});
-
-
-for (var i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].addEventListener('change', function(e){ //".checkbox" change 
-        //uncheck "select all", if one of the listed checkbox item is unchecked
-        if(this.checked == false){
-            select_all.checked = false;
-        }
-        //check "select all" if all checkbox items are checked
-        if(document.querySelectorAll('.checkboxdelete:checked').length == checkboxes.length){
-            select_all.checked = true;
-        }
-    });
 }
 </script>

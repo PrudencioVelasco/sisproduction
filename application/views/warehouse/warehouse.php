@@ -16,30 +16,24 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <div id="app">
-                        <div class="container">
-                            <div class="bs-example">
-                             <ul class="nav nav-tabs nav-pills">
-                                <li class="active" style="">
-                                    <a data-toggle="tab" href="#sectionA">Listado General</a>
+                           <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#home_with_icon_title" data-toggle="tab"> 
+                                         <strong><h4><i class="fa fa-home"></i>  LISTADO GENERAL</h4></strong>
+                                    </a>
                                 </li>
-                                <li>
-                                    <a data-toggle="tab" href="#sectionB">Listado por Ubicación</a>
-                                </li>
+                                <li role="presentation">
+                                    <a href="#profile_with_icon_title" data-toggle="tab">
+                                        <strong><h4><i class="fa fa-list"></i>  LISTADO POR UBICACIÓN</h4></strong>
+                                    </a>
+                                </li> 
                             </ul>
-                        </div>
 
-                        <div class="tab-content">
-                            <div id="sectionA" class="tab-pane fade in active">
-                                <div class="row">
-                                    <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <div class="x_panel">
-                                            <div class="x_content">
-                                                <div id="app">
-                                                    <div class="container">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <table id="datatablewarehouse" class="table" width="100%" cellspacing="0">
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade in active" id="home_with_icon_title">
+                                    <br>
+                                     <table id="datatablewarehouse" class="table" width="100%" cellspacing="0">
                                                                     <thead>
                                                                         <tr>
                                                                             <th scope="col">Cliente</th>
@@ -61,46 +55,95 @@
                                                                                 <td><?php echo $value->nombre; ?></td>
                                                                                 <td><?php echo $value->numeroparte; ?></td>
                                                                                 <td><?php echo $value->nombrecategoria; ?></td>
-                                                                                <td><?php echo $value->nombremodelo; ?></td>
+                                                                                <td><?php 
+                                                                                echo $value->nombremodelo;
+                                                                                ?></td>
                                                                                 <td><?php echo $value->nombrerevision; ?></td>
                                                                                 <td>
-                                                                                    <label style="color:blue;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet + $value->total);?></label>
+                                                                                    <label style="color:blue;"><?php echo $value->totalsalidaparciales + $value->totalsalidapallet + $value->total;?></label>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <label style="color:red;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet);?></label>
+                                                                                    <label style="color:red;"><?php echo $value->totalsalidaparciales + $value->totalsalidapallet;?></label>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <label style="color:green;"><?php echo number_format($value->total);?></label>                                                        
+                                                                                    <label style="color:green;"><?php echo $value->total;?></label>                                                        
                                                                                 </td>
 
                                                                                 <td align="center">
-                                                                                    <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('warehouse/historial/'.$value->idrevision) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
+                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('warehouse/historial/'.$value->idrevision) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
                                                                                     Historial</a>
                                                                                 </td>
                                                                             </tr>
                                                                         <?php endforeach;?>
                                                                     <?php endif;?> 
+                                                                          <?php
+                                                                          
+                                                                          if(isset($laminas) && !empty($laminas)){
+                                                                              foreach ($laminas as $valuel){ 
+                                                                                  if($valuel->totalexistencia > 0){
+                                                                                  ?>
+                                                                                         <tr>
+                                                                                <td>--</td>
+                                                                                <td><?php echo $valuel->numeroparte; ?></td>
+                                                                                <td>LAMINAS</td>
+                                                                                <td><?php echo $valuel->modelo; ?></td>
+                                                                                <td><?php echo $valuel->revision; ?></td>
+                                                                                <td>
+                                                                                    <label style="color:blue;"><?php echo $valuel->totalentradas;?></label>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <label style="color:red;"><?php echo $valuel->totalsalidas;?></label>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <label style="color:green;"><?php echo $valuel->totalexistencia;?></label>                                                        
+                                                                                </td>
+
+                                                                                <td align="center">
+                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('laminas/detalle/'.$valuel->idparte) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
+                                                                                    Historial</a>
+                                                                                </td>
+                                                                            </tr>
+                                                                              <?php }
+                                                                              }
+                                                                          }
+                                                                          ?>
+                                                                          <?php
+                                                                          
+                                                                          if(isset($lithos) && !empty($lithos)){
+                                                                              foreach ($lithos as $valueli){
+                                                                                  if($valueli->totalexistencia > 0){
+                                                                                  ?>
+                                                                                         <tr>
+                                                                                <td>--</td>
+                                                                                <td><?php echo $valueli->numeroparte; ?></td>
+                                                                                <td>LITHO</td>
+                                                                                <td><?php echo $valueli->modelo; ?></td>
+                                                                                <td><?php echo $valueli->revision; ?></td>
+                                                                                <td>
+                                                                                    <label style="color:blue;"><?php echo $valueli->totalentradas;?></label>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <label style="color:red;"><?php echo $valueli->totalsalidas;?></label>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <label style="color:green;"><?php echo $valueli->totalexistencia;?></label>                                                        
+                                                                                </td>
+
+                                                                                <td align="center">
+                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('litho/detalle/'.$valueli->idrevision) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
+                                                                                    Historial</a>
+                                                                                </td>
+                                                                            </tr>
+                                                                              <?php }
+                                                                              }
+                                                                          }
+                                                                          ?>
                                                                 </tbody>
                                                             </table>
-                                                        </div> 
-                                                    </div> 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div id="sectionB" class="tab-pane fade">
-                          <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="x_panel">
-                                    <div class="x_content">
-                                        <div id="app">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <table id="datatablewarehouseposicion" class="table" width="100%" cellspacing="0">
+                                <div role="tabpanel" class="tab-pane fade" id="profile_with_icon_title">
+                                    <br>
+                                    <table id="datatablewarehouseposicion" class="table" width="100%" cellspacing="0">
                                                             <thead>
                                                                 <tr>
                                                                     <th scope="col">Ubicación</th>
@@ -118,13 +161,13 @@
                                                                         <td><?php echo $value->nombreposicion; ?>
                                                                     </td>
                                                                     <td>
-                                                                        <label style="color:blue;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet + $value->total);?></label>
+                                                                        <label style="color:blue;"><?php echo $value->totalsalidaparciales + $value->totalsalidapallet + $value->total;?></label>
                                                                     </td>
                                                                     <td>
-                                                                        <label style="color:red;"><?php echo number_format($value->totalsalidaparciales + $value->totalsalidapallet);?></label>
+                                                                        <label style="color:red;"><?php echo $value->totalsalidaparciales + $value->totalsalidapallet;?></label>
                                                                     </td>
                                                                     <td>
-                                                                        <label style="color:green;"><?php echo number_format($value->total);?></label>                                                        
+                                                                        <label style="color:green;"><?php echo $value->total;?></label>                                                        
                                                                     </td>
 
                                                                     <td align="center">
@@ -136,21 +179,10 @@
                                                         <?php endif;?> 
                                                     </tbody>
                                                 </table>
-                                            </div> 
-                                        </div> 
-                                    </div>
-
-                                </div>
+                                </div>  
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
 
-</div>
-</div>
+               
 <!-- /page content -->
 <script type="text/javascript">
   $( document ).ready(function() {

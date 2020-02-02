@@ -1,6 +1,6 @@
 <!--add modal-->
 <modal v-if="addModal" @close="clearAll()">
-   <h3 slot="head" >Agregar nueva salida</h3>
+   <h3 slot="head" >Agregar Salida</h3>
    <div slot="body">
       <div class="row">
          <div class="col-md-12 col-sm-12 col-xs-12 ">
@@ -37,13 +37,14 @@
 
    </div>
    <div slot="foot">
-       <button class="btn btn-primary" @click="addSalida">Agregar</button>
-      <button class="btn btn-danger" @click="clearAll">Cancelar</button>
+       
+      <button class="btn btn-danger" @click="clearAll"><i class='fa fa-ban'></i> Cancelar</button>
+      <button class="btn btn-primary" @click="addSalida"><i class='fa fa-floppy-o'></i> Agregar</button>
    </div>
 </modal>
 
 <modal v-if="editModal" @close="clearAll()">
-   <h3 slot="head" >Editar usuario</h3>
+   <h3 slot="head" >Editar Salida</h3>
     <div slot="body">
       <div class="row">
          <div class="col-md-12 col-sm-12 col-xs-12 ">
@@ -80,7 +81,7 @@
 
    </div>
    <div slot="foot">
-      <button class="btn btn-danger" @click="clearAll">Cancelar</button>
-      <button class="btn btn-primary" @click="updateSalida">Modificar</button>
+      <button class="btn btn-danger" @click="clearAll"><i class='fa fa-ban'></i> Cancelar</button>
+      <button class="btn btn-primary" @click="updateSalida"><i class='fa fa-edit'></i> Modificar</button>
    </div>
 </modal>

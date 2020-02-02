@@ -140,6 +140,44 @@ var v = new Vue({
                 }
             })
         },
+         deleteCantidad(id){
+            Swal.fire({
+          title: '¿Eliminar Cantidad?',
+          text: "Realmente desea eliminar la Cantidad.",
+          type: 'info',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Eliminar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.value) {
+
+              axios.get(this.url + "cantidad/deleteCantidad", {
+                params: {
+                    idcantidad: id
+                }
+            }).then(function (response) {
+                if (response.data.cantidades == true) {
+                    //v.noResult()
+                     swal({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Eliminado!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    v.clearAll();
+                    v.clearMSG();
+                } else {
+                   swal("Error", "No se puede eliminar la Cantidad", "error")
+                } 
+            }).catch((error) => {
+                swal("Error", "No se puede eliminar la Cantidad", "error")
+            })
+            }
+            })
+        },
         formData(obj) {
             var formData = new FormData();
             for (var key in obj) {

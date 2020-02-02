@@ -84,8 +84,8 @@ class Orden extends CI_Controller {
    
     public function validar() {
         Permission::grant(uri_string());
-        $numeroparte = $_POST['codigo'];
-        $cantidad = $_POST['cantidad'];
+        $numeroparte = trim($_POST['codigo']);
+        $cantidad = preg_replace('/\D/', '', trim($_POST['cantidad']));
         $idpalletcajas = $_POST["idpalletcajas"];
         $idsalida = $_POST["idsalida"];
         $data = $this->orden->listaDeNumeroParteSalida($numeroparte, $idsalida, $idpalletcajas,$cantidad);

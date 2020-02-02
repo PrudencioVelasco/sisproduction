@@ -44,6 +44,31 @@ class Client_model extends CI_Model {
             return false;
         }
     }
+       public function validadExistenciaRFCUpdate($rfc,$idcliente) {
+        $this->db->select('c.*');
+        $this->db->from('cliente c'); 
+        $this->db->where('TRIM(c.rfc)', $rfc); 
+         $this->db->where('c.idcliente !=', $idcliente);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
+       public function validarRFCCliente($nombre)
+    {
+        $this->db->select('c.*');
+        $this->db->from('cliente c'); 
+        $this->db->where('trim(c.rfc)', $nombre);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
     public function detalleCliente($idcliente) {
         // code...
         $this->db->select('c.*');

@@ -18,8 +18,9 @@
         </div> 
     </div>
     <div slot="foot">
-        <button class="btn btn-primary" @click="addRevision">Agregar</button>
-        <button class="btn btn-danger" @click="clearAll">Cancelar</button>
+        
+        <button class="btn btn-danger" @click="clearAll"><i class='fa fa-ban'></i> Cancelar</button>
+        <button class="btn btn-primary" @click="addRevision"><i class='fa fa-floppy-o'></i> Agregar</button>
     </div>
 </modal>
 <modal v-if="editModal" @close="clearAll()">
@@ -43,8 +44,8 @@
 
     </div>
     <div slot="foot">
-        <button class="btn btn-danger" @click="clearAll">Cancelar</button>
-        <button class="btn btn-primary" @click="updateRevision">Modificar</button>
+        <button class="btn btn-danger" @click="clearAll"><i class='fa fa-ban'></i> Cancelar</button>
+        <button class="btn btn-primary" @click="updateRevision"><i class='fa fa-edit'></i> Modificar</button>
     </div>
 </modal>
 

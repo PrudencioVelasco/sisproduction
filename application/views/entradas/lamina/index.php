@@ -13,9 +13,8 @@
                             <div class="container">  
                                 <div class="row">
                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
-                                    <table class="table is-bordered is-hoverable" id="datatable2">
+                                    <table class="table is-bordered is-hoverable" id="datatablewarehouse">
                                         <thead class="text-white bg-dark" >
-                                            <th>Cliente/Proveedor</th>
                                             <th>Num. Parte</th>
                                             <th>Modelo</th> 
                                             <th>Revision</th>  
@@ -27,11 +26,10 @@
                                             if (isset($data) && !empty($data)) {
                                                 foreach ($data as $value) { ?>
                                                     <tr class="table-default"> 
-                                                        <td><strong><?php echo $value->nombre; ?></strong></td>
                                                         <td><?php echo $value->numeroparte ?></td>
                                                         <td><?php echo $value->modelo ?></td>
                                                         <td><?php echo $value->revision ?></td> 
-                                                        <td><strong style="color:green;"><?php echo number_format ($value->totalexistencia) ?></strong></td>
+                                                        <td><strong style="color:green;"><?php echo $value->totalexistencia ?></strong></td>
                                                         <td>
                                                             <div class="btn-group">
                                                               <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
@@ -285,4 +283,73 @@
         });
 
     }); 
+</script>
+<script type="text/javascript">
+  $( document ).ready(function() {
+    $('#datatablewarehouse').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+        'excelHtml5',
+        'pdfHtml5'
+        ],
+        "order": [[0, "desc"]],
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    } );
+
+    $('#datatablewarehouseposicion').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+        'excelHtml5',
+        'pdfHtml5'
+        ],
+        "order": [[0, "desc"]],
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    } );
+});
 </script>

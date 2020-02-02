@@ -22,7 +22,7 @@ class Linea_model extends CI_Model {
         } else {
             return false;
         }
-    }
+    } 
         public function searchLinea($match) {
         $field = array(
                  'l.nombrelinea',
@@ -61,7 +61,7 @@ class Linea_model extends CI_Model {
        public function validadExistenciaNombreLinea($nombrelinea) {
         $this->db->select('l.idlinea, l.nombrelinea');
         $this->db->from('linea l'); 
-        $this->db->where('l.nombrelinea', $modelo); 
+        $this->db->where('trim(l.nombrelinea)', $nombrelinea); 
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();

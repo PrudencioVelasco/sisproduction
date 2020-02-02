@@ -46,7 +46,8 @@ var v = new Vue({
         emptyResult: false,
         newUbicacion: {
             nombreposicion: '',
-            activo: ''
+            activo: '',
+            msgerror:''
 
         },
         chooseUbicacion: {},
@@ -166,9 +167,10 @@ var v = new Vue({
             }, 3000); // disappearing message success in 2 sec
         },
         clearAll() {
-            v.newClient = {
+            v.newUbicacion = {
                 nombreposicion: '',
-                activo: ''};
+                activo: '',
+            msgerror:''};
             v.formValidate = false;
             v.addModal = false;
             v.editModal = false;

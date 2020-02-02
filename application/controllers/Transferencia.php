@@ -44,7 +44,7 @@ class Transferencia extends CI_Controller {
 
     public function detalle($id, $folio) {
         # code...
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $datalinea = $this->linea->showAllLinea();
         $datatransferencia = $this->transferencia->listaNumeroParteTransferencia($id);
        
@@ -61,15 +61,21 @@ class Transferencia extends CI_Controller {
     public function validar() {
         Permission::grant(uri_string());
         $option = "";
-        $numrtoparte = $this->input->post('numeroparte');
+        $numrtoparte = trim($this->input->post('numeroparte'));
         $datavali = $this->transferencia->validarExistenciaNumeroParte($numrtoparte);
         if ($datavali != FALSE) {
             $idparte = $datavali->idparte;
            $datavalista = $this->transferencia->listaModeloxNumeroParte($idparte);
-        foreach ($datavalista as $value) {
+            if($datavalista){
+            foreach ($datavalista as $value) {
             $option .= "<option value='" . $value->idmodelo . "'>" . $value->descripcion . "</option>";
-        }
+            }
             echo $option;
+        }else{
+            echo 2;
+        }
+
+
         } else {
             //El numero de parte de existe.
             echo 1;
@@ -91,11 +97,17 @@ class Transferencia extends CI_Controller {
         Permission::grant(uri_string());
         $idmodelo = $this->input->post('idmodelo');
         $option = "";
+
         $datavalista = $this->transferencia->listaRevisionxNumeroParte($idmodelo);
+        if($datavalista != false){
         foreach ($datavalista as $value) {
             $option .= "<option value='" . $value->idrevision . "'>" . $value->descripcion . "</option>";
         }
         echo $option;
+            }else{
+                echo 1;
+
+            }
     }
 
     public function seleccionarRevision() {
@@ -111,8 +123,8 @@ class Transferencia extends CI_Controller {
 
     public function enviaracalidad() {
         Permission::grant(uri_string());
-        $numerocaja = $this->input->post('numerocaja');
-        $numeroetiqueta = $this->input->post('numeroetiqueta');
+        $numerocaja = trim($this->input->post('numerocaja'));
+        $numeroetiqueta = trim($this->input->post('numeroetiqueta'));
         $ids = $this->input->post('id');
         foreach ($ids as $value) {
             $datavalidar = $this->transferencia->validarEnvioCalidad($value, $numeroetiqueta, $numerocaja);
@@ -158,13 +170,13 @@ class Transferencia extends CI_Controller {
 
     public function registrar() {
         Permission::grant(uri_string());
-        $numeroparte = $this->input->post('numeroparte');
+        $numeroparte = trim($this->input->post('numeroparte'));
         //$cliente = $this->input->post('cliente');
         $modelo = $this->input->post('modelo');
         $revision = $this->input->post('revision');
         $linea = $this->input->post('linea');
-        $cajas = $this->input->post('cajasxpallet');
-        $cantidad = $this->input->post('cantidad');
+        $cajas = trim($this->input->post('cajasxpallet'));
+        $cantidad = trim($this->input->post('cantidad'));
         $idtransferencia = $this->input->post('idtransferencia');
         if ((isset($numeroparte) && !empty($numeroparte))   && (isset($modelo) && !empty($modelo)) && (isset($revision) && !empty($revision)) && (isset($linea) && !empty($linea)) && (isset($cajas) && !empty($cajas)) && (isset($cantidad) && !empty($cantidad))) {
 
@@ -188,7 +200,7 @@ class Transferencia extends CI_Controller {
 
                 $dataadd = array(
                     'idrevision'=>$revision,
-                    'cantidad'=>$cajas,
+                    'cantidad'=>trim($cajas),
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
@@ -251,6 +263,14 @@ class Transferencia extends CI_Controller {
 
     public function generarPDFEnvio($id) {
         Permission::grant(uri_string());
+         $datav = $this->transferencia->validarExistenciaRetorno($id);
+        if ($datav == FALSE) {
+            # code...
+            $produccion = "PRODUCCIÓN";
+        } else {
+            # code...
+            $produccion = "RETORNO";
+        }
         $this->load->library('tcpdf');
         $listapartes = $this->transferencia->palletReporte($id);
         $totalpallet = 0;
@@ -315,12 +335,12 @@ class Transferencia extends CI_Controller {
     <td width="22">&nbsp;</td>
     <td width="96">&nbsp;</td>
     <td width="100" align="center" style="border-left:solid 1px #000000; border-right:solid 1px #000000; border-top:solid 1px #000"><p class="textgeneral">TRANSFERENCIA NÚMERO</p></td>
-    <td width="82" align="center" style="border-top:solid 1px #000000; border-right:solid #000 1px">' . $detalle->folio . '</td>
+    <td width="82" align="center" style="border-top:solid 1px #000000; font-size:20px; font-weight:bolder; border-right:solid #000 1px">' . $detalle->folio . '</td>
   </tr>
   <tr>
     <td class="textgeneral lineabajo">FECHA: ' . $fechaactual . '</td>
     <td>&nbsp;</td>
-      <td colspan="3" align="center" class="textgeneral" style="border-top:solid 1px #000; border-right:solid 1px #000; border-left:solid 1px #000; border-bottom:solid 1px #000;">PRODUCCIÓN</td>
+      <td colspan="3" align="center" class="textgeneral" style="border-top:solid 1px #000; border-right:solid 1px #000; border-left:solid 1px #000; border-bottom:solid 1px #000;">'.$produccion.'</td>
   </tr>
   <tr>
     <td class="textgeneral lineabajo">HORA: ' . $hora . '</td>
@@ -337,12 +357,13 @@ class Transferencia extends CI_Controller {
 <table width="536"  style="margin-top:10px" cellpadding="1" cellspacing="1">
   <tr class="textgeneral">
     <td width="58" align="center" valign="middle" style="border:solid 1px #000000">CLIENTE</td>
-    <td width="125" align="center" valign="middle"  style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">NUM. PARTE</td>
+    <td width="100" align="center" valign="middle"  style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">NUM. PARTE</td>
+    <td width="50" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">REVISIÓN</td>
     <td width="52" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">MODELO</td>
-    <td width="66" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD POR PALLET</td>
-    <td width="67" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">TOTAL DE PALLET</td>
+    <td width="64" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD POR PALLET</td>
+    <td width="64" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">TOTAL DE PALLET</td>
     <td width="66" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">CANTIDAD TOTAL</td>
-    <td width="100" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">ALMACEN VERIFICACIÓN</td>
+    <td width="80" align="center" valign="middle" style="border-top:solid 1px #000000; border-bottom:solid 1px #000000; border-right:solid 1px #000000;">ALMACEN VERIFICACIÓN</td>
   </tr>
   ';
         foreach ($listapartes as $value) {
@@ -350,6 +371,7 @@ class Transferencia extends CI_Controller {
     <td style="border-left:solid 1px
     #000000; border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . $value->nombrecliente . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;' . $value->numeroparte . '</td>
+     <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;' . $value->descripcionrevision . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px;  border-right:solid 1px #000;">&nbsp;' . $value->descripcionmodelo . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format($value->cantidad) . '</td>
     <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;' . number_format($value->totalpallet) . '</td>
@@ -364,6 +386,7 @@ class Transferencia extends CI_Controller {
     #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
+    <td style="border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
     <td class="textfooter" style="border-bottom:solid 1px #000; border-right:solid 1px #000;">TOTAL:</td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px; margin-top:20px;">&nbsp;' . $totalpallet . ' </td>
     <td style="border-bottom:solid 1px #000; border-right:solid 1px #000; font-size:9px;">&nbsp;' . number_format(($totalcajas / $totalpallet) * ($totalpallet)) . '</td>
@@ -375,7 +398,7 @@ class Transferencia extends CI_Controller {
     <td >&nbsp;</td>
     <td>&nbsp; </td>
     <td >&nbsp;</td>
-    <td colspan="2" align="right" class="textfooter" >WBKP-PR-FO-007</td>
+    <td colspan="3" align="right" class="textfooter" >WBKP-PR-FO-007</td>
   </tr>
  <tr>
     <td >&nbsp;</td>
@@ -383,7 +406,7 @@ class Transferencia extends CI_Controller {
     <td >&nbsp;</td>
     <td>&nbsp; </td>
     <td >&nbsp;</td>
-    <td colspan="2" align="right" class="textfooter" >Rev. 01</td>
+    <td colspan="3" align="right" class="textfooter" >Rev. 01</td>
   </tr>
     <tr>
     <td >&nbsp;</td>
@@ -418,7 +441,7 @@ class Transferencia extends CI_Controller {
     <td >&nbsp;</td>
   </tr>
     <tr>
-    <td colspan="2" class="textfooter" style="border-bottom:solid 1px #000; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000; padding-left:5px;" >&nbsp;&nbsp;2DA INSTAPECCION EXTERNA</td>
+    <td colspan="2" class="textfooter" style="border-bottom:solid 1px #000; border-top:solid 1px #000; border-left:solid 1px #000; border-right:solid 1px #000; padding-left:5px;" >&nbsp;&nbsp;2DA INSPECCIÓN EXTERNA</td>
     <td colspan="4" class="lineabajo" >&nbsp;</td>
     <td >&nbsp;</td>
   </tr>
@@ -453,6 +476,7 @@ class Transferencia extends CI_Controller {
         $this->transferencia->addTransferencia($data);
         redirect('transferencia/');
     }
+   
 
     public function eliminar($id) {
 Permission::grant(uri_string());
@@ -513,6 +537,143 @@ Permission::grant(uri_string());
     {
         # code...
          date_default_timezone_set("America/Tijuana");
+           $produccion="";
+        $datav = $this->transferencia->validarExistenciaRetorno($idpalletcajas);
+        if ($datav == FALSE) {
+            # code...
+            $produccion = "P";
+        } else {
+            # code...
+            $produccion = "R";
+        }
+        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
+        $barcode = $this->set_barcode($detalle->numeroparte);
+        $barcodecliente = $this->set_barcode_cliente($detalle->clave);
+        $barcodecantidad= $this->set_barcode_cantidad($detalle->cantidad);
+        $hora = date("h:i a");
+        $fecha = date("j/n/Y");
+        $dia = date("j");
+        $semana = date("W");
+        $mes = date("F");
+        $this->load->library('html2pdf');
+        ob_start();
+
+
+        $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
+        $mipdf->pdf->SetDisplayMode('fullpage');
+        $mipdf->writeHTML('<page  format="400x165"  >
+        <style type="text/css">
+            table {
+            border-collapse:collapse;
+            margin-left:0px;
+            margin-top:13px;
+            }
+            .nombrecliente{
+            font-weight:bold;
+            font-size:50px; 
+            }
+             .cantidad{
+            font-weight:bold;
+            font-size:55px; 
+            }
+            .numeroparte{
+            font-weight:bold;
+            font-size:70px; 
+            }
+            .mes{
+             font-weight:bold;
+            font-size:40px; 
+            }
+            .produccion{
+             font-weight:bold;
+            font-size:40px; 
+            }
+            .semana{
+             font-weight:bold;
+            font-size:45px; 
+            }
+            .modelo{
+             font-weight:bold;
+            font-size:40px;
+            }
+            .revision{
+             font-weight:bold;
+            font-size:40px; 
+            }
+            .linea{
+             font-weight:bold;
+            font-size:40px; 
+            }
+            .cantidadpallet{
+            font-weight:bold;
+            font-size:40px; 
+            }
+            td 
+                {
+                    border:0px  solid black;
+                }
+    </style>
+<table   border="0">
+  <tr>
+    <td colspan="2" height="50" width="350" align="center"></td>
+    <td colspan="2" height="50" width="350" align="center"></td>
+    <td colspan="3" height="50" width="750"  ></td>
+  </tr>
+  <tr>
+    <td height="80" align="left"  colspan="2" class="nombrecliente">&nbsp;' . $detalle->nombre . '</td>
+    <td colspan="2" align="center" class="cantidad">&nbsp;'.number_format($detalle->cantidad).'</td>
+    <td colspan="3" align="center" class="numeroparte" rowspan="3">&nbsp;' . $detalle->numeroparte . '</td>
+  </tr>
+  <tr>
+    <td colspan="2" height="60"  align="center"></td>
+    <td colspan="2" height="60" ></td>
+  </tr>
+  <tr>
+    <td colspan="2" height="65" class="mes" align="left">&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
+    <td colspan="2" height="65" class="semana" align="left">&nbsp;' . $semana . '</td>
+  </tr>
+  <tr>
+    <td height="20" width="20" ></td>
+    <td height="20" width="100" ></td>
+    <td height="20" ></td>
+    <td height="20" ></td>
+    <td colspan="3"    height="20" ></td>
+  </tr>
+  <tr>
+    <td width="112" class="linea" align="left" >&nbsp;' . $detalle->nombrelinea . '</td>
+    <td width="80">&nbsp;</td>
+    <td width="65" class="produccion">&nbsp;'.$produccion.'</td>
+    <td width="71" align="left" class="cantidadpallet">&nbsp;1</td>
+    <td colspan="3" height="190"   rowspan="2" align="center">&nbsp;<img src="' . $barcode . '" style="height:165px; margin-top:-25px;" /></td>
+  </tr> 
+   <tr>
+    <td  height="0">&nbsp;</td>
+    <td  height="0">&nbsp;</td>
+    <td  height="0">&nbsp;</td>
+    <td  height="0">&nbsp;</td>
+  </tr>
+  
+ 
+  <tr> 
+    <td colspan="5" rowspan="2 >&nbsp;</td>
+    <td  width="256" height="0" align="center"   style="  font-weight:bold;
+            font-size:38px; padding-top:9px; padding-bottom:-30px;"  rowspan="2">' . $detalle->modelo . '</td>
+  
+    <td height="0" align="right"   style="  font-weight:bold;
+            font-size:30px; padding-top:0px; "  >&nbsp;' . $detalle->revision . '</td>
+  </tr>
+</table>
+</page>
+');
+
+        //$mipdf->pdf->IncludeJS('print(TRUE)');
+       // $mipdf->Output(APPPATH . 'pdfs\\' . 'Packing' . date('Ymdgisv') . '.pdf', 'F');
+        $mipdf->Output('Etiqueta_Packing.pdf');
+    }
+     public function nuevaetiquetacopia($idpalletcajas)
+    {
+        # code...
+         date_default_timezone_set("America/Tijuana");
         $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
         $barcode = $this->set_barcode($detalle->numeroparte);
         $barcodecliente = $this->set_barcode_cliente($detalle->clave);
@@ -537,15 +698,15 @@ Permission::grant(uri_string());
             }
             .nombrecliente{
             font-weight:bold;
-            font-size:40px; 
+            font-size:50px; 
             }
              .cantidad{
             font-weight:bold;
-            font-size:40px; 
+            font-size:55px; 
             }
             .numeroparte{
             font-weight:bold;
-            font-size:40px; 
+            font-size:65px; 
             }
             .mes{
              font-weight:bold;
@@ -553,11 +714,11 @@ Permission::grant(uri_string());
             }
             .semana{
              font-weight:bold;
-            font-size:40px; 
+            font-size:45px; 
             }
             .modelo{
              font-weight:bold;
-            font-size:40px; 
+            font-size:45px; 
             }
             .revision{
              font-weight:bold;
@@ -583,7 +744,7 @@ Permission::grant(uri_string());
     <td colspan="3" height="45"  >Parte Number</td>
   </tr>
   <tr>
-    <td height="80" align="center"  colspan="2" class="nombrecliente">&nbsp;' . $detalle->nombre . '</td>
+    <td height="80" align="left"  colspan="2" class="nombrecliente">&nbsp;' . $detalle->nombre . '</td>
     <td colspan="2" align="center" class="cantidad">&nbsp;'.number_format($detalle->cantidad).'</td>
     <td colspan="3" align="center" class="numeroparte" rowspan="3">&nbsp;' . $detalle->numeroparte . '</td>
   </tr>
@@ -596,17 +757,17 @@ Permission::grant(uri_string());
     <td colspan="2" height="60" class="semana" align="center">&nbsp;' . $semana . '</td>
   </tr>
   <tr>
-    <td height="45" >Line No</td>
-    <td height="45" >Prod</td>
-    <td height="45" >W/H</td>
-    <td height="45" >Pallet No</td>
-    <td colspan="3"    height="45" >Part Number Code</td>
+    <td height="40" width="20" >Line No</td>
+    <td height="40" width="100" >Prod</td>
+    <td height="40" >W/H</td>
+    <td height="40" >Pallet No</td>
+    <td colspan="3"    height="40" >Part Number Code</td>
   </tr>
   <tr>
-    <td width="112" class="linea" align="center" >&nbsp;' . $detalle->nombrelinea . '</td>
+    <td width="112" class="linea" align="left" >&nbsp;' . $detalle->nombrelinea . '</td>
     <td width="80">&nbsp;fff</td>
     <td width="65">&nbsp;</td>
-    <td width="71" align="center" class="cantidadpallet">&nbsp;1</td>
+    <td width="71" align="left" class="cantidadpallet">&nbsp;1</td>
     <td colspan="3"    rowspan="2" align="center">&nbsp;<img src="' . $barcode . '" style="height:118px;" /></td>
   </tr> 
    <tr>
@@ -619,14 +780,14 @@ Permission::grant(uri_string());
   <tr>
     <td colspan="4">&nbsp;</td>
     <td colspan="2" width="500" height="45" >Model Name</td>
-    <td width="150" height="45" >Rev. no</td>
+    <td width="100" height="45" >Rev. no</td>
   </tr>
   <tr> 
     <td colspan="5" rowspan="2">&nbsp;</td>
     <td  width="256" height="90" align="center" class="modelo" rowspan="2">' . $detalle->modelo . '</td>
   </tr>
   <tr>
-    <td height="90" align="center" class="revision" >&nbsp;' . $detalle->revision . '</td>
+    <td height="90" align="right" class="revision" >&nbsp;' . $detalle->revision . '</td>
   </tr>
 </table>
 </page>

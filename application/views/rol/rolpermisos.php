@@ -11,7 +11,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
-                  <h2>Administrar Permisos del Rol</h2>
+                  <h2><strong>Administrar Permisos del Rol</strong></h2>
                   
                   <div class="clearfix"></div>
                 </div>
@@ -47,16 +47,32 @@
                              </div>
                               <div class="row">
                                 <div class="col-md-6">
+                                  <br>
+                                 <table class="table">
+                                  <tr>
+                                    <td><strong>Nombre del Permiso</strong></td>
+                                    <td><strong>Opción</strong></td>
+                                  </tr>
                                   <form method="POST" action="<?= base_url('rol/agregarrolpermiso') ?>">
                                   <?php foreach($permisos as $permiso) { ?>
-                                        <div class="form-check form-check-flat">
-                                          <label class="form-check-label">
-                                            <input type="checkbox" name="permiso[]" class="form-check-input" value="<?php echo $permiso["id"] ?>"  <?php if($permiso["status"]=="1"){echo "checked";} ?>> <?php   if($permiso["description"] != "") { echo $permiso["description"]."  - ".$permiso["uri"]; }else{ echo "Sin descripcion"."  - ".$permiso["uri"];} ?>
-                                          </label>
-                                        </div>
+                                    <tr>
+                                      <td>
+                                         <?php   if($permiso["description"] != "") { echo $permiso["description"]."  - ".$permiso["uri"]; }else{ echo "Sin descripcion"."  - ".$permiso["uri"];} ?>
+                                      </td> 
+                                       <td>
+                                          <div class="switch">
+                                    <label>OFF<input type="checkbox" name="permiso[]" value="<?php echo $permiso["id"] ?>"  <?php if($permiso["status"]=="1"){echo "checked";} ?>><span class="lever"></span>ON</label>
+                                </div>
+
+                                       </td>
                                     <?php } ?>
-                                    <input type="hidden" name="rol" value="<?php echo $permiso["rol"] ?>">
-                                     <button type="submit"  class="btn btn-primary btn-fw">Guardar</button>
+                                    <tr>
+                                      <td colspan="2">
+                                        <input type="hidden" name="rol" value="<?php echo $permiso["rol"] ?>">
+                                     <button type="submit"  class="btn btn-primary btn-fw"><i class='fa fa-floppy-o'></i> Guardar</button>
+                                      </td>
+                                    </tr>
+                                    
                                   </form>
                                 </div>
                                 <div class="col-md-6">

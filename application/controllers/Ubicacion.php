@@ -27,7 +27,7 @@ class Ubicacion extends CI_Controller {
     }
 
     public function showAll() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $query = $this->ubicacion->showAll();
         if ($query) {
             $result['ubicaciones'] = $this->ubicacion->showAll();
@@ -38,7 +38,7 @@ class Ubicacion extends CI_Controller {
    
 
     public function addUbicacion() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'nombreposicion',
@@ -56,17 +56,27 @@ class Ubicacion extends CI_Controller {
                 'nombreposicion' => form_error('nombreposicion')
             );
         } else {
+            $nombreposicion = trim($this->input->post('nombreposicion'));
+            $validar = $this->ubicacion->validadAddNombre($nombreposicion);
+            if($validar == false){
             $data = array(
                 'nombreposicion' => $this->input->post('nombreposicion'),
                 'activo' => 1
             );
             $this->ubicacion->addUbicacion($data);
+            }else{
+                $result['error'] = true;
+                $result['msg'] = array(
+                    'msgerror' => "La Ubicación ya esta registrada."
+                );
+
+            }
         }
         echo json_encode($result);
     }
 
     public function updateUbicacion() {
-       Permission::grant(uri_string());
+      // Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'nombreposicion',
@@ -85,6 +95,9 @@ class Ubicacion extends CI_Controller {
             );
         } else {
             $id = $this->input->post('idposicion');
+            $nombreposicion = trim($this->input->post('nombreposicion'));
+            $datavalidar = $this->ubicacion->validadExistenciaUpdate($id, $nombreposicion);
+            if($datavalidar == FALSE){
             $data = array(
                 'nombreposicion' => $this->input->post('nombreposicion'), 
                 'activo' => $this->input->post('activo')
@@ -93,12 +106,19 @@ class Ubicacion extends CI_Controller {
                 $result['error'] = false;
                 $result['success'] = 'User updated successfully';
             }
+        }else{
+              $result['error'] = true;
+                $result['msg'] = array(
+                    'msgerror' => "La Ubicación ya esta registrada."
+                );
+        }
+
         }
         echo json_encode($result);
     }
 
     public function searchUbicacion() {
-       Permission::grant(uri_string());
+       //Permission::grant(uri_string());
         $value = $this->input->post('text');
         $query = $this->ubicacion->searchUbicacion($value);
         if ($query) {

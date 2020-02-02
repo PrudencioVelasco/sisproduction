@@ -16,7 +16,10 @@ class Warehouse_model extends CI_Model {
     public function getDataPallets() {
 
         $query = $this->db->query("
-            select r.idrevision, cl.nombre,ca.nombrecategoria, p.numeroparte, m.descripcion as nombremodelo, r.descripcion as nombrerevision,
+            select r.idrevision, cl.nombre,ca.nombrecategoria, p.numeroparte,  CASE WHEN LENGTH(m.descripcion) > 12 
+THEN CONCAT(SUBSTRING(m.descripcion, 1, 12), '...') 
+ELSE m.descripcion END AS nombremodelo,
+ r.descripcion as nombrerevision,
             (select COALESCE(sum(c2.cantidad),0) from parteposicionbodega ppb2, palletcajas pc2, tblcantidad c2 
             WHERE ppb2.idpalletcajas = pc2.idpalletcajas AND pc2.idcajas = c2.idcantidad  AND c2.idrevision = r.idrevision AND ppb2.ordensalida = 0 AND ppb2.salida = 0)  as total,
             (select 
@@ -52,10 +55,9 @@ class Warehouse_model extends CI_Model {
 
     public function getDataPalletsPosicion() {
 
-        $query = $this->db->query("
-            select ppb.idposicion,r.idrevision, cl.nombre,ca.nombrecategoria, p.numeroparte, m.descripcion as nombremodelo, r.descripcion as nombrerevision,pb.nombreposicion,
+        $query = $this->db->query(" select ppb.idposicion,r.idrevision, cl.nombre,ca.nombrecategoria, p.numeroparte, m.descripcion as nombremodelo, r.descripcion as nombrerevision,pb.nombreposicion,
             (select COALESCE(sum(c2.cantidad),0) from parteposicionbodega ppb2, palletcajas pc2, tblcantidad c2 
-            WHERE ppb2.idpalletcajas = pc2.idpalletcajas AND pc2.idcajas = c2.idcantidad  AND c2.idrevision = r.idrevision AND ppb2.ordensalida = 0 AND ppb2.salida = 0)  as total,
+            WHERE ppb2.idpalletcajas = pc2.idpalletcajas AND pc2.idcajas = c2.idcantidad  AND ppb2.idposicion = ppb.idposicion AND ppb2.ordensalida = 0 AND ppb2.salida = 0 group by ppb2.idposicion)  as total,
             (select 
 
             COALESCE(sum(

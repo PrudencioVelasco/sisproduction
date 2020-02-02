@@ -20,7 +20,9 @@
          </div>
           <div class="form-group">
             <label><font color="red">*</font> Rol</label>
+
              <select v-model="newUser.rol"  :class="{'is-invalid': formValidate.rol}"class="form-control">
+                <option value="" selected="">--Seleccionar--</option>
                 <option   v-for="option in roles" v-bind:value="option.id">
                 {{ option.rol }}
               </option>
@@ -42,6 +44,7 @@
          <div class="form-group">
            <label><font color="red">*</font> Turno</label>
             <select v-model="newUser.idturno"  :class="{'is-invalid': formValidate.idturno}"class="form-control">
+               <option value="" selected="">--Seleccionar--</option>
                <option   v-for="option in turnos" v-bind:value="option.idturno">
                {{ option.nombreturno }}
              </option>
@@ -51,8 +54,8 @@
       </div>
    </div>
    <div slot="foot">
-    <button class="btn btn-danger" @click="clearAll">Cancelar</button>
-      <button class="btn btn-primary" @click="addUser">Agregar</button>
+    <button class="btn btn-danger" @click="clearAll"><i class='fa fa-ban'></i> Cancelar</button>
+      <button class="btn btn-primary" @click="addUser"><i class='fa fa-floppy-o'></i> Agregar</button>
    </div>
 </modal>
 <!--update modal-->
@@ -88,11 +91,18 @@
             <input type="text" class="form-control" :class="{'is-invalid': formValidate.usuario}" name="usuario" v-model="chooseUser.usuario" disabled="disabled">
             <div class="text-danger" v-html="formValidate.usuario"></div>
          </div>
-          <div class="form-group">
-            <label for="">* Estatus</label><br>
-            <label class="radio-inline"> <input type="radio" name="status" v-model="chooseUser.activo" value="1" :checked="chooseUser.activo==1"> Activo </label>
-            <label class="radio-inline">  <input type="radio" name="status" v-model="chooseUser.activo" value="0" :checked="chooseUser.activo==0"> Inactivo </label>
-         </div>
+
+            <div class="form-group">
+                   
+
+                <label for=""><font color="red">*</font> Estatus</label><br>
+                <div class="demo-radio-button">  
+                                <input name="group5" type="radio" id="radio_31" class="with-gap radio-col-green" v-model="chooseUser.activo" value="1" :checked="chooseUser.activo==1" />
+                                <label for="radio_31">ACTIVO</label>
+                                <input name="group5" type="radio" id="radio_32" class="with-gap radio-col-red"  v-model="chooseUser.activo" value="0" :checked="chooseUser.activo==0" />
+                                <label for="radio_32">INACTIVO</label>
+                            </div>
+            </div> 
 
       </div>
       </div>
@@ -115,8 +125,8 @@
 
    </div>
    <div slot="foot">
-      <button class="btn btn-danger" @click="clearAll">Cancelar</button>
-      <button class="btn btn-primary" @click="updateUser">Modificar</button>
+      <button class="btn btn-danger" @click="clearAll"><i class='fa fa-ban'></i> Cancelar</button>
+      <button class="btn btn-primary" @click="updateUser"><i class='fa fa-edit'></i> Modificar</button>
    </div>
 </modal>
 <!--Modificar passeord model-->
@@ -145,7 +155,7 @@
       </div>
    </div>
    <div slot="foot">
-      <button class="btn btn-danger" @click="clearAll">Cancelar</button>
-      <button class="btn btn-primary" @click="passwordupdateUser">Modificar</button>
+      <button class="btn btn-danger" @click="clearAll"><i class='fa fa-ban'></i> Cancelar</button>
+      <button class="btn btn-primary" @click="passwordupdateUser"><i class='fa fa-edit'></i> Modificar</button>
    </div>
 </modal>

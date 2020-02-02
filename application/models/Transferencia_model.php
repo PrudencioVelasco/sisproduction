@@ -14,11 +14,27 @@ class Transferencia_model extends CI_Model {
     }
 
     public function showAll() {
-         $query = $this->db->query("SELECT tt.idtransferancia, tt.folio, u.name as nombre, tt.fecharegistro, 
+         $query = $this->db->query("SELECT tt.idtransferancia,u.usuario, tt.folio, u.name as nombre, tt.fecharegistro, 
                             (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia AND  pc2.idestatus   in (1,2,3,14,8) ) AS estatus,
-                            (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia ) AS estatusall
+                            (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia AND  pc2.idestatus not  in (17) ) AS estatusall,
+                            (SELECT
+                            COUNT(*)
+                            FROM tbldevolucion d WHERE tt. idtransferancia =  d.idtransferencia ) AS devolucion
                             FROM   tbltransferencia tt   
                             INNER JOIN users u ON u.id = tt.idusuario ORDER BY tt.fecharegistro desc"); 
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+     public function validarExistenciaRetorno($idtransferencia)
+    {
+        # code...
+        $this->db->select('d.*');
+        $this->db->from('tbldevolucion d');
+        $this->db->where('d.idtransferencia', $idtransferencia);
+        $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -50,7 +66,7 @@ class Transferencia_model extends CI_Model {
     public function validarExistenciaNumeroParte($numeroparte) {
         $this->db->select('p.idparte, p.numeroparte');
         $this->db->from('parte p');
-        $this->db->where('p.numeroparte', $numeroparte);
+        $this->db->where('trim(p.numeroparte)', $numeroparte);
         $this->db->where('p.activo', 1);
         $query = $this->db->get();
         if ($query->num_rows() > 0) { 
@@ -65,7 +81,7 @@ class Transferencia_model extends CI_Model {
         $this->db->select('c.idcantidad, c.cantidad');
         $this->db->from('tblcantidad c');
         $this->db->where('c.idrevision', $idrevision);
-        $this->db->where('c.cantidad', $catidadcajas);
+        $this->db->where('trim(c.cantidad)', $catidadcajas);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->first_row();
@@ -153,8 +169,8 @@ class Transferencia_model extends CI_Model {
         $this->db->join('cliente  c', 'c.idcliente = p.idcliente');
         $this->db->join('status  s', 's.idestatus = pc.idestatus');
         $this->db->where('pc.idpalletcajas', $idpalletcajas);
-        $this->db->where('p.numeroparte', $numeroetiqueta);
-        $this->db->where('p.numeroparte', $numerocaja);
+        $this->db->where('TRIM(p.numeroparte)', $numeroetiqueta);
+        $this->db->where('TRIM(p.numeroparte)', $numerocaja);
         $this->db->where('pc.idestatus !=', 17);
         //$this->db->where('p.activo', 1);
         $query = $this->db->get();

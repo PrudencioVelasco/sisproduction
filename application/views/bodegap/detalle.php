@@ -13,7 +13,7 @@
                                 <h2><strong>Detalle de Transfrencia</strong></h2>
                             </div>
                             <div class="col-md-6" style="display: flex; justify-content: flex-end">
-                                <h2><strong>Transferencia: # <?php echo $folio; ?></strong></h2>
+                                <h2><strong>Transferencia: #<?php echo $folio; ?></strong></h2>
                             </div>
                         </div>
 
@@ -26,16 +26,19 @@
                                     <div class="col-md-12">
                                         <label id="errormsg" style="color:red;"></label>
                                         <form method="post" id="frmdetalle"  action="#">
-                                            <table id="datatable" class="table">
+                                            <table id="datatablebodega" class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th></th>
+                                                        <th> 
+                                                          <input type="checkbox" onClick="check_uncheck_checkbox(this.checked);" class="filled-in" id="ig_checkbox">
+                                                            <label for="ig_checkbox">M. Todos</label>
+                                                        </th>
                                                         <th scope="col">Cliente</th>
-                                                        <th scope="col">No. P.</th>
-                                                        <th scope="col">Cajas.</th>
+                                                        <th scope="col">No. Parte</th>
+                                                        <th scope="col">Cajas</th>
                                                         <th scope="col">Rev.</th> 
                                                         <th>Estatus</th>
-                                                        <th></th>
+                                                        <th>Ubicación</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -46,14 +49,18 @@
                                                             <tr>
                                                                 <td>
                                                                    <?php if ($value->idestatus == 4 or $value->idestatus == 8) { ?>
-                                                            <div class="checkbox-group required">
-                                                                <input type="checkbox" name="id[]" value="<?php echo $value->idpalletcajas; ?>">
+                                                            <div class="checkbox-group required"> 
+                                                                <input type="checkbox"  name="id[]" value="<?php echo $value->idpalletcajas; ?>" id="remember_me<?php echo $value->idpalletcajas ?>" class="filled-in">
+                                <label for="remember_me<?php echo $value->idpalletcajas ?>"></label>
+
+
                                                             </div>
+
 
                                                         <?php } ?>
                                                                 </td>
                                                                 <td scope="row"><?php echo $value->nombre; ?></td>
-                                                                <td><?php echo $value->numeroparte; ?></td>
+                                                                <td><strong><?php echo $value->numeroparte; ?></strong></td>
                                                                 <td><?php echo number_format($value->cantidad); ?></td>
                                                                 <td><?php echo $value->descripcion; ?></td>
                                                                 <td>

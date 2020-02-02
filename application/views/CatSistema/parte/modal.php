@@ -17,6 +17,7 @@
                 <div class="form-group">
                     <label><font color="red">*</font> Categoria</label>
                     <select v-model="newParte.idcategoria" class="form-control"  :class="{'is-invalid': formValidate.idcategoria}"class="form-control">
+                        <option value="">-- Seleccionar --</option>
                             <option   v-for="option in categorias" v-bind:value="option.idcategoria">
                             {{ option.nombrecategoria }}
                         </option>
@@ -30,6 +31,7 @@
                 <div class="form-group">
                     <label><font color="red">*</font> Cliente</label>
                     <select v-model="newParte.idcliente" class="form-control"  :class="{'is-invalid': formValidate.idcliente}"class="form-control">
+                        <option value="">-- Seleccionar --</option>
                             <option   v-for="option in clientes" v-bind:value="option.idcliente">
                             {{ option.nombre }}
                         </option>
@@ -40,8 +42,9 @@
         </div>
     </div>
     <div slot="foot">
-        <button class="btn btn-primary" @click="addParte">Agregar</button>
-        <button class="btn btn-danger" @click="clearAll">Cancelar</button>
+        <button class="btn btn-danger" @click="clearAll"><i class='fa fa-ban'></i> Cancelar</button>
+        <button class="btn btn-primary" @click="addParte"><i class='fa fa-floppy-o'></i> Agregar</button>
+        
     </div>
 </modal>
 
@@ -66,7 +69,7 @@
                 <div class="form-group">
                     <label><font color="red">*</font> Categoria</label>
 
-                    <select class="form-control" v-model="chooseParte.idcategoria" >
+                    <select class="form-control" v-model="chooseParte.idcategoria" > 
                         <option v-for="option in categorias"  :selected="option.idcategoria === chooseParte.idcategoria ? 'selected' : ''" :value="option.idcategoria" >
                                 {{ option.nombrecategoria }}
                     </option>
@@ -81,7 +84,7 @@
                 <div class="form-group">
                     <label><font color="red">*</font> Cliente</label>
 
-                    <select class="form-control" v-model="chooseParte.idcliente" >
+                    <select class="form-control" v-model="chooseParte.idcliente" > 
                         <option v-for="option in clientes"  :selected="option.idcliente === chooseParte.idcliente ? 'selected' : ''" :value="option.idcliente" >
                                 {{ option.nombre }}
                     </option>
@@ -91,10 +94,17 @@
     </div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12 ">
+
             <div class="form-group">
+                   
+
                 <label for=""><font color="red">*</font> Estatus</label><br>
-                <label class="radio-inline"> <input type="radio" name="activo" v-model="chooseParte.activo" value="1" :checked="chooseParte.activo==1"> Activo </label>
-                <label class="radio-inline">  <input type="radio" name="activo" v-model="chooseParte.activo" value="0" :checked="chooseParte.activo==0"> Inactivo </label>
+                <div class="demo-radio-button">  
+                                <input name="group5" type="radio" id="radio_31" class="with-gap radio-col-green" v-model="chooseParte.activo" value="1" :checked="chooseParte.activo==1" />
+                                <label for="radio_31">ACTIVO</label>
+                                <input name="group5" type="radio" id="radio_32" class="with-gap radio-col-red"  v-model="chooseParte.activo" value="0" :checked="chooseParte.activo==0" />
+                                <label for="radio_32">INACTIVO</label>
+                            </div>
             </div>
         </div>
     </div>
@@ -104,7 +114,8 @@
 
 </div>
 <div slot="foot">
-    <button class="btn btn-primary" @click="updateParte">Modificar</button>
-    <button class="btn btn-danger" @click="clearAll">Cancelar</button>
+     <button class="btn btn-danger" @click="clearAll"><i class='fa fa-ban'></i> Cancelar</button>
+    <button class="btn btn-primary" @click="updateParte"><i class='fa fa-edit'></i> Modificar</button>
+   
 </div>
 </modal>

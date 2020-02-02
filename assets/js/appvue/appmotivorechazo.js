@@ -48,7 +48,8 @@ var v = new Vue({
         newMotivo: {
             motivo: '',
             idproceso:'',
-            activo: ''
+            activo: '',
+             msgerror:''
 
         },
         chooseMotivo: {},
@@ -178,7 +179,8 @@ var v = new Vue({
             v.newMotivo = {
                    motivo: '',
                    idproceso:'',
-                   activo: ''};
+                   activo: '',
+                 msgerror:''};
             v.formValidate = false;
             v.addModal = false;
             v.editModal = false;

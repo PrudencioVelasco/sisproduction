@@ -60,8 +60,23 @@ class Hold_model extends CI_Model {
         }
     }
 
+
+    public function validadCantidadCajas($cantidad,$idrevision)
+    {
+        $this->db->select('c.cantidad, c.idcantidad');
+        $this->db->from('tblcantidad c');
+        $this->db->where('c.cantidad', $cantidad);
+        $this->db->where('c.idrevision', $idrevision);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+             return $query->first_row();
+        } else {
+            return false;
+        }
+    }
+
     public function detalleParteTransferencia($id) {
-        $this->db->select('pc.idpalletcajas,pc.idtransferancia,pc.pallet,pc.idcajas,pc.idestatus, p.idparte,c.nombre,p.numeroparte,tc.cantidad, tr.descripcion, s.nombrestatus, pc.idestatus');
+        $this->db->select('pc.idpalletcajas,pc.idtransferancia,pc.pallet,pc.idcajas,pc.idestatus, p.idparte,c.nombre,p.numeroparte,tc.cantidad,tr.idrevision, tr.descripcion, s.nombrestatus, pc.idestatus');
         $this->db->from('palletcajas pc');
         $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
         $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');
@@ -95,5 +110,11 @@ class Hold_model extends CI_Model {
         $this->db->where('idpalletcajas', $id);
         $this->db->update('palletcajas', $data);
         return $this->db->affected_rows() > 0 ? TRUE : FALSE; 
+    }
+     public function addCantidad($data)
+    {
+        $this->db->insert('tblcantidad', $data);
+        $insert_id = $this->db->insert_id(); 
+        return  $insert_id;
     }
 }

@@ -12,8 +12,8 @@
       </div> 
    </div>
    <div slot="foot">
-       <button class="btn btn-danger" @click="clearAll">Cancelar</button>
-      <button class="btn btn-primary" @click="addRol">Agregar</button>
+       <button class="btn btn-danger" @click="clearAll"><i class='fa fa-ban'></i> Cancelar</button>
+      <button class="btn btn-primary" @click="addRol"><i class='fa fa-floppy-o'></i> Agregar</button>
    </div>
 </modal>
 <!--update modal-->
@@ -32,7 +32,7 @@
      
    </div>
    <div slot="foot"> 
-     <button class="btn btn-danger" @click="clearAll">Cancelar</button>
-      <button class="btn btn-primary" @click="updateRol">Modificar</button>
+     <button class="btn btn-danger" @click="clearAll"><i class='fa fa-ban'></i> Cancelar</button>
+      <button class="btn btn-primary" @click="updateRol"><i class='fa fa-edit'></i> Modificar</button>
    </div>
 </modal>

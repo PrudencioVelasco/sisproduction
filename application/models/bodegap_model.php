@@ -16,7 +16,10 @@ class Bodegap_model extends CI_Model {
     public function showAll() {
          $query = $this->db->query("SELECT tt.idtransferancia, tt.folio, u.name as nombre, tt.fecharegistro, 
                             (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia AND  pc2.idestatus   in (4,5,6,8) ) AS estatus,
-                            (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia ) AS estatusall
+                            (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia ) AS estatusall,
+                            (SELECT
+                            COUNT(*)
+                            FROM tbldevolucion d WHERE tt. idtransferancia =  d.idtransferencia ) AS devolucion
                             FROM   tbltransferencia tt   
                             INNER JOIN users u ON u.id = tt.idusuario"); 
         if ($query->num_rows() > 0) {
@@ -26,16 +29,16 @@ class Bodegap_model extends CI_Model {
         }
     }
       public function palletReporte($idtransferencia) {
-        $query = $this->db->query("SELECT c.nombre as nombrecliente, tp.numeroparte, tm.descripcion as descripcionmodelo, tc.cantidad, tr.descripcion as descripcionrevision, count(pc.pallet) as totalpallet, sum( tc.cantidad) as totalcajas
+        $query = $this->db->query("SELECT c.nombre as nombrecliente, tp.numeroparte, tm.descripcion as descripcionmodelo, tc.cantidad, tr.descripcion as descripcionrevision, pb.nombreposicion
                                 FROM palletcajas pc 
                                INNER JOIN tblcantidad tc  ON pc.idcajas = tc.idcantidad
                                INNER JOIN tblrevision tr  ON tr.idrevision = tc.idrevision
                                INNER JOIN tblmodelo tm  ON tm.idmodelo = tr.idmodelo
                                INNER JOIN parte tp  ON tp.idparte = tm.idparte
                                INNER JOIN cliente c  ON c.idcliente = tp.idcliente
-                               WHERE pc.idtransferancia= $idtransferencia
-                               AND pc.idestatus = 4
-                               GROUP by pc.idcajas");
+                               INNER JOIN parteposicionbodega ppb  ON ppb.idpalletcajas = pc.idpalletcajas
+                               INNER JOIN posicionbodega pb  ON pb.idposicion = ppb.idposicion
+                               WHERE pc.idtransferancia= $idtransferencia");
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {

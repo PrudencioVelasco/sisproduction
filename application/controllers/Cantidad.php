@@ -45,7 +45,7 @@ class Cantidad extends CI_Controller
                 'rules' => 'trim|required|integer',
                 'errors' => array(
                     'required' => 'Campo obligatorio.',
-                    'integer'=>'Solo número.'
+                    'integer'=>'Solo número entero.'
                 )
             )
         );
@@ -57,8 +57,8 @@ class Cantidad extends CI_Controller
             );
         } else {
             $idrevision = $this->input->post('idrevision');
-            $cantidad = $this->input->post('cantidad'); 
-             $datavalidar= $this->revision->validadExistenciaRevision($idrevision,$cantidad); 
+            $cantidad = trim($this->input->post('cantidad')); 
+             $datavalidar= $this->cantidad->validadExistenciaCantidad($idrevision,$cantidad); 
         if($datavalidar == FALSE){
             
              $data =array(
@@ -72,7 +72,7 @@ class Cantidad extends CI_Controller
                 //El numero de modelo ya existe
                 $result['error'] = true;
                 $result['msg'] = array(
-                    'msgerror' => "La Cantidad ya esta registrado."
+                    'msgerror' => "La Cantidad ya esta registrada."
                 );
             }
         }
@@ -98,8 +98,9 @@ class Cantidad extends CI_Controller
             );
         } else {
             $idcantidad = $this->input->post('idcantidad');
-            $cantidad = $this->input->post('cantidad');
-           $datavalidar= $this->cantidad->validadExistenciaCantidadUpdate($idcantidad,$cantidad); 
+            $idrevision = $this->input->post('idrevision');
+            $cantidad = trim($this->input->post('cantidad'));
+           $datavalidar= $this->cantidad->validadExistenciaCantidadUpdate($idcantidad,$idrevision,$cantidad); 
         if($datavalidar == FALSE){
             
              $data =array( 
@@ -182,6 +183,15 @@ class Cantidad extends CI_Controller
             $result['cantidades'] = $query;
         }
 
+        echo json_encode($result);
+    }
+     public function deleteCantidad() {
+        //Permission::grant(uri_string());
+        $idcantidad = $this->input->get('idcantidad');
+        $query = $this->cantidad->deleteCantidad($idcantidad);
+        if ($query) {
+            $result['cantidades'] = true;
+        } 
         echo json_encode($result);
     }
 

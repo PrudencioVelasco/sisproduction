@@ -248,7 +248,7 @@ ORDER  BY d.fecharegistro DESC");
         $this->db->select('p.*');
         $this->db->from('parte p');
         $this->db->where('p.idcliente',$idcliente);
-        $this->db->where('p.numeroparte',$numeroparte);
+        $this->db->where('TRIM(p.numeroparte)',$numeroparte);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -264,7 +264,7 @@ ORDER  BY d.fecharegistro DESC");
         $this->db->select('p.*');
         $this->db->from('parte p');
         $this->db->where('p.idcliente',$idcliente);
-        $this->db->where('p.numeroparte',$numeroparte);
+        $this->db->where('TRIM(p.numeroparte)',$numeroparte);
         $this->db->where('p.idparte !=',$idparte);
         $query = $this->db->get();
 

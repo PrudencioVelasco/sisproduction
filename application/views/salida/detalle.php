@@ -73,7 +73,7 @@
             <?php foreach($datosparte as $value) {?>
             <tr>
                 <td><a href="<?php echo site_url('salida/agregarParteOrdenDetallado/'.$value["idtransferancia"].'/'.$value["idcajas"].'/'.$idsalida ) ?>"> <?php echo $value["folio"]; ?></a></td>
-                 <td><?php echo $value["numeroparte"]; ?></td>
+                 <td><strong><?php echo $value["numeroparte"]; ?></strong></td>
                 <td><?php echo $value["totalpallet"]; ?></td>
                  <td><?php echo number_format($value["cajasporpallet"]); ?></td>
                   <td><strong style="color: green"><?php echo number_format($value["cajasdisponibles"]); ?></strong></td>
@@ -184,7 +184,7 @@
 
                                             // code...
                                             echo "<tr>";
-                                            echo "<td>" . $value->numeroparte . "</td>";
+                                            echo "<td><strong>" . $value->numeroparte . "</strong></td>";
                                             echo '<td>';
                                             if ($value->tipo == 0) {
                                                 echo '<label style="color:#8938f5;">Por pallet</label>';
@@ -195,6 +195,7 @@
                                             echo "<td>1</td>";
                                             ?>
                                             <td>
+                                                <strong>
                                                 <?php
                                                 if ($value->tipo == 0) {
                                                     echo number_format($value->cajaspallet);
@@ -202,6 +203,7 @@
                                                     echo number_format($value->caja);
                                                 }
                                                 ?>
+                                            </strong>
                                             </td>
                                             <?php
                                             echo "<td>" . $value->modelo . "</td>";

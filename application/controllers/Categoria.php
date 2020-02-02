@@ -59,6 +59,7 @@ class Categoria extends CI_Controller {
                 )
             ) 
         );
+        $result = [];
         $this->form_validation->set_rules($config);
         if ($this->form_validation->run() == FALSE) {
             $result['error'] = true;
@@ -66,13 +67,22 @@ class Categoria extends CI_Controller {
                 'nombrecategoria' => form_error('nombrecategoria')
             );
         } else {
+            $nombrecategoria = trim($this->input->post('nombrecategoria'));
+            $validar = $this->categorias->validarExistenciaCategoria($nombrecategoria);
+            if($validar == FALSE){
             $data = array(
-                'nombrecategoria' => $this->input->post('nombrecategoria'), 
+                'nombrecategoria' => strtoupper($nombrecategoria), 
                 'activo' => 1,
                 'idusuario' => $this->session->user_id,
                 'fecha' => date('Y-m-d H:i:s')
             );
             $this->categorias->addCategoria($data);
+        }else{
+              $result['error'] = true;
+                $result['msg'] = array(
+                    'smserror' => "La Categoria ya esta registrada."
+                );
+        }
         }
         echo json_encode($result);
     }
@@ -98,8 +108,11 @@ class Categoria extends CI_Controller {
             );
         } else {
             $id = $this->input->post('idcategoria');
+            $nombrecategoria = trim($this->input->post('nombrecategoria'));
+            $validar = $this->categorias->validarUpdateExistenciaCategoria($id,$nombrecategoria);
+            if($validar == FALSE){
             $data = array(
-                'nombrecategoria' => $this->input->post('nombrecategoria'),
+                'nombrecategoria' => strtoupper($nombrecategoria),
                 'activo' => $this->input->post('activo'),
                 'idusuario' => $this->session->user_id,
                 'fecha' => date('Y-m-d H:i:s'),
@@ -108,6 +121,13 @@ class Categoria extends CI_Controller {
                 $result['error'] = false;
                 $result['success'] = 'User updated successfully';
             }
+
+             }else{
+              $result['error'] = true;
+                $result['msg'] = array(
+                    'smserror' => "La Categoria ya esta registrada."
+                );
+        }
         }
         echo json_encode($result);
     }

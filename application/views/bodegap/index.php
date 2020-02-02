@@ -18,7 +18,8 @@
                                             <thead class="text-white bg-dark" >
                                             <th>Transferencia</th> 
                                             <th>Fecha</th> 
-                                            <th>Estatus</th> 
+                                            <th>Estatus</th>
+                                            <th>Retorno</th> 
                                             <th>Opción</th>
                                             </thead>
                                             <tbody>
@@ -37,8 +38,17 @@
                                                                 } 
                                                                 ?>
                                                             </td>
+                                                            <td>
+                                                                <?php
+                                                                if($value->devolucion == 1){
+                                                                    echo '<label class="label label-success">SI</label>';
+                                                                }else{
+                                                                     echo '<label class="label label-danger">NO</label>';
+                                                                }
+                                                                ?>
+                                                            </td>
                                                             <td align="right"> 
-                                                            <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs"  href="<?php echo site_url('bodegap/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
+                                                            <a class="btn btn-icons  btn-info btn-sm"  href="<?php echo site_url('bodegap/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
                                                             </td>
                                                         </tr>
                                                         <?php

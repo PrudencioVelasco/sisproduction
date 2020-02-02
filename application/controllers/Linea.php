@@ -28,7 +28,7 @@ class Linea extends CI_Controller {
     }
 
     public function addLinea() {
-        Permission::grant(uri_string());
+       // Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'nombrelinea',
@@ -48,7 +48,7 @@ class Linea extends CI_Controller {
             );
         } else {
              
-            $nombrelinea = $this->input->post('nombrelinea');
+            $nombrelinea = trim($this->input->post('nombrelinea'));
             $datavalidar = $this->linea->validadExistenciaNombreLinea($nombrelinea);
             if ($datavalidar == FALSE) {
 
@@ -60,7 +60,7 @@ class Linea extends CI_Controller {
                 //El numero de modelo ya existe
                 $result['error'] = true;
                 $result['msg'] = array(
-                    'msgerror' => "La linea ya esta registrado."
+                    'msgerror' => "La linea ya esta registrada."
                 );
             }
         }
@@ -74,7 +74,7 @@ class Linea extends CI_Controller {
     }*/
 
     public function updateLinea() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'nombrelinea',
@@ -94,7 +94,7 @@ class Linea extends CI_Controller {
             );
         } else {
             $idlinea = $this->input->post('idlinea');
-            $nombrelinea = $this->input->post('nombrelinea');
+            $nombrelinea = trim($this->input->post('nombrelinea'));
             $datavalidar = $this->linea->validadExistenciaLineaUpdate($idlinea, $nombrelinea);
             if ($datavalidar == FALSE) {
 
@@ -107,7 +107,7 @@ class Linea extends CI_Controller {
                 //El numero de modelo ya existe
                 $result['error'] = true;
                 $result['msg'] = array(
-                    'msgerror' => "La linea ya esta registrado."
+                    'msgerror' => "La linea ya esta registrada."
                 );
             }
         }
@@ -117,7 +117,7 @@ class Linea extends CI_Controller {
  
 
     public function showAll() {
-        Permission::grant(uri_string()); 
+       // Permission::grant(uri_string()); 
         $query = $this->linea->showAllLinea();
         if ($query) {
             $result['lineas'] = $this->linea->showAllLinea();

@@ -35,14 +35,14 @@ class Client extends CI_Controller {
     }
 
     public function showAllClientesActivos() {
-       Permission::grant(uri_string());
+       //Permission::grant(uri_string());
         $query = $this->client_model->showAllClientesActivos();
 
         echo json_encode($query);
     }
 
     public function showAllClientes() {
-        Permission::grant(uri_string());
+        //Permission::grant(uri_string());
         $query = $this->client_model->showAllClientes();
         echo json_encode($query);
     }
@@ -108,6 +108,10 @@ class Client extends CI_Controller {
                 'direccionfacturacion' => form_error('direccionfacturacion')
             );
         } else {
+           $rfc =  trim($this->input->post('rfc'));
+            $validar = $this->client_model->validarRFCCliente($rfc);
+            if($validar == FALSE){
+
             $data = array(
                 'rfc' => $this->input->post('rfc'),
                 'nombre' => $this->input->post('nombre'),
@@ -120,6 +124,14 @@ class Client extends CI_Controller {
                 'fecha' => date('Y-m-d H:i:s')
             );
             $this->client_model->addClient($data);
+            }else{
+                $result['error'] = true;
+                $result['msg'] = array(
+                    'msgerror' => "El RFC ya se encuentra registrado."
+                );
+
+
+            }
         }
         echo json_encode($result);
     }
@@ -186,6 +198,9 @@ class Client extends CI_Controller {
             );
         } else {
             $id = $this->input->post('idcliente');
+            $rfc = trim($this->input->post('rfc'));
+            $validar = $this->client_model->validadExistenciaRFCUpdate($rfc,$id);
+            if($validar == FALSE){
             $data = array(
                 'rfc' => $this->input->post('rfc'),
                 'nombre' => $this->input->post('nombre'),
@@ -201,6 +216,13 @@ class Client extends CI_Controller {
                 $result['error'] = false;
                 $result['success'] = 'User updated successfully';
             }
+        }else{
+             $result['error'] = true;
+                $result['msg'] = array(
+                    'msgerror' => "El RFC ya se encuentra registrado."
+                );
+
+        }
         }
         echo json_encode($result);
     }

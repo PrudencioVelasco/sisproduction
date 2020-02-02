@@ -13,7 +13,25 @@
     <!-- Bootstrap core CSS -->
     <link href="<?php echo base_url(); ?>/assets/principal/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>/assets/fonts/css/font-awesome.min.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>/assets/css/animate.min.css" rel="stylesheet">
+    
+    <link href="<?php echo base_url(); ?>/assets/css/style.css" rel="stylesheet">
+
+
+        <!-- Waves Effect Css -->
+    <link href="<?php echo base_url(); ?>/assets/plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="<?php echo base_url(); ?>/assets/plugins/animate-css/animate.css" rel="stylesheet" />
+
+    
+
+    <!-- Wait Me Css -->
+    <link href="<?php echo base_url(); ?>/assets/plugins/waitme/waitMe.css" rel="stylesheet" />
+
+    <!-- Bootstrap Select Css -->
+    <link href="<?php echo base_url(); ?>/assets/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+    
+
 
 
     <!-- Custom styling plus plugins -->
@@ -33,7 +51,7 @@
     <link href="<?php echo base_url(); ?>/assets/css/select/select2.min.css" rel="stylesheet">
 
 
-    <link href="<?php echo base_url(); ?>/assets/js/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url(); ?>/assets//media/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url(); ?>/assets/js/datatables/buttons.bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url(); ?>/assets/js/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url(); ?>/assets/js/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -70,43 +88,18 @@
                     display: table-cell;
                     vertical-align: middle;
                 }
-                .preloader2 {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    z-index: 9999;
-                    background-color: #fff;
-                }
-                .preloader2 .loading2 {
-                    position: absolute;
-                    left: 50%;
-                    top: 50%;
-                    transform: translate(-50%,-50%)
-                };
-
 
             </style>
-            <script>
-                $(document).ready(function () {
-                    $(".preloader2").fadeOut();
-                })
-            </script>
         </head>
         <body class="nav-md">
-          <div class="preloader2">
-            <div class="loading2">
-                <img src="<?php echo base_url('assets/images/loading.gif'); ?>" width="80">
-                <p><strong>Cargando WOORI</strong></p>
-            </div>
-        </div>
+    
+    </div>
         <div class="container body">
             <div class="main_container">
                 <div class="col-md-3 left_col">
                     <div class="left_col scroll-view">
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="#" class="site_title"><i class="fa fa-product-hunt" aria-hidden="true"></i><span> Producción</span></a>
+                            <a href="#" class="site_title"><i class="fa fa-product-hunt " style="font-size: 25px"></i><span> Producción</span></a>
                         </div>
                         <div class="clearfix"></div>
                         <!-- menu prile quick info -->
@@ -139,8 +132,10 @@
                                     <li><a><i class="fa fa-bar-chart" aria-hidden="true"></i> Reporte <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none"> 
  
-                                        <li><a href="<?= base_url('/reporte/transferencia') ?>"> Transferencia</a> </li> 
-                                              <li><a href="<?= base_url('/reporte/reporteturnos') ?>"> Reporte turnos</a> </li>
+                                       <li><a href="<?= base_url('/reporte/transferencia') ?>"> Transferencia</a> </li> 
+                                              <li><a href="<?= base_url('/reporte/reportepacking') ?>"> Reporte packing</a> </li>
+                                              <li><a href="<?= base_url('/reporte/reportecalidad') ?>"> Reporte calidad</a> </li>
+                                              <li><a href="<?= base_url('/reporte/reportealmacen') ?>"> Reporte almacen</a> </li>
                                                 <li><a href="<?= base_url('/reporte/procesofinal') ?>"> Procesos Final</a> </li>
  
                                         </ul>

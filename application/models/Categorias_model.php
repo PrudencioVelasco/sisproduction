@@ -23,31 +23,7 @@ class Categorias_model extends CI_Model {
             return false;
         }
     }
-//      public function showAllClientes()
-//    {
-//        $query = $this->db->get('cliente');
-//        if ($query->num_rows() > 0) {
-//            return $query->result();
-//        } else {
-//            return false;
-//        }
-//    }
-//    public function detalleCliente($idcliente) {
-//        // code...
-//        $this->db->select('c.*');
-//        $this->db->from('cliente c'); 
-//        $this->db->where('c.idcliente', $idcliente);
-//        $query = $this->db->get();
-//
-//        return $query->first_row();
-//    }
-//
-//       public function showAllClientesContar()
-//    {
-//        $query = $this->db->get('cliente'); 
-//        return $query->result();
-//        
-//    }
+
      public function showAllCategoriasActivos()
     {
         # code...
@@ -61,6 +37,36 @@ class Categorias_model extends CI_Model {
             return false;
         }
     }
+    public function validarExistenciaCategoria($nombrecategoria)
+    {
+        # code...
+        $this->db->select('c.*');    
+        $this->db->from('tblcategoria c'); 
+        $this->db->where('TRIM(c.nombrecategoria)', $nombrecategoria);
+        $query = $this->db->get(); 
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+
+     public function validarUpdateExistenciaCategoria($idcategoria,$nombrecategoria)
+    {
+        //Funcion para validar al registra un numero de parte que no
+        //este registrado con el mismo cliente
+        $this->db->select('c.*');    
+        $this->db->from('tblcategoria c'); 
+        $this->db->where('TRIM(c.nombrecategoria)', $nombrecategoria);
+        $this->db->where('c.idcategoria !=',$idcategoria);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+}
 //      
      public function addCategoria($data)
     {

@@ -141,7 +141,45 @@ var v = new Vue({
                 }
             })
         },
+        deleteSalida(idsalida){
+             Swal.fire({
+          title: '¿Eliminar la Salida?',
+          text: "Realmente desea eliminar la Salida.",
+          type: 'info',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Eliminar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.value) {
 
+              axios.get(this.url + "salida/deleteSalida", {
+                params: {
+                    idsalida: idsalida
+                }
+            }).then(function (response) {
+                if (response.data.salidas == true) {
+                    //v.noResult()
+                     swal({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Eliminado!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    v.clearAll();
+                    v.clearMSG();
+                } else {
+                   swal("Error", "No se puede eliminar la Salida", "error")
+                }
+                //console.log(response.data.revisiones);
+            }).catch((error) => {
+                swal("Error", "No se puede eliminar la Salida", "error")
+            })
+            }
+            })
+        },
         formData(obj) {
             var formData = new FormData();
             for (var key in obj) {

@@ -111,7 +111,7 @@
                                     <p>Categorias de Número de Parte.</p>
                                 </div>
                             </div> 
-                              <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <div class="tile-stats">
                                     <div class="icon"><i class="fa fa-upload"></i>
                                     </div>
@@ -120,7 +120,22 @@
                                     <h3><a href="<?php echo site_url('catalogo/subir') ?>">Subir</a></h3>
                                     <p>Subir inventario al Sistema.</p>
                                 </div>
-                            </div> 
+                            </div>
+                            
+                             <!--Nuevo modulo-->
+                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="tile-stats">
+                                    <div class="icon"><i class="fa fa-file-pdf-o"></i>
+                                    </div>
+                                    <div class="count">---</div>
+
+                                    <h3><a href="<?php echo site_url('documentos/') ?>">SPECS</a></h3>
+                                    <p>Subir archivos especificaciones.</p>
+                                </div>
+                            </div>
+                            <!--Finaliza nuevo modulo-->
+                            
+                            
                         </div> 
 
                     </div>

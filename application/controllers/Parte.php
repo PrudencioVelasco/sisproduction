@@ -1121,11 +1121,11 @@ class Parte extends CI_Controller {
             );
         } else {
             $idcliente = $this->input->post('idcliente');
-            $numeroparte = $this->input->post('numeroparte');
+            $numeroparte = trim($this->input->post('numeroparte'));
             $resuldovalidacion = $this->parte->validarClienteParte($idcliente, $numeroparte);
             if ($resuldovalidacion == FALSE) {
                 $data = array(
-                    'numeroparte' => $this->input->post('numeroparte'),
+                    'numeroparte' => strtoupper($this->input->post('numeroparte')),
                     'idcliente' => $this->input->post('idcliente'),
                     'idcategoria' => $this->input->post('idcategoria'),
                     'idusuario' => $this->session->user_id,
@@ -1136,7 +1136,7 @@ class Parte extends CI_Controller {
             } else {
                 $result['error'] = true;
                 $result['msg'] = array(
-                    'smserror' => "El número de cliente ya se encuentra registrado."
+                    'smserror' => "El número parte ya se encuentra registrado, para este cliente."
                 );
             }
         }
@@ -1183,12 +1183,12 @@ class Parte extends CI_Controller {
         } else {
             $idcliente = $this->input->post('idcliente');
             $idcategoria = $this->input->post('idcategoria');
-            $numeroparte = $this->input->post('numeroparte');
+            $numeroparte = trim(strtoupper($this->input->post('numeroparte')));
             $idparte = $this->input->post('idparte');
             $resuldovalidacion = $this->parte->validarClientePartePorIdParte($idparte, $idcliente, $numeroparte);
             if ($resuldovalidacion == FALSE) {
                 $data = array(
-                    'numeroparte' => $this->input->post('numeroparte'),
+                    'numeroparte' => strtoupper($this->input->post('numeroparte')),
                     'idcliente' => $this->input->post('idcliente'),
                     'idcategoria' => $this->input->post('idcategoria'),
                     'idusuario' => $this->session->user_id,

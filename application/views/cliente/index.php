@@ -9,7 +9,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Administrar Cliente</h2>
+                        <h2><strong>Administrar Clientes</strong></h2>
 
                         <div class="clearfix"></div>
                     </div>
@@ -27,7 +27,7 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <button class="btn btn-round btn-primary" @click="addModal= true">Nuevo Cliente</button>
+                                                <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i>  Nuevo Cliente</button>
 
 
                                             </div>
@@ -45,8 +45,7 @@
                                             <thead class="text-white bg-dark" >
                                             <th class="text-white" v-column-sortable:idcliente>N° </th>
                                             <th class="text-white" v-column-sortable:rfc>RFC </th>
-                                            <th class="text-white" v-column-sortable:nombre>Nombre del cliente </th>
-                                            <th class="text-white" v-column-sortable:abreviatura>Abreviatura </th>
+                                            <th class="text-white" v-column-sortable:nombre>N. Cliente </th> 
                                             <th class="text-white" v-column-sortable:direccion>Dirección </th>
                                             <th class="text-white" v-column-sortable:activo>Estatus </th>
                                             <th class="text-white">Opción</th>
@@ -55,16 +54,15 @@
                                                 <tr v-for="row in clientes" class="table-default">
                                                      <td>{{row.idcliente}}</td> 
                                                     <td>{{row.rfc}}</td> 
-                                                    <td>{{row.nombre}}</td> 
-                                                    <td>{{row.abreviatura}}</td> 
+                                                    <td>{{row.nombre}}</td>  
                                                     <td>{{row.direccion}}</td> 
                                                     <td >
                                                         <span v-if="row.activo==1" class="label label-success">Activo</span>
                                                         <span v-else class="label label-danger">Inactivo</span>
                                                     </td>
                                                     <td align="">
-                                                        <button type="button" class="btn btn-icons btn-xs btn-rounded btn-info" @click="editModal = true; selectRol(row)" title="Modificar Datos">
-                                                            Editar
+                                                        <button type="button" class="btn btn-icons btn-sm btn-rounded btn-info" @click="editModal = true; selectRol(row)" title="Modificar Datos">
+                                                            <i class='fa fa-edit'></i> Editar
                                                         </button> 
 
                                                     </td>
@@ -102,5 +100,5 @@
 
 </div>
 <!-- /page content -->
-<script src="https://cdn.jsdelivr.net/npm/vue-column-sortable@0.0.1/dist/vue-column-sortable.js"></script>
+ <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
 <script data-my_var_1="<?php echo base_url() ?>"  src="<?php echo base_url(); ?>/assets/js/appvue/appclient.js"></script> 

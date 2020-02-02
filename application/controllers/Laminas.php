@@ -381,7 +381,7 @@ public function actualizar_salida()
             }
         }
 
-        if($this->litho->totaldevolucion($idparte)){
+        if($this->lamina->totaldevolucion($idparte)){
             foreach($this->lamina->totaldevolucion($idparte) as $value){
                 $total_devolucion+=$value->cantidad;   
             }
@@ -399,7 +399,7 @@ public function actualizar_salida()
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
     
-                $response = $this->litho->actualizarlithosalida($idlithosalida,$data);
+                $response = $this->lamina->actualizarlaminasalida($idlaminasalida,$data);
                 if($response){
                     echo json_encode(['success'=>'Se actualizo la informacion con exito.']);
                 }else{

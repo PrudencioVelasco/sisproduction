@@ -9,7 +9,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h3>Módulo de Ordenes</h3>
+                        <h2><strong>Módulo de Ordenes</strong></h2>
 
                         <div class="clearfix"></div>
                     </div>
@@ -57,7 +57,7 @@
                                                     <td>{{row.name}}</td>
                                                     <td>{{row.fecharegistro}}</td>
                                                     <td align="right">
-                                                        <a class="btn btn-icons btn-rounded btn-info btn-xs" v-bind:href="'detalle/'+ row.idsalida" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                        <a class="btn btn-icons btn-info btn-sm" v-bind:href="'detalle/'+ row.idsalida" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                             Detalles</a>
 
 
@@ -99,5 +99,5 @@
 
 </div>
 <!-- /page content -->
-<script src="https://cdn.jsdelivr.net/npm/vue-column-sortable@0.0.1/dist/vue-column-sortable.js"></script>
+ <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
 <script data-my_var_1="<?php echo base_url() ?>"  src="<?php echo base_url(); ?>/assets/js/appvue/apporden.js"></script>

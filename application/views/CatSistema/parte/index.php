@@ -19,11 +19,16 @@
                                
                                    
                                         <div class="row">
-                                            <div class="col-md-6 col-sm-12 col-xs-12">
-                                                <button class="btn btn-round btn-primary" @click="addModal= true">Nueva parte</button>
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i> Nueva Parte</button>
                                             </div>
-                                            <div class="col-md-6 col-sm-12 col-xs-12">
-                                                <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchParte" name="search">
+                                        </div>
+                                        <div class="row" >
+                                            <div class="col-md-6 col-sm-12 col-xs-12" align="right">
+                                                
+                                            </div>
+                                            <div class="col-md-6 col-sm-12 col-xs-12" align="right">
+                                                <input align="right" placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchParte" name="search">
                                             </div>
                                         </div>
                                         <br>
@@ -33,29 +38,29 @@
                                             <th class="text-white" v-column-sortable:numeroparte>N° de Parte </th>
                                             <th class="text-white" v-column-sortable:nombrecategoria>Categoria </th>
                                             <th class="text-white" v-column-sortable:nombre>Cliente </th>
-                                            <th class="text-white" v-column-sortable:name>Usuario </th>
+                                            <!--<th class="text-white" v-column-sortable:name>Usuario </th>-->
                                             <th class="text-white" v-column-sortable:activo>Estatus </th>
                                             <th class="text-white text-right" align="right">Opción </th>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="row in partes" class="table-default">
-                                                    <td>{{row.numeroparte}}</td>
+                                                    <td><strong>{{row.numeroparte}}</strong></td>
                                                     <td>{{row.nombrecategoria}}</td>
                                                     <td>{{row.nombre}}</td>
-                                                    <td>{{row.name}}</td>
+                                                    <!--<td>{{row.name}}</td>-->
                                                     <td >
                                                         <span v-if="row.activo==1" class="label label-success">Activo</span>
                                                         <span v-else class="label label-danger">Inactivo</span>
                                                     </td>
                                                     <td align="right">
-                                                        <button type="button" class="btn btn-icons btn-rounded  btn-round  btn-success btn-xs" @click="editModal = true; selectParte(row)" title="Modificar Datos">
+                                                        <button type="button" class="btn btn-icons  btn-success btn-sm" @click="editModal = true; selectParte(row)" title="Modificar Datos">
                                                             <i class="fa fa-pencil-square" aria-hidden="true"></i>
                                                             Modificar
                                                         </button>
                                                        
                                                          
 
-                                                        <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs" v-if="row.activo==1"   v-bind:href="'../modelo/ver/'+ row.idparte" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                        <a class="btn btn-icons btn-info btn-sm" v-if="row.activo==1"   v-bind:href="'../modelo/ver/'+ row.idparte" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                             A. Módelo</a>
                                                         
                                                     </td>
@@ -93,5 +98,5 @@
 
 </div>
 <!-- /page content -->
-<script src="https://cdn.jsdelivr.net/npm/vue-column-sortable@0.0.1/dist/vue-column-sortable.js"></script>
+ <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
 <script data-my_var_1="<?php echo base_url() ?>"  src="<?php echo base_url(); ?>/assets/js/appvue/appparte.js"></script>

@@ -14,7 +14,7 @@
                                 <h2><strong>Agregar Número de Parte</strong></h2>
                             </div>
                            <div class="col-md-6 col-sm-6 col-xs-6 " style="display: flex; justify-content: flex-end">
-                                <h2><strong>Transferencia: # <?php echo $folio; ?></strong></h2>
+                                <h2><strong>Transferencia: #<?php echo $folio; ?></strong></h2>
                             </div>
                         </div>
 
@@ -25,7 +25,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar parte</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar Parte</button>
                                     </div>
                                 </div><br>
                                 <div class="modal fade bd-example-modal-lg" id="myModal"   role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -49,9 +49,9 @@
                                                            
                                                             <div class="form-group">
                                                                 <label><font color="red">*</font> Número de Parte</label>
-                                                                <input type="text" class="form-control" name="numeroparte"  id="numeroparte" autcomplete="off" autofocus="" required=""> 
+                                                                <input type="text" class="form-control" name="numeroparte"  id="numeroparte" autcomplete="off" autofocus="" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" required=""> 
                                                             </div> 
-                                                            <span style="color: red;" id="msgerrornumero"></span>
+                                                            <span style="color: red; font-weight: bold;" id="msgerrornumero"></span>
                                                         </div> 
 
                                                     </div> 
@@ -92,7 +92,7 @@
                                                     <div class="row">
                                                         <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                             <div class="form-group">
-                                                                <label><font color="red">*</font> Cantidad de cajas por pallet</label> 
+                                                                <label><font color="red">*</font> Cantidad de Cajas por Pallet</label> 
                                                                  <input type="text" class="form-control"  name="cajasxpallet" required="" autcomplete="off">
                                                             </div>  
                                                         </div>
@@ -108,7 +108,7 @@
                                                     <div class="row">
                                                         <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                             <input type="hidden" name="idtransferencia" value="<?php echo $id; ?>">
-                                                            <button type="button" id="btnagregar" class="btn btn-primary">Guardar</button>
+                                                            <button type="button"  id="btnagregar" class="btn btn-primary" id="load" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando..."><i class='fa fa-floppy-o'></i> Guardar</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -116,7 +116,7 @@
 
                                             <!-- Modal footer -->
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                                <button type="button" class="btn btn-danger" onclick="javascript:window.location.reload()" ><i class='fa fa-ban'></i>  Cancelar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -131,8 +131,8 @@
                                                     <tr>
                                                         <th></th>
                                                         <th scope="col">Cliente</th>
-                                                        <th scope="col">No. P.</th>
-                                                        <th scope="col">Cajas.</th>
+                                                        <th scope="col">No. Parte</th>
+                                                        <th scope="col">Cajas</th>
                                                         <th scope="col">Rev.</th> 
                                                         <th>Estatus</th>
                                                         <th></th>
@@ -146,13 +146,17 @@
                                                             <tr>
                                                                 <td>
                                                                     <?php if ($value->idestatus == 3 || $value->idestatus == 14) { ?>
-                                                                        <div class="checkbox-group required">
-                                                                            <input type="checkbox" name="id[]" value="<?php echo $value->idpalletcajas; ?>">
+                                                                        <div class="checkbox-group required"> 
+
+                                  
+                                           <input type="checkbox"  name="id[]" value="<?php echo $value->idpalletcajas; ?>" id="remember_me<?php echo $value->idpalletcajas ?>" class="filled-in">
+                                <label for="remember_me<?php echo $value->idpalletcajas ?>"></label>
+                                        
                                                                         </div>
                                                                     <?php } ?>
                                                                 </td>
                                                                 <td scope="row"><?php echo $value->nombre; ?></td>
-                                                                <td><?php echo $value->numeroparte; ?></td>
+                                                                <td><strong><?php echo $value->numeroparte; ?></strong></td>
                                                                 <td><?php echo number_format($value->cantidad); ?></td>
                                                                 <td><?php echo $value->descripcion; ?></td>
                                                                 <td>
@@ -177,6 +181,7 @@
                                                                     <a style="padding-right: 20px" target="_blank" href="<?php echo site_url('transferencia/etiquetaPacking/' . $value->idpalletcajas) ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
                                                                     <input type="hidden" class="idpalletcajas" value="<?php echo $value->idpalletcajas; ?>"/>
                                                                     <a href=""> <i class="fa fa-print fa-2x btnimprimirpdf"  aria-hidden="true"></i></a>
+                                                                    <a style="padding-left: 20px" target="_blank" href="<?php echo site_url('transferencia/nuevaetiqueta/' . $value->idpalletcajas) ?>"><i style="color:green;" class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a> 
                                                                 </td>
                                                             </tr>
                                                             <?php
@@ -221,7 +226,7 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                <h4 class="modal-title">Escanear código</h4>
+                                                                <h4 class="modal-title"><i class="fa fa-barcode"></i> Escanear código</h4>
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div id="errormsgescaneoap" style="color: red; font-weight: bold; font-size: 14px;"></div>
@@ -246,7 +251,7 @@
 
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                 <button type="button" class="btn btn-danger" onclick="javascript:window.location.reload()" ><i class='fa fa-ban'></i>  Cancelar</button>
                                                             </div>
                                                         </div>
 
@@ -254,6 +259,7 @@
                                                 </div> 
                                                 </tbody>
                                             </table>
+                                            <br>
                                             <div class="row">
                                                 <div class="col-md-12 col-sm-12 col-xs-12" align="right">
                                             <?php   if (isset($datatransferencia) && !empty($datatransferencia)) { ?>
@@ -297,35 +303,59 @@
     };
 
     $(document).ready(function () {
+ 
         $("#numeroparte").delayPasteKeyUp(function () {
 
 
             var parte = $("#numeroparte").val();
+            if(parte != ""){
             $.ajax({
                 type: "POST",
                 url: "<?= base_url('transferencia/validar') ?>",
                 data: "numeroparte=" + parte,
                 dataType: "html",
-                beforeSend: function () {
+                beforeSend: function () { 
                     //imagen de carga
                     //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
                 },
                 error: function () {
                     alert("error petición ajax");
                 },
-                success: function (data) {
+                success: function (data) { 
                     if (data == 1) {
                         $('#msgerrornumero').text("Número de parte no existe.");
+                       $('.select2_single_modelo').empty().append('<option value="">Seleccionar</option>');
+                       $('.select2_single_revision').empty().append('<option value="">Seleccionar</option>');
+                        $('.select2_single_modelo').prop('disabled', 'disabled');
+                        $('.select2_single_revision').prop('disabled', 'disabled');
 
                     }else{
-                    //console.log(data);
+                        if(data == 2){
+
+                             $('#msgerrornumero').text("El Número de parte no tiene registrado el modelo.");
+                        $('.select2_single_modelo').prop('disabled', 'disabled');
+                      
+                }else{
+                    $('#msgerrornumero').text("");
+                    console.log(data);
+                   // $('.select2_single_modelo option').remove();
+                    $('.select2_single_modelo').empty().append('<option value="">Seleccionar</option>');
+
+                    $('.select2_single_revision').empty().append('<option value="">Seleccionar</option>');
+                    $('.select2_single_revision').prop('disabled', 'disabled');
+                    
                     $(".select2_single_modelo").prop("disabled", false);
                     $("#listamodelo").append(data);
+
+                }
                 }
 
 
                 }
             });
+        }else{
+             $('#msgerrornumero').text("");
+        }
 
 
 
@@ -349,8 +379,14 @@
                 data: "idmodelo=" + idmodelo,
                 dataType: "html",
                 success: function (response) {
+                    if(response == 1){
+$('#msgerrornumero').text("El Modelo no tiene registrado la revisión.");
+                    }else{
+                    $('#msgerrornumero').text("");
+                    $('.select2_single_revision').empty().append('<option value="">Seleccionar</option>');
                     $(".select2_single_revision").prop("disabled", false);
                     $("#listarevision").append(response);
+                    }
 
                 }
             });
@@ -380,9 +416,9 @@
                                  $('#correctomsgescaneoap').text("Exito... Espere");
                                 location.reload();
                             }else{
-                                $("#numeroetiqueta").val("");
-                                $("#numerocaja").val("");
-                                  $('#errormsgescaneoap').text("No coinciden.");
+                                //$("#numeroetiqueta").val("");
+                                //$("#numerocaja").val("");
+                                $('#errormsgescaneoap').text("No coinciden.");
                             }
                             //location.reload();
                             //Unterminated String literal fixed
@@ -452,6 +488,8 @@
 });
 
         $('#btnagregar').on('click', function () {
+             var $this = $(this);
+                    $this.button('loading');
                 var form = $("#registrationForm").serialize();
                    
                         $.ajax({
@@ -459,9 +497,11 @@
                         url: "<?php echo site_url('transferencia/registrar'); ?>",
                         data: form,
                         success: function (data) {
+                            $this.button('reset');
                             // $('#msgerror').text("Seleccionar una casilla.");
                             console.log(data);
                             if(data==1){ 
+
                                $('#wd').text("Todos los campos son obligatorios.");
                             }else if(data==2){
                                 $('#wd').text("Cantidad solo permite número.");

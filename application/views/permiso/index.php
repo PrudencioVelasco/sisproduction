@@ -8,7 +8,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Administrar Permisos</h2>
+                        <h2><strong>Administrar Permisos</strong></h2>
 
                         <div class="clearfix"></div>
                     </div>
@@ -24,7 +24,7 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <button class="btn btn-round btn-primary" @click="addModal= true">Nuevo Permiso</button>
+                                                <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i>  Nuevo Permiso</button>
                                                 <a  href="<?= base_url('/user/index') ?>" class="btn btn-round btn-default">Usuarios</a>
                                                 <a  href="<?= base_url('/rol/index') ?>" class="btn btn-round btn-default">Rol</a>
 
@@ -50,8 +50,8 @@
                                                     <td>{{permiso.uri}}</td> 
                                                     <td>{{permiso.description}}</td> 
                                                     <td align="right">
-                                                        <button type="button" class="btn btn-icons btn-xs btn-rounded btn-success" @click="editModal = true; selectPermiso(permiso)" title="Modificar Datos">
-                                                           Editar
+                                                        <button type="button" class="btn btn-icons btn-sm btn-rounded btn-success" @click="editModal = true; selectPermiso(permiso)" title="Modificar Datos">
+                                                           <i class='fa fa-edit'></i> Editar
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -87,5 +87,5 @@
     </div>
 </div>
 <!-- /page content -->
-<script src="https://cdn.jsdelivr.net/npm/vue-column-sortable@0.0.1/dist/vue-column-sortable.js"></script>
+ <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
 <script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/apppermiso.js"></script> 

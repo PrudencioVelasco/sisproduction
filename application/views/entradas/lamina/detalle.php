@@ -169,7 +169,7 @@
        </div>
        <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="btnupdateentrada" class="btn btn-primary">Aceptar</button>
+        <button type="button" id="btnupdate" class="btn btn-primary">Aceptar</button>
       </div>
     </form>
   </div>
