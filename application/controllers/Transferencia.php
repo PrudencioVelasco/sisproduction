@@ -305,21 +305,21 @@ class Transferencia extends CI_Controller {
         $tbl = '
 <style type="text/css">
 .textgeneral{
-	font-size:8px;
-	color:#000;
-	font-weight:bold;
-	font-family:Verdana, Geneva, sans-serif
-	}
-	.textfooter{
-	font-size:8px;
-	color:#000;
-	font-weight:bold;
-	font-family:Verdana, Geneva, sans-serif
-	}
+    font-size:8px;
+    color:#000;
+    font-weight:bold;
+    font-family:Verdana, Geneva, sans-serif
+    }
+    .textfooter{
+    font-size:8px;
+    color:#000;
+    font-weight:bold;
+    font-family:Verdana, Geneva, sans-serif
+    }
 
 .lineabajo{
-	border-bottom:solid 1px #000000;
-	}
+    border-bottom:solid 1px #000000;
+    }
 .imgtitle{ width:120px;}
 
 </style>
@@ -586,7 +586,7 @@ Permission::grant(uri_string());
             }
             .produccion{
              font-weight:bold;
-            font-size:40px; 
+            font-size:45px; 
             }
             .semana{
              font-weight:bold;
