@@ -50,7 +50,7 @@
                                                     <td>{{row.numerosalida}}</td>
                                                     <td>{{row.nombre}}</td>
                                                     <td>
-                                                        <h6 style="color:red" v-if="row.orden==0"><strong><i class="fa fa-clock-o" aria-hidden="true"></i> EN PROGRESO</strong></h6>
+                                                        <h6 style="color:red" v-if="row.totalfinalizado != row.totalregistro "><strong><i class="fa fa-clock-o" aria-hidden="true"></i> EN PROGRESO</strong></h6>
                                                         <h6 style="color:green" v-else><strong><i class="fa fa-thumbs-up" aria-hidden="true"></i>
                                                                 FINALIZADO</strong></h6>
                                                     </td>

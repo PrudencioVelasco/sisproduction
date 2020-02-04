@@ -14,7 +14,10 @@ class Orden_model extends CI_Model {
     }
 
     public function showAllSalidas() {
-        $this->db->select('s.idsalida,s.numerosalida,c.nombre,s.orden,u.name,DATE_FORMAT(s.fecharegistro, "%d/%m/%Y %h:%i %p") AS fecharegistro');
+        $this->db->select('s.idsalida,s.numerosalida,c.nombre,s.orden,u.name,DATE_FORMAT(s.fecharegistro, "%d/%m/%Y %h:%i %p") AS fecharegistro,
+            (SELECT SUM(ppb.salida) FROM ordensalida os, parteposicionbodega ppb WHERE os.idpalletcajas = ppb.idpalletcajas AND os.tipo = 0 AND os.idsalida = s.idsalida) as totalfinalizado,
+             (SELECT COUNT(ppb.salida) FROM ordensalida os, parteposicionbodega ppb WHERE os.idpalletcajas = ppb.idpalletcajas AND os.tipo = 0 AND os.idsalida = s.idsalida) as totalregistro
+         ');
         $this->db->from('salida s');
         $this->db->join('cliente c', 's.idcliente=c.idcliente');
         $this->db->join('users u', 's.idusuario=u.id');

@@ -139,13 +139,13 @@ public function reportepacking()
 // Reporte PACKING
 public function buscar_reporte_packing()
 {
+    $tipo = $this->input->post('tipo');
     $idparte = $this->input->post('idparte'); 
     $fechainicio = $this->input->post('fechainicio');
     $nueva_fecha_inicio = $fechainicio.":00";
     $fechafin = $this->input->post('fechafin'); 
-    $nueva_fecha_fin = $fechafin.":00";
-    
-    $datareporte =  $this->reporte->getAllInfoReporte($idparte,$nueva_fecha_inicio,$nueva_fecha_fin);
+    $nueva_fecha_fin = $fechafin.":00"; 
+    $datareporte =  $this->reporte->getAllInfoReporte($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo);
     //$users = $this->reporte->getAllUsers();
     //var_dump($datareporte);
     $data  = array(
@@ -154,6 +154,7 @@ public function buscar_reporte_packing()
         'informacion'=>$datareporte,
         'fechainicio'=>$nueva_fecha_inicio,
         'fechafin'=>$nueva_fecha_fin,
+        'tipo'=>$tipo,
         'idparte'=> $idparte
     );
     
@@ -168,9 +169,10 @@ public function generar_pdf_packing()
 
     $idparte = $this->input->post('idparte'); 
     $fechainicio = $this->input->post('fechai');
-    $fechafin = $this->input->post('fechaf'); 
+    $fechafin = $this->input->post('fechaf');
+    $tipo = $this->input->post('tipo'); 
 
-    $data = $this->reporte->getAllInfoReporte($idparte,$fechainicio,$fechafin);
+    $data = $this->reporte->getAllInfoReporte($idparte,$fechainicio,$fechafin,$tipo);
     
     $mediadia = 20000;
     $diferencia = 0;
@@ -305,13 +307,14 @@ public function reportecalidad()
 
 public function buscar_reporte_calidad()
 {
-    $idparte = $this->input->post('idparte'); 
+    $idparte = $this->input->post('idparte');
+    $tipo = $this->input->post('tipo'); 
     $fechainicio = $this->input->post('fechainicio');
     $nueva_fecha_inicio = $fechainicio.":00";
     $fechafin = $this->input->post('fechafin'); 
     $nueva_fecha_fin = $fechafin.":00";
     
-    $datareporte =  $this->reporte->getAllInfoReporteCalidad($idparte,$nueva_fecha_inicio,$nueva_fecha_fin);
+    $datareporte =  $this->reporte->getAllInfoReporteCalidad($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo);
     //$users = $this->reporte->getAllUsers();
     
     $data  = array(
@@ -320,7 +323,8 @@ public function buscar_reporte_calidad()
         'informacion'=>$datareporte,
         'fechainicio'=>$nueva_fecha_inicio,
         'fechafin'=>$nueva_fecha_fin,
-        'idparte'=> $idparte
+        'idparte'=> $idparte,
+        'tipo'=> $tipo
     );
     
     $this->load->view('header');
@@ -331,12 +335,12 @@ public function buscar_reporte_calidad()
 public function generar_pdf_calidad()
 {
     $this->load->library('tcpdf');
-
+$tipo = $this->input->post('tipo'); 
     $idparte = $this->input->post('idparte'); 
     $fechainicio = $this->input->post('fechai');
     $fechafin = $this->input->post('fechaf'); 
 
-    $data = $this->reporte->getAllInfoReporteCalidad($idparte,$fechainicio,$fechafin);
+    $data = $this->reporte->getAllInfoReporteCalidad($idparte,$fechainicio,$fechafin,$tipo);
     
     $mediadia = 20000;
     $diferencia = 0;
@@ -473,12 +477,13 @@ public function reportealmacen()
 public function buscar_reporte_almacen()
 {
     $idparte = $this->input->post('idparte'); 
+     $tipo = $this->input->post('tipo'); 
     $fechainicio = $this->input->post('fechainicio');
     $nueva_fecha_inicio = $fechainicio.":00";
     $fechafin = $this->input->post('fechafin'); 
     $nueva_fecha_fin = $fechafin.":00";
     
-    $datareporte =  $this->reporte->getAllInfoReporteAlmacen($idparte,$nueva_fecha_inicio,$nueva_fecha_fin);
+    $datareporte =  $this->reporte->getAllInfoReporteAlmacen($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo);
     //$users = $this->reporte->getAllUsers();
     
     $data  = array(
@@ -487,7 +492,8 @@ public function buscar_reporte_almacen()
         'informacion'=>$datareporte,
         'fechainicio'=>$nueva_fecha_inicio,
         'fechafin'=>$nueva_fecha_fin,
-        'idparte'=> $idparte
+        'idparte'=> $idparte,
+        'tipo'=> $tipo
     );
     
     $this->load->view('header');
@@ -498,12 +504,12 @@ public function buscar_reporte_almacen()
 public function generar_pdf_almacen()
 {
     $this->load->library('tcpdf');
-
+   $tipo = $this->input->post('tipo'); 
     $idparte = $this->input->post('idparte'); 
     $fechainicio = $this->input->post('fechai');
     $fechafin = $this->input->post('fechaf'); 
 
-    $data = $this->reporte->getAllInfoReporteAlmacen($idparte,$fechainicio,$fechafin);
+    $data = $this->reporte->getAllInfoReporteAlmacen($idparte,$fechainicio,$fechafin,$tipo);
     
     $mediadia = 20000;
     $diferencia = 0;

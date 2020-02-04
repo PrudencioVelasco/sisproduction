@@ -26,7 +26,7 @@
                                 <div class="form-group" >
                                     <label><font color="red">*</font> De</label>
                                      <div class='input-group date' id='datetimepicker3' style="border-radius: 3px; border:solid 2px #ccc; ">
-                                    <input type='text' disabled="" placeholder="Fecha inicio" class="form-control"  name="fechainicio" required="" />
+                                    <input type='text'  placeholder="Fecha inicio" class="form-control"  name="fechainicio" required="" />
                                     <span style="border-radius: 2px; border:solid 1px #ccc; padding-bottom: 10px; padding-left: 10px;"  title="Clic para seleccionar la fecha." class="input-group-addon">
                                         <span style="color: blue;  font-size: 18px"  class="glyphicon glyphicon-calendar"></span>
                                     </span>
@@ -37,7 +37,7 @@
                                 <div class="form-group">
                                     <label><font color="red">*</font> a</label>
                                    <div class='input-group date' id='datetimepicker4' style="border-radius: 3px; border:solid 2px #ccc; ">
-                                    <input type='text' class="form-control" disabled="" placeholder="Fecha fin" name="fechafin"  required="" />
+                                    <input type='text' class="form-control"   placeholder="Fecha fin" name="fechafin"  required="" />
                                     <span class="input-group-addon" style="border-radius: 2px; border:solid 1px #ccc; padding-bottom: 10px; padding-left: 10px;"  title="Clic para seleccionar la fecha.">
                                         <span  style="color: blue;  font-size: 18px"  class="glyphicon glyphicon-calendar"></span>
                                     </span>

@@ -316,7 +316,7 @@ public function getAllUsers(){
 } 
 
 // Reporte PACKING
-public function getAllInfoReporte($idparte='',$fechainicio='',$fechafin='')
+public function getAllInfoReporte($idparte='',$fechainicio='',$fechafin='',$tipo='')
 {
     $status = array(1,4,8,14,15,16);
 
@@ -342,6 +342,14 @@ public function getAllInfoReporte($idparte='',$fechainicio='',$fechafin='')
     }
 
     $this->db->where_in('pc.idestatus', $status);
+
+    if(!empty($tipo) && $tipo == 1){
+     $this->db->where('pc.idtransferancia NOT IN (SELECT d.idtransferencia FROM tbldevolucion d)');
+    }
+    if(!empty($tipo) && $tipo == 0){
+     $this->db->where('pc.idtransferancia IN (SELECT d.idtransferencia FROM tbldevolucion d)');
+    }
+
     $this->db->group_by('c.idcantidad');
     
     $query = $this->db->get();
@@ -355,7 +363,7 @@ public function getAllInfoReporte($idparte='',$fechainicio='',$fechafin='')
 
 // Reporte CALIDAD
 
-public function getAllInfoReporteCalidad($idparte='',$fechainicio='',$fechafin='')
+public function getAllInfoReporteCalidad($idparte='',$fechainicio='',$fechafin='',$tipo='')
 {
     $status = array(1,4,8);
 
@@ -381,6 +389,13 @@ public function getAllInfoReporteCalidad($idparte='',$fechainicio='',$fechafin='
     }
 
     $this->db->where_in('pc.idestatus', $status);
+     if(!empty($tipo) && $tipo == 1){
+     $this->db->where('pc.idtransferancia NOT IN (SELECT d.idtransferencia FROM tbldevolucion d)');
+    }
+    if(!empty($tipo) && $tipo == 0){
+     $this->db->where('pc.idtransferancia IN (SELECT d.idtransferencia FROM tbldevolucion d)');
+    }
+
       $this->db->group_by('c.idcantidad');
     
     $query = $this->db->get();
@@ -392,7 +407,7 @@ public function getAllInfoReporteCalidad($idparte='',$fechainicio='',$fechafin='
 } 
 // Reporte ALMACEN
 
-public function getAllInfoReporteAlmacen($idparte='',$fechainicio='',$fechafin='')
+public function getAllInfoReporteAlmacen($idparte='',$fechainicio='',$fechafin='',$tipo='')
 {
     $status = array(4,8);
 
@@ -418,6 +433,13 @@ public function getAllInfoReporteAlmacen($idparte='',$fechainicio='',$fechafin='
     }
 
     $this->db->where_in('pc.idestatus', $status);
+     if(!empty($tipo) && $tipo == 1){
+     $this->db->where('pc.idtransferancia NOT IN (SELECT d.idtransferencia FROM tbldevolucion d)');
+    }
+    if(!empty($tipo) && $tipo == 0){
+     $this->db->where('pc.idtransferancia IN (SELECT d.idtransferencia FROM tbldevolucion d)');
+    }
+
    $this->db->group_by('c.idcantidad');
     
     $query = $this->db->get();

@@ -1043,7 +1043,8 @@ $html = '
 <table width="780" border="1">
   <tr>
     <td width="130" align="center" class="color" style="font-size:9px">Item Code</td>
-    <td width="180" colspan="2" align="center" class="color" style="font-size:9px">Description</td>
+    <td width="120" colspan="2" align="center" class="color" style="font-size:9px">Description</td>
+    <td width="60" colspan="2" align="center" class="color" style="font-size:9px">Revision</td>
     <td width="90" colspan="2" class="color">&nbsp;</td>
     <td width="90" colspan="2" align="center" class="color" style="font-size:9px">Partial</td>
     <td width="45" align="center" class="color" style="font-size:9px">Total</td>
@@ -1053,7 +1054,8 @@ $html = '
     foreach($listapallet as $valurpal){
         $html.='<tr>
                 <td width="130" align="center" style="font-size:9px">&nbsp;'.$valurpal->numeroparte.'</td>
-                <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;'.$valurpal->modelo.'</td>
+                <td width="120" colspan="2" align="center" style="font-size:9px">&nbsp;'.$valurpal->modelo.'</td>
+                <td width="60" colspan="2" align="center" style="font-size:9px">&nbsp;'.$valurpal->revision.'</td>
                 <td width="45" align="center" style="font-size:9px">'. number_format($valurpal->totalpallet).'</td>
                 <td width="45" align="center" style="font-size:9px">'.number_format($valurpal->sumacajas / $valurpal->totalpallet).'</td>
                 <td width="45" align="right" style="font-size:9px">&nbsp;</td>
@@ -1067,7 +1069,8 @@ $html = '
          foreach($listaparciales as $valurpar){
         $html.='<tr>
                 <td width="130" align="center" style="font-size:9px">&nbsp;'.$valurpar->numeroparte.'</td>
-                <td width="180" colspan="2" align="center" style="font-size:9px">&nbsp;'.$valurpar->modelo.'</td>
+                <td width="120" colspan="2" align="center" style="font-size:9px">&nbsp;'.$valurpar->modelo.'</td>
+                 <td width="60" colspan="2" align="center" style="font-size:9px">&nbsp;'.$valurpar->revision.'</td>
                 <td width="45" align="center" style="font-size:9px"></td>
                 <td width="45" align="center" style="font-size:9px"></td>
                 <td width="45" align="center" style="font-size:9px">1</td>
