@@ -282,6 +282,7 @@
 
 
 </div>
+
   <script type="text/javascript">
 
          function pasacampo(key_event) {
@@ -303,7 +304,6 @@
     };
 
     $(document).ready(function () {
- 
         $("#numeroparte").delayPasteKeyUp(function () {
 
 
@@ -314,15 +314,15 @@
                 url: "<?= base_url('transferencia/validar') ?>",
                 data: "numeroparte=" + parte,
                 dataType: "html",
-                beforeSend: function () { 
+                beforeSend: function () {
                     //imagen de carga
                     //$("#resultado").html("<p align='center'><img src='ajax-loader.gif' /></p>");
                 },
                 error: function () {
                     alert("error petición ajax");
                 },
-                success: function (data) { 
-                    if (data == 1) {
+                success: function (data) {
+                  if (data == 1) {
                         $('#msgerrornumero').text("Número de parte no existe.");
                        $('.select2_single_modelo').empty().append('<option value="">Seleccionar</option>');
                        $('.select2_single_revision').empty().append('<option value="">Seleccionar</option>');
@@ -350,13 +350,11 @@
                 }
                 }
 
-
                 }
             });
-        }else{
-             $('#msgerrornumero').text("");
-        }
-
+          }else{
+                     $('#msgerrornumero').text("");
+                }
 
 
 
@@ -379,15 +377,14 @@
                 data: "idmodelo=" + idmodelo,
                 dataType: "html",
                 success: function (response) {
-                    if(response == 1){
-$('#msgerrornumero').text("El Modelo no tiene registrado la revisión.");
+                     if(response == 1){
+                    $('#msgerrornumero').text("El Modelo no tiene registrado la revisión.");
                     }else{
                     $('#msgerrornumero').text("");
                     $('.select2_single_revision').empty().append('<option value="">Seleccionar</option>');
                     $(".select2_single_revision").prop("disabled", false);
                     $("#listarevision").append(response);
                     }
-
                 }
             });
 
@@ -416,9 +413,9 @@ $('#msgerrornumero').text("El Modelo no tiene registrado la revisión.");
                                  $('#correctomsgescaneoap').text("Exito... Espere");
                                 location.reload();
                             }else{
-                                //$("#numeroetiqueta").val("");
-                                //$("#numerocaja").val("");
-                                $('#errormsgescaneoap').text("No coinciden.");
+                                $("#numeroetiqueta").val("");
+                                $("#numerocaja").val("");
+                                  $('#errormsgescaneoap').text("No coinciden.");
                             }
                             //location.reload();
                             //Unterminated String literal fixed
@@ -488,8 +485,6 @@ $('#msgerrornumero').text("El Modelo no tiene registrado la revisión.");
 });
 
         $('#btnagregar').on('click', function () {
-             var $this = $(this);
-                    $this.button('loading');
                 var form = $("#registrationForm").serialize();
                    
                         $.ajax({
@@ -497,11 +492,9 @@ $('#msgerrornumero').text("El Modelo no tiene registrado la revisión.");
                         url: "<?php echo site_url('transferencia/registrar'); ?>",
                         data: form,
                         success: function (data) {
-                            $this.button('reset');
                             // $('#msgerror').text("Seleccionar una casilla.");
                             console.log(data);
                             if(data==1){ 
-
                                $('#wd').text("Todos los campos son obligatorios.");
                             }else if(data==2){
                                 $('#wd').text("Cantidad solo permite número.");
@@ -516,40 +509,5 @@ $('#msgerrornumero').text("El Modelo no tiene registrado la revisión.");
         });
 
  });
-</script>
-<script type="text/javascript">
-    $(document).ready(function () {
-    
-        $('.btnimprimirpdf').on('click', function () {
-            var parametros = {
-                "idpalletcajas" : $('.idpalletcajas').val()
-        };
-            $.ajax({
-                type: "POST",
-                url: "<?php echo site_url('transferencia/imprimirEtiquetaPacking'); ?>",
-                data: parametros,
-
-                success: function (data) {
-
-                    
-                    var uriWS = "ws://desktop-r1af0qb:8080/wswoori5569430796882482717/printpacking";
-                    var miWebsocket = new WebSocket(uriWS);
-                 
-                miWebsocket.onopen = function (evento) {
-                    
-                    miWebsocket.send(data);
-                }
-                miWebsocket.onmessage = function (evento) {
-                    console.log(evento.data);
-                }
-         
-                }
-
-            }); 
-            return false;  
-
-
-        });
-    });
-</script>
+</script> 
 <!-- /page content -->

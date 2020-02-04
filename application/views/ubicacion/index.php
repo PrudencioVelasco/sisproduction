@@ -26,12 +26,16 @@
 
 
                                             </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6"></div>
                                             <div class="col-md-6">
                                                 
                                                 <input placeholder="Buscar" type="search" class="form-control  btn-round " v-model="search.text" @keyup="searchUbicacion" name="search">
                                                 
                                             </div>
-                                        </div>  
+                                        </div> 
+                                        <br> 
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
                                             <th class="text-white" v-column-sortable:nombreposicion>Ubicación </th>

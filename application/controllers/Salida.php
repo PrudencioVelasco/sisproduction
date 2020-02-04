@@ -663,7 +663,7 @@ class Salida extends CI_Controller {
                 echo 10;
             }
         } else {
-            //El tipo no existe
+             echo 10;
         }
     }
      public function agregarNumeroParteOrderMaster() {

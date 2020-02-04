@@ -752,6 +752,11 @@ FROM
         $this->db->where('idordensalida', $id);
         return $this->db->delete('ordensalida');
     }
+     public function deleteSalida($id) {
+
+        $this->db->where('idsalida', $id);
+        return $this->db->delete('salida');
+    }
 
     public function updateSalida($id, $field) {
         $this->db->where('idsalida', $id);

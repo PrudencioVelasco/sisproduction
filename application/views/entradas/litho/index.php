@@ -281,9 +281,19 @@
   $( document ).ready(function() {
     $('#datatablewarehouse').DataTable( {
         dom: 'Bfrtip',
-        buttons: [
-        'excelHtml5',
-        'pdfHtml5'
+       buttons: [
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3 ]
+                }
+            }
         ],
         "order": [[0, "desc"]],
         "language": {
@@ -315,8 +325,18 @@
     $('#datatablewarehouseposicion').DataTable( {
         dom: 'Bfrtip',
         buttons: [
-        'excelHtml5',
-        'pdfHtml5'
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3 ]
+                }
+            }
         ],
         "order": [[0, "desc"]],
         "language": {

@@ -112,10 +112,16 @@
                                     <div class="col-md-3 col-sm-12 col-xs-12 ">
                                         <div class="form-group">
                                             <label><font color="red">*</font> Tipo</label>
-                                            <p style="padding-top:5px;">
-                                                <strong>Pallet:</strong>
-                                                <input type="radio" name="tipo" id="selectPal" value="pallet" checked="" required /> <strong>Parciales:</strong>
-                                                <input type="radio" name="tipo" id="selectPar" value="parciales" />
+                                            <p style="padding-top:5px;"> 
+ 
+                                <input name="tipo" type="radio" id="radio_32" class="with-gap radio-col-green" value="pallet" required/> 
+                                <label for="radio_32">PALLET</label>
+
+                                <input name="tipo" type="radio" id="radio_31" class="with-gap radio-col-red"    value="parciales"  />
+                                <label for="radio_31">PARCIAL</label>
+                           
+                              
+
                                             </p>
                                         </div>
                                     </div>
@@ -144,7 +150,7 @@
                                             <input type="hidden" name="idsalida" value="<?php echo $idsalida; ?>"/>
                                             <input type="hidden" name="idcajas" value="<?php echo $idcajas; ?>"/>
                                             <input type="hidden" name="cajasporpallet" value="<?php echo $cajasporpallet ?>"/>
-                                            <button type="button" id="btnagregar" style="margin-top:22px;" class="btn btn-default">Agregar</button>
+                                            <button type="button" id="btnagregar" style="margin-top:22px;" class="btn btn-default"><i class='fa fa-plus'></i> Agregar</button>
                                         </div>
                                     </div>
                                 </form>
@@ -326,11 +332,11 @@
     $(document).ready(function () {
         $('#pallet').show();
         $('#cajas').hide();
-        $('#selectPal').on('click', function () {
+        $('#radio_32').on('click', function () {
             $('#pallet').show();
             $('#cajas').hide();
         });
-        $('#selectPar').on('click', function () {
+        $('#radio_31').on('click', function () {
             $('#pallet').hide();
             $('#cajas').show();
         });
