@@ -10,10 +10,13 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-6 " align="left">
+                            <div class="col-md-4 col-sm-6 col-xs-12 " align="left">
                                 <h2><strong>Agregar Número de Parte</strong></h2>
                             </div>
-                           <div class="col-md-6 col-sm-6 col-xs-6 " style="display: flex; justify-content: flex-end">
+                             <div class="col-md-4 col-sm-6 col-xs-12 " align="left">
+                                <h2><strong style="color: red">AJUSTE DE ENTRADA</strong></h2>
+                            </div>
+                           <div class="col-md-4 col-sm-6 col-xs-12 " style="display: flex; justify-content: flex-end">
                                 <h2><strong>Transferencia: # <?php echo $folio; ?></strong></h2>
                             </div>
                         </div>
@@ -118,7 +121,7 @@
                                                     <div class="row">
                                                         <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                             <input type="hidden" name="idtransferencia" value="<?php echo $id; ?>">
-                                                            <button type="button" id="btnagregar" class="btn btn-primary">Agregar</button>
+                                                            <button type="button" id="btnagregar" class="btn btn-primary"><i class='fa fa-floppy-o'></i> Agregar</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -126,7 +129,7 @@
 
                                             <!-- Modal footer -->
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                                <button type="button" class="btn btn-danger" onclick="javascript:window.location.reload()" ><i class='fa fa-ban'></i>  Cancelar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -215,7 +218,8 @@
         $("#numeroparte").delayPasteKeyUp(function () {
 
 
-            var parte = $("#numeroparte").val();
+            var parte = $("#numeroparte").val(); 
+            if(parte != ""){
             $.ajax({
                 type: "POST",
                 url: "<?= base_url('transferencia/validar') ?>",
@@ -229,19 +233,42 @@
                     alert("error petición ajax");
                 },
                 success: function (data) {
-                    if (data == 1) {
+                console.log(data);
+                         if (data == 1) {
                         $('#msgerrornumero').text("Número de parte no existe.");
+                       $('.select2_single_modelo').empty().append('<option value="">Seleccionar</option>');
+                       $('.select2_single_revision').empty().append('<option value="">Seleccionar</option>');
+                        $('.select2_single_modelo').prop('disabled', 'disabled');
+                        $('.select2_single_revision').prop('disabled', 'disabled');
 
                     }else{
-                    //console.log(data);
+                        if(data == 2){
+
+                             $('#msgerrornumero').text("El Número de parte no tiene registrado el modelo.");
+                        $('.select2_single_modelo').prop('disabled', 'disabled');
+                      
+                }else{
+                    $('#msgerrornumero').text("");
+                    console.log(data);
+                   // $('.select2_single_modelo option').remove();
+                    $('.select2_single_modelo').empty().append('<option value="">Seleccionar</option>');
+
+                    $('.select2_single_revision').empty().append('<option value="">Seleccionar</option>');
+                    $('.select2_single_revision').prop('disabled', 'disabled');
+                    
                     $(".select2_single_modelo").prop("disabled", false);
                     $("#listamodelo").append(data);
+
+                }
                 }
 
 
                 }
             });
 
+}else{
+                     $('#msgerrornumero').text("");
+                }
 
 
 

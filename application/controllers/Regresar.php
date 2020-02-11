@@ -31,6 +31,7 @@ class Regresar extends CI_Controller {
     {
         Permission::grant(uri_string());
         $query = $this->transferencia->showAll();
+        ///var_dump($query);
         $data = array(
             'datatransferencia' => $query
         ); 
@@ -49,7 +50,13 @@ class Regresar extends CI_Controller {
             'idusuario' => $this->session->user_id,
             'fecharegistro' => date('Y-m-d H:i:s')
         );
-        $this->transferencia->addTransferencia($data);
+       $idtransferencia =  $this->transferencia->addTransferencia($data);
+       $data_ajuste = array(
+        'idtransferencia'=>$idtransferencia,
+        'idusuario' => $this->session->user_id,
+        'fecharegistro' => date('Y-m-d H:i:s')
+       );
+       $this->transferencia->addAjusteTransferencia($data_ajuste);
         redirect('Regresar/');
     }
       public function detalle($id, $folio) {

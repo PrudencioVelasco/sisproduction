@@ -114,7 +114,7 @@
                                             <label><font color="red">*</font> Tipo</label>
                                             <p style="padding-top:5px;"> 
  
-                                <input name="tipo" type="radio" id="radio_32" class="with-gap radio-col-green" value="pallet" required/> 
+                                <input name="tipo" type="radio" id="radio_32" checked="" class="with-gap radio-col-green" value="pallet" required/> 
                                 <label for="radio_32">PALLET</label>
 
                                 <input name="tipo" type="radio" id="radio_31" class="with-gap radio-col-red"    value="parciales"  />
@@ -307,15 +307,16 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12" align="right">
                                     <form method="POST" action="<?= base_url('salida/terminarOrdenSalida') ?>">
                                         <input type="hidden" name="idsalida" value="<?php echo $idsalida; ?>"/>
-                                        <button type="submit" id="btnterminarorden" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i>
-                                            Terminar orden</button>
+                                        <button type="submit" onclick="return confirm('Esta seguro de Terminar la Orden de Salida?')" id="btnterminarorden" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i>
+                                            Terminar Orden</button>
                                     </form>
                                 </div>
                             </div>
                         <?php } ?>
                         <?php if ($detallesalida->finalizado == 1) { ?>
-                            <div class="row">
-                                <div class="col-md-12 col-sm-12 col-xs-12" align="right"> 
+                            <div class="row"> 
+                                <div class="col-md-12 col-sm-12 col-xs-12" align="right">
+                                 <a href="<?= base_url('salida/reactivar/'.$idsalida) ?>" onclick="return confirm('Esta seguro de Reactivar la Orden de Salida?')"  class="btn btn-warning"><i class="fa fa-history"></i> Reactivar</a> 
                                     <a target=”_blank” href="<?php echo site_url('salida/generarPDFOrden/' . $idsalida) ?>"  class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         Descargar Orden</a>
                                 </div>
@@ -361,7 +362,7 @@
                         $("#msgerror").text("No existe Stock suficiente.");
                     } else {
                         //location.reload();
-                        window.location.href="<?php echo base_url(); ?>/salida/detalleSalida/<?php echo $idsalida ?>";
+                        window.location.href="<?php //echo base_url(); ?>/salida/detalleSalida/<?php echo $idsalida ?>";
                     }
                     // location.reload();
                     //$("#msgerror").text(data);

@@ -14,15 +14,10 @@ class Orden_model extends CI_Model {
     }
 
     public function showAllSalidas() {
-        $this->db->select('s.idsalida,s.numerosalida,c.nombre,s.orden,u.name,DATE_FORMAT(s.fecharegistro, "%d/%m/%Y %h:%i %p") AS fecharegistro,
-            (SELECT SUM(ppb.salida) FROM ordensalida os, parteposicionbodega ppb WHERE os.idpalletcajas = ppb.idpalletcajas AND os.tipo = 0 AND os.idsalida = s.idsalida) as totalfinalizado,
-             (SELECT COUNT(ppb.salida) FROM ordensalida os, parteposicionbodega ppb WHERE os.idpalletcajas = ppb.idpalletcajas AND os.tipo = 0 AND os.idsalida = s.idsalida) as totalregistro
-         ');
-        $this->db->from('salida s');
-        $this->db->join('cliente c', 's.idcliente=c.idcliente');
-        $this->db->join('users u', 's.idusuario=u.id');
+        $this->db->select('s.*');
+        $this->db->from('vordensalida s'); 
         $this->db->where('s.finalizado',1);
-        $this->db->order_by("s.fecharegistro", "desc");
+        $this->db->order_by("s.fecharegistroformat", "desc");
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -35,18 +30,16 @@ class Orden_model extends CI_Model {
         $field = array(
             's.idsalida',
             's.numerosalida',
-            'c.nombre',
-            's.orden',
-            'u.name',
-            's.fecharegistro'
+            's.nombre',
+            's.proceso',
+            's.name',
+            's.fecharegistroformat'
         );
-     $this->db->select('s.idsalida,s.numerosalida,c.nombre,s.orden,u.name,s.fecharegistro');
-        $this->db->from('salida s');
-        $this->db->join('cliente c', 's.idcliente=c.idcliente');
-        $this->db->join('users u', 's.idusuario=u.id');
+     $this->db->select('s.*');
+        $this->db->from('vordensalida s'); 
         $this->db->where('s.finalizado',1);
        $this->db->like('concat(' . implode(',', $field) . ')', $match); 
-        $this->db->order_by("s.fecharegistro", "desc");
+        $this->db->order_by("s.fecharegistroformat", "desc");
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();

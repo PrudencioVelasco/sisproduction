@@ -512,7 +512,7 @@ class Salida extends CI_Controller {
                     if ($numerocajas > 0) {
                         //Son parciales
                         $dataexistencia = $this->salida->validarExistenciaParcialesNumeroParte($idtransferecia, $idcajas);
-                        echo $idcajas;
+                       // echo $idcajas;
                         //$totalexistencia = $dataexistencia->totalstock;
                          $totalexistenciacajas = $dataexistencia->totalcajas;
 
@@ -686,7 +686,7 @@ class Salida extends CI_Controller {
                     if ($numerocajas > 0) {
                         //Son parciales
                         $dataexistencia = $this->salida->validarExistenciaParcialesNumeroParte($idtransferecia, $idcajas);
-                        echo $idcajas;
+                       // echo $idcajas;
                         //$totalexistencia = $dataexistencia->totalstock;
                          $totalexistenciacajas = $dataexistencia->totalcajas;
 
@@ -1142,6 +1142,18 @@ $html = '
 //Close and output PDF document
         ob_end_clean();
         $pdf->Output('My-File-Name.pdf', 'I');
+    }
+
+    public function reactivar($idsalida='')
+    {
+        # code...
+        $data  = array(
+            'finalizado'=>0,
+            'idusuario' => $this->session->user_id,
+            'fecharegistro' => date('Y-m-d H:i:s')
+        );
+        $this->salida->updateSalida($idsalida,$data);
+        redirect('Salida/detalleSalida/'.$idsalida);
     }
 
 }

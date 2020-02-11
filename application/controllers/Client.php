@@ -109,7 +109,9 @@ class Client extends CI_Controller {
             );
         } else {
            $rfc =  trim($this->input->post('rfc'));
-            $validar = $this->client_model->validarRFCCliente($rfc);
+           $clave =  trim($this->input->post('clave'));
+           $abreviatura =  trim($this->input->post('abreviatura'));
+            $validar = $this->client_model->validarRFCCliente($rfc,$clave,$abreviatura);
             if($validar == FALSE){
 
             $data = array(
@@ -127,7 +129,7 @@ class Client extends CI_Controller {
             }else{
                 $result['error'] = true;
                 $result['msg'] = array(
-                    'msgerror' => "El RFC ya se encuentra registrado."
+                    'msgerror' => "El RFC, Clave o Abreviatura ya se encuentra registrado."
                 );
 
 
@@ -199,7 +201,9 @@ class Client extends CI_Controller {
         } else {
             $id = $this->input->post('idcliente');
             $rfc = trim($this->input->post('rfc'));
-            $validar = $this->client_model->validadExistenciaRFCUpdate($rfc,$id);
+            $abreviatura = trim($this->input->post('abreviatura'));
+            $clave = trim($this->input->post('clave'));
+            $validar = $this->client_model->validadExistenciaRFCUpdate($rfc,$id,$clave,$abreviatura);
             if($validar == FALSE){
             $data = array(
                 'rfc' => $this->input->post('rfc'),
@@ -219,7 +223,7 @@ class Client extends CI_Controller {
         }else{
              $result['error'] = true;
                 $result['msg'] = array(
-                    'msgerror' => "El RFC ya se encuentra registrado."
+                    'msgerror' => "El RFC, Clave o Abreviatura ya se encuentra registrado."
                 );
 
         }

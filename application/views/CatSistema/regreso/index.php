@@ -5,7 +5,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><strong>Administrar Transferencias</strong></h2>
+                        <h3><strong>Administrar Transferencias de Ajustes</strong></h3>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -13,7 +13,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <a href="<?php echo site_url('Regresar/agregar_regresar/')?>" class="btn btn-icons btn-rounded  btn-primary"  onclick="return confirm('Confirmar?')"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>  
+                                        <a href="<?php echo site_url('Regresar/agregar_regresar/')?>" class="btn btn-icons   btn-primary"  onclick="return confirm('Desea agregar Transferencia de Ajuste?')"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar Transferencia</a>  
                                     </div>
                                 </div>
                                 <br>
@@ -32,6 +32,7 @@
                                                 if (isset($datatransferencia) && !empty($datatransferencia)) {
 
                                                     foreach ($datatransferencia as $value) { 
+                                                        if($value->ajustecaja == 1){
 
                                                         ?>
                                                         <tr   class="table-default"> 
@@ -50,12 +51,12 @@
                                                                 ?>
                                                             </td>
                                                             <td align="right"> 
-                                                                 <a class="btn btn-icons btn-rounded  btn-round btn-danger btn-xs" onclick="return confirm('Confirmar?')" href="<?php echo site_url('transferencia/eliminar/'.$value->idtransferancia) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
-                                                            <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs"  href="<?php echo site_url('regresar/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
+                                                                 <a class="btn btn-icons btn-danger" onclick="return confirm('Confirmar?')" href="<?php echo site_url('transferencia/eliminar/'.$value->idtransferancia) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
+                                                            <a class="btn btn-info"  href="<?php echo site_url('regresar/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
                                                             </td>
                                                         </tr>
                                                         <?php
-
+                                                    }
                                                     
                                                 }
                                                 

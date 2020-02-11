@@ -241,13 +241,14 @@ ORDER  BY d.fecharegistro DESC");
         }
     }
 
-    public function validarClienteParte($idcliente,$numeroparte)
+    public function validarClienteParte($idcliente,$numeroparte,$idcategoria)
     {
         //Funcion para validar al registra un numero de parte que no
         //este registrado con el mismo cliente
         $this->db->select('p.*');
         $this->db->from('parte p');
         $this->db->where('p.idcliente',$idcliente);
+         $this->db->where('p.idcategoria',$idcategoria);
         $this->db->where('TRIM(p.numeroparte)',$numeroparte);
         $query = $this->db->get();
 
@@ -257,13 +258,14 @@ ORDER  BY d.fecharegistro DESC");
             return false;
         }
     }
-    public function validarClientePartePorIdParte($idparte,$idcliente,$numeroparte)
+    public function validarClientePartePorIdParte($idparte,$idcliente,$numeroparte,$idcategoria)
     {
         //Funcion para validar al registra un numero de parte que no
         //este registrado con el mismo cliente
         $this->db->select('p.*');
         $this->db->from('parte p');
         $this->db->where('p.idcliente',$idcliente);
+        $this->db->where('p.idcategoria',$idcategoria);
         $this->db->where('TRIM(p.numeroparte)',$numeroparte);
         $this->db->where('p.idparte !=',$idparte);
         $query = $this->db->get();

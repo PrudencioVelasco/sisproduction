@@ -1121,8 +1121,9 @@ class Parte extends CI_Controller {
             );
         } else {
             $idcliente = $this->input->post('idcliente');
+            $idcategoria = $this->input->post('idcategoria');
             $numeroparte = trim($this->input->post('numeroparte'));
-            $resuldovalidacion = $this->parte->validarClienteParte($idcliente, $numeroparte);
+            $resuldovalidacion = $this->parte->validarClienteParte($idcliente, $numeroparte,$idcategoria);
             if ($resuldovalidacion == FALSE) {
                 $data = array(
                     'numeroparte' => strtoupper($this->input->post('numeroparte')),
@@ -1136,7 +1137,7 @@ class Parte extends CI_Controller {
             } else {
                 $result['error'] = true;
                 $result['msg'] = array(
-                    'smserror' => "El número parte ya se encuentra registrado, para este cliente."
+                    'smserror' => "El número parte ya se encuentra registrado."
                 );
             }
         }
@@ -1185,7 +1186,7 @@ class Parte extends CI_Controller {
             $idcategoria = $this->input->post('idcategoria');
             $numeroparte = trim(strtoupper($this->input->post('numeroparte')));
             $idparte = $this->input->post('idparte');
-            $resuldovalidacion = $this->parte->validarClientePartePorIdParte($idparte, $idcliente, $numeroparte);
+            $resuldovalidacion = $this->parte->validarClientePartePorIdParte($idparte, $idcliente, $numeroparte,$idcategoria);
             if ($resuldovalidacion == FALSE) {
                 $data = array(
                     'numeroparte' => strtoupper($this->input->post('numeroparte')),
@@ -1199,7 +1200,7 @@ class Parte extends CI_Controller {
             } else {
                 $result['error'] = true;
                 $result['msg'] = array(
-                    'smserror' => "El número de cliente ya se encuentra registrado."
+                    'smserror' => "El número de parte ya se encuentra registrado."
                 );
             }
         }

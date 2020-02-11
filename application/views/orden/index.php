@@ -9,7 +9,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><strong>Módulo de Ordenes</strong></h2>
+                        <h3><strong>Módulo de Ordenes</strong></h3>
 
                         <div class="clearfix"></div>
                     </div>
@@ -39,8 +39,8 @@
                                             <th class="text-white" v-column-sortable:idsalida>No. Transferencia </th>
                                             <th class="text-white" v-column-sortable:numerosalida>No. Control </th>
                                             <th class="text-white" v-column-sortable:nombre>Cliente </th>
-                                            <th class="text-white" v-column-sortable:orden>Estatus </th>
-                                            <th class="text-white" v-column-sortable:name>Usuario registro </th>
+                                            <th class="text-white" v-column-sortable:proceso>Estatus </th>
+                                            <th class="text-white" v-column-sortable:name>Registro </th>
                                             <th class="text-white" v-column-sortable:fecharegistro>Fecha </th>
                                             <th class="text-white text-right" align="right">Opción</th>
                                             </thead>
@@ -50,7 +50,7 @@
                                                     <td>{{row.numerosalida}}</td>
                                                     <td>{{row.nombre}}</td>
                                                     <td>
-                                                        <h6 style="color:red" v-if="row.totalfinalizado != row.totalregistro "><strong><i class="fa fa-clock-o" aria-hidden="true"></i> EN PROGRESO</strong></h6>
+                                                        <h6 style="color:red" v-if="row.proceso == 'EN PROCESO'"><strong><i class="fa fa-clock-o" aria-hidden="true"></i> EN PROGRESO</strong></h6>
                                                         <h6 style="color:green" v-else><strong><i class="fa fa-thumbs-up" aria-hidden="true"></i>
                                                                 FINALIZADO</strong></h6>
                                                     </td>

@@ -19,7 +19,10 @@ class Transferencia_model extends CI_Model {
                             (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia AND  pc2.idestatus not  in (17) ) AS estatusall,
                             (SELECT
                             COUNT(*)
-                            FROM tbldevolucion d WHERE tt. idtransferancia =  d.idtransferencia ) AS devolucion
+                            FROM tbldevolucion d WHERE tt. idtransferancia =  d.idtransferencia ) AS devolucion,
+                            (SELECT
+                            COUNT(*)
+                            FROM tblajuste_caja a WHERE tt. idtransferancia =  a.idtransferencia ) AS ajustecaja
                             FROM   tbltransferencia tt   
                             INNER JOIN users u ON u.id = tt.idusuario ORDER BY tt.fecharegistro desc"); 
         if ($query->num_rows() > 0) {
@@ -44,6 +47,11 @@ class Transferencia_model extends CI_Model {
 
     public function addTransferencia($data) {
         $this->db->insert('tbltransferencia', $data);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+     public function addAjusteTransferencia($data) {
+        $this->db->insert('tblajuste_caja', $data);
         $insert_id = $this->db->insert_id();
         return $insert_id;
     }

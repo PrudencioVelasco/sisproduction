@@ -44,11 +44,13 @@ class Client_model extends CI_Model {
             return false;
         }
     }
-       public function validadExistenciaRFCUpdate($rfc,$idcliente) {
+       public function validadExistenciaRFCUpdate($rfc,$idcliente,$clave,$abreviatura) {
         $this->db->select('c.*');
         $this->db->from('cliente c'); 
         $this->db->where('TRIM(c.rfc)', $rfc); 
-         $this->db->where('c.idcliente !=', $idcliente);
+        $this->db->or_where('TRIM(c.clave)', $clave);
+        $this->db->or_where('TRIM(c.abreviatura)', $abreviatura);
+        $this->db->where('c.idcliente !=', $idcliente);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -57,11 +59,13 @@ class Client_model extends CI_Model {
         }
     }
 
-       public function validarRFCCliente($nombre)
+       public function validarRFCCliente($nombre,$clave,$abreviatura)
     {
         $this->db->select('c.*');
         $this->db->from('cliente c'); 
         $this->db->where('trim(c.rfc)', $nombre);
+         $this->db->or_where('trim(c.clave)', $clave);
+          $this->db->or_where('trim(c.abreviatura)', $abreviatura);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -119,7 +123,11 @@ class Client_model extends CI_Model {
       public function searchClient($match)
     {
         $field = array(
-            'nombre'
+            'nombre',
+            'rfc',
+            'abreviatura',
+            'clave',
+            'direccion'
         );
         $this->db->like('concat(' . implode(',', $field) . ')', $match);
         $query = $this->db->get('cliente');
