@@ -44,12 +44,46 @@ class Client_model extends CI_Model {
             return false;
         }
     }
-       public function validadExistenciaRFCUpdate($rfc,$idcliente,$clave,$abreviatura) {
+       public function validadExistenciaRFCUpdate($rfc,$idcliente) {
         $this->db->select('c.*');
         $this->db->from('cliente c'); 
         $this->db->where('TRIM(c.rfc)', $rfc); 
-        $this->db->or_where('TRIM(c.clave)', $clave);
-        $this->db->or_where('TRIM(c.abreviatura)', $abreviatura);
+        $this->db->where('c.idcliente !=', $idcliente);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+     public function validadExistenciaNombreUpdate($nombre,$idcliente) {
+        $this->db->select('c.*');
+        $this->db->from('cliente c'); 
+        $this->db->where('TRIM(c.nombre)', $nombre); 
+        $this->db->where('c.idcliente !=', $idcliente);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+    public function validadExistenciaAbreviaturaUpdate($abreviatura,$idcliente) {
+        $this->db->select('c.*');
+        $this->db->from('cliente c'); 
+        $this->db->where('TRIM(c.abreviatura)', $abreviatura); 
+        $this->db->where('c.idcliente !=', $idcliente);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+  public function validadExistenciaClaveUpdate($clave,$idcliente) {
+        $this->db->select('c.*');
+        $this->db->from('cliente c'); 
+        $this->db->where('TRIM(c.clave)', $clave); 
         $this->db->where('c.idcliente !=', $idcliente);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -59,13 +93,47 @@ class Client_model extends CI_Model {
         }
     }
 
-       public function validarRFCCliente($nombre,$clave,$abreviatura)
+       public function validarRFCClienteAdd($rfc)
     {
         $this->db->select('c.*');
         $this->db->from('cliente c'); 
-        $this->db->where('trim(c.rfc)', $nombre);
-         $this->db->or_where('trim(c.clave)', $clave);
-          $this->db->or_where('trim(c.abreviatura)', $abreviatura);
+        $this->db->where('trim(c.rfc)', $rfc);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+           public function validarNombreClienteAdd($nombre)
+    {
+        $this->db->select('c.*');
+        $this->db->from('cliente c'); 
+        $this->db->where('trim(c.nombre)', $nombre);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+     public function validarAbreviaturaClienteAdd($abreviatura)
+    {
+        $this->db->select('c.*');
+        $this->db->from('cliente c'); 
+        $this->db->where('trim(c.abreviatura)', $abreviatura);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+        public function validarClaveClienteAdd($clave)
+    {
+        $this->db->select('c.*');
+        $this->db->from('cliente c'); 
+        $this->db->where('trim(c.clave)', $clave);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -136,6 +204,18 @@ class Client_model extends CI_Model {
         } else {
             return false;
         }
+    }
+
+        public function deleteCliente($id)
+    {
+        $this->db->where('idcliente', $id);
+        $this->db->delete('cliente');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
     
 }

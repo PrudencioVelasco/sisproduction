@@ -56,7 +56,7 @@
                                                 <td style="white-space:nowrap;"> 
                                                        <!--<a target="_blank" class="btn btn-icons btn-rounded btn-round  btn-xs btn-default" href="<?php //echo site_url('documentos/downloadDocument/' . $value->iddoc) ?>"><i class="fa fa-eye" aria-hidden="true"></i> Ver documento</a>-->
 
-                                                        <a target="_blank" class="btn btn-icons btn-rounded btn-round  btn-xs btn-info" href="<?php echo base_url(); ?>specs/<?php echo $value->nombredocumento;?>"><?php echo str_replace('_',' ', $value->nombredocumento) ?></a>
+                                                        <a target="_blank" class="btn btn-icons btn-rounded btn-round  btn-xs btn-info" href="<?php echo base_url(); ?>specs/<?php echo utf8_encode($value->nombredocumento);?>"><?php echo str_replace('_',' ', $value->nombredocumento) ?></a>
 
                                                 </td>
                                                 <td>

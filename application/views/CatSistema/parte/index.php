@@ -57,7 +57,9 @@
                                                             <i class="fa fa-pencil-square" aria-hidden="true"></i>
                                                             Modificar
                                                         </button>
-                                                       
+                                                        <button type="button" class="btn btn-icons btn-danger btn-sm" @click="deleteParte(row.idparte)" title="Modificar Datos">
+                                                            <i class="fa fa-trash" aria-hidden="true"></i></i> Eliminar
+                                                        </button>
                                                          
 
                                                         <a class="btn btn-icons btn-info btn-sm" v-if="row.activo==1"   v-bind:href="'../modelo/ver/'+ row.idparte" ><i class="fa fa-plus-circle" aria-hidden="true"></i>

@@ -12,8 +12,17 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h3>Reporte Packing</h3>
-
+                    <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                         <h3>Reporte de Packing</h3>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12" align="right">
+                        <a href="<?= base_url('reporte/reportepacking') ?>" class="btn btn-default" style="margin-top: 0px"><i class="fa fa-home"></i> Inicio</a>
+                          <a href="<?= base_url('reporte/reporteCompleto') ?>" class="btn btn-default" style="margin-top: 0px"><i class="fa fa-download"></i> R. Completo</a>
+                          <a href="<?= base_url('reporte/reportePorTransferencia') ?>" class="btn btn-default" style="margin-top: 0px"><i class="fa fa-download"></i> R. por Transferencia</a>
+                    </div>
+                   </div>
+                  
                     <div class="clearfix"></div>
                 </div>
 
@@ -71,7 +80,7 @@
                         </div>
                         <div class="col-md-1 col-sm-12 col-xs-12">
                             <div class="form-group"  >
-                                <button type="submit" style="margin-top: 25px" class="btn btn-success">BUSCAR</button>
+                                <button type="submit" style="margin-top: 25px" class="btn btn-primary"><i class="fa fa-search"></i> BUSCAR</button>
                             </div>
                         </div>
                     </div> 
@@ -90,6 +99,7 @@
                                  <th scope="col">Tot. cajas</th>
                                  <th scope="col">Cant. por pallet</th>
                                  <th scope="col">Tot. de pallet</th>
+                                 <th scope="col">Turno</th>
                              </tr>
                          </thead>
                          <tbody>
@@ -104,6 +114,22 @@
                                     <td><?php echo $value->totalcajas; ?></td>
                                     <td><?php echo $value->cantidadcajaspallet; ?></td>
                                     <td><?php echo $value->totalpallet; ?></td>
+                                    <td>MATUTINO</td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                     <?php if (isset($informacion2) && !empty($informacion2)): ?>
+                            <?php foreach ($informacion2 as $value): ?>
+                                <tr>
+                                    <td><?php echo $value->numeroparte; ?></td> 
+                                    <td><?php echo $value->modelo; ?></td> 
+                                    <td><?php echo $value->revision; ?></td>
+                                    <td><?php echo "---"; ?></td>
+                                    <td><?php echo "LINEA ".$value->tiempo;?></td>
+                                    <td><?php echo $value->totalcajas; ?></td>
+                                    <td><?php echo $value->cantidadcajaspallet; ?></td>
+                                    <td><?php echo $value->totalpallet; ?></td>
+                                    <td>VESPERTINO</td>
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>

@@ -174,6 +174,7 @@
                                             <th><strong>C. Caja por Pallet</strong></th>
                                             <th><strong>Modelo</strong></th>
                                             <th><strong>Revisión</strong></th>
+                                            <th><strong>Ubicación</strong></th>
                                             <?php if ($detallesalida->finalizado == 0) { ?>
                                                 <th></th>
                                             <?php } ?>
@@ -214,6 +215,13 @@
                                             <?php
                                             echo "<td>" . $value->modelo . "</td>";
                                             echo "<td>" . $value->revision . "</td>";
+                                             echo "<td>";
+                                              if ($value->tipo == 0) {
+                                                echo '<label>'.$value->nombreposicion.'</label>';
+                                            } else {
+                                                echo '<label>---</label>';
+                                            }
+                                             echo "</td>" ;
                                             ?>
                                             <?php if ($detallesalida->finalizado == 0) { ?>
                                                 <td align="right">

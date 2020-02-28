@@ -18,22 +18,68 @@ class Lamina_model extends CI_Model {
     public function showAllLaminas() 
     {
 
-        $query = $this->db->query("SELECT p.idparte, p.numeroparte, c.nombre, CASE WHEN LENGTH(m.descripcion) > 12 
-THEN CONCAT(SUBSTRING(m.descripcion, 1, 12), '...') 
-ELSE m.descripcion END AS modelo, r.descripcion AS revision, r.idrevision, ca.nombrecategoria,
-            (SELECT COALESCE(SUM(la.cantidad),0) FROM tbllamina la WHERE la.idparte = p.idparte AND la.activo = 1) as totalentradas,
-            (SELECT COALESCE(SUM(lasa.cantidad),0) FROM tbllaminasalida lasa WHERE lasa.idparte = p.idparte AND lasa.activo = 1) as totalsalidas,
-            (SELECT COALESCE(SUM(lade.cantidad),0) FROM tbllaminadevolucion lade WHERE lade.idparte = p.idparte AND lade.activo = 1) as totalrevueltas,
-            (
-            (SELECT COALESCE(SUM(la.cantidad),0) FROM tbllamina la WHERE la.idparte = p.idparte AND la.activo = 1) - 
-            ((SELECT COALESCE(SUM(lasa.cantidad),0) FROM tbllaminasalida lasa WHERE lasa.idparte = p.idparte AND lasa.activo = 1) + 
-            (SELECT COALESCE(SUM(lade.cantidad),0) FROM tbllaminadevolucion lade WHERE lade.idparte = p.idparte AND lade.activo = 1)
-            )) as totalexistencia
-            FROM parte  p 
-            INNER JOIN tblmodelo m ON p.idparte = m.idparte
-            INNER JOIN tblcategoria ca ON ca.idcategoria = p.idcategoria
-            INNER JOIN tblrevision r ON r.idmodelo = m.idmodelo
-            INNER JOIN cliente c ON c.idcliente = p.idcliente");
+        $query = $this->db->query(" SELECT 
+    p.idparte,
+    p.numeroparte,
+    c.nombre,
+    CASE
+        WHEN LENGTH(m.descripcion) > 12 THEN CONCAT(SUBSTRING(m.descripcion, 1, 12), '...')
+        ELSE m.descripcion
+    END AS modelo,
+    r.descripcion AS revision,
+    r.idrevision,
+    ca.nombrecategoria,
+    (SELECT 
+            COALESCE(SUM(la.cantidad), 0)
+        FROM
+            tbllamina la
+        WHERE
+            la.idparte = p.idparte AND la.activo = 1) AS totalentradas,
+    (SELECT 
+            COALESCE(SUM(lasa.cantidad), 0)
+        FROM
+            tbllaminasalida lasa
+        WHERE
+            lasa.idparte = p.idparte
+                AND lasa.activo = 1) AS totalsalidas,
+    (SELECT 
+            COALESCE(SUM(lade.cantidad), 0)
+        FROM
+            tbllaminadevolucion lade
+        WHERE
+            lade.idparte = p.idparte
+                AND lade.activo = 1) AS totalrevueltas,
+    ((SELECT 
+            COALESCE(SUM(la.cantidad), 0)
+        FROM
+            tbllamina la
+        WHERE
+            la.idparte = p.idparte AND la.activo = 1) - ((SELECT 
+            COALESCE(SUM(lasa.cantidad), 0)
+        FROM
+            tbllaminasalida lasa
+        WHERE
+            lasa.idparte = p.idparte
+                AND lasa.activo = 1) + (SELECT 
+            COALESCE(SUM(lade.cantidad), 0)
+        FROM
+            tbllaminadevolucion lade
+        WHERE
+            lade.idparte = p.idparte
+                AND lade.activo = 1))) AS totalexistencia
+FROM
+    parte p
+        INNER JOIN
+    tblmodelo m ON p.idparte = m.idparte
+        INNER JOIN
+    tblcategoria ca ON ca.idcategoria = p.idcategoria
+        INNER JOIN
+    tblrevision r ON r.idmodelo = m.idmodelo
+        INNER JOIN
+    cliente c ON c.idcliente = p.idcliente
+WHERE
+    ca.idcategoria IN (7)
+GROUP BY r.idrevision");
 
         if ($query->num_rows() > 0) {
             return $query->result();

@@ -178,6 +178,7 @@ class User extends CI_Controller
         } else {
             $id   = $this->input->post('id');
             $data = array(
+                'idturno' => $this->input->post('idturno'),
                 'usuario' => $this->input->post('usuario'),
                 'name' => $this->input->post('name'),
                 'activo' => $this->input->post('activo')

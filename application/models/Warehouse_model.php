@@ -22,6 +22,16 @@ ELSE m.descripcion END AS nombremodelo,
  r.descripcion as nombrerevision,
             (select COALESCE(sum(c2.cantidad),0) from parteposicionbodega ppb2, palletcajas pc2, tblcantidad c2 
             WHERE ppb2.idpalletcajas = pc2.idpalletcajas AND pc2.idcajas = c2.idcantidad  AND c2.idrevision = r.idrevision AND ppb2.ordensalida = 0 AND ppb2.salida = 0)  as total,
+                       (SELECT 
+            COALESCE(SUM(c2.cantidad), 0)
+        FROM
+            parteposicionbodega ppb2,
+            palletcajas pc2,
+            tblcantidad c2
+        WHERE
+            ppb2.idpalletcajas = pc2.idpalletcajas
+                AND pc2.idcajas = c2.idcantidad
+                AND c2.idrevision = r.idrevision ) AS totalentrada,
             (select 
 
             COALESCE(sum(
@@ -55,37 +65,88 @@ ELSE m.descripcion END AS nombremodelo,
 
     public function getDataPalletsPosicion() {
 
-        $query = $this->db->query(" select ppb.idposicion,r.idrevision, cl.nombre,ca.nombrecategoria, p.numeroparte, m.descripcion as nombremodelo, r.descripcion as nombrerevision,pb.nombreposicion,
-            (select COALESCE(sum(c2.cantidad),0) from parteposicionbodega ppb2, palletcajas pc2, tblcantidad c2 
-            WHERE ppb2.idpalletcajas = pc2.idpalletcajas AND pc2.idcajas = c2.idcantidad  AND ppb2.idposicion = ppb.idposicion AND ppb2.ordensalida = 0 AND ppb2.salida = 0 group by ppb2.idposicion)  as total,
-            (select 
-
-            COALESCE(sum(
-            CASE 
-            WHEN os.tipo  = 1 THEN os.caja 
-            ELSE 0
-            END),0)
-            from parteposicionbodega ppb2, palletcajas pc2, tblcantidad c2, ordensalida os
-            WHERE ppb2.idpalletcajas = pc2.idpalletcajas AND pc2.idcajas = c2.idcantidad AND pc2.idpalletcajas = os.idpalletcajas  AND c2.idrevision = r.idrevision AND ppb2.ordensalida = 1)  as totalsalidaparciales,
-            (select 
-
-            COALESCE(sum(
-            CASE 
-            WHEN os.tipo  = 0 THEN c2.cantidad 
-            ELSE 0
-            END),0)
-            from parteposicionbodega ppb2, palletcajas pc2, tblcantidad c2, ordensalida os
-            WHERE ppb2.idpalletcajas = pc2.idpalletcajas AND pc2.idcajas = c2.idcantidad AND pc2.idpalletcajas = os.idpalletcajas  AND c2.idrevision = r.idrevision AND ppb2.ordensalida = 1)  as totalsalidapallet
-            from palletcajas pc 
-            inner join tblcantidad c on c.idcantidad = pc.idcajas
-            inner join tblrevision r on r.idrevision =  c.idrevision
-            inner join tblmodelo m  on m.idmodelo = r.idmodelo
-            inner join parte p on p.idparte = m.idparte
-            inner join tblcategoria ca on p.idcategoria = ca.idcategoria
-            inner join cliente cl on cl.idcliente = p.idcliente
-            inner join parteposicionbodega ppb on ppb.idpalletcajas = pc.idpalletcajas
-            inner join posicionbodega pb on ppb.idposicion = pb.idposicion
-            group by ppb.idposicion");
+        $query = $this->db->query(" SELECT 
+    ppb.idposicion,
+    r.idrevision,
+    cl.nombre,
+    ca.nombrecategoria,
+    p.numeroparte,
+    m.descripcion AS nombremodelo,
+    r.descripcion AS nombrerevision,
+    pb.nombreposicion,
+    (SELECT 
+            COALESCE(SUM(c2.cantidad), 0)
+        FROM
+            parteposicionbodega ppb2,
+            palletcajas pc2,
+            tblcantidad c2
+        WHERE
+            ppb2.idpalletcajas = pc2.idpalletcajas
+                AND pc2.idcajas = c2.idcantidad
+                AND ppb2.idposicion = ppb.idposicion
+                AND ppb2.ordensalida = 0
+                AND ppb2.salida = 0
+        GROUP BY ppb2.idposicion) AS total,
+    (SELECT 
+            COALESCE(SUM(c2.cantidad), 0)
+        FROM
+            parteposicionbodega ppb2,
+            palletcajas pc2,
+            tblcantidad c2
+        WHERE
+            ppb2.idpalletcajas = pc2.idpalletcajas
+                AND pc2.idcajas = c2.idcantidad
+                AND ppb2.idposicion = ppb.idposicion
+        GROUP BY ppb2.idposicion) AS totalentrada,
+    (SELECT 
+            COALESCE(SUM(os.caja), 0)
+        FROM
+            parteposicionbodega ppb2,
+            palletcajas pc2,
+            tblcantidad c2,
+            ordensalida os
+        WHERE
+            ppb2.idpalletcajas = pc2.idpalletcajas
+                AND pc2.idcajas = c2.idcantidad
+                AND ppb2.idposicion = ppb.idposicion
+                AND pc2.idpalletcajas = os.idpalletcajas
+                AND os.tipo = 1
+                AND ppb2.ordensalida = 1
+        GROUP BY ppb2.idposicion) AS totalsalidaparciales,
+    (SELECT 
+            COALESCE(SUM(c2.cantidad), 0)
+        FROM
+            parteposicionbodega ppb2,
+            palletcajas pc2,
+            tblcantidad c2,
+            ordensalida os
+        WHERE
+            ppb2.idpalletcajas = pc2.idpalletcajas
+                AND pc2.idcajas = c2.idcantidad
+                AND ppb2.idposicion = ppb.idposicion
+                AND pc2.idpalletcajas = os.idpalletcajas
+                AND os.tipo = 0
+                AND ppb2.ordensalida = 1
+        GROUP BY ppb2.idposicion) AS totalsalidapallet
+FROM
+    palletcajas pc
+        INNER JOIN
+    tblcantidad c ON c.idcantidad = pc.idcajas
+        INNER JOIN
+    tblrevision r ON r.idrevision = c.idrevision
+        INNER JOIN
+    tblmodelo m ON m.idmodelo = r.idmodelo
+        INNER JOIN
+    parte p ON p.idparte = m.idparte
+        INNER JOIN
+    tblcategoria ca ON p.idcategoria = ca.idcategoria
+        INNER JOIN
+    cliente cl ON cl.idcliente = p.idcliente
+        INNER JOIN
+    parteposicionbodega ppb ON ppb.idpalletcajas = pc.idpalletcajas
+        INNER JOIN
+    posicionbodega pb ON ppb.idposicion = pb.idposicion
+GROUP BY ppb.idposicion");
 
         return $query->result();
     }

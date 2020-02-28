@@ -1007,6 +1007,202 @@ Permission::grant(uri_string());
         $cmd = "C:\\Program Files (x86)\\Adobe\\Acrobat Reader DC\\Reader\\AcroRd32.exe /t \"$nombrepdf\" \"Zebra 90XiIII Plus\"";
         echo $cmd;*/
     }
+
+
+     public function generarPDFRetorno($idpalletcajas) {
+       // Permission::grant(uri_string());
+         $this->load->library('tcpdf');
+         date_default_timezone_set("America/Tijuana");
+           $produccion="";
+        $datav = $this->transferencia->validarExistenciaRetorno($idpalletcajas);
+        if ($datav == FALSE) {
+            # code...
+            $produccion = "P";
+        } else {
+            # code...
+            $produccion = "R";
+        }
+        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
+        //var_dump($detalle);
+        $nombre_cliente = $detalle->nombre;
+        $clave_cliente = $detalle->clave;
+        $modelo = $detalle->modelo;
+        $linea = $detalle->nombrelinea;
+        $numeroparte = $detalle->numeroparte;
+        $revision = $detalle->revision;
+        $cantidad = $detalle->cantidad;
+        $barcode = $this->set_barcode($detalle->numeroparte);
+        $barcodecliente = $this->set_barcode_cliente($detalle->clave);
+        $barcodecantidad= $this->set_barcode_cantidad($detalle->cantidad);
+        $hora = date("h:i a");
+        $fecha = date("j/n/Y");
+        $dia = date("j");
+        $semana = date("W");
+        $mes = date("F");
+        $hora = date("h:i:s a");
+        $linkimge = base_url() . '/assets/images/woorilogo.png';
+        $fechaactual = date('d/m/Y');
+        $pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetTitle('Documento de Retorno y Reetrabajo.');
+        $pdf->SetHeaderMargin(30);
+        $pdf->SetTopMargin(20);
+        $pdf->SetLeftMargin(0);
+        $pdf->setFooterMargin(20);
+        $pdf->SetAutoPageBreak(true);
+        $pdf->SetAuthor('WOORI');
+        $pdf->SetDisplayMode('real', 'default');
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+
+        $pdf->AddPage();
+
+        $tbl = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Documento sin título</title>
+<style type="text/css">
+    .titulo{
+        font-weight:bold; 
+        background-color:#000;
+        color:#fff;
+    }
+    .rosh{ 
+        font-size:18px;
+    }
+    .woori{
+         background-color:#000;
+        color:#fff;
+        font-size:18px;
+    }
+
+</style>
+</head>
+
+<body>
+ <table width="546" border="">
+  <tr>
+    <td colspan="2" width="133" height="20"  class="titulo" style="border-left: 1px solid #000;border-top: 1px solid #000;"  align="center">Customer</td>
+    <td colspan="2"  width="129" class="titulo" style="border-top:1px solid #000;" align="center">Pallet Quantify</td>
+    <td colspan="2"  width="320"class="titulo" style="border-top:1px solid #000; border-right:1px solid #000;"  align="center">Part Number</td>
+  </tr>
+  <tr>
+    <td colspan="2"  height="50" style="border-right: 1px solid #000;border-left: 1px solid #000; font-size:16px; font-weight:bolder;"  width="133" valign="middle" align="center">'.$nombre_cliente.'</td>
+    <td colspan="2" style="border-right:1px solid #000; font-size:20px; font-weight:bolder;" align="center"  width="129">'.$cantidad.'</td>
+    <td colspan="2"  width="320" align="center" rowspan="2" style="border-right:1px solid #000; font-size:20px; font-weight:bolder;"  >'.$numeroparte.'</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" height="20" width="133" style="border-left:1px solid #000;" class="titulo" valign="middle">Month-Date</td>
+    <td colspan="2" align="center" width="129" style="border-right:1px solid #000;" class="titulo" valign="middle">Weeks</td>
+  </tr>
+  <tr>
+    <td colspan="2" width="133" height="50" align="center" style="border-right:1px solid #000;border-left:1px solid #000; font-size:17px; font-weight:bolder;" rowspan="2">'.$mes.'</td>
+    <td colspan="2" width="129" rowspan="2" align="center" style="border-right:1px solid #000; font-size:18px; font-weight:bolder;">'.$semana.'</td>
+    <td width="231"  ></td>
+    <td width="89" style="border-right:1px solid #000;"  >&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2" width="320" class="titulo" align="center" style="border-right:1px solid #000;"  >Pallet Number Code</td>
+  </tr>
+  <tr>
+    <td width="67" height="20" align="center" style="border-left:1px solid #000;" class="titulo">Line No.</td>
+    <td width="67" align="center" class="titulo">Prod.</td>
+    <td width="67" align="center" class="titulo">W/H</td>
+    <td width="61" align="center" class="titulo">Pallet. No</td>
+    <td colspan="2" rowspan="2" width="320" style="border-left:1px solid #000; border-right:1px solid #000;" align="center"><br><img src="' . $barcode . '" style="height:60px; padding-top:50px;" /></td>
+  </tr>
+  <tr>
+    <td height="50" width="67" align="center" style="border-right:1px solid #000; border-left:1px solid #000;font-size:18px; font-weight:bolder; ">'.$linea.'</td>
+    <td width="67" align="center" style="border-right:1px solid #000;"> &nbsp;</td>
+    <td width="67" align="center" style="border-right:1px solid #000;">&nbsp;</td>
+    <td width="61" align="center" style="font-size:18px; font-weight:bolder;">1</td>
+  </tr>
+  <tr>
+    <td rowspan="2" width="67"   align="center" style="border-left:1px solid #000; border-bottom:1px solid #000; border-top:1px solid #000;"  valign="middle" class="rosh" ><br><br>RoSH</td>
+    <td colspan="3" width="195" rowspan="2"  align="center" style="border-left:1px solid #000; border-bottom:1px solid #000; border-top:1px solid #000;" valign="middle" class="woori"><br><br>WOORI USA</td>
+    <td align="center" width="231" height="20" style="border-left:1px solid #000;" class="titulo">Model Name</td>
+    <td align="center" width="89" style="border-right:1px solid #000;" class="titulo">Rev. No.</td>
+  </tr>
+  <tr>
+    <td height="50" align="center" style="border-bottom:1px solid #000; border-left:1px solid #000; font-size:17px; font-weight:bolder;" width="231" >'.$modelo.'</td>
+    <td  width="89" align="center" style="border-right:1px solid #000; border-bottom:1px solid #000; border-left:1px solid #000; font-size:17px; font-weight:bolder;">'.$revision.'</td>
+  </tr>
+</table>  
+
+
+<table>
+    <tr><td></td></tr> 
+    <tr><td></td></tr> 
+    <tr><td></td></tr> 
+    <tr><td></td></tr> 
+    <tr><td></td></tr> 
+    <tr><td></td></tr> 
+    <tr><td></td></tr> 
+    <tr><td></td></tr> 
+    <tr><td></td></tr> 
+</table>
+
+
+
+ <table width="546" border="" >
+  <tr>
+    <td colspan="2" width="133" height="20"  class="titulo" style="border-left: 1px solid #000;border-top: 1px solid #000;"  align="center">Customer</td>
+    <td colspan="2"  width="129" class="titulo" style="border-top:1px solid #000;" align="center">Pallet Quantify</td>
+    <td colspan="2"  width="320"class="titulo" style="border-top:1px solid #000; border-right:1px solid #000;"  align="center">Part Number</td>
+  </tr>
+  <tr>
+    <td colspan="2"  height="50" style="border-right: 1px solid #000;border-left: 1px solid #000; font-size:16px; font-weight:bolder;"  width="133" valign="middle" align="center">'.$nombre_cliente.'</td>
+    <td colspan="2" style="border-right:1px solid #000; font-size:20px; font-weight:bolder;" align="center"  width="129">'.$cantidad.'</td>
+    <td colspan="2"  width="320" align="center" rowspan="2" style="border-right:1px solid #000; font-size:20px; font-weight:bolder;"  >'.$numeroparte.'</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" height="20" width="133" style="border-left:1px solid #000;" class="titulo" valign="middle">Month-Date</td>
+    <td colspan="2" align="center" width="129" style="border-right:1px solid #000;" class="titulo" valign="middle">Weeks</td>
+  </tr>
+  <tr>
+    <td colspan="2" width="133" height="50" align="center" style="border-right:1px solid #000;border-left:1px solid #000; font-size:17px; font-weight:bolder;" rowspan="2">'.$mes.'</td>
+    <td colspan="2" width="129" rowspan="2" align="center" style="border-right:1px solid #000; font-size:18px; font-weight:bolder;">'.$semana.'</td>
+    <td width="231"  ></td>
+    <td width="89" style="border-right:1px solid #000;"  >&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2" width="320" class="titulo" align="center" style="border-right:1px solid #000;"  >Pallet Number Code</td>
+  </tr>
+  <tr>
+    <td width="67" height="20" align="center" style="border-left:1px solid #000;" class="titulo">Line No.</td>
+    <td width="67" align="center" class="titulo">Prod.</td>
+    <td width="67" align="center" class="titulo">W/H</td>
+    <td width="61" align="center" class="titulo">Pallet. No</td>
+    <td colspan="2" rowspan="2" width="320" style="border-left:1px solid #000; border-right:1px solid #000;" align="center"><br><img src="' . $barcode . '" style="height:60px; padding-top:50px;" /></td>
+  </tr>
+  <tr>
+    <td height="50" width="67" align="center" style="border-right:1px solid #000; border-left:1px solid #000;font-size:18px; font-weight:bolder; ">'.$linea.'</td>
+    <td width="67" align="center" style="border-right:1px solid #000;"> &nbsp;</td>
+    <td width="67" align="center" style="border-right:1px solid #000;">&nbsp;</td>
+    <td width="61" align="center" style="font-size:18px; font-weight:bolder;">1</td>
+  </tr>
+  <tr>
+    <td rowspan="2" width="67"   align="center" style="border-left:1px solid #000; border-bottom:1px solid #000; border-top:1px solid #000;"  valign="middle" class="rosh" ><br><br>RoSH</td>
+    <td colspan="3" width="195" rowspan="2"  align="center" style="border-left:1px solid #000; border-bottom:1px solid #000; border-top:1px solid #000;" valign="middle" class="woori"><br><br>WOORI USA</td>
+    <td align="center" width="231" height="20" style="border-left:1px solid #000;" class="titulo">Model Name</td>
+    <td align="center" width="89" style="border-right:1px solid #000;" class="titulo">Rev. No.</td>
+  </tr>
+  <tr>
+    <td height="50" align="center" style="border-bottom:1px solid #000; border-left:1px solid #000; font-size:17px; font-weight:bolder;" width="231" >'.$modelo.'</td>
+    <td  width="89" align="center" style="border-right:1px solid #000; border-bottom:1px solid #000; border-left:1px solid #000; font-size:17px; font-weight:bolder;">'.$revision.'</td>
+  </tr>
+</table>
+</body>
+</html>
+';
+
+       $pdf->writeHTML($tbl, true, false, false, false, '');
+
+        ob_end_clean();
+
+
+        $pdf->Output('My-File-Name.pdf', 'I');
+    }
 }
 
 ?>

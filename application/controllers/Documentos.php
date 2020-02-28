@@ -114,8 +114,8 @@ public function allRevision()
 
    $result = $this->documentos->getDataDocument($iddoc);
 
-   header('content-type:application/pdf');
-   header('content-disposition:inline;filename="'.$result[0]->nombre.'"');
+   //header('content-type:application/pdf');
+   //header('content-disposition:inline;filename="'.$result[0]->nombre.'"');
    echo $pdf_decoded = base64_decode($result[0]->documento);
 
  }

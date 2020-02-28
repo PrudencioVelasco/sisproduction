@@ -316,18 +316,20 @@ public function getAllUsers(){
 } 
 
 // Reporte PACKING
-public function getAllInfoReporte($idparte='',$fechainicio='',$fechafin='',$tipo='')
+public function getAllInfoReporte($idparte='',$fechainicio='',$fechafin='',$tipo='',$tiporeporte = '',$idturno = '',$tinicio = '', $tfinal = '',$idusuario = '')
 {
-    $status = array(1,4,8,14,15,16);
+    $status = array(1,4,8);
 
-    $this->db->select("
+    $this->db->select(" 
     pc.idpalletcajas, COUNT(pc.pallet) as totalpallet,p.numeroparte, SUM(c.cantidad) as totalcajas,c.cantidad as cantidadcajaspallet,m.descripcion as modelo, r.descripcion as revision, l.nombrelinea as tiempo, es.nombrestatus,
     (SELECT u.name FROM users u, palletcajasproceso pcp where pcp.idusuario =u.id and pcp.idestatus = pc.idestatus and pcp.idpalletcajas=pc.idpalletcajas order by pcp.idpalletcajasproceso asc limit 1) as nombreusuario");
     $this->db->from('parte p'); 
     $this->db->join('tblmodelo m', 'p.idparte = m.idparte');
     $this->db->join('tblrevision r', 'm.idmodelo = r.idmodelo');
     $this->db->join('tblcantidad c', 'c.idrevision = r.idrevision');
-    $this->db->join('palletcajas pc', 'pc.idcajas=c.idcantidad');
+    $this->db->join('palletcajas pc', 'pc.idcajas=c.idcantidad');  
+    $this->db->join('tbltransferencia t', 't.idtransferancia=pc.idtransferancia');
+    $this->db->join('users u', 'u.id=pc.idusuario');
     $this->db->join('status es', 'es.idestatus=pc.idestatus');
     $this->db->join('linea l', 'pc.idlinea = l.idlinea');
     
@@ -336,22 +338,39 @@ public function getAllInfoReporte($idparte='',$fechainicio='',$fechafin='',$tipo
         $this->db->where('pc.fecharegistro >=', $fechainicio);
         $this->db->where('pc.fecharegistro <=', $fechafin); 
     } 
+    if(!empty($idusuario)){
+    //$this->db->where('pcp.idusuario',$idusuario);
+    }
 
     if (!empty($idparte)) { 
         $this->db->where('p.idparte',$idparte); 
     }
-
+    //$this->db->where('pcp.idestatus',1); 
     $this->db->where_in('pc.idestatus', $status);
 
+    
     if(!empty($tipo) && $tipo == 1){
      $this->db->where('pc.idtransferancia NOT IN (SELECT d.idtransferencia FROM tbldevolucion d)');
     }
     if(!empty($tipo) && $tipo == 0){
      $this->db->where('pc.idtransferancia IN (SELECT d.idtransferencia FROM tbldevolucion d)');
     }
-
-    $this->db->group_by('c.idcantidad');
-    
+    if(isset($tiporeporte) && !empty($tiporeporte)){
+    $this->db->group_by('r.idrevision');
+    if(!empty($idturno)){
+    $this->db->where("pc.idpalletcajas IN (SELECT  DISTINCT pcp.idpalletcajas FROM palletcajasproceso pcp INNER JOIN users usu ON usu.id = pcp.idusuario WHERE pcp.idestatus = 1 AND usu.idturno = $idturno)");
+        }
+    }else{
+    $this->db->group_by('c.idcantidad'); 
+   $this->db->where("pc.idpalletcajas IN (SELECT  DISTINCT pcp.idpalletcajas FROM palletcajasproceso pcp INNER JOIN users usu ON usu.id = pcp.idusuario WHERE pcp.idestatus = 1 AND usu.idturno = $idturno)");
+        
+    }
+   
+    if((isset($tinicio) && !empty($tinicio)) && (isset($tfinal) && !empty($tfinal))){
+    $this->db->where('t.folio >=', $tinicio);
+    $this->db->where('t.folio <=', $tfinal);
+    }
+    $this->db->order_by('p.numeroparte ASC');
     $query = $this->db->get();
     if ($query->num_rows() > 0) {
         return $query->result();

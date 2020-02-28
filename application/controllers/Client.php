@@ -111,25 +111,46 @@ class Client extends CI_Controller {
            $rfc =  trim($this->input->post('rfc'));
            $clave =  trim($this->input->post('clave'));
            $abreviatura =  trim($this->input->post('abreviatura'));
-            $validar = $this->client_model->validarRFCCliente($rfc,$clave,$abreviatura);
-            if($validar == FALSE){
-
-            $data = array(
-                'rfc' => $this->input->post('rfc'),
-                'nombre' => $this->input->post('nombre'),
-                'abreviatura' => $this->input->post('abreviatura'),
-                'clave' => $this->input->post('clave'),
-                'direccion' => $this->input->post('direccion'),
-                'direccionfacturacion' => $this->input->post('direccionfacturacion'),
-                'activo' => 1,
-                'idusuario' => $this->session->user_id,
-                'fecha' => date('Y-m-d H:i:s')
-            );
-            $this->client_model->addClient($data);
+           $nombre =  trim($this->input->post('nombre'));
+            $validar = $this->client_model->validarRFCClienteAdd($rfc);
+            if($validar == FALSE){ 
+                if($this->client_model->validarNombreClienteAdd($nombre) == FALSE){
+                    if($this->client_model->validarAbreviaturaClienteAdd($abreviatura) == FALSE){
+                        if($this->client_model->validarClaveClienteAdd($clave) == FALSE){
+                    $data = array(
+                        'rfc' => $this->input->post('rfc'),
+                        'nombre' => $this->input->post('nombre'),
+                        'abreviatura' => $this->input->post('abreviatura'),
+                        'clave' => $this->input->post('clave'),
+                        'direccion' => $this->input->post('direccion'),
+                        'direccionfacturacion' => $this->input->post('direccionfacturacion'),
+                        'activo' => 1,
+                        'idusuario' => $this->session->user_id,
+                        'fecha' => date('Y-m-d H:i:s')
+                    );
+                    $this->client_model->addClient($data);
+                }else{
+                      $result['error'] = true;
+                    $result['msg'] = array(
+                        'msgerror' => "La Clave ya se encuentra registrado."
+                    );  
+                }
+                }else{
+                    $result['error'] = true;
+                    $result['msg'] = array(
+                        'msgerror' => "La Abreviatura ya se encuentra registrado."
+                    );  
+                }
+                }else{
+                      $result['error'] = true;
+                    $result['msg'] = array(
+                        'msgerror' => "El Nombre ya se encuentra registrado."
+                    );
+                }
             }else{
                 $result['error'] = true;
                 $result['msg'] = array(
-                    'msgerror' => "El RFC, Clave o Abreviatura ya se encuentra registrado."
+                    'msgerror' => "El RFC ya se encuentra registrado."
                 );
 
 
@@ -202,28 +223,48 @@ class Client extends CI_Controller {
             $id = $this->input->post('idcliente');
             $rfc = trim($this->input->post('rfc'));
             $abreviatura = trim($this->input->post('abreviatura'));
+            $nombre = trim($this->input->post('nombre'));
             $clave = trim($this->input->post('clave'));
-            $validar = $this->client_model->validadExistenciaRFCUpdate($rfc,$id,$clave,$abreviatura);
+            $validar = $this->client_model->validadExistenciaRFCUpdate($rfc,$id);
             if($validar == FALSE){
-            $data = array(
-                'rfc' => $this->input->post('rfc'),
-                'nombre' => $this->input->post('nombre'),
-                 'abreviatura' => $this->input->post('abreviatura'),
-                'clave' => $this->input->post('clave'),
-                'direccion' => $this->input->post('direccion'),
-                'direccionfacturacion' => $this->input->post('direccionfacturacion'),
-                'activo' => $this->input->post('activo'),
-                'idusuario' => $this->session->user_id,
-                'fecha' => date('Y-m-d H:i:s'),
-            );
-            if ($this->client_model->updateClient($id, $data)) {
-                $result['error'] = false;
-                $result['success'] = 'User updated successfully';
+                if($this->client_model->validadExistenciaNombreUpdate($nombre,$id) == FALSE){
+                    if($this->client_model->validadExistenciaAbreviaturaUpdate($abreviatura,$id) == FALSE){
+                        if($this->client_model->validadExistenciaClaveUpdate($clave,$id) == FALSE){
+                    $data = array(
+                        'rfc' => $this->input->post('rfc'),
+                        'nombre' => $this->input->post('nombre'),
+                         'abreviatura' => $this->input->post('abreviatura'),
+                        'clave' => $this->input->post('clave'),
+                        'direccion' => $this->input->post('direccion'),
+                        'direccionfacturacion' => $this->input->post('direccionfacturacion'),
+                        'activo' => $this->input->post('activo'),
+                        'idusuario' => $this->session->user_id,
+                        'fecha' => date('Y-m-d H:i:s'),
+                    );
+                    $this->client_model->updateClient($id, $data);
+                    }else{
+                          $result['error'] = true;
+                $result['msg'] = array(
+                    'msgerror' => "La Clave ya se encuentra registrado."
+                ); 
+                    }
+                  }else{
+                      $result['error'] = true;
+                $result['msg'] = array(
+                    'msgerror' => "La Abreviatura ya se encuentra registrado."
+                );
+                  }
+            }else{
+                 $result['error'] = true;
+                $result['msg'] = array(
+                    'msgerror' => "El Nombre ya se encuentra registrado."
+                );
             }
+
         }else{
              $result['error'] = true;
                 $result['msg'] = array(
-                    'msgerror' => "El RFC, Clave o Abreviatura ya se encuentra registrado."
+                    'msgerror' => "El RFC ya se encuentra registrado."
                 );
 
         }
@@ -240,6 +281,19 @@ class Client extends CI_Controller {
         }
 
         echo json_encode($result);
+    }
+
+    public function deleteCliente($idcliente='')
+    {
+        Permission::grant(uri_string()); 
+        $idcliente = $this->input->get('idcliente');
+        $query = $this->client_model->deleteCliente($idcliente);
+        if ($query) {
+            $result['clientes'] = true;
+        } 
+       if(isset($result) && !empty($result)){
+         echo json_encode($result);
+        }
     }
 
 }

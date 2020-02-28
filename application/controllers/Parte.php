@@ -1227,6 +1227,17 @@ class Parte extends CI_Controller {
         echo json_encode($result);
     }
 
+       public function deleteParte()
+    {
+        # code...
+        $idparte = $this->input->get('idparte');
+        $query = $this->parte->deleteParte($idparte);
+        if ($query) {
+            $result['partes'] = true;
+        } 
+        echo json_encode($result);
+    }
+
 }
 
 ?>

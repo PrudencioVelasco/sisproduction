@@ -353,4 +353,16 @@ ORDER  BY d.fecharegistro DESC");
         }
     }
 
+        public function deleteParte($id)
+    {
+        $this->db->where('idparte', $id);
+        $this->db->delete('parte');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
+
 }

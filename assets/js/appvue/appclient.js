@@ -132,6 +132,46 @@ var v = new Vue({
             })
         },
 
+         deleteCliente(idcliente) {
+                 Swal.fire({
+          title: '¿Eliminar Cliente?',
+          text: "Realmente desea eliminar el Cliente.",
+          type: 'info',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Eliminar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.value) {
+
+              axios.get(this.url + "client/deleteCliente", {
+                params: {
+                    idcliente: idcliente
+                }
+            }).then(function (response) {
+                if (response.data.clientes == true) {
+                    //v.noResult()
+                     swal({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Eliminado!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    v.clearAll();
+                    v.clearMSG();
+                } else {
+                   swal("Error", "No se puede eliminar el Cliente", "error")
+                }
+                console.log(response);
+            }).catch((error) => {
+                swal("Error", "No se puede eliminar el Cliente", "error")
+            })
+            }
+            })
+        },
+
         /* deleteUser(){
          var formData = v.formData(v.chooseUser);
          axios.post(this.url+"user/deleteUser", formData).then(function(response){

@@ -49,7 +49,7 @@
                                             <th class="text-white" v-column-sortable:nombre>N. Cliente </th> 
                                              <th class="text-white" v-column-sortable:abreviatura>Abreviatura </th>  
                                             <th class="text-white" v-column-sortable:activo>Estatus </th>
-                                            <th class="text-white">Opción</th>
+                                            <th class="text-white"></th>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="row in clientes" class="table-default">
@@ -62,20 +62,21 @@
                                                         <span v-if="row.activo==1" class="label label-success">Activo</span>
                                                         <span v-else class="label label-danger">Inactivo</span>
                                                     </td>
-                                                    <td align="">
+                                                    <td align="right">
                                                         <button type="button" class="btn btn-icons btn-sm btn-rounded btn-info" @click="editModal = true; selectRol(row)" title="Modificar Datos">
                                                             <i class='fa fa-edit'></i> Editar
                                                         </button> 
+                                                        <a href="#"  class="btn btn-icons btn-sm btn-rounded btn-danger"  @click="deleteCliente(row.idcliente)" title="Eliminar Datos"><i class="fa fa-trash"></i> Eliminar</a>
 
                                                     </td>
                                                 </tr>
                                                 <tr v-if="emptyResult">
-                                                    <td colspan="9" rowspan="4" class="text-center h4">No encontrado</td>
+                                                    <td colspan="7"  class="text-center h4">No encontrado</td>
                                                 </tr>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <td colspan="5" align="right">
+                                                    <td colspan="7" align="right">
                                             <pagination
                                                 :current_page="currentPage"
                                                 :row_count_page="rowCountPage"

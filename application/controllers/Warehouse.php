@@ -142,8 +142,8 @@ class Warehouse extends CI_Controller {
        // Permission::grant(uri_string());
         $data['informacion'] = $this->almacen->getDataPallets();
         $data['posiciones'] = $this->almacen->getDataPalletsPosicion();
-         $data['laminas'] = $this->lamina->showAllLaminas();
-          $data['lithos'] = $this->litho->showAllLitho();
+       // $data['laminas'] = $this->lamina->showAllLaminas();
+       // $data['lithos'] = $this->litho->showAllLitho();
 
         $this->load->view('header');
         $this->load->view('warehouse/warehouse', $data);

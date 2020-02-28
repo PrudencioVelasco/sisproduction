@@ -5,7 +5,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><strong>Administrar Laminas</strong></h2>
+                        <h3><strong>Administrar Laminas</strong></h3>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -32,7 +32,7 @@
                                                         <td><strong style="color:green;"><?php echo $value->totalexistencia ?></strong></td>
                                                         <td>
                                                             <div class="btn-group">
-                                                              <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                                                              <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                                                                 Opción <span class="caret"></span>
                                                             </button>
                                                             <ul class="dropdown-menu">
@@ -96,8 +96,8 @@
                  </div> 
              </div>
              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" id="btnentrada" class="btn btn-primary">Aceptar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
+                <button type="button" id="btnentrada" class="btn btn-primary"><i class='fa fa-floppy-o'></i> Aceptar</button>
             </div>
         </form>
     </div>
@@ -140,8 +140,8 @@
              </div> 
          </div>
          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="button" id="btnsalida" class="btn btn-primary">Aceptar</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
+            <button type="button" id="btnsalida" class="btn btn-primary"><i class='fa fa-floppy-o'></i> Aceptar</button>
         </div>
     </form>
 </div>
@@ -185,8 +185,8 @@
              </div> 
          </div>
          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="button" id="btndevolucion" class="btn btn-primary">Aceptar</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
+            <button type="button" id="btndevolucion" class="btn btn-primary"><i class='fa fa-floppy-o'></i> Aceptar</button>
         </div>
     </form>
 </div>
