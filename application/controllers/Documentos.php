@@ -31,6 +31,19 @@ class Documentos extends CI_Controller {
     $this->load->view('documentos/index',$data);
     $this->load->view('footer');
   }
+  public function procedimientos()
+  {
+     $data = array(
+      'data'=>$this->documentos->getAllProcedimientos(),
+      'partes'=>$this->documentos->showAllParte(),
+      'tiposdocumento'=>$this->documentos->showAllTipoDocumento(),
+      'areas'=>$this->documentos->showAllArea()
+    );
+
+    $this->load->view('header');
+    $this->load->view('documentos/procedimientos',$data);
+    $this->load->view('footer');
+  }
 public function allModelo()
 {
   # code...
@@ -61,10 +74,59 @@ public function allRevision()
  }
    echo $select;
 }
-  public function subir_documento()
-  {
-  //  $numeroparte = $this->input->post("numeroparte");
 
+
+public function subir_procedimientos()
+{
+   if (empty($_FILES['archivo']) ) {
+      echo(json_encode(array('status'=>'vacio')));
+    } else {
+      $content = base64_encode(file_get_contents($_FILES['archivo']['tmp_name']));
+      $extension = pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION);
+
+      $newName = str_replace(' ','_',pathinfo($_FILES['archivo']['name'], PATHINFO_FILENAME)."_".date("Ymdhis").".".$extension);
+
+      $extensionesPermitidas = array("pdf","PDF");
+
+      if(!in_array($extension, $extensionesPermitidas)){ 
+        echo(json_encode(array('status'=>'incorrect')));
+      }else{
+        $config['upload_path'] = 'specs_procedimientos/';
+        $config['allowed_types'] = '*';
+        $config['max_size'] = 50000;
+        $config['file_name'] = $newName;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('archivo')) {
+          $error = array('error' => $this->upload->display_errors());
+          echo json_encode($error);
+        } else {
+
+          $data = array(
+            'idtipodocumento'=> $this->input->post('tipodocumento'),
+            'idarea'=> $this->input->post('area'),
+            'nombredocumento'=>$this->input->post('titulodocumento'),
+            'codigo'=> $this->input->post('codigo'),
+            'revision'=> $this->input->post('revision'),  
+            'nombre'=> $newName,
+            'extension'=> '.'.$extension,
+            'activo'=> 1,
+            'idusuario'=> $this->session->user_id,
+            'fecharegistro'=>date('Y-m-d H:i:s')
+          );
+          $result = $this->documentos->addSpecsProcedimiento($data);
+          if ($result) {
+            echo(json_encode(array('status'=>'true')));
+          }
+        }
+      }
+    }
+
+}
+
+  public function subir_documento()
+  { 
     if (empty($_FILES['archivo']) ) {
       echo(json_encode(array('status'=>'vacio')));
     } else {
@@ -91,7 +153,10 @@ public function allRevision()
         } else {
 
           $data = array(
+            'idtipodocumento'=>1,
+            'idarea'=>5,
             'idrevision'=> $this->input->post('revision'),
+            'titulodocumento'=>'',
             'documento'=> $content,
             'nombre'=> $newName,
             'extension'=> '.'.$extension,
@@ -112,11 +177,17 @@ public function allRevision()
   public function downloadDocument($iddoc)
   {
 
-   $result = $this->documentos->getDataDocument($iddoc);
+    $result = $this->documentos->getDataDocument($iddoc); 
+     $data = $result[0]->documento;   
+     $name = "ddd.pdf";
+    
+ 
+//$data = base64_decode($data);
+header('Content-Type: application/pdf');
+echo $data;
 
-   //header('content-type:application/pdf');
-   //header('content-disposition:inline;filename="'.$result[0]->nombre.'"');
-   echo $pdf_decoded = base64_decode($result[0]->documento);
+
+
 
  }
 
@@ -171,7 +242,23 @@ public function allRevision()
 }
 
 
-   
+ public function eliminar_documento_procedimiento()
+{
+  $iddoc = $this->input->post("iddoc");
+  
+  $data = array(
+    'activo'=> 0,
+    'idusuario'=> $this->session->user_id,
+    'fecharegistro'=>date('Y-m-d H:i:s')
+  );
+
+  $result = $this->documentos->updateProcedimiento($iddoc,$data);
+  if ($result) {
+    echo(json_encode(array('status'=>'true')));
+  }else{
+    echo(json_encode(array('status'=>'false')));
+  }
+}  
 
 
 public function eliminar_documento()

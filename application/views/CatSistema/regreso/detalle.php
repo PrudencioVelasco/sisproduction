@@ -222,7 +222,7 @@
             if(parte != ""){
             $.ajax({
                 type: "POST",
-                url: "<?= base_url('transferencia/validar') ?>",
+                url: "<?= base_url('regresar/validar') ?>",
                 data: "numeroparte=" + parte,
                 dataType: "html",
                 beforeSend: function () {
@@ -287,7 +287,7 @@
             var idmodelo = $("#listamodelo").find("option:selected").val();
             $.ajax({
                 type: "POST",
-                url: "<?= base_url('transferencia/seleccionarModelo') ?>",
+                url: "<?= base_url('regresar/seleccionarModelo') ?>",
                 data: "idmodelo=" + idmodelo,
                 dataType: "html",
                 success: function (response) {

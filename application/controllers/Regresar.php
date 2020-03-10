@@ -199,7 +199,55 @@ public function eliminar($idpalletcajas,$idtransferencia,$folio)
      redirect('regresar/detalle/'.$idtransferencia.'/'.$folio); 
 }
 
+ public function seleccionarModelo() { 
+        $idmodelo = $this->input->post('idmodelo');
+        $option = "";
 
+        $datavalista = $this->transferencia->listaRevisionxNumeroParte($idmodelo);
+        if($datavalista != false){
+        foreach ($datavalista as $value) {
+            $option .= "<option value='" . $value->idrevision . "'>" . $value->descripcion . "</option>";
+        }
+        echo $option;
+            }else{
+                echo 1;
+
+            }
+    }
+
+    public function seleccionarRevision() { 
+        $idrevision = $this->input->post('idrevision');
+        $option = "";
+        $datavalista = $this->transferencia->listaCantidadxNumeroParte($idrevision);
+        foreach ($datavalista as $value) {
+            $option .= "<option value='" . $value->idcantidad . "'>" . $value->cantidad . "</option>";
+        }
+        echo $option;
+    }
+
+
+public function validar() { 
+        $option = "";
+        $numrtoparte = trim($this->input->post('numeroparte'));
+        $datavali = $this->transferencia->validarExistenciaNumeroParte($numrtoparte);
+        if ($datavali != FALSE) {
+            $idparte = $datavali->idparte;
+           $datavalista = $this->transferencia->listaModeloxNumeroParte($idparte);
+            if($datavalista){
+            foreach ($datavalista as $value) {
+            $option .= "<option value='" . $value->idmodelo . "'>" . $value->descripcion . "</option>";
+            }
+            echo $option;
+        }else{
+            echo 2;
+        }
+
+
+        } else {
+            //El numero de parte de existe.
+            echo 1;
+        }
+    }
 
 
 

@@ -26,6 +26,33 @@ class Documentos_model extends CI_Model {
             return false;
         }
     }
+     public function showAllTipoDocumento()
+    {
+        $this->db->select('td.idtipodocumento,td.nombretipo');
+        $this->db->from('tbltipo_documento td'); 
+        $this->db->where('td.idtipodocumento != 1'); 
+        $this->db->order_by('td.nombretipo', 'ASC');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+     public function showAllArea()
+    {
+        //$idarea = array(1,2,3); 
+        $this->db->select('a.idarea,a.nombrearea');
+        $this->db->from('tblarea a'); 
+        //$this->db->where_in('p.idproceso', $idarea);
+         $this->db->order_by('a.nombrearea', 'ASC');
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
      public function showAllModelo($idparte)
     {
         $this->db->select('p.idparte,p.numeroparte, m.idmodelo, m.descripcion');
@@ -56,15 +83,30 @@ class Documentos_model extends CI_Model {
 
   public function getAllInfo() 
   {
-    $query = $this->db->query("SELECT r.idrevision, p.numeroparte, c.nombre, m.descripcion AS modelo, r.descripcion AS revision,ca.nombrecategoria, r.idrevision, s.nombre as nombredocumento, s.idtbldocumentospec as iddoc
+    $query = $this->db->query("SELECT r.idrevision, p.numeroparte, c.nombre, m.descripcion AS modelo, r.descripcion AS revision,ca.nombrecategoria, r.idrevision,  s.nombre as nombredocumento, s.idtbldocumentospec as iddoc
       FROM parte  p 
       INNER JOIN tblmodelo m ON p.idparte = m.idparte
       INNER JOIN tblrevision r ON r.idmodelo = m.idmodelo
       INNER JOIN cliente c ON c.idcliente = p.idcliente
       INNER JOIN tblcategoria ca ON ca.idcategoria = p.idcategoria
       INNER JOIN tbldocumentospec s ON s.idrevision = r.idrevision
-      AND s.activo = 1");
+      WHERE s.activo = 1
+      AND s.idtipodocumento  = 1");
 
+    if ($query->num_rows() > 0) {
+      return $query->result();
+    } else {
+      return false;
+    }
+  }
+    public function getAllProcedimientos() 
+  {
+        $this->db->select('sp.idspecsprocedimiento, td.nombretipo,a.nombrearea,td.idtipodocumento,sp.nombredocumento, sp.nombre, sp.codigo, sp.revision');
+        $this->db->from('tblspecs_procedimientos sp'); 
+        $this->db->join('tblarea a', 'sp.idarea = a.idarea');
+        $this->db->join('tbltipo_documento td', 'td.idtipodocumento = sp.idtipodocumento'); 
+        $this->db->where('sp.activo', 1); 
+        $query = $this->db->get();
     if ($query->num_rows() > 0) {
       return $query->result();
     } else {
@@ -74,6 +116,14 @@ class Documentos_model extends CI_Model {
 
   public function saveDocument($data){
     return $this->db->insert('tbldocumentospec', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+    public function addSpecsProcedimiento($data){
+    return $this->db->insert('tblspecs_procedimientos', $data);
     if ($this->db->affected_rows() > 0) {
       return true;
     } else {
@@ -116,5 +166,16 @@ class Documentos_model extends CI_Model {
       return false;
     }
   }
+   public function updateProcedimiento($id,$data)
+  {
+    $this->db->where('idspecsprocedimiento', $id);
+    $this->db->update('tblspecs_procedimientos', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }
 ?>

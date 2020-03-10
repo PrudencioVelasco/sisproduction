@@ -134,6 +134,18 @@
                                 </div>
                             </div>
                             <!--Finaliza nuevo modulo-->
+                                <!--Nuevo modulo-->
+                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="tile-stats">
+                                    <div class="icon"><i class="fa fa-file-pdf-o"></i>
+                                    </div>
+                                    <div class="count">---</div>
+
+                                    <h3><a href="<?php echo site_url('documentos/procedimientos') ?>">Procedimientos</a></h3>
+                                    <p>Subir archivos especificaciones.</p>
+                                </div>
+                            </div>
+                            <!--Finaliza nuevo modulo-->
                             
                             
                         </div> 
