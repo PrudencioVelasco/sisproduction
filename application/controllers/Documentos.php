@@ -22,6 +22,7 @@ class Documentos extends CI_Controller {
 
   public function index()
   {
+      Permission::grant(uri_string());
     $data = array(
       'data'=>$this->documentos->getAllInfo(),
       'partes'=>$this->documentos->showAllParte()
@@ -153,11 +154,8 @@ public function subir_procedimientos()
         } else {
 
           $data = array(
-            'idtipodocumento'=>1,
-            'idarea'=>5,
-            'idrevision'=> $this->input->post('revision'),
-            'titulodocumento'=>'',
-            'documento'=> $content,
+            'idrevision'=> $this->input->post('revision'), 
+            'documento'=> '',
             'nombre'=> $newName,
             'extension'=> '.'.$extension,
             'activo'=> 1,
@@ -243,7 +241,7 @@ echo $data;
 
 
  public function eliminar_documento_procedimiento()
-{
+{ 
   $iddoc = $this->input->post("iddoc");
   
   $data = array(
@@ -262,7 +260,7 @@ echo $data;
 
 
 public function eliminar_documento()
-{
+{ 
   $iddoc = $this->input->post("iddoc");
   
   $data = array(

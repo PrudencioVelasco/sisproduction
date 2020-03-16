@@ -67,10 +67,19 @@
                                                 </td>
                                                 <td> 
 
+                                                        <?php 
+                                                  if(isset($this->session->rol) && !empty($this->session->rol)) {
+                                                    if($this->session->rol == "Administrador"){
+                                                   ?>
                                                         <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete" 
                                                         data-toggle="modal" data-target="#myModalEliminar"
                                                         data-iddoc="<?php echo $value->idspecsprocedimiento;?>">
                                                         <i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>
+
+                                                          <?php 
+                                                         }
+                                                       }
+                                                       ?>
                                                     
                                                 </td>
                                             </tr>
@@ -110,10 +119,19 @@
                                                 </td>
                                                 <td> 
 
+                                                        <?php 
+                                                  if(isset($this->session->rol) && !empty($this->session->rol)) {
+                                                    if($this->session->rol == "Administrador"){
+                                                   ?>
                                                         <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete" 
                                                         data-toggle="modal" data-target="#myModalEliminar"
                                                         data-iddoc="<?php echo $value->idspecsprocedimiento;?>">
                                                         <i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>
+
+                                                          <?php 
+                                                         }
+                                                       }
+                                                       ?>
                                                     
                                                 </td>
                                             </tr>
@@ -152,11 +170,19 @@
 
                                                 </td>
                                                 <td> 
-
+    <?php 
+                                                  if(isset($this->session->rol) && !empty($this->session->rol)) {
+                                                    if($this->session->rol == "Administrador"){
+                                                   ?>
                                                         <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete" 
                                                         data-toggle="modal" data-target="#myModalEliminar"
                                                         data-iddoc="<?php echo $value->idspecsprocedimiento;?>">
                                                         <i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>
+
+                                                          <?php 
+                                                         }
+                                                       }
+                                                       ?>
                                                     
                                                 </td>
                                             </tr>
@@ -196,11 +222,19 @@
 
                                                 </td>
                                                 <td> 
-
+                                                   <?php 
+                                                  if(isset($this->session->rol) && !empty($this->session->rol)) {
+                                                    if($this->session->rol == "Administrador"){
+                                                   ?>
                                                         <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete" 
                                                         data-toggle="modal" data-target="#myModalEliminar"
                                                         data-iddoc="<?php echo $value->idspecsprocedimiento;?>">
                                                         <i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>
+
+                                                          <?php 
+                                                         }
+                                                       }
+                                                       ?>
                                                     
                                                 </td>
                                             </tr>

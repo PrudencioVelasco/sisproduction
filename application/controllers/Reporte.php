@@ -20,7 +20,7 @@ class Reporte extends CI_Controller {
         $this->load->model('user_model', 'usuario');
         $this->load->library('permission');
     }
-    
+
     public function transferencia() {
         Permission::grant(uri_string());
         $usuario = $this->usuario->showAllPacking();
@@ -29,7 +29,7 @@ class Reporte extends CI_Controller {
         $this->load->view('reporte/transferencia', $data);
         $this->load->view('footer');
     }
-    public function procesofinal()
+    public function procesomaquina()
     {
         # code...
        $data  = array(
@@ -37,9 +37,21 @@ class Reporte extends CI_Controller {
         'maquinas'=>$this->reporte->maquinas_activas()
     );
        $this->load->view('header');
-       $this->load->view('reporte/procesofinal',$data);
+       $this->load->view('reporte/proceso/procesofinal',$data);
        $this->load->view('footer');
    }
+   public function porprocesos()
+   {
+       # code...
+      $data  = array(
+       'partes'=>$this->reporte->allNumeroPartes(),
+       'maquinas'=>$this->reporte->maquinas_activas(),
+       'procesos'=>$this->reporte->allProcesos(),
+   );
+      $this->load->view('header');
+      $this->load->view('reporte/proceso/procesos',$data);
+      $this->load->view('footer');
+  }
    public function procesos()
    {
         # code...
@@ -53,13 +65,13 @@ class Reporte extends CI_Controller {
     $this->load->view('reporte/procesos',$data);
     $this->load->view('footer');
 }
-public function buscar_reporte_proceso_final()
+public function buscar_reporte_proceso_maquina()
 {
 
-  $idlamina = $this->input->post('idlamina'); 
+  $idlamina = $this->input->post('idlamina');
   $fechainicio = $this->input->post('fechainicio');
   $nueva_fecha_inicio = $fechainicio.":00";
-  $fechafin = $this->input->post('fechafin'); 
+  $fechafin = $this->input->post('fechafin');
   $nueva_fecha_fin = $fechafin.":00";
   $idproceso = $this->input->post('idproceso');
   $datareporte =  $this->reporte->busqueda_proceso_final($nueva_fecha_inicio,$nueva_fecha_fin,$idproceso);
@@ -70,7 +82,29 @@ public function buscar_reporte_proceso_final()
     'maquinas'=>$this->reporte->maquinas_activas()
 );
   $this->load->view('header');
-  $this->load->view('reporte/procesofinal',$data);
+  $this->load->view('reporte/proceso/procesofinal',$data);
+  $this->load->view('footer');
+}
+public function buscar_reporte_procesos()
+{
+
+  $idlamina = $this->input->post('idlamina');
+  $fechainicio = $this->input->post('fechainicio');
+  $nueva_fecha_inicio = $fechainicio.":00";
+  $fechafin = $this->input->post('fechafin');
+  $nueva_fecha_fin = $fechafin.":00";
+  $idproceso = $this->input->post('idproceso');
+  $datareporte =  $this->reporte->reportePoProceso($idproceso,$nueva_fecha_inicio,$nueva_fecha_fin,$idlamina);
+//var_dump($datareporte[0]->idmaquinafina);
+
+  $data  = array(
+    'partes'=>$this->reporte->allNumeroPartes(),
+    'datareporte2'=>$datareporte,
+    'maquinas'=>$this->reporte->maquinas_activas(),
+    'procesos'=>$this->reporte->allProcesos(),
+);
+  $this->load->view('header');
+  $this->load->view('reporte/proceso/procesos',$data);
   $this->load->view('footer');
 }
 public function buscar_reporte_proceso()
@@ -80,7 +114,7 @@ public function buscar_reporte_proceso()
     $idlamina = $this->input->post('idlamina');
         //$idparte = $this->input->post('idparte');
     $fechainicio = $this->input->post('fechainicio');
-    $fechafin = $this->input->post('fechafin'); 
+    $fechafin = $this->input->post('fechafin');
     $idmaquina = $this->input->post('idmaquina');
     $idproceso = $this->input->post('idproceso');
         //$idparte = $this->input->post('idparte');
@@ -102,14 +136,14 @@ public function buscar_reporte_proceso()
 public function buscar() {
         # code...
     Permission::grant(uri_string());
-    
+
     $fechainicio = $this->input->post('fechainicio');
     $fechafin = $this->input->post('fechafin');
     $modulo = $this->input->post('modulo');
     $result="";
     if($modulo == "1"){
         $result = $this->reporte->allTransferenciaPacking($fechainicio,$fechafin);
-        
+
     }elseif ($modulo=="2") {
         $result = $this->reporte->allTransferenciaCalidad($fechainicio,$fechafin);
     }elseif ($modulo=="3") {
@@ -120,8 +154,8 @@ public function buscar() {
     $this->load->view('header');
     $this->load->view('reporte/transferencia', $data);
     $this->load->view('footer');
-    
-    
+
+
 }
 
 //Vista reporte por PACKING
@@ -133,35 +167,35 @@ public function reportepacking()
 
     $this->load->view('header');
     $this->load->view('reporte/reportepacking',$data);
-    $this->load->view('footer');   
+    $this->load->view('footer');
 }
 
 // Reporte PACKING
 public function buscar_reporte_packing()
 {
     $tipo = $this->input->post('tipo');
-    $idparte = $this->input->post('idparte'); 
+    $idparte = $this->input->post('idparte');
     $fechainicio = $this->input->post('fechainicio');
     $nueva_fecha_inicio = $fechainicio.":00";
-    $fechafin = $this->input->post('fechafin'); 
-    $nueva_fecha_fin = $fechafin.":00"; 
+    $fechafin = $this->input->post('fechafin');
+    $nueva_fecha_fin = $fechafin.":00";
     $idusuario = $this->session->user_id;
     //$datareporte =  $this->reporte->getAllInfoReporte($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo);
      //TURNO 1
-    $datareporte =  $this->reporte->getAllInfoReporte($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo,'',1,'','',$idusuario); 
-    $datareporte2 =  $this->reporte->getAllInfoReporte($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo,'',2,'','',$idusuario); 
+    $datareporte =  $this->reporte->getAllInfoReporte($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo,'',1,'','',$idusuario);
+    $datareporte2 =  $this->reporte->getAllInfoReporte($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo,'',2,'','',$idusuario);
     //$users = $this->reporte->getAllUsers();
     //var_dump($datareporte);
     $data  = array(
-        'partes'=>$this->reporte->allNumeroPartes(), 
-        'informacion'=>$datareporte, 
-        'informacion2'=>$datareporte2, 
+        'partes'=>$this->reporte->allNumeroPartes(),
+        'informacion'=>$datareporte,
+        'informacion2'=>$datareporte2,
         'fechainicio'=>$nueva_fecha_inicio,
         'fechafin'=>$nueva_fecha_fin,
         'tipo'=>$tipo,
         'idparte'=> $idparte
     );
-    
+
     $this->load->view('header');
     $this->load->view('reporte/reportepacking',$data);
     $this->load->view('footer');
@@ -171,14 +205,14 @@ public function generar_pdf_packing()
 {
     $this->load->library('tcpdf');
 
-    $idparte = $this->input->post('idparte'); 
+    $idparte = $this->input->post('idparte');
     $fechainicio = $this->input->post('fechai');
     $fechafin = $this->input->post('fechaf');
-    $tipo = $this->input->post('tipo'); 
+    $tipo = $this->input->post('tipo');
 $idusuario = $this->session->user_id;
     $data =  $this->reporte->getAllInfoReporte($idparte,$fechainicio,$fechafin,$tipo,'',1,'','',$idusuario);
-      $data2 =  $this->reporte->getAllInfoReporte($idparte,$fechainicio,$fechafin,$tipo,'',2,'','',$idusuario); 
-    
+      $data2 =  $this->reporte->getAllInfoReporte($idparte,$fechainicio,$fechafin,$tipo,'',2,'','',$idusuario);
+
     $mediadia = 20000;
     $diferencia = 0;
     $producciontotal = 0;
@@ -187,14 +221,14 @@ $idusuario = $this->session->user_id;
 
     foreach ($data as $value) {
         $producciontotal = $producciontotal + $value->totalcajas;
-        $totalpallet = $totalpallet + $value->totalpallet; 
+        $totalpallet = $totalpallet + $value->totalpallet;
     }
      foreach ($data2 as $value) {
         $producciontotal = $producciontotal + $value->totalcajas;
-        $totalpallet = $totalpallet + $value->totalpallet; 
+        $totalpallet = $totalpallet + $value->totalpallet;
     }
 
-    
+
     $diferencia_1= $mediadia -  $producciontotal;
 
     if($diferencia_1 < 0){
@@ -203,7 +237,7 @@ $idusuario = $this->session->user_id;
     }else{
      $diferencia = number_format($diferencia_1);
  }
- 
+
 
  $linkimge = base_url() . '/assets/images/woorilogo.png';
  $fechaactual = date("d/m/Y h:i:s");
@@ -211,7 +245,7 @@ $idusuario = $this->session->user_id;
  $pdf->SetTitle('Reporte');
  $pdf->SetHeaderMargin(30);
  $pdf->SetTopMargin(20);
- $pdf->setFooterMargin(20); 
+ $pdf->setFooterMargin(20);
  $pdf->SetAutoPageBreak(true,20);
  $pdf->SetAuthor('Author');
  $pdf->SetDisplayMode('real', 'default');
@@ -279,7 +313,7 @@ $idusuario = $this->session->user_id;
   <tr>
     <td colspan="8" class="tituloturno" align="center">TURNO MATURINO</td>
 </tr>';
- 
+
  foreach ($data as $value) {
     $tbl .='<tr>
     <td><p style="font-size:7px;">'.$value->numeroparte.'</p></td>
@@ -293,7 +327,7 @@ $idusuario = $this->session->user_id;
     </tr>';
 }
 
-$tbl .= ' 
+$tbl .= '
  <tr>
     <td colspan="8" class="tituloturno" align="center">TURNO VESPERTINO</td>
 </tr>';
@@ -329,21 +363,21 @@ public function reportecalidad()
 
     $this->load->view('header');
     $this->load->view('reporte/reportecalidad',$data);
-    $this->load->view('footer');   
+    $this->load->view('footer');
 }
 
 public function buscar_reporte_calidad()
 {
     $idparte = $this->input->post('idparte');
-    $tipo = $this->input->post('tipo'); 
+    $tipo = $this->input->post('tipo');
     $fechainicio = $this->input->post('fechainicio');
     $nueva_fecha_inicio = $fechainicio.":00";
-    $fechafin = $this->input->post('fechafin'); 
+    $fechafin = $this->input->post('fechafin');
     $nueva_fecha_fin = $fechafin.":00";
-    
+
     $datareporte =  $this->reporte->getAllInfoReporteCalidad($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo);
     //$users = $this->reporte->getAllUsers();
-    
+
     $data  = array(
         'partes'=>$this->reporte->allNumeroPartes(),
         //'usuarios'=>$users,
@@ -353,7 +387,7 @@ public function buscar_reporte_calidad()
         'idparte'=> $idparte,
         'tipo'=> $tipo
     );
-    
+
     $this->load->view('header');
     $this->load->view('reporte/reportecalidad',$data);
     $this->load->view('footer');
@@ -362,13 +396,13 @@ public function buscar_reporte_calidad()
 public function generar_pdf_calidad()
 {
     $this->load->library('tcpdf');
-$tipo = $this->input->post('tipo'); 
-    $idparte = $this->input->post('idparte'); 
+$tipo = $this->input->post('tipo');
+    $idparte = $this->input->post('idparte');
     $fechainicio = $this->input->post('fechai');
-    $fechafin = $this->input->post('fechaf'); 
+    $fechafin = $this->input->post('fechaf');
 
     $data = $this->reporte->getAllInfoReporteCalidad($idparte,$fechainicio,$fechafin,$tipo);
-    
+
     $mediadia = 20000;
     $diferencia = 0;
     $producciontotal = 0;
@@ -377,10 +411,10 @@ $tipo = $this->input->post('tipo');
 
     foreach ($data as $value) {
         $producciontotal = $producciontotal + $value->cantidadcajaspallet;
-        $totalpallet = $totalpallet + $value->totalpallet; 
+        $totalpallet = $totalpallet + $value->totalpallet;
     }
 
-    
+
     $diferencia_1= $mediadia -  $producciontotal;
 
     if($diferencia_1 < 0){
@@ -389,7 +423,7 @@ $tipo = $this->input->post('tipo');
     }else{
      $diferencia = number_format($diferencia_1);
  }
- 
+
 
  $linkimge = base_url() . '/assets/images/woorilogo.png';
  $fechaactual = date("d/m/Y h:i:s");
@@ -462,7 +496,7 @@ $tipo = $this->input->post('tipo');
  <td width="58" align="center"><p style="font-size:10px;"><b>CANT. POR PALLET</b></p></td>
  <td width="58" align="center"><p style="font-size:10px;"><b>TOTAL DE PALLET</b></p></td>
  </tr>';
- 
+
  foreach ($data as $value) {
     $tbl .='<tr>
     <td><p style="font-size:7px;">'.$value->numeroparte.'</p></td>
@@ -476,7 +510,7 @@ $tipo = $this->input->post('tipo');
     </tr>';
 }
 
-$tbl .= ' 
+$tbl .= '
 </table>';
 
 $pdf->writeHTML($tbl, true, false, false, false, '');
@@ -498,21 +532,21 @@ public function reportealmacen()
 
     $this->load->view('header');
     $this->load->view('reporte/reportealmacen',$data);
-    $this->load->view('footer');   
+    $this->load->view('footer');
 }
 
 public function buscar_reporte_almacen()
 {
-    $idparte = $this->input->post('idparte'); 
-     $tipo = $this->input->post('tipo'); 
+    $idparte = $this->input->post('idparte');
+     $tipo = $this->input->post('tipo');
     $fechainicio = $this->input->post('fechainicio');
     $nueva_fecha_inicio = $fechainicio.":00";
-    $fechafin = $this->input->post('fechafin'); 
+    $fechafin = $this->input->post('fechafin');
     $nueva_fecha_fin = $fechafin.":00";
-    
+
     $datareporte =  $this->reporte->getAllInfoReporteAlmacen($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo);
     //$users = $this->reporte->getAllUsers();
-    
+
     $data  = array(
         'partes'=>$this->reporte->allNumeroPartes(),
         //'usuarios'=>$users,
@@ -522,7 +556,7 @@ public function buscar_reporte_almacen()
         'idparte'=> $idparte,
         'tipo'=> $tipo
     );
-    
+
     $this->load->view('header');
     $this->load->view('reporte/reportealmacen',$data);
     $this->load->view('footer');
@@ -531,13 +565,13 @@ public function buscar_reporte_almacen()
 public function generar_pdf_almacen()
 {
     $this->load->library('tcpdf');
-   $tipo = $this->input->post('tipo'); 
-    $idparte = $this->input->post('idparte'); 
+   $tipo = $this->input->post('tipo');
+    $idparte = $this->input->post('idparte');
     $fechainicio = $this->input->post('fechai');
-    $fechafin = $this->input->post('fechaf'); 
+    $fechafin = $this->input->post('fechaf');
 
     $data = $this->reporte->getAllInfoReporteAlmacen($idparte,$fechainicio,$fechafin,$tipo);
-    
+
     $mediadia = 20000;
     $diferencia = 0;
     $producciontotal = 0;
@@ -546,10 +580,10 @@ public function generar_pdf_almacen()
 
     foreach ($data as $value) {
         $producciontotal = $producciontotal + $value->cantidadcajaspallet;
-        $totalpallet = $totalpallet + $value->totalpallet; 
+        $totalpallet = $totalpallet + $value->totalpallet;
     }
 
-    
+
     $diferencia_1= $mediadia -  $producciontotal;
 
     if($diferencia_1 < 0){
@@ -558,7 +592,7 @@ public function generar_pdf_almacen()
     }else{
      $diferencia = number_format($diferencia_1);
  }
- 
+
 
  $linkimge = base_url() . '/assets/images/woorilogo.png';
  $fechaactual = date("d/m/Y h:i:s");
@@ -631,7 +665,7 @@ public function generar_pdf_almacen()
  <td width="58" align="center"><p style="font-size:10px;"><b>CANT. POR PALLET</b></p></td>
  <td width="58" align="center"><p style="font-size:10px;"><b>TOTAL DE PALLET</b></p></td>
  </tr>';
- 
+
  foreach ($data as $value) {
     $tbl .='<tr>
     <td><p style="font-size:7px;">'.$value->numeroparte.'</p></td>
@@ -645,7 +679,7 @@ public function generar_pdf_almacen()
     </tr>';
 }
 
-$tbl .= ' 
+$tbl .= '
 </table>';
 
 $pdf->writeHTML($tbl, true, false, false, false, '');
@@ -667,20 +701,20 @@ public function reporteCompleto()
     );
     $this->load->view('header');
     $this->load->view('reporte/packing/general',$data);
-    $this->load->view('footer');  
+    $this->load->view('footer');
 }
 public function buscar_reporte_packing_completo()
 {
     $tipo = $this->input->post('tipo');
-    $idparte = $this->input->post('idparte'); 
+    $idparte = $this->input->post('idparte');
     $fechainicio = $this->input->post('fechainicio');
     $nueva_fecha_inicio = $fechainicio.":00";
-    $fechafin = $this->input->post('fechafin'); 
-    $nueva_fecha_fin = $fechafin.":00"; 
+    $fechafin = $this->input->post('fechafin');
+    $nueva_fecha_fin = $fechafin.":00";
     //TURNO 1
     $datareporte =  $this->reporte->getAllInfoReporte($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo,'general',1,'','','');
     //TURNO 2
-     $datareporte2 =  $this->reporte->getAllInfoReporte($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo,'general',2,'','',''); 
+     $datareporte2 =  $this->reporte->getAllInfoReporte($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo,'general',2,'','','');
 
     $data  = array(
         'partes'=>$this->reporte->allNumeroPartes(),
@@ -692,7 +726,7 @@ public function buscar_reporte_packing_completo()
         'tipo'=>$tipo,
         'idparte'=> $idparte
     );
-    
+
     $this->load->view('header');
     $this->load->view('reporte/packing/general',$data);
     $this->load->view('footer');
@@ -701,17 +735,17 @@ public function generar_pdf_packing_completo()
 {
     $this->load->library('tcpdf');
 
-    $idparte = $this->input->post('idparte'); 
+    $idparte = $this->input->post('idparte');
     $fechainicio = $this->input->post('fechai');
     $fechafin = $this->input->post('fechaf');
-    $tipo = $this->input->post('tipo'); 
+    $tipo = $this->input->post('tipo');
 
     //$data = $this->reporte->getAllInfoReporte($idparte,$fechainicio,$fechafin,$tipo);
      //TURNO MATITUNO
     $data =  $this->reporte->getAllInfoReporte($idparte,$fechainicio,$fechafin,$tipo,'general',1,'','','');
     //TURNO VESPERINO
     $data2 =  $this->reporte->getAllInfoReporte($idparte,$fechainicio,$fechafin,$tipo,'general',2,'','','');
-    
+
     $mediadia = 20000;
     $diferencia = 0;
     $producciontotal = 0;
@@ -720,14 +754,14 @@ public function generar_pdf_packing_completo()
 
     foreach ($data as $value) {
         $producciontotal = $producciontotal + $value->totalcajas;
-        $totalpallet = $totalpallet + $value->totalpallet; 
+        $totalpallet = $totalpallet + $value->totalpallet;
     }
       foreach ($data2 as $value) {
         $producciontotal = $producciontotal + $value->totalcajas;
-        $totalpallet = $totalpallet + $value->totalpallet; 
+        $totalpallet = $totalpallet + $value->totalpallet;
     }
 
-    
+
     $diferencia_1= $mediadia -  $producciontotal;
 
     if($diferencia_1 < 0){
@@ -736,7 +770,7 @@ public function generar_pdf_packing_completo()
     }else{
      $diferencia = number_format($diferencia_1);
  }
- 
+
 
  $linkimge = base_url() . '/assets/images/woorilogo.png';
  $fechaactual = date("d/m/Y h:i:s");
@@ -823,7 +857,7 @@ public function generar_pdf_packing_completo()
     <td colspan="8" class="tituloturno" align="center">TURNO MATURINO</td>
 </tr>
  ';
- 
+
  foreach ($data as $value) {
     $tbl .='<tr>
     <td><p style="font-size:7px;">'.$value->numeroparte.'</p></td>
@@ -853,7 +887,7 @@ $tbl .='
     </tr>';
 }
 
-$tbl .= ' 
+$tbl .= '
 </table>';
 
 $pdf->writeHTML($tbl, true, false, false, false, '');
@@ -873,21 +907,21 @@ public function reportePorTransferencia()
     );
     $this->load->view('header');
     $this->load->view('reporte/packing/transferencia',$data);
-    $this->load->view('footer');  
+    $this->load->view('footer');
 }
 public function buscar_reporte_packing_transferencia()
 {
     $nueva_fecha_inicio = "";
     $nueva_fecha_fin = "";
     $tipo = $this->input->post('tipo');
-    $idparte = $this->input->post('idparte'); 
+    $idparte = $this->input->post('idparte');
     $fechainicio = $this->input->post('fechainicio');
     if(isset($fechainicio) && !empty($fechainicio)){
     $nueva_fecha_inicio = $fechainicio.":00";
     }
-    $fechafin = $this->input->post('fechafin'); 
+    $fechafin = $this->input->post('fechafin');
     if(isset($fechafin) && !empty($fechafin)){
-    $nueva_fecha_fin = $fechafin.":00"; 
+    $nueva_fecha_fin = $fechafin.":00";
     }
     $tinicio = $this->input->post('tinicio');
     $tfinal = $this->input->post('tfinal');
@@ -911,7 +945,7 @@ public function buscar_reporte_packing_transferencia()
         'tinicio'=>$tinicio,
         'tfinal'=>$tfinal
     );
-    
+
     $this->load->view('header');
     $this->load->view('reporte/packing/transferencia',$data);
     $this->load->view('footer');
@@ -923,14 +957,14 @@ public function generar_pdf_packing_transferencia()
     $nueva_fecha_inicio = "";
     $nueva_fecha_fin = "";
     $tipo = $this->input->post('tipo');
-    $idparte = $this->input->post('idparte'); 
+    $idparte = $this->input->post('idparte');
     $fechainicio = $this->input->post('fechainicio');
     if(isset($fechainicio) && !empty($fechainicio)){
     $nueva_fecha_inicio = $fechainicio.":00";
     }
-    $fechafin = $this->input->post('fechafin'); 
+    $fechafin = $this->input->post('fechafin');
     if(isset($fechafin) && !empty($fechafin)){
-    $nueva_fecha_fin = $fechafin.":00"; 
+    $nueva_fecha_fin = $fechafin.":00";
     }
     $tinicio = $this->input->post('tinicio');
     $tfinal = $this->input->post('tfinal');
@@ -940,7 +974,7 @@ public function generar_pdf_packing_transferencia()
     $data =  $this->reporte->getAllInfoReporte($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo,'general',1,$tinicio,$tfinal,'');
     //TURNO VESPERINO
     $data2 =  $this->reporte->getAllInfoReporte($idparte,$nueva_fecha_inicio,$nueva_fecha_fin,$tipo,'general',2,$tinicio,$tfinal,'');
-    
+
     $mediadia = 20000;
     $diferencia = 0;
     $producciontotal = 0;
@@ -949,14 +983,14 @@ public function generar_pdf_packing_transferencia()
 
     foreach ($data as $value) {
         $producciontotal = $producciontotal + $value->totalcajas;
-        $totalpallet = $totalpallet + $value->totalpallet; 
+        $totalpallet = $totalpallet + $value->totalpallet;
     }
      foreach ($data2 as $value) {
         $producciontotal = $producciontotal + $value->totalcajas;
-        $totalpallet = $totalpallet + $value->totalpallet; 
+        $totalpallet = $totalpallet + $value->totalpallet;
     }
 
-    
+
     $diferencia_1= $mediadia -  $producciontotal;
 
     if($diferencia_1 < 0){
@@ -965,7 +999,7 @@ public function generar_pdf_packing_transferencia()
     }else{
      $diferencia = number_format($diferencia_1);
  }
- 
+
 
  $linkimge = base_url() . '/assets/images/woorilogo.png';
  $fechaactual = date("d/m/Y h:i:s");
@@ -1052,7 +1086,7 @@ public function generar_pdf_packing_transferencia()
     <td colspan="8" class="tituloturno" align="center">TURNO MATURINO</td>
 </tr>
  ';
- 
+
  foreach ($data as $value) {
     $tbl .='<tr>
     <td><p style="font-size:7px;">'.$value->numeroparte.'</p></td>
@@ -1082,7 +1116,7 @@ $tbl .='
     </tr>';
 }
 
-$tbl .= ' 
+$tbl .= '
 </table>';
 
 $pdf->writeHTML($tbl, true, false, false, false, '');

@@ -1,6 +1,6 @@
- 
+
 <style type="text/css">
-  
+
 
 </style>
  <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/assets/css/progressbar/bootstrap-progressbar-3.3.0.css">
@@ -23,7 +23,7 @@
                            <h3><strong>SCRAP</strong></h3>
                         </div>
                       </div>
-                       
+
 
                         <div class="clearfix"></div>
                     </div>
@@ -31,14 +31,16 @@
 
                       <div class="container">
 
-<div id="exTab2" class="container"> 
+<div id="exTab2" class="container">
 <ul class="nav nav-tabs">
       <li class="active">
-        <a  href="#1" data-toggle="tab"><strong>Procesos Pendientes</strong></a>
+        <a  href="#1" data-toggle="tab"><strong><i class="fa fa-arrow-right" aria-hidden="true"></i>
+ PROCESOS PENDIENTES</strong></a>
       </li>
-      <li><a href="#2" data-toggle="tab"><strong>Procesos Anteriores</strong></a>
+      <li><a href="#2" data-toggle="tab"><strong><i class="fa fa-undo" aria-hidden="true"></i>
+ PROCESOS TRABAJADOS</strong></a>
       </li>
-      
+
     </ul>
 
       <div class="tab-content ">
@@ -51,26 +53,26 @@
                                             <thead class="text-white bg-dark" >
                                               <th>No</th>
                                             <th>Lamina</th>
-                                            <th>Num. Parte</th>     
+                                            <th>Num. Parte</th>
                                             <th>C. Recibida (IN)</th>
                                             <th>Malas (NG)</th>
-                                            <th>Salidas (FG)</th> 
+                                            <th>Salidas (FG)</th>
                                             <th><center>Opción</center></th>
                                             </thead>
                                             <tbody>
-                                               
-                                                <?php 
+
+                                                <?php
                                                 if (isset($registros) && !empty($registros)) {
 
-                                                    foreach ($registros as $value) { 
+                                                    foreach ($registros as $value) {
                                                        //echo $value->tuturno ;
                                                         if($value->tuturno == $maquina && $value->finalizado == 0){
                                                         // echo $value->tuturno ;
                                                         ?>
-                                                        <tr > 
-                                                           <td><strong><?php echo $value->id; ?></strong></td>
+                                                        <tr >
+                                                           <td><strong><?php echo $value->identradaproceso; ?></strong></td>
                                                             <td><strong><?php echo $value->lamina; ?></strong></td>
-                                                            <td><strong><?php echo $value->numeroparte;?></strong></td> 
+                                                            <td><strong><?php echo $value->numeroparte;?></strong></td>
                                                             <td align="center"><strong style="color: green"><?php echo number_format($value->cantidadentrada); ?></strong></td>
                                                             <td align="center"><strong style="color: red"><?php echo number_format($value->cantidadmal); ?></strong></td>
                                                             <td align="center"><strong style="color: blue"><?php echo number_format($value->cantidadsalida); ?></strong></td>
@@ -81,7 +83,7 @@
                                                              Ver</a>
 
 
-                                                              <a class="btn btn-danger btn-sm" href="<?php echo site_url('proceso/ascrap/'.$value->id.'/'.$value->cantidadentrada) ?>"> Eliminar</a>
+                                                              <a class="btn btn-danger btn-sm confirmation" href="<?php echo site_url('proceso/ascrap/'.$value->id.'/'.$value->cantidadentrada) ?>"> Todo a SCRAP</a>
 
                                                                <a  href="" class="btn btn-primary btn-sm edit_button_enviar"
                                                                 data-toggle="modal" data-target="#myModalEnviar"
@@ -90,51 +92,51 @@
                                                               data-cantidad="<?php echo $value->cantidadentrada;?>"
                                                                >Enviar</a>
 </a>
-        
+
                                                             </td>
-                                                             
+
                                                         </tr>
-                                                        <?php 
-                                                         
-                                                          } 
+                                                        <?php
+
+                                                          }
                                                         }
                                                     }
                                                 ?>
                                             </tbody>
                                         </table>
-      
-    
+
+
                         </div>
 
 
         </div>
         <div class="tab-pane" id="2">
-          
+
 <br>
           <table   class="table table-striped table-bordered example" style="width:100%">
-        <thead> 
+        <thead>
           <th>No</th>
                <th>Lamina</th>
-                                            <th>Num. Parte</th>    
+                                            <th>Num. Parte</th>
                                             <th>C. Recibida (IN)</th>
                                             <th>Malas (NG)</th>
-                                            <th>Salidas (FG)</th> 
+                                            <th>Salidas (FG)</th>
                                             <th><center>Opción</center></th>
-             
+
         </thead>
         <tbody>
-           <?php 
+           <?php
                                                 if (isset($registros) && !empty($registros)) {
 
-                                                    foreach ($registros as $value) { 
+                                                    foreach ($registros as $value) {
                                                        //echo $value->pasoporaqui;
                                                         if($value->tuturno  == 3){
                                                         // echo $value->tuturno ;
                                                         ?>
                                                         <tr >
-                                                        <td><strong><?php echo $value->id; ?></strong></td> 
+                                                        <td><strong><?php echo $value->identradaproceso; ?></strong></td>
                                                             <td><strong><?php echo $value->lamina; ?></strong></td>
-                                                            <td><strong><?php echo $value->numeroparte;?></strong></td> 
+                                                            <td><strong><?php echo $value->numeroparte;?></strong></td>
                                                             <td align="center"><strong style="color: green"><?php echo number_format($value->cantidadentrada); ?></strong></td>
                                                             <td align="center"><strong style="color: red"><?php echo number_format($value->cantidadmal); ?></strong></td>
                                                             <td align="center"><strong style="color: blue"><?php echo number_format($value->cantidadsalida); ?></strong></td>
@@ -150,57 +152,57 @@
                                                               data-cantidad="<?php echo $value->cantidadentrada;?>"
                                                                >Enviar</a>
 </a>
-        
+
                                                             </td>
-                                                             
+
                                                         </tr>
-                                                        <?php 
-                                                         
-                                                          } 
+                                                        <?php
+
+                                                          }
                                                         }
                                                     }
                                                 ?>
         </tbody>
-       
+
     </table>
 
 
         </div>
-       
+
 
       </div>
   </div>
 
 <hr></hr>
 
- 
 
 
-                        
-                 
+
+
+
 
                     </div>
                 </div>
             </div>
         </div>
-    </div> 
-</div> 
+    </div>
+</div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title " id="myModalLabel">Proceso a seguir</h3>
+                <h3 class="modal-title " id="myModalLabel"><i class="fa fa-arrow-right" aria-hidden="true"></i> PROCESO A SEGUIR</h3>
             </div>
             <form method="post" action="" id="frmentrada">
-                <div class="modal-body"> 
+                <div class="modal-body">
                     <div class="form-group">
                          <label style="font-weight: bolder; font-size: 13px;" id="idprocesos"></label>
-                    </div> 
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button> 
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
                 </div>
             </form>
         </div>
@@ -233,19 +235,44 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" id="btnenviar"  class="btn btn-success">Enviar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
+                    <button type="button" id="btnenviar"  class="btn btn-success"><i class="fa fa-paper-plane" aria-hidden="true"></i> Enviar</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
- 
+
   <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/notify/pnotify.core.js"></script>
   <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/notify/pnotify.buttons.js"></script>
   <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/notify/pnotify.nonblock.js"></script>
+  <script type="text/javascript">
+  $('.confirmation').click(function(e) {
+      e.preventDefault(); // Prevent the href from redirecting directly
+      var linkURL = $(this).attr("href");
+      warnBeforeRedirect(linkURL);
+      });
 
+  function warnBeforeRedirect(linkURL) {
+    Swal.fire({
+        title: 'Esta seguro de ENVIAR TODO A SCRAP?',
+        text: "No se puede revertir esta acción.",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ENVIAR',
+        cancelButtonText: 'CANCELAR'
+        }).then((result) => {
+        if (result.value) {
+     // Redirect the user
+     window.location.href = linkURL;
+   }
+ });
+
+  }
+  </script>
 <script>
 
     $(function() {
@@ -294,9 +321,9 @@
       });
     })
   </script>
-  
+
   <script type="text/javascript">
-    
+
      $(function() {
         var arrayFromPHP = <?php echo json_encode($registros); ?>;
       var maquina = <?php echo $maquina; ?>;
@@ -316,62 +343,75 @@ new TabbedNotification({
     }
 
 });
-  
-      
+
+
     });
   </script>
 
-    
 
-   
+
+
 
 <script>
-$(document).on( "click", '.edit_button',function(e) { 
-    var procesos = $(this).data('procesos');  
- 
-    $("#idprocesos").text(procesos);   
-});
-$(document).on( "click", '.edit_button_enviar',function(e) { 
-    var id = $(this).data('id'); 
-    var cantidad = $(this).data('cantidad');
-    var identradaproceso = $(this).data('identradaproceso');  
- 
-    $("#iddetalle").val(id); 
-    $("#cantidad").val(cantidad);
-    $("#identradaproceso").val(identradaproceso); 
+$(document).on( "click", '.edit_button',function(e) {
+    var procesos = $(this).data('procesos');
 
-    $(".titlecantidad").text(formatNumber( cantidad));   
+    $("#idprocesos").text(procesos);
+});
+$(document).on( "click", '.edit_button_enviar',function(e) {
+    var id = $(this).data('id');
+    var cantidad = $(this).data('cantidad');
+    var identradaproceso = $(this).data('identradaproceso');
+
+    $("#iddetalle").val(id);
+    $("#cantidad").val(cantidad);
+    $("#identradaproceso").val(identradaproceso);
+
+    $(".titlecantidad").text(formatNumber( cantidad));
 });
 function formatNumber(num) {
   return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
- 
+
 </script>
 
 
-<script> 
- 
+<script>
 
-    $("#btnenviar").click(function(){ 
-       if (confirm('Despues de enviarlo ya no podra ser modificado, ESTA SEGURO DE ENVIARLO?')) {
-            $.ajax({
+
+    $("#btnenviar").click(function(){
+      Swal.fire({
+  title: 'Esta seguro de Enviarlo?',
+  text: "No se puede revertir esta acción.",
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'ENVIAR',
+  cancelButtonText: 'CANCELAR'
+}).then((result) => {
+  if (result.value) {
+      $.ajax({
                 type: "POST",
                 url: "<?php echo site_url('proceso/siguiente_proceso_scrap');?>",
                 data: $('#frmenviar').serialize(),
                 success: function(data) {
                     var msg = $.parseJSON(data);
                     console.log(msg.error);
-                    if((typeof msg.error === "undefined")){ 
-                    $(".print-error-msg").css('display','none'); 
-                    alert(msg.success) ? "" : location.reload(); 
-                    }else{ 
-                    $(".print-error-msg").css('display','block'); 
+                    if((typeof msg.error === "undefined")){
+                    $(".print-error-msg").css('display','none');
+                    swal("Enviado con Exito!", "Click en el boton!", "success").then(function(){
+                          location.reload();
+                      });
+                    }else{
+                    $(".print-error-msg").css('display','block');
                     $(".print-error-msg").html(msg.error);
-
+                    setTimeout(function() {$('.print-error-msg').fadeOut('fast');}, 4000);
                     }
                 }
             });
-          }
-         
-    }); 
+          ///
+        }
+      });
+    });
 </script>

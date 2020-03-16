@@ -14,12 +14,12 @@ class Proceso_model extends CI_Model {
     }
 
     public function showAllProcesos() {
-        $this->db->select("p.idproceso, p.activo, p.fecharegistro,  p.nombreproceso,(SELECT  
+        $this->db->select("p.idproceso, p.activo, p.fecharegistro,  p.nombreproceso,(SELECT
                             GROUP_CONCAT(CONCAT_WS('.- ', dp.numero, m.nombremaquina) ORDER BY dp.numero ASC SEPARATOR ', ')
                             FROM tbldetalle_proceso dp
-                            INNER JOIN tblmaquina m ON dp.idmaquina = m.idmaquina 
+                            INNER JOIN tblmaquina m ON dp.idmaquina = m.idmaquina
                             WHERE dp.idproceso = p.idproceso AND dp.activo = 1   group by dp.idproceso ORDER BY dp.numero ASC) as pasos");
-        $this->db->from('tblproceso p'); 
+        $this->db->from('tblproceso p');
          $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -29,9 +29,9 @@ class Proceso_model extends CI_Model {
     }
     public function allParteProcesos()
     {
-      # code... 
+      # code...
         $query = $this->db->query("SELECT e.idparte,e.metaproduccion, e.idlamina, e.fecharegistro, e.identradaproceso, p.numeroparte as numeroparte, p2.numeroparte as lamina, pr.nombreproceso, e.cantidad,
-(SELECT  
+(SELECT
                             GROUP_CONCAT(CONCAT_WS('.- ', dp.numero, m.nombremaquina) ORDER BY dp.numero ASC SEPARATOR ', ')
                             FROM tbldetalle_proceso dp
                             INNER JOIN tblmaquina m ON dp.idmaquina = m.idmaquina
@@ -44,7 +44,7 @@ AND ma.idmaquina = edp.idmaquina AND edp.idmaquina != 3 ORDER by  edp.identradad
 (SELECT edp3.cantidadsalida   FROM tblentradadetalleproceso edp3 WHERE edp3.identradaproceso = e.identradaproceso ORDER by  edp3.identradadetalleproceso ASC LIMIT 1) as cantidadsalida,
 (SELECT edp4.cantidaderronea  FROM tblentradadetalleproceso edp4 WHERE edp4.identradaproceso = e.identradaproceso ORDER by  edp4.identradadetalleproceso ASC LIMIT 1) as cantidadmal
 
- FROM tblentrada_proceso e 
+ FROM tblentrada_proceso e
 INNER JOIN parte p ON p.idparte = e.idparte
 INNER JOIN parte p2 ON p2.idparte = e.idlamina
 INNER JOIN tblproceso pr ON pr.idproceso = e.idproceso
@@ -54,14 +54,14 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
         } else {
             return false;
         }
-     
+
     }
        /* public function searchLinea($match) {
         $field = array(
                  'l.nombrelinea',
         );
          $this->db->select('l.idlinea, l.nombrelinea');
-        $this->db->from('linea l'); 
+        $this->db->from('linea l');
         $this->db->like('concat(' . implode(',', $field) . ')', $match);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -70,15 +70,16 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
             return false;
         }
     }*/
-   
-     public function allNumeroPartes(){
+
+     public function allNumeroPartesLaminas(){
                  $this->db->select('p.idparte, c.idcliente,p.idcategoria, ca.nombrecategoria, p.numeroparte,c.nombre,u.name,  p.activo, m.descripcion as modelo, r.descripcion as revision');
                 $this->db->from('parte p');
                 $this->db->join('cliente c', 'p.idcliente=c.idcliente');
                 $this->db->join('tblcategoria ca', 'p.idcategoria=ca.idcategoria');
                 $this->db->join('users u', 'p.idusuario=u.id');
                 $this->db->join('tblmodelo m', 'm.idparte=p.idparte');
-                $this->db->join('tblrevision r', 'm.idmodelo=r.idmodelo'); 
+                $this->db->join('tblrevision r', 'm.idmodelo=r.idmodelo');
+                $this->db->where('p.idcategoria',7);
                 $query = $this->db->get();
                 if ($query->num_rows() > 0) {
                      return $query->result();
@@ -86,33 +87,49 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
                     return false;
                 }
             }
+            public function allNumeroPartes(){
+                        $this->db->select('p.idparte, c.idcliente,p.idcategoria, ca.nombrecategoria, p.numeroparte,c.nombre,u.name,  p.activo, m.descripcion as modelo, r.descripcion as revision');
+                       $this->db->from('parte p');
+                       $this->db->join('cliente c', 'p.idcliente=c.idcliente');
+                       $this->db->join('tblcategoria ca', 'p.idcategoria=ca.idcategoria');
+                       $this->db->join('users u', 'p.idusuario=u.id');
+                       $this->db->join('tblmodelo m', 'm.idparte=p.idparte');
+                       $this->db->join('tblrevision r', 'm.idmodelo=r.idmodelo');
+                       $this->db->where('p.idcategoria != 7');
+                       $query = $this->db->get();
+                       if ($query->num_rows() > 0) {
+                            return $query->result();
+                       } else {
+                           return false;
+                       }
+                   }
 
      public function addProceso($data)
     {
         $this->db->insert('tblproceso', $data);
-        $insert_id = $this->db->insert_id(); 
+        $insert_id = $this->db->insert_id();
         return  $insert_id;
     }
      public function addEntradaProceso($data)
     {
         $this->db->insert('tblentrada_proceso', $data);
-        $insert_id = $this->db->insert_id(); 
+        $insert_id = $this->db->insert_id();
         return  $insert_id;
     }
     public function addDetalleProceso($data)
     {
         $this->db->insert('tbldetalle_proceso', $data);
-        $insert_id = $this->db->insert_id(); 
+        $insert_id = $this->db->insert_id();
         return  $insert_id;
     }
      public function addInicioProceso($data)
     {
         $this->db->insert('tblentradadetalleproceso', $data);
-        $insert_id = $this->db->insert_id(); 
+        $insert_id = $this->db->insert_id();
         return  $insert_id;
     }
-    
-    
+
+
     public function updateProceso($id, $field)
     {
         $this->db->where('idproceso', $id);
@@ -122,7 +139,7 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
         } else {
             return false;
         }
-        
+
     }
      public function updateEstatusDetalle($id, $field)
     {
@@ -133,7 +150,7 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
         } else {
             return false;
         }
-        
+
     }
     public function updateDetalleProceso($id, $field)
     {
@@ -144,7 +161,7 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
         } else {
             return false;
         }
-        
+
     }
       public function updateEntrada($id, $field)
     {
@@ -155,7 +172,7 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
         } else {
             return false;
         }
-        
+
     }
       public function updateSeguimientoProceso($id, $field)
     {
@@ -166,15 +183,15 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
         } else {
             return false;
         }
-        
+
     }
 
  public function select_maximo_numero($idproceso) {
         $this->db->select('d.numero');
-        $this->db->from('tbldetalle_proceso d'); 
+        $this->db->from('tbldetalle_proceso d');
         $this->db->where('d.idproceso', $idproceso);
         $this->db->where('d.activo', 1);
-        $this->db->order_by('d.numero', 'desc');  
+        $this->db->order_by('d.numero', 'desc');
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
              return $query->first_row();
@@ -184,10 +201,10 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
     }
     public function validar_existencia_maquina($idmaquina,$idproceso) {
         $this->db->select('d.*');
-        $this->db->from('tbldetalle_proceso d'); 
+        $this->db->from('tbldetalle_proceso d');
         $this->db->where('d.idmaquina', $idmaquina);
         $this->db->where('d.idproceso', $idproceso);
-        $this->db->where('d.activo', 1); 
+        $this->db->where('d.activo', 1);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
              return $query->first_row();
@@ -199,8 +216,8 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
 
        public function validadExistenciaNombreProceso($nombreproceso) {
         $this->db->select('p.idproceso, p.nombreproceso');
-        $this->db->from('tblproceso p'); 
-        $this->db->where('p.nombreproceso', $nombreproceso); 
+        $this->db->from('tblproceso p');
+        $this->db->where('p.nombreproceso', $nombreproceso);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -210,8 +227,8 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
     }
        public function validadExistenciaProcesoUpdate($idproceso,$nombreproceso) {
          $this->db->select('p.idproceso, p.nombreproceso');
-        $this->db->from('tblproceso p'); 
-        $this->db->where('p.nombreproceso', $nombreproceso); 
+        $this->db->from('tblproceso p');
+        $this->db->where('p.nombreproceso', $nombreproceso);
          $this->db->where('p.idproceso !=', $idproceso);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -239,9 +256,9 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
          public function validar_activo_detalle_entrada($identrada)
         {
           $this->db->select('e.*');
-          $this->db->from('tblentradadetalleproceso e'); 
+          $this->db->from('tblentradadetalleproceso e');
           $this->db->where('e.identradaproceso',$identrada);
-          $this->db->where('e.finalizado',1); 
+          $this->db->where('e.finalizado',1);
           $query = $this->db->get();
           if ($query->num_rows() > 0) {
               return $query->result();
@@ -268,8 +285,8 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
            public function maquinas_activas()
         {
           $this->db->select('m.*');
-          $this->db->from('tblmaquina m'); 
-          $this->db->where('m.activo',1); 
+          $this->db->from('tblmaquina m');
+          $this->db->where('m.activo',1);
           $query = $this->db->get();
           if ($query->num_rows() > 0) {
               return $query->result();
@@ -280,8 +297,8 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
 
             public function allProcesosTrabajar($idmaquina)
     {
-      # code... 
-        $query = $this->db->query("SELECT 
+      # code...
+        $query = $this->db->query("SELECT
           edp.identradadetalleproceso as id,
  e.idparte,
     e.idlamina,
@@ -296,7 +313,7 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
        edp.idmaquina as tuturno,
        edp.finalizado,
         edp.descrap,
- (SELECT 
+ (SELECT
             GROUP_CONCAT(CONCAT_WS('.- ', dp.numero, m.nombremaquina)
                     ORDER BY dp.numero ASC
                     SEPARATOR ', ')
@@ -309,28 +326,29 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
                 AND dp.activo = 1
         GROUP BY dp.idproceso
         ORDER BY dp.numero ASC) AS pasos,
-       
+
        (SELECT ma.nombremaquina FROM tblmaquina ma WHERE ma.idmaquina = edp.idmaquina) as procesoactual
-        
- FROM tblentrada_proceso e 
+
+ FROM tblentrada_proceso e
 INNER JOIN parte p ON p.idparte = e.idparte
 INNER JOIN parte p2 ON p2.idparte = e.idlamina
 INNER JOIN tblproceso pr ON pr.idproceso = e.idproceso
 INNER JOIN tblentradadetalleproceso edp ON e.identradaproceso = edp.identradaproceso
 WHERE e.eliminado = 0
-AND edp.idmaquina = $idmaquina");
+AND edp.idmaquina = $idmaquina
+ORDER BY edp.fecharegistro DESC");
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
             return false;
         }
-     
+
     }
 
          public function allProcesosScrap($idmaquina = 3)
     {
-      # code... 
-        $query = $this->db->query("SELECT 
+      # code...
+        $query = $this->db->query("SELECT
 edp.identradadetalleproceso as id,
  e.idparte,
     e.idlamina,
@@ -345,7 +363,7 @@ edp.identradadetalleproceso as id,
        edp.idmaquina as tuturno,
        edp.finalizado,
        edp.descrap,
- (SELECT 
+ (SELECT
             GROUP_CONCAT(CONCAT_WS('.- ', dp.numero, m.nombremaquina)
                     ORDER BY dp.numero ASC
                     SEPARATOR ', ')
@@ -358,22 +376,23 @@ edp.identradadetalleproceso as id,
                 AND dp.activo = 1
         GROUP BY dp.idproceso
         ORDER BY dp.numero ASC) AS pasos,
-       
+
        (SELECT ma.nombremaquina FROM tblmaquina ma WHERE ma.idmaquina = edp.idmaquina) as procesoactual
-        
- FROM tblentrada_proceso e 
+
+ FROM tblentrada_proceso e
 INNER JOIN parte p ON p.idparte = e.idparte
 INNER JOIN parte p2 ON p2.idparte = e.idlamina
 INNER JOIN tblproceso pr ON pr.idproceso = e.idproceso
 INNER JOIN tblentradadetalleproceso edp ON e.identradaproceso = edp.identradaproceso
-WHERE e.eliminado = 0 
-AND idmaquina = 3");
+WHERE e.eliminado = 0
+AND idmaquina = 3
+ORDER BY edp.fecharegistro DESC");
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
             return false;
         }
-     
+
     }
 
      public function detalle_proceso_maquina($id,$maquina)
@@ -399,7 +418,7 @@ AND idmaquina = 3");
         {
           # code...
            $this->db->select('d.*');
-          $this->db->from('tblentradadetalleproceso d'); 
+          $this->db->from('tblentradadetalleproceso d');
           $this->db->where('d.identradaproceso',$identrada);
           $this->db->where('d.idmaquina',$maquina);
           //$this->db->where('dp.activo',1);
@@ -417,7 +436,7 @@ AND idmaquina = 3");
         public function siguiente_proceso($numero,$idproceso)
         {
           # code...
-               $query = $this->db->query("SELECT * FROM tbldetalle_proceso where numero = 
+               $query = $this->db->query("SELECT * FROM tbldetalle_proceso where numero =
 (select min(numero) from tbldetalle_proceso where numero > $numero and idproceso = 1 and activo =1)
 and   idproceso = $idproceso and activo =1");
         if ($query->num_rows() > 0) {
@@ -464,8 +483,8 @@ and   idproceso = $idproceso and activo =1");
         {
           # code...
           $this->db->select('m.*');
-          $this->db->from('tblmaquina m');  
-          $this->db->where('m.idmaquina',$idmaquina); 
+          $this->db->from('tblmaquina m');
+          $this->db->where('m.idmaquina',$idmaquina);
           $query = $this->db->get();
           if ($query->num_rows() > 0) {
               return $query->first_row();
@@ -482,7 +501,7 @@ public function deleteDetalleEntradaPorId($id)
         } else {
             return false;
         }
-        
+
     }
     public function deleteEntradaPorId($id)
     {
@@ -493,7 +512,7 @@ public function deleteDetalleEntradaPorId($id)
         } else {
             return false;
         }
-        
+
     }
 
 

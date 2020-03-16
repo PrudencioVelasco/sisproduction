@@ -1,4 +1,4 @@
- 
+
 <div class="right_col" role="main">
 
     <div class="">
@@ -17,41 +17,41 @@
                         <div id="applinea">
                             <div class="container">
                                 <div class="row">
-                                     
-                                            
-                                        
+
+
+
                                             <div class="col-md-6 col-sm-12 col-xs-12">
-                                                  <button class="btn btn-round btn-primary" @click="addModal= true">Agregar</button>
+                                                  <button class="btn btn-round btn-primary" @click="addModal= true"><i class="fa fa-plus" aria-hidden="true"></i> Agregar</button>
                                             </div>
                                             <div class="col-md-6 col-sm-12 col-xs-12">
                                                 <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchMaquina" name="search">
                                             </div>
-                                        
-                                     
-                                </div> 
+
+
+                                </div>
                                 <br>
-                                <div class="row"> 
+                                <div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <table   class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                             <thead>
                                                 <tr class="table-dark">
-                                                    <th  v-column-sortable:nombremaquina>Nombre Maquina </th>
-                                                    <th  v-column-sortable:activo>Estatus </th> 
-                                                    <td align="right" ><strong>Opción </strong></td> 
+                                                    <th  v-column-sortable:nombremaquina>Nombre de la Maquina </th>
+                                                    <th  v-column-sortable:activo>Estatus </th>
+                                                    <td align="right" ><strong>Opción </strong></td>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="row in maquinas" >
-                                                    <td><strong>{{row.nombremaquina}}</strong></td> 
+                                                    <td><strong>{{row.nombremaquina}}</strong></td>
                                                      <td >
                                                         <span v-if="row.activo==1" class="label label-success">Activo</span>
                                                         <span v-else class="label label-danger">Inactivo</span>
-                                                    </td> 
+                                                    </td>
                                                     <td align="right">
-                                                        <button type="button" class="btn btn-icons btn-rounded btn-info btn-xs" @click="editModal = true; selectMaquina(row)" title="Modificar Datos">
+                                                        <button type="button" class="btn btn-info" @click="editModal = true; selectMaquina(row)" title="Modificar Datos">
                                                            Editar
-                                                        </button> 
-                                                    </td> 
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                                   <tr v-if="emptyResult">
                                        <td colspan="3"   class="text-center h4">No encontrado</td>
@@ -78,7 +78,7 @@
 
                                 <?php include 'modal.php'; ?>
 
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 </div>

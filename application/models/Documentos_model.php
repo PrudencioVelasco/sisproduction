@@ -90,8 +90,7 @@ class Documentos_model extends CI_Model {
       INNER JOIN cliente c ON c.idcliente = p.idcliente
       INNER JOIN tblcategoria ca ON ca.idcategoria = p.idcategoria
       INNER JOIN tbldocumentospec s ON s.idrevision = r.idrevision
-      WHERE s.activo = 1
-      AND s.idtipodocumento  = 1");
+      WHERE s.activo = 1 ");
 
     if ($query->num_rows() > 0) {
       return $query->result();

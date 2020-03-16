@@ -12,7 +12,7 @@ class Proceso extends CI_Controller {
             return redirect('login');
         }
         $this->load->helper('url');
-        $this->load->model('data_model'); 
+        $this->load->model('data_model');
         $this->load->model('proceso_model', 'proceso');
         $this->load->library('permission');
         $this->load->library('session');
@@ -31,9 +31,9 @@ class Proceso extends CI_Controller {
         $this->load->view('proceso/index');
         $this->load->view('footer');
     }
-   
+
  public function showAllProcesos() {
-        
+
         $query = $this->proceso->showAllProcesos();
         if ($query) {
             $result['procesos'] = $this->proceso->showAllProcesos();
@@ -48,7 +48,7 @@ class Proceso extends CI_Controller {
                 'label' => 'Proceso',
                 'rules' => 'trim|required',
                 'errors' => array(
-                    'required' => 'Campo obligatorio.', 
+                    'required' => 'Campo obligatorio.',
                 )
             )
         );
@@ -59,7 +59,7 @@ class Proceso extends CI_Controller {
                 'nombreproceso' => form_error('nombreproceso')
             );
         } else {
-             
+
             $nombreproceso = $this->input->post('nombreproceso');
             $datavalidar = $this->proceso->validadExistenciaNombreProceso($nombreproceso);
             if ($datavalidar == FALSE) {
@@ -112,7 +112,7 @@ public function updateProceso() {
                     'activo' => $activo,
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
-                    
+
                 );
                 $this->proceso->updateProceso($idproceso, $data);
             } else {
@@ -141,7 +141,7 @@ public function agregar_detalle()
                 'numero'=>$numero_maximo + 1,
                 'activo'=>1,
                 'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s') 
+                'fecharegistro' => date('Y-m-d H:i:s')
             );
             $this->proceso->addDetalleProceso($data);
 
@@ -152,17 +152,17 @@ public function agregar_detalle()
                 'numero'=>1,
                 'activo'=>1,
                 'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s') 
+                'fecharegistro' => date('Y-m-d H:i:s')
             );
             $this->proceso->addDetalleProceso($data);
 
 
         }
-    redirect('proceso/ver/'.$idproceso); 
+    redirect('proceso/ver/'.$idproceso);
 
 }else{
-  
-   redirect('proceso/ver/'.$idproceso); 
+
+   redirect('proceso/ver/'.$idproceso);
 }
 
     }
@@ -213,31 +213,32 @@ public function modificar_posicion()
      $this->proceso->updateDetalleProceso($value,$data);
 
     }
-     
+
 
 }
 
 public function entrada()
 {
     $data = array(
+        'laminas'=>$this->proceso->allNumeroPartesLaminas(),
         'partes'=>$this->proceso->allNumeroPartes(),
         'procesos'=>$this->proceso->showAllProcesos(),
         'procesosiniciados'=>$this->proceso->allParteProcesos()
     );
      $this->load->view('header');
         $this->load->view('proceso/entrada',$data);
-        $this->load->view('footer'); 
+        $this->load->view('footer');
 }
 public function eliminar_entrada($identrada)
 {
     # code...
     $validacion = $this->proceso->validar_activo_detalle_entrada($identrada);
     if($validacion == FALSE){
-        
+
         $this->proceso->deleteDetalleEntradaPorId($identrada);
         $this->proceso->deleteEntradaPorId($identrada);
     }
-    redirect('proceso/entrada/'); 
+    redirect('proceso/entrada/');
 
 }
 
@@ -251,7 +252,7 @@ public function agregar_entrada()
                 'label' => 'Cantidad',
                 'rules' => 'trim|required|is_natural',
                 'errors' => array(
-                    'required' => 'Cantidad campo obligatorio.', 
+                    'required' => 'Cantidad campo obligatorio.',
                     'is_natural'=> 'Solo número positivo.'
                 )
             ),array(
@@ -259,7 +260,7 @@ public function agregar_entrada()
                 'label' => 'Meta de Produccion',
                 'rules' => 'trim|required|is_natural',
                 'errors' => array(
-                    'required' => 'Cantidad campo obligatorio.', 
+                    'required' => 'Cantidad campo obligatorio.',
                     'is_natural'=> 'Solo número positivo.'
                 )
             ),
@@ -324,7 +325,7 @@ public function agregar_entrada()
             'numerodetalleproceso'=>$numero_paso,
             'cantidadentrada'=>$this->input->post('cantidad'),
             'cantidadsalida'=>0,
-            'cantidaderronea'=>0, 
+            'cantidaderronea'=>0,
             'finalizado'=>0,
             'idusuario' => $this->session->user_id,
             'fecharegistro' => date('Y-m-d H:i:s'),
@@ -340,13 +341,13 @@ public function agregar_entrada()
 
 public function trabajar($idmaquina)
 {
-    # code... 
+    # code...
     $data = array(
         'registros' =>$this->proceso->allProcesosTrabajar($idmaquina),
         //'scrap'=>$this->proceso->allProcesosScrap(),
         'maquina'=>$idmaquina,
         'detallemaquina'=>$this->proceso->detalle_maquina($idmaquina) );
-   
+
       $this->load->view('header');
         $this->load->view('proceso/trabajar',$data);
         $this->load->view('footer');
@@ -359,7 +360,7 @@ public function trabajar($idmaquina)
         //'registros' =>$this->proceso->allProcesosTrabajar($idmaquina),
         'registros'=>$this->proceso->allProcesosScrap(),
         'maquina'=>3);
-   
+
       $this->load->view('header');
         $this->load->view('proceso/scrap',$data);
         $this->load->view('footer');
@@ -410,7 +411,7 @@ public function siguiente_proceso_scrap()
                 'label' => 'cantidadbien',
                 'rules' => 'trim|required|is_natural',
                 'errors' => array(
-                    'required' => 'Cantidad Buenas es campo obligatorio.', 
+                    'required' => 'Cantidad Buenas es campo obligatorio.',
                     'is_natural'=> 'Solo número positivo.'
                 )
             ),
@@ -419,7 +420,7 @@ public function siguiente_proceso_scrap()
                 'label' => 'cantidaderror',
                 'rules' => 'trim|required|is_natural',
                 'errors' => array(
-                    'required' => 'Cantidad Malas es campo obligatorio.', 
+                    'required' => 'Cantidad Malas es campo obligatorio.',
                     'is_natural'=> 'Solo número positivo.'
                 )
             )
@@ -441,7 +442,7 @@ public function siguiente_proceso_scrap()
             $maquina =$this->input->post('maquina');
             $identradaproceso =$this->input->post('identradaproceso');
             $total_sum = ($cantidadok + $cantidaderror);
-            if($cantidad == $total_sum){ 
+            if($cantidad == $total_sum){
 
                 //Averiguar si un PROCESO DE INSPECCION esta Activo
 
@@ -458,7 +459,7 @@ public function siguiente_proceso_scrap()
                      $this->proceso->updateSeguimientoProceso($iddetalle,$data_update);
 
                       $data_update_next = array(
-                    'cantidadentrada'=>$cantidadok, 
+                    'cantidadentrada'=>$cantidadok,
                     'fecharegistro'=> date('Y-m-d H:i:s'),
                     'fechaliberado'=> date('Y-m-d H:i:s')
                         );
@@ -483,7 +484,7 @@ public function siguiente_proceso_scrap()
                             'numerodetalleproceso'=>0,
                             'cantidadentrada'=>$cantidadok,
                             'cantidadsalida'=>0,
-                            'cantidaderronea'=>0, 
+                            'cantidaderronea'=>0,
                             'descrap'=>1,
                             'finalizado'=>0,
                             'idusuario' => $this->session->user_id,
@@ -504,7 +505,7 @@ public function siguiente_proceso_scrap()
     }
 
 
- 
+
 public function siguiente_proceso()
 {
     # code...
@@ -514,7 +515,7 @@ public function siguiente_proceso()
                 'label' => 'cantidadbien',
                 'rules' => 'trim|required|is_natural',
                 'errors' => array(
-                    'required' => 'Cantidad Buenas es campo obligatorio.', 
+                    'required' => 'Cantidad Buenas es campo obligatorio.',
                     'is_natural'=> 'Solo número positivo.'
                 )
             ),
@@ -523,7 +524,7 @@ public function siguiente_proceso()
                 'label' => 'cantidaderror',
                 'rules' => 'trim|required|is_natural',
                 'errors' => array(
-                    'required' => 'Cantidad Malas es campo obligatorio.', 
+                    'required' => 'Cantidad Malas es campo obligatorio.',
                     'is_natural'=> 'Solo número positivo.'
                 )
             )
@@ -545,17 +546,16 @@ public function siguiente_proceso()
             $maquina =$this->input->post('maquina');
             $identradaproceso =$this->input->post('identradaproceso');
             $total_sum = ($cantidadok + $cantidaderror);
-            if($cantidad == $total_sum){ 
+            if($cantidad == $total_sum){
 
     $detalle = $this->proceso->detalle_proceso_maquina($iddetalle,$maquina);
     $numero = $detalle->numero;
     $idproceso = $detalle->idproceso;
     $detalle_siguiente = $this->proceso->siguiente_proceso($numero,$idproceso);
-   // var_dump($detalle_siguiente);
     if($detalle_siguiente){
         $idnueva_maquina = $detalle_siguiente->idmaquina;
         $idnueva_numero_proceso = $detalle_siguiente->numero;
-         $idnueva_detalle = $detalle_siguiente->iddetalle;
+        $idnueva_detalle = $detalle_siguiente->iddetalle;
             //Hay que validar si existe registro del siguiente proceso
             //Si es que existe validar si ya fue pasaso al siguiente nivel
             //para saber si se puede modificar
@@ -577,7 +577,7 @@ public function siguiente_proceso()
                      $detalle_next = $this->proceso->detalle_seguimiento_proceso($identradaproceso,$idnueva_maquina);
 
                       $data_update_next = array(
-                    'cantidadentrada'=>$cantidadok, 
+                    'cantidadentrada'=>$cantidadok,
                     'fecharegistro'=> date('Y-m-d H:i:s'),
                     'fechaliberado'=> date('Y-m-d H:i:s')
                         );
@@ -607,7 +607,7 @@ public function siguiente_proceso()
             'numerodetalleproceso'=>$idnueva_numero_proceso,
             'cantidadentrada'=>$cantidadok,
             'cantidadsalida'=>0,
-            'cantidaderronea'=>0, 
+            'cantidaderronea'=>0,
             'finalizado'=>0,
             'idusuario' => $this->session->user_id,
             'fecharegistro' => date('Y-m-d H:i:s'),
@@ -621,13 +621,13 @@ public function siguiente_proceso()
     }else{
          //Ya no hay siguiente paso y finaliza el proceso
         $finalizo_proceso = array(
-                   'cantidadsalida'=>$cantidadok,
+                    'cantidadsalida'=>$cantidadok,
                     'cantidaderronea'=>$cantidaderror,
                     'finalizado'=>1,
                     'fechaliberado'=> date('Y-m-d H:i:s')
                  );
-$this->proceso->updateSeguimientoProceso($iddetalle,$finalizo_proceso);
-         $update_finalizo_proceso = array(
+        $this->proceso->updateSeguimientoProceso($iddetalle,$finalizo_proceso);
+        $update_finalizo_proceso = array(
                     'finalizado'=>1
                  );
 
@@ -641,18 +641,26 @@ $this->proceso->updateSeguimientoProceso($iddetalle,$finalizo_proceso);
             'numerodetalleproceso'=>0,
             'cantidadentrada'=>$cantidaderror,
             'cantidadsalida'=>0,
-            'cantidaderronea'=>0, 
-            'descrap'=>0, 
+            'cantidaderronea'=>0,
+            'descrap'=>0,
             'finalizado'=>0,
             'idusuario' => $this->session->user_id,
             'fecharegistro' => date('Y-m-d H:i:s'),
             'fechaliberado' => date('Y-m-d H:i:s')
            );
            $this->proceso->addInicioProceso($data_inicio);
+         }else{
 
-         }
+           //Finaliza todo el proceso porque ya no hay errores
+           $update_finalizo_proceso2 = array(
+                       'finalizadotodo'=>1
+                    );
 
-       
+            $this->proceso->updateSeguimientoProceso($iddetalle,$update_finalizo_proceso2);
+       }
+
+
+
          echo json_encode(['success'=>'Se envio la información con exito.']);
     }
 
@@ -673,6 +681,7 @@ $this->proceso->updateSeguimientoProceso($iddetalle,$finalizo_proceso);
         $data = array(
             'finalizado'=>1,
             'todoascreap'=>1,
+            'finalizadotodo'=>1,
             'cantidaderronea'=>$cantidad
         );
         $this->proceso->updateSeguimientoProceso($id,$data);
@@ -680,11 +689,11 @@ $this->proceso->updateSeguimientoProceso($iddetalle,$finalizo_proceso);
         //'registros' =>$this->proceso->allProcesosTrabajar($idmaquina),
         'registros'=>$this->proceso->allProcesosScrap(),
         'maquina'=>3);
-   
+
       $this->load->view('header');
         $this->load->view('proceso/scrap',$data);
         $this->load->view('footer');
-    
+
     }
 
 }

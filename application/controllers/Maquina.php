@@ -20,8 +20,8 @@ class Maquina extends CI_Controller {
         $this->load->library('permission');
         $this->load->library('session');
     }
-   public function index() { 
-      // Permission::grant(uri_string());
+   public function index() {
+      Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('maquina/index');
         $this->load->view('footer');
@@ -46,7 +46,7 @@ class Maquina extends CI_Controller {
                 'nombremaquina' => form_error('nombremaquina')
             );
         } else {
-             
+
             $nombremaquina = $this->input->post('nombremaquina');
             $datavalidar = $this->maquina->validadExistenciaNombreMaquina($nombremaquina);
             if ($datavalidar == FALSE) {
@@ -104,7 +104,7 @@ class Maquina extends CI_Controller {
                       'activo' => $this->input->post('activo'),
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
-                    
+
                 );
                 $this->maquina->updateMaquina($idmaquina, $data);
             } else {
@@ -118,10 +118,10 @@ class Maquina extends CI_Controller {
         echo json_encode($result);
     }
 
- 
+
 
     public function showAll() {
-        //Permission::grant(uri_string()); 
+        //Permission::grant(uri_string());
         $query = $this->maquina->showAllMaquina();
         if ($query) {
             $result['maquinas'] = $this->maquina->showAllMaquina();
@@ -130,7 +130,7 @@ class Maquina extends CI_Controller {
     }
 
     public function searchMaquina() {
-        $value = $this->input->post('text'); 
+        $value = $this->input->post('text');
         $query = $this->maquina->searchMaquina($value);
         if (!empty($query)) {
             $result['maquinas'] = $query;

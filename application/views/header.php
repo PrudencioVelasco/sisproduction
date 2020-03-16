@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
-    <link rel="shortcut icon" href="<?php echo base_url(); ?>/assets/images/icowoori.ico"> 
+    <link rel="shortcut icon" href="<?php echo base_url(); ?>/assets/images/icowoori.ico">
     <!-- Firefox, Opera  -->
     <link rel="icon" href="<?php echo base_url(); ?>/assets/images/icowoori.ico">
     <meta charset="utf-8">
@@ -13,7 +13,7 @@
     <!-- Bootstrap core CSS -->
     <link href="<?php echo base_url(); ?>/assets/principal/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>/assets/fonts/css/font-awesome.min.css" rel="stylesheet">
-    
+
     <link href="<?php echo base_url(); ?>/assets/css/style.css" rel="stylesheet">
 
 
@@ -23,14 +23,14 @@
     <!-- Animation Css -->
     <link href="<?php echo base_url(); ?>/assets/plugins/animate-css/animate.css" rel="stylesheet" />
 
-    
+
 
     <!-- Wait Me Css -->
     <link href="<?php echo base_url(); ?>/assets/plugins/waitme/waitMe.css" rel="stylesheet" />
 
     <!-- Bootstrap Select Css -->
     <link href="<?php echo base_url(); ?>/assets/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
-    
+
 
 
 
@@ -92,7 +92,7 @@
             </style>
         </head>
         <body class="nav-md">
-    
+
     </div>
         <div class="container body">
             <div class="main_container">
@@ -130,20 +130,19 @@
                                     <li><a href="<?= base_url('/proceso/') ?>"><i class="fa fa-flag-o" aria-hidden="true"></i>Procesos</a> </li>
                                     <li><a href="<?= base_url('/catalogo/') ?>"><i class="fa fa-folder-open" aria-hidden="true"></i>Catalogo</a> </li>
                                     <li><a><i class="fa fa-bar-chart" aria-hidden="true"></i> Reporte <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu" style="display: none"> 
- 
-                                       <li><a href="<?= base_url('/reporte/transferencia') ?>"> Transferencia</a> </li> 
+                                        <ul class="nav child_menu" style="display: none">
+                                              <!--<li><a href="<?php //echo base_url('/reporte/transferencia') ?>"> Transferencia</a> </li>-->
                                               <li><a href="<?= base_url('/reporte/reportepacking') ?>"> Reporte packing</a> </li>
                                               <li><a href="<?= base_url('/reporte/reportecalidad') ?>"> Reporte calidad</a> </li>
                                               <li><a href="<?= base_url('/reporte/reportealmacen') ?>"> Reporte almacen</a> </li>
-                                                <li><a href="<?= base_url('/reporte/procesofinal') ?>"> Procesos Final</a> </li>
- 
+                                              <li><a href="<?= base_url('/reporte/procesomaquina') ?>"> Por maquina</a> </li>
+                                              <li><a href="<?= base_url('/reporte/porprocesos') ?>"> Por proceso</a> </li>
                                         </ul>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <!-- /sidebar menu --> 
+                        <!-- /sidebar menu -->
 
                     </div>
                 </div>

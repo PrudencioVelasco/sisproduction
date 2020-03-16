@@ -12,7 +12,7 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    
+
                     <div class="row top_tiles">
                             <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <div class="tile-stats">
@@ -31,13 +31,13 @@
                                     </div>
                                     <div class="count">---</div>
 
-                                    <h3><a href="<?php echo base_url('maquina/')?>">Maquina</a></h3>
+                                    <h3><a href="<?php echo base_url('maquina/')?>">Maquinas</a></h3>
                                     <p>Admin. Maquinas.</p>
                                 </div>
                             </div>
                             <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                    <div class="icon"><i style="color:blue;" class="fa fa-arrow-right" aria-hidden="true"></i>
                                     </div>
                                     <div class="count">---</div>
 
@@ -94,7 +94,7 @@
                             </div>
                             <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-check-square-o"></i>
+                                    <div class="icon"><i style="color:green;" class="fa fa-check-square-o"></i>
                                     </div>
                                     <div class="count">---</div>
 
@@ -106,7 +106,7 @@
                             <div class="row top_tiles">
                             <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                 <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-cogs" aria-hidden="true"></i>
+                                    <div class="icon"><i class="fa fa-trash" style="color:red;" aria-hidden="true"></i>
 
                                     </div>
                                     <div class="count">---</div>
@@ -114,13 +114,13 @@
                                     <h3><a href="<?php echo base_url('proceso/scrap/3')?>">SCRAP</a></h3>
                                     <p>Proceso de Scrap</p>
                                 </div>
-                            </div> 
+                            </div>
                         </div>
 
 
 
 
- 
+
 
                 </div>
             </div>

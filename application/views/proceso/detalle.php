@@ -1,7 +1,7 @@
 <!-- page content -->
    <style>
-   
-    
+
+
    #page_list li
    {
     padding:16px;
@@ -36,43 +36,48 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        
+
                          <div class="container">
+                           <div class="row">
+                              <form class="form-inline" method="POST" action="<?php echo site_url('proceso/agregar_detalle');?>">
+                               <div class="col-md-6 col-sm-12 col-xs-12">
+                                 <select  class="form-control" name="idmaquina" required>
+                                   <option value="">--SELECIONAR MAQUINA--</option>
+                                  <?php
+                                     foreach ($maquinas as $value) {
+                                       # code...
+                                       echo '<option value="'.$value->idmaquina.'" >'.$value->nombremaquina.'</option>';
+                                     }
+                                   ?>
+                                 </select>
+                                 <input type="hidden" name="idproceso" value="<?php echo $idproceso ?>">
+                                 <button type="submit" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Agregar</button>
+                               </div>
+                              </form>
+                         </div>
+                         </div>
 
 
-                         	 <form class="form-inline" method="POST" action="<?php echo site_url('proceso/agregar_detalle');?>">
-  <div class="form-group">
-    <label >Maquina: </label> 
-    <select  class="form-control" name="idmaquina">
-    	<?php
-        foreach ($maquinas as $value) {
-          # code...
-          echo '<option value="'.$value->idmaquina.'" >'.$value->nombremaquina.'</option>';
-        }
-      ?>
-    </select>
-  </div> 
-  <input type="hidden" name="idproceso" value="<?php echo $idproceso ?>">
-  <button type="submit" class="btn btn-primary">Agregar</button>
-</form> 
-
-    					
    <hr />
    	<form id="frmeliminar">
    <ul class="list-unstyled" id="page_list" >
-   
-   <?php 
+
+   <?php
    if(isset($detalle) && !empty($detalle)){
-   foreach ($detalle as  $value) { 
-    echo '<li id="'.$value->iddetalle.'"><input type="checkbox" name="iddetalle[]" value="'.$value->iddetalle.'">         '.$value->nombremaquina.'</li>';
-   }
+   foreach ($detalle as  $value) { ?>
+    <li id="<?php echo $value->iddetalle; ?>">
+    <input type="checkbox"  name="iddetalle[]" value="<?php echo $value->iddetalle; ?>" id="remember_me<?php echo $value->iddetalle ?>" class="filled-in">
+    <label for="remember_me<?php echo $value->iddetalle ?>"><?php echo $value->nombremaquina;?></label>
+  </li>
+   <?php
+ }
 }
    ?>
    <input type="hidden" name="idproceso" value="<?php echo $idproceso; ?>" /><br>
-   
- 
+
+
    </ul>
-   <button type="button" id="btneliminar" class="btn btn-danger">Eliminar</button>
+   <button type="button" id="btneliminar" class="btn btn-danger"><i class="fa fa-trash"></i> Quitar</button>
    </form>
    <input type="hidden" name="page_order_list" id="page_order_list" />
   </div>
@@ -84,7 +89,7 @@
     </div>
 
 
-</div> 
+</div>
 
 
 <script>
@@ -114,7 +119,7 @@ $(document).ready(function(){
 });
 </script>
 <script>
-	  $("#btneliminar").click(function(){ 
+	  $("#btneliminar").click(function(){
             $.ajax({
                 type: "POST",
                 url: "<?php echo site_url('proceso/eliminar');?>",
@@ -123,17 +128,17 @@ $(document).ready(function(){
                 	location.reload();
                     /*var msg = $.parseJSON(data);
                     console.log(msg.error);
-                    if((typeof msg.error === "undefined")){ 
-                    $(".print-error-msg").css('display','none'); 
-                    alert(msg.success) ? "" : location.reload(); 
-                    }else{ 
-                    $(".print-error-msg").css('display','block'); 
+                    if((typeof msg.error === "undefined")){
+                    $(".print-error-msg").css('display','none');
+                    alert(msg.success) ? "" : location.reload();
+                    }else{
+                    $(".print-error-msg").css('display','block');
                     $(".print-error-msg").html(msg.error);
 
                     }*/
                 }
             });
-         
-    }); 
+
+    });
 
 </script>

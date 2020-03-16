@@ -43,6 +43,7 @@
                                     <th>Revisión</th>
                                     <th>Documento</th>   
                                     <th>Opciones</th>
+                                    
                                 </thead>
                                 <tbody>
                                     <?php 
@@ -53,13 +54,16 @@
                                                 <td><?php echo $value->modelo ?></td>
                                                 <td><?php echo $value->revision ?></td> 
                                                 
-                                                <td style="white-space:nowrap;"> 
-                                                       <!--<a target="_blank" class="btn btn-icons btn-rounded btn-round  btn-xs btn-default" href="<?php //echo site_url('documentos/downloadDocument/' . $value->iddoc) ?>"><i class="fa fa-eye" aria-hidden="true"></i> Ver documento</a>-->
+                                                <td style="white-space:nowrap;">  
 
                                                         <a target="_blank" class="btn btn-icons btn-rounded btn-round  btn-xs btn-info" href="<?php echo base_url(); ?>specs/<?php echo utf8_encode($value->nombredocumento);?>"><?php echo str_replace('_',' ', $value->nombredocumento) ?></a>
 
                                                 </td>
                                                 <td>
+                                                  <?php 
+                                                  if(isset($this->session->rol) && !empty($this->session->rol)) {
+                                                    if($this->session->rol == "Administrador"){
+                                                   ?>
                                                         <!--<a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-primary btn-xs btn_edit" 
                                                         data-toggle="modal" data-target="#myModalEditar"
                                                         data-iddoc="<?php //echo $value->iddoc;?>"
@@ -70,6 +74,10 @@
                                                         data-toggle="modal" data-target="#myModalEliminar"
                                                         data-iddoc="<?php echo $value->iddoc;?>">
                                                         <i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>
+                                                      <?php 
+                                                         }
+                                                       }
+                                                       ?>
                                                     
                                                 </td>
                                             </tr>
