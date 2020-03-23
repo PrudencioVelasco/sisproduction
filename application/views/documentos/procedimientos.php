@@ -1,6 +1,6 @@
 <!-- page content -->
  <style type="text/css">
-@keyframes blink {  
+@keyframes blink {
   0% { color: blue; }
   100% { color: white; }
 }
@@ -20,16 +20,16 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><strong>Modulo de Procedimientos</strong></h2>
+                        <h3><strong>ADMINISTRAR PROCEDIMIENTOS</strong></h3>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="x_content"> 
+                    <div class="x_content">
                           <div class="row">
-                            <div class="col-md-6 col-sm-12 col-xs-12"> 
-                                <button type="button" data-toggle="modal" data-target="#modalLoginForm" class="btn btn-primary "><i class='fa fa-plus'></i> SUBIR PROCEDIMIENTO</button> 
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <button type="button" data-toggle="modal" data-target="#modalLoginForm" class="btn btn-primary "><i class='fa fa-plus'></i> SUBIR PROCEDIMIENTO</button>
                           </div>
-                      </div> 
-                   
+                      </div>
+
                       <ul class="nav nav-tabs bar_tabs" role="tablist">
         <li role="presentation" class="active"><a href="#example4-tab1" aria-controls="example4-tab1" role="tab" data-toggle="tab"><strong>Archivo Procedimientos</strong></a></li>
         <li role="presentation"><a href="#example4-tab2" aria-controls="example4-tab2" role="tab" data-toggle="tab"><strong>Archivos Formatos</strong></a></li>
@@ -43,49 +43,49 @@
             <table id="example4-tab1-dt" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
                 <thead   >
                                     <th>Nombre</th>
-                                    <th>Código</th> 
+                                    <th>Código</th>
                                     <th>Revisión</th>
                                     <th>Área</th>
-                                    <th>Documento</th>   
+                                    <th>Documento</th>
                                     <th>Opciones</th>
                                 </thead>
                                 <tbody>
-                                    <?php 
+                                    <?php
                                     if (isset($data) && !empty($data)) {
-                                        foreach ($data as $value) { 
+                                        foreach ($data as $value) {
                                           if($value->idtipodocumento == 3){
                                           ?>
-                                            <tr   class="table-default"> 
+                                            <tr   class="table-default">
                                                 <td><?php echo $value->nombredocumento ?></td>
                                                 <td><?php echo $value->codigo ?></td>
-                                                <td><?php echo $value->revision ?></td> 
-                                                <td><?php echo $value->nombrearea ?></td> 
-                                                
-                                                <td style="white-space:nowrap;">  
+                                                <td><?php echo $value->revision ?></td>
+                                                <td><?php echo $value->nombrearea ?></td>
+
+                                                <td style="white-space:nowrap;">
                                                         <a target="_blank" class="btn btn-icons btn-rounded btn-round  btn-xs btn-info" href="<?php echo base_url(); ?>specs_procedimientos/<?php echo utf8_encode($value->nombre);?>"><?php echo str_replace('_',' ', $value->nombre) ?></a>
 
                                                 </td>
-                                                <td> 
+                                                <td>
 
-                                                        <?php 
+                                                        <?php
                                                   if(isset($this->session->rol) && !empty($this->session->rol)) {
                                                     if($this->session->rol == "Administrador"){
                                                    ?>
-                                                        <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete" 
+                                                        <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete"
                                                         data-toggle="modal" data-target="#myModalEliminar"
                                                         data-iddoc="<?php echo $value->idspecsprocedimiento;?>">
                                                         <i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>
 
-                                                          <?php 
+                                                          <?php
                                                          }
                                                        }
                                                        ?>
-                                                    
+
                                                 </td>
                                             </tr>
                                             <?php
                                           }
-                                        } 
+                                        }
                                     }
                                     ?>
                                 </tbody>
@@ -95,49 +95,49 @@
             <table id="example4-tab2-dt" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
                  <thead   >
                                     <th>Nombre</th>
-                                    <th>Código</th> 
+                                    <th>Código</th>
                                     <th>Revisión</th>
                                     <th>Área</th>
-                                    <th>Documento</th>   
+                                    <th>Documento</th>
                                     <th>Opciones</th>
                                 </thead>
                                 <tbody>
-                                    <?php 
+                                    <?php
                                     if (isset($data) && !empty($data)) {
-                                        foreach ($data as $value) { 
+                                        foreach ($data as $value) {
                                           if($value->idtipodocumento == 4){
                                           ?>
-                                            <tr   class="table-default"> 
+                                            <tr   class="table-default">
                                                 <td><?php echo $value->nombredocumento ?></td>
                                                 <td><?php echo $value->codigo ?></td>
-                                                <td><?php echo $value->revision ?></td> 
-                                                <td><?php echo $value->nombrearea ?></td> 
-                                                
-                                                <td style="white-space:nowrap;">  
+                                                <td><?php echo $value->revision ?></td>
+                                                <td><?php echo $value->nombrearea ?></td>
+
+                                                <td style="white-space:nowrap;">
                                                         <a target="_blank" class="btn btn-icons btn-rounded btn-round  btn-xs btn-info" href="<?php echo base_url(); ?>specs_procedimientos/<?php echo utf8_encode($value->nombre);?>"><?php echo str_replace('_',' ', $value->nombre) ?></a>
 
                                                 </td>
-                                                <td> 
+                                                <td>
 
-                                                        <?php 
+                                                        <?php
                                                   if(isset($this->session->rol) && !empty($this->session->rol)) {
                                                     if($this->session->rol == "Administrador"){
                                                    ?>
-                                                        <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete" 
+                                                        <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete"
                                                         data-toggle="modal" data-target="#myModalEliminar"
                                                         data-iddoc="<?php echo $value->idspecsprocedimiento;?>">
                                                         <i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>
 
-                                                          <?php 
+                                                          <?php
                                                          }
                                                        }
                                                        ?>
-                                                    
+
                                                 </td>
                                             </tr>
                                             <?php
                                           }
-                                        } 
+                                        }
                                     }
                                     ?>
                                 </tbody>
@@ -147,48 +147,48 @@
             <table id="example4-tab3-dt" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
                  <thead   >
                                     <th>Nombre</th>
-                                    <th>Código</th> 
+                                    <th>Código</th>
                                     <th>Revisión</th>
                                     <th>Área</th>
-                                    <th>Documento</th>   
+                                    <th>Documento</th>
                                     <th>Opciones</th>
                                 </thead>
                                 <tbody>
-                                    <?php 
+                                    <?php
                                     if (isset($data) && !empty($data)) {
-                                        foreach ($data as $value) { 
+                                        foreach ($data as $value) {
                                           if($value->idtipodocumento == 5){
                                           ?>
-                                            <tr   class="table-default"> 
+                                            <tr   class="table-default">
                                                 <td><?php echo $value->nombredocumento ?></td>
                                                 <td><?php echo $value->codigo ?></td>
-                                                <td><?php echo $value->revision ?></td> 
-                                                <td><?php echo $value->nombrearea ?></td> 
-                                                
-                                                <td style="white-space:nowrap;">  
+                                                <td><?php echo $value->revision ?></td>
+                                                <td><?php echo $value->nombrearea ?></td>
+
+                                                <td style="white-space:nowrap;">
                                                         <a target="_blank" class="btn btn-icons btn-rounded btn-round  btn-xs btn-info" href="<?php echo base_url(); ?>specs_procedimientos/<?php echo utf8_encode($value->nombre);?>"><?php echo str_replace('_',' ', $value->nombre) ?></a>
 
                                                 </td>
-                                                <td> 
-    <?php 
+                                                <td>
+    <?php
                                                   if(isset($this->session->rol) && !empty($this->session->rol)) {
                                                     if($this->session->rol == "Administrador"){
                                                    ?>
-                                                        <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete" 
+                                                        <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete"
                                                         data-toggle="modal" data-target="#myModalEliminar"
                                                         data-iddoc="<?php echo $value->idspecsprocedimiento;?>">
                                                         <i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>
 
-                                                          <?php 
+                                                          <?php
                                                          }
                                                        }
                                                        ?>
-                                                    
+
                                                 </td>
                                             </tr>
                                             <?php
                                           }
-                                        } 
+                                        }
                                     }
                                     ?>
                                 </tbody>
@@ -199,48 +199,48 @@
             <table id="example4-tab4-dt" class="table table-striped table-bordered table-condensed" cellspacing="0" width="100%">
                  <thead   >
                                     <th>Nombre</th>
-                                    <th>Código</th> 
+                                    <th>Código</th>
                                     <th>Revisión</th>
                                     <th>Área</th>
-                                    <th>Documento</th>   
+                                    <th>Documento</th>
                                     <th>Opciones</th>
                                 </thead>
                                 <tbody>
-                                    <?php 
+                                    <?php
                                     if (isset($data) && !empty($data)) {
-                                        foreach ($data as $value) { 
+                                        foreach ($data as $value) {
                                           if($value->idtipodocumento == 2){
                                           ?>
-                                            <tr   class="table-default"> 
+                                            <tr   class="table-default">
                                                 <td><?php echo $value->nombredocumento ?></td>
                                                 <td><?php echo $value->codigo ?></td>
-                                                <td><?php echo $value->revision ?></td> 
-                                                <td><?php echo $value->nombrearea ?></td> 
-                                                
-                                                <td style="white-space:nowrap;">  
+                                                <td><?php echo $value->revision ?></td>
+                                                <td><?php echo $value->nombrearea ?></td>
+
+                                                <td style="white-space:nowrap;">
                                                         <a target="_blank" class="btn btn-icons btn-rounded btn-round  btn-xs btn-info" href="<?php echo base_url(); ?>specs_procedimientos/<?php echo utf8_encode($value->nombre);?>"><?php echo str_replace('_',' ', $value->nombre) ?></a>
 
                                                 </td>
-                                                <td> 
-                                                   <?php 
+                                                <td>
+                                                   <?php
                                                   if(isset($this->session->rol) && !empty($this->session->rol)) {
                                                     if($this->session->rol == "Administrador"){
                                                    ?>
-                                                        <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete" 
+                                                        <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete"
                                                         data-toggle="modal" data-target="#myModalEliminar"
                                                         data-iddoc="<?php echo $value->idspecsprocedimiento;?>">
                                                         <i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>
 
-                                                          <?php 
+                                                          <?php
                                                          }
                                                        }
                                                        ?>
-                                                    
+
                                                 </td>
                                             </tr>
                                             <?php
                                           }
-                                        } 
+                                        }
                                     }
                                     ?>
                                 </tbody>
@@ -250,7 +250,7 @@
 </div>
 
 
-                  </div>  
+                  </div>
     </div>
 </div>
 </div>
@@ -258,9 +258,9 @@
 </div>
 <!-- /page content -->
 
- 
 
- 
+
+
 
 
 
@@ -268,23 +268,23 @@
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title w-100 font-weight-bold">Subir SPECS</h3>
+      <div class="modal-header modal-header-info-nomodal">
+        <h3 class="modal-title w-100 font-weight-bold">SUBIR SPECS</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
        <form id="frmsubir" enctype="multipart/form-data">
       <div class="modal-body mx-3">
-    <div class="alert alert-danger print-error-msg" style="display:none"></div> 
-        
+    <div class="alert alert-danger print-error-msg" style="display:none"></div>
+
   <div class="row">
           <div class="col-md-12 col-sm-12 col-xs-12 ">
             <div class="form-group">
           <label ><font color="red">*</font> Nombre Documento</label>
-            <input type="text" class="form-control" name="titulodocumento" placeholder="Nombre Documento" id="titulodocumento" > 
+            <input type="text" class="form-control" name="titulodocumento" placeholder="Nombre Documento" id="titulodocumento" >
         </div>
-         </div> 
+         </div>
       </div>
 
   <div class="row">
@@ -299,7 +299,7 @@
           <label ><font color="red">*</font> Revisión</label>
           <input type="text" name="revision" id="revision" placeholder="Revisión" class="form-control">
          </div>
-        </div>  
+        </div>
       </div>
 
 
@@ -316,7 +316,7 @@
                         ?>
                         <option value="<?php echo $value->idtipodocumento; ?>"><?php echo $value->nombretipo; ?></option>
                         <?php
-                        
+
                       }
                   }
               ?>
@@ -334,13 +334,13 @@
                         ?>
                         <option value="<?php echo $value->idarea; ?>"><?php echo $value->nombrearea; ?></option>
                         <?php
-                        
+
                       }
                   }
               ?>
           </select>
          </div>
-        </div> 
+        </div>
       </div>
 
       <div class="row">
@@ -370,8 +370,8 @@
 
       </div>
       <div class="modal-footer d-flex justify-content-center">
-          <button type="button" class="btn btn-danger" id="btncancelar" >Cancelar</button>
-       <button type="button" class="btn btn-primary" id="btnsubir" >Subir</button>
+          <button type="button" class="btn btn-danger" id="btncancelar" ><i class='fa fa-ban'></i> Cancelar</button>
+       <button type="button" class="btn btn-primary" id="btnsubir" ><i class="fa fa-cloud-upload" aria-hidden="true"></i>  Subir</button>
       </div>
   </form>
     </div>
@@ -381,14 +381,14 @@
 
 
 <script>
- $(document).on( "click", '#btncancelar',function(e) { 
-   
+ $(document).on( "click", '#btncancelar',function(e) {
+
    //alert("Cancelar");
    location.reload();
-}); 
+});
 </script>
 
-<script> 
+<script>
     $("#btnsubir").click(function(){
 
         var codigo = $("#codigo").val();
@@ -398,7 +398,7 @@
         var titulodocumento = $("#titulodocumento").val();
         if(revision != "" && codigo != "" && tipodocumento != "" && area != "" && titulodocumento != ""){
         var form_data = new FormData();
-        form_data.append('archivo', $('#archivo').prop('files')[0]);               
+        form_data.append('archivo', $('#archivo').prop('files')[0]);
         form_data.append('revision', revision);
         form_data.append('codigo', codigo);
         form_data.append('tipodocumento', tipodocumento);
@@ -450,7 +450,7 @@
                         html:'Seleccione un <b>Archivo</b>.',
                         type:'info',
                         confirmButtonText: 'Aceptar'
-                    })  
+                    })
                 }else{
                     $("#load").hide();
                     $('#myModalSubir').modal('hide');
@@ -483,10 +483,10 @@
                     })
     }
     });
- 
+
 
     $(document).on( "click", '.btn_delete',function(e) {
-        var iddoc = $(this).data('iddoc'); 
+        var iddoc = $(this).data('iddoc');
         var dataString = 'iddoc='+ iddoc;
 
         Swal.fire({
@@ -547,7 +547,7 @@
   });
 
 </script>
- 
+
 
        <script type="text/javascript">
         $(document).ready(function(){
@@ -583,14 +583,12 @@
             }
         }
    });
- 
+
    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
          .columns.adjust()
          .fixedColumns().relayout();
-   });  
-});   
+   });
+});
 
  </script>
-
-

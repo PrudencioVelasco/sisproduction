@@ -14,7 +14,7 @@ class Transferencia_model extends CI_Model {
     }
 
     public function showAll() {
-         $query = $this->db->query("SELECT tt.idtransferancia,u.usuario, tt.folio, u.name as nombre, tt.fecharegistro, 
+         $query = $this->db->query("SELECT tt.idtransferancia,u.usuario, tt.folio, u.name as nombre, tt.fecharegistro,
                             (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia AND  pc2.idestatus   in (1,2,3,14,8) ) AS estatus,
                             (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia AND  pc2.idestatus not  in (17) ) AS estatusall,
                             (SELECT
@@ -23,8 +23,8 @@ class Transferencia_model extends CI_Model {
                             (SELECT
                             COUNT(*)
                             FROM tblajuste_caja a WHERE tt. idtransferancia =  a.idtransferencia ) AS ajustecaja
-                            FROM   tbltransferencia tt   
-                            INNER JOIN users u ON u.id = tt.idusuario ORDER BY tt.fecharegistro desc"); 
+                            FROM   tbltransferencia tt
+                            INNER JOIN users u ON u.id = tt.idusuario ORDER BY tt.fecharegistro desc");
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -72,12 +72,14 @@ class Transferencia_model extends CI_Model {
     }
 
     public function validarExistenciaNumeroParte($numeroparte) {
+        $idcategoria = array(1, 3);
         $this->db->select('p.idparte, p.numeroparte');
         $this->db->from('parte p');
         $this->db->where('trim(p.numeroparte)', $numeroparte);
         $this->db->where('p.activo', 1);
+        $this->db->where_in('p.idcategoria', $idcategoria);
         $query = $this->db->get();
-        if ($query->num_rows() > 0) { 
+        if ($query->num_rows() > 0) {
             return $query->first_row();
         } else {
             return false;
@@ -211,7 +213,7 @@ class Transferencia_model extends CI_Model {
 
     public function palletReporte($idtransferencia) {
         $query = $this->db->query("SELECT c.nombre as nombrecliente, tp.numeroparte, tm.descripcion as descripcionmodelo, tc.cantidad, tr.descripcion as descripcionrevision, count(pc.pallet) as totalpallet, sum( tc.cantidad) as totalcajas
-                                FROM palletcajas pc 
+                                FROM palletcajas pc
                                INNER JOIN tblcantidad tc  ON pc.idcajas = tc.idcantidad
                                INNER JOIN tblrevision tr  ON tr.idrevision = tc.idrevision
                                INNER JOIN tblmodelo tm  ON tm.idmodelo = tr.idmodelo
@@ -226,24 +228,24 @@ class Transferencia_model extends CI_Model {
             return false;
         }
     }
-    
+
       public function detalleTransferencia($idtransferencia) {
         $this->db->select('tt.folio, tt.fecharegistro, u.name , t.nombreturno, t.horainicial, t.horafinal');
         $this->db->from('tbltransferencia tt');
         $this->db->join('users u', 'u.id = tt.idusuario');
         $this->db->join('turno t', 't.idturno=u.idturno');
-        $this->db->where('tt.idtransferancia', $idtransferencia); 
+        $this->db->where('tt.idtransferancia', $idtransferencia);
         $query = $this->db->get();
         return $query->first_row();
     }
        public function obtenerUltimoFolio() {
         $this->db->select('tt.folio');
-        $this->db->from('tbltransferencia tt'); 
+        $this->db->from('tbltransferencia tt');
         $this->db->order_by("tt.folio", "desc");
         $query = $this->db->get();
         return $query->first_row();
     }
-    
+
        public function listaPalletCajas($idtransferencia) {
         $this->db->select('pc.*');
         $this->db->from('palletcajas pc');
@@ -271,7 +273,7 @@ class Transferencia_model extends CI_Model {
     }
         public function validarEliminacion($idpalletcajas) {
         $this->db->select('pc.idpalletcajas');
-        $this->db->from('palletcajas pc');  
+        $this->db->from('palletcajas pc');
         $this->db->where('pc.idpalletcajas', $idpalletcajas);
         $this->db->where("(pc.idestatus=14 OR pc.idestatus = 3)");
         //$this->db->where('p.activo', 1);
@@ -292,12 +294,12 @@ class Transferencia_model extends CI_Model {
         } else {
             return false;
         }
-        
+
     }
         public function detalleDelDetallaParte($iddetalle)
     {
         // code...
-        $this->db->select(' 
+        $this->db->select('
         p.idparte,
         pc.idtransferancia,
         pc.idcajas,
@@ -309,7 +311,7 @@ class Transferencia_model extends CI_Model {
         u.name,
         t.nombreturno,
         t.horainicial,
-        t.horafinal, 
+        t.horafinal,
         u.usuario,
         pc.fecharegistro,
         pc.pallet,
@@ -317,8 +319,8 @@ class Transferencia_model extends CI_Model {
         tr.descripcion as revision,
         tc.cantidad,
         l.idlinea,
-        l.nombrelinea, 
-        CONCAT(p.numeroparte) AS codigo'); 
+        l.nombrelinea,
+        CONCAT(p.numeroparte) AS codigo');
         $this->db->from('palletcajas pc');
         $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
         $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');
@@ -338,5 +340,5 @@ class Transferencia_model extends CI_Model {
         return $query->first_row();
     }
 
-    
+
 }

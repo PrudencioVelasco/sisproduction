@@ -151,6 +151,7 @@ class Salida extends CI_Controller {
                     $array[$i]['cajassalidas'] = $row->totalcajassalidas;
                     $array[$i]['test'] = 0;
                     $array[$i]['cajasdisponibles'] = $row->totalcajasdisponibles;
+                    $array[$i]['ubicaciondisponibles'] = $row->ubicaciondisponibles;
                     $i++;
                 } else {
                     //Si son puros pallet
@@ -171,6 +172,7 @@ class Salida extends CI_Controller {
                     $array[$i]['cajassalidas'] = $row->totalcajassalidas;
                     $array[$i]['test'] = 0;
                     $array[$i]['cajasdisponibles'] = $row->totalcajasdisponibles;
+                    $array[$i]['ubicaciondisponibles'] = $row->ubicaciondisponibles;
                     $i++;
                 }
             }

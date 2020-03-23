@@ -128,6 +128,12 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
         $insert_id = $this->db->insert_id();
         return  $insert_id;
     }
+    public function addDetalleScrap($data)
+   {
+       $this->db->insert('tbldetalle_scrap', $data);
+       $insert_id = $this->db->insert_id();
+       return  $insert_id;
+   }
 
 
     public function updateProceso($id, $field)
@@ -294,6 +300,19 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
               return false;
           }
         }
+        public function detalleProcesoActivo($idprocesoentrada)
+     {
+       $this->db->select('m.*');
+       $this->db->from('tblentradadetalleproceso m');
+       $this->db->where('m.finalizadotodo',1);
+       $this->db->where('m.identradaproceso',$idprocesoentrada);
+       $query = $this->db->get();
+       if ($query->num_rows() > 0) {
+           return $query->result();
+       } else {
+           return false;
+       }
+     }
 
             public function allProcesosTrabajar($idmaquina)
     {
@@ -308,11 +327,23 @@ WHERE e.eliminado = 0 ORDER BY e.fecharegistro ASC");
     pr.nombreproceso,
     e.cantidad,
     edp.cantidadentrada,
+    edp.cantidadrecibida,
        edp.cantidadsalida,
        edp.cantidaderronea as cantidadmal,
        edp.idmaquina as tuturno,
        edp.finalizado,
         edp.descrap,
+        (SELECT
+           GROUP_CONCAT(CONCAT_WS(' =  ', ms.nombremotivo, ds.cantidad)
+                   ORDER BY ms.idmotivoscrap ASC
+                   SEPARATOR '<br>')
+       FROM
+           tbldetalle_scrap ds
+               INNER JOIN
+           tblmotivo_scrap ms ON ds.idmotivoscrap = ms.idmotivoscrap
+       WHERE
+           ds.identradadetalleproceso = edp.identradadetalleproceso
+       AND ds.idmotivoscrap IN (1,2,3)) AS detalle_scrap,
  (SELECT
             GROUP_CONCAT(CONCAT_WS('.- ', dp.numero, m.nombremaquina)
                     ORDER BY dp.numero ASC
@@ -357,12 +388,24 @@ edp.identradadetalleproceso as id,
     p2.numeroparte AS lamina,
     pr.nombreproceso,
     e.cantidad,
-    edp.cantidadentrada,
+       edp.cantidadentrada,
        edp.cantidadsalida,
+        edp.cantidadrecibida,
        edp.cantidaderronea as cantidadmal,
        edp.idmaquina as tuturno,
        edp.finalizado,
        edp.descrap,
+       (SELECT
+           GROUP_CONCAT(CONCAT_WS(' =  ', ms.nombremotivo, ds.cantidad)
+                   ORDER BY ms.idmotivoscrap ASC
+                   SEPARATOR ',   ')
+       FROM
+           tbldetalle_scrap ds
+               INNER JOIN
+           tblmotivo_scrap ms ON ds.idmotivoscrap = ms.idmotivoscrap
+       WHERE
+           ds.identradadetalleproceso = edp.identradadetalleproceso
+         AND ds.idmotivoscrap IN (1,2,3) ) AS detallescrap,
  (SELECT
             GROUP_CONCAT(CONCAT_WS('.- ', dp.numero, m.nombremaquina)
                     ORDER BY dp.numero ASC
@@ -397,7 +440,7 @@ ORDER BY edp.fecharegistro DESC");
 
      public function detalle_proceso_maquina($id,$maquina)
         {
-          $this->db->select('p.idproceso,dp.numero');
+          $this->db->select('p.idproceso,dp.numero, d.identradadetalleproceso,d.finalizadotodo');
           $this->db->from('tblentradadetalleproceso d');
           $this->db->join('tblentrada_proceso e', 'e.identradaproceso=d.identradaproceso');
           $this->db->join('tblproceso p', 'p.idproceso=e.idproceso');
@@ -507,6 +550,65 @@ public function deleteDetalleEntradaPorId($id)
     {
         $this->db->where('identradaproceso', $id);
         $this->db->delete('tblentrada_proceso');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+     public function deleteDetalleScrapEnviar($id)
+    {
+        $idmotivo = array(1,2,3);
+        $this->db->where_in('tbldetalle_scrap.idmotivoscrap', $idmotivo);
+        $this->db->where('identradadetalleproceso', $id);
+        $this->db->delete('tbldetalle_scrap');
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+    public function deleteProceso($identradaproceso,$idmaquina)
+   {
+       $this->db->where('identradaproceso', $identradaproceso);
+       $this->db->where('idmaquina', $idmaquina);
+       $this->db->where('finalizado', 0);
+       $this->db->delete('tblentradadetalleproceso');
+       if ($this->db->affected_rows() > 0) {
+           return true;
+       } else {
+           return false;
+       }
+
+   }
+    public function deleteDetalleScrapPorProceso($identradaproceso,$idmaquina)
+   {
+       /*$this->db->where('ep.identradaproceso', $identradaproceso);
+       $this->db->where('ep.idmaquina', $idmaquina);
+       $this->db->where('ep.finalizado', 0);
+       $this->db->join('tblentradadetalleproceso ep','ep.identradadetalleproceso = tbldetalle_scrap.identradadetalleproceso');
+       $this->db->delete('tbldetalle_scrap');*/
+       $sql = "DELETE ds FROM tbldetalle_scrap ds
+              JOIN tblentradadetalleproceso ep  ON ep.identradadetalleproceso = ds.identradadetalleproceso
+              WHERE ep.identradaproceso = ?
+              AND ep.idmaquina = ?
+              AND ep.finalizado = 0";
+      $this->db->query($sql, array($identradaproceso,$idmaquina));
+       if ($this->db->affected_rows() > 0) {
+           return true;
+       } else {
+           return false;
+       }
+
+   }
+    public function deleteDetalleScrap($id)
+    {
+        $idmotivo = array(4,5,6,7);
+        $this->db->where_in('tbldetalle_scrap.idmotivoscrap', $idmotivo);
+        $this->db->where('identradadetalleproceso', $id);
+        $this->db->delete('tbldetalle_scrap');
         if ($this->db->affected_rows() > 0) {
             return true;
         } else {

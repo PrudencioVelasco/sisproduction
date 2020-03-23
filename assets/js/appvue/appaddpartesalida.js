@@ -7,10 +7,10 @@ Vue.component('modal', {//modal
         <div class="modal-wrapper">
           <div class="modal-dialog">
 			    <div class="modal-content">
-			      
 
-			      <div class="modal-header">
-				        <h5 class="modal-title"> <slot name="head"></slot></h5> 
+
+			      <div class="modal-header modal-header-info">
+				        <h5 class="modal-title"> <slot name="head"></slot></h5>
                 <i class="fa fa-window-close  icon-md text-danger" @click="$emit('close')"></i>
 				      </div>
 
@@ -25,7 +25,7 @@ Vue.component('modal', {//modal
           </div>
         </div>
       </div>
-    </transition> 
+    </transition>
     `
 })
 var v = new Vue({
@@ -38,7 +38,7 @@ var v = new Vue({
         //deleteModal:false,
         partes: [],
         search: {text: ''},
-        emptyResult: false, 
+        emptyResult: false,
         chooseParte: {},
         formValidate: [],
         successMSG: '',
@@ -50,7 +50,7 @@ var v = new Vue({
         pageRange: 2
     },
     created() {
-        this.showAll(); 
+        this.showAll();
     },
     methods: {
         showAll() {
@@ -59,7 +59,7 @@ var v = new Vue({
                     v.noResult()
                 } else {
                     v.getData(response.data.partes);
-                    
+
                 }
             })
         },
@@ -73,8 +73,8 @@ var v = new Vue({
 
                 }
             })
-        }, 
-  
+        },
+
         formData(obj) {
             var formData = new FormData();
             for (var key in obj) {
@@ -102,7 +102,7 @@ var v = new Vue({
                 v.successMSG = ''
             }, 3000); // disappearing message success in 2 sec
         },
-        clearAll() { 
+        clearAll() {
             v.formValidate = false;
             v.addModal = false;
             v.editModal = false;

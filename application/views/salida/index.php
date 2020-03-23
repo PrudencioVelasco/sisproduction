@@ -9,7 +9,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h3><strong>Módulo de Salida</strong></h3>
+                        <h3><strong>ADMINISTRAR SALIDAS</strong></h3>
 
                         <div class="clearfix"></div>
                     </div>
@@ -46,14 +46,14 @@
                                             <th class="text-white" v-column-sortable:po>P.O. </th>
                                             <th class="text-white" v-column-sortable:nombre>Cliente </th>
                                             <th class="text-white" v-column-sortable:finalizado>Estatus </th>
-                                            <th class="text-white" v-column-sortable:fecharegistro> Fecha </th> 
+                                            <th class="text-white" v-column-sortable:fecharegistro> Fecha </th>
                                             <th class="text-white text-right" align="right">Opción </th>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="row in salidas" class="table-default">
                                                     <td>{{row.idsalida}}</td>
-                                                    <td>{{row.numerosalida}}</td> 
-                                                    <td>{{row.po}}</td> 
+                                                    <td>{{row.numerosalida}}</td>
+                                                    <td>{{row.po}}</td>
 
                                                     <td>{{row.nombre}}</td>
                                                     <td>
@@ -117,4 +117,4 @@
 </div>
 <!-- /page content -->
  <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
-<script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/appsalida.js"></script> 
+<script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/appsalida.js"></script>

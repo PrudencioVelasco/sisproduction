@@ -1,9 +1,9 @@
 
 var this_js_script = $('script[src*=approl]');
-var my_var_1 = this_js_script.attr('data-my_var_1'); 
+var my_var_1 = this_js_script.attr('data-my_var_1');
 if (typeof my_var_1 === "undefined") {
     var my_var_1 = 'some_default_value';
-} 
+}
 
 
 Vue.component('modal',{ //modal
@@ -13,10 +13,10 @@ Vue.component('modal',{ //modal
         <div class="modal-wrapper">
           <div class="modal-dialog">
 			    <div class="modal-content">
-			      
 
-			      <div class="modal-header">
-				        <h5 class="modal-title"> <slot name="head"></slot></h5> 
+
+			      <div class="modal-header modal-header-info">
+				        <h5 class="modal-title"> <slot name="head"></slot></h5>
                 <i class="fa fa-window-close  icon-md text-danger" @click="$emit('close')"></i>
 				      </div>
 
@@ -31,7 +31,7 @@ Vue.component('modal',{ //modal
           </div>
         </div>
       </div>
-    </transition> 
+    </transition>
     `
 })
 var v = new Vue({
@@ -51,7 +51,7 @@ var v = new Vue({
         chooseRol:{},
         formValidate:[],
         successMSG:'',
-        
+
         //pagination
         currentPage: 0,
         rowCountPage:5,
@@ -60,7 +60,7 @@ var v = new Vue({
          directives: {columnSortable}
     },
      created(){
-      this.showAll(); 
+      this.showAll();
     },
     methods:{
         orderBy(sortFn) {
@@ -82,11 +82,11 @@ var v = new Vue({
                       v.noResult()
                     }else{
                       v.getData(response.data.roles);
-                    
-                    }  
+
+                    }
             })
         },
-          addRol(){   
+          addRol(){
             var formData = v.formData(v.newRol);
               axios.post(this.url+"rol/addRol", formData).then(function(response){
                 if(response.data.error){
@@ -120,11 +120,11 @@ var v = new Vue({
                           });
                     v.clearAll();
                     v.clearMSG();
-                
+
                 }
             })
         },
-         
+
        /* deleteUser(){
              var formData = v.formData(v.chooseUser);
               axios.post(this.url+"user/deleteUser", formData).then(function(response){
@@ -139,23 +139,23 @@ var v = new Vue({
 			   var formData = new FormData();
 		      for ( var key in obj ) {
 		          formData.append(key, obj[key]);
-		      } 
+		      }
 		      return formData;
 		},
         getData(roles){
             v.emptyResult = false; // become false if has a record
             v.totalRoles = roles.length //get total of user
             v.roles = roles.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
-            
+
              // if the record is empty, go back a page
-            if(v.roles.length == 0 && v.currentPage > 0){ 
+            if(v.roles.length == 0 && v.currentPage > 0){
             v.pageUpdate(v.currentPage - 1)
-            v.clearAll();  
+            v.clearAll();
             }
         },
-            
+
         selectRol(rol){
-            v.chooseRol = rol; 
+            v.chooseRol = rol;
         },
         clearMSG(){
             setTimeout(function(){
@@ -163,31 +163,31 @@ var v = new Vue({
 			 },3000); // disappearing message success in 2 sec
         },
         clearAll(){
-            v.newRol = { 
+            v.newRol = {
             rol:'' };
             v.formValidate = false;
             v.addModal= false;
-            v.editModal=false; 
+            v.editModal=false;
             v.deleteModal=false;
             v.refresh()
-            
+
         },
         noResult(){
-          
+
                v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
-                      v.roles = null 
+                      v.roles = null
                      v.totalRoles = 0 //remove current page if is empty
-            
+
         },
 
-       
+
         pageUpdate(pageNumber){
               v.currentPage = pageNumber; //receive currentPage number came from pagination template
-                v.refresh()  
+                v.refresh()
         },
         refresh(){
              v.search.text ? v.searchRol() : v.showAll(); //for preventing
-            
+
         }
     }
 })

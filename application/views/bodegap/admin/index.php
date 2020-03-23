@@ -5,17 +5,17 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <div class="row">  
+                        <div class="row">
                           <div class="col-md-12 col-sm-12 col-xs-12">
-                            <h3>Administrar Almacen</h3>
-                        </div> 
+                            <h3><strong>ADMINISTRAR ALMACEN</strong></h3>
+                        </div>
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
                            <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active">
-                                    <a href="#home_with_icon_title" data-toggle="tab"> 
+                                    <a href="#home_with_icon_title" data-toggle="tab">
                                          <strong><h4><i class="fa fa-home"></i>  LISTADO GENERAL</h4></strong>
                                     </a>
                                 </li>
@@ -23,7 +23,7 @@
                                     <a href="#profile_with_icon_title" data-toggle="tab">
                                         <strong><h4><i class="fa fa-list"></i>  LISTADO POR UBICACIÓN</h4></strong>
                                     </a>
-                                </li> 
+                                </li>
                             </ul>
 
                             <!-- Tab panes -->
@@ -35,10 +35,10 @@
                                                                         <tr>
                                                                             <th scope="col">Cliente</th>
                                                                             <th scope="col">Categoría</th>
-                                                                            <th scope="col">No. Parte</th> 
+                                                                            <th scope="col">No. Parte</th>
                                                                             <th scope="col">Modelo</th>
-                                                                            <th scope="col">Revisión</th> 
-                                                                            <th scope="col">Existencias</th>  
+                                                                            <th scope="col">Revisión</th>
+                                                                            <th scope="col">Existencias</th>
                                                                             <th class="text-center">Acción</th>
                                                                         </tr>
                                                                     </thead>
@@ -55,17 +55,17 @@
                                                                                 <td><?php echo $value->nombre; ?></td>
                                                                                  <td><?php echo $value->nombrecategoria; ?></td>
                                                                                 <td><?php echo $value->numeroparte; ?></td>
-                                                                               
-                                                                                <td><?php 
+
+                                                                                <td><?php
                                                                                 echo $value->nombremodelo;
                                                                                 ?></td>
                                                                                 <td><?php echo strtoupper($value->nombrerevision); ?></td>
-                                                                                 
+
                                                                                 <td>
                                                                                     <label style="color:green;">
                                                                                         <?php
                     echo $value->totalentrada  -  ($value->totalsalidaparciales + $value->totalsalidapallet);
-                                                                                    ?></label>                                                        
+                                                                                    ?></label>
                                                                                 </td>
 
                                                                                 <td align="center">
@@ -74,9 +74,9 @@
                                                                                 </td>
                                                                             </tr>
                                                                         <?php } endforeach;?>
-                                                                    <?php endif;?> 
-                                                                         
-                                                                       
+                                                                    <?php endif;?>
+
+
                                                                 </tbody>
                                                             </table>
                                 </div>
@@ -86,9 +86,9 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th scope="col">Ubicación</th>
-                                                                    <th scope="col">Entradas</th> 
-                                                                    <th scope="col">Salidas</th> 
-                                                                    <th scope="col">Existencias</th> 
+                                                                    <th scope="col">Entradas</th>
+                                                                    <th scope="col">Salidas</th>
+                                                                    <th scope="col">Existencias</th>
 
                                                                     <th class="text-center">Acción</th>
                                                                 </tr>
@@ -110,7 +110,7 @@
                                                                     <td>
                                                                         <label style="color:green;">
                                                                             <?php
-                                                                           
+
                                                                              /*if(empty($value->total) || is_null($value->total)){
                                                                                 echo "0";
 
@@ -119,28 +119,28 @@
                                                                              }*/
                                                                                echo $value->totalentrada  -  ($value->totalsalidaparciales + $value->totalsalidapallet);
                                                                              ?>
-                                                                                
-                                                                            </label>                                                        
+
+                                                                            </label>
                                                                     </td>
 
                                                                     <td align="center">
-                                                                        <a class="btn btn-icons btn-rounded  btn-round btn-info btn-sm"  href="<?php echo site_url('Bodegap/ubicacion/'.$value->idposicion) ?>"> 
+                                                                        <a class="btn btn-icons btn-rounded  btn-round btn-info btn-sm"  href="<?php echo site_url('Bodegap/ubicacion/'.$value->idposicion) ?>">
                                                                         Detalles</a>
                                                                     </td>
                                                                 </tr>
                                                             <?php endforeach;?>
-                                                        <?php endif;?> 
+                                                        <?php endif;?>
                                                     </tbody>
                                                 </table>
-                                </div>  
+                                </div>
                             </div>
 
-               
+
 <!-- /page content -->
 <script type="text/javascript">
   $( document ).ready(function() {
     $('#datatablewarehouse').DataTable( {
-        dom: 'Bfrtip', 
+        dom: 'Bfrtip',
         buttons: [
             {
                 extend: 'excelHtml5',
@@ -155,7 +155,7 @@
                 }
             }
         ],
-    
+
         "order": [[0, "desc"]],
         "language": {
             "sProcessing": "Procesando...",

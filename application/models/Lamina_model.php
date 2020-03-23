@@ -4,21 +4,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Lamina_model extends CI_Model {
 
-    public function __construct() 
+    public function __construct()
     {
         parent::__construct();
         $this->load->database();
     }
 
-    public function __destruct() 
+    public function __destruct()
     {
         $this->db->close();
     }
 
-    public function showAllLaminas() 
+    public function showAllLaminas()
     {
 
-        $query = $this->db->query(" SELECT 
+        $query = $this->db->query(" SELECT
     p.idparte,
     p.numeroparte,
     c.nombre,
@@ -29,38 +29,43 @@ class Lamina_model extends CI_Model {
     r.descripcion AS revision,
     r.idrevision,
     ca.nombrecategoria,
-    (SELECT 
+    m.color,
+    m.score,
+    m.combinacion,
+    m.medida,
+    m.dimension,
+    (SELECT
             COALESCE(SUM(la.cantidad), 0)
         FROM
             tbllamina la
         WHERE
             la.idparte = p.idparte AND la.activo = 1) AS totalentradas,
-    (SELECT 
+    (SELECT
             COALESCE(SUM(lasa.cantidad), 0)
         FROM
             tbllaminasalida lasa
         WHERE
             lasa.idparte = p.idparte
                 AND lasa.activo = 1) AS totalsalidas,
-    (SELECT 
+    (SELECT
             COALESCE(SUM(lade.cantidad), 0)
         FROM
             tbllaminadevolucion lade
         WHERE
             lade.idparte = p.idparte
                 AND lade.activo = 1) AS totalrevueltas,
-    ((SELECT 
+    ((SELECT
             COALESCE(SUM(la.cantidad), 0)
         FROM
             tbllamina la
         WHERE
-            la.idparte = p.idparte AND la.activo = 1) - ((SELECT 
+            la.idparte = p.idparte AND la.activo = 1) - ((SELECT
             COALESCE(SUM(lasa.cantidad), 0)
         FROM
             tbllaminasalida lasa
         WHERE
             lasa.idparte = p.idparte
-                AND lasa.activo = 1) + (SELECT 
+                AND lasa.activo = 1) + (SELECT
             COALESCE(SUM(lade.cantidad), 0)
         FROM
             tbllaminadevolucion lade
@@ -99,7 +104,7 @@ GROUP BY r.idrevision");
         $this->db->join('tblrevision r', 'm.idmodelo=r.idmodelo');
         $this->db->where('p.idparte',$idparte);
         $query = $this->db->get();
-        
+
         if ($query->num_rows() > 0) {
             return $query->first_row();
         } else {
@@ -162,7 +167,7 @@ GROUP BY r.idrevision");
         $this->db->where('p.idparte',$idparte);
         $this->db->where('d.activo',1);
         $query = $this->db->get();
-        
+
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -173,34 +178,34 @@ GROUP BY r.idrevision");
     public function addEntradaLamina($data)
     {
         $this->db->insert('tbllamina', $data);
-        $insert_id = $this->db->insert_id(); 
-        
+        $insert_id = $this->db->insert_id();
+
         return  $insert_id;
     }
 
     public function addSalidaLamina($data)
     {
         $this->db->insert('tbllaminasalida', $data);
-        $insert_id = $this->db->insert_id(); 
-        
+        $insert_id = $this->db->insert_id();
+
         return  $insert_id;
     }
 
     public function addDevolucionLamina($data)
     {
         $this->db->insert('tbllaminadevolucion', $data);
-        $insert_id = $this->db->insert_id(); 
-        
+        $insert_id = $this->db->insert_id();
+
         return  $insert_id;
     }
 
-    public function showAllMaquinas() 
+    public function showAllMaquinas()
     {
         $this->db->select('m.*');
-        $this->db->from('tblmaquina m'); 
-        $this->db->where('m.activo',1); 
+        $this->db->from('tblmaquina m');
+        $this->db->where('m.activo',1);
         $query = $this->db->get();
-        
+
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -211,11 +216,11 @@ GROUP BY r.idrevision");
     public function totalentradas($idparte)
     {
         $this->db->select('l.cantidad');
-        $this->db->from('tbllamina l'); 
-        $this->db->where('l.activo',1); 
-        $this->db->where('l.idparte',$idparte); 
+        $this->db->from('tbllamina l');
+        $this->db->where('l.activo',1);
+        $this->db->where('l.idparte',$idparte);
         $query = $this->db->get();
-        
+
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -226,11 +231,11 @@ GROUP BY r.idrevision");
     public function totalsalidas($idparte)
     {
         $this->db->select('l.cantidad');
-        $this->db->from('tbllaminasalida l'); 
-        $this->db->where('l.activo',1); 
-        $this->db->where('l.idparte',$idparte); 
+        $this->db->from('tbllaminasalida l');
+        $this->db->where('l.activo',1);
+        $this->db->where('l.idparte',$idparte);
         $query = $this->db->get();
-        
+
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -239,11 +244,11 @@ GROUP BY r.idrevision");
     }
     public function totaldevolucion($idparte) {
         $this->db->select('l.cantidad');
-        $this->db->from('tbllaminadevolucion l'); 
-        $this->db->where('l.activo',1); 
-        $this->db->where('l.idparte',$idparte); 
+        $this->db->from('tbllaminadevolucion l');
+        $this->db->where('l.activo',1);
+        $this->db->where('l.idparte',$idparte);
         $query = $this->db->get();
-        
+
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -263,16 +268,16 @@ GROUP BY r.idrevision");
             return false;
         }
     }
-    
+
     public function buscar_fecha_parte_entrada($idlamina,$idparte)
     {
         $this->db->select('fecharegistro');
-        $this->db->from('tbllamina'); 
-        $this->db->where('activo',1); 
+        $this->db->from('tbllamina');
+        $this->db->where('activo',1);
         $this->db->where('idlamina',$idlamina);
-        $this->db->where('idparte',$idparte); 
+        $this->db->where('idparte',$idparte);
         $query = $this->db->get();
-        
+
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -292,10 +297,10 @@ GROUP BY r.idrevision");
     public function totalsalidaswithout($idparte,$idlaminasalida)
     {
         $this->db->select('l.cantidad');
-        $this->db->from('tbllaminasalida l'); 
-        $this->db->where('l.activo',1); 
+        $this->db->from('tbllaminasalida l');
+        $this->db->where('l.activo',1);
         $this->db->where('l.idparte',$idparte);
-        $this->db->where_not_in('l.idlaminasalida',$idlaminasalida);      
+        $this->db->where_not_in('l.idlaminasalida',$idlaminasalida);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -308,12 +313,12 @@ GROUP BY r.idrevision");
     public function buscar_fecha_parte_salida($idlaminasalida,$idparte)
     {
         $this->db->select('fecharegistro');
-        $this->db->from('tbllaminasalida'); 
-        $this->db->where('activo',1); 
+        $this->db->from('tbllaminasalida');
+        $this->db->where('activo',1);
         $this->db->where('idlaminasalida',$idlaminasalida);
-        $this->db->where('idparte',$idparte); 
+        $this->db->where('idparte',$idparte);
         $query = $this->db->get();
-        
+
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -335,10 +340,10 @@ GROUP BY r.idrevision");
     public function totaldevolucioneswithout($idparte,$idlaminadevolucion)
     {
         $this->db->select('d.cantidad');
-        $this->db->from('tbllaminadevolucion d'); 
-        $this->db->where('d.activo',1); 
+        $this->db->from('tbllaminadevolucion d');
+        $this->db->where('d.activo',1);
         $this->db->where('d.idparte',$idparte);
-        $this->db->where_not_in('d.idlaminadevolucion',$idlaminadevolucion);      
+        $this->db->where_not_in('d.idlaminadevolucion',$idlaminadevolucion);
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -363,7 +368,7 @@ GROUP BY r.idrevision");
 {
   $this->db->where('idlaminasalida', $idlaminasalida);
   $this->db->update('tbllaminasalida', $data);
-  
+
   if ($this->db->affected_rows() > 0) {
     return true;
   } else {
@@ -375,12 +380,12 @@ GROUP BY r.idrevision");
     public function buscar_fecha_parte_devolucion($idlaminadevolucion,$idparte)
     {
         $this->db->select('fecharegistro');
-        $this->db->from('tbllaminadevolucion'); 
-        $this->db->where('activo',1); 
+        $this->db->from('tbllaminadevolucion');
+        $this->db->where('activo',1);
         $this->db->where('idlaminadevolucion',$idlaminadevolucion);
-        $this->db->where('idparte',$idparte); 
+        $this->db->where('idparte',$idparte);
         $query = $this->db->get();
-        
+
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {

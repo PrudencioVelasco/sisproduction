@@ -5,27 +5,28 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                  <h2><i class="fa fa-align-left"></i> <strong>Administrar Calidad</strong></h2>
-                  <ul class="nav navbar-right panel_toolbox">
-                    <li> 
-                    </li> 
-                    <a href="<?php echo site_url('hold/') ?>" class="btn btn-success btn-sm">Módulo Hold</a>
-                       
-                  </ul>
+                      <div class="col-md-6 col-sm-12 col-xs-12">
+                          <h3><strong>ADMINISTRAR CALIDAD</strong></h3>
+                      </div>
+                      <div class="col-md-6 col-sm-12 col-xs-12" align="right">
+                          <a href="<?php echo site_url('hold/') ?>" class="btn btn-success btn-sm">Módulo Hold</a>
+                      </div>
+
+
                   <div class="clearfix"></div>
                 </div>
                     <div class="x_content">
                         <div id="app">
                             <div class="container">
-                                
+
                                 <div class="row">
                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
                                         <table class="table is-bordered is-hoverable" id="datatable2">
                                             <thead class="text-white bg-dark" >
-                                            <th>Transferencia</th> 
-                                            <th>Fecha</th> 
+                                            <th>Transferencia</th>
+                                            <th>Fecha</th>
                                             <th>Estatus</th>
-                                            <th>Retorno</th> 
+                                            <th>Retorno</th>
                                             <th>Opción</th>
                                             </thead>
                                             <tbody>
@@ -34,14 +35,14 @@
                                                     foreach ($datatransferencia as $value) {
                                                         if(!empty($value->estatus)){
                                                         ?>
-                                                        <tr   class="table-default"> 
+                                                        <tr   class="table-default">
                                                             <td><strong><?php echo $value->folio; ?></strong></td>
-                                                            <td><?php echo date_format(date_create($value->fecharegistro),"d/m/Y h:i A") ?></td> 
+                                                            <td><?php echo date_format(date_create($value->fecharegistro),"d/m/Y h:i A") ?></td>
                                                             <td>
                                                                 <?php
                                                                 if(!empty($value->estatus)){
                                                                     echo '<label>'.$value->estatus.'</label>';
-                                                                } 
+                                                                }
                                                                 ?>
                                                             </td>
                                                             <td>
@@ -53,7 +54,7 @@
                                                                 }
                                                                 ?>
                                                             </td>
-                                                            <td align="right"> 
+                                                            <td align="right">
                                                             <a class="btn btn-icons btn-info btn-sm"  href="<?php echo site_url('calidadp/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
                                                             </td>
                                                         </tr>
@@ -65,7 +66,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -75,4 +76,3 @@
     </div>
 </div>
 <!-- /page content -->
-

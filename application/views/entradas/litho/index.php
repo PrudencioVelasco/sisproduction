@@ -5,49 +5,52 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h3><strong>Administrar Litho</strong></h3>
+                        <h3><strong>ADMINISTRAR LITHO</strong></h3>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         <div id="app">
-                            <div class="container">  
+                            <div class="container">
                                 <div class="row">
                                  <div class="col-md-12 col-sm-12 col-xs-12 ">
                                     <table class="table is-bordered is-hoverable" id="datatablewarehouse">
                                         <thead class="text-white bg-dark" >
                                             <th>Num. Parte</th>
-                                            <th>Modelo</th> 
-                                            <th>Revision</th>  
-                                            <th>Existencia</th> 
+                                            <th>Modelo</th>
+                                            <th>Revision</th>
+                                            <th>Existencia</th>
                                             <th>Opción</th>
                                         </thead>
                                         <tbody>
-                                            <?php 
+                                            <?php
                                             if (isset($data) && !empty($data)) {
                                               //  $total = 0;
-                                                foreach ($data as $value) { 
+                                                foreach ($data as $value) {
                                               //      $total=$total+$value->totalexistencia;?>
-                                                    <tr   class="table-default"> 
+                                                    <tr   class="table-default">
                                                         <td><?php echo $value->numeroparte ?></td>
                                                         <td><?php echo $value->modelo ?></td>
-                                                        <td><?php echo $value->revision ?></td> 
+                                                        <td><?php echo $value->revision ?></td>
                                                         <td><strong style="color:green;"><?php echo $value->totalexistencia ?></strong></td>
                                                         <td>
-                                                            <!-- Small button group -->
+                                                          <?php
+                                                          if(isset($this->session->idrol) && !empty($this->session->idrol)) {
+                                                            if($this->session->idrol != 11){
+                                                           ?>
                                                             <div class="btn-group">
                                                               <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                                                                 Opción <span class="caret"></span>
                                                             </button>
                                                             <ul class="dropdown-menu">
-                                                              <li><a href="#" style="color:green;" class="edit_button" 
+                                                              <li><a href="#" style="color:green;" class="edit_button"
                                                                 data-toggle="modal" data-target="#myModal"
                                                                 data-idrevision="<?php echo $value->idrevision;?>"
                                                                 data-numeroparte="<?php echo $value->numeroparte;?>" ><i class="fa fa-sign-in" aria-hidden="true"></i> <strong>Entrada</strong></a></li>
-                                                                <li><a href="#" style="color:blue;" class="edit_button_salida" 
+                                                                <li><a href="#" style="color:blue;" class="edit_button_salida"
                                                                     data-toggle="modal" data-target="#myModalSalida"
                                                                     data-idrevision="<?php echo $value->idrevision;?>"
                                                                     data-numeroparte="<?php echo $value->numeroparte;?>"><i class="fa fa-sign-out" aria-hidden="true"></i> <strong>Salida</strong></a></li>
-                                                                    <li><a href="#" style="color:red;" class="edit_button_devolucion" 
+                                                                    <li><a href="#" style="color:red;" class="edit_button_devolucion"
                                                                         data-toggle="modal" data-target="#myModalDevolucion"
                                                                         data-idrevision="<?php echo $value->idrevision;?>"
                                                                         data-numeroparte="<?php echo $value->numeroparte;?>"
@@ -56,16 +59,20 @@
                                                                         <li><a href="<?php echo site_url('litho/detalle/'.$value->idrevision) ?>"><i class="fa fa-exchange"></i> <strong>Movimientos</strong></a></li>
                                                                     </ul>
                                                                 </div>
+                                                                <?php
+                                                                    }
+                                                                  }
+                                                                ?>
                                                             </td>
                                                         </tr>
                                                         <?php
-                                                    } 
+                                                    }
                                                 }
                                                 ?>
                                             </tbody>
                                         </table>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -79,9 +86,9 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-info-nomodal">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title " id="myModalLabel">Entrada a: <label class="titlenumeroparte"></label> </h3>
+                <h3 class="modal-title " id="myModalLabel">ENTRADA A: <label class="titlenumeroparte"></label> </h3>
             </div>
             <form method="post" action="" id="frmentrada">
                 <div class="modal-body">
@@ -100,7 +107,7 @@
                    <div class="form-group">
                        <label >Transferencia</label><br>
                        <textarea  class="form-control" name="transferencia"></textarea>
-                   </div> 
+                   </div>
                </div>
                <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
@@ -114,9 +121,9 @@
 <div class="modal fade" id="myModalSalida" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-info-nomodal">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title " id="myModalLabel">Salida a: <label class="titlenumeroparte"></label> </h3>
+                <h3 class="modal-title " id="myModalLabel">SALIDA A: <label class="titlenumeroparte"></label> </h3>
             </div>
             <form method="post" action="" id="frmsalida">
                 <div class="modal-body">
@@ -135,7 +142,7 @@
                    <div class="form-group">
                        <label >Transferencia</label><br>
                        <textarea  class="form-control" name="transferencia"></textarea>
-                   </div>  
+                   </div>
                </div>
                <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
@@ -150,9 +157,9 @@
 <div class="modal fade" id="myModalDevolucion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-info-nomodal">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title " id="myModalLabel">Devolución a: <label class="titlenumeroparte"></label> </h3>
+                <h3 class="modal-title " id="myModalLabel">DEVOLUCIÓN A: <label class="titlenumeroparte"></label> </h3>
             </div>
             <form method="post" action="" id="frmdevolucion">
                 <div class="modal-body">
@@ -167,11 +174,11 @@
                    <div class="form-group">
                        <label >Comentarios</label><br>
                        <textarea  class="form-control" name="comentarios"></textarea>
-                   </div> 
+                   </div>
                    <div class="form-group">
                        <label >Transferencia</label><br>
                        <textarea  class="form-control" name="transferencia"></textarea>
-                   </div>  
+                   </div>
                </div>
                <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
@@ -185,31 +192,31 @@
 
 
 <script>
-    $(document).on( "click", '.edit_button',function(e) { 
-        var id = $(this).data('idrevision'); 
-        var numeroparte = $(this).data('numeroparte'); 
+    $(document).on( "click", '.edit_button',function(e) {
+        var id = $(this).data('idrevision');
+        var numeroparte = $(this).data('numeroparte');
 
-        $(".business_skill_id").val(id);  
-        $(".titlenumeroparte").text(numeroparte);   
+        $(".business_skill_id").val(id);
+        $(".titlenumeroparte").text(numeroparte);
     });
-    $(document).on( "click", '.edit_button_salida',function(e) { 
-        var id = $(this).data('idrevision'); 
-        var numeroparte = $(this).data('numeroparte'); 
+    $(document).on( "click", '.edit_button_salida',function(e) {
+        var id = $(this).data('idrevision');
+        var numeroparte = $(this).data('numeroparte');
 
-        $(".business_skill_id").val(id);  
-        $(".titlenumeroparte").text(numeroparte);   
+        $(".business_skill_id").val(id);
+        $(".titlenumeroparte").text(numeroparte);
     });
-    $(document).on( "click", '.edit_button_devolucion',function(e) { 
-        var id = $(this).data('idrevision'); 
-        var numeroparte = $(this).data('numeroparte'); 
+    $(document).on( "click", '.edit_button_devolucion',function(e) {
+        var id = $(this).data('idrevision');
+        var numeroparte = $(this).data('numeroparte');
 
-        $(".business_skill_id").val(id);  
-        $(".titlenumeroparte").text(numeroparte);   
+        $(".business_skill_id").val(id);
+        $(".titlenumeroparte").text(numeroparte);
     });
 </script>
 
-<script> 
-    $("#btnentrada").click(function(){ 
+<script>
+    $("#btnentrada").click(function(){
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('litho/agregar_entrada');?>",
@@ -217,15 +224,17 @@
             success: function(data) {
                 var msg = $.parseJSON(data);
                 console.log(msg);
-                if((typeof msg.error === "undefined")){ 
-                    $(".print-error-msg").css('display','none'); 
-                    alert(msg.success) ? "" : location.reload(); 
-                }else{ 
-                    $(".print-error-msg").css('display','block'); 
+                if((typeof msg.error === "undefined")){
+                    $(".print-error-msg").css('display','none');
+                    swal("Operación con Exito.", "Click en el boton!", "success").then(function(){
+                        location.reload();
+                      });
+                }else{
+                    $(".print-error-msg").css('display','block');
                     $(".print-error-msg").html(msg.error);
                     setTimeout(function() {$('.print-error-msg').fadeOut('fast');}, 3000);
                 }
-                
+
             }
         });
 
@@ -233,7 +242,7 @@
 
     });
 
-    $("#btnsalida").click(function(){ 
+    $("#btnsalida").click(function(){
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('litho/agregar_salida');?>",
@@ -242,20 +251,22 @@
                 var msg = $.parseJSON(data);
                 //console.log(msg);
                 console.log(msg.error);
-                if((typeof msg.error === "undefined")){ 
-                    $(".print-error-msg").css('display','none'); 
-                    alert(msg.success) ? "" : location.reload(); 
-                }else{ 
-                    $(".print-error-msg").css('display','block'); 
+                if((typeof msg.error === "undefined")){
+                    $(".print-error-msg").css('display','none');
+                    swal("Operación con Exito.", "Click en el boton!", "success").then(function(){
+                        location.reload();
+                      });
+                }else{
+                    $(".print-error-msg").css('display','block');
                     $(".print-error-msg").html(msg.error);
                     setTimeout(function() {$('.print-error-msg').fadeOut('fast');}, 3000);
                 }
             }
         });
 
-    }); 
+    });
 
-    $("#btndevolucion").click(function(){ 
+    $("#btndevolucion").click(function(){
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('litho/devolucion');?>",
@@ -263,18 +274,20 @@
             success: function(data) {
                 var msg = $.parseJSON(data);
                 console.log(msg.error);
-                if((typeof msg.error === "undefined")){ 
-                    $(".print-error-msg").css('display','none'); 
-                    alert(msg.success) ? "" : location.reload(); 
-                }else{ 
-                    $(".print-error-msg").css('display','block'); 
+                if((typeof msg.error === "undefined")){
+                    $(".print-error-msg").css('display','none');
+                    swal("Operación con Exito.", "Click en el boton!", "success").then(function(){
+                        location.reload();
+                      });
+                }else{
+                    $(".print-error-msg").css('display','block');
                     $(".print-error-msg").html(msg.error);
                     setTimeout(function() {$('.print-error-msg').fadeOut('fast');}, 3000);
 
                 }
             }
         });
-    }); 
+    });
 </script>
 
 <script type="text/javascript">

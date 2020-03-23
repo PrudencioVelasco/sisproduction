@@ -10,7 +10,7 @@
                     <div class="x_title">
                         <div class="row">
                             <div class="col-md-6" align="left">
-                                <h2><strong>Detalle de Transfrencia</strong></h2>
+                                <h3><strong>DETALLE DE LA TRANSFERENCIA</strong></h4>
                             </div>
                             <div class="col-md-6" style="display: flex; justify-content: flex-end">
                                 <h2><strong>Transferencia: #<?php echo $folio; ?></strong></h2>
@@ -33,7 +33,7 @@
                                                         <th scope="col">Cliente</th>
                                                         <th scope="col">No. Parte</th>
                                                         <th scope="col">Cajas</th>
-                                                        <th scope="col">Rev.</th> 
+                                                        <th scope="col">Rev.</th>
                                                         <th>Estatus</th>
                                                         <th></th>
                                                     </tr>
@@ -48,7 +48,7 @@
                                                                     <?php if ($value->idestatus == 1 || $value->idestatus == 6) { ?>
                                                                         <div class="checkbox-group required">
                                                                             <input type="checkbox"  name="id[]" value="<?php echo $value->idpalletcajas; ?>" id="remember_me<?php echo $value->idpalletcajas ?>" class="filled-in">
-                                <label for="remember_me<?php echo $value->idpalletcajas ?>"></label> 
+                                <label for="remember_me<?php echo $value->idpalletcajas ?>"></label>
                                                                         </div>
                                                                     <?php } ?>
                                                                 </td>
@@ -60,7 +60,7 @@
                                                                     <?php
                                                                     if ($value->idestatus == 1) {
                                                                         echo '<label style="color:green;">EN VALIDACIÓN</label>';
-                                                                    } else if ($value->idestatus == 3) { ?> 
+                                                                    } else if ($value->idestatus == 3) { ?>
                                                                          <label id="<?php echo $value->idpalletcajas; ?>" class="edit_data" style="color:red; font-weight: bolder" >R. A PACKING</label>
 
                                                                     <?php } else if ($value->idestatus == 4) {
@@ -73,7 +73,7 @@
                                                                         echo '<label style="color:red;">EN SCRAP</label>';
                                                                     } else if ($value->idestatus == 6) {
                                                                         ?>
-                                                                         
+
                                                                         <label id2="<?php echo $value->idpalletcajas; ?>" class="edit_data2" style="color:red; font-weight: bolder" >R. A CALIDAD</label>
                                                                     <?php
                                                                     } else if ($value->idestatus == 14) {
@@ -94,7 +94,7 @@
         <?php
     }
 }
-?> 
+?>
                                               <div id="myModalMSG" class="modal fade" role="dialog">
                                                     <div class="modal-dialog">
 
@@ -112,11 +112,11 @@
                                                                             <label>Motivo de rechazo</label>
                                                                             <input type="text" class="form-control" name="" id="motivomsm" disabled="">
                                                                             <textarea id="motivonotas" class="md-textarea form-control" rows="5" disabled=""></textarea>
-                                                                        </div> 
-                                                                    </div> 
+                                                                        </div>
+                                                                    </div>
 
                                                                 </div>
-                                                               
+
 
                                                             </div>
                                                             <div class="modal-footer">
@@ -145,11 +145,11 @@
                                                                             <label>Motivo de rechazo</label>
                                                                             <input type="" name="" id="motivomsmcalidad" disabled="" class="form-control">
                                                                             <textarea id="motivonotascalidad" class="md-textarea form-control" rows="5" disabled=""></textarea>
-                                                                        </div> 
-                                                                    </div> 
+                                                                        </div>
+                                                                    </div>
 
                                                                 </div>
-                                                               
+
 
                                                             </div>
                                                             <div class="modal-footer">
@@ -159,14 +159,14 @@
 
                                                     </div>
                                                 </div>
-                                              
+
                                                 </tbody>
                                             </table>
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-12 col-xs-12" >
                                                     <div class="form-group"  id="idmotivorechazo">
                                                         <label><font color="red">*</font> Seleccionar motivo de rechazo</label>
-                                                        <select  class="form-control" id="motivo" name="motivorechazo" required> 
+                                                        <select  class="form-control" id="motivo" name="motivorechazo" required>
                                                             <option value="">Seleccionar</option>
 <?php
 foreach ($motivosrechazo as $valuemotivo) {
@@ -178,24 +178,24 @@ foreach ($motivosrechazo as $valuemotivo) {
                                                 </div>
                                                 <div class="col-md-6 col-sm-12 col-xs-12" >
                                                     <div class="form-group"  id="notasmotivorechazo">
-                                                        <label>Notas</label> 
+                                                        <label>Notas</label>
 
   <textarea class="form-control" rows="5" id="notasrechazo" name="notasrechazo"></textarea>
                                                     </div>
                                                 </div>
-                                            </div> 
+                                            </div>
 
                                             <div class="row">
                                                 <div class="col-md-6 col-sm-12 col-xs-12" >
                                                     <div class="form-group"  id="idmotivoopcion">
                                                         <label><font color="red">*</font> Seleccionar Opción</label>
-                                                        <select  class="form-control" id="motivoopcion" name="opcionhold" required> 
+                                                        <select  class="form-control" id="motivoopcion" name="opcionhold" required>
                                                             <option value="">Seleccionar</option>
-                                                            <option value="12">EN HOLD</option> 
+                                                            <option value="12">EN HOLD</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div> 
+                                            </div>
                                             <div class="row">
                                                 <div class="col-sm-12" align="right">
 <?php if (isset($datatransferencia) && !empty($datatransferencia)) { ?>
@@ -203,12 +203,12 @@ foreach ($motivosrechazo as $valuemotivo) {
                                                          <button type="button" id="btnhold"   class="btn btn-info btn-sm"><i class="fa fa-clock-o" aria-hidden="true"></i> Hold</button>
                                                         <button type="button" id="btnrechazar" class="btn btn-danger btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Packing</button>
                                                     <a target="_blank" href="<?php echo site_url('calidadp/generarPDFEnvio/' . $id) ?>" class="btn btn-default  btn-sm"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
-<?php } ?>  
+<?php } ?>
                                                 </div>
                                             </div>
                                         </form>
-                                    </div> 
-                                </div> 
+                                    </div>
+                                </div>
 
 
 
@@ -346,8 +346,8 @@ foreach ($motivosrechazo as $valuemotivo) {
                 data: {idpalletcajas: idpalletcajas},
                 dataType: "json",
                 success: function (data) {
-                    $('#motivomsm').val(data.motivo); 
-                    $('#motivonotas').val(data.notas); 
+                    $('#motivomsm').val(data.motivo);
+                    $('#motivonotas').val(data.notas);
                     $('#myModalMSG').modal('show');
                 }
             });
@@ -362,8 +362,8 @@ foreach ($motivosrechazo as $valuemotivo) {
                 data: {idpalletcajas: idpalletcajas},
                 dataType: "json",
                 success: function (data) {
-                    $('#motivomsmcalidad').val(data.motivo); 
-                    $('#motivonotascalidad').val(data.notas); 
+                    $('#motivomsmcalidad').val(data.motivo);
+                    $('#motivonotascalidad').val(data.notas);
                     $('#myModalMSGaCalidad').modal('show');
                 }
             });
@@ -376,7 +376,7 @@ foreach ($motivosrechazo as $valuemotivo) {
     $(document).ready(function () {
 
         $('.btnimprimirpdf').on('click', function () {
-            var parametros = { 
+            var parametros = {
                 "idpalletcajas": $('.idpalletcajas').val()
             };
             $.ajax({

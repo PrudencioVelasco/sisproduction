@@ -13,7 +13,7 @@
                         <div class="col-md-6 col-sm-12 col-xs-12" align="right">
                             <h3 style="color: red">AJUSTE DE SALIDA</h3>
                         </div>
-                      
+
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -33,7 +33,7 @@
                                     <h4>Cliente: <strong><?php echo $detallesalida->nombre; ?></strong></h4>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="row">
                             <div class="col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
@@ -44,8 +44,8 @@
                                 <div class="form-group">
                                     <h4>Notas: <strong><?php echo $detallesalida->notas; ?></strong></h4>
                                 </div>
-                            </div> 
-                        </div>  
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <?php if ($detallesalida->finalizado == 0) { ?>
@@ -54,7 +54,7 @@
                                 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
-                                            <div class="modal-header">
+                                            <div class="modal-header modal-header-info-nomodal">
                                                 <h3 class="modal-title" id="exampleModalCenterTitle">Agregar número de parte</h3>
 
                                             </div>
@@ -87,16 +87,16 @@
                     <td><?php echo $value["revision"]; ?></td>
                      <td><?php echo $value["fecha"]; ?></td>
             </tr>
-            <?php } 
-            ?> 
+            <?php }
+            ?>
     </table>
                                                     </div>
-                                                </div> 
+                                                </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
 
                                                     </div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -107,7 +107,7 @@
 
                         <div class="row">
 
-                            <?php if (isset($detalleparte) && !empty($detalleparte)) { ?> 
+                            <?php if (isset($detalleparte) && !empty($detalleparte)) { ?>
                                 <form method="post" id="frmagregar" action="">
                                     <div class="col-md-3 col-sm-12 col-xs-12 ">
                                         <div class="form-group">
@@ -120,9 +120,9 @@
                                             <label><font color="red">*</font> Tipo</label>
                                             <p style="padding-top:5px;">
                                                 <strong>Pallet:</strong>
- 
 
-                                                <input name="tipo" type="radio" checked="" id="radio_32" class="with-gap radio-col-green" value="pallet" required/> 
+
+                                                <input name="tipo" type="radio" checked="" id="radio_32" class="with-gap radio-col-green" value="pallet" required/>
                                 <label for="radio_32">PALLET</label>
 
                                 <input name="tipo" type="radio" id="radio_31" class="with-gap radio-col-red"    value="parciales"  />
@@ -137,7 +137,7 @@
         <input type="text" name="pallet" id="ppallet" class="form-control" placeholder="C. Pallet">
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-md-2 col-sm-12 col-xs-12" id="cajas">
                                         <div class="form-group">
                                             <label><font color="red">*</font> Total Cajas</label>
@@ -230,13 +230,13 @@
                                             echo "</tr>";
                                         }
 
-                                       
+
                                     }
                                     ?>
                                 </table>
                             </div>
                         </div>
-                        <?php 
+                        <?php
                           if (isset($detallepallet) && !empty($detallepallet)) {
                         ?>
                         <div class="row">
@@ -289,7 +289,7 @@
                                                             }
                                                         }
 
-                                                        echo "<tr>"; 
+                                                        echo "<tr>";
                                                         echo "<td></td>";
                                                         echo "<td></td>";
                                                         echo "<td><strong>" . number_format($totalpallet) . "</strong></td>";
@@ -319,7 +319,7 @@
                         <?php } ?>
                         <?php if ($detallesalida->finalizado == 1) { ?>
                             <div class="row">
-                                <div class="col-md-12 col-sm-12 col-xs-12" align="right"> 
+                                <div class="col-md-12 col-sm-12 col-xs-12" align="right">
                                     <a target=”_blank” href="<?php echo site_url('salida/generarPDFOrden/' . $idsalida) ?>"  class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         Descargar Orden</a>
                                 </div>
@@ -373,11 +373,11 @@
 //                                  $("#msgerror").text("No existe suficiente en Existencia.");
 //                               setTimeout(function(){
 //                                   location.reload();
-//                               },5000);   
+//                               },5000);
 //                               }else{
 //                                setTimeout(function(){
 //                                   location.reload();
-//                               },1000); 
+//                               },1000);
 //                               }
                 }
 

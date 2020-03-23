@@ -1,0 +1,24 @@
+Views
+  Transferencia
+  Salida
+  catalogo
+  calidadp
+  bodegap
+  orden
+  salida
+  maquina
+  laminas
+  litho
+  entradas
+  documentos
+Vue
+  App
+
+CSS
+  stylewoori
+  custom
+
+header
+footer
+
+Images/loader

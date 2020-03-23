@@ -1,9 +1,9 @@
 
 var this_js_script = $('script[src*=appmotivorechazo]');
-var my_var_1 = this_js_script.attr('data-my_var_1'); 
+var my_var_1 = this_js_script.attr('data-my_var_1');
 if (typeof my_var_1 === "undefined") {
     var my_var_1 = 'some_default_value';
-} 
+}
 
 Vue.component('modal', {//modal
     template: `
@@ -12,10 +12,10 @@ Vue.component('modal', {//modal
         <div class="modal-wrapper">
           <div class="modal-dialog">
 			    <div class="modal-content">
-			      
 
-			      <div class="modal-header">
-				        <h5 class="modal-title"> <slot name="head"></slot></h5> 
+
+			      <div class="modal-header modal-header-info">
+				        <h5 class="modal-title"> <slot name="head"></slot></h5>
                 <i class="fa fa-window-close  icon-md text-danger" @click="$emit('close')"></i>
 				      </div>
 
@@ -30,7 +30,7 @@ Vue.component('modal', {//modal
           </div>
         </div>
       </div>
-    </transition> 
+    </transition>
     `
 })
 var v = new Vue({
@@ -65,7 +65,7 @@ var v = new Vue({
     },
     created() {
         this.showAll();
-        this.showAllProcesos(); 
+        this.showAllProcesos();
     },
     methods: {
          orderBy(sortFn) {
@@ -86,7 +86,7 @@ var v = new Vue({
           .then(response => (this.procesos = response.data))
 
         },
-        
+
         searchMotivo() {
             var formData = v.formData(v.search);
             axios.post(this.url + "motivorechazo/searchMotivo", formData).then(function (response) {

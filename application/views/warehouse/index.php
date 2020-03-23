@@ -7,74 +7,122 @@
                     <div class="x_title">
                         <div class="row">
                             <div class="col-md-6" align="left">
-                                <h2><strong>Módulo Almacen</strong></h2>
+                                <h3><strong>ADMINISTRAR ALMACEN</strong></h3>
                             </div>
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="row top_tiles">
-                        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="tile-stats">
-                                <div class="icon"><i style="color:blue;" class="fa fa-sign-in"></i>
-                                </div>
-                                <div class="count">---</div>
+                    <div class="x_content">
+                      <div class="row">
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <a class="pointer" href="<?php echo site_url('warehouse/entry') ?>">
+                      <div class="info-box-2 bg-teal hover-expand-effect pointer">
+                          <div class="icon">
+                            <i class="fa fa-sign-in"></i>
+                          </div>
+                          <div class="content">
+                              <div class="text"><label class="titulomaquina">ENTRADAS</label></div>
+                              <div class="number"></div>
+                          </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                      <a class="pointer" href="<?php echo site_url('warehouse/exitWareHouse') ?>">
+                      <div class="info-box-2 bg-red hover-expand-effect pointer">
+                          <div class="icon">
+                            <i class="fa fa-sign-out"></i>
+                          </div>
+                          <div class="content">
+                              <div class="text"><label class="titulomaquina">SALIDAS</label></div>
+                              <div class="number"></div>
+                          </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                      <a class="pointer" href="<?php echo site_url('warehouse/wharehouse') ?>">
+                      <div class="info-box-2 bg-light-green hover-expand-effect pointer">
+                          <div class="icon">
+                              <i class="fa fa-database"></i>
+                          </div>
+                          <div class="content">
+                              <div class="text"><label class="titulomaquina">ALMACEN</label></div>
+                              <div class="number"></div>
+                          </div>
+                      </div>
+                    </a>
+                  </div>
 
-                                <h3><a href="<?php echo base_url('warehouse/entry')?>">Entradas</a></h3>
-                                <p>Admin. Entradas.</p>
-                            </div>
-                        </div>
-                        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="tile-stats">
-                                <div class="icon"><i style="color:red;" class="fa fa-sign-out"></i>
-                                </div>
-                                <div class="count">---</div>
-
-                                <h3><a href="<?php echo base_url('warehouse/exitWareHouse')?>">Salidas</a></h3>
-                                <p>Admin. Salidas.</p>
-                            </div>
-                        </div>
-                        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="tile-stats">
-                                <div class="icon"><i style="color:green;" class="fa fa-database"></i>
-                                </div>
-                                <div class="count">---</div>
-
-                                <h3><a href="<?php echo base_url('warehouse/wharehouse')?>">Almacen</a></h3>
-                                <p>Admin. Almacen.</p>
-                            </div>
-                        </div>
-                        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="tile-stats">
-                                <div class="icon"><i class="fa fa-check-square-o"></i>
-                                </div>
-                                <div class="count">---</div>
-
-                                <h3><a href="<?php echo site_url('laminas/') ?>">Laminas</a></h3>
-                                <p>Admin Laminas</p>
-                            </div>
-                        </div>
-                        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="tile-stats">
-                                <div class="icon"><i class="fa fa-check-square-o"></i>
-                                </div>
-                                <div class="count">---</div>
-
-                                <h3><a href="<?php echo site_url('litho/') ?>">Litho</a></h3>
-                                <p>Admin Litho</p>
-                            </div>
-                        </div>
-                        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="tile-stats">
-                                <div class="icon"><i class="fa fa-archive" aria-hidden="true"></i>
-
-                                </div>
-                                <div class="count">---</div>
-
-                                <h3><a href="<?php echo site_url('Regresar/') ?>">Cajas</a></h3>
-                                <p>Ajustes de Entradas</p>
-                            </div>
-                        </div>
-                    </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                      <a class="pointer" href="<?php echo site_url('Regresar/') ?>">
+                      <div class="info-box-2 bg-cyan hover-expand-effect pointer">
+                          <div class="icon">
+                            <i class="fa fa-retweet" aria-hidden="true"></i>
+                          </div>
+                          <div class="content">
+                              <div class="text"><label class="titulomaquina">AJUSTE PALLET</label></div>
+                              <div class="number"></div>
+                          </div>
+                      </div>
+                    </a>
+                  </div>
+              </div>
+              <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <a class="pointer" href="<?php echo site_url('litho/litho') ?>">
+              <div class="info-box-2 bg-cyan hover-expand-effect pointer">
+                  <div class="icon">
+                      <i class="fa fa-check-square-o"></i>
+                  </div>
+                  <div class="content">
+                      <div class="text"><label class="titulomaquina">LITHO</label></div>
+                      <div class="number"></div>
+                  </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <a class="pointer" href="<?php echo site_url('laminas/') ?>">
+              <div class="info-box-2 bg-cyan hover-expand-effect pointer">
+                  <div class="icon">
+                      <i class="fa fa-check-square-o"></i>
+                  </div>
+                  <div class="content">
+                      <div class="text"><label class="titulomaquina">LAMINAS</label></div>
+                      <div class="number"></div>
+                  </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <a class="pointer" href="<?php echo site_url('litho/manual') ?>">
+              <div class="info-box-2 bg-cyan hover-expand-effect pointer">
+                  <div class="icon">
+                      <i class="fa fa-check-square-o"></i>
+                  </div>
+                  <div class="content">
+                      <div class="text"><label class="titulomaquina">MANUALES</label></div>
+                      <div class="number"></div>
+                  </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <a class="pointer" href="<?php echo site_url('litho/bolsa') ?>">
+              <div class="info-box-2 bg-cyan hover-expand-effect pointer">
+                  <div class="icon">
+                      <i class="fa fa-check-square-o"></i>
+                  </div>
+                  <div class="content">
+                      <div class="text"><label class="titulomaquina">BOLSAS</label></div>
+                      <div class="number"></div>
+                  </div>
+              </div>
+            </a>
+          </div>
+      </div>
+                  </div>
                 </div>
             </div>
         </div>

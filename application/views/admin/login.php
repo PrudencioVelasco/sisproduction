@@ -6,9 +6,12 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv='cache-control' content='no-cache'>
+        <meta http-equiv='expires' content='0'>
+        <meta http-equiv='pragma' content='no-cache'>
         <title>Sistema de Producción Woori</title>
         <!-- plugins:css -->
-        <link rel="shortcut icon" href="<?php echo base_url(); ?>/assets/images/icowoori.ico"> 
+        <link rel="shortcut icon" href="<?php echo base_url(); ?>/assets/images/icowoori.ico">
         <!-- Firefox, Opera  -->
         <link rel="icon" href="<?php echo base_url(); ?>/assets/images/icowoori.ico">
         <link rel="stylesheet" href="<?php echo base_url('assets/login/css/vendor.bundle.base.css'); ?>">
@@ -46,8 +49,10 @@
                                     <?php endif ?>
                                 </div>
                                 <form method="POST"  action="<?= base_url('welcome/login') ?>" >
-                                    <h3 class="mr-auto">Hola! bienvenido al Sistema de Producción Woori</h3>
-                                    <p class="mb-5 mr-auto">Ingrese sus datos.</p>
+                                    <h3 style="font-weight:bolder; text-align:center;" class="mr-auto">Sistema de Producción Woori</h3>
+
+                                    <hr/>
+                                      <small class="mb-5 mr-auto">Ingrese sus datos.</small>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -70,14 +75,14 @@
                                         <button class="btn btn-primary submit-btn" type="submit">Entrar</button>
                                     </div>
                                     <div class="wrapper mt-5 text-gray">
-                                        <p class="footer-text">Copyright © <?php echo date("Y"); ?> Woori. Todos los derechos reservados.</p> 
+                                        <p class="footer-text">Copyright © <?php echo date("Y"); ?> Woori. Todos los derechos reservados.</p>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                </div> 
-            </div> 
-        </div> 
-    </body> 
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

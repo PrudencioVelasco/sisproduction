@@ -503,6 +503,7 @@ public function reportePoProceso($proceso = '',$finicio = '',$ffin = '',$lamina 
   $this->db->select("ep.identradaproceso,ep.metaproduccion, ep.fecharegistro, COALESCE(ep.cantidad,0) totalentrada, pa.numeroparte, la.numeroparte as lamina,
   (SELECT COALESCE(SUM(edp2.cantidaderronea ),0) FROM tblentradadetalleproceso edp2 WHERE edp2.identradaproceso = ep.identradaproceso AND edp2.finalizadotodo = 1 AND edp2.idmaquina = 3) as totalerrorconscrap,
   (SELECT COALESCE(SUM(edp2.cantidaderronea ),0) FROM tblentradadetalleproceso edp2 WHERE edp2.identradaproceso = ep.identradaproceso AND edp2.finalizadotodo = 1 AND edp2.idmaquina != 3) as totalerrorsinscrap,
+  (SELECT COALESCE(SUM(edp2.cantidaderronea ),0) FROM tblentradadetalleproceso edp2 WHERE edp2.identradaproceso = ep.identradaproceso AND edp2.finalizado = 1 AND edp2.idmaquina NOT IN  (3,7)) as totalerrorgeneral,
   (SELECT COALESCE(SUM(edp2.cantidadsalida ),0) FROM tblentradadetalleproceso edp2 WHERE edp2.identradaproceso = ep.identradaproceso AND edp2.finalizadotodo = 1 AND edp2.idmaquina != 3) as totalsalidasinscrap,
   (SELECT edp2.idmaquina FROM tblentradadetalleproceso edp2 WHERE edp2.identradaproceso = ep.identradaproceso AND edp2.finalizadotodo = 1 Limit 1) as idmaquinafina,
 (SELECT COALESCE(SUM(edp2.finalizadotodo ),0) FROM tblentradadetalleproceso edp2 WHERE edp2.identradaproceso = ep.identradaproceso AND edp2.finalizadotodo = 1 ) as finalizado,

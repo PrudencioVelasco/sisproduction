@@ -7,7 +7,7 @@ class Laminas extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        
+
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
             return redirect('login');
@@ -15,14 +15,15 @@ class Laminas extends CI_Controller {
 
         $this->load->helper('url');
         $this->load->model('data_model');
-        $this->load->model('lamina_model', 'lamina'); 
-        $this->load->model('client_model', 'cliente'); 
+        $this->load->model('lamina_model', 'lamina');
+        $this->load->model('client_model', 'cliente');
         $this->load->library('permission');
         $this->load->library('session');
     }
 
     public function index()
     {
+       Permission::grant(uri_string());
         $data = array(
             'data'=>$this->lamina->showAllLaminas(),
             'maquinas'=>$this->lamina->showAllMaquinas(),
@@ -33,7 +34,7 @@ class Laminas extends CI_Controller {
         $this->load->view('entradas/lamina/index',$data);
         $this->load->view('footer');
     }
-    
+
     public function detalle($idparte)
     {
 
@@ -59,7 +60,7 @@ class Laminas extends CI_Controller {
                 'label' => 'Cantidad',
                 'rules' => 'trim|required|is_natural',
                 'errors' => array(
-                    'required' => 'Cantidad campo obligatorio.', 
+                    'required' => 'Cantidad campo obligatorio.',
                     'is_natural'=> 'Solo número positivo.'
                 )
             ),
@@ -107,7 +108,7 @@ class Laminas extends CI_Controller {
                 'label' => 'Cantidad',
                 'rules' => 'trim|required|is_natural',
                 'errors' => array(
-                    'required' => 'Cantidad campo obligatorio.', 
+                    'required' => 'Cantidad campo obligatorio.',
                     'is_natural'=> 'Solo número positivo.'
                 )
             ),
@@ -138,16 +139,16 @@ class Laminas extends CI_Controller {
                 $total_salida=0;
                 $total_devolucion=0;
                 foreach($this->lamina->totalentradas($idparte) as $value){
-                   $total_entrada+=$value->cantidad;   
+                   $total_entrada+=$value->cantidad;
                }
                if($this->lamina->totalsalidas($idparte)){
                 foreach($this->lamina->totalsalidas($idparte) as $value){
-                    $total_salida+=$value->cantidad;   
+                    $total_salida+=$value->cantidad;
                 }
             }
             if($this->lamina->totaldevolucion($idparte)){
                 foreach($this->lamina->totaldevolucion($idparte) as $value){
-                    $total_devolucion+=$value->cantidad;   
+                    $total_devolucion+=$value->cantidad;
                 }
             }
             $total_entrada = $total_entrada - $total_salida - $total_devolucion;
@@ -163,7 +164,7 @@ class Laminas extends CI_Controller {
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
-                $this->lamina->addSalidaLamina($data); 
+                $this->lamina->addSalidaLamina($data);
                 echo json_encode(['success'=>'Se agrego la entrada con Exito.']);
 
             }else{
@@ -172,7 +173,7 @@ class Laminas extends CI_Controller {
             }
         }else{
             echo json_encode(['error'=>'No hay suficientes Laminas.']);
-        } 
+        }
 
     }
 
@@ -180,13 +181,13 @@ class Laminas extends CI_Controller {
 
 public function devolucion()
 {
-    $config = array( 
+    $config = array(
         array(
             'field' => 'cantidad',
             'label' => 'Cantidad',
             'rules' => 'trim|required|is_natural',
             'errors' => array(
-                'required' => 'Cantidad campo obligatorio.', 
+                'required' => 'Cantidad campo obligatorio.',
                 'is_natural'=> 'Solo número positivo.'
             )
         ),
@@ -200,7 +201,7 @@ public function devolucion()
             )
         )
     );
-    
+
     $this->form_validation->set_rules($config);
 
     if ($this->form_validation->run() == FALSE){
@@ -211,25 +212,25 @@ public function devolucion()
     }else{
         $idparte =  $this->input->post('idparte');
         $cantidad =  $this->input->post('cantidad');
-        
+
         $total_entrada=0;
         $total_salida=0;
         $total_devolucion=0;
 
         if($this->lamina->totalentradas($idparte)){
             foreach($this->lamina->totalentradas($idparte) as $value){
-                $total_entrada+=$value->cantidad;   
+                $total_entrada+=$value->cantidad;
             }
         }
 
         if($this->lamina->totalsalidas($idparte)){
             foreach($this->lamina->totalsalidas($idparte) as $value){
-                $total_salida+=$value->cantidad;   
+                $total_salida+=$value->cantidad;
             }
         }
         if($this->lamina->totaldevolucion($idparte)){
             foreach($this->lamina->totaldevolucion($idparte) as $value){
-                $total_devolucion+=$value->cantidad;   
+                $total_devolucion+=$value->cantidad;
             }
         }
         $total_stock = $total_entrada - ($total_salida - $total_devolucion);
@@ -259,14 +260,14 @@ public function devolucion()
 //Seccion DETALLE [Entradas]
 
 public function actualizar_entrada()
-{ 
+{
     $config = array(
         array(
             'field' => 'cantidad',
             'label' => 'Cantidad',
             'rules' => 'trim|required|is_natural',
             'errors' => array(
-                'required' => 'Cantidad campo obligatorio.', 
+                'required' => 'Cantidad campo obligatorio.',
                 'is_natural'=> 'Solo número positivo.'
             )
         ),
@@ -323,12 +324,12 @@ public function eliminar_parte_entrada()
     if($hours < 24){
         $response = $this->lamina->eliminar_entrada($idlamina);
         if($response){
-            echo json_encode(['response'=>true]);    
+            echo json_encode(['response'=>true]);
         }
     }else{
         echo json_encode(['response'=>'time']);
     }
-    
+
 }
 
 //Seccion DETALLE [Salidas]
@@ -341,7 +342,7 @@ public function actualizar_salida()
             'label' => 'Cantidad',
             'rules' => 'trim|required|is_natural',
             'errors' => array(
-                'required' => 'Cantidad campo obligatorio.', 
+                'required' => 'Cantidad campo obligatorio.',
                 'is_natural'=> 'Solo número positivo.'
             )
         ),
@@ -361,7 +362,7 @@ public function actualizar_salida()
         $errors = validation_errors();
         echo json_encode(['error'=>$errors]);
     }else{
-        $idlaminasalida = $this->input->post('idlaminasalida'); 
+        $idlaminasalida = $this->input->post('idlaminasalida');
         $idparte =  $this->input->post('idparte');
         $cantidad =  $this->input->post('cantidad');
 
@@ -371,19 +372,19 @@ public function actualizar_salida()
 
         if($this->lamina->totalentradas($idparte)){
             foreach($this->lamina->totalentradas($idparte) as $value){
-                $total_entrada+=$value->cantidad;   
+                $total_entrada+=$value->cantidad;
             }
         }
 
         if($this->lamina->totalsalidaswithout($idparte,$idlaminasalida)){
             foreach($this->lamina->totalsalidaswithout($idparte,$idlaminasalida) as $value){
-                $total_salida+=$value->cantidad;   
+                $total_salida+=$value->cantidad;
             }
         }
 
         if($this->lamina->totaldevolucion($idparte)){
             foreach($this->lamina->totaldevolucion($idparte) as $value){
-                $total_devolucion+=$value->cantidad;   
+                $total_devolucion+=$value->cantidad;
             }
         }
 
@@ -398,14 +399,14 @@ public function actualizar_salida()
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
-    
+
                 $response = $this->lamina->actualizarlaminasalida($idlaminasalida,$data);
                 if($response){
                     echo json_encode(['success'=>'Se actualizo la informacion con exito.']);
                 }else{
                     echo json_encode(['error'=>'No se pudo actualizar la informacion']);
                 }
-            
+
         }else{
             echo json_encode(['error'=>'Ha excedido la cantidad de partes.']);
         }
@@ -430,25 +431,25 @@ public function eliminar_parte_salida()
     if($hours < 24){
         $response = $this->lamina->eliminar_salida($idlaminasalida);
         if($response){
-            echo json_encode(['response'=>true]);    
+            echo json_encode(['response'=>true]);
         }
     }else{
         echo json_encode(['response'=>'time']);
     }
-    
+
 }
 
 // Seccion parte [DEVOLUCIONES]
 
 public function actualizar_devolucion()
 {
-    $config = array( 
+    $config = array(
         array(
             'field' => 'cantidad',
             'label' => 'Cantidad',
             'rules' => 'trim|required|is_natural',
             'errors' => array(
-                'required' => 'Cantidad campo obligatorio.', 
+                'required' => 'Cantidad campo obligatorio.',
                 'is_natural'=> 'Solo número positivo.'
             )
         ),
@@ -462,7 +463,7 @@ public function actualizar_devolucion()
             )
         )
     );
-    
+
     $this->form_validation->set_rules($config);
 
     if ($this->form_validation->run() == FALSE){
@@ -475,31 +476,31 @@ public function actualizar_devolucion()
         $idlaminadevolucion =  $this->input->post('idlaminadevolucion');
         $idparte =  $this->input->post('idparte');
         $cantidad =  $this->input->post('cantidad');
-        
+
         $total_entrada=0;
         $total_salida=0;
         $total_devolucion=0;
 
         if($this->lamina->totalentradas($idparte)){
             foreach($this->lamina->totalentradas($idparte) as $value){
-                $total_entrada+=$value->cantidad;   
+                $total_entrada+=$value->cantidad;
             }
         }
 
         if($this->lamina->totalsalidas($idparte)){
             foreach($this->lamina->totalsalidas($idparte) as $value){
-                $total_salida+=$value->cantidad;   
+                $total_salida+=$value->cantidad;
             }
         }
         if($this->lamina->totaldevolucioneswithout($idparte,$idlaminadevolucion)){
             foreach($this->lamina->totaldevolucioneswithout($idparte,$idlaminadevolucion) as $value){
-                $total_devolucion+=$value->cantidad;   
+                $total_devolucion+=$value->cantidad;
             }
         }
-    
+
         $total_1 = $total_salida + $total_devolucion;
         $total_stock = $total_entrada - $total_1;
-        
+
         if($cantidad <= $total_stock && $total_stock > 0){
 
             $data = array(
@@ -540,12 +541,12 @@ public function eliminar_parte_devolucion()
     if($hours < 24){
         $response = $this->lamina->eliminar_devolucion($idlaminadevolucion);
         if($response){
-            echo json_encode(['response'=>true]);    
+            echo json_encode(['response'=>true]);
         }
     }else{
         echo json_encode(['response'=>'time']);
     }
-    
+
 }
 
 }

@@ -1,9 +1,9 @@
 
 var this_js_script = $('script[src*=apppermiso]');
-var my_var_1 = this_js_script.attr('data-my_var_1'); 
+var my_var_1 = this_js_script.attr('data-my_var_1');
 if (typeof my_var_1 === "undefined") {
     var my_var_1 = 'some_default_value';
-} 
+}
 
 
 Vue.component('modal',{ //modal
@@ -13,10 +13,10 @@ Vue.component('modal',{ //modal
         <div class="modal-wrapper">
           <div class="modal-dialog">
           <div class="modal-content">
-            
 
-            <div class="modal-header">
-                <h5 class="modal-title"> <slot name="head"></slot></h5> 
+
+            <div class="modal-header modal-header-info">
+                <h5 class="modal-title"> <slot name="head"></slot></h5>
                 <i class="fa fa-window-close  icon-md text-danger" @click="$emit('close')"></i>
               </div>
 
@@ -31,7 +31,7 @@ Vue.component('modal',{ //modal
           </div>
         </div>
       </div>
-    </transition> 
+    </transition>
     `
 })
 var v = new Vue({
@@ -52,16 +52,16 @@ var v = new Vue({
         choosePermiso:{},
         formValidate:[],
         successMSG:'',
-        
+
         //pagination
         currentPage: 0,
         rowCountPage:15,
         totalPermisos:0,
-        pageRange:2,        
+        pageRange:2,
          directives: {columnSortable}
     },
      created(){
-      this.showAll(); 
+      this.showAll();
     },
     methods:{
         orderBy(sortFn) {
@@ -83,11 +83,11 @@ var v = new Vue({
                       v.noResult()
                     }else{
                       v.getData(response.data.permisos);
-                    
-                    }  
+
+                    }
             })
         },
-          addPermiso(){   
+          addPermiso(){
             var formData = v.formData(v.newPermiso);
               axios.post(this.url+"permiso/addPermiso", formData).then(function(response){
                 if(response.data.error){
@@ -121,11 +121,11 @@ var v = new Vue({
                           });
                     v.clearAll();
                     v.clearMSG();
-                
+
                 }
             })
         },
-         
+
        /* deleteUser(){
              var formData = v.formData(v.chooseUser);
               axios.post(this.url+"user/deleteUser", formData).then(function(response){
@@ -140,23 +140,23 @@ var v = new Vue({
          var formData = new FormData();
           for ( var key in obj ) {
               formData.append(key, obj[key]);
-          } 
+          }
           return formData;
     },
         getData(permisos){
             v.emptyResult = false; // become false if has a record
             v.totalPermisos = permisos.length //get total of user
             v.permisos = permisos.slice(v.currentPage * v.rowCountPage, (v.currentPage * v.rowCountPage) + v.rowCountPage); //slice the result for pagination
-            
+
              // if the record is empty, go back a page
-            if(v.permisos.length == 0 && v.currentPage > 0){ 
+            if(v.permisos.length == 0 && v.currentPage > 0){
             v.pageUpdate(v.currentPage - 1)
-            v.clearAll();  
+            v.clearAll();
             }
         },
-            
+
         selectPermiso(permiso){
-            v.choosePermiso = permiso; 
+            v.choosePermiso = permiso;
         },
         clearMSG(){
             setTimeout(function(){
@@ -164,32 +164,32 @@ var v = new Vue({
        },3000); // disappearing message success in 2 sec
         },
         clearAll(){
-            v.newPermiso = { 
+            v.newPermiso = {
             uri:'',
             description:'' };
             v.formValidate = false;
             v.addModal= false;
-            v.editModal=false; 
+            v.editModal=false;
             //v.deleteModal=false;
             v.refresh()
-            
+
         },
         noResult(){
-          
+
                v.emptyResult = true;  // become true if the record is empty, print 'No Record Found'
-                      v.permisos = null 
+                      v.permisos = null
                      v.totalPermisos = 0 //remove current page if is empty
-            
+
         },
 
-       
+
         pageUpdate(pageNumber){
               v.currentPage = pageNumber; //receive currentPage number came from pagination template
-                v.refresh()  
+                v.refresh()
         },
         refresh(){
              v.search.text ? v.searchPermiso() : v.showAll(); //for preventing
-            
+
         }
     }
 })

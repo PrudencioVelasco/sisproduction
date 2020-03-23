@@ -111,12 +111,12 @@
                                                 $totalok="";
                                                 $totalerror="";
                                                 if($value->idmaquinafina == 3){
-                                                    $totalok  = $value->totalentrada - $value->totalerrorconscrap;
-                                                    $totalerror = $value->totalerrorconscrap;
-                                                  //  echo "A";
+                                                    $totalok  = $value->totalentrada - ( $value->totalerrorgeneral + $value->totalerrorconscrap);
+                                                    $totalerror =  $value->totalerrorgeneral + $value->totalerrorconscrap;
+                                                  // echo "A";
                                                 }else{
                                                     $totalok =  $value->totalsalidasinscrap;
-                                                    $totalerror = $value->totalentrada - $value->totalsalidasinscrap;
+                                                    $totalerror = $value->totalerrorgeneral  ;
                                                     //echo "B";
                                                 } ?>
                                                 <tr>

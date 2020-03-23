@@ -7,28 +7,51 @@ class Litho extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        
+
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
             return redirect('login');
-        } 
-        
+        }
+
         $this->load->helper('url');
         $this->load->model('data_model');
-        $this->load->model('litho_model', 'litho'); 
-        $this->load->model('client_model', 'cliente'); 
+        $this->load->model('litho_model', 'litho');
+        $this->load->model('client_model', 'cliente');
         $this->load->library('permission');
         $this->load->library('session');
     }
 
-    public function index()
+    public function litho()
     {
+      Permission::grant(uri_string());
         $data = array(
             'data'=>$this->litho->showAllLitho(),
         );
 
         $this->load->view('header');
         $this->load->view('entradas/litho/index',$data);
+        $this->load->view('footer');
+    }
+    public function bolsa()
+    {
+      Permission::grant(uri_string());
+        $data = array(
+            'data'=>$this->litho->showAllBolsa(),
+        );
+
+        $this->load->view('header');
+        $this->load->view('entradas/bolsa/index',$data);
+        $this->load->view('footer');
+    }
+    public function manual()
+    {
+      Permission::grant(uri_string());
+        $data = array(
+            'data'=>$this->litho->showAllManual(),
+        );
+
+        $this->load->view('header');
+        $this->load->view('entradas/manual/index',$data);
         $this->load->view('footer');
     }
 
@@ -45,7 +68,33 @@ class Litho extends CI_Controller {
         $this->load->view('footer');
 
     }
-    
+    public function detalle_bolsa($idrevision)
+    {
+        $data = array(
+            'entradas'=>$this->litho->detalle_entradas($idrevision),
+            'salidas'=>$this->litho->detalle_salidas($idrevision),
+            'devoluciones'=>$this->litho->detalle_devoluciones($idrevision)
+        );
+
+        $this->load->view('header');
+        $this->load->view('entradas/bolsa/detalle',$data);
+        $this->load->view('footer');
+
+    }
+    public function detalle_manual($idrevision)
+    {
+        $data = array(
+            'entradas'=>$this->litho->detalle_entradas($idrevision),
+            'salidas'=>$this->litho->detalle_salidas($idrevision),
+            'devoluciones'=>$this->litho->detalle_devoluciones($idrevision)
+        );
+
+        $this->load->view('header');
+        $this->load->view('entradas/manual/detalle',$data);
+        $this->load->view('footer');
+
+    }
+
     public function agregar_entrada()
     {
         $config = array(
@@ -54,7 +103,7 @@ class Litho extends CI_Controller {
                 'label' => 'Cantidad',
                 'rules' => 'trim|required|is_natural',
                 'errors' => array(
-                    'required' => 'Cantidad campo obligatorio.', 
+                    'required' => 'Cantidad campo obligatorio.',
                     'is_natural'=> 'Solo número positivo.'
                 )
             ),
@@ -85,6 +134,111 @@ class Litho extends CI_Controller {
             echo json_encode(['error'=>$errors]);
         }else{
             $data = array(
+                'idcategoria'=>11,
+                'idrevision'=> $this->input->post('idrevision'),
+                'cantidad'=> $this->input->post('cantidad'),
+                'comentarios'=> $this->input->post('comentarios'),
+                'transferencia'=> $this->input->post('transferencia'),
+                'activo'=>1,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->litho->addEntradaLitho($data);
+            echo json_encode(['success'=>'Se agrego la entrada con Exito.']);
+        }
+    }
+    public function agregar_entrada_bolsa()
+    {
+        $config = array(
+            array(
+                'field' => 'cantidad',
+                'label' => 'Cantidad',
+                'rules' => 'trim|required|is_natural',
+                'errors' => array(
+                    'required' => 'Cantidad campo obligatorio.',
+                    'is_natural'=> 'Solo número positivo.'
+                )
+            ),
+            array(
+                'field' => 'comentarios',
+                'label' => 'Comentarios',
+                'rules' => 'trim|max_length[249]',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.',
+                    'max_length'=> 'Maximo 240 caracteres.'
+                )
+            ),
+            array(
+                'field' => 'transferencia',
+                'label' => 'Transferencia',
+                'rules' => 'trim|max_length[249]',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.',
+                    'max_length'=> 'Maximo 240 caracteres.'
+                )
+            )
+        );
+
+        $this->form_validation->set_rules($config);
+
+        if ($this->form_validation->run() == FALSE){
+            $errors = validation_errors();
+            echo json_encode(['error'=>$errors]);
+        }else{
+            $data = array(
+                'idcategoria'=>8,
+                'idrevision'=> $this->input->post('idrevision'),
+                'cantidad'=> $this->input->post('cantidad'),
+                'comentarios'=> $this->input->post('comentarios'),
+                'transferencia'=> $this->input->post('transferencia'),
+                'activo'=>1,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->litho->addEntradaLitho($data);
+            echo json_encode(['success'=>'Se agrego la entrada con Exito.']);
+        }
+    }
+    public function agregar_entrada_manual()
+    {
+        $config = array(
+            array(
+                'field' => 'cantidad',
+                'label' => 'Cantidad',
+                'rules' => 'trim|required|is_natural',
+                'errors' => array(
+                    'required' => 'Cantidad campo obligatorio.',
+                    'is_natural'=> 'Solo número positivo.'
+                )
+            ),
+            array(
+                'field' => 'comentarios',
+                'label' => 'Comentarios',
+                'rules' => 'trim|max_length[249]',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.',
+                    'max_length'=> 'Maximo 240 caracteres.'
+                )
+            ),
+            array(
+                'field' => 'transferencia',
+                'label' => 'Transferencia',
+                'rules' => 'trim|max_length[249]',
+                'errors' => array(
+                    'required' => 'Campo obligatorio.',
+                    'max_length'=> 'Maximo 240 caracteres.'
+                )
+            )
+        );
+
+        $this->form_validation->set_rules($config);
+
+        if ($this->form_validation->run() == FALSE){
+            $errors = validation_errors();
+            echo json_encode(['error'=>$errors]);
+        }else{
+            $data = array(
+                'idcategoria'=>6,
                 'idrevision'=> $this->input->post('idrevision'),
                 'cantidad'=> $this->input->post('cantidad'),
                 'comentarios'=> $this->input->post('comentarios'),
@@ -106,7 +260,7 @@ class Litho extends CI_Controller {
                 'label' => 'Cantidad',
                 'rules' => 'trim|required|is_natural',
                 'errors' => array(
-                    'required' => 'Cantidad campo obligatorio.', 
+                    'required' => 'Cantidad campo obligatorio.',
                     'is_natural'=> 'Solo número positivo.'
                 )
             ),
@@ -146,22 +300,23 @@ class Litho extends CI_Controller {
                 $total_salida=0;
                 $total_devolucion=0;
                 foreach($this->litho->totalentradas($idrevision) as $value){
-                 $total_entrada+=$value->cantidad;   
+                 $total_entrada+=$value->cantidad;
              }
              if($this->litho->totalsalidas($idrevision)){
                 foreach($this->litho->totalsalidas($idrevision) as $value){
-                    $total_salida+=$value->cantidad;   
+                    $total_salida+=$value->cantidad;
                 }
             }
             if($this->litho->totaldevolucion($idrevision)){
                 foreach($this->litho->totaldevolucion($idrevision) as $value){
-                    $total_devolucion+=$value->cantidad;   
+                    $total_devolucion+=$value->cantidad;
                 }
             }
             $total_entrada = $total_entrada - $total_salida - $total_devolucion;
-            
+
             if($cantidad <= $total_entrada ){
                 $data = array(
+                    'idcategoria'=>11,
                     'idrevision'=> $this->input->post('idrevision'),
                     'cantidad'=> $this->input->post('cantidad'),
                     'comentarios'=> $this->input->post('comentarios'),
@@ -170,7 +325,7 @@ class Litho extends CI_Controller {
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
-                $this->litho->addSalidaLitho($data); 
+                $this->litho->addSalidaLitho($data);
                 echo json_encode(['success'=>'Se agrego la salida con exito.']);
 
             }else{
@@ -179,21 +334,195 @@ class Litho extends CI_Controller {
             }
         }else{
             echo json_encode(['error'=>'No hay en existencia suficientes Laminas.']);
-        } 
+        }
 
     }
 
 }
-
-public function devolucion()
+public function agregar_salida_bolsa()
 {
-    $config = array( 
+    $config = array(
         array(
             'field' => 'cantidad',
             'label' => 'Cantidad',
             'rules' => 'trim|required|is_natural',
             'errors' => array(
-                'required' => 'Cantidad campo obligatorio.', 
+                'required' => 'Cantidad campo obligatorio.',
+                'is_natural'=> 'Solo número positivo.'
+            )
+        ),
+        array(
+            'field' => 'comentarios',
+            'label' => 'Comentarios',
+            'rules' => 'trim|max_length[249]',
+            'errors' => array(
+                'required' => 'Campo obligatorio.',
+                'max_length'=> 'Maximo 240 caracteres.'
+            )
+        ),
+        array(
+            'field' => 'transferencia',
+            'label' => 'Transferencia',
+            'rules' => 'trim|max_length[249]',
+            'errors' => array(
+                'required' => 'Campo obligatorio.',
+                'max_length'=> 'Maximo 240 caracteres.'
+            )
+        )
+    );
+    $this->form_validation->set_rules($config);
+
+    if ($this->form_validation->run() == FALSE){
+
+        $errors = validation_errors();
+
+        echo json_encode(['error'=>$errors]);
+
+    }else{
+        $cantidad = $this->input->post('cantidad');
+        $idrevision = $this->input->post('idrevision');
+
+        if($this->litho->totalentradas($idrevision)){
+            $total_entrada=0;
+            $total_salida=0;
+            $total_devolucion=0;
+            foreach($this->litho->totalentradas($idrevision) as $value){
+             $total_entrada+=$value->cantidad;
+         }
+         if($this->litho->totalsalidas($idrevision)){
+            foreach($this->litho->totalsalidas($idrevision) as $value){
+                $total_salida+=$value->cantidad;
+            }
+        }
+        if($this->litho->totaldevolucion($idrevision)){
+            foreach($this->litho->totaldevolucion($idrevision) as $value){
+                $total_devolucion+=$value->cantidad;
+            }
+        }
+        $total_entrada = $total_entrada - $total_salida - $total_devolucion;
+
+        if($cantidad <= $total_entrada ){
+            $data = array(
+                'idcategoria'=>8,
+                'idrevision'=> $this->input->post('idrevision'),
+                'cantidad'=> $this->input->post('cantidad'),
+                'comentarios'=> $this->input->post('comentarios'),
+                'transferencia'=> $this->input->post('transferencia'),
+                'activo'=> 1,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->litho->addSalidaLitho($data);
+            echo json_encode(['success'=>'Se agrego la salida con exito.']);
+
+        }else{
+            echo json_encode(['error'=>'No hay en existencia suficientes Bolsas.']);
+
+        }
+    }else{
+        echo json_encode(['error'=>'No hay en existencia suficientes Bolsas.']);
+    }
+
+}
+
+}
+public function agregar_salida_manual()
+{
+    $config = array(
+        array(
+            'field' => 'cantidad',
+            'label' => 'Cantidad',
+            'rules' => 'trim|required|is_natural',
+            'errors' => array(
+                'required' => 'Cantidad campo obligatorio.',
+                'is_natural'=> 'Solo número positivo.'
+            )
+        ),
+        array(
+            'field' => 'comentarios',
+            'label' => 'Comentarios',
+            'rules' => 'trim|max_length[249]',
+            'errors' => array(
+                'required' => 'Campo obligatorio.',
+                'max_length'=> 'Maximo 240 caracteres.'
+            )
+        ),
+        array(
+            'field' => 'transferencia',
+            'label' => 'Transferencia',
+            'rules' => 'trim|max_length[249]',
+            'errors' => array(
+                'required' => 'Campo obligatorio.',
+                'max_length'=> 'Maximo 240 caracteres.'
+            )
+        )
+    );
+    $this->form_validation->set_rules($config);
+
+    if ($this->form_validation->run() == FALSE){
+
+        $errors = validation_errors();
+
+        echo json_encode(['error'=>$errors]);
+
+    }else{
+        $cantidad = $this->input->post('cantidad');
+        $idrevision = $this->input->post('idrevision');
+
+        if($this->litho->totalentradas($idrevision)){
+            $total_entrada=0;
+            $total_salida=0;
+            $total_devolucion=0;
+            foreach($this->litho->totalentradas($idrevision) as $value){
+             $total_entrada+=$value->cantidad;
+         }
+         if($this->litho->totalsalidas($idrevision)){
+            foreach($this->litho->totalsalidas($idrevision) as $value){
+                $total_salida+=$value->cantidad;
+            }
+        }
+        if($this->litho->totaldevolucion($idrevision)){
+            foreach($this->litho->totaldevolucion($idrevision) as $value){
+                $total_devolucion+=$value->cantidad;
+            }
+        }
+        $total_entrada = $total_entrada - $total_salida - $total_devolucion;
+
+        if($cantidad <= $total_entrada ){
+            $data = array(
+                'idcategoria'=>6,
+                'idrevision'=> $this->input->post('idrevision'),
+                'cantidad'=> $this->input->post('cantidad'),
+                'comentarios'=> $this->input->post('comentarios'),
+                'transferencia'=> $this->input->post('transferencia'),
+                'activo'=> 1,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->litho->addSalidaLitho($data);
+            echo json_encode(['success'=>'Se agrego la salida con exito.']);
+
+        }else{
+            echo json_encode(['error'=>'No hay en existencia suficientes Bolsas.']);
+
+        }
+    }else{
+        echo json_encode(['error'=>'No hay en existencia suficientes Bolsas.']);
+    }
+
+}
+
+}
+
+public function devolucion()
+{
+    $config = array(
+        array(
+            'field' => 'cantidad',
+            'label' => 'Cantidad',
+            'rules' => 'trim|required|is_natural',
+            'errors' => array(
+                'required' => 'Cantidad campo obligatorio.',
                 'is_natural'=> 'Solo número positivo.'
             )
         ),
@@ -226,25 +555,25 @@ public function devolucion()
     }else{
         $idrevision =  $this->input->post('idrevision');
         $cantidad =  $this->input->post('cantidad');
-        
+
         $total_entrada = 0;
         $total_salida = 0;
         $total_devolucion = 0;
-        
+
         if($this->litho->totalentradas($idrevision)){
             foreach($this->litho->totalentradas($idrevision) as $value){
-                $total_entrada+=$value->cantidad;   
+                $total_entrada+=$value->cantidad;
             }
         }
 
         if($this->litho->totalsalidas($idrevision)){
             foreach($this->litho->totalsalidas($idrevision) as $value){
-                $total_salida+=$value->cantidad;   
+                $total_salida+=$value->cantidad;
             }
         }
         if($this->litho->totaldevolucion($idrevision)){
             foreach($this->litho->totaldevolucion($idrevision) as $value){
-                $total_devolucion+=$value->cantidad;   
+                $total_devolucion+=$value->cantidad;
             }
         }
         $total_stock = $total_entrada - $total_salida - $total_devolucion;
@@ -252,6 +581,7 @@ public function devolucion()
         if($cantidad <= $total_stock && $total_stock > 0){
 
             $data = array(
+                'idcategoria'=>11,
                 'idrevision'=> $this->input->post('idrevision'),
                 'cantidad'=> $this->input->post('cantidad'),
                 'comentarios'=> $this->input->post('comentarios'),
@@ -269,16 +599,186 @@ public function devolucion()
     }
 
 }
-
-public function actualizar_entrada()
-{ 
+public function devolucion_bolsa()
+{
     $config = array(
         array(
             'field' => 'cantidad',
             'label' => 'Cantidad',
             'rules' => 'trim|required|is_natural',
             'errors' => array(
-                'required' => 'Cantidad campo obligatorio.', 
+                'required' => 'Cantidad campo obligatorio.',
+                'is_natural'=> 'Solo número positivo.'
+            )
+        ),
+        array(
+            'field' => 'comentarios',
+            'label' => 'Comentarios',
+            'rules' => 'trim|max_length[249]',
+            'errors' => array(
+                'required' => 'Campo obligatorio.',
+                'max_length'=> 'Maximo 240 caracteres.'
+            )
+        ),
+        array(
+            'field' => 'transferencia',
+            'label' => 'Transferencia',
+            'rules' => 'trim|max_length[249]',
+            'errors' => array(
+                'required' => 'Campo obligatorio.',
+                'max_length'=> 'Maximo 240 caracteres.'
+            )
+        )
+    );
+
+    $this->form_validation->set_rules($config);
+
+    if ($this->form_validation->run() == FALSE){
+        $errors = validation_errors();
+
+        echo json_encode(['error'=>$errors]);
+    }else{
+        $idrevision =  $this->input->post('idrevision');
+        $cantidad =  $this->input->post('cantidad');
+
+        $total_entrada = 0;
+        $total_salida = 0;
+        $total_devolucion = 0;
+
+        if($this->litho->totalentradas($idrevision)){
+            foreach($this->litho->totalentradas($idrevision) as $value){
+                $total_entrada+=$value->cantidad;
+            }
+        }
+
+        if($this->litho->totalsalidas($idrevision)){
+            foreach($this->litho->totalsalidas($idrevision) as $value){
+                $total_salida+=$value->cantidad;
+            }
+        }
+        if($this->litho->totaldevolucion($idrevision)){
+            foreach($this->litho->totaldevolucion($idrevision) as $value){
+                $total_devolucion+=$value->cantidad;
+            }
+        }
+        $total_stock = $total_entrada - $total_salida - $total_devolucion;
+
+        if($cantidad <= $total_stock && $total_stock > 0){
+
+            $data = array(
+                'idcategoria'=>8,
+                'idrevision'=> $this->input->post('idrevision'),
+                'cantidad'=> $this->input->post('cantidad'),
+                'comentarios'=> $this->input->post('comentarios'),
+                'transferencia'=> $this->input->post('transferencia'),
+                'activo'=> 1,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->litho->addDevolucionLitho($data);
+            echo json_encode(['success'=>'Se agrego la devolucion con Exito.']);
+        }else{
+            echo json_encode(['error'=>'No hay en existencia suficientes Bolsas.']);
+        }
+
+    }
+
+}
+public function devolucion_manual()
+{
+    $config = array(
+        array(
+            'field' => 'cantidad',
+            'label' => 'Cantidad',
+            'rules' => 'trim|required|is_natural',
+            'errors' => array(
+                'required' => 'Cantidad campo obligatorio.',
+                'is_natural'=> 'Solo número positivo.'
+            )
+        ),
+        array(
+            'field' => 'comentarios',
+            'label' => 'Comentarios',
+            'rules' => 'trim|max_length[249]',
+            'errors' => array(
+                'required' => 'Campo obligatorio.',
+                'max_length'=> 'Maximo 240 caracteres.'
+            )
+        ),
+        array(
+            'field' => 'transferencia',
+            'label' => 'Transferencia',
+            'rules' => 'trim|max_length[249]',
+            'errors' => array(
+                'required' => 'Campo obligatorio.',
+                'max_length'=> 'Maximo 240 caracteres.'
+            )
+        )
+    );
+
+    $this->form_validation->set_rules($config);
+
+    if ($this->form_validation->run() == FALSE){
+        $errors = validation_errors();
+
+        echo json_encode(['error'=>$errors]);
+    }else{
+        $idrevision =  $this->input->post('idrevision');
+        $cantidad =  $this->input->post('cantidad');
+
+        $total_entrada = 0;
+        $total_salida = 0;
+        $total_devolucion = 0;
+
+        if($this->litho->totalentradas($idrevision)){
+            foreach($this->litho->totalentradas($idrevision) as $value){
+                $total_entrada+=$value->cantidad;
+            }
+        }
+
+        if($this->litho->totalsalidas($idrevision)){
+            foreach($this->litho->totalsalidas($idrevision) as $value){
+                $total_salida+=$value->cantidad;
+            }
+        }
+        if($this->litho->totaldevolucion($idrevision)){
+            foreach($this->litho->totaldevolucion($idrevision) as $value){
+                $total_devolucion+=$value->cantidad;
+            }
+        }
+        $total_stock = $total_entrada - $total_salida - $total_devolucion;
+
+        if($cantidad <= $total_stock && $total_stock > 0){
+
+            $data = array(
+                'idcategoria'=>6,
+                'idrevision'=> $this->input->post('idrevision'),
+                'cantidad'=> $this->input->post('cantidad'),
+                'comentarios'=> $this->input->post('comentarios'),
+                'transferencia'=> $this->input->post('transferencia'),
+                'activo'=> 1,
+                'idusuario' => $this->session->user_id,
+                'fecharegistro' => date('Y-m-d H:i:s')
+            );
+            $this->litho->addDevolucionLitho($data);
+            echo json_encode(['success'=>'Se agrego la devolucion con Exito.']);
+        }else{
+            echo json_encode(['error'=>'No hay en existencia suficientes Bolsas.']);
+        }
+
+    }
+
+}
+
+public function actualizar_entrada()
+{
+    $config = array(
+        array(
+            'field' => 'cantidad',
+            'label' => 'Cantidad',
+            'rules' => 'trim|required|is_natural',
+            'errors' => array(
+                'required' => 'Cantidad campo obligatorio.',
                 'is_natural'=> 'Solo número positivo.'
             )
         ),
@@ -335,7 +835,7 @@ public function actualizar_salida()
             'label' => 'Cantidad',
             'rules' => 'trim|required|is_natural',
             'errors' => array(
-                'required' => 'Cantidad campo obligatorio.', 
+                'required' => 'Cantidad campo obligatorio.',
                 'is_natural'=> 'Solo número positivo.'
             )
         ),
@@ -364,7 +864,7 @@ public function actualizar_salida()
         $errors = validation_errors();
         echo json_encode(['error'=>$errors]);
     }else{
-        $idlithosalida = $this->input->post('idlithosalida'); 
+        $idlithosalida = $this->input->post('idlithosalida');
         $idrevision =  $this->input->post('idrevision');
         $cantidad =  $this->input->post('cantidad');
 
@@ -374,19 +874,19 @@ public function actualizar_salida()
 
         if($this->litho->totalentradas($idrevision)){
             foreach($this->litho->totalentradas($idrevision) as $value){
-                $total_entrada+=$value->cantidad;   
+                $total_entrada+=$value->cantidad;
             }
         }
 
         if($this->litho->totalsalidaswithout($idrevision,$idlithosalida)){
             foreach($this->litho->totalsalidaswithout($idrevision,$idlithosalida) as $value){
-                $total_salida+=$value->cantidad;   
+                $total_salida+=$value->cantidad;
             }
         }
 
         if($this->litho->totaldevolucion($idrevision)){
             foreach($this->litho->totaldevolucion($idrevision) as $value){
-                $total_devolucion+=$value->cantidad;   
+                $total_devolucion+=$value->cantidad;
             }
         }
 
@@ -432,12 +932,12 @@ public function eliminar_parte()
     if($hours < 24){
         $response = $this->litho->eliminar($idlitho);
         if($response){
-            echo json_encode(['response'=>true]);    
+            echo json_encode(['response'=>true]);
         }
     }else{
         echo json_encode(['response'=>'time']);
     }
-    
+
 }
 
 public function eliminar_parte_salida()
@@ -458,12 +958,12 @@ public function eliminar_parte_salida()
     if($hours < 24){
         $response = $this->litho->eliminar_salida($idlithosalida);
         if($response){
-            echo json_encode(['response'=>true]);    
+            echo json_encode(['response'=>true]);
         }
     }else{
         echo json_encode(['response'=>'time']);
     }
-    
+
 }
 
 // Seccion DETALLE [Devoluciones]
@@ -476,7 +976,7 @@ public function actualizar_devolucion()
             'label' => 'Cantidad',
             'rules' => 'trim|required|is_natural',
             'errors' => array(
-                'required' => 'Cantidad campo obligatorio.', 
+                'required' => 'Cantidad campo obligatorio.',
                 'is_natural'=> 'Solo número positivo.'
             )
         ),
@@ -505,7 +1005,7 @@ public function actualizar_devolucion()
         $errors = validation_errors();
         echo json_encode(['error'=>$errors]);
     }else{
-        $idlithodevolucion = $this->input->post('idlithodevolucion'); 
+        $idlithodevolucion = $this->input->post('idlithodevolucion');
         $idrevision =  $this->input->post('idrevision');
         $cantidad =  $this->input->post('cantidad');
 
@@ -515,19 +1015,19 @@ public function actualizar_devolucion()
 
         if($this->litho->totalentradas($idrevision)){
             foreach($this->litho->totalentradas($idrevision) as $value){
-                $total_entrada+=$value->cantidad;   
+                $total_entrada+=$value->cantidad;
             }
         }
 
         if($this->litho->totalsalidas($idrevision)){
             foreach($this->litho->totalsalidas($idrevision) as $value){
-                $total_salida+=$value->cantidad;   
+                $total_salida+=$value->cantidad;
             }
         }
 
         if($this->litho->totaldevolucioneswithout($idrevision,$idlithodevolucion)){
             foreach($this->litho->totaldevolucioneswithout($idrevision,$idlithodevolucion) as $value){
-                $total_devolucion+=$value->cantidad;   
+                $total_devolucion+=$value->cantidad;
             }
         }
 
@@ -575,12 +1075,12 @@ public function eliminar_parte_devolucion()
     if($hours < 24){
         $response = $this->litho->eliminar_devolucion($idlithodevolucion);
         if($response){
-            echo json_encode(['response'=>true]);    
+            echo json_encode(['response'=>true]);
         }
     }else{
         echo json_encode(['response'=>'time']);
     }
-    
+
 }
 
 }

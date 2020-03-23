@@ -5,13 +5,13 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                  <h2><i class="fa fa-align-left"></i> <strong>Busqueda de Pallet</strong></h2> 
+                  <h3><strong>BUSQUEDA DE PALLET</strong></h3> 
                   <div class="clearfix"></div>
                 </div>
                     <div class="x_content">
                         <div id="app">
                             <div class="container">
-                                
+
                                 <div class="row">
                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
                                     <a href="<?php echo site_url('bodegap/create_search/') ?>" class="btn btn-primary" onclick="return confirm('Esta seguros de crear una nueva busqueda.?')"><i class='fa fa-plus'></i> Nueva busqueda</a>
@@ -20,34 +20,34 @@
 
                                         <table class="table is-bordered is-hoverable" id="datatable2">
                                             <thead class="text-white bg-dark" >
-                                            <th>#</th> 
-                                            <th>Busqueda</th>  
-                                            <th>Fecha</th> 
+                                            <th>#</th>
+                                            <th>Busqueda</th>
+                                            <th>Fecha</th>
                                             <th></th>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 if (isset($busquedas) && !empty($busquedas)) {
                                                     $numero = 1;
-                                                    foreach ($busquedas as $value) { 
+                                                    foreach ($busquedas as $value) {
                                                         ?>
                                                         <tr>
-                                                             <td><?php echo $numero++; ?></td> 
+                                                             <td><?php echo $numero++; ?></td>
                                                             <td><strong><?php echo $value->nombrebusqueda; ?></strong></td>
-                                                            <td><?php echo date_format(date_create($value->fecharegistro),"d/m/Y h:i A") ?></td>  
+                                                            <td><?php echo date_format(date_create($value->fecharegistro),"d/m/Y h:i A") ?></td>
                                                             </td>
-                                                            <td align="right"> 
+                                                            <td align="right">
                                                             <a class="btn btn-icons btn-info btn-sm"  href="<?php echo site_url('bodegap/detalle_busqueda/'.$value->idbusqueda) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
                                                             </td>
                                                         </tr>
-                                                        <?php 
+                                                        <?php
                                                     }
                                                 }
                                                 ?>
                                             </tbody>
                                         </table>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -55,14 +55,14 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
 <!-- /page content -->
 <script type="text/javascript">
-    
+
      $(document).ready(function () {
-      
+
         $('#datatablesearch').dataTable(
-                { 
+                {
                     "language": {
                         "sProcessing": "Procesando...",
                         "sLengthMenu": "Mostrar _MENU_ registros",
@@ -88,7 +88,7 @@
                         }
                     }
                 }
-        ); 
+        );
     });
     TableManageButtons.init();
 </script>

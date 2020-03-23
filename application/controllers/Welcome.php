@@ -39,7 +39,8 @@ class Welcome extends CI_Controller {
                     'idusuario' => $result->idusuario,
                     'usuario' => $result->usuario,
                     'name' => $result->name,
-                    'rol' => $result->rol
+                    'rol' => $result->rol,
+                    'idrol' => $result->idrol
                 ]);
                 redirect('admin');
             } else {
@@ -56,7 +57,7 @@ class Welcome extends CI_Controller {
         $datasession = array('usuario_id' => '', 'logged_in' => '');
         // y eliminamos la sesión
         $this->session->unset_userdata($datasession);
-        // redirigimos al controlador principal 
+        // redirigimos al controlador principal
         $logout = $this->session->sess_destroy();
 
         redirect('login');

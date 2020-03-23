@@ -7,120 +7,142 @@
                     <div class="x_title">
                         <div class="row">
                             <div class="col-md-6" align="left">
-                                <h2><strong>Módulo Proceso</strong></h2>
+                                <h3><strong>ADMINISTRAR PROCESOS</strong></h3>
                             </div>
                         </div>
                         <div class="clearfix"></div>
                     </div>
 
-                    <div class="row top_tiles">
-                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="tile-stats">
-                                    <div class="icon"><i style="color:green;" class="fa fa-sign-in"></i>
-                                    </div>
-                                    <div class="count">---</div>
+                    <div class="x_content">
+                      <div class="row">
+                   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                       <a class="pointer" href="<?php echo site_url('proceso/entrada') ?>">
+                       <div class="info-box-2  bg-green hover-expand-effect pointer">
+                           <div class="icon">
+                               <i class="fa fa-sign-in"></i>
+                           </div>
+                           <div class="content">
+                            <div class="text" > <label class="titulomaquina">ENTRADAS</label> </div>
+                            <div class="number"></div>
+                           </div>
+                       </div>
+                       </a>
+                   </div>
+                   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                      <a class="pointer" href="<?php echo site_url('maquina/') ?>">
+                       <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
+                           <div class="icon">
+                               <i class="fa fa-cog" aria-hidden="true"></i>
+                           </div>
+                           <div class="content">
+                               <div class="text"><label class="titulomaquina">MAQUINAS</label></div>
+                               <div class="number"></div>
+                           </div>
+                       </div>
+                       <a>
+                   </div>
+                   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                       <a class="pointer" href="<?php echo site_url('proceso/proceso') ?>">
+                       <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
+                           <div class="icon">
+                               <i  class="fa fa-arrow-right" aria-hidden="true"></i>
+                           </div>
+                           <div class="content">
+                               <div class="text"><label class="titulomaquina">PROCESOS</label></div>
+                               <div class="number"></div>
+                           </div>
+                       </div>
+                     </a>
+                   </div>
+                   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                     <a class="pointer" href="<?php echo site_url('proceso/trabajar/1') ?>">
+                       <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
+                           <div class="icon">
+                               <i class="fa fa-cogs" aria-hidden="true"></i>
+                           </div>
+                           <div class="content">
+                               <div class="text"><label class="titulomaquina">LITHO</label></div>
+                               <div class="number"></div>
+                           </div>
+                       </div>
+                     </a>
+                   </div>
+               </div>
 
-                                    <h3><a href="<?php echo base_url('proceso/entrada')?>">Entradas</a></h3>
-                                    <p>Admin. Entradas.</p>
-                                </div>
-                            </div>
-                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-cog" aria-hidden="true"></i>
-
-                                    </div>
-                                    <div class="count">---</div>
-
-                                    <h3><a href="<?php echo base_url('maquina/')?>">Maquinas</a></h3>
-                                    <p>Admin. Maquinas.</p>
-                                </div>
-                            </div>
-                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="tile-stats">
-                                    <div class="icon"><i style="color:blue;" class="fa fa-arrow-right" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="count">---</div>
-
-                                    <h3><a href="<?php echo base_url('proceso/proceso')?>">Procesos</a></h3>
-                                    <p>Admin. Procesos</p>
-                                </div>
-                            </div>
-                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-cogs" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="count">---</div>
-
-                                    <h3><a href="<?php echo site_url('proceso/trabajar/1') ?>">LITHO</a></h3>
-                                    <p>Procesos de LITHO</p>
-                                </div>
-                            </div>
-                        </div>
-
-
-                               <div class="row top_tiles">
-                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-cogs" aria-hidden="true"></i>
-
-                                    </div>
-                                    <div class="count">---</div>
-
-                                    <h3><a href="<?php echo base_url('proceso/trabajar/6')?>">THOMPSON</a></h3>
-                                    <p>Proceso de Thompson</p>
-                                </div>
-                            </div>
-                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-cogs" aria-hidden="true"></i>
-
-                                    </div>
-                                    <div class="count">---</div>
-
-                                    <h3><a href="<?php echo base_url('proceso/trabajar/2')?>">F2400</a></h3>
-                                    <p>Proceso de F2400.</p>
-                                </div>
-                            </div>
-                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-cogs" aria-hidden="true"></i>
-
-                                    </div>
-                                    <div class="count">---</div>
-
-                                    <h3><a href="<?php echo base_url('proceso/trabajar/5')?>">F3200</a></h3>
-                                    <p>Proceso de F3200</p>
-                                </div>
-                            </div>
-                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="tile-stats">
-                                    <div class="icon"><i style="color:green;" class="fa fa-check-square-o"></i>
-                                    </div>
-                                    <div class="count">---</div>
-
-                                    <h3><a href="<?php echo site_url('proceso/trabajar/7') ?>">INSPECCIÓN</a></h3>
-                                    <p>Procesos de inspección</p>
-                                </div>
-                            </div>
-                        </div>
-                            <div class="row top_tiles">
-                            <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="tile-stats">
-                                    <div class="icon"><i class="fa fa-trash" style="color:red;" aria-hidden="true"></i>
-
-                                    </div>
-                                    <div class="count">---</div>
-
-                                    <h3><a href="<?php echo base_url('proceso/scrap/3')?>">SCRAP</a></h3>
-                                    <p>Proceso de Scrap</p>
-                                </div>
-                            </div>
-                        </div>
+               <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <a class="pointer" href="<?php echo site_url('proceso/trabajar/6') ?>">
+                <div class="info-box-2  bg-light-blue hover-expand-effect pointer">
+                    <div class="icon">
+                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                    </div>
+                    <div class="content">
+                     <div class="text" > <label class="titulomaquina">THOMPSON</label> </div>
+                     <div class="number"></div>
+                    </div>
+                </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+               <a class="pointer" href="<?php echo site_url('proceso/trabajar/2') ?>">
+                <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
+                    <div class="icon">
+                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                    </div>
+                    <div class="content">
+                        <div class="text"><label class="titulomaquina">F2400</label></div>
+                        <div class="number"></div>
+                    </div>
+                </div>
+                <a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <a class="pointer" href="<?php echo site_url('proceso/trabajar/5') ?>">
+                <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
+                    <div class="icon">
+                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                    </div>
+                    <div class="content">
+                        <div class="text"><label class="titulomaquina">F3200</label></div>
+                        <div class="number"></div>
+                    </div>
+                </div>
+              </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <a class="pointer" href="<?php echo site_url('proceso/trabajar/7') ?>">
+                <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
+                    <div class="icon">
+                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                    </div>
+                    <div class="content">
+                        <div class="text"><label class="titulomaquina">INSPECCIÓN</label></div>
+                        <div class="number"></div>
+                    </div>
+                </div>
+              </a>
+            </div>
+        </div>
 
 
+        <div class="row">
+     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+         <a class="pointer" href="<?php echo site_url('proceso/scrap/3') ?>">
+         <div class="info-box-2  bg-red hover-expand-effect pointer">
+             <div class="icon">
+                 <i class="fa fa-trash"   aria-hidden="true"></i>
+             </div>
+             <div class="content">
+              <div class="text" > <label class="titulomaquina">SCRAP</label> </div>
+              <div class="number"></div>
+             </div>
+         </div>
+         </a>
+     </div>
+     </div>
 
-
-
+             </div>
+           </div>
 
                 </div>
             </div>

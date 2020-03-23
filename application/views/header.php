@@ -9,6 +9,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
     <title>Sistema de Producción Woori</title>
     <!-- Bootstrap core CSS -->
     <link href="<?php echo base_url(); ?>/assets/principal/css/bootstrap.min.css" rel="stylesheet">
@@ -39,6 +42,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>/assets/css/maps/jquery-jvectormap-2.0.3.css" />
     <link href="<?php echo base_url(); ?>/assets/css/icheck/flat/green.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>/assets/css/floatexamples.css" rel="stylesheet" />
+      <link href="<?php echo base_url(); ?>/assets/css/stylewoori.css" rel="stylesheet" />
     <!-- Scripts -->
     <script src="<?php echo base_url() ?>/assets/js/vue/vue.min.js"></script>
     <script src="<?php echo base_url() ?>/assets/js/axios/axios.min.js"></script>
@@ -62,8 +66,6 @@
 
 
 
-
-
         <!--[if lt IE 9]>
               <script src="../assets/js/ie8-responsive-file-warning.js"></script>
           <![endif]-->
@@ -73,6 +75,7 @@
                 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
             <![endif]-->
             <style type="text/css">
+
                 .modal-mask {
                     position: fixed;
                     z-index: 9998;
@@ -89,17 +92,39 @@
                     vertical-align: middle;
                 }
 
-            </style>
-        </head>
-        <body class="nav-md">
 
-    </div>
+            </style>
+            <script type="text/javascript">
+            function onReady(callback) {
+              var intervalId = window.setInterval(function() {
+                if (document.getElementsByTagName('body')[0] !== undefined) {
+                  window.clearInterval(intervalId);
+                  callback.call(this);
+                }
+              }, 1000);
+              }
+
+              function setVisible(selector, visible) {
+              document.querySelector(selector).style.display = visible ? 'block' : 'none';
+              }
+
+              onReady(function() {
+              setVisible('body', true);
+              setVisible('#loadingnew', false);
+              });
+            </script>
+
+        </head>
+
+        <body class="nav-md">
+        <div id="loadingnew"></div>
         <div class="container body">
             <div class="main_container">
                 <div class="col-md-3 left_col">
                     <div class="left_col scroll-view">
-                        <div class="navbar nav_title" style="border: 0;">
-                            <a href="#" class="site_title"><i class="fa fa-product-hunt "></i><span> Producción</span></a>
+                        <div class="navbar nav_title" style="border: 0; padding-right:20px;"  align="center">
+                            <a href="#" class="site_title"> <img class="imglogo" src="<?php echo base_url(); ?>/assets/images/woorilogo.png" alt=""> </a>
+
                         </div>
                         <div class="clearfix"></div>
                         <!-- menu prile quick info -->
@@ -154,10 +179,12 @@
                             <div class="nav toggle">
                                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                             </div>
+
                             <ul class="nav navbar-nav navbar-right">
+
                                 <li class="">
                                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="<?php echo base_url(); ?>/assets/images/user.png" alt=""><?php echo $this->session->name; ?>
+                                        <img src="<?php echo base_url(); ?>/assets/images/user.png" alt=""><strong><?php echo $this->session->name; ?></strong>
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">

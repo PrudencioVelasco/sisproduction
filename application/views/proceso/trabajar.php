@@ -17,7 +17,7 @@
                     <div class="x_title">
                       <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                           <h3><strong>Administrar Procesos</strong></h3>
+                           <h3><strong>ADMINISTRAR PROCESO</strong></h3>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12" align="right">
                            <h3><strong><?php echo $detallemaquina->nombremaquina; ?></strong></h3>
@@ -54,7 +54,8 @@
                                             <th>No</th>
                                             <th>Lamina</th>
                                             <th>Num. Parte</th>
-                                            <th>C. Recibida (IN)</th>
+                                            <th>Enviada (S)</th>
+                                            <th>Recibida (IN)</th>
                                             <th>Malas (NG)</th>
                                             <th>Salidas (FG)</th>
                                             <th>Opción</th>
@@ -79,6 +80,12 @@
                                                                <strong style="color: green">Re-trabajar: <?php echo number_format($value->cantidadentrada); ?></strong>
                                                             <?php } ?>
                                                             </td>
+                                                            <?php if($value->descrap == 0){ ?>
+                                                                <td align="center"><strong style="color: black"><?php echo number_format($value->cantidadrecibida); ?></strong></td>
+                                                            <?php } else {?>
+                                                                <td align="center"><strong style="color: black">0</strong></td>
+                                                            <?php } ?>
+
                                                             <td align="center"><strong style="color: red"><?php echo number_format($value->cantidadmal); ?></strong></td>
                                                             <td align="center"><strong style="color: blue"><?php echo number_format($value->cantidadsalida); ?></strong></td>
                                                             <td>
@@ -118,7 +125,8 @@
           <th>No</th>
                <th>Lamina</th>
                                             <th>Num. Parte</th>
-                                            <th>C. Recibida (IN)</th>
+                                            <th>Enviada (S)</th>
+                                            <th>Recibida (IN)</th>
                                             <th>Malas (NG)</th>
                                             <th>Salidas (FG)</th>
                                             <th>Opción</th>
@@ -147,6 +155,7 @@
                                                             <?php } ?>
 
                                                             </td>
+                                                              <td align="center"><strong style="color: black"><?php echo number_format($value->cantidadrecibida); ?></strong></td>
                                                             <td align="center"><strong style="color: red"><?php echo number_format($value->cantidadmal); ?></strong></td>
                                                             <td align="center"><strong style="color: blue"><?php echo number_format($value->cantidadsalida); ?></strong></td>
                                                             <td>
@@ -199,7 +208,7 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-info-nomodal">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 class="modal-title " id="myModalLabel"><i class="fa fa-arrow-right" aria-hidden="true"></i> PROCESO A SEGUIR</h3>
             </div>
@@ -220,9 +229,9 @@
 <div class="modal fade" id="myModalEnviar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-info-nomodal">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title " id="myModalLabel">CANTIDAD RECIBIDA: <label class="titlecantidad"></label> </h3>
+                <h3 class="modal-title " id="myModalLabel" >CANTIDAD ENVIADA: <label class="titlecantidad" style="text-decoration: underline  black;"></label> </h3>
             </div>
             <form method="post" action="" id="frmenviar">
                 <div class="modal-body">
@@ -234,13 +243,36 @@
                         <input   type="hidden" name="maquina" value="<?php echo $maquina ?>">
                      </div>
                      <div class="form-group">
-                         <label ><font color="red">*</font> Cantidad Buenas (FG) </label><br>
+                         <label style="color:black;"><font color="red">*</font> Cantidad Recibida (<span style="color:green;">IN</span>) </label><br>
+                        <input type="text" name="cantidadrecibida"  class="form-control">
+                    </div>
+                     <div class="form-group">
+                         <label style="color:black;"><font color="red">*</font> Cantidad Buenas (<span style="color:blue;">FG</span>) </label><br>
                         <input type="text" name="cantidadbien"  class="form-control">
                     </div>
                     <div class="form-group">
-                         <label ><font color="red">*</font> Cantidad Malas (NG)</label><br>
+                         <label style="color:black;"><font color="red">*</font> Cantidad Malas (<span style="color:red;">NG</span>)</label><br>
                         <input type="text" name="cantidaderror"  class="form-control">
                     </div>
+                    <?php if(isset($maquina) && $maquina == 7){ ?>
+                    <small style="color:black;">Detalle de lo Malo</small>
+                    <div class="row">
+                          <div class="col-md-4 col-sm-12 col-xs-12">
+                              <label style="color:black;"><font color="red">*</font> Por Proveedor</label><br>
+                             <input type="text" name="porproveedor"  class="form-control">
+                         </div>
+
+                          <div class="col-md-4 col-sm-12 col-xs-12">
+                              <label style="color:black;"><font color="red">*</font> Retrabajo </label><br>
+                             <input type="text" name="retrabajo"  class="form-control">
+                         </div>
+
+                          <div class="col-md-4 col-sm-12 col-xs-12">
+                              <label style="color:black;"><font color="red">*</font> Descuadre </label><br>
+                             <input type="text" name="descuadre"  class="form-control">
+                         </div>
+                    </div>
+                  <?php } ?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i>
@@ -382,8 +414,8 @@ function formatNumber(num) {
                  console.log(msg.success);
                  if((typeof msg.error === "undefined")){
                  $(".print-error-msg").css('display','none');
-                 swal("Enviado con Exito!", "Click en el boton!", "success").then(function(){
-                       location.reload();
+                 swal("Se envio con Exito.", "Click en el boton!", "success").then(function(){
+                     location.reload();
                    });
                  }else{
                  $(".print-error-msg").css('display','block');

@@ -131,7 +131,17 @@ WHERE pc.idpalletcajas = os.idpalletcajas
   AND pc2.idestatus = 8
   AND os.tipo = 1 ))) as totalcajasdisponibles,
   
-  
+  (SELECT
+            GROUP_CONCAT(CONCAT_WS('.- ', pb2.nombreposicion) 
+                    SEPARATOR ', ')
+        FROM
+            parteposicionbodega ppb2
+                INNER JOIN
+            posicionbodega  pb2 ON ppb2.idposicion = pb2.idposicion
+        WHERE
+            ppb2.idpalletcajas = pc.idpalletcajas
+               ) AS ubicaciondisponibles,
+
   (COUNT(pc.pallet) - (SELECT
     COALESCE(count(tc2.cantidad),0)
   FROM palletcajas pc2, ordensalida os,  tblcantidad tc2

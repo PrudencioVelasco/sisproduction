@@ -9,7 +9,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h4>Módulo de Maquina</h3>
+                        <h2> <strong>ADMINISTRAR MAQUINAS</strong> </h2>
 
                         <div class="clearfix"></div>
                     </div>

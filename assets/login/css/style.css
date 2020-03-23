@@ -7001,7 +7001,7 @@ button.bg-dark:focus,
 
 .mb-5,
 .my-5 {
-  margin-bottom: 3rem !important; }
+  margin-bottom: 0 !important; }
 
 .ml-5,
 .mx-5 {

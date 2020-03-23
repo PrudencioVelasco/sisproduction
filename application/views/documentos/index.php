@@ -1,6 +1,6 @@
 <!-- page content -->
  <style type="text/css">
-@keyframes blink {  
+@keyframes blink {
   0% { color: blue; }
   100% { color: white; }
 }
@@ -20,18 +20,18 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><strong>Administrar SPECS</strong></h2>
+                        <h3><strong>ADMINISTRAR SPECS</strong></h3>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         <div id="app">
                           <div class="row">
-                            <div class="col-md-6 col-sm-12 col-xs-12"> 
-                                <button type="button" data-toggle="modal" data-target="#modalLoginForm" class="btn btn-primary "><i class='fa fa-plus'></i> SUBIR SPECS</button> 
+                            <div class="col-md-6 col-sm-12 col-xs-12">
+                                <button type="button" data-toggle="modal" data-target="#modalLoginForm" class="btn btn-primary "><i class='fa fa-plus'></i> SUBIR SPECS</button>
                           </div>
                       </div>
-                      
-                      <div class="container">  
+
+                      <div class="container">
                         <div class="row">
                          <div class="col-md-12 col-sm-12 col-xs-12 ">
 
@@ -39,56 +39,56 @@
                             <table class="table is-bordered is-hoverable" id="datatabledocumentos">
                                 <thead class="text-white bg-dark" >
                                     <th>Num. Parte</th>
-                                    <th>Modelo</th> 
+                                    <th>Modelo</th>
                                     <th>Revisión</th>
-                                    <th>Documento</th>   
+                                    <th>Documento</th>
                                     <th>Opciones</th>
-                                    
+
                                 </thead>
                                 <tbody>
-                                    <?php 
+                                    <?php
                                     if (isset($data) && !empty($data)) {
                                         foreach ($data as $value) { ?>
-                                            <tr   class="table-default"> 
+                                            <tr   class="table-default">
                                                 <td><?php echo $value->numeroparte ?></td>
                                                 <td><?php echo $value->modelo ?></td>
-                                                <td><?php echo $value->revision ?></td> 
-                                                
-                                                <td style="white-space:nowrap;">  
+                                                <td><?php echo $value->revision ?></td>
+
+                                                <td style="white-space:nowrap;">
 
                                                         <a target="_blank" class="btn btn-icons btn-rounded btn-round  btn-xs btn-info" href="<?php echo base_url(); ?>specs/<?php echo utf8_encode($value->nombredocumento);?>"><?php echo str_replace('_',' ', $value->nombredocumento) ?></a>
 
                                                 </td>
                                                 <td>
-                                                  <?php 
+                                                  <?php
                                                   if(isset($this->session->rol) && !empty($this->session->rol)) {
                                                     if($this->session->rol == "Administrador"){
                                                    ?>
-                                                        <!--<a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-primary btn-xs btn_edit" 
+                                                        <!--<a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-primary btn-xs btn_edit"
                                                         data-toggle="modal" data-target="#myModalEditar"
                                                         data-iddoc="<?php //echo $value->iddoc;?>"
                                                         data-numeroparte="<?php //echo $value->numeroparte;?>">
                                                         <i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>-->
 
-                                                        <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete" 
+                                                        <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete"
                                                         data-toggle="modal" data-target="#myModalEliminar"
                                                         data-iddoc="<?php echo $value->iddoc;?>">
                                                         <i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>
-                                                      <?php 
+                                                      <?php
                                                          }
                                                        }
                                                        ?>
-                                                    
+
                                                 </td>
                                             </tr>
                                             <?php
-                                        } 
+                                        }
                                     }
                                     ?>
                                 </tbody>
                             </table>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,14 +99,14 @@
 </div>
 <!-- /page content -->
 
- 
+
 
 <div class="modal fade" id="myModalEditar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-info-nomodal">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title " id="myModalLabel">Editar información</h3>
+                <h3 class="modal-title " id="myModalLabel">EDITAR INFORMACIÓN</h3>
             </div>
             <form id="frmeditar" enctype="multipart/form-data">
               <div class="modal-body">
@@ -123,10 +123,10 @@
                     <img src="<?php echo base_url('/assets/images/loading.gif'); ?>" width="80">
                     <p><strong>Actualizando por favor espere...</strong></p>
                 </div>
-            </div>  
+            </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
             <button type="button" id="btnedit" class="btn btn-primary">Aceptar</button>
         </div>
     </form>
@@ -141,8 +141,8 @@
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title w-100 font-weight-bold">Subir SPECS</h3>
+      <div class="modal-header modal-header-info-nomodal">
+        <h3 class="modal-title w-100 font-weight-bold">SUBIR SPECS</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -153,20 +153,20 @@
 
 
 
-          <div class="alert alert-danger print-error-msg" style="display:none"></div> 
+          <div class="alert alert-danger print-error-msg" style="display:none"></div>
          <div class="md-form mb-4">
           <label ><font color="red">*</font>  Número de parte</label><br>
           <select class="js-example-basic-lamina " style="width: 100%" name="idlamina">
-            <option value=""></option> 
+            <option value=""></option>
             <?php
                 foreach ($partes as  $value) {
                     # code...
                     echo '<option value="'.$value->idparte.'">'.$value->numeroparte.'</option>';
                 }
             ?>
-         
+
         </select>
-        </div> 
+        </div>
  <br/>
   <div class="row">
           <div class="col-md-6 col-sm-12 col-xs-12 ">
@@ -216,12 +216,12 @@
       </div>
 
 
-       
+
 
       </div>
       <div class="modal-footer d-flex justify-content-center">
-          <button type="button" class="btn btn-danger" id="btncancelar" >Cancelar</button>
-       <button type="button" class="btn btn-primary" id="btnsubir" >Subir</button>
+          <button type="button" class="btn btn-danger" id="btncancelar" ><i class='fa fa-ban'></i> Cancelar</button>
+       <button type="button" class="btn btn-primary" id="btnsubir" ><i class="fa fa-cloud-upload" aria-hidden="true"></i> Subir</button>
       </div>
   </form>
     </div>
@@ -231,36 +231,36 @@
 
 
 <script>
- $(document).on( "click", '#btncancelar',function(e) { 
-   
+ $(document).on( "click", '#btncancelar',function(e) {
+
    //alert("Cancelar");
    location.reload();
 });
-  $(document).on( "click", '.btn_subir',function(e) { 
+  $(document).on( "click", '.btn_subir',function(e) {
     var numeroparte = $(this).data('numeroparte');
-    var idrevision = $(this).data('idrevision');  
+    var idrevision = $(this).data('idrevision');
 
     $(".numeroparte").val(numeroparte);
-    $(".idrevision").val(idrevision);    
+    $(".idrevision").val(idrevision);
 });
 
-  $(document).on( "click", '.btn_edit',function(e) { 
+  $(document).on( "click", '.btn_edit',function(e) {
     var id = $(this).data('iddoc');
-    var numeroparte = $(this).data('numeroparte');  
+    var numeroparte = $(this).data('numeroparte');
 
     $(".iddoc_edit").val(id);
-    $(".numeroparte_edit").val(numeroparte);     
+    $(".numeroparte_edit").val(numeroparte);
 });
 </script>
 
-<script> 
+<script>
     $("#btnsubir").click(function(){
 
         var numeroparte = $("#numeroparte").val();
         var idrevision = $("#revision").val();
         if(idrevision != ""){
         var form_data = new FormData();
-        form_data.append('archivo', $('#archivo').prop('files')[0]);               
+        form_data.append('archivo', $('#archivo').prop('files')[0]);
         form_data.append('revision', idrevision);
         form_data.append('numeroparte', numeroparte);
 
@@ -309,7 +309,7 @@
                         html:'Seleccione un <b>Archivo</b>.',
                         type:'info',
                         confirmButtonText: 'Aceptar'
-                    })  
+                    })
                 }else{
                     $("#load").hide();
                     $('#myModalSubir').modal('hide');
@@ -347,9 +347,9 @@
 
         var id = $("#iddoc_edit").val();
         var numeroparte = $("#numeroparte_edit").val();
-        
+
         var form_data = new FormData();
-        form_data.append('archivo', $('#archivo_edit').prop('files')[0]);               
+        form_data.append('archivo', $('#archivo_edit').prop('files')[0]);
         form_data.append('iddoc', id);
         form_data.append('numeroparte', numeroparte);
 
@@ -398,7 +398,7 @@
                 html:'Seleccione un <b>Archivo</b>.',
                 type:'info',
                 confirmButtonText: 'Aceptar'
-            })  
+            })
            }else{
                $("#load-edit").hide();
                $('#myModalEditar').modal('hide');
@@ -416,7 +416,7 @@
                 location.reload();
             }
         })
-        }                
+        }
     },
     complete:function(data){
         console.log(data);
@@ -526,18 +526,18 @@
     // In your Javascript (external .js resource or <script> tag)
 $(document).ready(function() {
 
-                   
+
               $("#modelo").prop("disabled", 'disabled');
             $("#revision").prop("disabled", 'disabled');
             //$("#revision").prop("disabled", false);
-    
+
      $('.js-example-basic-lamina').select2({
     placeholder: "Seleccionar el Número de Parte",
     allowClear: true,
     dropdownParent: $("#modalLoginForm")
 });
 
- $('.js-example-basic-lamina').on("select2:select", function(e) { 
+ $('.js-example-basic-lamina').on("select2:select", function(e) {
    // what you would like to happen
    var idparte = $('.js-example-basic-lamina').val();
    //alert(idparte);
@@ -555,7 +555,7 @@ $(document).ready(function() {
                     $("#revision").prop("disabled", 'disabled');
                     //var msg = $.parseJSON(data);
                     //console.log(msg.error);
-                     
+
                 }
             })
 

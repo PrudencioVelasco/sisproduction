@@ -18,7 +18,7 @@ Vue.component('modal', {//modal
 			    <div class="modal-content">
 
 
-			      <div class="modal-header">
+			      <div class="modal-header modal-header-info">
 				        <h5 class="modal-title"> <slot name="head"></slot></h5>
                 <i class="fa fa-window-close  icon-md text-danger" @click="$emit('close')"></i>
 				      </div>
@@ -67,6 +67,8 @@ var v = new Vue({
             combinacion: '',
             lithoname: '',
             comment: '',
+            medida:'',
+            dimension:'',
             msgerror: ''
         },
         chooseModelo: {},

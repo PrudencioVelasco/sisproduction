@@ -16,8 +16,8 @@ Vue.component('modal', {//modal
 			    <div class="modal-content">
 
 
-			      <div class="modal-header">
-				        <h5 class="modal-title"> <slot name="head"></slot></h5>
+			      <div class="modal-header modal-header-info">
+				        <span class="modal-title"> <slot name="head"></slot></span>
                 <i class="fa fa-window-close  icon-md text-danger" @click="$emit('close')"></i>
 				      </div>
 
@@ -144,6 +144,45 @@ var v = new Vue({
                     v.clearMSG();
 
                 }
+            })
+        },
+         deleteParte(id){
+            Swal.fire({
+          title: '¿Eliminar el Número de Parte?',
+          text: "Realmente desea eliminar el Número de Parte.",
+          type: 'info',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Eliminar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.value) {
+
+              axios.get(this.url + "parte/deleteParte", {
+                params: {
+                    idparte: id
+                }
+            }).then(function (response) {
+                if (response.data.partes == true) {
+                    //v.noResult()
+                     swal({
+                        position: 'center',
+                        type: 'success',
+                        title: 'Eliminado!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    v.clearAll();
+                    v.clearMSG();
+                } else {
+                   swal("Error", "No se puede eliminar el Número de Parte", "error")
+                }
+                console.log(response);
+            }).catch((error) => {
+                swal("Error", "No se puede eliminar el Número de Parte", "error")
+            })
+            }
             })
         },
         formData(obj) {

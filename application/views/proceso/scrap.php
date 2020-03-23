@@ -17,10 +17,10 @@
                     <div class="x_title">
                       <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                           <h3><strong>Administrar Procesos</strong></h3>
+                           <h3><strong>ADMINISTRAR PROCESO</strong></h3>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12" align="right">
-                           <h3><strong>SCRAP</strong></h3>
+                           <h3 style="color:red;"><strong>SCRAP</strong></h3>
                         </div>
                       </div>
 
@@ -54,7 +54,8 @@
                                               <th>No</th>
                                             <th>Lamina</th>
                                             <th>Num. Parte</th>
-                                            <th>C. Recibida (IN)</th>
+                                              <th>Enviadas (S)</th>
+                                            <th>Recibida (IN)</th>
                                             <th>Malas (NG)</th>
                                             <th>Salidas (FG)</th>
                                             <th><center>Opción</center></th>
@@ -74,6 +75,7 @@
                                                             <td><strong><?php echo $value->lamina; ?></strong></td>
                                                             <td><strong><?php echo $value->numeroparte;?></strong></td>
                                                             <td align="center"><strong style="color: green"><?php echo number_format($value->cantidadentrada); ?></strong></td>
+                                                            <td align="center"><strong style="color: black"><?php echo number_format($value->cantidadrecibida); ?></strong></td>
                                                             <td align="center"><strong style="color: red"><?php echo number_format($value->cantidadmal); ?></strong></td>
                                                             <td align="center"><strong style="color: blue"><?php echo number_format($value->cantidadsalida); ?></strong></td>
                                                             <td align="center">
@@ -83,12 +85,13 @@
                                                              Ver</a>
 
 
-                                                              <a class="btn btn-danger btn-sm confirmation" href="<?php echo site_url('proceso/ascrap/'.$value->id.'/'.$value->cantidadentrada) ?>"> Todo a SCRAP</a>
+                                                              <!--<a class="btn btn-danger btn-sm confirmation" href="<?php //echo site_url('proceso/ascrap/'.$value->id.'/'.$value->cantidadentrada) ?>"> Todo a SCRAP</a>-->
 
                                                                <a  href="" class="btn btn-primary btn-sm edit_button_enviar"
                                                                 data-toggle="modal" data-target="#myModalEnviar"
                                                               data-id="<?php echo $value->id;?>"
                                                               data-identradaproceso="<?php echo $value->identradaproceso;?>"
+                                                              data-detallescrap="<?php echo $value->detallescrap;?>"
                                                               data-cantidad="<?php echo $value->cantidadentrada;?>"
                                                                >Enviar</a>
 </a>
@@ -118,7 +121,8 @@
           <th>No</th>
                <th>Lamina</th>
                                             <th>Num. Parte</th>
-                                            <th>C. Recibida (IN)</th>
+                                            <th>Enviadas (S)</th>
+                                            <th>Recibidas (IN)</th>
                                             <th>Malas (NG)</th>
                                             <th>Salidas (FG)</th>
                                             <th><center>Opción</center></th>
@@ -138,6 +142,7 @@
                                                             <td><strong><?php echo $value->lamina; ?></strong></td>
                                                             <td><strong><?php echo $value->numeroparte;?></strong></td>
                                                             <td align="center"><strong style="color: green"><?php echo number_format($value->cantidadentrada); ?></strong></td>
+                                                            <td align="center"><strong style="color: blacl"><?php echo number_format($value->cantidadrecibida); ?></strong></td>
                                                             <td align="center"><strong style="color: red"><?php echo number_format($value->cantidadmal); ?></strong></td>
                                                             <td align="center"><strong style="color: blue"><?php echo number_format($value->cantidadsalida); ?></strong></td>
                                                             <td>
@@ -149,6 +154,7 @@
                                                                 data-toggle="modal" data-target="#myModalEnviar"
                                                               data-id="<?php echo $value->id;?>"
                                                               data-identradaproceso="<?php echo $value->identradaproceso;?>"
+                                                                data-detallescrap="<?php echo $value->detallescrap;?>"
                                                               data-cantidad="<?php echo $value->cantidadentrada;?>"
                                                                >Enviar</a>
 </a>
@@ -191,7 +197,7 @@
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-info-nomodal">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 class="modal-title " id="myModalLabel"><i class="fa fa-arrow-right" aria-hidden="true"></i> PROCESO A SEGUIR</h3>
             </div>
@@ -212,9 +218,9 @@
 <div class="modal fade" id="myModalEnviar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-info-nomodal">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title " id="myModalLabel">CANTIDAD RECIBIDA: <label class="titlecantidad"></label> </h3>
+                <h3 class="modal-title " id="myModalLabel">CANTIDAD ENVIADA: <label style="text-decoration: underline  black;" class="titlecantidad"></label> </h3>
             </div>
             <form method="post" action="" id="frmenviar">
                 <div class="modal-body">
@@ -225,13 +231,36 @@
                         <input  id="identradaproceso" type="hidden" name="identradaproceso">
                         <input   type="hidden" name="maquina" value="<?php echo $maquina ?>">
                      </div>
-                     <div class="form-group">
-                         <label ><font color="red">*</font> Cantidad Buenas (FG) </label><br>
-                        <input type="text" name="cantidadbien"  class="form-control">
-                    </div>
                     <div class="form-group">
-                         <label ><font color="red">*</font> Cantidad Malas (NG)</label><br>
-                        <input type="text" name="cantidaderror"  class="form-control">
+                      <span style="color:black;text-decoration: underline  black;">Detalle Recibido</span><br>
+                      <label id="detallescrap" style="color:black; font-weight:bold; font-size:16px;" ></label>
+                    </div>
+                    <hr>
+                     <div class="form-group">
+                         <label style="color:black;" ><font color="red">*</font> Cantidad Recibida (IN) </label><br>
+                        <input type="text" name="cantidadrecibida"  class="form-control" placeholder="Cantidad de Material Recibida">
+                    </div>
+                    <span style="color:black;text-decoration: underline  black;">Detalle de lo que se Enviara</span>
+                    <div class="row">
+                          <div class="col-md-3 col-sm-12 col-xs-12">
+                              <label style="color:black;"><font color="red">*</font> M. Bien (<span style="color:green;">FG</span>)</label><br>
+                             <input type="text" name="fg"  class="form-control" placeholder="FG">
+                         </div>
+
+                         <div class="col-md-3 col-sm-12 col-xs-12">
+                             <label style="color:black;"><font color="red">*</font> Inspección</label><br>
+                            <input type="text" name="inspeccion"  class="form-control" placeholder="Inspección">
+                        </div>
+
+                          <div class="col-md-3 col-sm-12 col-xs-12">
+                              <label style="color:black;"><font color="red">*</font> Calidad </label><br>
+                             <input type="text" name="calidad"  class="form-control" placeholder="Calidad">
+                         </div>
+
+                          <div class="col-md-3 col-sm-12 col-xs-12">
+                              <label style="color:black;"><font color="red">*</font> SCRAP </label><br>
+                              <input type="text" name="scrap"  class="form-control" placeholder="SCRAP">
+                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -362,11 +391,12 @@ $(document).on( "click", '.edit_button_enviar',function(e) {
     var id = $(this).data('id');
     var cantidad = $(this).data('cantidad');
     var identradaproceso = $(this).data('identradaproceso');
+    var detallescrap = $(this).data('detallescrap');
 
     $("#iddetalle").val(id);
     $("#cantidad").val(cantidad);
     $("#identradaproceso").val(identradaproceso);
-
+    $("#detallescrap").html(detallescrap);
     $(".titlecantidad").text(formatNumber( cantidad));
 });
 function formatNumber(num) {

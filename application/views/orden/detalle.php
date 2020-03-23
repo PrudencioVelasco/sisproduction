@@ -12,7 +12,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h3>LLenar Orden de Salida</h3>
+                        <h3>LLENAR ORDEN DE SALIDA</h3>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -32,7 +32,7 @@
                                     <h4>Cliente: <strong><?php echo $detallesalida->nombre; ?></strong></h4>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="row">
                             <div class="col-md-4 col-sm-12 col-xs-12">
                                 <div class="form-group">
@@ -43,8 +43,8 @@
                                 <div class="form-group">
                                     <h4>Notas: <strong><?php echo $detallesalida->notas; ?></strong></h4>
                                 </div>
-                            </div> 
-                        </div>  
+                            </div>
+                        </div>
                         <br/>
                         <div class="row">
                             <div class="col-md-10 col-sm-10 col-xs-10 ">
@@ -68,7 +68,7 @@
                                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
                                         <h4 class="modal-title"><strong><i class="fa fa-barcode"></i> Escanear el código</strong></h4>
                                     </div>
-                                    <div class="modal-body"> 
+                                    <div class="modal-body">
                                         <div class="row">
                                             <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                 <label id="msgerror" style="color:red;"></label>
@@ -79,7 +79,7 @@
                                             <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                 <div class="form-group">
                                                     <label><font color="red">*</font> Código de Barra</label>
-                                                    <input type="text" class="form-control" onKeyPress="pasacampo(event)"   autofocus="" id="codigoescaneado" placeholder="Código de Barra"  name="codigoescaneado">  
+                                                    <input type="text" class="form-control" onKeyPress="pasacampo(event)"   autofocus="" id="codigoescaneado" placeholder="Código de Barra"  name="codigoescaneado">
                                                 </div>
                                             </div>
                                         </div>
@@ -87,7 +87,7 @@
                                             <div class="col-md-12 col-sm-12 col-xs-12 ">
                                                 <div class="form-group">
                                                       <label><font color="red">*</font> Código de Cantidad</label>
-                                                    <input type="text" class="form-control"  id="cantidadescaneado" placeholder="Código de Cantidad"  name="cantidadescaneado">  
+                                                    <input type="text" class="form-control"  id="cantidadescaneado" placeholder="Código de Cantidad"  name="cantidadescaneado">
                                                 </div>
                                             </div>
                                         </div>
@@ -98,7 +98,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
 
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -121,13 +121,13 @@
                                     if (isset($detalleorden) && !empty($detalleorden)) {
                                         foreach ($detalleorden as $value) {
                                             echo "<tr>";
-                                            ?> 
+                                            ?>
                                             <?php
                                             if ($value->salida == 1 && $value->tipo == 0) {
                                                 echo "<td> <span class='glyphicon glyphicon-ok' style='color:green;'></span> " . $value->numeroparte . "</td>";
                                             } else {
                                                 echo "<td>";
-                                                ?> 
+                                                ?>
                                                <span class='glyphicon glyphicon-exclamation-sign' style='color:red'></span>  <a href="#my_modal" class="subrayado" data-toggle="modal" data-book-id="<?php echo $value->idpalletcajas; ?>" ><?php echo $value->numeroparte; ?></a>
 
                                                 <?php
@@ -233,7 +233,7 @@
 
                                 </div>
                             </div>
-                        <?php } ?> 
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -247,7 +247,7 @@
              else k = key_event.which;
              if (k == 13) document.getElementById('cantidadescaneado').focus();
          }
-           
+
       </script>
 <script type="text/javascript">
 
@@ -271,7 +271,7 @@
             timer = setTimeout(fn, ms);
         });
     };
- 
+
     $(document).ready(function () {
         $("#cantidadescaneado").delayPasteKeyUp(function () {
 
@@ -295,7 +295,7 @@
                 success: function (data) {
 
                     //var getContact = JSON.parse(data);
-                    //console.log(getContact.incorrecto); 
+                    //console.log(getContact.incorrecto);
                     if (data == 1) {
                         $('#msgerror').hide();
                         $('#msgerror').text("");
@@ -308,10 +308,10 @@
                 },
 
             }, 200);
-        
-        
+
+
         });
     });
 
 
-</script> 
+</script>

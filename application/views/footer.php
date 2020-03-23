@@ -27,8 +27,10 @@
 
 <script src="<?php echo base_url(); ?>/assets/js/custom.js"></script>
 
-  
- 
+
+<!-- Jquery CountTo Plugin Js -->
+<script src="<?php echo base_url(); ?>/assets/plugins/jquery-countto/jquery.countTo.js"></script>
+
 
     <!-- Slimscroll Plugin Js -->
     <script src="<?php echo base_url(); ?>/assets/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
@@ -44,7 +46,7 @@
 
         <script src="<?php echo base_url(); ?>/assets/js/admin.js"></script>
 
-   
+
 
 
 <!-- flot js -->
@@ -141,8 +143,8 @@
       <script>
        function check_uncheck_checkbox(isChecked) {
     if(isChecked) {
-        $('input[name="id[]"]').each(function() { 
-            this.checked = true; 
+        $('input[name="id[]"]').each(function() {
+            this.checked = true;
         });
     } else {
         $('input[name="id[]"]').each(function() {
@@ -153,9 +155,9 @@
       </script>
 <script type="text/javascript">
     $(document).ready(function () {
-      
+
         $('#datatable').dataTable(
-                { 
+                {
                     "language": {
                         "sProcessing": "Procesando...",
                         "sLengthMenu": "Mostrar _MENU_ registros",
@@ -308,32 +310,32 @@
 
 <script>
     $(document).ready(function () {
-        /*$(".select2_single_cliente").select2({  
+        /*$(".select2_single_cliente").select2({
          placeholder: "Seleccionar Cliente",
          allowClear: true,
          width: '100%' ,
          minimumResultsForSearch: Infinity
-         }); 
-         $(".select2_single_modelo").select2({ 
+         });
+         $(".select2_single_modelo").select2({
          placeholder: "Seleccionar Modelo",
          allowClear: true,
-         width: '100%' 
+         width: '100%'
          });
-         $(".select2_single_revision").select2({ 
+         $(".select2_single_revision").select2({
          placeholder: "Seleccionar Revision",
          allowClear: true,
-         width: '100%' 
+         width: '100%'
          });
-         $(".select2_single_cantidad").select2({ 
+         $(".select2_single_cantidad").select2({
          placeholder: "Seleccionar Cantidad",
          allowClear: true,
-         width: '100%' 
+         width: '100%'
          });
-           
-         $(".select2_linea").select2({ 
+
+         $(".select2_linea").select2({
          placeholder: "Seleccionar Linea",
          allowClear: true,
-         width: '100%' 
+         width: '100%'
          });*/
         $(".select2_group").select2({});
         $(".select2_multiple").select2({
@@ -344,7 +346,7 @@
 
     });
 
-</script> 
+</script>
 <script>
     $(document).ready(function () {
         $(".select2_single_cliente").prop("disabled", true);
@@ -354,7 +356,6 @@
 
     });
 </script>
-
 
 
 </body>

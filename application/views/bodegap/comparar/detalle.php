@@ -5,13 +5,13 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                  <h2><i class="fa fa-align-left"></i> <strong>Busqueda de Pallet</strong></h2> 
+                  <h3><strong>BUSQUEDA DE PALLET</strong></h3> 
                   <div class="clearfix"></div>
                 </div>
                     <div class="x_content">
                         <div id="app">
                             <div class="container">
-                                
+
                                 <div class="row">
                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
                                               <button type="button" class="btn btn-primary waves-effect m-r-20" data-toggle="modal" data-target="#largeModal"><i class='fa fa-plus'></i> Número Parte</button>
@@ -19,20 +19,20 @@
                                               <br></br>
                                         <table class="table is-bordered is-hoverable" id="datatablebusqueda">
                                             <thead class="text-white bg-dark" >
-                                            <th>N. Parte</th> 
-                                            <th>Modelo</th> 
+                                            <th>N. Parte</th>
+                                            <th>Modelo</th>
                                             <th>Revisión</th>
-                                            <th>C. Cajas</th> 
+                                            <th>C. Cajas</th>
                                             <th>Ubicación</th>
                                             </thead>
                                             <tbody>
                                                 <?php
                                                 if (isset($listapartes) && !empty($listapartes)) {
-                                                    foreach ($listapartes as $value) { 
+                                                    foreach ($listapartes as $value) {
                                                         $idbusqueda = $value->idbusqueda;
                                                         $idrevision = $value->idrevision;
                                                         ?>
-                                                        <tr> 
+                                                        <tr>
                                                             <td>
                                                                 <a onclick="return confirm('Esta seguros de Quitar el Número de Parte?')" href="<?php echo site_url('Bodegap/deleteParte/'.$value->iddetallebusqueda.'/'.$value->idbusqueda);?>" title="Quitar elemento."><i class="fa fa-trash" style="color: red"></i></a>
                                                             <?php echo $value->numeroparte ?></td>
@@ -40,7 +40,7 @@
                                                             <td><?php echo $value->revision ?></td>
                                                             <td><strong><?php echo number_format($value->cantidad) ?></strong></td>
                                                             <td>
-                                                            <?php 
+                                                            <?php
                                                                 if(isset($listacantidad) && !empty($listacantidad))
                                                                 {
                                                                     $ubicaciones = "";
@@ -54,7 +54,7 @@
                                                                    }else{
                                                                       echo "<label><strong>Sin material.</strong></label>";
                                                                    }
-                                                                    
+
 
                                                                 }else{
                                                                 echo "<label><strong>Sin material.</strong></label>";
@@ -64,12 +64,12 @@
                                                         </tr>
                                                         <?php
                                                         }
-                                                    } 
+                                                    }
                                                 ?>
                                             </tbody>
                                         </table>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" id="largeModalLabel">BUSCAR PALLET</h4>
-                         </div> 
+                         </div>
                         <div class="modal-body">
                           <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12 ">
@@ -93,27 +93,27 @@
                              </div>
                           </div>
                             <div class="row">
-                               <div class="col-md-12 col-sm-12 col-xs-12 "> 
+                               <div class="col-md-12 col-sm-12 col-xs-12 ">
                                   <form class="fromagregar">
                                     <table id="datatablesearch" class="table" style="width:100%">
                                     <thead>
-                                        <tr> 
+                                        <tr>
                                             <th>N. Parte</th>
                                             <th>Modelo</th>
-                                            <th>Revision</th>   
+                                            <th>Revision</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php 
+                                        <?php
                                         if(isset($partes) && !empty($partes)){
                                         foreach($partes as $value) {
                                         ?>
-                                      
-                                            <tr> 
-                                            <td><?php echo $value->numeroparte ?></td> 
-                                            <td><?php echo $value->modelo ?></td> 
-                                            <td><?php echo $value->revision ?></td>  
+
+                                            <tr>
+                                            <td><?php echo $value->numeroparte ?></td>
+                                            <td><?php echo $value->modelo ?></td>
+                                            <td><?php echo $value->revision ?></td>
                                             <td align="right">
                                                 <form method="POST" action="<?php echo site_url('Bodegap/addParte');?>">
                                                     <input type="number" min="0" name="cantidad" class="form-control" required="">
@@ -121,13 +121,13 @@
                                                     <input type="hidden" name="idrevision" value="<?php echo $value->idrevision; ?>">
                                                     <button type="submit" class="btn btn-primary">Agregar</button>
                                                 </form>
-                                            </td> 
+                                            </td>
                                             </tr>
-                                       
-                                        <?php 
-                                        } 
+
+                                        <?php
+                                        }
                                     }
-                                        ?> 
+                                        ?>
                                 </table>
                                 </form>
                                 </div>
@@ -135,18 +135,18 @@
 
 
                         </div>
-                        <div class="modal-footer">  
+                        <div class="modal-footer">
                             <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i class='fa fa-close'></i> CERRAR</button>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
 <!-- /page content -->
 <script type="text/javascript">
-    
-     $(document).ready(function () { 
+
+     $(document).ready(function () {
         $('#datatablesearch').dataTable(
-                {   
+                {
                     "columnDefs": [ {
                     "targets": 3,
                     "orderable": false
@@ -176,9 +176,9 @@
                         }
                     }
                 }
-        ); 
+        );
          $('#datatablebusqueda').dataTable(
-                {   
+                {
                 dom: "Bfrtip",
                 buttons: [{
                         extend: "excel",
@@ -214,7 +214,7 @@
                     },
                 responsive: !0
                 }
-        ); 
+        );
     });
     TableManageButtons.init();
 </script>

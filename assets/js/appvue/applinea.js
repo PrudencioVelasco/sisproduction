@@ -1,9 +1,9 @@
 
 var this_js_script = $('script[src*=applinea]');
-var my_var_1 = this_js_script.attr('data-my_var_1'); 
+var my_var_1 = this_js_script.attr('data-my_var_1');
 if (typeof my_var_1 === "undefined") {
     var my_var_1 = 'some_default_value';
-} 
+}
 
 Vue.config.devtools = true
 Vue.component('modal', {//modal
@@ -15,7 +15,7 @@ Vue.component('modal', {//modal
 			    <div class="modal-content">
 
 
-			      <div class="modal-header">
+			      <div class="modal-header modal-header-info">
 				        <h5 class="modal-title"> <slot name="head"></slot></h5>
                 <i class="fa fa-window-close  icon-md text-danger" @click="$emit('close')"></i>
 				      </div>
@@ -47,7 +47,7 @@ var v = new Vue({
         search: {text: ''},
         emptyResult: false,
         newLinea: {
-            nombrelinea: '', 
+            nombrelinea: '',
             msgerror:''
         },
         chooseLinea: {},
@@ -62,7 +62,7 @@ var v = new Vue({
         directives: {columnSortable}
     },
     created() {
-        this.showAll(); 
+        this.showAll();
     },
     methods: {
         orderBy(sortFn) {
@@ -92,7 +92,7 @@ var v = new Vue({
             })
         },
         addLinea() {
-            var formData = v.formData(v.newLinea); 
+            var formData = v.formData(v.newLinea);
             axios.post(this.url + "linea/addLinea", formData).then(function (response) {
                 if (response.data.error) {
                     v.formValidate = response.data.msg;

@@ -25,7 +25,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h4><strong>Administrar Entradas</strong></h4>
+                        <h3><strong>ADMINISTRAR ENTRADAS</strong></h3>
 
                         <div class="clearfix"></div>
                     </div>
@@ -88,11 +88,8 @@
   aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header modal-header-info-nomodal">
         <h3 class="modal-title w-100 font-weight-bold">Agregar Entrada</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body mx-3">
 

@@ -19,11 +19,11 @@ class Modelo extends CI_Controller {
         $this->load->library('permission');
         $this->load->library('session');
     }
-   public function ver($idparte) { 
+   public function ver($idparte) {
        Permission::grant(uri_string());
-        $detalle = $this->modelo->detalleModelo($idparte); 
+        $detalle = $this->modelo->detalleModelo($idparte);
         $para = $detalle->nombre." > ".$detalle->numeroparte." > "."Módelo";
-        $data=array( 
+        $data=array(
             'idparte'=>$idparte,
             'paso'=>$para
         );
@@ -72,6 +72,8 @@ class Modelo extends CI_Controller {
                     'normascompartidas' => strtoupper($this->input->post('normascompartidas')),
                     'salida' => strtoupper($this->input->post('salida')),
                     'combinacion' => strtoupper($this->input->post('combinacion')),
+                    'medida' => strtoupper($this->input->post('medida')),
+                    'dimension' => strtoupper($this->input->post('dimension')),
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
@@ -118,7 +120,7 @@ class Modelo extends CI_Controller {
             $datavalidar = $this->modelo->validadExistenciaModeloUpdate($idmodelo, $modelo,$idparte);
             if ($datavalidar == FALSE) {
 
-                $data = array(                     
+                $data = array(
                    'descripcion' => strtoupper($modelo),
                     'nombrehoja' => strtoupper($this->input->post('nombrehoja')),
                     'customer' => "",
@@ -133,6 +135,8 @@ class Modelo extends CI_Controller {
                     'normascompartidas' => strtoupper($this->input->post('normascompartidas')),
                     'salida' => strtoupper($this->input->post('salida')),
                     'combinacion' => $this->input->post('combinacion'),
+                    'medida' => $this->input->post('medida'),
+                    'dimension' => $this->input->post('dimension'),
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
@@ -148,7 +152,7 @@ class Modelo extends CI_Controller {
         echo json_encode($result);
     }
 
- 
+
 
     public function showAll() {
         Permission::grant(uri_string());
@@ -178,7 +182,7 @@ class Modelo extends CI_Controller {
         $query = $this->modelo->deleteModelo($idmodelo);
         if ($query) {
             $result['modelos'] = true;
-        } 
+        }
         echo json_encode($result);
     }
 

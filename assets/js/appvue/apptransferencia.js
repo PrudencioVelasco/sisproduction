@@ -8,7 +8,7 @@ Vue.component('modal',{ //modal
 			    <div class="modal-content">
 
 
-			      <div class="modal-header">
+			      <div class="modal-header modal-header-info">
 				        <h5 class="modal-title"> <slot name="head"></slot></h5>
 				       <i class="fa fa-window-close  icon-md text-danger" @click="$emit('close')"></i>
 				      </div>
@@ -35,7 +35,7 @@ var v = new Vue({
         editModal:false,
         passwordModal:false,
         //deleteModal:false,
-        transferencias:[], 
+        transferencias:[],
         search: {text: ''},
         emptyResult:false,
         newUser:{
@@ -47,7 +47,7 @@ var v = new Vue({
             smserror:''},
         chooseUser:{},
         formValidate:[],
-        successMSG:'', 
+        successMSG:'',
 			currentSort:'folio',
 			currentSortDir:'asc',
         //pagination
@@ -66,7 +66,7 @@ var v = new Vue({
                         v.getData(response.data.transferencias);
                     }
             })
-        }, 
+        },
 		  sort:function(s) {
       //if s == current sort, reverse
       if(s === this.currentSort) {
@@ -124,7 +124,7 @@ var v = new Vue({
                 }
             })
         },
-   
+
        /* deleteUser(){
              var formData = v.formData(v.chooseUser);
               axios.post(this.url+"user/deleteUser", formData).then(function(response){

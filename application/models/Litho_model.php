@@ -4,21 +4,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Litho_model extends CI_Model {
 
-  public function __construct() 
+  public function __construct()
   {
     parent::__construct();
     $this->load->database();
   }
 
-  public function __destruct() 
+  public function __destruct()
   {
     $this->db->close();
   }
 
-  public function showAllLitho() 
+  public function showAllLitho()
   {
     $query = $this->db->query("
-       SELECT 
+       SELECT
     r.idrevision,
     p.numeroparte,
     c.nombre,
@@ -29,40 +29,40 @@ class Litho_model extends CI_Model {
     r.descripcion AS revision,
     ca.nombrecategoria,
     r.idrevision,
-    (SELECT 
+    (SELECT
             COALESCE(SUM(la.cantidad), 0)
         FROM
             tbllitho la
         WHERE
             la.idrevision = r.idrevision
                 AND la.activo = 1) AS totalentradas,
-    (SELECT 
+    (SELECT
             COALESCE(SUM(lasa.cantidad), 0)
         FROM
             tbllithosalida lasa
         WHERE
             lasa.idrevision = r.idrevision
                 AND lasa.activo = 1) AS totalsalidas,
-    (SELECT 
+    (SELECT
             COALESCE(SUM(lade.cantidad), 0)
         FROM
             tbllithodevolucion lade
         WHERE
             lade.idrevision = r.idrevision
                 AND lade.activo = 1) AS totalrevueltas,
-    ((SELECT 
+    ((SELECT
             COALESCE(SUM(la.cantidad), 0)
         FROM
             tbllitho la
         WHERE
             la.idrevision = r.idrevision
-                AND la.activo = 1) - ((SELECT 
+                AND la.activo = 1) - ((SELECT
             COALESCE(SUM(lasa.cantidad), 0)
         FROM
             tbllithosalida lasa
         WHERE
             lasa.idrevision = r.idrevision
-                AND lasa.activo = 1) + (SELECT 
+                AND lasa.activo = 1) + (SELECT
             COALESCE(SUM(lade.cantidad), 0)
         FROM
             tbllithodevolucion lade
@@ -80,7 +80,153 @@ FROM
         INNER JOIN
     tblcategoria ca ON ca.idcategoria = p.idcategoria
     WHERE ca.idcategoria IN (11)
-GROUP BY r.idrevision");
+    GROUP BY r.idrevision");
+
+    if ($query->num_rows() > 0) {
+      return $query->result();
+    } else {
+      return false;
+    }
+  }
+  public function showAllBolsa()
+  {
+    $query = $this->db->query("
+       SELECT
+    r.idrevision,
+    p.numeroparte,
+    c.nombre,
+    CASE
+        WHEN LENGTH(m.descripcion) > 12 THEN CONCAT(SUBSTRING(m.descripcion, 1, 12), '...')
+        ELSE m.descripcion
+    END AS modelo,
+    r.descripcion AS revision,
+    ca.nombrecategoria,
+    r.idrevision,
+    (SELECT
+            COALESCE(SUM(la.cantidad), 0)
+        FROM
+            tbllitho la
+        WHERE
+            la.idrevision = r.idrevision
+                AND la.activo = 1) AS totalentradas,
+    (SELECT
+            COALESCE(SUM(lasa.cantidad), 0)
+        FROM
+            tbllithosalida lasa
+        WHERE
+            lasa.idrevision = r.idrevision
+                AND lasa.activo = 1) AS totalsalidas,
+    (SELECT
+            COALESCE(SUM(lade.cantidad), 0)
+        FROM
+            tbllithodevolucion lade
+        WHERE
+            lade.idrevision = r.idrevision
+                AND lade.activo = 1) AS totalrevueltas,
+    ((SELECT
+            COALESCE(SUM(la.cantidad), 0)
+        FROM
+            tbllitho la
+        WHERE
+            la.idrevision = r.idrevision
+                AND la.activo = 1) - ((SELECT
+            COALESCE(SUM(lasa.cantidad), 0)
+        FROM
+            tbllithosalida lasa
+        WHERE
+            lasa.idrevision = r.idrevision
+                AND lasa.activo = 1) + (SELECT
+            COALESCE(SUM(lade.cantidad), 0)
+        FROM
+            tbllithodevolucion lade
+        WHERE
+            lade.idrevision = r.idrevision
+                AND lade.activo = 1))) AS totalexistencia
+FROM
+    parte p
+        INNER JOIN
+    tblmodelo m ON p.idparte = m.idparte
+        INNER JOIN
+    tblrevision r ON r.idmodelo = m.idmodelo
+        INNER JOIN
+    cliente c ON c.idcliente = p.idcliente
+        INNER JOIN
+    tblcategoria ca ON ca.idcategoria = p.idcategoria
+    WHERE ca.idcategoria IN (8)
+    GROUP BY r.idrevision");
+
+    if ($query->num_rows() > 0) {
+      return $query->result();
+    } else {
+      return false;
+    }
+  }
+  public function showAllManual() 
+  {
+    $query = $this->db->query("
+       SELECT
+    r.idrevision,
+    p.numeroparte,
+    c.nombre,
+    CASE
+        WHEN LENGTH(m.descripcion) > 12 THEN CONCAT(SUBSTRING(m.descripcion, 1, 12), '...')
+        ELSE m.descripcion
+    END AS modelo,
+    r.descripcion AS revision,
+    ca.nombrecategoria,
+    r.idrevision,
+    (SELECT
+            COALESCE(SUM(la.cantidad), 0)
+        FROM
+            tbllitho la
+        WHERE
+            la.idrevision = r.idrevision
+                AND la.activo = 1) AS totalentradas,
+    (SELECT
+            COALESCE(SUM(lasa.cantidad), 0)
+        FROM
+            tbllithosalida lasa
+        WHERE
+            lasa.idrevision = r.idrevision
+                AND lasa.activo = 1) AS totalsalidas,
+    (SELECT
+            COALESCE(SUM(lade.cantidad), 0)
+        FROM
+            tbllithodevolucion lade
+        WHERE
+            lade.idrevision = r.idrevision
+                AND lade.activo = 1) AS totalrevueltas,
+    ((SELECT
+            COALESCE(SUM(la.cantidad), 0)
+        FROM
+            tbllitho la
+        WHERE
+            la.idrevision = r.idrevision
+                AND la.activo = 1) - ((SELECT
+            COALESCE(SUM(lasa.cantidad), 0)
+        FROM
+            tbllithosalida lasa
+        WHERE
+            lasa.idrevision = r.idrevision
+                AND lasa.activo = 1) + (SELECT
+            COALESCE(SUM(lade.cantidad), 0)
+        FROM
+            tbllithodevolucion lade
+        WHERE
+            lade.idrevision = r.idrevision
+                AND lade.activo = 1))) AS totalexistencia
+FROM
+    parte p
+        INNER JOIN
+    tblmodelo m ON p.idparte = m.idparte
+        INNER JOIN
+    tblrevision r ON r.idmodelo = m.idmodelo
+        INNER JOIN
+    cliente c ON c.idcliente = p.idcliente
+        INNER JOIN
+    tblcategoria ca ON ca.idcategoria = p.idcategoria
+    WHERE ca.idcategoria IN (6)
+    GROUP BY r.idrevision");
 
     if ($query->num_rows() > 0) {
       return $query->result();
@@ -175,35 +321,35 @@ public function detalle_devoluciones($idrevision)
 public function addEntradaLitho($data)
 {
   $this->db->insert('tbllitho', $data);
-  $insert_id = $this->db->insert_id(); 
-  
+  $insert_id = $this->db->insert_id();
+
   return  $insert_id;
 }
 
 public function addSalidaLitho($data)
 {
   $this->db->insert('tbllithosalida', $data);
-  $insert_id = $this->db->insert_id(); 
-  
+  $insert_id = $this->db->insert_id();
+
   return  $insert_id;
 }
 
 public function addDevolucionLitho($data)
 {
   $this->db->insert('tbllithodevolucion', $data);
-  $insert_id = $this->db->insert_id(); 
-  
+  $insert_id = $this->db->insert_id();
+
   return  $insert_id;
 }
 
 public function totalentradas($idrevision)
 {
   $this->db->select('cantidad');
-  $this->db->from('tbllitho'); 
-  $this->db->where('activo',1); 
-  $this->db->where('idrevision',$idrevision); 
+  $this->db->from('tbllitho');
+  $this->db->where('activo',1);
+  $this->db->where('idrevision',$idrevision);
   $query = $this->db->get();
-  
+
   if ($query->num_rows() > 0) {
     return $query->result();
   } else {
@@ -214,11 +360,11 @@ public function totalentradas($idrevision)
 public function totalsalidas($idrevision)
 {
   $this->db->select('cantidad');
-  $this->db->from('tbllithosalida'); 
-  $this->db->where('activo',1); 
-  $this->db->where('idrevision',$idrevision); 
+  $this->db->from('tbllithosalida');
+  $this->db->where('activo',1);
+  $this->db->where('idrevision',$idrevision);
   $query = $this->db->get();
-  
+
   if ($query->num_rows() > 0) {
     return $query->result();
   } else {
@@ -229,12 +375,12 @@ public function totalsalidas($idrevision)
 public function totalsalidaswithout($idrevision,$idlithosalida)
 {
   $this->db->select('cantidad');
-  $this->db->from('tbllithosalida'); 
-  $this->db->where('activo',1); 
+  $this->db->from('tbllithosalida');
+  $this->db->where('activo',1);
   $this->db->where('idrevision',$idrevision);
-  $this->db->where_not_in('idlithosalida',$idlithosalida);      
+  $this->db->where_not_in('idlithosalida',$idlithosalida);
   $query = $this->db->get();
-  
+
   if ($query->num_rows() > 0) {
     return $query->result();
   } else {
@@ -245,11 +391,11 @@ public function totalsalidaswithout($idrevision,$idlithosalida)
 public function totaldevolucion($idrevision)
 {
   $this->db->select('cantidad');
-  $this->db->from('tbllithodevolucion'); 
-  $this->db->where('activo',1); 
-  $this->db->where('idrevision',$idrevision); 
+  $this->db->from('tbllithodevolucion');
+  $this->db->where('activo',1);
+  $this->db->where('idrevision',$idrevision);
   $query = $this->db->get();
-  
+
   if ($query->num_rows() > 0) {
     return $query->result();
   } else {
@@ -260,11 +406,11 @@ public function totaldevolucion($idrevision)
 public function verificartotalentradas($idparte,$idlitho)
 {
   $this->db->select('l.cantidad');
-  $this->db->from('tbllitho l'); 
-  $this->db->where('l.activo',1); 
-  $this->db->where('l.idlitho',$idlitho); 
+  $this->db->from('tbllitho l');
+  $this->db->where('l.activo',1);
+  $this->db->where('l.idlitho',$idlitho);
   $query = $this->db->get();
-  
+
   if ($query->num_rows() > 0) {
     return $query->result();
   } else {
@@ -276,7 +422,7 @@ public function actualizarlitho($idlitho,$data)
 {
   $this->db->where('idlitho', $idlitho);
   $this->db->update('tbllitho', $data);
-  
+
   if ($this->db->affected_rows() > 0) {
     return true;
   } else {
@@ -288,7 +434,7 @@ public function actualizarlithosalida($idlithosalida,$data)
 {
   $this->db->where('idlithosalida', $idlithosalida);
   $this->db->update('tbllithosalida', $data);
-  
+
   if ($this->db->affected_rows() > 0) {
     return true;
   } else {
@@ -319,12 +465,12 @@ public function eliminar_salida($idlithosalida)
 public function buscar_fecha_parte_entrada($idlitho,$idrevision)
 {
   $this->db->select('fecharegistro');
-  $this->db->from('tbllitho'); 
-  $this->db->where('activo',1); 
+  $this->db->from('tbllitho');
+  $this->db->where('activo',1);
   $this->db->where('idlitho',$idlitho);
-  $this->db->where('idrevision',$idrevision); 
+  $this->db->where('idrevision',$idrevision);
   $query = $this->db->get();
-  
+
   if ($query->num_rows() > 0) {
     return $query->result();
   } else {
@@ -336,12 +482,12 @@ public function buscar_fecha_parte_entrada($idlitho,$idrevision)
 public function buscar_fecha_parte_salidas($idlithosalida,$idrevision)
 {
   $this->db->select('fecharegistro');
-  $this->db->from('tbllithosalida'); 
-  $this->db->where('activo',1); 
+  $this->db->from('tbllithosalida');
+  $this->db->where('activo',1);
   $this->db->where('idlithosalida',$idlithosalida);
-  $this->db->where('idrevision',$idrevision); 
+  $this->db->where('idrevision',$idrevision);
   $query = $this->db->get();
-  
+
   if ($query->num_rows() > 0) {
     return $query->result();
   } else {
@@ -353,12 +499,12 @@ public function buscar_fecha_parte_salidas($idlithosalida,$idrevision)
 public function totaldevolucioneswithout($idrevision,$idlithodevolucion)
 {
   $this->db->select('cantidad');
-  $this->db->from('tbllithodevolucion'); 
-  $this->db->where('activo',1); 
+  $this->db->from('tbllithodevolucion');
+  $this->db->where('activo',1);
   $this->db->where('idrevision',$idrevision);
-  $this->db->where_not_in('idlithodevolucion',$idlithodevolucion);      
+  $this->db->where_not_in('idlithodevolucion',$idlithodevolucion);
   $query = $this->db->get();
-  
+
   if ($query->num_rows() > 0) {
     return $query->result();
   } else {
@@ -370,7 +516,7 @@ public function actualizarlithodevolucion($idlithodevolucion,$data)
 {
   $this->db->where('idlithodevolucion', $idlithodevolucion);
   $this->db->update('tbllithodevolucion', $data);
-  
+
   if ($this->db->affected_rows() > 0) {
     return true;
   } else {
@@ -382,12 +528,12 @@ public function actualizarlithodevolucion($idlithodevolucion,$data)
 public function buscar_fecha_parte_devolucion($idlithodevolucion,$idrevision)
 {
   $this->db->select('fecharegistro');
-  $this->db->from('tbllithodevolucion'); 
-  $this->db->where('activo',1); 
+  $this->db->from('tbllithodevolucion');
+  $this->db->where('activo',1);
   $this->db->where('idlithodevolucion',$idlithodevolucion);
-  $this->db->where('idrevision',$idrevision); 
+  $this->db->where('idrevision',$idrevision);
   $query = $this->db->get();
-  
+
   if ($query->num_rows() > 0) {
     return $query->result();
   } else {

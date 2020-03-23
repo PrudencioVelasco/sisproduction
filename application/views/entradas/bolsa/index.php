@@ -5,40 +5,32 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h3><strong>ADMINISTRAR LAMINAS</strong></h3>
+                        <h3><strong>ADMINISTRAR BOLSAS</strong></h3>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
                         <div id="app">
                             <div class="container">
                                 <div class="row">
-                                   <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                 <div class="col-md-12 col-sm-12 col-xs-12 ">
                                     <table class="table is-bordered is-hoverable" id="datatablewarehouse">
                                         <thead class="text-white bg-dark" >
                                             <th>Num. Parte</th>
                                             <th>Modelo</th>
                                             <th>Revision</th>
-                                            <th>Score</th>
-                                            <th>Color</th>
-                                            <th>Medidas</th>
-                                            <th>Dimensión</th>
-                                            <th>Combinación</th>
                                             <th>Existencia</th>
                                             <th>Opción</th>
                                         </thead>
                                         <tbody>
                                             <?php
                                             if (isset($data) && !empty($data)) {
-                                                foreach ($data as $value) { ?>
-                                                    <tr class="table-default">
+                                              //  $total = 0;
+                                                foreach ($data as $value) {
+                                              //      $total=$total+$value->totalexistencia;?>
+                                                    <tr   class="table-default">
                                                         <td><?php echo $value->numeroparte ?></td>
                                                         <td><?php echo $value->modelo ?></td>
                                                         <td><?php echo $value->revision ?></td>
-                                                        <td><?php echo $value->score ?></td>
-                                                        <td><?php echo $value->color ?></td>
-                                                        <td><?php echo $value->medida ?></td>
-                                                        <td><?php echo $value->dimension ?></td>
-                                                        <td><?php echo $value->combinacion ?></td>
                                                         <td><strong style="color:green;"><?php echo $value->totalexistencia ?></strong></td>
                                                         <td>
                                                           <?php
@@ -52,26 +44,25 @@
                                                             <ul class="dropdown-menu">
                                                               <li><a href="#" style="color:green;" class="edit_button"
                                                                 data-toggle="modal" data-target="#myModal"
-                                                                data-idparte="<?php echo $value->idparte;?>"
+                                                                data-idrevision="<?php echo $value->idrevision;?>"
                                                                 data-numeroparte="<?php echo $value->numeroparte;?>" ><i class="fa fa-sign-in" aria-hidden="true"></i> <strong>Entrada</strong></a></li>
                                                                 <li><a href="#" style="color:blue;" class="edit_button_salida"
                                                                     data-toggle="modal" data-target="#myModalSalida"
-                                                                    data-idparte="<?php echo $value->idparte;?>"
+                                                                    data-idrevision="<?php echo $value->idrevision;?>"
                                                                     data-numeroparte="<?php echo $value->numeroparte;?>"><i class="fa fa-sign-out" aria-hidden="true"></i> <strong>Salida</strong></a></li>
                                                                     <li><a href="#" style="color:red;" class="edit_button_devolucion"
                                                                         data-toggle="modal" data-target="#myModalDevolucion"
-                                                                        data-idparte="<?php echo $value->idparte;?>"
+                                                                        data-idrevision="<?php echo $value->idrevision;?>"
                                                                         data-numeroparte="<?php echo $value->numeroparte;?>"
                                                                         ><i class="fa fa-undo" aria-hidden="true"></i> <strong>Devolución</strong></a></li>
                                                                         <li class="divider"></li>
-                                                                        <li><a href="<?php echo site_url('laminas/detalle/'.$value->idparte) ?>"><i class="fa fa-exchange"></i> <strong>Movimientos</strong></a></li>
+                                                                        <li><a href="<?php echo site_url('litho/detalle_bolsa/'.$value->idrevision) ?>"><i class="fa fa-exchange"></i> <strong>Movimientos</strong></a></li>
                                                                     </ul>
                                                                 </div>
-
-                                                            <?php
-                                                                }
-                                                              }
-                                                            ?>
+                                                                <?php
+                                                                    }
+                                                                  }
+                                                                ?>
                                                             </td>
                                                         </tr>
                                                         <?php
@@ -103,18 +94,22 @@
                 <div class="modal-body">
                     <div class="alert alert-danger print-error-msg" style="display:none"></div>
                     <div class="form-group">
-                        <input class="form-control business_skill_id" type="hidden" name="idparte">
+                        <input class="form-control business_skill_id" type="hidden" name="idrevision">
                     </div>
                     <div class="form-group">
-                     <label ><font color="red">*</font> Cantidad</label><br>
-                     <input type="text" name="cantidad"  class="form-control">
-                 </div>
-                 <div class="form-group">
-                     <label >Comentarios</label><br>
-                     <textarea  class="form-control" name="comentarios"></textarea>
-                 </div>
-             </div>
-             <div class="modal-footer">
+                       <label ><font color="red">*</font> Cantidad</label><br>
+                       <input type="text" name="cantidad"  class="form-control">
+                   </div>
+                   <div class="form-group">
+                       <label >Comentarios</label><br>
+                       <textarea  class="form-control" name="comentarios"></textarea>
+                   </div>
+                   <div class="form-group">
+                       <label >Transferencia</label><br>
+                       <textarea  class="form-control" name="transferencia"></textarea>
+                   </div>
+               </div>
+               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
                 <button type="button" id="btnentrada" class="btn btn-primary"><i class='fa fa-floppy-o'></i> Aceptar</button>
             </div>
@@ -134,36 +129,27 @@
                 <div class="modal-body">
                     <div class="alert alert-danger print-error-msg" style="display:none"></div>
                     <div class="form-group">
-                        <input class="form-control business_skill_id" type="hidden" name="idparte">
+                        <input class="form-control business_skill_id" type="hidden" name="idrevision">
                     </div>
                     <div class="form-group">
-                     <label ><font color="red">*</font> Maquina</label><br>
-                     <select class="form-control" name="maquina">
-                         <?php
-                         if(isset($maquinas) && !empty($maquinas)){
-                            foreach($maquinas as $value){?>
-                                <option value="<?php echo $value->idmaquina ?>"><?php echo $value->nombremaquina ?></option>
-                            <?php }
-                        }
-                        ?>
-
-                    </select>
-                </div>
-                <div class="form-group">
-                 <label ><font color="red">*</font> Cantidad</label><br>
-                 <input type="text" name="cantidad"  class="form-control">
-             </div>
-             <div class="form-group">
-                 <label >Comentarios</label><br>
-                 <textarea  class="form-control" name="comentarios"></textarea>
-             </div>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
-            <button type="button" id="btnsalida" class="btn btn-primary"><i class='fa fa-floppy-o'></i> Aceptar</button>
-        </div>
-    </form>
-</div>
+                       <label ><font color="red">*</font> Cantidad</label><br>
+                       <input type="text" name="cantidad"  class="form-control">
+                   </div>
+                   <div class="form-group">
+                       <label >Comentarios</label><br>
+                       <textarea  class="form-control" name="comentarios"></textarea>
+                   </div>
+                   <div class="form-group">
+                       <label >Transferencia</label><br>
+                       <textarea  class="form-control" name="transferencia"></textarea>
+                   </div>
+               </div>
+               <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
+                <button type="button" id="btnsalida" class="btn btn-primary"><i class='fa fa-floppy-o'></i> Aceptar</button>
+            </div>
+        </form>
+    </div>
 </div>
 </div>
 
@@ -179,59 +165,49 @@
                 <div class="modal-body">
                     <div class="alert alert-danger print-error-msg" style="display:none"></div>
                     <div class="form-group">
-                        <input class="form-control business_skill_id" type="hidden" name="idparte">
+                        <input class="form-control business_skill_id" type="hidden" name="idrevision">
                     </div>
                     <div class="form-group">
-                     <label ><font color="red">*</font> Proveedor</label><br>
-                     <select class="form-control" name="cliente">
-                         <?php
-                         if(isset($clientes) && !empty($clientes)){
-                            foreach($clientes as $value){?>
-                                <option value="<?php echo $value->idcliente ?>"><?php echo $value->nombre ?></option>
-                            <?php }
-                        }
-                        ?>
+                       <label ><font color="red">*</font> Cantidad</label><br>
+                       <input type="text" name="cantidad"  class="form-control">
+                   </div>
+                   <div class="form-group">
+                       <label >Comentarios</label><br>
+                       <textarea  class="form-control" name="comentarios"></textarea>
+                   </div>
+                   <div class="form-group">
+                       <label >Transferencia</label><br>
+                       <textarea  class="form-control" name="transferencia"></textarea>
+                   </div>
+               </div>
+               <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
+                <button type="button" id="btndevolucion" class="btn btn-primary"><i class='fa fa-floppy-o'></i> Aceptar</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
 
-                    </select>
-                </div>
-                <div class="form-group">
-                 <label ><font color="red">*</font> Cantidad</label><br>
-                 <input type="text" name="cantidad"  class="form-control">
-             </div>
-             <div class="form-group">
-                 <label >Comentarios</label><br>
-                 <textarea  class="form-control" name="comentarios"></textarea>
-             </div>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
-            <button type="button" id="btndevolucion" class="btn btn-primary"><i class='fa fa-floppy-o'></i> Aceptar</button>
-        </div>
-    </form>
-</div>
-</div>
-</div>
 
 
 <script>
     $(document).on( "click", '.edit_button',function(e) {
-        var id = $(this).data('idparte');
+        var id = $(this).data('idrevision');
         var numeroparte = $(this).data('numeroparte');
 
         $(".business_skill_id").val(id);
         $(".titlenumeroparte").text(numeroparte);
     });
-
     $(document).on( "click", '.edit_button_salida',function(e) {
-        var id = $(this).data('idparte');
+        var id = $(this).data('idrevision');
         var numeroparte = $(this).data('numeroparte');
 
         $(".business_skill_id").val(id);
         $(".titlenumeroparte").text(numeroparte);
     });
-
     $(document).on( "click", '.edit_button_devolucion',function(e) {
-        var id = $(this).data('idparte');
+        var id = $(this).data('idrevision');
         var numeroparte = $(this).data('numeroparte');
 
         $(".business_skill_id").val(id);
@@ -240,15 +216,14 @@
 </script>
 
 <script>
-
     $("#btnentrada").click(function(){
         $.ajax({
             type: "POST",
-            url: "<?php echo site_url('laminas/agregar_entrada');?>",
+            url: "<?php echo site_url('litho/agregar_entrada_bolsa');?>",
             data: $('#frmentrada').serialize(),
             success: function(data) {
                 var msg = $.parseJSON(data);
-                console.log(msg.error);
+                console.log(msg);
                 if((typeof msg.error === "undefined")){
                     $(".print-error-msg").css('display','none');
                     swal("Operación con Exito.", "Click en el boton!", "success").then(function(){
@@ -259,18 +234,22 @@
                     $(".print-error-msg").html(msg.error);
                     setTimeout(function() {$('.print-error-msg').fadeOut('fast');}, 3000);
                 }
+
             }
         });
+
+
 
     });
 
     $("#btnsalida").click(function(){
         $.ajax({
             type: "POST",
-            url: "<?php echo site_url('laminas/agregar_salida');?>",
+            url: "<?php echo site_url('litho/agregar_salida_bolsa');?>",
             data: $('#frmsalida').serialize(),
             success: function(data) {
                 var msg = $.parseJSON(data);
+                //console.log(msg);
                 console.log(msg.error);
                 if((typeof msg.error === "undefined")){
                     $(".print-error-msg").css('display','none');
@@ -284,12 +263,13 @@
                 }
             }
         });
+
     });
 
     $("#btndevolucion").click(function(){
         $.ajax({
             type: "POST",
-            url: "<?php echo site_url('laminas/devolucion');?>",
+            url: "<?php echo site_url('litho/devolucion_bolsa');?>",
             data: $('#frmdevolucion').serialize(),
             success: function(data) {
                 var msg = $.parseJSON(data);
@@ -303,17 +283,18 @@
                     $(".print-error-msg").css('display','block');
                     $(".print-error-msg").html(msg.error);
                     setTimeout(function() {$('.print-error-msg').fadeOut('fast');}, 3000);
+
                 }
             }
         });
-
     });
 </script>
+
 <script type="text/javascript">
   $( document ).ready(function() {
     $('#datatablewarehouse').DataTable( {
         dom: 'Bfrtip',
-        buttons: [
+       buttons: [
             {
                 extend: 'excelHtml5',
                 exportOptions: {

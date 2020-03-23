@@ -12,15 +12,15 @@ class Documentos extends CI_Controller {
     if (!isset($_SESSION['user_id'])) {
       $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
       return redirect('login');
-    } 
+    }
 
-    $this->load->helper('url'); 
-    $this->load->model('documentos_model', 'documentos'); 
+    $this->load->helper('url');
+    $this->load->model('documentos_model', 'documentos');
     $this->load->library('permission');
     $this->load->library('session');
   }
 
-  public function index()
+  public function specs()
   {
       Permission::grant(uri_string());
     $data = array(
@@ -34,6 +34,7 @@ class Documentos extends CI_Controller {
   }
   public function procedimientos()
   {
+      Permission::grant(uri_string());
      $data = array(
       'data'=>$this->documentos->getAllProcedimientos(),
       'partes'=>$this->documentos->showAllParte(),
@@ -89,7 +90,7 @@ public function subir_procedimientos()
 
       $extensionesPermitidas = array("pdf","PDF");
 
-      if(!in_array($extension, $extensionesPermitidas)){ 
+      if(!in_array($extension, $extensionesPermitidas)){
         echo(json_encode(array('status'=>'incorrect')));
       }else{
         $config['upload_path'] = 'specs_procedimientos/';
@@ -109,7 +110,7 @@ public function subir_procedimientos()
             'idarea'=> $this->input->post('area'),
             'nombredocumento'=>$this->input->post('titulodocumento'),
             'codigo'=> $this->input->post('codigo'),
-            'revision'=> $this->input->post('revision'),  
+            'revision'=> $this->input->post('revision'),
             'nombre'=> $newName,
             'extension'=> '.'.$extension,
             'activo'=> 1,
@@ -127,7 +128,7 @@ public function subir_procedimientos()
 }
 
   public function subir_documento()
-  { 
+  {
     if (empty($_FILES['archivo']) ) {
       echo(json_encode(array('status'=>'vacio')));
     } else {
@@ -138,7 +139,7 @@ public function subir_procedimientos()
 
       $extensionesPermitidas = array("pdf","PDF");
 
-      if(!in_array($extension, $extensionesPermitidas)){ 
+      if(!in_array($extension, $extensionesPermitidas)){
         echo(json_encode(array('status'=>'incorrect')));
       }else{
         $config['upload_path'] = 'specs/';
@@ -154,7 +155,7 @@ public function subir_procedimientos()
         } else {
 
           $data = array(
-            'idrevision'=> $this->input->post('revision'), 
+            'idrevision'=> $this->input->post('revision'),
             'documento'=> '',
             'nombre'=> $newName,
             'extension'=> '.'.$extension,
@@ -175,11 +176,11 @@ public function subir_procedimientos()
   public function downloadDocument($iddoc)
   {
 
-    $result = $this->documentos->getDataDocument($iddoc); 
-     $data = $result[0]->documento;   
+    $result = $this->documentos->getDataDocument($iddoc);
+     $data = $result[0]->documento;
      $name = "ddd.pdf";
-    
- 
+
+
 //$data = base64_decode($data);
 header('Content-Type: application/pdf');
 echo $data;
@@ -202,12 +203,12 @@ echo $data;
     $extension = pathinfo($_FILES['archivo']['name'], PATHINFO_EXTENSION);
 
     $newName = $numeroparte."_".date("Ymdhis").".pdf";
-    
+
     $extensionesPermitidas = array("pdf","PDF");
 
-    if(!in_array($extension, $extensionesPermitidas)){ 
+    if(!in_array($extension, $extensionesPermitidas)){
       echo(json_encode(array('status'=>'incorrect')));
-    }else{   
+    }else{
       $config['upload_path'] = 'specs/';
       $config['allowed_types'] = '*';
       $config['max_size'] = 50000;
@@ -241,9 +242,9 @@ echo $data;
 
 
  public function eliminar_documento_procedimiento()
-{ 
+{
   $iddoc = $this->input->post("iddoc");
-  
+
   $data = array(
     'activo'=> 0,
     'idusuario'=> $this->session->user_id,
@@ -256,13 +257,13 @@ echo $data;
   }else{
     echo(json_encode(array('status'=>'false')));
   }
-}  
+}
 
 
 public function eliminar_documento()
-{ 
+{
   $iddoc = $this->input->post("iddoc");
-  
+
   $data = array(
     'activo'=> 0,
     'idusuario'=> $this->session->user_id,
