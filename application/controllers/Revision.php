@@ -49,13 +49,14 @@ class Revision extends CI_Controller
             );
         } else {
             $idmodelo = $this->input->post('idmodelo');
-            $revision = trim($this->input->post('descripcion')); 
-             $datavalidar= $this->revision->validadExistenciaRevision($idmodelo,$revision); 
+            $revision = trim($this->input->post('descripcion'));
+             $datavalidar= $this->revision->validadExistenciaRevision($idmodelo,$revision);
             if ($datavalidar == FALSE) {
 
                 $data = array(
                     'idmodelo' => $idmodelo,
                     'descripcion' => $revision,
+                    'activo' => 1,
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
@@ -67,7 +68,7 @@ class Revision extends CI_Controller
                     'msgerror' => "La revisión ya esta registrado."
                 );
         }
-        
+
     }
     echo json_encode($result);
 }
@@ -93,16 +94,18 @@ class Revision extends CI_Controller
             $idrevision = $this->input->post('idrevision');
             $idmodelo = $this->input->post('idmodelo');
             $revision = trim($this->input->post('descripcion'));
+            $activo = trim($this->input->post('activo'));
             $datavalidar = $this->revision->validadExistenciaRevisionUpdate($idrevision, $revision,$idmodelo);
             if ($datavalidar == FALSE) {
 
                 $data = array(
                     'descripcion' => $revision,
+                    'activo' => $activo,
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
-                ); 
+                );
                 $this->revision->updateRevision($idrevision,$data);
-               
+
             } else {
                 //El numero de modelo ya existe
                 $result['error'] = true;
@@ -112,7 +115,7 @@ class Revision extends CI_Controller
             }
         }
         echo json_encode($result);
-    } 
+    }
 
         public function showAll() {
         Permission::grant(uri_string());
@@ -129,7 +132,7 @@ class Revision extends CI_Controller
         $query = $this->revision->deleteRevision($idrevision);
         if ($query) {
             $result['revisiones'] = true;
-        } 
+        }
         echo json_encode($result);
     }
 

@@ -73,6 +73,7 @@
                 <th>N.M.</th>
                 <th>Revisión</th>
                 <th>Fecha</th>
+                <th>Ubicaciones</th>
             </tr>
         </thead>
         <tbody>
@@ -86,6 +87,7 @@
                    <td><?php echo $value["modelo"]; ?></td>
                     <td><?php echo $value["revision"]; ?></td>
                      <td><?php echo $value["fecha"]; ?></td>
+                     <td> <?php echo $value["ubicaciondisponibles"]; ?> </td>
             </tr>
             <?php }
             ?>
@@ -363,6 +365,8 @@
                         $("#msgerror").text("Debe de ser mayor a 0.");
                     } else if (data == 13) {
                         $("#msgerror").text("No existe Stock suficiente.");
+                    } else if (data == 14) {
+                        $("#msgerror").text("Lo debe de agregar como Parciales.");
                     } else {
                         //location.reload();
                        window.location.href="<?php echo base_url(); ?>/salida/detalleSalidaMaster/<?php echo $idsalida ?>";

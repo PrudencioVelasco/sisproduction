@@ -69,6 +69,7 @@ var v = new Vue({
             comment: '',
             medida:'',
             dimension:'',
+            activo:'',
             msgerror: ''
         },
         chooseModelo: {},

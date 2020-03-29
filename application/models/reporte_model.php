@@ -187,6 +187,145 @@ if ($query->num_rows() > 0) {
     return false;
 }
 }
+public function busqueda_almacen_entrada_lamina($finicio = '',$ffin = '',$idparte)
+{
+    $this->db->select("p.numeroparte, m.descripcion as modelo, r.descripcion as revision, l.*");
+   $this->db->from('tbllamina l');
+   $this->db->join('parte p', 'p.idparte = l.idparte');
+    $this->db->join('tblmodelo m', 'p.idparte = m.idparte');
+  $this->db->join('tblrevision r', 'm.idmodelo = r.idmodelo');
+   if (!empty($finicio) && !empty($ffin)) {
+     $this->db->where('l.fecharegistro BETWEEN "'. $finicio. '" and "'. $ffin.'"');
+   }
+    if (!empty($idparte)) {
+        $this->db->where('p.idparte',$idparte);
+    }
+  $this->db->where('l.activo',1);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+        return $query->result();
+    } else {
+        return false;
+    }
+}
+public function busqueda_almacen_salida_lamina($finicio = '',$ffin = '',$idparte)
+{
+   $this->db->select("p.numeroparte, m.descripcion as modelo, r.descripcion as revision, l.*");
+   $this->db->from('tbllaminasalida l');
+   $this->db->join('parte p', 'p.idparte = l.idparte');
+    $this->db->join('tblmodelo m', 'p.idparte = m.idparte');
+  $this->db->join('tblrevision r', 'm.idmodelo = r.idmodelo');
+   if (!empty($finicio) && !empty($ffin)) {
+     $this->db->where('l.fecharegistro BETWEEN "'. $finicio. '" and "'. $ffin.'"');
+   }
+    if (!empty($idparte)) {
+        $this->db->where('p.idparte',$idparte);
+    }
+      $this->db->where('l.activo',1);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+        return $query->result();
+    } else {
+        return false;
+    }
+}
+public function busqueda_almacen_devolucion_lamina($finicio = '',$ffin = '',$idparte)
+{
+   $this->db->select("p.numeroparte, m.descripcion as modelo, r.descripcion as revision, l.*");
+   $this->db->from('tbllaminadevolucion l');
+    $this->db->join('parte p', 'p.idparte = l.idparte');
+     $this->db->join('tblmodelo m', 'p.idparte = m.idparte');
+   $this->db->join('tblrevision r', 'm.idmodelo = r.idmodelo');
+
+
+   if (!empty($finicio) && !empty($ffin)) {
+     $this->db->where('l.fecharegistro BETWEEN "'. $finicio. '" and "'. $ffin.'"');
+   }
+    if (!empty($idparte)) {
+        $this->db->where('p.idparte',$idparte);
+    }
+      $this->db->where('l.activo',1);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+        return $query->result();
+    } else {
+        return false;
+    }
+}
+public function busqueda_almacen_entrada_litho($finicio = '',$ffin = '',$idparte, $tipo = '')
+{
+   $this->db->select("p.numeroparte, m.descripcion as modelo, r.descripcion as revision, l.*");
+   $this->db->from('tbllitho l');
+   $this->db->join('tblrevision r', 'l.idrevision = r.idrevision');
+   $this->db->join('tblmodelo m', 'r.idmodelo = m.idmodelo');
+   $this->db->join('parte p', 'p.idparte = m.idparte');
+
+
+   if (!empty($finicio) && !empty($ffin)) {
+     $this->db->where('l.fecharegistro BETWEEN "'. $finicio. '" and "'. $ffin.'"');
+   }
+    if (!empty($idparte)) {
+        $this->db->where('p.idparte',$idparte);
+    }
+    if (!empty($tipo)) {
+        $this->db->where('l.idcategoria',$tipo);
+    }
+  $this->db->where('l.activo',1);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+        return $query->result();
+    } else {
+        return false;
+    }
+}
+public function busqueda_almacen_salida_litho($finicio = '',$ffin = '',$idparte, $tipo = '')
+{
+   $this->db->select("p.numeroparte, m.descripcion as modelo, r.descripcion as revision, l.*");
+   $this->db->from('tbllithosalida l');
+   $this->db->join('tblrevision r', 'l.idrevision = r.idrevision');
+   $this->db->join('tblmodelo m', 'r.idmodelo = m.idmodelo');
+   $this->db->join('parte p', 'p.idparte = m.idparte');
+   if (!empty($finicio) && !empty($ffin)) {
+     $this->db->where('l.fecharegistro BETWEEN "'. $finicio. '" and "'. $ffin.'"');
+   }
+    if (!empty($idparte)) {
+        $this->db->where('p.idparte',$idparte);
+    }
+    if (!empty($tipo)) {
+        $this->db->where('l.idcategoria',$tipo);
+    }
+      $this->db->where('l.activo',1);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+        return $query->result();
+    } else {
+        return false;
+    }
+}
+public function busqueda_almacen_devolucion_litho($finicio = '',$ffin = '',$idparte,$tipo = '')
+{
+   $this->db->select("p.numeroparte, m.descripcion as modelo, r.descripcion as revision, l.*");
+   $this->db->from('tbllithodevolucion l');
+   $this->db->join('tblrevision r', 'l.idrevision = r.idrevision');
+   $this->db->join('tblmodelo m', 'r.idmodelo = m.idmodelo');
+   $this->db->join('parte p', 'p.idparte = m.idparte');
+   if (!empty($finicio) && !empty($ffin)) {
+     $this->db->where('l.fecharegistro BETWEEN "'. $finicio. '" and "'. $ffin.'"');
+   }
+    if (!empty($idparte)) {
+        $this->db->where('p.idparte',$idparte);
+    }
+    if (!empty($tipo)) {
+        $this->db->where('l.idcategoria',$tipo);
+    }
+      $this->db->where('l.activo',1);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+        return $query->result();
+    } else {
+        return false;
+    }
+}
 
 public function busqueda_proceso($finicio = '',$ffin = '',$lamina = '',$proceso = '',$maquina = '')
 {

@@ -27,7 +27,7 @@ class Transferencia extends CI_Controller {
         $query = $this->transferencia->showAll();
         $data = array(
             'datatransferencia' => $query
-        ); 
+        );
         $this->load->view('header');
         $this->load->view('transferencia/index', $data);
         $this->load->view('footer');
@@ -47,7 +47,7 @@ class Transferencia extends CI_Controller {
         //Permission::grant(uri_string());
         $datalinea = $this->linea->showAllLinea();
         $datatransferencia = $this->transferencia->listaNumeroParteTransferencia($id);
-       
+
         $data = array(
             'id' => $id,
             'folio' => $folio,
@@ -184,7 +184,7 @@ class Transferencia extends CI_Controller {
                 $result = $this->transferencia->validadCantidadVersion($revision,$cajas);
                 if($result != false ){
                     $idcantidad = $result->idcantidad;
-                    for ($i = 1; $i <= $cantidad; $i++) { 
+                    for ($i = 1; $i <= $cantidad; $i++) {
                         $data = array(
                             'idtransferancia' => $idtransferencia,
                             'pallet' => 1,
@@ -205,7 +205,7 @@ class Transferencia extends CI_Controller {
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
                 $idcantidad = $this->cantidad->addCantidad($dataadd);
-                for ($i = 1; $i <= $cantidad; $i++) { 
+                for ($i = 1; $i <= $cantidad; $i++) {
                         $data = array(
                             'idtransferancia' => $idtransferencia,
                             'pallet' => 1,
@@ -260,6 +260,7 @@ class Transferencia extends CI_Controller {
             echo "1";
         }
     }
+
 
     public function generarPDFEnvio($id) {
         Permission::grant(uri_string());
@@ -379,8 +380,8 @@ class Transferencia extends CI_Controller {
     <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;</td>
   </tr>';
         }
-        $tbl .= ' 
-    
+        $tbl .= '
+
     <tr style=" background-color:#EAEAEA">
     <td style=" border-left:solid 1px
     #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
@@ -476,12 +477,21 @@ class Transferencia extends CI_Controller {
         $this->transferencia->addTransferencia($data);
         redirect('transferencia/');
     }
-   
+
 
     public function eliminar($id) {
-Permission::grant(uri_string());
+     Permission::grant(uri_string());
         $vali = $this->transferencia->listaPalletCajas($id);
         if ($vali == false) {
+            $this->transferencia->deleteTransferencia($id);
+        }
+        redirect('transferencia/');
+    }
+    public function eliminar_devolucion($id) {
+     Permission::grant(uri_string());
+        $vali = $this->transferencia->listaPalletCajas($id);
+        if ($vali == false) {
+            $this->transferencia->deleteDevolucion($id);
             $this->transferencia->deleteTransferencia($id);
         }
         redirect('transferencia/');
@@ -493,7 +503,7 @@ Permission::grant(uri_string());
         $this->load->library('zend');
         //load in folder Zend
         $this->zend->load('Zend/Barcode');
-        //generate barcode 
+        //generate barcode
         $file = Zend_Barcode::draw('code128', 'image', array('text' => $code, 'factor' => 1.5, 'stretchText' => true), array());
         $code = time();
         $barcodeRealPath = $_SERVER['DOCUMENT_ROOT'] . '/sisproduction/assets/cache/' . $code . '.png';
@@ -508,7 +518,7 @@ Permission::grant(uri_string());
         $this->load->library('zend');
         //load in folder Zend
         $this->zend->load('Zend/Barcode');
-        //generate barcode 
+        //generate barcode
         $file = Zend_Barcode::draw('code128', 'image', array('text' => $code, 'factor' => 1.5, 'stretchText' => true), array());
         $code = time();
         $barcodeRealPath = $_SERVER['DOCUMENT_ROOT'] . '/sisproduction/assets/barcodecliente/' . $code . '.png';
@@ -523,7 +533,7 @@ Permission::grant(uri_string());
         $this->load->library('zend');
         //load in folder Zend
         $this->zend->load('Zend/Barcode');
-        //generate barcode 
+        //generate barcode
         $file = Zend_Barcode::draw('code128', 'image', array('text' => $code, 'factor' => 1.5, 'stretchText' => true), array());
         $code = time();
         $barcodeRealPath = $_SERVER['DOCUMENT_ROOT'] . '/sisproduction/assets/barcodecantidad/' . $code . '.png';
@@ -546,7 +556,7 @@ Permission::grant(uri_string());
             # code...
             $produccion = "R";
         }
-        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
+        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
         $barcode = $this->set_barcode($detalle->numeroparte);
         $barcodecliente = $this->set_barcode_cliente($detalle->clave);
         $barcodecantidad= $this->set_barcode_cantidad($detalle->cantidad);
@@ -570,27 +580,27 @@ Permission::grant(uri_string());
             }
             .nombrecliente{
             font-weight:bold;
-            font-size:50px; 
+            font-size:50px;
             }
              .cantidad{
             font-weight:bold;
-            font-size:55px; 
+            font-size:55px;
             }
             .numeroparte{
             font-weight:bold;
-            font-size:70px; 
+            font-size:70px;
             }
             .mes{
              font-weight:bold;
-            font-size:40px; 
+            font-size:40px;
             }
             .produccion{
              font-weight:bold;
-            font-size:45px; 
+            font-size:45px;
             }
             .semana{
              font-weight:bold;
-            font-size:45px; 
+            font-size:45px;
             }
             .modelo{
              font-weight:bold;
@@ -598,17 +608,17 @@ Permission::grant(uri_string());
             }
             .revision{
              font-weight:bold;
-            font-size:40px; 
+            font-size:40px;
             }
             .linea{
              font-weight:bold;
-            font-size:40px; 
+            font-size:40px;
             }
             .cantidadpallet{
             font-weight:bold;
-            font-size:40px; 
+            font-size:40px;
             }
-            td 
+            td
                 {
                     border:0px  solid black;
                 }
@@ -645,20 +655,20 @@ Permission::grant(uri_string());
     <td width="65" class="produccion">&nbsp;'.$produccion.'</td>
     <td width="71" align="left" class="cantidadpallet">&nbsp;1</td>
     <td colspan="3" height="190"   rowspan="2" align="center">&nbsp;<img src="' . $barcode . '" style="height:165px; margin-top:-25px;" /></td>
-  </tr> 
+  </tr>
    <tr>
     <td  height="0">&nbsp;</td>
     <td  height="0">&nbsp;</td>
     <td  height="0">&nbsp;</td>
     <td  height="0">&nbsp;</td>
   </tr>
-  
- 
-  <tr> 
+
+
+  <tr>
     <td colspan="5" rowspan="2 >&nbsp;</td>
     <td  width="256" height="0" align="center"   style="  font-weight:bold;
-            font-size:38px; padding-top:9px; padding-bottom:-30px;"  rowspan="2">' . $detalle->modelo . '</td>
-  
+            font-size:42px; padding-top:9px; padding-bottom:-30px;"  rowspan="2">' . $detalle->modelo . '</td>
+
     <td height="0" align="right"   style="  font-weight:bold;
             font-size:30px; padding-top:0px; "  >&nbsp;' . $detalle->revision . '</td>
   </tr>
@@ -674,7 +684,7 @@ Permission::grant(uri_string());
     {
         # code...
          date_default_timezone_set("America/Tijuana");
-        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
+        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
         $barcode = $this->set_barcode($detalle->numeroparte);
         $barcodecliente = $this->set_barcode_cliente($detalle->clave);
         $barcodecantidad= $this->set_barcode_cantidad($detalle->cantidad);
@@ -698,41 +708,41 @@ Permission::grant(uri_string());
             }
             .nombrecliente{
             font-weight:bold;
-            font-size:50px; 
+            font-size:50px;
             }
              .cantidad{
             font-weight:bold;
-            font-size:55px; 
+            font-size:55px;
             }
             .numeroparte{
             font-weight:bold;
-            font-size:65px; 
+            font-size:65px;
             }
             .mes{
              font-weight:bold;
-            font-size:40px; 
+            font-size:40px;
             }
             .semana{
              font-weight:bold;
-            font-size:45px; 
+            font-size:45px;
             }
             .modelo{
              font-weight:bold;
-            font-size:45px; 
+            font-size:45px;
             }
             .revision{
              font-weight:bold;
-            font-size:40px; 
+            font-size:40px;
             }
             .linea{
              font-weight:bold;
-            font-size:40px; 
+            font-size:40px;
             }
             .cantidadpallet{
             font-weight:bold;
-            font-size:40px; 
+            font-size:40px;
             }
-            td 
+            td
                 {
                     border:0px  solid black;
                 }
@@ -769,20 +779,20 @@ Permission::grant(uri_string());
     <td width="65">&nbsp;</td>
     <td width="71" align="left" class="cantidadpallet">&nbsp;1</td>
     <td colspan="3"    rowspan="2" align="center">&nbsp;<img src="' . $barcode . '" style="height:118px;" /></td>
-  </tr> 
+  </tr>
    <tr>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
   </tr>
-  
+
   <tr>
     <td colspan="4">&nbsp;</td>
     <td colspan="2" width="500" height="45" >Model Name</td>
     <td width="100" height="45" >Rev. no</td>
   </tr>
-  <tr> 
+  <tr>
     <td colspan="5" rowspan="2">&nbsp;</td>
     <td  width="256" height="90" align="center" class="modelo" rowspan="2">' . $detalle->modelo . '</td>
   </tr>
@@ -802,7 +812,7 @@ Permission::grant(uri_string());
         // Permission::grant(uri_string());
         //Permission::grant(uri_string());
         date_default_timezone_set("America/Tijuana");
-        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
+        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
         $barcode = $this->set_barcode($detalle->numeroparte);
         $barcodecliente = $this->set_barcode_cliente($detalle->clave);
         $barcodecantidad= $this->set_barcode_cantidad($detalle->cantidad);
@@ -820,32 +830,32 @@ Permission::grant(uri_string());
         $mipdf->writeHTML('<page  format="400x165"  >
  <style type="text/css">
             table {border-collapse:collapse}
-            td 
+            td
                 {
                     border:0px  solid black;
                 }
     </style>
 
     <br>
-    <table border="1" align="center">  
+    <table border="1" align="center">
         <tr>
             <td  align="center" height="45" width="200"  style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" >Customer</td>
             <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" ></td>
-            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>    
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>
             <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan=""></td>
-            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>    
-            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>    
-                
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>
+
         </tr>
 
         <tr>
-            <td align="left"  height="90"  colspan="2"><img src="' . $barcodecliente . '" style="height:100px; width:150;" /><b style="font-size:40px; font-family:arial; font-weight:bold;  " >' . $detalle->nombre . '</b></td>    
-        
-            
+            <td align="left"  height="90"  colspan="2"><img src="' . $barcodecliente . '" style="height:100px; width:150;" /><b style="font-size:40px; font-family:arial; font-weight:bold;  " >' . $detalle->nombre . '</b></td>
+
+
             <td align="right" width="250"  style="font-size:40px; font-family:arial; font-weight:bold;  "><img src="' . $barcodecantidad . '" style="height:100px; width:130px;" />'.$detalle->cantidad.'</td>
-                
+
             <td align="center" style="font-size:50px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
-            
+
             <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >' . $semana . '</td>
 
         </tr>
@@ -854,14 +864,14 @@ Permission::grant(uri_string());
             <td  align="center" width=""  height=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
             <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
             <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; ' . $hora . ' </td>
 
         </tr>
 
         <tr>
             <td  align="center" width="" height="50"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; "  colspan="3" >Part Number</td>
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>        
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>
         </tr>
 
         <tr>
@@ -878,18 +888,18 @@ Permission::grant(uri_string());
 
         <tr>
             <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" rowspan="2">ROHS</td>
-            <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>    
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>    
+            <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
             <td align="center" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold; padding-top:15px; " colspan="">' . $detalle->revision . '</td>
-            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">1</td>    
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">1</td>
         </tr>
         <tr>
-            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->nombrelinea . '</td>    
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>    
+            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->nombrelinea . '</td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
-            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>    
+            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>
         </tr>
 
     </table>
@@ -904,7 +914,7 @@ Permission::grant(uri_string());
         Permission::grant(uri_string());
             date_default_timezone_set("America/Tijuana");
              $idpalletcajas = $this->input->post('idpalletcajas');
-        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
+        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
         $barcode = $this->set_barcode($detalle->numeroparte);
         $hora = date("h:i a");
         $fecha = date("j/n/Y");
@@ -920,32 +930,32 @@ Permission::grant(uri_string());
         $mipdf->writeHTML('<page  format="400x165"  >
  <style type="text/css">
             table {border-collapse:collapse}
-            td 
+            td
                 {
                     border:0px  solid black;
                 }
     </style>
 
     <br>
-    <table border="1" align="center">  
+    <table border="1" align="center">
         <tr>
             <td  align="center" height="45" width="200"  style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" >Customer</td>
             <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" ></td>
-            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>    
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>
             <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan=""></td>
-            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>    
-            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>    
-                
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>
+
         </tr>
 
         <tr>
-            <td align="center"  height="90"   valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
-        
-            
+            <td align="center"  height="90"   valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>
+
+
             <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $detalle->cantidad . '</b></td>
-                
+
             <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
-            
+
             <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >' . $semana . '</td>
 
         </tr>
@@ -954,14 +964,14 @@ Permission::grant(uri_string());
             <td  align="center" width=""  height=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
             <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
             <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; ' . $hora . ' </td>
 
         </tr>
 
         <tr>
             <td  align="center" width="" height="50"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; "  colspan="3" >Part Number</td>
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>        
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>
         </tr>
 
         <tr>
@@ -978,18 +988,18 @@ Permission::grant(uri_string());
 
         <tr>
             <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" rowspan="2">ROHS</td>
-            <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>    
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>    
+            <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
             <td align="center" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold; padding-top:15px; " colspan="">' . $detalle->revision . '</td>
-            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">1</td>    
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">1</td>
         </tr>
         <tr>
-            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->nombrelinea . '</td>    
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>    
+            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->nombrelinea . '</td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
-            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>    
+            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>
         </tr>
 
     </table>
@@ -997,10 +1007,10 @@ Permission::grant(uri_string());
 ');
    $nombredelpdf = 'Packing' . date('Ymdgisv') . '.pdf';
         $ruta = APPPATH . 'pdfs\\' .$nombredelpdf;
-        $mipdf->Output($ruta, 'F'); 
+        $mipdf->Output($ruta, 'F');
        //echo "C:\\\\wamp64\\\\www\\\\sisproduction\\\\application\\\\pdfs\\\\Packing2019081093609000.pdf";
-        echo $nombredelpdf;  
-        
+        echo $nombredelpdf;
+
 
         /*$nombrepdf = APPPATH . 'pdfs\\' . 'Packing' . date('Ymdgisv') . '.pdf';
         $mipdf->Output($nombrepdf, 'F');
@@ -1022,7 +1032,7 @@ Permission::grant(uri_string());
             # code...
             $produccion = "R";
         }
-        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas); 
+        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
         //var_dump($detalle);
         $nombre_cliente = $detalle->nombre;
         $clave_cliente = $detalle->clave;
@@ -1063,11 +1073,11 @@ Permission::grant(uri_string());
 <title>Documento sin título</title>
 <style type="text/css">
     .titulo{
-        font-weight:bold; 
+        font-weight:bold;
         background-color:#000;
         color:#fff;
     }
-    .rosh{ 
+    .rosh{
         font-size:18px;
     }
     .woori{
@@ -1127,19 +1137,19 @@ Permission::grant(uri_string());
     <td height="50" align="center" style="border-bottom:1px solid #000; border-left:1px solid #000; font-size:17px; font-weight:bolder;" width="231" >'.$modelo.'</td>
     <td  width="89" align="center" style="border-right:1px solid #000; border-bottom:1px solid #000; border-left:1px solid #000; font-size:17px; font-weight:bolder;">'.$revision.'</td>
   </tr>
-</table>  
+</table>
 
 
 <table>
-    <tr><td></td></tr> 
-    <tr><td></td></tr> 
-    <tr><td></td></tr> 
-    <tr><td></td></tr> 
-    <tr><td></td></tr> 
-    <tr><td></td></tr> 
-    <tr><td></td></tr> 
-    <tr><td></td></tr> 
-    <tr><td></td></tr> 
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
+    <tr><td></td></tr>
 </table>
 
 

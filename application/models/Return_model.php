@@ -31,7 +31,7 @@ class Return_model extends CI_Model {
         } else {
             return false;
         }
-        
+
     }
       public function deletePalletCaja($id)
     {
@@ -42,7 +42,7 @@ class Return_model extends CI_Model {
         } else {
             return false;
         }
-        
+
     }
      public function deleteDetalleTransferencia($id)
     {
@@ -53,9 +53,30 @@ class Return_model extends CI_Model {
         } else {
             return false;
         }
-        
+
+    }
+    public function deleteAjusteCaja($id)
+  {
+      $this->db->where('idtransferencia', $id);
+      $this->db->delete('tblajuste_caja');
+      if ($this->db->affected_rows() > 0) {
+          return true;
+      } else {
+          return false;
+      }
+
+  }
+  public function deleteTransferencia($id)
+{
+    $this->db->where('idtransferancia', $id);
+    $this->db->delete('tbltransferencia');
+    if ($this->db->affected_rows() > 0) {
+        return true;
+    } else {
+        return false;
     }
 
+}
         public function listaNumeroParteTransferencia($idtransferencia) {
         $this->db->select('pc.idpalletcajas, c.nombre,p.numeroparte,tc.cantidad, tr.descripcion, s.nombrestatus, pc.idestatus');
         $this->db->from('palletcajas pc');
@@ -75,6 +96,18 @@ class Return_model extends CI_Model {
             return false;
         }
     }
+
+    public function allParteTransferencia($idtransferencia) {
+    $this->db->select('pc.*');
+    $this->db->from('palletcajas pc');
+    $this->db->where('pc.idtransferancia', $idtransferencia);
+    $query = $this->db->get();
+    if ($query->num_rows() > 0) {
+        return $query->result();
+    } else {
+        return false;
+    }
+}
 
 
 

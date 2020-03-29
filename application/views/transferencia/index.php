@@ -64,10 +64,13 @@
                                                             </td>
                                                             <td align="center">
 
-                                                                 <a class="btn btn-icons btn-danger btn-sm" onclick="return confirm('Esta seguro de Eliminar la Transferencia?')" href="<?php echo site_url('transferencia/eliminar/'.$value->idtransferancia) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
 
 
-
+                                                                 <?php if($value->devolucion == 1){?>
+                                                                      <a class="btn btn-icons btn-danger btn-sm" onclick="return confirm('Esta seguro de Eliminar la Transferencia?')" href="<?php echo site_url('transferencia/eliminar_devolucion/'.$value->idtransferancia) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
+                                                                 <?php }else{ ?>
+                                                                       <a class="btn btn-icons btn-danger btn-sm" onclick="return confirm('Esta seguro de Eliminar la Transferencia?')" href="<?php echo site_url('transferencia/eliminar/'.$value->idtransferancia) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
+  <?php } ?>
                                                             <?php if($value->devolucion == 1){?>
                                                                   <a class="btn btn-icons btn-info btn-sm"  href="<?php echo site_url('devolucion/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
                                                             <?php }else{ ?>

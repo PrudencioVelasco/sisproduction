@@ -14,10 +14,10 @@ class Documento_model extends CI_Model {
     }
 
     public function showAllDocumentos() {
-        $this->db->select('d.identificador,u.name,DATE_FORMAT(d.fecharegistro, "%d/%m/%Y") as fecha, SUM(CASE 
+        $this->db->select('d.identificador,u.name,DATE_FORMAT(d.fecharegistro, "%d/%m/%Y") as fecha, SUM(CASE
              WHEN d.subido = 1 THEN 1
              ELSE 0
-           END) AS subido, SUM(CASE 
+           END) AS subido, SUM(CASE
              WHEN d.subido = 0 THEN 1
              ELSE 0
            END) AS nosubido');
@@ -34,7 +34,7 @@ class Documento_model extends CI_Model {
 
     public function showAllDocumentosId($id) {
         $this->db->select("d.*,
-    (SELECT 
+    (SELECT
             CASE
                     WHEN COUNT(*) > 0 THEN 'Okey'
                     ELSE 'No existe el cliente.'
@@ -43,7 +43,7 @@ class Documento_model extends CI_Model {
             cliente c
         WHERE
             c.idcliente = d.cliente) AS existenciacliente,
-    (SELECT 
+    (SELECT
             CASE
                     WHEN COUNT(*) > 0 THEN 'Okey'
                     ELSE 'No existe la Locación'
@@ -52,7 +52,7 @@ class Documento_model extends CI_Model {
             posicionbodega pb
         WHERE
             pb.nombreposicion = d.locacion) AS existencialocacion,
-    (SELECT 
+    (SELECT
             CASE
                     WHEN COUNT(*) > 0 THEN 'Okey'
                     ELSE 'No existe la Categoria.'
@@ -61,7 +61,7 @@ class Documento_model extends CI_Model {
             tblcategoria ca
         WHERE
             ca.idcategoria = d.categoria) AS existencategoria,
-    (SELECT 
+    (SELECT
             CASE
                     WHEN
                         COUNT(p.idparte) > 0
@@ -76,7 +76,7 @@ class Documento_model extends CI_Model {
         WHERE
             p.idcategoria = cat.idcategoria
                 AND p.numeroparte = d.numeroparte) AS existennumeroparte,
-    (SELECT 
+    (SELECT
             CASE
                     WHEN
                         COUNT(p.idparte) > 0
@@ -91,7 +91,7 @@ class Documento_model extends CI_Model {
         WHERE
             p.idcliente = cli.idcliente
                 AND p.numeroparte = d.numeroparte) AS existennumeropartecliente,
-    (SELECT 
+    (SELECT
             CASE
                     WHEN COUNT(modelo2.descripcion) > 0 THEN 'Okey'
                     ELSE 'No existe en modelo'
@@ -103,7 +103,7 @@ class Documento_model extends CI_Model {
             p2.idparte = modelo2.idparte
                 AND TRIM(p2.numeroparte) = TRIM(d.numeroparte)
                 AND TRIM(modelo2.descripcion) = TRIM(d.modelo)) numeropartemodelo,
-    (SELECT 
+    (SELECT
             CASE
                     WHEN COUNT(r2.descripcion) > 0 THEN 'Okey'
                     ELSE 'No existe la revision'
@@ -195,7 +195,7 @@ class Documento_model extends CI_Model {
     public function seleccion_locacion($locacion) {
         $this->db->select('pb.*');
         $this->db->from('posicionbodega pb');
-        $this->db->where('pb.nombreposicion', $locacion); 
+        $this->db->where('pb.nombreposicion', $locacion);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->first_row();
@@ -231,6 +231,14 @@ class Documento_model extends CI_Model {
             return false;
         }
     }
+    public function addEntrada($data) {
+        return $this->db->insert('tbllitho', $data);
+        if ($this->db->affected_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public function deleteregistro($id) {
         $this->db->where('iddocumento', $id);
@@ -253,31 +261,31 @@ class Documento_model extends CI_Model {
       public function addCantidad($data)
     {
         $this->db->insert('tblcantidad', $data);
-        $insert_id = $this->db->insert_id(); 
+        $insert_id = $this->db->insert_id();
         return  $insert_id;
     }
      public function addRevision($data)
     {
         $this->db->insert('tblrevision', $data);
-        $insert_id = $this->db->insert_id(); 
+        $insert_id = $this->db->insert_id();
         return  $insert_id;
     }
      public function addModelo($data)
     {
         $this->db->insert('tblmodelo', $data);
-        $insert_id = $this->db->insert_id(); 
+        $insert_id = $this->db->insert_id();
         return  $insert_id;
     }
      public function addParte($data)
     {
         $this->db->insert('parte', $data);
-        $insert_id = $this->db->insert_id(); 
+        $insert_id = $this->db->insert_id();
         return  $insert_id;
     }
     public function addPartePosicionBodega($data)
     {
         $this->db->insert('parteposicionbodega', $data);
-        $insert_id = $this->db->insert_id(); 
+        $insert_id = $this->db->insert_id();
         return  $insert_id;
     }
 

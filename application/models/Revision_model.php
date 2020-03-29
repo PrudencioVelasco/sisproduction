@@ -1,26 +1,26 @@
  <?php
 class Revision_model extends CI_Model
 {
-    
+
     public function __construct()
     {
         parent::__construct();
         $this->load->database();
     }
-    
-    
-    
+
+
+
     public function __destruct()
     {
         $this->db->close();
     }
-    
-    
+
+
     public function showAll($idmodelo)
     {
-        $this->db->select('r.idrevision,r.idmodelo, r.descripcion');    
+        $this->db->select('r.idrevision,r.idmodelo, r.descripcion, r.activo');    
         $this->db->from('tblmodelo m');
-        $this->db->join('tblrevision r', 'r.idmodelo=m.idmodelo'); 
+        $this->db->join('tblrevision r', 'r.idmodelo=m.idmodelo');
          $this->db->where('r.idmodelo',$idmodelo);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -31,9 +31,9 @@ class Revision_model extends CI_Model
     }
 
     public function validadExistenciaRevision($idmodelo,$revision) {
-        $this->db->select('r.idrevision, m.descripcion, r.descripcion as descrevision');    
+        $this->db->select('r.idrevision, m.descripcion, r.descripcion as descrevision');
         $this->db->from('tblmodelo m');
-        $this->db->join('tblrevision r', 'r.idmodelo=m.idmodelo'); 
+        $this->db->join('tblrevision r', 'r.idmodelo=m.idmodelo');
         $this->db->where('r.idmodelo',$idmodelo);
          $this->db->where('TRIM(r.descripcion)', $revision);
         $query = $this->db->get();
@@ -44,9 +44,9 @@ class Revision_model extends CI_Model
         }
     }
        public function validadExistenciaRevisionUpdate($idrevision,$revision,$idmodelo) {
-        $this->db->select('r.idrevision, m.descripcion, r.descripcion as descrevision');    
+        $this->db->select('r.idrevision, m.descripcion, r.descripcion as descrevision');
         $this->db->from('tblmodelo m');
-        $this->db->join('tblrevision r', 'r.idmodelo=m.idmodelo'); 
+        $this->db->join('tblrevision r', 'r.idmodelo=m.idmodelo');
         $this->db->where('TRIM(r.descripcion)', $revision);
         $this->db->where('r.idmodelo', $idmodelo);
         $this->db->where('r.idrevision !=', $idrevision);
@@ -61,11 +61,11 @@ class Revision_model extends CI_Model
     public function addRevision($data)
     {
         $this->db->insert('tblrevision', $data);
-        $insert_id = $this->db->insert_id(); 
+        $insert_id = $this->db->insert_id();
         return  $insert_id;
     }
-    
-    
+
+
     public function updateRevision($id, $field)
     {
         $this->db->where('idrevision', $id);
@@ -75,7 +75,7 @@ class Revision_model extends CI_Model
         } else {
             return false;
         }
-        
+
     }
     public    function detalleRevision($id) {
         $this->db->select('c.nombre, p.numeroparte, m.descripcion as modelo');
@@ -91,9 +91,9 @@ class Revision_model extends CI_Model
         $field = array(
                  'r.descripcion'
         );
-        $this->db->select('r.idrevision, r.descripcion');    
+        $this->db->select('r.idrevision, r.descripcion');
         $this->db->from('tblmodelo m');
-        $this->db->join('tblrevision r', 'r.idmodelo=m.idmodelo'); 
+        $this->db->join('tblrevision r', 'r.idmodelo=m.idmodelo');
         $this->db->where('r.idmodelo',$idmodelo);
         $this->db->like('concat(' . implode(',', $field) . ')', $match);
         $query = $this->db->get();
@@ -112,8 +112,8 @@ class Revision_model extends CI_Model
         } else {
             return false;
         }
-        
+
     }
 
 }
-?> 
+?>

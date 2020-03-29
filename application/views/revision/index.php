@@ -19,7 +19,7 @@
                     <div class="x_content">
                         <div id="app">
                             <div class="container">
-                               
+
                                         <div class="row">
                                             <div class="col-md-6 col-sm-12 col-xs-12">
                                                  <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i> Agregar Revisión</button>
@@ -32,22 +32,26 @@
                                                 <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchRevision" name="search">
                                             </div>
                                         </div>
-                                    
-                                
+
+
                                 <br>
-                                <div class="row"> 
+                                <div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <table   class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                             <thead>
                                                 <tr class="table-dark">
-                                                    <th  v-column-sortable:descripcion>Revisión </th> 
-                                                    <th></th> 
+                                                    <th  v-column-sortable:descripcion>Revisión </th>
+                                                    <th  v-column-sortable:activo>Estatus </th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="row in revisiones" >
-                                                    <td><strong>{{row.descripcion}}</strong></td> 
-                                                   
+                                                    <td><strong>{{row.descripcion}}</strong></td>
+                                                    <td>
+                                                        <span v-if="row.activo==1" class="label label-success">Activo</span>
+                                                        <span v-else class="label label-danger">Inactivo</span>
+                                                    </td>
                                                     <td align="right">
                                                         <button type="button" class="btn btn-icons  btn-success btn-sm" @click="editModal = true; selectRevision(row)" title="Modificar Datos">
                                                             <i class="fa  fa-edit"></i> Modificar
@@ -59,7 +63,7 @@
                                                         <a v-bind:href="'../../cantidad/ver/'+ row.idrevision" class="btn btn-icons  btn-info btn-sm " title="Agregar cantidad">
                                                               <i class="fa  fa-plus"></i> A. Cantidad
                                                         </a>
-                                                    </td> 
+                                                    </td>
                                                 </tr>
                                                  <tr v-if="emptyResult">
                                        <td colspan="2" rowspan="4" class="text-center h4">No encontrado</td>
@@ -86,7 +90,7 @@
 
                                 <?php include 'modal.php'; ?>
 
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 </div>

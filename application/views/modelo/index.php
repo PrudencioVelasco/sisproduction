@@ -20,9 +20,9 @@
                         <div id="appmodelo">
                             <div class="container">
                                 <div class="row">
-                                     
-                                            
-                                        
+
+
+
                                             <div class="col-md-6 col-sm-12 col-xs-12">
                                                   <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i> Agregar Módelo</button>
                                             </div>
@@ -33,29 +33,34 @@
                                             <div class="col-md-6 col-sm-12 col-xs-12">
                                                 <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchModelo" name="search">
                                             </div>
-                                        
-                                     
-                                </div> 
+
+
+                                </div>
                                 <br>
-                                <div class="row"> 
+                                <div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <table   class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                             <thead>
                                                 <tr class="table-dark">
                                                     <th  v-column-sortable:descripcion>Módelo </th>
                                                     <th  v-column-sortable:nombrehoja>Nom. Caja </th>
-                                                    
                                                     <th  v-column-sortable:colorlinea>Liner Color </th>
-                                                    <th  v-column-sortable:color>Color </th> 
-                                                    <th></th> 
+                                                    <th  v-column-sortable:color>Color </th>
+                                                    <th  v-column-sortable:activo>Estatus </th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="row in modelos" >
-                                                    <td><strong>{{row.descripcion}}</strong></td> 
-                                                    <td>{{row.nombrehoja}}</td>  
-                                                    <td>{{row.colorlinea}}</td> 
-                                                    <td>{{row.color}}</td> 
+                                                    <td><strong>{{row.descripcion}}</strong></td>
+                                                    <td>{{row.nombrehoja}}</td>
+                                                    <td>{{row.colorlinea}}</td>
+                                                    <td>{{row.color}}</td>
+                                                    <td>
+                                                      <span v-if="row.activo==1" class="label label-success">Activo</span>
+                                                      <span v-else class="label label-danger">Inactivo</span>
+
+                                                    </td>
                                                     <td align="right">
                                                         <button type="button" class="btn btn-icons  btn-success btn-sm" @click="editModal = true; selectModelo(row)" title="Modificar Datos">
                                                             <i class="fa  fa-edit"></i> Modificar
@@ -67,7 +72,7 @@
                                                         <a v-bind:href="'../../revision/ver/'+ row.idmodelo" class="btn btn-icons btn-info btn-sm " title="Agregar revisión">
                                                               <i class="fa  fa-plus"></i> A. Revisión
                                                         </a>
-                                                    </td> 
+                                                    </td>
                                                 </tr>
                                                   <tr v-if="emptyResult">
                                        <td colspan="6" rowspan="4" class="text-center h4">No encontrado</td>
@@ -94,7 +99,7 @@
 
                                 <?php include 'modal.php'; ?>
 
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 </div>

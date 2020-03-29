@@ -24,7 +24,29 @@ class Transferencia_model extends CI_Model {
                             COUNT(*)
                             FROM tblajuste_caja a WHERE tt. idtransferancia =  a.idtransferencia ) AS ajustecaja
                             FROM   tbltransferencia tt
-                            INNER JOIN users u ON u.id = tt.idusuario ORDER BY tt.fecharegistro desc");
+                            INNER JOIN users u ON u.id = tt.idusuario
+                            WHERE tt.idtransferancia NOT IN (SELECT ac.idtransferencia FROM tblajuste_caja ac)
+                            ORDER BY tt.fecharegistro desc");
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        } else {
+            return false;
+        }
+    }
+    public function showAllAjuste() {
+         $query = $this->db->query("SELECT tt.idtransferancia,u.usuario, tt.folio, u.name as nombre, tt.fecharegistro,
+                            (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia AND  pc2.idestatus   in (1,2,3,14,8) ) AS estatus,
+                            (SELECT GROUP_CONCAT(DISTINCT s2.nombrestatus) estatusd FROM palletcajas pc2 INNER JOIN status s2  ON pc2.idestatus = s2.idestatus WHERE pc2.idtransferancia = tt. 	idtransferancia AND  pc2.idestatus not  in (17) ) AS estatusall,
+                            (SELECT
+                            COUNT(*)
+                            FROM tbldevolucion d WHERE tt. idtransferancia =  d.idtransferencia ) AS devolucion,
+                            (SELECT
+                            COUNT(*)
+                            FROM tblajuste_caja a WHERE tt. idtransferancia =  a.idtransferencia ) AS ajustecaja
+                            FROM   tbltransferencia tt
+                            INNER JOIN users u ON u.id = tt.idusuario
+                            WHERE tt.idtransferancia IN (SELECT ac.idtransferencia FROM tblajuste_caja ac)
+                            ORDER BY tt.fecharegistro desc");
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -72,7 +94,7 @@ class Transferencia_model extends CI_Model {
     }
 
     public function validarExistenciaNumeroParte($numeroparte) {
-        $idcategoria = array(1, 3);
+        $idcategoria = array(1, 3, 8);
         $this->db->select('p.idparte, p.numeroparte');
         $this->db->from('parte p');
         $this->db->where('trim(p.numeroparte)', $numeroparte);
@@ -118,6 +140,7 @@ class Transferencia_model extends CI_Model {
         $this->db->select('m.idmodelo, m.descripcion');
         $this->db->from('tblmodelo m');
         $this->db->where('m.idparte', $idparte);
+        $this->db->where('m.activo', 1);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -130,6 +153,7 @@ class Transferencia_model extends CI_Model {
         $this->db->select('r.idrevision, r.descripcion');
         $this->db->from('tblrevision r');
         $this->db->where('r.idmodelo', $idmodelo);
+        $this->db->where('r.activo', 1);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -296,6 +320,17 @@ class Transferencia_model extends CI_Model {
         }
 
     }
+    public function deleteDevolucion($id)
+  {
+      $this->db->where('idtransferencia', $id);
+      $this->db->delete('tbldevolucion');
+      if ($this->db->affected_rows() > 0) {
+          return true;
+      } else {
+          return false;
+      }
+
+  }
         public function detalleDelDetallaParte($iddetalle)
     {
         // code...

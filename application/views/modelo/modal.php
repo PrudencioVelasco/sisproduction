@@ -238,8 +238,8 @@
                 <div class="col-md-6 col-sm-12 col-xs-12 ">
                     <div class="form-group">
                         <label>SHARED STANDARDS</label>
-                        <input type="text" v-model="chooseModelo.normascompartidas  " class="form-control"  :class="{'is-invalid': formValidate.normascompartidas  }" name="po">
-                               <div class="text-danger" v-html="formValidate.normascompartidas  "></div>
+                        <input type="text" v-model="chooseModelo.normascompartidas" class="form-control"  :class="{'is-invalid': formValidate.normascompartidas  }" name="po">
+                               <div class="text-danger" v-html="formValidate.normascompartidas"></div>
                     </div>
                 </div>
             </div>
@@ -247,8 +247,8 @@
                 <div class="col-md-6 col-sm-12 col-xs-12 ">
                     <div class="form-group">
                         <label>BLANK SIZE</label>
-                        <input type="text" v-model="chooseModelo.blanksize  " class="form-control"  :class="{'is-invalid': formValidate.blanksize  }" name="po">
-                               <div class="text-danger" v-html="formValidate.blanksize  "></div>
+                        <input type="text" v-model="chooseModelo.blanksize" class="form-control"  :class="{'is-invalid': formValidate.blanksize  }" name="po">
+                               <div class="text-danger" v-html="formValidate.blanksize"></div>
                     </div>
                 </div>
 
@@ -322,6 +322,22 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12 ">
+                    <div class="form-group">
+                       <label for=""><font color="red">*</font> Estatus</label><br>
+                       <div class="demo-radio-button">
+                                      <input name="group5" type="radio" id="radio_31" class="with-gap radio-col-green" v-model="chooseModelo.activo" value="1" :checked="chooseModelo.activo==1" />
+                                      <label for="radio_31">ACTIVO</label>
+                                      <input name="group5" type="radio" id="radio_32" class="with-gap radio-col-red"  v-model="chooseModelo.activo" value="0" :checked="chooseModelo.activo==0" />
+                                      <label for="radio_32">INACTIVO</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
 
         </div>
     </div>

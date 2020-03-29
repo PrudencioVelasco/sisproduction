@@ -31,7 +31,7 @@ class Salida_model extends CI_Model {
         $query = $this->db->query("SELECT pc.* FROM palletcajas pc, ordensalida os
 WHERE pc.idpalletcajas = os.idpalletcajas
  AND os.idsalida = $idordensalida
-     
+
                     AND pc.iddetalleparte = $iddetalleparte
                     AND pc.cajas = $cajas");
         if ($query->num_rows() > 0) {
@@ -42,9 +42,9 @@ WHERE pc.idpalletcajas = os.idpalletcajas
     }
 
     public function showSumaCajas($iddetalleparte, $idordensalida, $cajas) {
-        $query = $this->db->query("SELECT 
-                                    COALESCE(SUM(os.caja),0) AS sumacajas, 
-                                    COALESCE(SUM(pc.cajas),0) AS sumacajaspallet 
+        $query = $this->db->query("SELECT
+                                    COALESCE(SUM(os.caja),0) AS sumacajas,
+                                    COALESCE(SUM(pc.cajas),0) AS sumacajaspallet
                                     FROM palletcajas pc, ordensalida os
                     WHERE pc.idpalletcajas = os.idpalletcajas
                     AND os.idsalida = $idordensalida
@@ -54,7 +54,7 @@ WHERE pc.idpalletcajas = os.idpalletcajas
     }
 
     public function showPartesBodega2($idcliente) {
-        $query = $this->db->query(" SELECT  
+        $query = $this->db->query(" SELECT
           pc.idpalletcajas as iddetalleparte,
          pc.idtransferancia,
 
@@ -62,13 +62,13 @@ WHERE pc.idpalletcajas = os.idpalletcajas
     t.folio,
     pc.idcajas,
     tm.descripcion as modelo,
-    tr.descripcion as revision, 
+    tr.descripcion as revision,
        DATE_FORMAT(t.fecharegistro,'%d/%m/%Y') as fecha,
     c.nombre,
     COUNT(pc.pallet) AS totalpallet,
     SUM(tc.cantidad) AS totalcajas,
      tc.cantidad AS cajasporpallet,
-     
+
      (SELECT
     COALESCE(count(pc2.idcajas),0)
   FROM palletcajas pc2, ordensalida os
@@ -77,7 +77,7 @@ WHERE pc.idpalletcajas = os.idpalletcajas
   AND pc2.idestatus = 8
   AND pc2.idcajas = pc.idcajas
   AND os.tipo = 0)  AS totalpalletsalido,
-  
+
     (SELECT
     COALESCE(SUM(tc2.cantidad),0)
   FROM palletcajas pc2, ordensalida os, tblcantidad tc2
@@ -95,8 +95,8 @@ WHERE pc.idpalletcajas = os.idpalletcajas
   AND pc2.idestatus = 8
     AND pc2.idcajas = pc.idcajas
   AND os.tipo = 1  ) AS cajassalidasporparciales,
-  
-  
+
+
    ((SELECT
     COALESCE(SUM(tc2.cantidad),0)
   FROM palletcajas pc2, ordensalida os, tblcantidad tc2
@@ -112,8 +112,8 @@ WHERE pc.idpalletcajas = os.idpalletcajas
   AND pc2.idtransferancia = pc.idtransferancia
   AND pc2.idestatus = 8
   AND os.tipo = 1 ) ) as totalcajassalidas,
-  
-  
+
+
   (SUM(tc.cantidad) - ((SELECT
     COALESCE(SUM(tc2.cantidad),0)
   FROM palletcajas pc2, ordensalida os, tblcantidad tc2
@@ -130,9 +130,9 @@ WHERE pc.idpalletcajas = os.idpalletcajas
   AND pc2.idcajas = pc.idcajas
   AND pc2.idestatus = 8
   AND os.tipo = 1 ))) as totalcajasdisponibles,
-  
+
   (SELECT
-            GROUP_CONCAT(CONCAT_WS('.- ', pb2.nombreposicion) 
+            GROUP_CONCAT(CONCAT_WS('.- ', pb2.nombreposicion)
                     SEPARATOR ', ')
         FROM
             parteposicionbodega ppb2
@@ -150,7 +150,7 @@ WHERE pc.idpalletcajas = os.idpalletcajas
     AND tc2.idcantidad = pc2.idcajas
   AND pc2.idestatus = 8
     AND pc2.idcajas = pc.idcajas
-  AND os.tipo = 0 ) ) AS totalpalletparacomparar 
+  AND os.tipo = 0 ) ) AS totalpalletparacomparar
 FROM
     palletcajas pc
         INNER JOIN
@@ -164,9 +164,9 @@ FROM
         INNER JOIN
     cliente c ON c.idcliente = tp.idcliente
         INNER JOIN
-    parteposicionbodega ppb ON ppb.idpalletcajas = pc.idpalletcajas  
+    parteposicionbodega ppb ON ppb.idpalletcajas = pc.idpalletcajas
        INNER JOIN
-    tbltransferencia t ON t.idtransferancia = pc.idtransferancia  
+    tbltransferencia t ON t.idtransferancia = pc.idtransferancia
 WHERE
     pc.idestatus = 8 AND c.idcliente = $idcliente
     GROUP BY pc.idcajas,
@@ -180,7 +180,7 @@ WHERE
 
 
         public function showPartesBodega3() {
-        $query = $this->db->query(" SELECT  
+        $query = $this->db->query(" SELECT
           pc.idpalletcajas as iddetalleparte,
          pc.idtransferancia,
 
@@ -188,13 +188,13 @@ WHERE
     t.folio,
     pc.idcajas,
     tm.descripcion as modelo,
-    tr.descripcion as revision, 
+    tr.descripcion as revision,
        DATE_FORMAT(t.fecharegistro,'%d/%m/%Y') as fecha,
     c.nombre,
     COUNT(pc.pallet) AS totalpallet,
     SUM(tc.cantidad) AS totalcajas,
      tc.cantidad AS cajasporpallet,
-     
+
      (SELECT
     COALESCE(count(pc2.idcajas),0)
   FROM palletcajas pc2, ordensalida os
@@ -203,7 +203,7 @@ WHERE
   AND pc2.idestatus = 8
   AND pc2.idcajas = pc.idcajas
   AND os.tipo = 0)  AS totalpalletsalido,
-  
+
     (SELECT
     COALESCE(SUM(tc2.cantidad),0)
   FROM palletcajas pc2, ordensalida os, tblcantidad tc2
@@ -221,8 +221,8 @@ WHERE
   AND pc2.idestatus = 8
     AND pc2.idcajas = pc.idcajas
   AND os.tipo = 1  ) AS cajassalidasporparciales,
-  
-  
+
+
    ((SELECT
     COALESCE(SUM(tc2.cantidad),0)
   FROM palletcajas pc2, ordensalida os, tblcantidad tc2
@@ -238,8 +238,8 @@ WHERE
   AND pc2.idtransferancia = pc.idtransferancia
   AND pc2.idestatus = 8
   AND os.tipo = 1 ) ) as totalcajassalidas,
-  
-  
+
+
   (SUM(tc.cantidad) - ((SELECT
     COALESCE(SUM(tc2.cantidad),0)
   FROM palletcajas pc2, ordensalida os, tblcantidad tc2
@@ -256,8 +256,8 @@ WHERE
   AND pc2.idcajas = pc.idcajas
   AND pc2.idestatus = 8
   AND os.tipo = 1 ))) as totalcajasdisponibles,
-  
-  
+
+
   (COUNT(pc.pallet) - (SELECT
     COALESCE(count(tc2.cantidad),0)
   FROM palletcajas pc2, ordensalida os,  tblcantidad tc2
@@ -266,7 +266,17 @@ WHERE
     AND tc2.idcantidad = pc2.idcajas
   AND pc2.idestatus = 8
     AND pc2.idcajas = pc.idcajas
-  AND os.tipo = 0 ) ) AS totalpalletparacomparar 
+  AND os.tipo = 0 ) ) AS totalpalletparacomparar,
+  (SELECT
+            GROUP_CONCAT(CONCAT_WS('.- ', pb2.nombreposicion)
+                    SEPARATOR ', ')
+        FROM
+            parteposicionbodega ppb2
+                INNER JOIN
+            posicionbodega  pb2 ON ppb2.idposicion = pb2.idposicion
+        WHERE
+            ppb2.idpalletcajas = pc.idpalletcajas
+               ) AS ubicaciondisponibles
 FROM
     palletcajas pc
         INNER JOIN
@@ -280,11 +290,11 @@ FROM
         INNER JOIN
     cliente c ON c.idcliente = tp.idcliente
         INNER JOIN
-    parteposicionbodega ppb ON ppb.idpalletcajas = pc.idpalletcajas  
+    parteposicionbodega ppb ON ppb.idpalletcajas = pc.idpalletcajas
        INNER JOIN
-    tbltransferencia t ON t.idtransferancia = pc.idtransferancia  
+    tbltransferencia t ON t.idtransferancia = pc.idtransferancia
 WHERE
-    pc.idestatus = 8  
+    pc.idestatus = 8
     GROUP BY pc.idcajas,
          t.idtransferancia");
         if ($query->num_rows() > 0) {
@@ -343,14 +353,14 @@ FROM
         INNER JOIN
     parte tp ON tp.idparte = tm.idparte
         INNER JOIN
-    cliente c ON c.idcliente = tp.idcliente 
+    cliente c ON c.idcliente = tp.idcliente
        INNER JOIN
-    tbltransferencia t ON t.idtransferancia = pc.idtransferancia  
+    tbltransferencia t ON t.idtransferancia = pc.idtransferancia
   INNER JOIN
     parteposicionbodega ppb ON pc.idpalletcajas = ppb.idpalletcajas
       INNER JOIN
     posicionbodega pb ON ppb.idposicion = pb.idposicion
-    WHERE pc.idestatus = 8 
+    WHERE pc.idestatus = 8
     AND ppb.ordensalida = 0
     AND pc.idtransferancia = $idtransferencia
     AND pc.idcajas = $idcajas");
@@ -374,14 +384,14 @@ FROM
         INNER JOIN
     parte tp ON tp.idparte = tm.idparte
         INNER JOIN
-    cliente c ON c.idcliente = tp.idcliente 
+    cliente c ON c.idcliente = tp.idcliente
        INNER JOIN
-    tbltransferencia t ON t.idtransferancia = pc.idtransferancia  
+    tbltransferencia t ON t.idtransferancia = pc.idtransferancia
   INNER JOIN
     parteposicionbodega ppb ON pc.idpalletcajas = ppb.idpalletcajas
       INNER JOIN
     posicionbodega pb ON ppb.idposicion = pb.idposicion
-    WHERE pc.idestatus = 8 
+    WHERE pc.idestatus = 8
     AND pc.idtransferancia = $idtransferencia
     AND pc.idcajas = $idcajas");
         if ($query->num_rows() > 0) {
@@ -412,40 +422,39 @@ FROM
     }
 
     public function validarExistenciaParcialesNumeroParte($idtransferencia, $idcajas) {
-        $query = $this->db->query("
-                SELECT (SELECT COALESCE(Sum(os.caja), 0)
-                        FROM   ordensalida os
-                        WHERE  pc.idpalletcajas = os.idpalletcajas)AS cajassalidas,
-                       (SELECT COALESCE(Sum(tc2.cantidad), 0)
-                        FROM   palletcajas pc2,
-                               tblcantidad tc2
-                        WHERE  pc2.idtransferancia = pc.idtransferancia
-                               AND tc2.idcantidad = pc2.idcajas)   AS totalcajas
-                FROM   palletcajas pc
-                       INNER JOIN tblcantidad tc
-                               ON pc.idcajas = tc.idcantidad
-                       INNER JOIN tblrevision tr
-                               ON tr.idrevision = tc.idrevision
-                       INNER JOIN tblmodelo tm
-                               ON tm.idmodelo = tr.idmodelo
-                       INNER JOIN parte tp
-                               ON tp.idparte = tm.idparte
-                       INNER JOIN cliente c
-                               ON c.idcliente = tp.idcliente
-                       INNER JOIN tbltransferencia t
-                               ON t.idtransferancia = pc.idtransferancia
-                       INNER JOIN parteposicionbodega ppb
-                               ON pc.idpalletcajas = ppb.idpalletcajas
-                WHERE  pc.idtransferancia = $idtransferencia
-                       AND pc.idcajas = $idcajas
-                GROUP  BY pc.idcajas");
-        //$query = $this->db->get();
-        return $query->first_row();
-    }
-
-    public function validarExistenciaNumeroParte($idtransferencia, $idcajas) {
         $query = $this->db->query("SELECT
- COUNT(pc.pallet) AS totalstock, SUM(tc.cantidad) AS totalcajas 
+              (SELECT
+            SUM(c3.cantidad)
+        FROM
+            palletcajas pc3,
+            tblcantidad c3
+        WHERE  pc3.idcajas = c3.idcantidad
+                AND pc3.idtransferancia = pc.idtransferancia
+                AND pc3.idcajas = pc.idcajas) totalentrada,
+    (SELECT
+            SUM(c2.cantidad)
+        FROM
+            ordensalida os2,
+            palletcajas pc2,
+            tblcantidad c2
+        WHERE
+            os2.idpalletcajas = pc2.idpalletcajas
+                AND pc2.idcajas = c2.idcantidad
+                AND os2.tipo = 0
+                AND pc2.idtransferancia = pc.idtransferancia
+                AND pc2.idcajas = pc.idcajas) pallet,
+    (SELECT
+            SUM(os3.caja)
+        FROM
+            ordensalida os3,
+            palletcajas pc2,
+            tblcantidad c2
+        WHERE
+            os3.idpalletcajas = pc2.idpalletcajas
+                AND pc2.idcajas = c2.idcantidad
+                AND os3.tipo = 1
+                AND pc2.idtransferancia = pc.idtransferancia
+                AND pc2.idcajas = pc.idcajas) parciales
 FROM
     palletcajas pc
         INNER JOIN
@@ -457,14 +466,42 @@ FROM
         INNER JOIN
     parte tp ON tp.idparte = tm.idparte
         INNER JOIN
-    cliente c ON c.idcliente = tp.idcliente 
+    cliente c ON c.idcliente = tp.idcliente
+        INNER JOIN
+    tbltransferencia t ON t.idtransferancia = pc.idtransferancia
+        INNER JOIN
+    parteposicionbodega ppb ON pc.idpalletcajas = ppb.idpalletcajas
+        INNER JOIN
+    ordensalida os ON pc.idpalletcajas = os.idpalletcajas
+WHERE  pc.idtransferancia = $idtransferencia
+  AND pc.idcajas = $idcajas
+  group by pc.idtransferancia,pc.idcajas");
+        //$query = $this->db->get();
+        return $query->first_row();
+    }
+
+    public function validarExistenciaNumeroParte($idtransferencia, $idcajas) {
+        $query = $this->db->query("SELECT
+ COUNT(pc.pallet) AS totalstock, SUM(tc.cantidad) AS totalcajas
+FROM
+    palletcajas pc
+        INNER JOIN
+    tblcantidad tc ON pc.idcajas = tc.idcantidad
+        INNER JOIN
+    tblrevision tr ON tr.idrevision = tc.idrevision
+        INNER JOIN
+    tblmodelo tm ON tm.idmodelo = tr.idmodelo
+        INNER JOIN
+    parte tp ON tp.idparte = tm.idparte
+        INNER JOIN
+    cliente c ON c.idcliente = tp.idcliente
        INNER JOIN
-    tbltransferencia t ON t.idtransferancia = pc.idtransferancia  
+    tbltransferencia t ON t.idtransferancia = pc.idtransferancia
   INNER JOIN
     parteposicionbodega ppb ON pc.idpalletcajas = ppb.idpalletcajas
       INNER JOIN
     posicionbodega pb ON ppb.idposicion = pb.idposicion
-    WHERE pc.idestatus = 8 
+    WHERE pc.idestatus = 8
     AND pc.idtransferancia = $idtransferencia
     AND pc.idcajas = $idcajas
     AND ppb.ordensalida = 0
@@ -491,7 +528,7 @@ FROM
         $this->db->join('users u', 's.idusuario=u.id');
          $this->db->like('concat(' . implode(',', $field) . ')', $match);
         $this->db->order_by("s.fecharegistro", "desc");
-       
+
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -525,6 +562,21 @@ FROM
 
         return $query->first_row();
     }
+    public function detalleCaja($idcajas) {
+
+       $this->db->select('tc.cantidad');
+        $this->db->from('palletcajas pc');
+        $this->db->join('tblcantidad  tc', 'tc.idcantidad = pc.idcajas');
+        $this->db->join('tblrevision  tr', 'tr.idrevision = tc.idrevision');
+        $this->db->join('tblmodelo  tm', 'tm.idmodelo = tr.idmodelo');
+        $this->db->join('parte  p', 'tm.idparte = p.idparte');
+        $this->db->join('cliente  c', 'c.idcliente = p.idcliente');
+        $this->db->join('status  s', 's.idestatus = pc.idestatus');
+        $this->db->where('pc.idcajas', $idcajas);
+        $query = $this->db->get();
+
+        return $query->first_row();
+    }
 
 //Nuevas funciones para obtener la orden de salida
     public function obtenerOrdenNoParciales($idsalida) {
@@ -548,9 +600,9 @@ FROM
         INNER JOIN
     cliente c ON c.idcliente = tp.idcliente
         INNER JOIN
-    parteposicionbodega ppb ON ppb.idpalletcajas = pc.idpalletcajas  
+    parteposicionbodega ppb ON ppb.idpalletcajas = pc.idpalletcajas
        INNER JOIN
-    tbltransferencia t ON t.idtransferancia = pc.idtransferancia  
+    tbltransferencia t ON t.idtransferancia = pc.idtransferancia
     INNER JOIN ordensalida os ON  os.idpalletcajas = pc.idpalletcajas
     WHERE    os.tipo = 0
     AND os.idsalida = '$idsalida'
@@ -583,9 +635,9 @@ FROM
         INNER JOIN
     cliente c ON c.idcliente = tp.idcliente
         INNER JOIN
-    parteposicionbodega ppb ON ppb.idpalletcajas = pc.idpalletcajas  
+    parteposicionbodega ppb ON ppb.idpalletcajas = pc.idpalletcajas
        INNER JOIN
-    tbltransferencia t ON t.idtransferancia = pc.idtransferancia  
+    tbltransferencia t ON t.idtransferancia = pc.idtransferancia
     INNER JOIN ordensalida os ON  os.idpalletcajas = pc.idpalletcajas
     WHERE    os.tipo = 1
     AND os.idsalida = '$idsalida'
@@ -602,12 +654,12 @@ FROM
                $query = $this->db->query("SELECT tp.numeroparte,
                                     tm.descripcion as  modelo,
                                     os.tipo, sum(os.caja) AS sumacajas
-                                    FROM palletcajas pc 
+                                    FROM palletcajas pc
                                INNER JOIN tblcantidad tc  ON pc.idcajas = tc.idcantidad
                                INNER JOIN tblrevision tr  ON tr.idrevision = tc.idrevision
                                INNER JOIN tblmodelo tm  ON tm.idmodelo = tr.idmodelo
                                INNER JOIN parte tp  ON tp.idparte = tm.idparte
-                               INNER JOIN cliente c  ON c.idcliente = tp.idcliente  
+                               INNER JOIN cliente c  ON c.idcliente = tp.idcliente
                                    INNER JOIN ordensalida os ON os.idpalletcajas = pc.idpalletcajas
                                    WHERE os.tipo=1
                                    AND os.idsalida=$idsalida
@@ -618,18 +670,18 @@ FROM
             return $query->result();
         } else {
             return false;
-        } 
+        }
     }
     public function detallepallet($idsalida) {
           $query = $this->db->query("SELECT tp.numeroparte,
                                     tm.descripcion as  modelo,
                                     os.tipo, sum( tc.cantidad) AS sumacajas, count(pc.pallet)  as totalpallet
-                                    FROM palletcajas pc 
+                                    FROM palletcajas pc
                                INNER JOIN tblcantidad tc  ON pc.idcajas = tc.idcantidad
                                INNER JOIN tblrevision tr  ON tr.idrevision = tc.idrevision
                                INNER JOIN tblmodelo tm  ON tm.idmodelo = tr.idmodelo
                                INNER JOIN parte tp  ON tp.idparte = tm.idparte
-                               INNER JOIN cliente c  ON c.idcliente = tp.idcliente  
+                               INNER JOIN cliente c  ON c.idcliente = tp.idcliente
                                    INNER JOIN ordensalida os ON os.idpalletcajas = pc.idpalletcajas
                                    WHERE os.tipo=0
                                    AND os.idsalida=$idsalida
@@ -638,7 +690,7 @@ FROM
             return $query->result();
         } else {
             return false;
-        }   
+        }
     }
     public function detallesDeOrden($idsalida) {
         // code...
@@ -702,7 +754,7 @@ FROM
         $this->db->join('posicionbodega  pb', 'ppb.idposicion = pb.idposicion');
         $this->db->where('s.idsalida', $idsalida);
         $this->db->where('o.tipo', 1);
-         $this->db->group_by('pc.idcajas'); 
+         $this->db->group_by('pc.idcajas');
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();

@@ -74,6 +74,9 @@ class Modelo extends CI_Controller {
                     'combinacion' => strtoupper($this->input->post('combinacion')),
                     'medida' => strtoupper($this->input->post('medida')),
                     'dimension' => strtoupper($this->input->post('dimension')),
+                    'lithoname' => strtoupper($this->input->post('lithoname')),
+                    'comment' => strtoupper($this->input->post('comment')),
+                    'activo' => 1,
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );
@@ -137,6 +140,9 @@ class Modelo extends CI_Controller {
                     'combinacion' => $this->input->post('combinacion'),
                     'medida' => $this->input->post('medida'),
                     'dimension' => $this->input->post('dimension'),
+                    'lithoname' => strtoupper($this->input->post('lithoname')),
+                    'comment' => strtoupper($this->input->post('comment')),
+                    'activo' =>  strtoupper($this->input->post('activo')),
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
                 );

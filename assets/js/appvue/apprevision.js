@@ -52,6 +52,7 @@ var v = new Vue({
         newRevision: {
             idmodelo:my_var_2,
             descripcion: '',
+            activo:'',
             msgerror:''
         },
         chooseRevision: {},

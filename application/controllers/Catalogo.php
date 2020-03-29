@@ -62,7 +62,12 @@ class Catalogo extends CI_Controller {
         $this->load->view('header');
         $this->load->view('CatSistema/inventario/index', $data);
         $this->load->view('footer');
-    } 
+    }
+    public function partes() {
+        $this->load->view('header');
+        $this->load->view('CatSistema/inventario/partes');
+        $this->load->view('footer');
+    }
     public function detalle($id_detalle) {
         $data = array(
             'ididentificador' => $id_detalle,
@@ -193,7 +198,7 @@ class Catalogo extends CI_Controller {
             $this->load->view('header');
             $this->load->view('CatSistema/inventario/index', $data);
             $this->load->view('footer');
-            // Crea un nuevo objeto PHPExcel 
+            // Crea un nuevo objeto PHPExcel
             // load excel library
             /*
               $listInfo = $this->cliente->showAllClientes();
@@ -245,6 +250,281 @@ class Catalogo extends CI_Controller {
         }
     }
 
+    public function compararparte() {
+
+
+            $identificador = $this->input->post('identificador');
+            $mi_archivo = 'mi_archivo';
+            $config['upload_path'] = "archivos/";
+            $config['file_name'] = 'Invetario ' . date("Y-m-d his");
+            $config['allowed_types'] = "*";
+            $config['max_size'] = "50000";
+            $config['max_width'] = "2000";
+            $config['max_height'] = "2000";
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload($mi_archivo)) {
+                //*** ocurrio un error
+                $data['uploadError'] = $this->upload->display_errors();
+                echo $this->upload->display_errors();
+                return;
+            }
+
+            $data['uploadSuccess'] = $this->upload->data();
+            $ruta = $data['uploadSuccess']['full_path'];
+            $inputFileName = $ruta;
+            $objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
+            $allDataInSheet = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
+            $arrayCount = count($allDataInSheet);  // Here get total count of row in that Excel sheet
+            $datos = array();
+            for ($i = 2; $i <= $arrayCount; $i++) {
+                $numeroparte = trim($allDataInSheet[$i]["A"]);
+                $modelo = trim($allDataInSheet[$i]["B"]);
+                $revision = trim($allDataInSheet[$i]["C"]);
+                $cantidad = trim($allDataInSheet[$i]["D"]);
+                //VALIDAR EXISTE DE NUMERO DE PARTE
+                $validar_parte = $this->documento->validar_existencia_numeroparte($numeroparte);
+                if($validar_parte){
+                  //EXISTE REGISTRADO EL NUMERO DE PARTE
+                  $idnumeroparte = $validar_parte->idparte;
+                  //VALIDAR SI EXISTE EL MODELO
+                  $validar_modelo = $this->documento->validar_numeroparte_modelo($idnumeroparte,$modelo);
+                  if ($validar_modelo) {
+                    //EXISTE EL MODELO
+                    $idmodelo = $validar_modelo->idmodelo;
+                    //VALIDAR SI EXISTE LA REVISION
+                    $validar_revision = $this->documento->validar_modelo_revision($idmodelo,$revision);
+                    if ($validar_revision) {
+                      //LA REVISION YA ESTA DADO DE ALATA
+                      $idrevision = $validar_revision->idrevision;
+                      $data_entrada  = array(
+                        'idcategoria' =>6,
+                        'idrevision'=>$idrevision,
+                        'cantidad'=>$cantidad,
+                        'comentarios'=>"",
+                        'transferencia'=>"",
+                        'activo'=>1,
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                      );
+
+                        $this->documento->addEntrada($data_entrada);
+                    } else {
+                      //LA REVISION NO ESTA DADO DE ALTA
+                      $data_revision = array(
+                          'idmodelo' => $idmodelo,
+                          'descripcion' => $revision,
+                          'idusuario' => $this->session->user_id,
+                          'fecharegistro' => date('Y-m-d H:i:s')
+                      );
+                      $idrevision = $this->documento->addRevision($data_revision);
+                      $data_entrada  = array(
+                        'idcategoria' =>6,
+                        'idrevision'=>$idrevision,
+                        'cantidad'=>$cantidad,
+                        'comentarios'=>"",
+                        'transferencia'=>"",
+                        'activo'=>1,
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                      );
+
+                        $this->documento->addEntrada($data_entrada);
+                    }
+
+                  } else {
+                    //NO EXISTE EL MODELO Y SE AGREGARA
+                    $data_modelo = array(
+                        'idparte' => $idnumeroparte,
+                        'descripcion' => $modelo,
+                        'nombrehoja' => "",
+                        'customer' => "",
+                        'fulloneimpresion' => "",
+                        'colorlinea' => "",
+                        'diucutno' => "",
+                        'platonumero' => "",
+                        'color' => "",
+                        'blanksize' => "",
+                        'sheetsize' => "",
+                        'score' => "",
+                        'normascompartidas' => "",
+                        'salida' => "",
+                        'combinacion' =>"",
+                        'medida' => "",
+                        'combinacion' => "",
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                    );
+                    $idmodelo = $this->documento->addModelo($data_modelo);
+                    $validar_revision = $this->documento->validar_modelo_revision($idmodelo,$revision);
+                    if ($validar_revision) {
+                      //LA REVISION YA ESTA DADO DE ALATA
+                      $idrevision = $validar_revision->idrevision;
+                      $data_entrada  = array(
+                        'idcategoria' =>6,
+                        'idrevision'=>$idrevision,
+                        'cantidad'=>$cantidad,
+                        'comentarios'=>"",
+                        'transferencia'=>"",
+                        'activo'=>1,
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                      );
+
+                        $this->documento->addEntrada($data_entrada);
+                    } else {
+                      //LA REVISION NO ESTA DADO DE ALTA
+                      $data_revision = array(
+                          'idmodelo' => $idmodelo,
+                          'descripcion' => $revision,
+                          'idusuario' => $this->session->user_id,
+                          'fecharegistro' => date('Y-m-d H:i:s')
+                      );
+                      $idrevision = $this->documento->addRevision($data_revision);
+                      $data_entrada  = array(
+                        'idcategoria' =>6,
+                        'idrevision'=>$idrevision,
+                        'cantidad'=>$cantidad,
+                        'comentarios'=>"",
+                        'transferencia'=>"",
+                        'activo'=>1,
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                      );
+
+                        $this->documento->addEntrada($data_entrada);
+                    }
+                  }
+
+                }else{
+                  //NO EXISTE EL NUMERO DE PARTE Y SE AGREGARA
+                  $data_parte = array(
+                    'numeroparte'=>$numeroparte,
+                    'idcliente'=>1,
+                    'idcategoria'=>6,
+                    'idusuario' => $this->session->user_id,
+                    'activo'=>1,
+                    'fecharegistro' => date('Y-m-d H:i:s')
+                  );
+                  $idnumeroparte = $this->documento->addParte($data_parte);
+                  //VALIDAR SI EXISTE EL MODELO
+                  $validar_modelo = $this->documento->validar_numeroparte_modelo($idnumeroparte,$modelo);
+                  if ($validar_modelo) {
+                    //EXISTE EL MODELO
+                    $idmodelo = $validar_modelo->idmodelo;
+                    //VALIDAR SI EXISTE LA REVISION
+                    $validar_revision = $this->documento->validar_modelo_revision($idmodelo,$revision);
+                    if ($validar_revision) {
+                      //LA REVISION YA ESTA DADO DE ALATA
+                      $idrevision = $validar_revision->idrevision;
+                      $data_entrada  = array(
+                        'idcategoria' =>6,
+                        'idrevision'=>$idrevision,
+                        'cantidad'=>$cantidad,
+                        'comentarios'=>"",
+                        'transferencia'=>"",
+                        'activo'=>1,
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                      );
+
+                        $this->documento->addEntrada($data_entrada);
+                    } else {
+                      //LA REVISION NO ESTA DADO DE ALTA
+                      $data_revision = array(
+                          'idmodelo' => $idmodelo,
+                          'descripcion' => $revision,
+                          'idusuario' => $this->session->user_id,
+                          'fecharegistro' => date('Y-m-d H:i:s')
+                      );
+                      $idrevision = $this->documento->addRevision($data_revision);
+                      $data_entrada  = array(
+                        'idcategoria' =>6,
+                        'idrevision'=>$idrevision,
+                        'cantidad'=>$cantidad,
+                        'comentarios'=>"",
+                        'transferencia'=>"",
+                        'activo'=>1,
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                      );
+
+                        $this->documento->addEntrada($data_entrada);
+                    }
+
+                  } else {
+                    //NO EXISTE EL MODELO Y SE AGREGARA
+                    $data_modelo = array(
+                        'idparte' => $idnumeroparte,
+                        'descripcion' => $modelo,
+                        'nombrehoja' => "",
+                        'customer' => "",
+                        'fulloneimpresion' => "",
+                        'colorlinea' => "",
+                        'diucutno' => "",
+                        'platonumero' => "",
+                        'color' => "",
+                        'blanksize' => "",
+                        'sheetsize' => "",
+                        'score' => "",
+                        'normascompartidas' => "",
+                        'salida' => "",
+                        'combinacion' =>"",
+                        'medida' => "",
+                        'combinacion' => "",
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                    );
+                    $idmodelo = $this->documento->addModelo($data_modelo);
+                    $validar_revision = $this->documento->validar_modelo_revision($idmodelo,$revision);
+                    if ($validar_revision) {
+                      //LA REVISION YA ESTA DADO DE ALATA
+                      $idrevision = $validar_revision->idrevision;
+                      $data_entrada  = array(
+                        'idcategoria' =>6,
+                        'idrevision'=>$idrevision,
+                        'cantidad'=>$cantidad,
+                        'comentarios'=>"",
+                        'transferencia'=>"",
+                        'activo'=>1,
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                      );
+
+                        $this->documento->addEntrada($data_entrada);
+                    } else {
+                      //LA REVISION NO ESTA DADO DE ALTA
+                      $data_revision = array(
+                          'idmodelo' => $idmodelo,
+                          'descripcion' => $revision,
+                          'idusuario' => $this->session->user_id,
+                          'fecharegistro' => date('Y-m-d H:i:s')
+                      );
+                      $idrevision = $this->documento->addRevision($data_revision);
+                      $data_entrada  = array(
+                        'idcategoria' =>6,
+                        'idrevision'=>$idrevision,
+                        'cantidad'=>$cantidad,
+                        'comentarios'=>"",
+                        'transferencia'=>"",
+                        'activo'=>1,
+                        'idusuario' => $this->session->user_id,
+                        'fecharegistro' => date('Y-m-d H:i:s')
+                      );
+
+                        $this->documento->addEntrada($data_entrada);
+                    }
+                  }
+                }
+
+            }
+            $this->load->view('header');
+            $this->load->view('CatSistema/inventario/partes');
+            $this->load->view('footer');
+
+    }
+
     function identificador_exists($identificador) {
 
         $user_check = $this->documento->validarIdentificador($identificador);
@@ -259,7 +539,7 @@ class Catalogo extends CI_Controller {
 
     public function operacion() {
         $formdata = $this->input->post();
-        
+
         $ididentificador = $this->input->post('ididentificador');
         if (isset($formdata['subir'])) {
           $checkbox1 = $this->input->post('table_records');
@@ -485,7 +765,7 @@ class Catalogo extends CI_Controller {
         $this->load->view('header');
         $this->load->view('CatSistema/inventario/detalle', $data);
         $this->load->view('footer');
-        
+
     }
 
     public function modificar() {
@@ -518,7 +798,7 @@ class Catalogo extends CI_Controller {
     public function eliminar_all($identificador)
     {
         # code...
-        $this->documento->deleteregistrosall($identificador); 
+        $this->documento->deleteregistrosall($identificador);
         $data = array(
             'datos' => $this->documento->showAllDocumentos()
         );

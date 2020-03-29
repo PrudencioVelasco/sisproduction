@@ -40,6 +40,17 @@ class Reporte extends CI_Controller {
        $this->load->view('reporte/proceso/procesofinal',$data);
        $this->load->view('footer');
    }
+   public function reporte_almacen()
+   {
+       # code...
+      $data  = array(
+       'partes'=>$this->reporte->allNumeroPartes(),
+       'maquinas'=>$this->reporte->maquinas_activas()
+   );
+      $this->load->view('header');
+      $this->load->view('reporte/almacen/index',$data);
+      $this->load->view('footer');
+  }
    public function porprocesos()
    {
        # code...
@@ -52,6 +63,7 @@ class Reporte extends CI_Controller {
       $this->load->view('reporte/proceso/procesos',$data);
       $this->load->view('footer');
   }
+
    public function procesos()
    {
         # code...
@@ -64,6 +76,56 @@ class Reporte extends CI_Controller {
     $this->load->view('header');
     $this->load->view('reporte/procesos',$data);
     $this->load->view('footer');
+}
+public function buscar_reporte_almacen2()
+{
+
+  $idparte = $this->input->post('idparte');
+  $fechainicio = $this->input->post('fechainicio');
+  $nueva_fecha_inicio = $fechainicio.":00";
+  $fechafin = $this->input->post('fechafin');
+  $nueva_fecha_fin = $fechafin.":00";
+  $tipo = $this->input->post('tipo');
+  switch ($tipo) {
+    case 11:
+    $dataentrada =  $this->reporte->busqueda_almacen_entrada_litho($nueva_fecha_inicio,$nueva_fecha_fin,$idparte,$tipo);
+    $datasalida =  $this->reporte->busqueda_almacen_salida_litho($nueva_fecha_inicio,$nueva_fecha_fin,$idparte,$tipo);
+    $datadevolucion =  $this->reporte->busqueda_almacen_devolucion_litho($nueva_fecha_inicio,$nueva_fecha_fin,$idparte,$tipo);
+
+      break;
+      case 7:
+      $dataentrada =  $this->reporte->busqueda_almacen_entrada_lamina($nueva_fecha_inicio,$nueva_fecha_fin,$idparte);
+      $datasalida =  $this->reporte->busqueda_almacen_salida_lamina($nueva_fecha_inicio,$nueva_fecha_fin,$idparte);
+      $datadevolucion =  $this->reporte->busqueda_almacen_devolucion_lamina($nueva_fecha_inicio,$nueva_fecha_fin,$idparte);
+
+      break;
+      case 8:
+      $dataentrada =  $this->reporte->busqueda_almacen_entrada_litho($nueva_fecha_inicio,$nueva_fecha_fin,$idparte,$tipo);
+      $datasalida =  $this->reporte->busqueda_almacen_salida_litho($nueva_fecha_inicio,$nueva_fecha_fin,$idparte,$tipo);
+      $datadevolucion =  $this->reporte->busqueda_almacen_devolucion_litho($nueva_fecha_inicio,$nueva_fecha_fin,$idparte,$tipo);
+
+      break;
+      case 6:
+      $dataentrada =  $this->reporte->busqueda_almacen_entrada_litho($nueva_fecha_inicio,$nueva_fecha_fin,$idparte,$tipo);
+      $datasalida =  $this->reporte->busqueda_almacen_salida_litho($nueva_fecha_inicio,$nueva_fecha_fin,$idparte,$tipo);
+      $datadevolucion =  $this->reporte->busqueda_almacen_devolucion_litho($nueva_fecha_inicio,$nueva_fecha_fin,$idparte,$tipo);
+
+      break;
+
+    default:
+      // code...
+      break;
+  } 
+  $data  = array(
+    'partes'=>$this->reporte->allNumeroPartes(),
+    'dataentrada'=>$dataentrada,
+    'datasalida'=>$datasalida,
+    'datadevolucion'=>$datadevolucion,
+    'maquinas'=>$this->reporte->maquinas_activas()
+);
+  $this->load->view('header');
+  $this->load->view('reporte/almacen/index',$data);
+  $this->load->view('footer');
 }
 public function buscar_reporte_proceso_maquina()
 {

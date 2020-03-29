@@ -18,22 +18,7 @@ class Modelo_model extends CI_Model
 
     public function showAll($idparte)
     {
-        $this->db->select('m.idmodelo,'
-               . 'p.idparte,'
-                . 'p.numeroparte,'
-                . 'c.abreviatura as cliente,'
-                . 'm.descripcion,'
-                . 'm.nombrehoja,'
-                . 'm.fulloneimpresion,'
-                . 'm.colorlinea,'
-                . 'm.diucutno,'
-                . 'm.platonumero,'
-                . 'm.normascompartidas,'
-                . 'm.salida,'
-                . 'm.combinacion,'
-                . 'm.medida,'
-                . 'm.dimension,'
-                . 'm.color');
+        $this->db->select('m.idmodelo,p.idparte, p.numeroparte, c.abreviatura as cliente,m.*');
         $this->db->from('tblmodelo m');
         $this->db->join('parte p', 'p.idparte = m.idparte');
         $this->db->join('users u', 'm.idusuario = u.id');
