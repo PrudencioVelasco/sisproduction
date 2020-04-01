@@ -214,6 +214,31 @@ class Transferencia_model extends CI_Model {
             return false;
         }
     }
+    public function detalleRevision($idrevision) {
+        $this->db->select('tm.descripcion as modelo, tr.descripcion as revision, p.numeroparte, c.nombre, c.clave');
+        $this->db->from('tblrevision tr');
+        $this->db->join('tblmodelo  tm', 'tm.idmodelo = tr.idmodelo');
+        $this->db->join('parte  p', 'tm.idparte = p.idparte');
+        $this->db->join('cliente  c', 'c.idcliente = p.idcliente');
+        $this->db->where('tr.idrevision', $idrevision);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->first_row();
+        } else {
+            return false;
+        }
+    }
+    public function detalleLinea($idlinea) {
+        $this->db->select('l.nombrelinea');
+        $this->db->from('linea l');
+        $this->db->where('l.idlinea', $idlinea);
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->first_row();
+        } else {
+            return false;
+        }
+    }
 
     public function updateEnvio($id, $field) {
         $this->db->where('idpalletcajas', $id);

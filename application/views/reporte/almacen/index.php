@@ -21,13 +21,14 @@
  <div class="row">
                             <div class="col-md-3 col-sm-12 col-xs-12">
                             <div class="form-group">
-                                <label><font color="red">*</font> Tipo</label>
+                                <label><font color="red">*</font> Módulo</label>
                                 <select class="form-control" name="tipo" required="">
                                     <option value="">--Seleccionar--</option>
                                     <option value="11">Litho</option>
                                     <option value="7">Lamina</option>
                                     <option value="8">Bolsas</option>
                                     <option value="6">Manuales</option>
+                                    <option value="13">Tijuana</option>
                                 </select>
                             </div>
                         </div>

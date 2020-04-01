@@ -261,12 +261,14 @@
   /*Funciones para ENTRADAS*/
   $(document).on( "click", '.edit_button',function(e) {
     var idlitho = $(this).data('idlitho');
+    var idrevision = $(this).data('idrevision');
     var comentarios = $(this).data('comentarios');
     var transferencia = $(this).data('transferencia');
     var cantidad = $(this).data('cantidad');
     var numeroparte = $(this).data('numeroparte');
 
     $(".idlitho").val(idlitho);
+    $(".idrevision").val(idrevision);
     $(".comentarios").val(comentarios);
     $(".transferencia").val(transferencia);
     $(".cantidad").val(cantidad);

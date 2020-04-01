@@ -424,7 +424,7 @@ FROM
     public function validarExistenciaParcialesNumeroParte($idtransferencia, $idcajas) {
         $query = $this->db->query("SELECT
               (SELECT
-            SUM(c3.cantidad)
+            COALESCE(SUM(c3.cantidad),0)
         FROM
             palletcajas pc3,
             tblcantidad c3
@@ -432,7 +432,7 @@ FROM
                 AND pc3.idtransferancia = pc.idtransferancia
                 AND pc3.idcajas = pc.idcajas) totalentrada,
     (SELECT
-            SUM(c2.cantidad)
+            COALESCE(SUM(c2.cantidad),0)
         FROM
             ordensalida os2,
             palletcajas pc2,
@@ -444,7 +444,7 @@ FROM
                 AND pc2.idtransferancia = pc.idtransferancia
                 AND pc2.idcajas = pc.idcajas) pallet,
     (SELECT
-            SUM(os3.caja)
+            COALESCE(SUM(os3.caja),0)
         FROM
             ordensalida os3,
             palletcajas pc2,
@@ -470,9 +470,7 @@ FROM
         INNER JOIN
     tbltransferencia t ON t.idtransferancia = pc.idtransferancia
         INNER JOIN
-    parteposicionbodega ppb ON pc.idpalletcajas = ppb.idpalletcajas
-        INNER JOIN
-    ordensalida os ON pc.idpalletcajas = os.idpalletcajas
+    parteposicionbodega ppb ON pc.idpalletcajas = ppb.idpalletcajas 
 WHERE  pc.idtransferancia = $idtransferencia
   AND pc.idcajas = $idcajas
   group by pc.idtransferancia,pc.idcajas");

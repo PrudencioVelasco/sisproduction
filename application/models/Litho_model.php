@@ -161,7 +161,7 @@ FROM
       return false;
     }
   }
-  public function showAllManual() 
+  public function showAllManual()
   {
     $query = $this->db->query("
        SELECT
@@ -226,6 +226,79 @@ FROM
         INNER JOIN
     tblcategoria ca ON ca.idcategoria = p.idcategoria
     WHERE ca.idcategoria IN (6)
+    GROUP BY r.idrevision");
+
+    if ($query->num_rows() > 0) {
+      return $query->result();
+    } else {
+      return false;
+    }
+  }
+  public function showAllTijuana()
+  {
+    $query = $this->db->query("
+       SELECT
+    r.idrevision,
+    p.numeroparte,
+    c.nombre,
+    CASE
+        WHEN LENGTH(m.descripcion) > 12 THEN CONCAT(SUBSTRING(m.descripcion, 1, 12), '...')
+        ELSE m.descripcion
+    END AS modelo,
+    r.descripcion AS revision,
+    ca.nombrecategoria,
+    r.idrevision,
+    (SELECT
+            COALESCE(SUM(la.cantidad), 0)
+        FROM
+            tbllitho la
+        WHERE
+            la.idrevision = r.idrevision
+                AND la.activo = 1) AS totalentradas,
+    (SELECT
+            COALESCE(SUM(lasa.cantidad), 0)
+        FROM
+            tbllithosalida lasa
+        WHERE
+            lasa.idrevision = r.idrevision
+                AND lasa.activo = 1) AS totalsalidas,
+    (SELECT
+            COALESCE(SUM(lade.cantidad), 0)
+        FROM
+            tbllithodevolucion lade
+        WHERE
+            lade.idrevision = r.idrevision
+                AND lade.activo = 1) AS totalrevueltas,
+    ((SELECT
+            COALESCE(SUM(la.cantidad), 0)
+        FROM
+            tbllitho la
+        WHERE
+            la.idrevision = r.idrevision
+                AND la.activo = 1) - ((SELECT
+            COALESCE(SUM(lasa.cantidad), 0)
+        FROM
+            tbllithosalida lasa
+        WHERE
+            lasa.idrevision = r.idrevision
+                AND lasa.activo = 1) + (SELECT
+            COALESCE(SUM(lade.cantidad), 0)
+        FROM
+            tbllithodevolucion lade
+        WHERE
+            lade.idrevision = r.idrevision
+                AND lade.activo = 1))) AS totalexistencia
+FROM
+    parte p
+        INNER JOIN
+    tblmodelo m ON p.idparte = m.idparte
+        INNER JOIN
+    tblrevision r ON r.idmodelo = m.idmodelo
+        INNER JOIN
+    cliente c ON c.idcliente = p.idcliente
+        INNER JOIN
+    tblcategoria ca ON ca.idcategoria = p.idcategoria
+    WHERE ca.idcategoria IN (13)
     GROUP BY r.idrevision");
 
     if ($query->num_rows() > 0) {
@@ -379,6 +452,21 @@ public function totalsalidaswithout($idrevision,$idlithosalida)
   $this->db->where('activo',1);
   $this->db->where('idrevision',$idrevision);
   $this->db->where_not_in('idlithosalida',$idlithosalida);
+  $query = $this->db->get();
+
+  if ($query->num_rows() > 0) {
+    return $query->result();
+  } else {
+    return false;
+  }
+}
+
+public function totalsalidaswithout2($idrevision)
+{
+  $this->db->select('cantidad');
+  $this->db->from('tbllithosalida');
+  $this->db->where('activo',1);
+  $this->db->where('idrevision',$idrevision);
   $query = $this->db->get();
 
   if ($query->num_rows() > 0) {

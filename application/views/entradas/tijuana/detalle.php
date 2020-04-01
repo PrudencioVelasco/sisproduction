@@ -168,10 +168,6 @@
            <label >Comentarios</label><br>
            <textarea  class="form-control comentarios" name="comentarios"></textarea>
          </div>
-         <div class="form-group">
-           <label >Transferencia</label><br>
-           <textarea  class="form-control transferencia" name="transferencia"></textarea>
-         </div>
        </div>
        <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i>  Cerrar</button>
@@ -204,10 +200,6 @@
          <div class="form-group">
            <label >Comentarios</label><br>
            <textarea  class="form-control comentarios_salida" name="comentarios"></textarea>
-         </div>
-         <div class="form-group">
-           <label >Transferencia</label><br>
-           <textarea  class="form-control transferencia_salida" name="transferencia"></textarea>
          </div>
        </div>
        <div class="modal-footer">
@@ -243,10 +235,6 @@
            <label >Comentarios</label><br>
            <textarea  class="form-control comentarios_devolucion" name="comentarios"></textarea>
          </div>
-         <div class="form-group">
-           <label >Transferencia</label><br>
-           <textarea  class="form-control transferencia_devolucion" name="transferencia"></textarea>
-         </div>
        </div>
        <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal"><i class='fa fa-ban'></i> Cerrar</button>
@@ -261,17 +249,17 @@
   /*Funciones para ENTRADAS*/
   $(document).on( "click", '.edit_button',function(e) {
     var idlitho = $(this).data('idlitho');
-    var idrevision = $(this).data('idrevision');
     var comentarios = $(this).data('comentarios');
     var transferencia = $(this).data('transferencia');
     var cantidad = $(this).data('cantidad');
     var numeroparte = $(this).data('numeroparte');
+    var idrevision = $(this).data('idrevision');
 
     $(".idlitho").val(idlitho);
-    $(".idrevision").val(idrevision);
     $(".comentarios").val(comentarios);
     $(".transferencia").val(transferencia);
     $(".cantidad").val(cantidad);
+    $(".idrevision").val(idrevision);
     $("#entradanumeroparte").text(numeroparte);
   });
 
@@ -279,7 +267,7 @@
 
     $.ajax({
       type: "POST",
-      url: "<?php echo site_url('litho/actualizar_entrada');?>",
+      url: "<?php echo site_url('litho/actualizar_entrada_tijuana');?>",
       data: $('#frupdateinfo').serialize(),
       success: function(data) {
         var msg = $.parseJSON(data);
@@ -364,7 +352,7 @@
 
     $.ajax({
       type: "POST",
-      url: "<?php echo site_url('litho/actualizar_salida');?>",
+      url: "<?php echo site_url('litho/actualizar_salida_tijuana');?>",
       data: $('#frmupdateinfosalida').serialize(),
       success: function(data) {
         var msg = $.parseJSON(data);
@@ -449,7 +437,7 @@
 
     $.ajax({
       type: "POST",
-      url: "<?php echo site_url('litho/actualizar_devolucion');?>",
+      url: "<?php echo site_url('litho/actualizar_devolucion_tijuana');?>",
       data: $('#frmupdateinfodevolucion').serialize(),
       success: function(data) {
         var msg = $.parseJSON(data);

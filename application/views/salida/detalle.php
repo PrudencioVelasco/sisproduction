@@ -377,7 +377,7 @@
                     } else if (data == 13) {
                         $("#msgerror").text("No existe Stock suficiente.");
                     }else if (data == 14) {
-                        $("#msgerror").text("Lo debe de agregar como Parciales.");
+                        $("#msgerror").text("Lo debe de agregar como Parciales o no tiene en existencia la cantidad de Pallet.");
                     } else {
                         //location.reload();
                         window.location.href="<?php echo base_url(); ?>/salida/detalleSalida/<?php echo $idsalida ?>";

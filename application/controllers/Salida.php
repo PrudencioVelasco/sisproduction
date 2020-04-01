@@ -502,8 +502,8 @@ class Salida extends CI_Controller {
           $idtransferecia = $this->input->post('idtransferecia');
         $iddetalleparte = $this->input->post('iddetalleparte');
         $idsalida = $this->input->post('idsalida');
-        $numeropallet = $this->input->post('pallet');
-        $numerocajas = $this->input->post('cajas');
+        $numeropallet = trim($this->input->post('pallet'));
+        $numerocajas = trim($this->input->post('cajas'));
         $po = $this->input->post('po');
         $tipo = $this->input->post('tipo');
 
@@ -512,7 +512,6 @@ class Salida extends CI_Controller {
 
         if ($tipo == "parciales") {
             if ($numerocajas != "") {
-                if (is_numeric($numerocajas)) {
                     if ($numerocajas > 0) {
                         //Son parciales
                         $dataexistencia = $this->salida->validarExistenciaParcialesNumeroParte($idtransferecia, $idcajas);
@@ -604,25 +603,23 @@ class Salida extends CI_Controller {
                         //Error: Solo debe de ser numero positivos o mayor a 0
                         echo 12;
                     }
-                } else {
-                    //Error: Solo debe de ser numero
-                    echo 11;
-                }
             } else {
                 //Error: el campo de numero caja vinene vacio.
                 echo 10;
             }
         } else if ($tipo == "pallet") {
             if ($numeropallet != "") {
-                if (is_numeric($numeropallet)) {
                     if ($numeropallet > 0) {
-                        $dataexistencia = $this->salida->validarExistenciaNumeroParte($idtransferecia, $idcajas);
+                        /*$dataexistencia = $this->salida->validarExistenciaNumeroParte($idtransferecia, $idcajas);
                         $totalexistencia = $dataexistencia->totalstock;
-                        $totalexistenciacajas = $dataexistencia->totalcajas;
+                        $totalexistenciacajas = $dataexistencia->totalcajas;*/
 
                         $datelle_caja = $this->salida->detalleCaja($idcajas);
                         $cantidad_por_caja = $datelle_caja->cantidad;
+                        //echo $idcajas."<br>";
+                        //echo $idtransferecia;
                         $dataexistencia = $this->salida->validarExistenciaParcialesNumeroParte($idtransferecia, $idcajas);
+                        //var_dump($dataexistencia);
                         $total_material_disponible = $dataexistencia->totalentrada - ($dataexistencia->pallet + $dataexistencia->parciales);
                         $total_material_para_llevar = ($numeropallet * $cantidad_por_caja) ;
                         //Validar si se puede agregar los pallet completos
@@ -653,9 +650,10 @@ class Salida extends CI_Controller {
                                       'fecharegistro' => date('Y-m-d H:i:s')
                                   );
                                   $this->salida->addOrdenSalida($dataordensalida);
-                                  echo 1;
+
                               }
                           }
+                            echo 1;
                         }else if ($total_material_para_llevar > $total_material_disponible && $total_material_disponible > 0) {
                           // Debe de agregarlo como parcial
                           echo 14;
@@ -669,10 +667,6 @@ class Salida extends CI_Controller {
                         //Error: Solo debe de ser numero positivo o mayor a 0
                         echo 12;
                     }
-                } else {
-                    //Error: Solo es permito numero
-                    echo 11;
-                }
             } else {
                 //Error: Campo es requerido
                 echo 10;
@@ -696,7 +690,7 @@ class Salida extends CI_Controller {
 
        if ($tipo == "parciales") {
            if ($numerocajas != "") {
-               if (is_numeric($numerocajas)) {
+              // if (is_numeric($numerocajas)) {
                    if ($numerocajas > 0) {
                        //Son parciales
                        $dataexistencia = $this->salida->validarExistenciaParcialesNumeroParte($idtransferecia, $idcajas);
@@ -788,17 +782,17 @@ class Salida extends CI_Controller {
                        //Error: Solo debe de ser numero positivos o mayor a 0
                        echo 12;
                    }
-               } else {
+              /* } else {
                    //Error: Solo debe de ser numero
                    echo 11;
-               }
+               }*/
            } else {
                //Error: el campo de numero caja vinene vacio.
                echo 10;
            }
        } else if ($tipo == "pallet") {
            if ($numeropallet != "") {
-               if (is_numeric($numeropallet)) {
+               //if (is_numeric($numeropallet)) {
                    if ($numeropallet > 0) {
                        $dataexistencia = $this->salida->validarExistenciaNumeroParte($idtransferecia, $idcajas);
                        $totalexistencia = $dataexistencia->totalstock;
@@ -853,10 +847,11 @@ class Salida extends CI_Controller {
                        //Error: Solo debe de ser numero positivo o mayor a 0
                        echo 12;
                    }
-               } else {
+              /* } else {
                    //Error: Solo es permito numero
+
                    echo 11;
-               }
+               }*/
            } else {
                //Error: Campo es requerido
                echo 10;

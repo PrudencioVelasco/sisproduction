@@ -24,9 +24,11 @@ class Transferencia extends CI_Controller {
 
     public function index() {
         Permission::grant(uri_string());
+        $datalinea = $this->linea->showAllLinea();
         $query = $this->transferencia->showAll();
         $data = array(
-            'datatransferencia' => $query
+            'datatransferencia' => $query,
+            'datalinea'=>$datalinea
         );
         $this->load->view('header');
         $this->load->view('transferencia/index', $data);
@@ -167,7 +169,142 @@ class Transferencia extends CI_Controller {
         }
         return true;
     }
+    public function regenerar_etiqueta() {
+        $numeroparte = trim($this->input->post('numeroparte'));
+        $idmodelo = $this->input->post('modelo');
+        $idrevision = $this->input->post('revision');
+        $idlinea = $this->input->post('linea');
+        $cajas = trim($this->input->post('cajasxpallet'));
+        $fecha_registrado = $this->input->post('fecha');
+        $detalle_linea = $this->transferencia->detalleLinea($idlinea);
+        $produccion = $this->input->post('tipoproduccion');
+        # code...
+         date_default_timezone_set("America/Tijuana");
 
+        $detalle = $this->transferencia->detalleRevision($idrevision);
+        $barcode = $this->set_barcode($detalle->numeroparte);
+        $barcodecliente = $this->set_barcode_cliente($detalle->clave);
+        $barcodecantidad= $this->set_barcode_cantidad($cajas);
+        $hora = date("h:i a", strtotime($fecha_registrado));
+        $fecha = date("j/n/Y", strtotime($fecha_registrado));
+        $dia = date("j", strtotime($fecha_registrado));
+        $semana = date("W", strtotime($fecha_registrado));
+        $mes = date("F", strtotime($fecha_registrado));
+        $this->load->library('html2pdf');
+        ob_start();
+
+
+        $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
+        $mipdf->pdf->SetDisplayMode('fullpage');
+        $mipdf->writeHTML('<page  format="400x165"  >
+        <style type="text/css">
+            table {
+            border-collapse:collapse;
+            margin-left:0px;
+            margin-top:13px;
+            }
+            .nombrecliente{
+            font-weight:bold;
+            font-size:50px;
+            }
+             .cantidad{
+            font-weight:bold;
+            font-size:55px;
+            }
+            .numeroparte{
+            font-weight:bold;
+            font-size:70px;
+            }
+            .mes{
+             font-weight:bold;
+            font-size:40px;
+            }
+            .produccion{
+             font-weight:bold;
+            font-size:45px;
+            }
+            .semana{
+             font-weight:bold;
+            font-size:45px;
+            }
+            .modelo{
+             font-weight:bold;
+            font-size:40px;
+            }
+            .revision{
+             font-weight:bold;
+            font-size:40px;
+            }
+            .linea{
+             font-weight:bold;
+            font-size:40px;
+            }
+            .cantidadpallet{
+            font-weight:bold;
+            font-size:40px;
+            }
+            td
+                {
+                    border:0px  solid black;
+                }
+    </style>
+<table   border="0">
+  <tr>
+    <td colspan="2" height="50" width="350" align="center"></td>
+    <td colspan="2" height="50" width="350" align="center"></td>
+    <td colspan="3" height="50" width="750"  ></td>
+  </tr>
+  <tr>
+    <td height="80" align="left"  colspan="2" class="nombrecliente">&nbsp;' . $detalle->nombre . '</td>
+    <td colspan="2" align="center" class="cantidad">&nbsp;'.number_format($cajas).'</td>
+    <td colspan="3" align="center" class="numeroparte" rowspan="3">&nbsp;' . $detalle->numeroparte . '</td>
+  </tr>
+  <tr>
+    <td colspan="2" height="60"  align="center"></td>
+    <td colspan="2" height="60" ></td>
+  </tr>
+  <tr>
+    <td colspan="2" height="65" class="mes" align="left">&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
+    <td colspan="2" height="65" class="semana" align="left">&nbsp;' . $semana . '</td>
+  </tr>
+  <tr>
+    <td height="20" width="20" ></td>
+    <td height="20" width="100" ></td>
+    <td height="20" ></td>
+    <td height="20" ></td>
+    <td colspan="3"    height="20" ></td>
+  </tr>
+  <tr>
+    <td width="112" class="linea" align="left" >&nbsp;' . $detalle_linea->nombrelinea . '</td>
+    <td width="80">&nbsp;</td>
+    <td width="65" class="produccion">&nbsp;'.$produccion.'</td>
+    <td width="71" align="left" class="cantidadpallet">&nbsp;1</td>
+    <td colspan="3" height="190"   rowspan="2" align="center">&nbsp;<img src="' . $barcode . '" style="height:165px; margin-top:-25px;" /></td>
+  </tr>
+   <tr>
+    <td  height="0">&nbsp;</td>
+    <td  height="0">&nbsp;</td>
+    <td  height="0">&nbsp;</td>
+    <td  height="0">&nbsp;</td>
+  </tr>
+
+
+  <tr>
+    <td colspan="5" rowspan="2 >&nbsp;</td>
+    <td  width="256" height="0" align="center"   style="  font-weight:bold;
+            font-size:42px; padding-top:9px; padding-bottom:-30px;"  rowspan="2">' . $detalle->modelo . '</td>
+
+    <td height="0" align="right"   style="  font-weight:bold;
+            font-size:30px; padding-top:0px; "  >&nbsp;' . $detalle->revision . '</td>
+  </tr>
+</table>
+</page>
+');
+
+        //$mipdf->pdf->IncludeJS('print(TRUE)');
+       // $mipdf->Output(APPPATH . 'pdfs\\' . 'Packing' . date('Ymdgisv') . '.pdf', 'F');
+        $mipdf->Output('Etiqueta_Packing.pdf');
+    }
     public function registrar() {
         Permission::grant(uri_string());
         $numeroparte = trim($this->input->post('numeroparte'));

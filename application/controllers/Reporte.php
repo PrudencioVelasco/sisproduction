@@ -93,6 +93,12 @@ public function buscar_reporte_almacen2()
     $datadevolucion =  $this->reporte->busqueda_almacen_devolucion_litho($nueva_fecha_inicio,$nueva_fecha_fin,$idparte,$tipo);
 
       break;
+      case 13:
+      $dataentrada =  $this->reporte->busqueda_almacen_entrada_litho($nueva_fecha_inicio,$nueva_fecha_fin,$idparte,$tipo);
+      $datasalida =  $this->reporte->busqueda_almacen_salida_litho($nueva_fecha_inicio,$nueva_fecha_fin,$idparte,$tipo);
+      $datadevolucion =  $this->reporte->busqueda_almacen_devolucion_litho($nueva_fecha_inicio,$nueva_fecha_fin,$idparte,$tipo);
+
+        break;
       case 7:
       $dataentrada =  $this->reporte->busqueda_almacen_entrada_lamina($nueva_fecha_inicio,$nueva_fecha_fin,$idparte);
       $datasalida =  $this->reporte->busqueda_almacen_salida_lamina($nueva_fecha_inicio,$nueva_fecha_fin,$idparte);
@@ -115,7 +121,7 @@ public function buscar_reporte_almacen2()
     default:
       // code...
       break;
-  } 
+  }
   $data  = array(
     'partes'=>$this->reporte->allNumeroPartes(),
     'dataentrada'=>$dataentrada,

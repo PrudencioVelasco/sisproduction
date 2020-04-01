@@ -122,6 +122,26 @@
             </a>
           </div>
       </div>
+
+
+
+      <div class="row">
+  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <a class="pointer" href="<?php echo site_url('litho/tijuana') ?>">
+      <div class="info-box-2 bg-cyan hover-expand-effect pointer">
+          <div class="icon">
+              <i class="fa fa-check-square-o"></i>
+          </div>
+          <div class="content">
+              <div class="text"><label class="titulomaquina">TIJUANA</label></div>
+              <div class="number"></div>
+          </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+
                   </div>
                 </div>
             </div>

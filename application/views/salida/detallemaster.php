@@ -136,14 +136,14 @@
                                     <div class="col-md-2 col-sm-12 col-xs-12 " id="pallet">
                                         <div class="form-group">
                                             <label><font color="red">*</font> C. Pallet</label>
-        <input type="text" name="pallet" id="ppallet" class="form-control" placeholder="C. Pallet">
+        <input type="text" name="pallet" id="ppallet" class="form-control"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" placeholder="C. Pallet">
                                         </div>
                                     </div>
 
                                     <div class="col-md-2 col-sm-12 col-xs-12" id="cajas">
                                         <div class="form-group">
                                             <label><font color="red">*</font> Total Cajas</label>
-                                            <input type="text" name="cajas" id="pcajas" class="form-control" placeholder="Total Cajas" >
+                                            <input type="text" name="cajas" id="pcajas"  onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" class="form-control" placeholder="Total Cajas" >
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-sm-12 col-xs-12" id="cajas">
@@ -340,11 +340,15 @@
         $('#cajas').hide();
         $('#radio_32').on('click', function () {
             $('#pallet').show();
+              $('#ppallet').val("");
             $('#cajas').hide();
+              $('#pcajas').val("");
         });
         $('#radio_31').on('click', function () {
             $('#pallet').hide();
+            $('#ppallet').val("");
             $('#cajas').show();
+            $('#pcajas').val("");
         });
         $('#btnagregar').on('click', function () {
 
