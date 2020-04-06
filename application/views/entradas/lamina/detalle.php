@@ -286,7 +286,7 @@
     $("#btnupdate").click(function(){
       $.ajax({
         type: "POST",
-        url: "<?php echo site_url('laminas/actualizar_entrada');?>",
+        url: "<?php echo site_url('Laminas/actualizar_entrada');?>",
         data: $('#frmactualizarentrada').serialize(),
         success: function(data) {
           var msg = $.parseJSON(data);
@@ -326,7 +326,7 @@
           if (result.value) {
             $.ajax({
               type: "POST",
-              url: "<?php echo site_url('laminas/eliminar_parte_entrada');?>",
+              url: "<?php echo site_url('Laminas/eliminar_parte_entrada');?>",
               data: dataString,
               success: function(data) {
                 var msg = $.parseJSON(data);
@@ -371,7 +371,7 @@
     $("#btnupdatesalida").click(function(){
       $.ajax({
         type: "POST",
-        url: "<?php echo site_url('laminas/actualizar_salida');?>",
+        url: "<?php echo site_url('Laminas/actualizar_salida');?>",
         data: $('#frmactualizarsalida').serialize(),
         success: function(data) {
           var msg = $.parseJSON(data);
@@ -411,7 +411,7 @@
         if (result.value) {
           $.ajax({
             type: "POST",
-            url: "<?php echo site_url('laminas/eliminar_parte_salida');?>",
+            url: "<?php echo site_url('Laminas/eliminar_parte_salida');?>",
             data: dataString,
             success: function(data) {
               var msg = $.parseJSON(data);
@@ -457,7 +457,7 @@
     $("#btnupdatedevolucion").click(function(){
       $.ajax({
         type: "POST",
-        url: "<?php echo site_url('laminas/actualizar_devolucion');?>",
+        url: "<?php echo site_url('Laminas/actualizar_devolucion');?>",
         data: $('#frmactualizardevolucion').serialize(),
         success: function(data) {
           var msg = $.parseJSON(data);
@@ -497,7 +497,7 @@
         if (result.value) {
           $.ajax({
             type: "POST",
-            url: "<?php echo site_url('laminas/eliminar_parte_devolucion');?>",
+            url: "<?php echo site_url('Laminas/eliminar_parte_devolucion');?>",
             data: dataString,
             success: function(data) {
               var msg = $.parseJSON(data);

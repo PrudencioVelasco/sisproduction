@@ -12,15 +12,15 @@ class Login extends CI_Controller {
         $this->load->model('user_model', 'user');
     }
 
-  
+
     public function index() {
 
         if ($this->session->user_id) {
-            
-            redirect('admin');
+
+            redirect('Admin');
             //return redirect('sitio/index');
         }   else {
-           
+
             $this->load->view('admin/login');
         }
     }
@@ -30,10 +30,10 @@ class Login extends CI_Controller {
         $datasession = array('usuario_id' => '', 'logged_in' => '');
         // y eliminamos la sesión
         $this->session->unset_userdata($datasession);
-        // redirigimos al controlador principal 
+        // redirigimos al controlador principal
         $logout = $this->session->sess_destroy();
 
-        redirect('login');
+        redirect('Login');
     }
 
 }

@@ -12,14 +12,14 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h3>Reporte por Procesos</h3>
+                    <h3>REPORTE POR PROCESO</h3>
 
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="x_content">
 
-                    <form method="POST" action="<?= base_url('reporte/buscar_reporte_procesos') ?>">
+                    <form method="POST" action="<?= base_url('Reporte/buscar_reporte_procesos') ?>">
 
                         <div class="row">
  <div class="col-md-3 col-sm-12 col-xs-12">

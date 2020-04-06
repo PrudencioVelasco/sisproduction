@@ -56,7 +56,7 @@
                                                                         data-numeroparte="<?php echo $value->numeroparte;?>"
                                                                         ><i class="fa fa-undo" aria-hidden="true"></i> <strong>Devolución</strong></a></li>
                                                                         <li class="divider"></li>
-                                                                        <li><a href="<?php echo site_url('litho/detalle_bolsa/'.$value->idrevision) ?>"><i class="fa fa-exchange"></i> <strong>Movimientos</strong></a></li>
+                                                                        <li><a href="<?php echo site_url('Litho/detalle_bolsa/'.$value->idrevision) ?>"><i class="fa fa-exchange"></i> <strong>Movimientos</strong></a></li>
                                                                     </ul>
                                                                 </div>
                                                                 <?php
@@ -219,7 +219,7 @@
     $("#btnentrada").click(function(){
         $.ajax({
             type: "POST",
-            url: "<?php echo site_url('litho/agregar_entrada_bolsa');?>",
+            url: "<?php echo site_url('Litho/agregar_entrada_bolsa');?>",
             data: $('#frmentrada').serialize(),
             success: function(data) {
                 var msg = $.parseJSON(data);
@@ -245,7 +245,7 @@
     $("#btnsalida").click(function(){
         $.ajax({
             type: "POST",
-            url: "<?php echo site_url('litho/agregar_salida_bolsa');?>",
+            url: "<?php echo site_url('Litho/agregar_salida_bolsa');?>",
             data: $('#frmsalida').serialize(),
             success: function(data) {
                 var msg = $.parseJSON(data);
@@ -269,7 +269,7 @@
     $("#btndevolucion").click(function(){
         $.ajax({
             type: "POST",
-            url: "<?php echo site_url('litho/devolucion_bolsa');?>",
+            url: "<?php echo site_url('Litho/devolucion_bolsa');?>",
             data: $('#frmdevolucion').serialize(),
             success: function(data) {
                 var msg = $.parseJSON(data);

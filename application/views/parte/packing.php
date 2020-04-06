@@ -23,7 +23,7 @@
                                 <h5>Nombre del Cliente: <strong><?php echo $detalleparte->nombre ?></strong></h5>
                             </div>
                         </div>
-                        <form method="POST"  action="<?= base_url('parte/enviarCalidadNew') ?>">
+                        <form method="POST"  action="<?= base_url('Parte/enviarCalidadNew') ?>">
                             <div class="row">
                                 <div class="col-md-4 col-sm-12 col-xs-12">
                                     <div class="form-group">
@@ -54,9 +54,9 @@
                                         <label style="color:red;"><?php echo form_error('linea'); ?></label>
 
                                     </div>
-                                </div> 
+                                </div>
 
-                            </div> 
+                            </div>
                             <div class="row">
                                 <?php if (isset($error) && !empty($error)) { ?>
                                     <div class="alert alert-danger">
@@ -67,7 +67,7 @@
                             </div>
                             <div class="row">
                                 <div class="myFields"></div>
-                            </div> 
+                            </div>
                             <div class="row">
                                 <div class="col-md-6 col-sm-12 col-xs-12">
                                     <button id="add_button" class="addNew btn btn-default btn-sm">
@@ -75,23 +75,23 @@
                                     </button>
 
                                 </div>
-                            </div> 
+                            </div>
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12" align="right">
                                     <input type="hidden" name="idparte" value="<?php echo $idparte ?>">
                                     <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane" aria-hidden="true"></i>
                                         Enviar a Calidad</button>
-                                    <a  class="btn btn-danger" href="<?php echo site_url('parte/'); ?>"><i class="fa fa-ban" aria-hidden="true"></i>
+                                    <a  class="btn btn-danger" href="<?php echo site_url('Parte/'); ?>"><i class="fa fa-ban" aria-hidden="true"></i>
                                         Cancelar</a>
 
                                 </div>
-                            </div> 
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 </div>
 <script type="text/javascript">
 

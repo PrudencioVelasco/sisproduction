@@ -279,7 +279,7 @@
 
     $.ajax({
       type: "POST",
-      url: "<?php echo site_url('litho/actualizar_entrada');?>",
+      url: "<?php echo site_url('Litho/actualizar_entrada');?>",
       data: $('#frupdateinfo').serialize(),
       success: function(data) {
         var msg = $.parseJSON(data);
@@ -318,7 +318,7 @@
       if (result.value) {
         $.ajax({
           type: "POST",
-          url: "<?php echo site_url('litho/eliminar_parte');?>",
+          url: "<?php echo site_url('Litho/eliminar_parte');?>",
           data: dataString,
           success: function(data) {
             var msg = $.parseJSON(data);
@@ -364,7 +364,7 @@
 
     $.ajax({
       type: "POST",
-      url: "<?php echo site_url('litho/actualizar_salida');?>",
+      url: "<?php echo site_url('Litho/actualizar_salida');?>",
       data: $('#frmupdateinfosalida').serialize(),
       success: function(data) {
         var msg = $.parseJSON(data);
@@ -404,7 +404,7 @@
       if (result.value) {
         $.ajax({
           type: "POST",
-          url: "<?php echo site_url('litho/eliminar_parte_salida');?>",
+          url: "<?php echo site_url('Litho/eliminar_parte_salida');?>",
           data: dataString,
           success: function(data) {
             var msg = $.parseJSON(data);
@@ -449,7 +449,7 @@
 
     $.ajax({
       type: "POST",
-      url: "<?php echo site_url('litho/actualizar_devolucion');?>",
+      url: "<?php echo site_url('Litho/actualizar_devolucion');?>",
       data: $('#frmupdateinfodevolucion').serialize(),
       success: function(data) {
         var msg = $.parseJSON(data);
@@ -487,7 +487,7 @@
       if (result.value) {
         $.ajax({
           type: "POST",
-          url: "<?php echo site_url('litho/eliminar_parte_devolucion');?>",
+          url: "<?php echo site_url('Litho/eliminar_parte_devolucion');?>",
           data: dataString,
           success: function(data) {
             var msg = $.parseJSON(data);

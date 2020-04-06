@@ -3,12 +3,12 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <div class="row">  
+                    <div class="row">
                         <div class="col-md-11 col-sm-12 col-xs-12">
-                            <h3>Reporte de Salidas</h3>
+                            <h3>REPORTE DE SALIDAS</h3>
                         </div>
                         <div class="col-md-1 col-sm-12 col-xs-12">
-                            <a href="<?php echo base_url('warehouse/index') ?>" class="btn btn-success"><i class="fa fa-home" aria-hidden="true"></i></a>
+                            <a href="<?php echo base_url('Warehouse/index') ?>" class="btn btn-success"><i class="fa fa-home" aria-hidden="true"></i></a>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -16,9 +16,9 @@
 
                 <div class="x_content">
 
-                    <form method="POST" action="<?= base_url('warehouse/exitWareHouse') ?>"> 
+                    <form method="POST" action="<?= base_url('Warehouse/exitWareHouse') ?>">
                         <label>Campos con <font color="red">*</font> son obligatorios.</label>
-                        <div class="row"> 
+                        <div class="row">
                               <div class="col-md-3 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label>N° Salida</label>
@@ -26,7 +26,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row"> 
+                        <div class="row">
                                 <div class="col-md-2 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label>N° Parte</label>
@@ -49,7 +49,7 @@
                                 <div class="form-group">
                                     <label for="tipo">Tipo</label>
                                     <select class="form-control" id="tipo" name="tipo" required>
-                                        <option value="2" selected="">TODOS</option> 
+                                        <option value="2" selected="">TODOS</option>
                                         <option value="0">Pallet</option>
                                         <option value="1">Parciales</option>
                                     </select>
@@ -72,7 +72,7 @@
                                 </div>
                             </div>
 
-                        </div> 
+                        </div>
                     </form>
                     <hr>
                     <div class="container">
@@ -81,8 +81,8 @@
                                 <?php if (!empty($exits)): ?>
                                     <?php echo $exits; ?>
                                 <?php endif; ?>
-                            </div> 
-                        </div> 
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

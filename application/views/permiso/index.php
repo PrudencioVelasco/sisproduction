@@ -8,7 +8,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><strong>Administrar Permisos</strong></h2>
+                        <h3><strong>ADMINISTRAR PERMISOS</strong></h3>
 
                         <div class="clearfix"></div>
                     </div>
@@ -25,8 +25,8 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i>  Nuevo Permiso</button>
-                                                <a  href="<?= base_url('/user/index') ?>" class="btn btn-round btn-default">Usuarios</a>
-                                                <a  href="<?= base_url('/rol/index') ?>" class="btn btn-round btn-default">Rol</a>
+                                                <a  href="<?= base_url('/User/index') ?>" class="btn btn-round btn-default">Usuarios</a>
+                                                <a  href="<?= base_url('/Rol/index') ?>" class="btn btn-round btn-default">Rol</a>
 
                                             </div>
                                             <div class="col-md-6"></div>
@@ -47,8 +47,8 @@
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="permiso in permisos" class="table-default">
-                                                    <td>{{permiso.uri}}</td> 
-                                                    <td>{{permiso.description}}</td> 
+                                                    <td>{{permiso.uri}}</td>
+                                                    <td>{{permiso.description}}</td>
                                                     <td align="right">
                                                         <button type="button" class="btn btn-icons btn-sm btn-rounded btn-success" @click="editModal = true; selectPermiso(permiso)" title="Modificar Datos">
                                                            <i class='fa fa-edit'></i> Editar
@@ -76,7 +76,7 @@
                                             </tfoot>
                                         </table>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                             <?php include 'modal.php'; ?>
                         </div>
@@ -88,4 +88,4 @@
 </div>
 <!-- /page content -->
  <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
-<script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/apppermiso.js"></script> 
+<script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/apppermiso.js"></script>

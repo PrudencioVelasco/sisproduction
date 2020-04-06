@@ -269,7 +269,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header modal-header-info-nomodal">
-        <h3 class="modal-title w-100 font-weight-bold">SUBIR SPECS</h3>
+        <h3 class="modal-title w-100 font-weight-bold">SUBIR PROCEDIMIENTO</h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -408,7 +408,7 @@
         $.ajax({
             type: "POST",
             dataType : "json",
-            url: "<?php echo site_url('documentos/subir_procedimientos');?>",
+            url: "<?php echo site_url('Documentos/subir_procedimientos');?>",
             cache:false,
             contentType:false,
             processData:false,
@@ -503,7 +503,7 @@
             $.ajax({
               type: "POST",
               dataType : "json",
-              url: "<?php echo site_url('documentos/eliminar_documento_procedimiento');?>",
+              url: "<?php echo site_url('Documentos/eliminar_documento_procedimiento');?>",
               data: dataString,
               success: function(data) {
                  if(data.status == 'true'){

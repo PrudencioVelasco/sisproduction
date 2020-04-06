@@ -8,7 +8,7 @@ class Hold extends CI_Controller {
         parent::__construct();
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('almacen_model', 'almacen');
@@ -65,7 +65,7 @@ $config = array(
                 'label' => 'ccajas',
                 'rules' => 'trim|required|is_natural',
                 'errors' => array(
-                    'required' => 'La cantidad de cajas es campo Obligatorio', 
+                    'required' => 'La cantidad de cajas es campo Obligatorio',
                     'is_natural'=> 'Solo número positivo.'
                 )
             )
@@ -95,7 +95,7 @@ $config = array(
         if($datava != FALSE){
 
         $data = array(
-            'idcajas' => $datava->idcantidad, 
+            'idcajas' => $datava->idcantidad,
             'idestatus' => 1,
         );
 
@@ -110,7 +110,7 @@ $config = array(
         $nueva_idcantidad = $this->hold->addCantidad($data);
 
         $data = array(
-            'idcajas' => $nueva_idcantidad, 
+            'idcajas' => $nueva_idcantidad,
             'idestatus' => 1,
         );
 
@@ -123,7 +123,7 @@ $config = array(
             $cantidadHold = $nueva_cantidadcajas - $cantidadcajas;
 
             $dataTrash = array(
-                'idpalletcajas' => $idpalletcajas, 
+                'idpalletcajas' => $idpalletcajas,
                 'idtransferencia' => $idtransferencia,
                 'pallet' => 1,
                 'cajas' => $cantidadHold,
@@ -162,7 +162,7 @@ Permission::grant(uri_string());
 
         if ($resultUpdate) {
             $dataTrash = array(
-                'idpalletcajas' => $idpalletcajas, 
+                'idpalletcajas' => $idpalletcajas,
                 'idtransferencia' => $idtransferencia,
                 'pallet' => $pallet,
                 'cajas' => $cantidad,
@@ -174,7 +174,7 @@ Permission::grant(uri_string());
             $resultTrash = $this->hold->saveDataTblTrash($dataTrash);
             if ($resultTrash) {
                 echo $resultTrash;
-            }   
+            }
         }
     }
 

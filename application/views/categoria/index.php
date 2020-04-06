@@ -9,7 +9,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><strong>Administrar Categorias</strong></h2>
+                        <h3><strong>ADMINISTRAR CATEGORIAS</strong></h3>
 
                         <div class="clearfix"></div>
                     </div>
@@ -43,15 +43,15 @@
                                         <br>
                                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
                                             <thead class="text-white bg-dark" >
-                                            <th class="text-white" v-column-sortable:idcategoria>N° </th> 
-                                            <th class="text-white" v-column-sortable:nombrecategoria>Nombre de la Categoria </th> 
+                                            <th class="text-white" v-column-sortable:idcategoria>N° </th>
+                                            <th class="text-white" v-column-sortable:nombrecategoria>Nombre de la Categoria </th>
                                             <th class="text-white" v-column-sortable:activo>Estatus </th>
                                             <td class="text-white" align="right" ><strong>Opción </strong></td>
                                             </thead>
                                             <tbody class="table-light">
-                                                <tr v-for="row in categorias" class="table-default"> 
+                                                <tr v-for="row in categorias" class="table-default">
                                                     <td>{{row.idcategoria}}</td>
-                                                    <td><strong>{{row.nombrecategoria}}</strong></td> 
+                                                    <td><strong>{{row.nombrecategoria}}</strong></td>
                                                     <td >
                                                         <span v-if="row.activo==1" class="label label-success">Activo</span>
                                                         <span v-else class="label label-danger">Inactivo</span>
@@ -59,7 +59,7 @@
                                                     <td align="right">
                                                         <button type="button" class="btn btn-icons btn-rounded btn-info btn-sm" @click="editModal = true; selectCategoria(row)" title="Modificar Datos"><i class="fa  fa-edit"></i>
                                                            Editar
-                                                        </button> 
+                                                        </button>
 
                                                     </td>
                                                 </tr>
@@ -84,17 +84,17 @@
                                             </tfoot>
                                         </table>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                             <?php include 'modal.php'; ?>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
 </div>
 <!-- /page content -->
  <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
-<script data-my_var_1="<?php echo base_url() ?>"  src="<?php echo base_url(); ?>/assets/js/appvue/appcategoria.js"></script> 
+<script data-my_var_1="<?php echo base_url() ?>"  src="<?php echo base_url(); ?>/assets/js/appvue/appcategoria.js"></script>

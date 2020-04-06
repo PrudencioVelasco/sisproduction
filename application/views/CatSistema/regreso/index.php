@@ -5,7 +5,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h3><strong>Administrar Transferencias de Ajustes</strong></h3>
+                        <h3><strong>ADMINISTRAR AJUSTES DE PALLET</strong></h3>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -13,7 +13,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <a href="<?php echo site_url('Regresar/agregar_regresar/')?>" class="btn btn-icons   btn-primary"  onclick="return confirm('Desea agregar Transferencia de Ajuste?')"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar Transferencia</a>
+                                        <a href="<?php echo site_url('Regresar/agregar_regresar/')?>" class="btn btn-icons   btn-primary confirmation" ><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar Transferencia</a>
                                     </div>
                                 </div>
                                 <br>
@@ -51,8 +51,8 @@
                                                                 ?>
                                                             </td>
                                                             <td align="right">
-                                                                 <a class="btn btn-icons btn-danger" onclick="return confirm('Confirmar?')" href="<?php echo site_url('regresar/eliminar_transferencia/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
-                                                            <a class="btn btn-info"  href="<?php echo site_url('regresar/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
+                                                                 <a class="btn btn-icons btn-danger confirmation_delete" href="<?php echo site_url('Regresar/eliminar_transferencia/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
+                                                            <a class="btn btn-info"  href="<?php echo site_url('Regresar/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
                                                             </td>
                                                         </tr>
                                                         <?php
@@ -76,3 +76,54 @@
     </div>
 </div>
 <!-- /page content -->
+
+<script type="text/javascript">
+$('.confirmation').click(function(e) {
+    e.preventDefault(); // Prevent the href from redirecting directly
+    var linkURL = $(this).attr("href");
+    warnBeforeRedirect(linkURL);
+    });
+$('.confirmation_delete').click(function(e) {
+                e.preventDefault(); // Prevent the href from redirecting directly
+                var linkURL = $(this).attr("href");
+                warnBeforeRedirectDelete(linkURL);
+                });
+
+function warnBeforeRedirect(linkURL) {
+  Swal.fire({
+      title: 'Esta seguro de Crear la Transferencia?',
+      text: "No se puede revertir esta acción.",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'CREAR',
+      cancelButtonText: 'CANCELAR'
+      }).then((result) => {
+      if (result.value) {
+   // Redirect the user
+   window.location.href = linkURL;
+ }
+});
+
+}
+
+function warnBeforeRedirectDelete(linkURL) {
+  Swal.fire({
+      title: 'Esta seguro de Eliminar el Registro?',
+      text: "No se puede revertir esta acción.",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ELIMINAR',
+      cancelButtonText: 'CANCELAR'
+      }).then((result) => {
+      if (result.value) {
+   // Redirect the user
+   window.location.href = linkURL;
+ }
+});
+
+}
+</script>

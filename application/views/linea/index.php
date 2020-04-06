@@ -1,4 +1,4 @@
- 
+
 <div class="right_col" role="main">
 
     <div class="">
@@ -9,7 +9,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h4><strong>Módulo de Linea</strong></h3>
+                        <h3><strong>ADMINISTRAR LINEAS</strong></h3>
 
                         <div class="clearfix"></div>
                     </div>
@@ -17,36 +17,36 @@
                         <div id="applinea">
                             <div class="container">
                                 <div class="row">
-                                     
-                                            
-                                        
+
+
+
                                             <div class="col-md-6 col-sm-12 col-xs-12">
                                                   <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i> Nueva Linea</button>
                                             </div>
                                             <div class="col-md-6 col-sm-12 col-xs-12">
                                                 <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchLinea" name="search">
                                             </div>
-                                        
-                                     
-                                </div> 
+
+
+                                </div>
                                 <br>
-                                <div class="row"> 
+                                <div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <table   class="table table-striped responsive-utilities jambo_table bulk_action"  >
                                             <thead>
                                                 <tr class="table-dark">
-                                                    <th  v-column-sortable:nombrelinea>Nombre Linea </th> 
-                                                    <td align="right" ><strong>Opción </strong></td> 
+                                                    <th  v-column-sortable:nombrelinea>Nombre Linea </th>
+                                                    <td align="right" ><strong>Opción </strong></td>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="row in lineas" >
-                                                    <td><strong>{{row.nombrelinea}}</strong></td>  
+                                                    <td><strong>{{row.nombrelinea}}</strong></td>
                                                     <td align="right">
                                                         <button type="button" class="btn btn-icons btn-rounded btn-info btn-sm" @click="editModal = true; selectLinea(row)" title="Modificar Datos">
                                                            <i class='fa fa-edit'></i> Editar
-                                                        </button> 
-                                                    </td> 
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                                   <tr v-if="emptyResult">
                                        <td colspan="2" rowspan="2" class="text-center h4">No encontrado</td>
@@ -73,7 +73,7 @@
 
                                 <?php include 'modal.php'; ?>
 
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 </div>

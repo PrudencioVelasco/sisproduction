@@ -1,6 +1,6 @@
 <!-- page content -->
 <style type="text/css">
-    .checkbox2 label:after, 
+    .checkbox2 label:after,
 .radio label:after {
     content: '';
     display: table;
@@ -68,9 +68,9 @@
                         <h2><strong>Subir Inventario</strong></h2>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="x_content"> 
-                        
-                        
+                    <div class="x_content">
+
+
                          <form   method="POST" action="<?php echo base_url('Catalogo/operacion'); ?>">
                              <div class="table-responsive">
                         <table class="table table-striped responsive-utilities jambo_table bulk_action">
@@ -94,15 +94,15 @@
                                     <th class="column-title">Locación <i class="fa fa-sort" aria-hidden="true"></i> </th>
                                     <th class="column-title">Categoria <i class="fa fa-sort" aria-hidden="true"></i> </th>
                                     <th></th>
-                                    <th></th> 
+                                    <th></th>
                                 </tr>
                             </thead>
-                            <tbody>                 
+                            <tbody>
                                 <?php
-                                if (isset($datos) && !empty($datos)) { 
-                                 foreach ($datos as $value) { 
+                                if (isset($datos) && !empty($datos)) {
+                                 foreach ($datos as $value) {
                                     ?>
-                           
+
                                     <tr class="odd pointer">
                                         <td class="a-center ">
                                             <?php if($value->existenciacliente == "Okey" && $value->existencialocacion == "Okey" && $value->existencategoria == "Okey" && $value->existennumeropartecliente == "Okey" &&  $value->subido == "0"){ ?>
@@ -113,7 +113,7 @@
                                                     </label>
                                                 </div>
                                 <?php } ?>
-                                        </td> 
+                                        </td>
                                         <td class="">
                                             <?php
                                                 if($value->subido == "1"){
@@ -133,34 +133,34 @@
                                         <td><?= $value->locacion ?></td>
                                         <td><?= $value->categoria ?></td>
                                         <td>
-                                            <?php 
+                                            <?php
                                             if($value->subido == "1"){
                                                 echo '<span class="label label-success">SUBIDO</span>';
                                             }else{
                                             if($value->existenciacliente!="Okey"){
-                                                echo '<span class="label label-danger">'.$value->existenciacliente.'</span></br>'; 
+                                                echo '<span class="label label-danger">'.$value->existenciacliente.'</span></br>';
                                             }
-                                            if($value->existencialocacion!="Okey"){ 
-                                                 echo '<span class="label label-danger">'.$value->existencialocacion.'</span></br>'; 
+                                            if($value->existencialocacion!="Okey"){
+                                                 echo '<span class="label label-danger">'.$value->existencialocacion.'</span></br>';
                                             }
-                                            if($value->existencategoria!="Okey"){ 
-                                                 echo '<span class="label label-danger">'.$value->existencategoria.'</span></br>'; 
-                                            }
-                                            
-                                            if($value->numeropartemodelo!="Okey"){ 
-                                                 echo '<span class="label label-danger">'.$value->numeropartemodelo.'</span></br>'; 
-                                            }
-                                            if($value->modelorevision!="Okey"){ 
-                                                 echo '<span class="label label-danger">'.$value->modelorevision.'</span></br>'; 
+                                            if($value->existencategoria!="Okey"){
+                                                 echo '<span class="label label-danger">'.$value->existencategoria.'</span></br>';
                                             }
 
-                                            if($value->existennumeroparte=="No existe el numero parte."){ 
-                                                 echo '<span class="label label-warning">'.$value->existennumeroparte.'</span></br>'; 
-                                            }else{
-                                                 echo '<span class="label label-danger">'.$value->existennumeroparte.'</span></br>'; 
+                                            if($value->numeropartemodelo!="Okey"){
+                                                 echo '<span class="label label-danger">'.$value->numeropartemodelo.'</span></br>';
                                             }
-                                             if($value->existennumeropartecliente!="Okey"){ 
-                                                 echo '<span class="label label-danger">'.$value->existennumeropartecliente.'</span></br>'; 
+                                            if($value->modelorevision!="Okey"){
+                                                 echo '<span class="label label-danger">'.$value->modelorevision.'</span></br>';
+                                            }
+
+                                            if($value->existennumeroparte=="No existe el numero parte."){
+                                                 echo '<span class="label label-warning">'.$value->existennumeroparte.'</span></br>';
+                                            }else{
+                                                 echo '<span class="label label-danger">'.$value->existennumeroparte.'</span></br>';
+                                            }
+                                             if($value->existennumeropartecliente!="Okey"){
+                                                 echo '<span class="label label-danger">'.$value->existennumeropartecliente.'</span></br>';
                                             }
                                         }
                                             ?>
@@ -183,11 +183,11 @@
                                             </a>
                                              <?php   }
                                             ?>
-                                          
+
                                         </td>
 
-                                    </tr> 
-                                   
+                                    </tr>
+
                                 <?php } } ?>
                             </tbody>
                         </table>
@@ -203,7 +203,7 @@
                                         <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
                                         <h4 class="modal-title"><strong>Modificar</strong></h4>
                                     </div>
-                                    <form class="form-horizontal" action="<?php echo base_url('catalogo/modificar') ?>" method="post" enctype="multipart/form-data" role="form">
+                                    <form class="form-horizontal" action="<?php echo base_url('Catalogo/modificar') ?>" method="post" enctype="multipart/form-data" role="form">
                                         <div class="modal-body">
                                             <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Parte</label>
@@ -215,49 +215,49 @@
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Modelo</label>
-                                                <div class="col-lg-10"> 
+                                                <div class="col-lg-10">
                                                     <input type="text" class="form-control" id="modelo" name="modelo" required="">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Revisión</label>
-                                                <div class="col-lg-10"> 
+                                                <div class="col-lg-10">
                                                     <input type="text" class="form-control" id="revision" name="revision" required="">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">C. Cajas</label>
-                                                <div class="col-lg-10"> 
+                                                <div class="col-lg-10">
                                                     <input type="text" class="form-control" id="cantidadcajas" name="cantidadcajas" required="">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">C. Pallet</label>
-                                                <div class="col-lg-10"> 
+                                                <div class="col-lg-10">
                                                     <input type="text" class="form-control" id="cantidadpallet" name="cantidadpallet" required="">
                                                 </div>
                                             </div>
                                               <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Cliente</label>
-                                                <div class="col-lg-10"> 
+                                                <div class="col-lg-10">
                                                     <input type="text" class="form-control" id="cliente" name="cliente" required="">
                                                 </div>
                                             </div>
                                               <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Proveedor</label>
-                                                <div class="col-lg-10"> 
+                                                <div class="col-lg-10">
                                                     <input type="text" class="form-control" id="proveedor" name="proveedor" required="">
                                                 </div>
                                             </div>
                                               <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Locación</label>
-                                                <div class="col-lg-10"> 
+                                                <div class="col-lg-10">
                                                     <input type="text" class="form-control" id="locacion" name="locacion" required="">
                                                 </div>
                                             </div>
                                              <div class="form-group">
                                                 <label class="col-lg-2 col-sm-2 control-label">Categoria</label>
-                                                <div class="col-lg-10"> 
+                                                <div class="col-lg-10">
                                                     <input type="text" class="form-control" id="categoria" name="categoria" required="">
                                                 </div>
                                             </div>
@@ -271,39 +271,39 @@
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
     </div>
-    
+
 </div>
 
-</div> 
+</div>
 
 <script>
     $(document).ready(function() {
     $("#subir").click(function(event) {
         if( !confirm('Esta seguro de subir los registros?') ){
             event.preventDefault();
-        } 
+        }
 
     });
      $("#eliminar").click(function(event) {
         if( !confirm('Esta seguro de eliminar los registros?') ){
             event.preventDefault();
-        } 
+        }
 
     });
 });
 </script>
-</div> 
+</div>
 	<script>
 	    $(document).ready(function() {
 	        // Untuk sunting
 	        $('#edit-data').on('show.bs.modal', function (event) {
 	            var div = $(event.relatedTarget) // Tombol dimana modal di tampilkan
 	            var modal          = $(this)
- 
+
 	            // Isi nilai pada field
 	            modal.find('#id').attr("value",div.data('id'));
                     modal.find('#numeroparte').attr("value",div.data('numeroparte'));
@@ -314,7 +314,7 @@
                     modal.find('#cliente').attr("value",div.data('cliente'));
                     modal.find('#proveedor').attr("value",div.data('proveedor'));
                     modal.find('#locacion').attr("value",div.data('locacion'));
-                    modal.find('#categoria').attr("value",div.data('categoria')); 
+                    modal.find('#categoria').attr("value",div.data('categoria'));
 	        });
 	    });
 	</script>
@@ -365,14 +365,14 @@ var checkboxes = document.getElementsByClassName("checkbox"); //checkbox items
 
 //select all checkboxes
 select_all.addEventListener("change", function(e){
-	for (i = 0; i < checkboxes.length; i++) { 
+	for (i = 0; i < checkboxes.length; i++) {
 		checkboxes[i].checked = select_all.checked;
 	}
 });
 
 
 for (var i = 0; i < checkboxes.length; i++) {
-	checkboxes[i].addEventListener('change', function(e){ //".checkbox" change 
+	checkboxes[i].addEventListener('change', function(e){ //".checkbox" change
 		//uncheck "select all", if one of the listed checkbox item is unchecked
 		if(this.checked == false){
 			select_all.checked = false;

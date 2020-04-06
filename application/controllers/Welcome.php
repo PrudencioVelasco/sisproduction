@@ -14,7 +14,7 @@ class Welcome extends CI_Controller {
     public function index() {
         if ($this->session->user_id) {
 
-            redirect('admin/');
+            redirect('Admin/');
         } else{
         $this->load->view('admin/login');
         }
@@ -23,7 +23,7 @@ class Welcome extends CI_Controller {
     public function login() {
         if ($this->session->user_id) {
 
-            redirect('admin/');
+            redirect('Admin/');
         } else if ($_POST) {
 
             $data = [
@@ -42,7 +42,7 @@ class Welcome extends CI_Controller {
                     'rol' => $result->rol,
                     'idrol' => $result->idrol
                 ]);
-                redirect('admin');
+                redirect('Admin');
             } else {
                 $this->session->set_flashdata('err', 'Usuario o Passeord Incorrecto.');
                 $this->load->view('admin/login');
@@ -60,7 +60,7 @@ class Welcome extends CI_Controller {
         // redirigimos al controlador principal
         $logout = $this->session->sess_destroy();
 
-        redirect('login');
+        redirect('Login');
     }
 
     public function panelprincipal() {

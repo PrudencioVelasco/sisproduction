@@ -54,12 +54,12 @@
                               </tr>
                            </thead>
                            <tbody id = "load_data">
-                              <?php 
+                              <?php
                                  $i=1;
                                  $sumapallet = 0;
                                  $sumacajas = 0;
                                  if(isset($entradas) && !empty($entradas)){
-                                 foreach ($entradas as $value){ 
+                                 foreach ($entradas as $value){
                                  $sumapallet+=$value->totalpallet;
                                  $sumacajas+=$value->totalcajas;
                                  ?>
@@ -92,7 +92,7 @@
                            <input type = "text" class = "form-control" placeholder = "Final"  id = "date4"/>
                            <button type = "button" class = "btn btn-primary" id = "btn_search2"><span class = "glyphicon glyphicon-search"></span></button> <button type = "button"  class = "btn btn-success reset"><span class = "glyphicon glyphicon-refresh"></span></button>
                         </div>
-                        
+
                         <table class="table">
                            <thead>
                               <tr>
@@ -105,12 +105,12 @@
                               </tr>
                            </thead>
                            <tbody id="load_data2">
-                              <?php 
+                              <?php
                                  $i=1;
                                  $sumapallet = 0;
                                  $sumacajas = 0;
                                  if(isset($salidascompletos) && !empty($salidascompletos)){
-                                 foreach ($salidascompletos as $value){ 
+                                 foreach ($salidascompletos as $value){
                                  $sumapallet+=$value->totalpallet;
                                  $sumacajas+=$value->totalcajas;
                                  ?>
@@ -154,12 +154,12 @@
                               </tr>
                            </thead>
                            <tbody id="load_data3">
-                              <?php 
-                                 $i=1; 
+                              <?php
+                                 $i=1;
                                  $sumacajas = 0;
                                  if(isset($salidasparciales) && !empty($salidasparciales)){
-                                 foreach ($salidasparciales as $value){ 
-                                 
+                                 foreach ($salidasparciales as $value){
+
                                  $sumacajas+=$value->totalcajas;
                                  ?>
                               <tr>
@@ -210,7 +210,7 @@ $(document).ready(function() {
             setTimeout(function() {
                 $loader.remove();
                 $.ajax({
-                    url: '<?php echo base_url("inventario/searchDate"); ?>',
+                    url: '<?php echo base_url("Inventario/searchDate"); ?>',
                     type: 'POST',
                     data: {
                         date1: $date1,
@@ -235,7 +235,7 @@ $(document).ready(function() {
             setTimeout(function() {
                 $loader.remove();
                 $.ajax({
-                    url: '<?php echo base_url("inventario/searchDatePallet"); ?>',
+                    url: '<?php echo base_url("Inventario/searchDatePallet"); ?>',
                     type: 'POST',
                     data: {
                         date3: $date3,
@@ -248,7 +248,7 @@ $(document).ready(function() {
             }, 3000);
         }
     });
-    
+
         $('#btn_search3').on('click', function() {
         if ($('#date5').val() == "" || $('#date6').val() == "") {
             alert("Please enter something on the text field");
@@ -261,7 +261,7 @@ $(document).ready(function() {
             setTimeout(function() {
                 $loader.remove();
                 $.ajax({
-                    url: '<?php echo base_url("inventario/searchDateParciales"); ?>',
+                    url: '<?php echo base_url("Inventario/searchDateParciales"); ?>',
                     type: 'POST',
                     data: {
                         date5: $date5,

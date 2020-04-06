@@ -85,7 +85,7 @@
                                                                 </td>
                                                                 <td align="center">
                                                                     <?php if ($value->idestatus != 14) { ?>
-                                                                    <a style="padding-right: 20px" target="_blank" href="<?php echo site_url('calidadp/etiquetaCalidad/' . $value->idpalletcajas) ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
+                                                                    <a style="padding-right: 20px" target="_blank" href="<?php echo site_url('Calidadp/etiquetaCalidad/' . $value->idpalletcajas) ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
                                                                     <input type="hidden" class="idpalletcajas" value="<?php echo $value->idpalletcajas; ?>"/>
                                                                     <!--<a href=""> <i class="fa fa-print fa-2x btnimprimirpdf"  aria-hidden="true"></i></a>-->
                                                                 <?php } ?>
@@ -202,7 +202,7 @@ foreach ($motivosrechazo as $valuemotivo) {
                                                         <button type="button" id="btnenviar" name="enviar" class="btn btn-success  btn-sm"><i class="fa fa-send" aria-hidden="true"></i> Enviar</button>
                                                          <button type="button" id="btnhold"   class="btn btn-info btn-sm"><i class="fa fa-clock-o" aria-hidden="true"></i> Hold</button>
                                                         <button type="button" id="btnrechazar" class="btn btn-danger btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Packing</button>
-                                                    <a target="_blank" href="<?php echo site_url('calidadp/generarPDFEnvio/' . $id) ?>" class="btn btn-default  btn-sm"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
+                                                    <a target="_blank" href="<?php echo site_url('Calidadp/generarPDFEnvio/' . $id) ?>" class="btn btn-default  btn-sm"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
 <?php } ?>
                                                 </div>
                                             </div>
@@ -245,7 +245,7 @@ foreach ($motivosrechazo as $valuemotivo) {
                 form = $("#frmdetalle").serialize();
                 $.ajax({
                     type: "POST",
-                    url: "<?php echo site_url('calidad/enviarBodegaNew'); ?>",
+                    url: "<?php echo site_url('Calidad/enviarBodegaNew'); ?>",
                     data: form,
 
                     success: function (data) {
@@ -274,7 +274,7 @@ foreach ($motivosrechazo as $valuemotivo) {
                     form = $("#frmdetalle").serialize();
                     $.ajax({
                         type: "POST",
-                        url: "<?php echo site_url('calidad/rechazarAPackingNew'); ?>",
+                        url: "<?php echo site_url('Calidad/rechazarAPackingNew'); ?>",
                         data: form,
 
                         success: function (data) {
@@ -311,7 +311,7 @@ foreach ($motivosrechazo as $valuemotivo) {
                     form = $("#frmdetalle").serialize();
                     $.ajax({
                         type: "POST",
-                        url: "<?php echo site_url('calidad/ponerEnHold'); ?>",
+                        url: "<?php echo site_url('Calidad/ponerEnHold'); ?>",
                         data: form,
 
                         success: function (data) {
@@ -341,7 +341,7 @@ foreach ($motivosrechazo as $valuemotivo) {
             var idpalletcajas = $(this).attr("id");
             //$('#myModalMSG').modal('show');
             $.ajax({
-                url: "<?php echo site_url('calidadp/rechazopallet'); ?>",
+                url: "<?php echo site_url('Calidadp/rechazopallet'); ?>",
                 method: "POST",
                 data: {idpalletcajas: idpalletcajas},
                 dataType: "json",
@@ -357,7 +357,7 @@ foreach ($motivosrechazo as $valuemotivo) {
             var idpalletcajas = $(this).attr("id2");
             //$('#myModalMSG').modal('show');
             $.ajax({
-                url: "<?php echo site_url('calidadp/rechazopalletacalidad'); ?>",
+                url: "<?php echo site_url('Calidadp/rechazopalletacalidad'); ?>",
                 method: "POST",
                 data: {idpalletcajas: idpalletcajas},
                 dataType: "json",
@@ -381,7 +381,7 @@ foreach ($motivosrechazo as $valuemotivo) {
             };
             $.ajax({
                 type: "POST",
-                url: "<?php echo site_url('calidadp/imprimirEtiquetaCalidad'); ?>",
+                url: "<?php echo site_url('Calidadp/imprimirEtiquetaCalidad'); ?>",
                 data: parametros,
 
                 success: function (data) {

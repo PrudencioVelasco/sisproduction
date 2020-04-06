@@ -6,7 +6,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><strong>Administrar Turnos</strong></h2>
+                        <h3><strong>ADMINISTRAR TURNOS </strong></h3>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -21,7 +21,7 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i> Nuevo Turno</button> 
+                                                <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i> Nuevo Turno</button>
 
                                             </div>
                                             <div class="col-md-6"></div>
@@ -45,17 +45,17 @@
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="row in turnos" class="table-default">
-                                                    <td>{{row.nombreturno}}</td> 
-                                                    <td>{{row.horainicial}}</td> 
-                                                    <td>{{row.horafinal}}</td> 
+                                                    <td>{{row.nombreturno}}</td>
+                                                    <td>{{row.horainicial}}</td>
+                                                    <td>{{row.horafinal}}</td>
                                                     <td>
                                                         <span v-if="row.siguientedia==1" class="label label-success">SI</span>
                                                         <span v-else class="label label-danger">NO</span>
-                                                    </td> 
+                                                    </td>
                                                     <td>
                                                         <span v-if="row.activo==1" class="label label-success">Activo</span>
                                                         <span v-else class="label label-danger">Inactivo</span>
-                                                    </td> 
+                                                    </td>
                                                     <td align="right">
                                                         <button type="button" class="btn btn-icons btn-rounded btn-info btn-sm" @click="editModal = true; selectTurno(row)" title="Modificar Datos">
                                                             <i class='fa fa-edit'></i> Editar
@@ -86,7 +86,7 @@
                                             </tfoot>
                                         </table>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                             <?php include 'modal.php'; ?>
                         </div>
@@ -98,4 +98,4 @@
 </div>
 <!-- /page content -->
  <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
-<script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/appturno.js"></script> 
+<script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/appturno.js"></script>

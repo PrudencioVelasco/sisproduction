@@ -3,14 +3,14 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h3>Reporte de Almacen</h3>
+                    <h3>REPORTE DE ALMACEN</h3>
 
                     <div class="clearfix"></div>
                   </div>
 
                   <div class="x_content">
-                  
-                  <form method="POST" action="<?= base_url('reporte/buscar') ?>"> 
+
+                  <form method="POST" action="<?= base_url('Reporte/buscar') ?>">
                   <div class="row">
                       <div class="col-md-3 col-sm-12 col-xs-12">
                          <div class="form-group">
@@ -25,15 +25,15 @@
                              </select>
                          </div>
                       </div>
-                      
 
-                       
+
+
                       <div class="col-md-3 col-sm-12 col-xs-12">
                          <div class="form-group">
                             <label><font color="red">*</font> Estatus</label>
-                             <select class="form-control" name="estatus" required > 
+                             <select class="form-control" name="estatus" required >
                                 <option value="7">EN ESPERA</option>
-                                <option value="8">EN BODEGA</option> 
+                                <option value="8">EN BODEGA</option>
                              </select>
                          </div>
                       </div>
@@ -79,7 +79,7 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    <?php 
+                                    <?php
                                        $i=1;
                                        foreach ($resultall as $row) { ?>
                                     <tr>
@@ -87,7 +87,7 @@
                                        <td><?php echo $row->numeroparte; ?></td>
                                        <td><?php echo $row->modelo;?></td>
                                        <td><?php echo $row->revision;?></td>
-                                       <td><?php echo $row->pallet;?></td> 
+                                       <td><?php echo $row->pallet;?></td>
                                        <td><?php echo $row->cantidad;?></td>
                                        <td><?php echo $row->linea;?></td>
                                        <td><?php echo $row->fecharegistro;?></td>
@@ -115,7 +115,7 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    <?php 
+                                    <?php
                                        $i=1;
                                        foreach ($resultusers as $row) { ?>
                                     <tr>
@@ -123,7 +123,7 @@
                                        <td><?php echo $row->numeroparte; ?></td>
                                        <td><?php echo $row->modelo;?></td>
                                        <td><?php echo $row->revision;?></td>
-                                       <td><?php echo $row->pallet;?></td> 
+                                       <td><?php echo $row->pallet;?></td>
                                        <td><?php echo $row->cantidad;?></td>
                                        <td><?php echo $row->linea;?></td>
                                        <td><?php echo $row->fecharegistro;?></td>
@@ -136,13 +136,9 @@
                      <?php } ?>
                      </div>
                   </div>
-                   
+
                   </div>
-                
+
               </div>
   </div>
 </div>
-
-
-
- 

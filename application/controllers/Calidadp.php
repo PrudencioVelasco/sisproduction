@@ -8,7 +8,7 @@ class Calidadp extends CI_Controller {
         parent::__construct();
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('almacen_model', 'almacen');
@@ -36,7 +36,7 @@ class Calidadp extends CI_Controller {
     }
 
     public function detalle($idtransferencia, $folio) {
-        //Permission::grant(uri_string()); 
+        //Permission::grant(uri_string());
         $motivosrechazo = $this->calidad->motivosRechazo();
         $datatransferencia = $this->transferencia->listaNumeroParteTransferencia($idtransferencia);
         $data = array(
@@ -50,14 +50,14 @@ class Calidadp extends CI_Controller {
     }
 
     public function rechazopallet() {
-        //Permission::grant(uri_string()); 
+        //Permission::grant(uri_string());
         $idpalletcajas = $this->input->post('idpalletcajas');
         $data = $this->calidadp->motivosrechazo($idpalletcajas);
         echo json_encode($data);
     }
 
     public function rechazopalletacalidad() {
-        //Permission::grant(uri_string()); 
+        //Permission::grant(uri_string());
         $idpalletcajas = $this->input->post('idpalletcajas');
         $data = $this->calidadp->motivosrechazoacalidad($idpalletcajas);
         echo json_encode($data);
@@ -181,8 +181,8 @@ class Calidadp extends CI_Controller {
     <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">&nbsp;</td>
   </tr>';
         }
-        $tbl .= ' 
-    
+        $tbl .= '
+
     <tr style=" background-color:#EAEAEA">
     <td style=" border-left:solid 1px
     #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
@@ -265,10 +265,10 @@ class Calidadp extends CI_Controller {
         $pdf->Output('My-File-Name.pdf', 'I');
     }
 
-    public function etiquetaCalidad($idpalletcajas) { 
+    public function etiquetaCalidad($idpalletcajas) {
        //Permission::grant(uri_string());
        $detalle = $this->transferencia->detalleDelDetallaParte($idpalletcajas);
- 
+
        $idtransferencia= $detalle->idtransferancia;
        $idcajas = $detalle->idcajas;
         $datausuario = $this->usuario->detalleUsuario($this->session->user_id);
@@ -292,7 +292,7 @@ class Calidadp extends CI_Controller {
         $mipdf->writeHTML('<page  format="130x182" >
     <style type="text/css">
 			table {border-collapse:collapse}
-			td 
+			td
 				{
 					border:0px solid black
 				}
@@ -303,9 +303,9 @@ class Calidadp extends CI_Controller {
 			<td   width="320" height="75" style="font-size:40px; font-family:arial; font-weight:bold; background: #; color:#fff; " rowspan="2" >OQC Passed</td>
 			<td  width="315" align="center" style="font-size:20px; font-family:arial; font-weight:bold; background: ; color:#fff;  " >CUSTOMERS</td>
 		</tr>
-		
+
 		<tr>
-		
+
 			<td  align="center"    style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >' . $detalle->nombre . '</td>
 		</tr>
 		<tr>
@@ -332,8 +332,8 @@ class Calidadp extends CI_Controller {
 			<td  align="center" height="60" style="font-size:50px; font-family:arial; font-weight:bold; background: #;vertical-align:bottom; " >' . $datausuario->usuario . '</td>
 			<td  align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " ></td>
 		</tr>
-		
-		
+
+
 
 	</table>
 
@@ -365,7 +365,7 @@ class Calidadp extends CI_Controller {
         $mipdf->writeHTML('<page  format="130x182" >
     <style type="text/css">
 			table {border-collapse:collapse}
-			td 
+			td
 				{
 					border:0px solid black
 				}
@@ -376,9 +376,9 @@ class Calidadp extends CI_Controller {
 			<td   width="320" height="75" style="font-size:40px; font-family:arial; font-weight:bold; background: #; color:#fff; " rowspan="2" >OQC Passed</td>
 			<td  width="315" align="center" style="font-size:20px; font-family:arial; font-weight:bold; background: ; color:#fff;  " >CUSTOMERS</td>
 		</tr>
-		
+
 		<tr>
-		
+
 			<td  align="center"    style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >' . $detalle->nombre . '</td>
 		</tr>
 		<tr>
@@ -405,8 +405,8 @@ class Calidadp extends CI_Controller {
 			<td  align="center" height="60" style="font-size:50px; font-family:arial; font-weight:bold; background: #;vertical-align:bottom; " >' . $datausuario->usuario . '</td>
 			<td  align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " ></td>
 		</tr>
-		
-		
+
+
 
 	</table>
 
@@ -420,8 +420,8 @@ class Calidadp extends CI_Controller {
 
            $nombredelpdf = 'Calidad' . date('Ymdgisv') . '.pdf';
         $ruta = APPPATH . 'pdfs\\' .$nombredelpdf;
-        $mipdf->Output($ruta, 'F');  
-        echo $nombredelpdf;  
+        $mipdf->Output($ruta, 'F');
+        echo $nombredelpdf;
     }
 
 }

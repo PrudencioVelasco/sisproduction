@@ -9,7 +9,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><strong>Administrar Clientes</strong></h2>
+                        <h3><strong>ADMINISTRAR CLIENTES </strong></h3>
 
                         <div class="clearfix"></div>
                     </div>
@@ -46,18 +46,18 @@
                                             <th class="text-white" v-column-sortable:idcliente>N° </th>
                                             <th class="text-white" v-column-sortable:clave>Clave </th>
                                             <th class="text-white" v-column-sortable:rfc>RFC </th>
-                                            <th class="text-white" v-column-sortable:nombre>N. Cliente </th> 
-                                             <th class="text-white" v-column-sortable:abreviatura>Abreviatura </th>  
+                                            <th class="text-white" v-column-sortable:nombre>N. Cliente </th>
+                                             <th class="text-white" v-column-sortable:abreviatura>Abreviatura </th>
                                             <th class="text-white" v-column-sortable:activo>Estatus </th>
                                             <th class="text-white"></th>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="row in clientes" class="table-default">
-                                                     <td>{{row.idcliente}}</td> 
+                                                     <td>{{row.idcliente}}</td>
                                                      <td>{{row.clave}}</td>
-                                                    <td>{{row.rfc}}</td> 
-                                                    <td>{{row.nombre}}</td>   
-                                                    <td>{{row.abreviatura}}</td>   
+                                                    <td>{{row.rfc}}</td>
+                                                    <td>{{row.nombre}}</td>
+                                                    <td>{{row.abreviatura}}</td>
                                                     <td >
                                                         <span v-if="row.activo==1" class="label label-success">Activo</span>
                                                         <span v-else class="label label-danger">Inactivo</span>
@@ -65,7 +65,7 @@
                                                     <td align="right">
                                                         <button type="button" class="btn btn-icons btn-sm btn-rounded btn-info" @click="editModal = true; selectRol(row)" title="Modificar Datos">
                                                             <i class='fa fa-edit'></i> Editar
-                                                        </button> 
+                                                        </button>
                                                         <a href="#"  class="btn btn-icons btn-sm btn-rounded btn-danger"  @click="deleteCliente(row.idcliente)" title="Eliminar Datos"><i class="fa fa-trash"></i> Eliminar</a>
 
                                                     </td>
@@ -91,17 +91,17 @@
                                             </tfoot>
                                         </table>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                             <?php include 'modal.php'; ?>
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
 </div>
 <!-- /page content -->
  <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
-<script data-my_var_1="<?php echo base_url() ?>"  src="<?php echo base_url(); ?>/assets/js/appvue/appclient.js"></script> 
+<script data-my_var_1="<?php echo base_url() ?>"  src="<?php echo base_url(); ?>/assets/js/appvue/appclient.js"></script>

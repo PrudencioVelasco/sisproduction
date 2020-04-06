@@ -48,7 +48,7 @@
 
                                     <?php endif ?>
                                 </div>
-                                <form method="POST"  action="<?= base_url('welcome/login') ?>" >
+                                <form method="POST"  action="<?= base_url('Welcome/login') ?>" >
                                     <h3 style="font-weight:bolder; text-align:center;" class="mr-auto">Sistema de Producción Woori</h3>
 
                                     <hr/>

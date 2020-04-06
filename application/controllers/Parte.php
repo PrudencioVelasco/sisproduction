@@ -8,7 +8,7 @@ class Parte extends CI_Controller {
         parent::__construct();
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
 
         $this->load->helper('url');
@@ -31,7 +31,7 @@ class Parte extends CI_Controller {
         $this->load->library('zend');
         //load in folder Zend
         $this->zend->load('Zend/Barcode');
-        //generate barcode 
+        //generate barcode
         $file = Zend_Barcode::draw('code128', 'image', array('text' => $code,  'factor'=>1.5,'stretchText'=>true), array());
         $code = time();
         $barcodeRealPath = $_SERVER['DOCUMENT_ROOT'] . '/sisproduction/assets/cache/' . $code . '.png';
@@ -62,7 +62,7 @@ class Parte extends CI_Controller {
         $mipdf->writeHTML('<page  format="130x182" >
     <style type="text/css">
 			table {border-collapse:collapse}
-			td 
+			td
 				{
 					border:0px solid black
 				}
@@ -73,9 +73,9 @@ class Parte extends CI_Controller {
 			<td   width="320" height="75" style="font-size:40px; font-family:arial; font-weight:bold; background: #; color:#fff; " rowspan="2" >OQC Passed</td>
 			<td  width="315" align="center" style="font-size:20px; font-family:arial; font-weight:bold; background: ; color:#fff;  " >CUSTOMERS</td>
 		</tr>
-		
+
 		<tr>
-		
+
 			<td  align="center"    style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >' . $detalle->nombre . '</td>
 		</tr>
 		<tr>
@@ -102,8 +102,8 @@ class Parte extends CI_Controller {
 			<td  align="center" height="60" style="font-size:50px; font-family:arial; font-weight:bold; background: #;vertical-align:bottom; " >' . $datausuario->usuario . '</td>
 			<td  align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " ></td>
 		</tr>
-		
-		
+
+
 
 	</table>
 
@@ -135,7 +135,7 @@ class Parte extends CI_Controller {
         $mipdf->writeHTML('<page  format="130x182" >
     <style type="text/css">
 			table {border-collapse:collapse}
-			td 
+			td
 				{
 					border:0px solid black
 				}
@@ -146,9 +146,9 @@ class Parte extends CI_Controller {
 			<td   width="320" height="75" style="font-size:40px; font-family:arial; font-weight:bold; background: #; color:#fff; " rowspan="2" >OQC Passed</td>
 			<td  width="315" align="center" style="font-size:20px; font-family:arial; font-weight:bold; background: ; color:#fff;  " >CUSTOMERS</td>
 		</tr>
-		
+
 		<tr>
-		
+
 			<td  align="center"    style="font-size:50px; font-family:arial; font-weight:bold; background: #; " >' . $detalle->nombre . '</td>
 		</tr>
 		<tr>
@@ -175,8 +175,8 @@ class Parte extends CI_Controller {
 			<td  align="center" height="60" style="font-size:50px; font-family:arial; font-weight:bold; background: #;vertical-align:bottom; " >' . $datausuario->usuario . '</td>
 			<td  align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #; " ></td>
 		</tr>
-		
-		
+
+
 
 	</table>
 
@@ -196,7 +196,7 @@ class Parte extends CI_Controller {
     }
     public function modelo($idparte) {
         Permission::grant(uri_string());
-         $datamodelo = $this->modelo->showAll($idparte); 
+         $datamodelo = $this->modelo->showAll($idparte);
         $data=array(
             'datamodelo'=>$datamodelo,
             'idparte'=>$idparte
@@ -208,7 +208,7 @@ class Parte extends CI_Controller {
     public function revision($idmodelo) {
         Permission::grant(uri_string());
           $datarevision = $this->revision->showAll($idmodelo);
-        
+
         $data=array(
             'datarevision'=>$datarevision,
             'idmodelo'=>$idmodelo
@@ -220,7 +220,7 @@ class Parte extends CI_Controller {
     public function cantidad($idrevision) {
         Permission::grant(uri_string());
          $datacantidad = $this->cantidad->showAll($idrevision);
-        
+
         $data=array(
             'datacantidad'=>$datacantidad,
             'idrevision'=>$idrevision
@@ -243,14 +243,14 @@ class Parte extends CI_Controller {
         date_default_timezone_set("America/Tijuana");
         $detalle = $this->parte->detalleDelDetallaParte($id);
         //var_dump($detalle);
-        $detallepallet = $this->palletcajas->detallePalletCajas($idpalletcajas); 
+        $detallepallet = $this->palletcajas->detallePalletCajas($idpalletcajas);
         $lista = $this->parte->cantidadesPartes($id);
         $totalcajas = $detallepallet->cajas;
         $totalpallet=0;
         foreach ($lista as $value) {
             $totalpallet++;
         }
-       
+
         //$codigo = $detalle->codigo;
         $barcode = $this->set_barcode($detalle->codigo."_".$detalle->folio."_".$totalcajas);
         $hora = date("h:i a");
@@ -260,39 +260,39 @@ class Parte extends CI_Controller {
         $mes = date("F");
         $this->load->library('html2pdf');
         ob_start();
-        
+
 
         $mipdf = new HTML2PDF('L', 'Letter', 'es', 'true', 'UTF-8');
         $mipdf->pdf->SetDisplayMode('fullpage');
         $mipdf->writeHTML('<page  format="400x165"  >
  <style type="text/css">
             table {border-collapse:collapse}
-            td 
+            td
                 {
                     border:0px  solid black;
                 }
     </style>
 
     <br>
-    <table border="1" align="center">  
+    <table border="1" align="center">
         <tr>
             <td  align="center" height="45" width="200"  style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" >Customer</td>
             <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" ></td>
-            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>    
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>
             <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan=""></td>
-            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>    
-            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>    
-                
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>
+
         </tr>
 
         <tr>
-            <td align="center"  height="90"   valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
-        
-            
+            <td align="center"  height="90"   valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>
+
+
             <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $totalcajas . '</b></td>
-                
+
             <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
-            
+
             <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >' . $semana . '</td>
 
         </tr>
@@ -301,14 +301,14 @@ class Parte extends CI_Controller {
             <td  align="center" width=""  height=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
             <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
             <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; ' . $hora . ' </td>
 
         </tr>
 
         <tr>
             <td  align="center" width="" height="50"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; "  colspan="3" >Part Number</td>
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>        
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>
         </tr>
 
         <tr>
@@ -325,18 +325,18 @@ class Parte extends CI_Controller {
 
         <tr>
             <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" rowspan="2">ROHS</td>
-            <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>    
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>    
+            <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
             <td align="center" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold; padding-top:15px; " colspan="">' . $detalle->revision . '</td>
-            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">1</td>    
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">1</td>
         </tr>
         <tr>
-            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->nombrelinea . '</td>    
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>    
+            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->nombrelinea . '</td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
-            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>    
+            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>
         </tr>
 
     </table>
@@ -381,32 +381,32 @@ class Parte extends CI_Controller {
         $mipdf->writeHTML('<page  format="400x165"  >
  <style type="text/css">
             table {border-collapse:collapse}
-            td 
+            td
                 {
                     border:0px  solid black;
                 }
     </style>
 
     <br>
-    <table border="0" align="center">  
+    <table border="0" align="center">
         <tr>
             <td  align="center" height="45" width="200"  style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" >Customer</td>
             <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" ></td>
-            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>    
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Pallet Quatity</td>
             <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan=""></td>
-            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>    
-            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>    
-                
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Month</td>
+            <td  align="center" width="220"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="">Week</td>
+
         </tr>
 
         <tr>
-            <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>    
-        
-            
+            <td align="center"  height="90"   valign="bottom" style="font-size:85px; font-family:arial; font-weight:bold;  " colspan="2"><b>' . $detalle->nombre . '</b></td>
+
+
             <td align="center" width="250"  style="font-size:80px; font-family:arial; font-weight:bold;  " colspan=""><b>' . $totalcajas . '</b></td>
-                
+
             <td align="center" style="font-size:60px; font-family:arial; vertical-align: top;  font-weight:bold;  " colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;' . $mes . '&nbsp;' . $dia . '</td>
-            
+
             <td align="center" style="font-size:90px; font-family:arial; font-weight:bold;  " colspan="" valign="bottom" >' . $semana . '</td>
 
         </tr>
@@ -415,14 +415,14 @@ class Parte extends CI_Controller {
             <td  align="center" width=""  height=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
             <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff; "  rowspan="" ></td>
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>    
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #; color:#fff;" colspan=""></td>
             <td  align="left" valign="top" style="font-size:35px; font-family:arial; font-weight:bold; background: #fff; color:#000;" colspan="2"> &nbsp; ' . $hora . ' </td>
 
         </tr>
 
         <tr>
             <td  align="center" width="" height="50"  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; "  colspan="3" >Part Number</td>
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>        
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;" colspan="3">Model Name</td>
         </tr>
 
         <tr>
@@ -439,18 +439,18 @@ class Parte extends CI_Controller {
 
         <tr>
             <td  align="center" width=""  style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff; " colspan="" rowspan="2">ROHS</td>
-            <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>    
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>    
+            <td  align="center" height="70"width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Line No</td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">Prod.</td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"    colspan="">W/H</td>
             <td align="center" valign="bottom" style="font-size:50px; font-family:arial; vertical-align: ;font-weight:bold; padding-top:15px; " colspan="">' . $detalle->revision . '</td>
-            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">' . $totalpallet . '</td>    
+            <td align="center" valign="bottom" style="font-size:50px; font-family:arial; font-weight:bold; padding-top:15px; " colspan="">' . $totalpallet . '</td>
         </tr>
         <tr>
-            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->nombrelinea . '</td>    
-            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>    
+            <td  align="center" height="60" width=""style="font-size:50px; font-family:arial; font-weight:bold; background: #fff; color:#000;padding-top:15px;"    colspan="">' . $detalle->nombrelinea . '</td>
+            <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td  align="center" width=""style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#000;"    colspan=""></td>
             <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan=""></td>
-            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>    
+            <td align="center" style="font-size:30px; font-family:arial; font-weight:bold; background: #fff; color:#fff;"  colspan="">WOORI USA</td>
         </tr>
 
     </table>
@@ -920,7 +920,7 @@ class Parte extends CI_Controller {
     public function quitarPalletCajas($idpalletcaja, $iddetalleparte) {
         Permission::grant(uri_string());
         $this->palletcajas->eliminarPalletCajas($idpalletcaja);
-        redirect('parte/detalleenvio/' . $iddetalleparte);
+        redirect('Parte/detalleenvio/' . $iddetalleparte);
     }
 
     public function agregarPalletCajas() {
@@ -942,7 +942,7 @@ class Parte extends CI_Controller {
             'fecharegistro' => date('Y-m-d H:i:s')
         );
         $this->palletcajasproceso->addPalletCajasProceso($dataproceso);
-        redirect('parte/detalleenvio/' . $this->input->post('iddetalleparte'));
+        redirect('Parte/detalleenvio/' . $this->input->post('iddetalleparte'));
     }
 
     public function modificarTransferencia() {
@@ -957,7 +957,7 @@ class Parte extends CI_Controller {
         );
 
         $this->parte->updateDetalleParte($iddetalleparte, $data);
-        redirect('parte/detalleenvio/' . $iddetalleparte);
+        redirect('Parte/detalleenvio/' . $iddetalleparte);
     }
 
     public function reenviarCalidad() {
@@ -1037,7 +1037,7 @@ class Parte extends CI_Controller {
                 $this->palletcajasproceso->addPalletCajasProceso($dataproceso);
             }
 
-            redirect('parte/detalleenvio/' . $iddetalleparte);
+            redirect('Parte/detalleenvio/' . $iddetalleparte);
         } else {
             $usuarioscalidad = $this->usuario->showAllCalidad();
             $detalleparte = $this->parte->detalleParteId($id);
@@ -1234,7 +1234,7 @@ class Parte extends CI_Controller {
         $query = $this->parte->deleteParte($idparte);
         if ($query) {
             $result['partes'] = true;
-        } 
+        }
         echo json_encode($result);
     }
 

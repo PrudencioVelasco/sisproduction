@@ -1,28 +1,29 @@
  <?php
 class User_model extends CI_Model
 {
-    
+
     public function __construct()
     {
         parent::__construct();
         $this->load->database();
     }
-    
-    
-    
+
+
+
     public function __destruct()
     {
         $this->db->close();
     }
-    
-    
+
+
     public function showAll()
     {
-        $this->db->select('u.*,r.id as idrol, t.idturno, t.nombreturno,  r.rol as rolnombre');    
+        $this->db->select('u.*,r.id as idrol, t.idturno, t.nombreturno,  r.rol as rolnombre');
         $this->db->from('users u');
         $this->db->join('users_rol ur', 'u.id = ur.id_user');
-        $this->db->join('rol r', 'ur.id_rol = r.id'); 
-        $this->db->join('turno t', 't.idturno = u.idturno'); 
+        $this->db->join('rol r', 'ur.id_rol = r.id');
+        $this->db->join('turno t', 't.idturno = u.idturno');
+        $this->db->order_by('u.name ASC');
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -32,12 +33,13 @@ class User_model extends CI_Model
     }
      public function showAllCalidad()
     {
-        $this->db->select('u.id as idusuario,u.name');    
+        $this->db->select('u.id as idusuario,u.name');
         $this->db->from('users u');
         $this->db->join('users_rol ur', 'u.id = ur.id_user');
-        $this->db->join('rol r', 'ur.id_rol = r.id'); 
+        $this->db->join('rol r', 'ur.id_rol = r.id');
         $this->db->where('r.id',2);
         $this->db->where('u.activo',1);
+          $this->db->order_by('u.name ASC');
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -47,12 +49,13 @@ class User_model extends CI_Model
     }
     public function showAllBodega()
     {
-        $this->db->select('u.id as idusuario,u.name');    
+        $this->db->select('u.id as idusuario,u.name');
         $this->db->from('users u');
         $this->db->join('users_rol ur', 'u.id = ur.id_user');
-        $this->db->join('rol r', 'ur.id_rol = r.id'); 
+        $this->db->join('rol r', 'ur.id_rol = r.id');
         $this->db->where('r.id',4);
         $this->db->where('u.activo',1);
+          $this->db->order_by('u.name ASC');
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -62,12 +65,13 @@ class User_model extends CI_Model
     }
     public function showAllPacking()
     {
-        $this->db->select('u.id as idusuario,u.name');    
+        $this->db->select('u.id as idusuario,u.name');
         $this->db->from('users u');
         $this->db->join('users_rol ur', 'u.id = ur.id_user');
-        $this->db->join('rol r', 'ur.id_rol = r.id'); 
+        $this->db->join('rol r', 'ur.id_rol = r.id');
         $this->db->where('r.id',3);
         $this->db->where('u.activo',1);
+          $this->db->order_by('u.name ASC');
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -77,23 +81,23 @@ class User_model extends CI_Model
     }
     public function showAllContar()
     {
-        $this->db->select('u.*,r.id as idrol, r.rol as rolnombre');    
+        $this->db->select('u.*,r.id as idrol, r.rol as rolnombre');
         $this->db->from('users u');
         $this->db->join('users_rol ur', 'u.id = ur.id_user');
-        $this->db->join('rol r', 'ur.id_rol = r.id'); 
-        $query = $this->db->get(); 
-         return $query->result(); 
+        $this->db->join('rol r', 'ur.id_rol = r.id');
+        $query = $this->db->get();
+         return $query->result();
     }
- 
+
 
     public function addUser($data)
     {
         $this->db->insert('users', $data);
-        $insert_id = $this->db->insert_id(); 
+        $insert_id = $this->db->insert_id();
         return  $insert_id;
     }
-    
-    
+
+
     public function updateUser($id, $field)
     {
         $this->db->where('id', $id);
@@ -103,7 +107,7 @@ class User_model extends CI_Model
         } else {
             return false;
         }
-        
+
     }
       public function updateUserRol($id, $field)
     {
@@ -114,7 +118,7 @@ class User_model extends CI_Model
         } else {
             return false;
         }
-        
+
     }
       public function passwordupdateUser($id, $field)
     {
@@ -125,7 +129,7 @@ class User_model extends CI_Model
         } else {
             return false;
         }
-        
+
     }
     public function deleteUser($id)
     {
@@ -136,14 +140,14 @@ class User_model extends CI_Model
         } else {
             return false;
         }
-        
+
     }
        public function validarUsuarioRegistrado($usuario )
     {
         # code...
-        $this->db->select('u.*');    
+        $this->db->select('u.*');
         $this->db->from('users u');
-        $this->db->where('u.usuario', $usuario); 
+        $this->db->where('u.usuario', $usuario);
         $query = $this->db->get();
         //$query = $this->db->get('permissions');
         if ($query->num_rows() > 0) {
@@ -157,14 +161,16 @@ class User_model extends CI_Model
     {
         $field = array(
             'u.usuario',
-            'u.name'
+            'u.name',
+            'r.rol'
         );
-        $this->db->select('u.*,r.id as idrol, r.rol as rolnombre');    
+        $this->db->select('u.*,r.id as idrol, r.rol as rolnombre');
         $this->db->from('users u');
         $this->db->join('users_rol ur', 'u.id = ur.id_user');
-        $this->db->join('rol r', 'ur.id_rol = r.id'); 
+        $this->db->join('rol r', 'ur.id_rol = r.id');
         $this->db->like('concat(' . implode(',', $field) . ')', $match);
-        $query = $this->db->get(); 
+        $this->db->order_by('u.name ASC');
+        $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -174,7 +180,7 @@ class User_model extends CI_Model
      public function addUserRol($data)
     {
         return $this->db->insert('users_rol', $data);
-    }  
+    }
     function detalleUsuario($idusuario) {
         $this->db->select('u.id as idusuario,u.name, u.usuario');
         $this->db->from('users u');
@@ -184,4 +190,4 @@ class User_model extends CI_Model
     }
 
 }
-?> 
+?>

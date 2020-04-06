@@ -11,7 +11,7 @@
                     <div class="x_content">
                       <div class="row">
                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                       <a class="pointer" href="<?php echo site_url('user/') ?>">
+                       <a class="pointer" href="<?php echo site_url('User/') ?>">
                        <div class="info-box-2  bg-light-blue hover-expand-effect pointer">
                            <div class="icon">
                                <i class="fa fa-user"></i>
@@ -24,7 +24,7 @@
                        </a>
                    </div>
                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                      <a class="pointer" href="<?php echo site_url('client/') ?>">
+                      <a class="pointer" href="<?php echo site_url('Client/') ?>">
                        <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
                            <div class="icon">
                                <i class="fa fa-users"></i>
@@ -37,7 +37,7 @@
                        <a>
                    </div>
                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                       <a class="pointer" href="<?php echo site_url('turno/') ?>">
+                       <a class="pointer" href="<?php echo site_url('Turno/') ?>">
                        <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
                            <div class="icon">
                                <i class="fa fa-clock-o"></i>
@@ -50,7 +50,7 @@
                      </a>
                    </div>
                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                     <a class="pointer" href="<?php echo site_url('linea/') ?>">
+                     <a class="pointer" href="<?php echo site_url('Linea/') ?>">
                        <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
                            <div class="icon">
                                <i class="fa fa-check-square-o"></i>
@@ -67,7 +67,7 @@
 
                <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <a class="pointer" href="<?php echo site_url('ubicacion/') ?>">
+                <a class="pointer" href="<?php echo site_url('Ubicacion/') ?>">
                 <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
                     <div class="icon">
                         <i class="fa fa-thumb-tack"></i>
@@ -80,7 +80,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-               <a class="pointer" href="<?php echo site_url('motivorechazo/') ?>">
+               <a class="pointer" href="<?php echo site_url('Motivorechazo/') ?>">
                 <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
                     <div class="icon">
                         <i class="fa fa-stack-exchange"></i>
@@ -93,7 +93,7 @@
                 <a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <a class="pointer" href="<?php echo site_url('warehouse/') ?>">
+                <a class="pointer" href="<?php echo site_url('Warehouse/') ?>">
                 <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
                     <div class="icon">
                         <i class="fa fa-exchange"></i>
@@ -106,7 +106,7 @@
               </a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-              <a class="pointer" href="<?php echo site_url('parte/parteadmin') ?>">
+              <a class="pointer" href="<?php echo site_url('Parte/parteadmin') ?>">
                 <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
                     <div class="icon">
                         <i class="fa fa-archive"></i>
@@ -122,7 +122,7 @@
 
         <div class="row">
      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-         <a class="pointer" href="<?php echo site_url('categoria/') ?>">
+         <a class="pointer" href="<?php echo site_url('Categoria/') ?>">
          <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
              <div class="icon">
                 <i class="fa fa-flag-o"></i>
@@ -135,7 +135,7 @@
          </a>
      </div>
      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <a class="pointer" href="<?php echo site_url('documentos/specs') ?>">
+        <a class="pointer" href="<?php echo site_url('Documentos/specs') ?>">
          <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
              <div class="icon">
                  <i class="fa fa-file-pdf-o"></i>
@@ -148,7 +148,7 @@
          <a>
      </div>
      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-         <a class="pointer" href="<?php echo site_url('documentos/procedimientos') ?>">
+         <a class="pointer" href="<?php echo site_url('Documentos/procedimientos') ?>">
          <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
              <div class="icon">
                 <i class="fa fa-file-pdf-o"></i>

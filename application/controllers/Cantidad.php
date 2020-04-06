@@ -9,7 +9,7 @@ class Cantidad extends CI_Controller
 
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('data_model');
@@ -26,7 +26,7 @@ class Cantidad extends CI_Controller
     public function ver($idrevision)
     {
         # code...
-        Permission::grant(uri_string()); 
+        Permission::grant(uri_string());
         $detalle = $this->cantidad->detalleCantidad($idrevision);
          $para = $detalle->nombre." > ".$detalle->numeroparte." > ".$detalle->modelo." > ".$detalle->revision." > "."Cantidad";
 
@@ -35,9 +35,9 @@ class Cantidad extends CI_Controller
         $this->load->view('cantidad/index',$data);
         $this->load->view('footer');
     }
- 
+
   public function addCantidad() {
-      Permission::grant(uri_string()); 
+      Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'cantidad',
@@ -57,10 +57,10 @@ class Cantidad extends CI_Controller
             );
         } else {
             $idrevision = $this->input->post('idrevision');
-            $cantidad = trim($this->input->post('cantidad')); 
-             $datavalidar= $this->cantidad->validadExistenciaCantidad($idrevision,$cantidad); 
+            $cantidad = trim($this->input->post('cantidad'));
+             $datavalidar= $this->cantidad->validadExistenciaCantidad($idrevision,$cantidad);
         if($datavalidar == FALSE){
-            
+
              $data =array(
                  'idrevision'=>$idrevision,
                  'cantidad'=>$cantidad,
@@ -79,7 +79,7 @@ class Cantidad extends CI_Controller
         echo json_encode($result);
     }
     public function updateCantidad() {
-        Permission::grant(uri_string()); 
+        Permission::grant(uri_string());
         $config = array(
             array(
                 'field' => 'cantidad',
@@ -100,10 +100,10 @@ class Cantidad extends CI_Controller
             $idcantidad = $this->input->post('idcantidad');
             $idrevision = $this->input->post('idrevision');
             $cantidad = trim($this->input->post('cantidad'));
-           $datavalidar= $this->cantidad->validadExistenciaCantidadUpdate($idcantidad,$idrevision,$cantidad); 
+           $datavalidar= $this->cantidad->validadExistenciaCantidadUpdate($idcantidad,$idrevision,$cantidad);
         if($datavalidar == FALSE){
-            
-             $data =array( 
+
+             $data =array(
                  'cantidad'=>$cantidad,
                  'idusuario' => $this->session->user_id,
                  'fecharegistro' => date('Y-m-d H:i:s')
@@ -124,9 +124,9 @@ class Cantidad extends CI_Controller
     public function registrar() {
         $idrevision=$this->input->post('idrevision');
         $cantidad =$this->input->post('cantidad');
-        $datavalidar= $this->revision->validadExistenciaRevision($idrevision,$cantidad); 
+        $datavalidar= $this->revision->validadExistenciaRevision($idrevision,$cantidad);
         if($datavalidar == FALSE){
-            
+
              $data =array(
                  'idrevision'=>$idrevision,
                  'cantidad'=>$cantidad,
@@ -142,16 +142,16 @@ class Cantidad extends CI_Controller
     }
     public function detalleCantidad() {
           $idcantidad=$this->input->post('employee_id');
-           $result= $this->cantidad->detalleCantidad($idcantidad); 
+           $result= $this->cantidad->detalleCantidad($idcantidad);
            echo json_encode($result);
     }
       public function modificar() {
         $idcantidad=$this->input->post('employee_id');
         $cantidad=$this->input->post('cantidad');
-        $datavalidar= $this->cantidad->validadExistenciaCantidadUpdate($idcantidad,$cantidad); 
+        $datavalidar= $this->cantidad->validadExistenciaCantidadUpdate($idcantidad,$cantidad);
         if($datavalidar == FALSE){
-            
-             $data =array( 
+
+             $data =array(
                  'cantidad'=>$cantidad,
                  'idusuario' => $this->session->user_id,
                  'fecharegistro' => date('Y-m-d H:i:s')
@@ -175,7 +175,7 @@ class Cantidad extends CI_Controller
     }
 
     public function searchCantidad() {
-        Permission::grant(uri_string()); 
+        Permission::grant(uri_string());
         $value = $this->input->post('text');
         $idrevision = $this->input->post('idrevision');
         $query = $this->cantidad->searchCantidad($value, $idrevision);
@@ -191,7 +191,7 @@ class Cantidad extends CI_Controller
         $query = $this->cantidad->deleteCantidad($idcantidad);
         if ($query) {
             $result['cantidades'] = true;
-        } 
+        }
         echo json_encode($result);
     }
 

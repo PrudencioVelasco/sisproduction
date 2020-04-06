@@ -26,7 +26,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <button class="btn btn-round btn-primary" @click="addModal= true">Nueva parte</button>
-                                                <a href="<?php echo site_url('parte/verEnviados') ?>" class="btn btn-round btn-default">Ver enviados</a>
+                                                <a href="<?php echo site_url('Parte/verEnviados') ?>" class="btn btn-round btn-default">Ver enviados</a>
 
 
 
@@ -63,10 +63,10 @@
                                                             <i class="fa fa-pencil-square" aria-hidden="true"></i>
                                                             Modificar
                                                         </button>
-                                                       
+
                                                         <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs" v-if="row.activo==1" v-bind:href="'packing/'+ row.idparte" ><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                             Agregar</a>
-                                                        
+
                                                     </td>
                                                 </tr>
                                                 <tr v-if="emptyResult">

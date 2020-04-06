@@ -9,7 +9,7 @@ class Proceso extends CI_Controller {
 
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('data_model');
@@ -158,11 +158,11 @@ public function agregar_detalle()
 
 
         }
-    redirect('proceso/ver/'.$idproceso);
+    redirect('Proceso/ver/'.$idproceso);
 
 }else{
 
-   redirect('proceso/ver/'.$idproceso);
+   redirect('Proceso/ver/'.$idproceso);
 }
 
     }
@@ -238,7 +238,7 @@ public function eliminar_entrada($identrada)
         $this->proceso->deleteDetalleEntradaPorId($identrada);
         $this->proceso->deleteEntradaPorId($identrada);
     }
-    redirect('proceso/entrada/');
+    redirect('Proceso/entrada/');
 
 }
 

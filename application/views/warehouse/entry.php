@@ -3,20 +3,20 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <div class="row">  
+                    <div class="row">
                         <div class="col-md-11 col-sm-12 col-xs-12">
-                            <h3>Reporte de Entradas</h3>
+                            <h3>REPORTE DE ENTRADAS</h3>
                         </div>
                         <div class="col-md-1 col-sm-12 col-xs-12">
-                            <a href="<?php echo base_url('warehouse/index') ?>" class="btn btn-success"><i class="fa fa-home" aria-hidden="true"></i></a>
+                            <a href="<?php echo base_url('Warehouse/index') ?>" class="btn btn-success"><i class="fa fa-home" aria-hidden="true"></i></a>
                         </div>
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <form method="POST" action="<?= base_url('warehouse/entry') ?>"> 
+                    <form method="POST" action="<?= base_url('Warehouse/entry') ?>">
                          <label>Campos con <font color="red">*</font> son obligatorios.</label>
-                        <div class="row">  
+                        <div class="row">
                             <div class="col-md-3 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label>N° Parte</label>
@@ -37,7 +37,7 @@
                             </div>
                              <div class="col-md-3 col-sm-12 col-xs-12">
                                 <div class="form-group">
-                                    <label> Categoria</label> 
+                                    <label> Categoria</label>
                                     <select class="form-control" required="" name="categoria">
                                         <option value="0" selected="">TODOS</option>
                                         <?php foreach ($categorias as $row) { ?>
@@ -51,7 +51,7 @@
                                     <button type="submit"  style="margin-top: 25px" class="btn btn-primary">BUSCAR</button>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                     </form>
                     <hr>
                     <div class="container">
@@ -60,7 +60,7 @@
                                 <table id="datatableentry" class="table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">N°</th> 
+                                            <th scope="col">N°</th>
                                             <th scope="col">Cliente</th>
                                             <th scope="col">Parte</th>
                                             <th scope="col">Categoria</th>
@@ -68,7 +68,7 @@
                                             <th scope="col">Pallet</th>
                                             <th scope="col">CajasxPallet</th>
                                             <th scope="col">T. Cajas</th>
-                                            <th scope="col">Locación</th> 
+                                            <th scope="col">Locación</th>
                                             <th scope="col">Fecha</th>
                                         </tr>
                                     </thead>
@@ -76,7 +76,7 @@
                                         <?php if (isset($entries) && !empty($entries)): ?>
                                             <?php foreach ($entries as $value): ?>
                                                 <tr>
-                                                    <td><?php echo $value->idtransferancia; ?></td> 
+                                                    <td><?php echo $value->idtransferancia; ?></td>
                                                     <td><?php echo $value->nombre; ?></td>
                                                     <td><?php echo $value->numeroparte; ?></td>
                                                     <td><?php echo $value->nombrecategoria; ?></td>
@@ -88,11 +88,11 @@
                                                     <td><?php echo $value->fecha; ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
-                                        <?php endif; ?> 
+                                        <?php endif; ?>
                                     </tbody>
                                 </table>
-                            </div> 
-                        </div> 
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -137,6 +137,6 @@
                         }
                     }
         });
-            
+
     });
 </script>

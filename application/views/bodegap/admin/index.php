@@ -69,7 +69,7 @@
                                                                                 </td>
 
                                                                                 <td align="center">
-                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-info btn-sm"  href="<?php echo site_url('bodegap/historial/'.$value->idrevision) ?>">
+                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-info btn-sm"  href="<?php echo site_url('Bodegap/historial/'.$value->idrevision) ?>">
                                                                                     Detalles</a>
                                                                                 </td>
                                                                             </tr>
@@ -110,13 +110,6 @@
                                                                     <td>
                                                                         <label style="color:green;">
                                                                             <?php
-
-                                                                             /*if(empty($value->total) || is_null($value->total)){
-                                                                                echo "0";
-
-                                                                             }else{
-                                                                                 echo $value->total;
-                                                                             }*/
                                                                                echo $value->totalentrada  -  ($value->totalsalidaparciales + $value->totalsalidapallet);
                                                                              ?>
 

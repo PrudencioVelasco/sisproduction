@@ -9,7 +9,7 @@ class Orden extends CI_Controller {
 
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('data_model');
@@ -21,8 +21,8 @@ class Orden extends CI_Controller {
     }
 
     public function index() {
-        Permission::grant(uri_string());
-        $this->load->view('header');
+         Permission::grant(uri_string());
+       $this->load->view('header');
         $this->load->view('orden/index');
         $this->load->view('footer');
     }
@@ -37,7 +37,7 @@ class Orden extends CI_Controller {
 
         // code...
     }
-    
+
     public function searchOrden() {
         Permission::grant(uri_string());
         $value = $this->input->post('text');
@@ -48,16 +48,16 @@ class Orden extends CI_Controller {
 
         echo json_encode($result);
     }
-    
+
     public function marcar($idpalletcajas,$idsalida){
-              Permission::grant(uri_string());     
+              Permission::grant(uri_string());
                   $dataupdate = array(
                         'salida' => 1
                     );
 
                     $this->orden->updateEstatusPosicion($dataupdate, $idpalletcajas);
-        
-        redirect('orden/detalle/'.$idsalida);
+
+        redirect('Orden/detalle/'.$idsalida);
     }
 
     public function detalle($idsalida) {
@@ -67,7 +67,7 @@ class Orden extends CI_Controller {
         $datadetalleordenpar = $this->salida->detallesDeOrdenParciales($idsalida);
         //var_dump($datadetalleordenpar);
         $detallepallet = $this->salida->detallepallet($idsalida);
-        $detalleparciales = $this->salida->detalleparciales($idsalida); 
+        $detalleparciales = $this->salida->detalleparciales($idsalida);
         $data = array(
             'detallesalida' => $datadetallesalida,
             'detalleorden' => $datadetalleorden,
@@ -86,8 +86,8 @@ class Orden extends CI_Controller {
         # code...
          $data = $this->orden->listaDeNumeroParteSalida('MAY69380803', $idsalida, $idpalletcajas,'160');
     }
-   
-   
+
+
     public function validar() {
         Permission::grant(uri_string());
         $numeroparte = trim($_POST['codigo']);

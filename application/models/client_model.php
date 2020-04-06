@@ -8,12 +8,12 @@ class Client_model extends CI_Model {
         parent::__construct();
         $this->load->database();
     }
- 
+
     public function __destruct()
     {
         $this->db->close();
     }
-    
+
         public function showAll()
     {
         $query = $this->db->get('cliente');
@@ -35,7 +35,7 @@ class Client_model extends CI_Model {
        public function validadIdCliente($idcliente)
     {
         $this->db->select('c.*');
-        $this->db->from('cliente c'); 
+        $this->db->from('cliente c');
         $this->db->where('c.idcliente', $idcliente);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -46,8 +46,8 @@ class Client_model extends CI_Model {
     }
        public function validadExistenciaRFCUpdate($rfc,$idcliente) {
         $this->db->select('c.*');
-        $this->db->from('cliente c'); 
-        $this->db->where('TRIM(c.rfc)', $rfc); 
+        $this->db->from('cliente c');
+        $this->db->where('TRIM(c.rfc)', $rfc);
         $this->db->where('c.idcliente !=', $idcliente);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -58,8 +58,8 @@ class Client_model extends CI_Model {
     }
      public function validadExistenciaNombreUpdate($nombre,$idcliente) {
         $this->db->select('c.*');
-        $this->db->from('cliente c'); 
-        $this->db->where('TRIM(c.nombre)', $nombre); 
+        $this->db->from('cliente c');
+        $this->db->where('TRIM(c.nombre)', $nombre);
         $this->db->where('c.idcliente !=', $idcliente);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -70,8 +70,8 @@ class Client_model extends CI_Model {
     }
     public function validadExistenciaAbreviaturaUpdate($abreviatura,$idcliente) {
         $this->db->select('c.*');
-        $this->db->from('cliente c'); 
-        $this->db->where('TRIM(c.abreviatura)', $abreviatura); 
+        $this->db->from('cliente c');
+        $this->db->where('TRIM(c.abreviatura)', $abreviatura);
         $this->db->where('c.idcliente !=', $idcliente);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -82,8 +82,8 @@ class Client_model extends CI_Model {
     }
   public function validadExistenciaClaveUpdate($clave,$idcliente) {
         $this->db->select('c.*');
-        $this->db->from('cliente c'); 
-        $this->db->where('TRIM(c.clave)', $clave); 
+        $this->db->from('cliente c');
+        $this->db->where('TRIM(c.clave)', $clave);
         $this->db->where('c.idcliente !=', $idcliente);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -96,7 +96,7 @@ class Client_model extends CI_Model {
        public function validarRFCClienteAdd($rfc)
     {
         $this->db->select('c.*');
-        $this->db->from('cliente c'); 
+        $this->db->from('cliente c');
         $this->db->where('trim(c.rfc)', $rfc);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -108,7 +108,7 @@ class Client_model extends CI_Model {
            public function validarNombreClienteAdd($nombre)
     {
         $this->db->select('c.*');
-        $this->db->from('cliente c'); 
+        $this->db->from('cliente c');
         $this->db->where('trim(c.nombre)', $nombre);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -120,7 +120,7 @@ class Client_model extends CI_Model {
      public function validarAbreviaturaClienteAdd($abreviatura)
     {
         $this->db->select('c.*');
-        $this->db->from('cliente c'); 
+        $this->db->from('cliente c');
         $this->db->where('trim(c.abreviatura)', $abreviatura);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -132,7 +132,7 @@ class Client_model extends CI_Model {
         public function validarClaveClienteAdd($clave)
     {
         $this->db->select('c.*');
-        $this->db->from('cliente c'); 
+        $this->db->from('cliente c');
         $this->db->where('trim(c.clave)', $clave);
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
@@ -144,7 +144,7 @@ class Client_model extends CI_Model {
     public function detalleCliente($idcliente) {
         // code...
         $this->db->select('c.*');
-        $this->db->from('cliente c'); 
+        $this->db->from('cliente c');
         $this->db->where('c.idcliente', $idcliente);
         $query = $this->db->get();
 
@@ -153,16 +153,17 @@ class Client_model extends CI_Model {
 
        public function showAllClientesContar()
     {
-        $query = $this->db->get('cliente'); 
+        $query = $this->db->get('cliente');
         return $query->result();
-        
+
     }
      public function showAllClientesActivos()
     {
         # code...
-        $this->db->select('c.*');    
-        $this->db->from('cliente c'); 
+        $this->db->select('c.*');
+        $this->db->from('cliente c');
         $this->db->where('c.activo', 1);
+        $this->db->order_by('c.nombre ASC');
         $query = $this->db->get();
         //$query = $this->db->get('permissions');
         if ($query->num_rows() > 0) {
@@ -171,11 +172,11 @@ class Client_model extends CI_Model {
             return false;
         }
     }
-      
+
      public function addClient($data)
     {
         return $this->db->insert('cliente', $data);
-    }  
+    }
      public function updateClient($id, $field)
     {
         $this->db->where('idcliente', $id);
@@ -185,9 +186,9 @@ class Client_model extends CI_Model {
         } else {
             return false;
         }
-        
+
     }
-   
+
       public function searchClient($match)
     {
         $field = array(
@@ -215,7 +216,7 @@ class Client_model extends CI_Model {
         } else {
             return false;
         }
-        
+
     }
-    
+
 }

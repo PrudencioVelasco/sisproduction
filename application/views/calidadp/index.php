@@ -9,7 +9,7 @@
                           <h3><strong>ADMINISTRAR CALIDAD</strong></h3>
                       </div>
                       <div class="col-md-6 col-sm-12 col-xs-12" align="right">
-                          <a href="<?php echo site_url('hold/') ?>" class="btn btn-success btn-sm">Módulo Hold</a>
+                          <a href="<?php echo site_url('Hold/') ?>" class="btn btn-success btn-sm">Módulo Hold</a>
                       </div>
 
 
@@ -55,7 +55,7 @@
                                                                 ?>
                                                             </td>
                                                             <td align="right">
-                                                            <a class="btn btn-icons btn-info btn-sm"  href="<?php echo site_url('calidadp/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
+                                                            <a class="btn btn-icons btn-info btn-sm"  href="<?php echo site_url('Calidadp/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
                                                             </td>
                                                         </tr>
                                                         <?php

@@ -13,7 +13,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                         <h2><strong>Administrar Usuarios</strong></h2>
+                         <h3><strong>ADMNISTRAR USUARIOS</strong></h3>
 
                         <div class="clearfix"></div>
                     </div>
@@ -33,7 +33,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i> Nuevo Usuario</button>
-                                                <a  href="<?= base_url('/rol/index') ?>" class="btn btn-round btn-default">Rol</a>
+                                                <a  href="<?= base_url('/Rol/') ?>" class="btn btn-round btn-default">Rol</a>
 
 
                                             </div>
@@ -98,7 +98,7 @@
                                             </tfoot>
                                         </table>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                             <?php include 'modal.php'; ?>
                         </div>
@@ -110,7 +110,4 @@
 </div>
 
  <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
-<script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/app.js"></script> 
-
-
-
+<script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/app.js"></script>

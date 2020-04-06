@@ -8,7 +8,7 @@ class Bodegap extends CI_Controller {
         parent::__construct();
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('almacen_model', 'almacen');
@@ -32,20 +32,20 @@ class Bodegap extends CI_Controller {
         $data = array(
             'datatransferencia'=>$query
         );
-        
+
         $this->load->view('header');
         $this->load->view('bodegap/index',$data);
         $this->load->view('footer');
     }
     public function detalle($idtransferencia,$folio) {
-         //Permission::grant(uri_string()); 
-        $motivosrechazo = $this->bodegap->motivosRechazoBodega(); 
-        $motivosrechazocalidad = $this->bodegap->motivosRechazoCalidad();         
-        $datatransferencia = $this->bodegap->listaNumeroParteTransferencia($idtransferencia); 
+         //Permission::grant(uri_string());
+        $motivosrechazo = $this->bodegap->motivosRechazoBodega();
+        $motivosrechazocalidad = $this->bodegap->motivosRechazoCalidad();
+        $datatransferencia = $this->bodegap->listaNumeroParteTransferencia($idtransferencia);
         $arrayposicionesbodega = $this->posicionbodega->posicionesBodega();
         //var_dump($arrayposicionesbodega);
         $data = array(
-            'id' => $idtransferencia, 
+            'id' => $idtransferencia,
             'folio'=>$folio,
             'datatransferencia' => $datatransferencia,
              'motivosrechazo'=>$motivosrechazo,
@@ -56,16 +56,16 @@ class Bodegap extends CI_Controller {
         $this->load->view('footer');
     }
     public function rechazopallet() {
-        //Permission::grant(uri_string()); 
+        //Permission::grant(uri_string());
         $idpalletcajas = $this->input->post('idpalletcajas');
         $data = $this->bodegap->motivosrechazo($idpalletcajas);
         echo json_encode($data);
     }
- 
+
  public function generarPDFEnvio($id) {
         //Permission::grant(uri_string());
         $this->load->library('tcpdf');
-        $listapartes = $this->bodegap->palletReporte($id); 
+        $listapartes = $this->bodegap->palletReporte($id);
         //var_dump($listapartes);
         $totalpallet = 0;
         $totalcajas = 0;
@@ -78,7 +78,7 @@ class Bodegap extends CI_Controller {
         }
 
 
-        $detalle = $this->bodegap->detalleTransferencia($id); 
+        $detalle = $this->bodegap->detalleTransferencia($id);
         $horario = $detalle->horainicial . " - " . $detalle->horafinal;
         $linkimge = base_url() . '/assets/images/woorilogo.png';
         $fechaactual = date('d/m/Y');
@@ -170,8 +170,8 @@ class Bodegap extends CI_Controller {
     <td style="border-bottom:solid 1px #000; font-size:8px; border-right:solid 1px #000;">'.$value->nombreposicion.'</td>
   </tr>';
         }
-        $tbl .= ' 
-    
+        $tbl .= '
+
     <tr style=" background-color:#EAEAEA">
     <td style=" border-left:solid 1px
     #000000; border-bottom:solid 1px #000; border-right:solid 1px #000;">&nbsp;</td>
@@ -254,12 +254,12 @@ class Bodegap extends CI_Controller {
     }
 
     public function admin()
-    { 
+    {
         $data = array(
             'informacion'=>$this->warehouse->getDataPallets(),
             'posiciones'=> $this->warehouse->getDataPalletsPosicion()
         );
-        
+
         $this->load->view('header');
         $this->load->view('bodegap/admin/index',$data);
         $this->load->view('footer');
@@ -275,16 +275,16 @@ class Bodegap extends CI_Controller {
             //'posiciones'=> $this->warehouse->getDataPalletsPosicion()
         );
          //var_dump($entradas);
-        
+
         $this->load->view('header');
         $this->load->view('bodegap/admin/detalle',$data);
         $this->load->view('footer');
     }
     public function updateUbicacion()
     {
-         { 
+         {
 
-        $config = array( 
+        $config = array(
               array(
                 'field' => 'idposicion',
                 'label' => 'Asistencia',
@@ -299,18 +299,18 @@ class Bodegap extends CI_Controller {
             $errors = validation_errors();
             echo json_encode(['error'=>$errors]);
         } else {
-            $idposicion = $this->input->post('idposicion');  
-            $id = $this->input->post('id');  
-                $data = array( 
+            $idposicion = $this->input->post('idposicion');
+            $id = $this->input->post('id');
+                $data = array(
                     'idposicion'=>$idposicion
                 );
-                $value = $this->bodegap->updatePosicion($id,$data); 
+                $value = $this->bodegap->updatePosicion($id,$data);
                 if($value){
                 echo json_encode(['success'=>'Ok']);
                 }else{
                     echo json_encode(['error'=>'Error... Intente mas tarde. ']);
                 }
-            
+
         }
        // echo json_encode($result);
     }
@@ -330,7 +330,7 @@ class Bodegap extends CI_Controller {
 
     public function comparar()
     {
-        $data = array( 
+        $data = array(
             'busquedas'=>$this->bodegap->listaBusqueda()
         );
         $this->load->view('header');
@@ -350,7 +350,7 @@ class Bodegap extends CI_Controller {
         'nombrebusqueda'=>date("Ymd").$idbusqueda
        );
        $this->bodegap->updateBusqueda($idbusqueda,$data_update);
-       redirect('bodegap/comparar');
+       redirect('Bodegap/comparar');
     }
     public function detalle_busqueda($idbusqueda='')
     {
@@ -369,24 +369,24 @@ class Bodegap extends CI_Controller {
     }
 
         public function addParte()
-    {  
+    {
             $idrevision = $this->input->post('idrevision');
             $cantidad = $this->input->post('cantidad');
-            $idbusqueda = $this->input->post('idbusqueda'); 
+            $idbusqueda = $this->input->post('idbusqueda');
             $data = array(
                 'idbusqueda'=>$idbusqueda,
                 'idrevision'=>$idrevision,
                 'cantidad'=>$cantidad,
                 'idusuario' => $this->session->user_id,
-                'fecharegistro' => date('Y-m-d H:i:s') 
+                'fecharegistro' => date('Y-m-d H:i:s')
             );
             $this->bodegap->addBusquedaDetalle($data);
-            redirect('bodegap/detalle_busqueda/'.$idbusqueda);
+            redirect('Bodegap/detalle_busqueda/'.$idbusqueda);
     }
     public function deleteParte($iddetallebusqueda='',$idbusqueda = '')
     {
         $this->bodegap->deleteParte($iddetallebusqueda);
-        redirect('bodegap/detalle_busqueda/'.$idbusqueda);
+        redirect('Bodegap/detalle_busqueda/'.$idbusqueda);
     }
 }
 

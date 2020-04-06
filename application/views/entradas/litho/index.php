@@ -56,7 +56,7 @@
                                                                         data-numeroparte="<?php echo $value->numeroparte;?>"
                                                                         ><i class="fa fa-undo" aria-hidden="true"></i> <strong>Devolución</strong></a></li>
                                                                         <li class="divider"></li>
-                                                                        <li><a href="<?php echo site_url('litho/detalle/'.$value->idrevision) ?>"><i class="fa fa-exchange"></i> <strong>Movimientos</strong></a></li>
+                                                                        <li><a href="<?php echo site_url('Litho/detalle/'.$value->idrevision) ?>"><i class="fa fa-exchange"></i> <strong>Movimientos</strong></a></li>
                                                                     </ul>
                                                                 </div>
                                                                 <?php
@@ -219,7 +219,7 @@
     $("#btnentrada").click(function(){
         $.ajax({
             type: "POST",
-            url: "<?php echo site_url('litho/agregar_entrada');?>",
+            url: "<?php echo site_url('Litho/agregar_entrada');?>",
             data: $('#frmentrada').serialize(),
             success: function(data) {
                 var msg = $.parseJSON(data);
@@ -245,7 +245,7 @@
     $("#btnsalida").click(function(){
         $.ajax({
             type: "POST",
-            url: "<?php echo site_url('litho/agregar_salida');?>",
+            url: "<?php echo site_url('Litho/agregar_salida');?>",
             data: $('#frmsalida').serialize(),
             success: function(data) {
                 var msg = $.parseJSON(data);
@@ -269,7 +269,7 @@
     $("#btndevolucion").click(function(){
         $.ajax({
             type: "POST",
-            url: "<?php echo site_url('litho/devolucion');?>",
+            url: "<?php echo site_url('Litho/devolucion');?>",
             data: $('#frmdevolucion').serialize(),
             success: function(data) {
                 var msg = $.parseJSON(data);

@@ -179,12 +179,8 @@
                                                                             ?>
                                                                 </td>
                                                                 <td align="center">
-                                                                    <!--<a style="padding-right: 20px" target="_blank" href="<?php //echo site_url('transferencia/etiquetaPacking/' . $value->idpalletcajas) ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
-                                                                    <input type="hidden" class="idpalletcajas" value="<?php //echo $value->idpalletcajas; ?>"/>
-                                                                    <a href=""> <i class="fa fa-print fa-2x btnimprimirpdf"  aria-hidden="true"></i></a>-->
-                                                                    <a style="padding-left: 20px" target="_blank" href="<?php echo site_url('transferencia/nuevaetiqueta/' . $value->idpalletcajas) ?>"><i style="color:green;" class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
-
-                                                                      <a style="padding-left: 20px" target="_blank" href="<?php echo site_url('transferencia/generarPDFRetorno/' . $value->idpalletcajas) ?>"><i style="color:red;" class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
+                                                                   <a style="padding-left: 20px" target="_blank" href="<?php echo site_url('Transferencia/nuevaetiqueta/' . $value->idpalletcajas) ?>"><i style="color:green;" class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
+                                                                   <a style="padding-left: 20px" target="_blank" href="<?php echo site_url('Transferencia/generarPDFRetorno/' . $value->idpalletcajas) ?>"><i style="color:red;" class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
                                                                 </td>
                                                             </tr>
                                                             <?php
@@ -268,7 +264,7 @@
                                             <?php   if (isset($datatransferencia) && !empty($datatransferencia)) { ?>
                                             <button type="button" id="btnenviar" name="enviar" class="btn btn-success  btn-sm"><i class="fa fa-send" aria-hidden="true"></i> Enviar</button>
                                             <button type="button" id="btneliminar" name="btneliminar" class="btn btn-danger  btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</button>
-                                            <a target="_blank" href="<?php echo site_url('transferencia/generarPDFEnvio/'.$id) ?>" class="btn btn-default  btn-sm"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
+                                            <a target="_blank" href="<?php echo site_url('Transferencia/generarPDFEnvio/'.$id) ?>" class="btn btn-default  btn-sm"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
                                             <?php } ?>
                                             </div>
                                             </div>
@@ -314,7 +310,7 @@
             if(parte != ""){
             $.ajax({
                 type: "POST",
-                url: "<?= base_url('transferencia/validar') ?>",
+                url: "<?= base_url('Transferencia/validar') ?>",
                 data: "numeroparte=" + parte,
                 dataType: "html",
                 beforeSend: function () {
@@ -376,7 +372,7 @@
             var idmodelo = $("#listamodelo").find("option:selected").val();
             $.ajax({
                 type: "POST",
-                url: "<?= base_url('transferencia/seleccionarModelo') ?>",
+                url: "<?= base_url('Transferencia/seleccionarModelo') ?>",
                 data: "idmodelo=" + idmodelo,
                 dataType: "html",
                 success: function (response) {
@@ -405,7 +401,7 @@
                     if(caja !== "" && etiqueta !== ""){
                         $.ajax({
                         type: "POST",
-                        url: "<?php echo site_url('transferencia/enviaracalidad'); ?>",
+                        url: "<?php echo site_url('Transferencia/enviaracalidad'); ?>",
                         data: form,
                         success: function (data) {
                             console.log(data);
@@ -440,7 +436,7 @@
               var   form = $("#frmenviar").serialize();
                      $.ajax({
                         type: "POST",
-                        url: "<?php echo site_url('transferencia/eliminarpallet'); ?>",
+                        url: "<?php echo site_url('Transferencia/eliminarpallet'); ?>",
                         data: form,
                         success: function (data) {
                             if(data == 0){
@@ -464,7 +460,7 @@
             var idpalletcajas = $(this).attr("id");
             //$('#myModalMSG').modal('show');
             $.ajax({
-                url: "<?php echo site_url('transferencia/rechazopallet'); ?>",
+                url: "<?php echo site_url('Transferencia/rechazopallet'); ?>",
                 method: "POST",
                 data: {idpalletcajas: idpalletcajas},
                 dataType: "json",
@@ -492,7 +488,7 @@
 
                         $.ajax({
                         type: "POST",
-                        url: "<?php echo site_url('transferencia/registrar'); ?>",
+                        url: "<?php echo site_url('Transferencia/registrar'); ?>",
                         data: form,
                         success: function (data) {
                             // $('#msgerror').text("Seleccionar una casilla.");

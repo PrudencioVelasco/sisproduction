@@ -8,25 +8,28 @@ class Rol_model extends CI_Model {
         parent::__construct();
         $this->load->database();
     }
- 
+
     public function __destruct()
     {
         $this->db->close();
     }
-    
+
         public function showAll()
     {
-        $query = $this->db->get('rol');
+        $this->db->select('r.*');
+        $this->db->from('rol r');
+        $this->db->order_by('r.rol ASC');
+        $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
             return false;
-        }
+        } 
     }
      public function addRol($data)
     {
         return $this->db->insert('rol', $data);
-    }  
+    }
      public function updateRol($id, $field)
     {
         $this->db->where('id', $id);
@@ -36,16 +39,19 @@ class Rol_model extends CI_Model {
         } else {
             return false;
         }
-        
+
     }
-   
+
       public function searchRol($match)
     {
         $field = array(
-            'rol'
+            'r.rol'
         );
+        $this->db->select('r.*');
+        $this->db->from('rol r');
         $this->db->like('concat(' . implode(',', $field) . ')', $match);
-        $query = $this->db->get('rol');
+        $this->db->order_by('r.rol ASC');
+          $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -55,7 +61,7 @@ class Rol_model extends CI_Model {
       public function rolpermisos($id)
     {
         # code...
-        $this->db->select('p.id,p.uri,p.description');    
+        $this->db->select('p.id,p.uri,p.description');
         $this->db->from('permissions p');
         $this->db->join('permission_rol pr', 'p.id = pr.permission_id');
         $this->db->join('rol r', 'pr.rol_id = r.id');
@@ -71,9 +77,9 @@ class Rol_model extends CI_Model {
     public function permisos()
     {
         # code...
-        $this->db->select('p.id,p.uri,p.description');    
+        $this->db->select('p.id,p.uri,p.description');
         $this->db->from('permissions p');
-        $query = $this->db->get(); 
+        $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -83,7 +89,7 @@ class Rol_model extends CI_Model {
       public function permisoid($id,$idrol)
     {
         # code...
-        $this->db->select('p.id,p.uri,p.description');    
+        $this->db->select('p.id,p.uri,p.description');
         $this->db->from('permissions p');
         $this->db->join('permission_rol pr', 'p.id = pr.permission_id');
         //$this->db->join('rol r', 'pr.rol_id = r.id');
@@ -101,7 +107,7 @@ class Rol_model extends CI_Model {
   public function addRolPermiso($data)
     {
         return $this->db->insert('permission_rol', $data);
-    }  
+    }
     public function eliminarPermisosRol($id)
     {
         $this->db->where('rol_id',$id);

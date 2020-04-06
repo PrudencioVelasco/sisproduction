@@ -16,7 +16,7 @@
                     <div class="x_content">
                       <div class="row">
                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                       <a class="pointer" href="<?php echo site_url('proceso/entrada') ?>">
+                       <a class="pointer" href="<?php echo site_url('Proceso/entrada') ?>">
                        <div class="info-box-2  bg-green hover-expand-effect pointer">
                            <div class="icon">
                                <i class="fa fa-sign-in"></i>
@@ -29,7 +29,7 @@
                        </a>
                    </div>
                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                      <a class="pointer" href="<?php echo site_url('maquina/') ?>">
+                      <a class="pointer" href="<?php echo site_url('Maquina/') ?>">
                        <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
                            <div class="icon">
                                <i class="fa fa-cog" aria-hidden="true"></i>
@@ -42,7 +42,7 @@
                        <a>
                    </div>
                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                       <a class="pointer" href="<?php echo site_url('proceso/proceso') ?>">
+                       <a class="pointer" href="<?php echo site_url('Proceso/proceso') ?>">
                        <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
                            <div class="icon">
                                <i  class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -55,7 +55,7 @@
                      </a>
                    </div>
                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                     <a class="pointer" href="<?php echo site_url('proceso/trabajar/1') ?>">
+                     <a class="pointer" href="<?php echo site_url('Proceso/trabajar/1') ?>">
                        <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
                            <div class="icon">
                                <i class="fa fa-cogs" aria-hidden="true"></i>
@@ -71,7 +71,7 @@
 
                <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <a class="pointer" href="<?php echo site_url('proceso/trabajar/6') ?>">
+                <a class="pointer" href="<?php echo site_url('Proceso/trabajar/6') ?>">
                 <div class="info-box-2  bg-light-blue hover-expand-effect pointer">
                     <div class="icon">
                         <i class="fa fa-cogs" aria-hidden="true"></i>
@@ -84,7 +84,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-               <a class="pointer" href="<?php echo site_url('proceso/trabajar/2') ?>">
+               <a class="pointer" href="<?php echo site_url('Proceso/trabajar/2') ?>">
                 <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
                     <div class="icon">
                         <i class="fa fa-cogs" aria-hidden="true"></i>
@@ -97,7 +97,7 @@
                 <a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <a class="pointer" href="<?php echo site_url('proceso/trabajar/5') ?>">
+                <a class="pointer" href="<?php echo site_url('Proceso/trabajar/5') ?>">
                 <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
                     <div class="icon">
                         <i class="fa fa-cogs" aria-hidden="true"></i>
@@ -110,7 +110,7 @@
               </a>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-              <a class="pointer" href="<?php echo site_url('proceso/trabajar/7') ?>">
+              <a class="pointer" href="<?php echo site_url('Proceso/trabajar/7') ?>">
                 <div class="info-box-2 bg-light-blue hover-expand-effect pointer">
                     <div class="icon">
                         <i class="fa fa-cogs" aria-hidden="true"></i>
@@ -127,7 +127,7 @@
 
         <div class="row">
      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-         <a class="pointer" href="<?php echo site_url('proceso/scrap/3') ?>">
+         <a class="pointer" href="<?php echo site_url('Proceso/scrap/3') ?>">
          <div class="info-box-2  bg-red hover-expand-effect pointer">
              <div class="icon">
                  <i class="fa fa-trash"   aria-hidden="true"></i>

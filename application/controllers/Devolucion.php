@@ -8,7 +8,7 @@ class Devolucion extends CI_Controller {
         parent::__construct();
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('almacen_model', 'almacen');
@@ -42,14 +42,14 @@ class Devolucion extends CI_Controller {
             'fecharegistro' => date('Y-m-d H:i:s')
         );
         $this->devolucion->addDevolucion($data_devolucion);
-        redirect('transferencia/');
+        redirect('Transferencia/');
     }
     public function detalle($id, $folio) {
         # code...
         //Permission::grant(uri_string());
         $datalinea = $this->linea->showAllLinea();
         $datatransferencia = $this->transferencia->listaNumeroParteTransferencia($id);
-       
+
         $data = array(
             'id' => $id,
             'folio' => $folio,
@@ -59,7 +59,7 @@ class Devolucion extends CI_Controller {
         $this->load->view('transferencia/devolucion', $data);
         $this->load->view('footer');
     }
-    
+
 
 }
 

@@ -63,14 +63,7 @@
                                                   <?php
                                                   if(isset($this->session->rol) && !empty($this->session->rol)) {
                                                     if($this->session->rol == "Administrador"){
-                                                   ?>
-                                                        <!--<a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-primary btn-xs btn_edit"
-                                                        data-toggle="modal" data-target="#myModalEditar"
-                                                        data-iddoc="<?php //echo $value->iddoc;?>"
-                                                        data-numeroparte="<?php //echo $value->numeroparte;?>">
-                                                        <i class="fa fa-pencil" aria-hidden="true"></i> Editar</a>-->
-
-                                                        <a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete"
+                                                   ?><a href="javascript:void(0)" class="btn btn-icons btn-rounded btn-round  btn-sm btn-danger btn_delete"
                                                         data-toggle="modal" data-target="#myModalEliminar"
                                                         data-iddoc="<?php echo $value->iddoc;?>">
                                                         <i class="fa fa-trash" aria-hidden="true"></i> Eliminar</a>
@@ -267,7 +260,7 @@
         $.ajax({
             type: "POST",
             dataType : "json",
-            url: "<?php echo site_url('documentos/subir_documento');?>",
+            url: "<?php echo site_url('Documentos/subir_documento');?>",
             cache:false,
             contentType:false,
             processData:false,
@@ -356,7 +349,7 @@
         $.ajax({
             type: "POST",
             dataType : "json",
-            url: "<?php echo site_url('documentos/actualizar_documento');?>",
+            url: "<?php echo site_url('Documentos/actualizar_documento');?>",
             cache:false,
             contentType:false,
             processData:false,
@@ -443,7 +436,7 @@
             $.ajax({
               type: "POST",
               dataType : "json",
-              url: "<?php echo site_url('documentos/eliminar_documento');?>",
+              url: "<?php echo site_url('Documentos/eliminar_documento');?>",
               data: dataString,
               success: function(data) {
                  if(data.status == 'true'){
@@ -544,7 +537,7 @@ $(document).ready(function() {
 
     $.ajax({
                 type: "POST",
-                url: "<?php echo site_url('documentos/allModelo');?>",
+                url: "<?php echo site_url('Documentos/allModelo');?>",
                 data: "idparte=" + idparte,
                 success: function(data) {
                     console.log(data);
@@ -566,7 +559,7 @@ $(document).ready(function() {
             var idmodelo = $("#modelo").find("option:selected").val();
             $.ajax({
                 type: "POST",
-                url: "<?= base_url('documentos/allRevision') ?>",
+                url: "<?= base_url('Documentos/allRevision') ?>",
                 data: "idmodelo=" + idmodelo,
                 dataType: "html",
                 success: function (data) {

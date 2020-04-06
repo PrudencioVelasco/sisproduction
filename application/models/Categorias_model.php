@@ -8,12 +8,12 @@ class Categorias_model extends CI_Model {
         parent::__construct();
         $this->load->database();
     }
- 
+
     public function __destruct()
     {
         $this->db->close();
     }
-//    
+//
         public function showAll()
     {
         $query = $this->db->get('tblcategoria');
@@ -27,10 +27,11 @@ class Categorias_model extends CI_Model {
      public function showAllCategoriasActivos()
     {
         # code...
-        $this->db->select('c.*');    
-        $this->db->from('tblcategoria c'); 
+        $this->db->select('c.*');
+        $this->db->from('tblcategoria c');
         $this->db->where('c.activo', 1);
-        $query = $this->db->get(); 
+        $this->db->order_by('c.nombrecategoria ASC');
+        $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -40,10 +41,10 @@ class Categorias_model extends CI_Model {
     public function validarExistenciaCategoria($nombrecategoria)
     {
         # code...
-        $this->db->select('c.*');    
-        $this->db->from('tblcategoria c'); 
+        $this->db->select('c.*');
+        $this->db->from('tblcategoria c');
         $this->db->where('TRIM(c.nombrecategoria)', $nombrecategoria);
-        $query = $this->db->get(); 
+        $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
@@ -55,8 +56,8 @@ class Categorias_model extends CI_Model {
     {
         //Funcion para validar al registra un numero de parte que no
         //este registrado con el mismo cliente
-        $this->db->select('c.*');    
-        $this->db->from('tblcategoria c'); 
+        $this->db->select('c.*');
+        $this->db->from('tblcategoria c');
         $this->db->where('TRIM(c.nombrecategoria)', $nombrecategoria);
         $this->db->where('c.idcategoria !=',$idcategoria);
         $query = $this->db->get();
@@ -67,11 +68,11 @@ class Categorias_model extends CI_Model {
             return false;
         }
 }
-//      
+//
      public function addCategoria($data)
     {
         return $this->db->insert('tblcategoria', $data);
-    }  
+    }
      public function updateCategoria($id, $field)
     {
         $this->db->where('idcategoria', $id);
@@ -81,9 +82,9 @@ class Categorias_model extends CI_Model {
         } else {
             return false;
         }
-        
+
     }
-//   
+//
       public function searchCategoria($match)
     {
         $field = array(
@@ -97,5 +98,5 @@ class Categorias_model extends CI_Model {
             return false;
         }
     }
-    
+
 }

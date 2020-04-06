@@ -9,7 +9,7 @@ class Client extends CI_Controller {
 
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('data_model');
@@ -113,7 +113,7 @@ class Client extends CI_Controller {
            $abreviatura =  trim($this->input->post('abreviatura'));
            $nombre =  trim($this->input->post('nombre'));
             $validar = $this->client_model->validarRFCClienteAdd($rfc);
-            if($validar == FALSE){ 
+            if($validar == FALSE){
                 if($this->client_model->validarNombreClienteAdd($nombre) == FALSE){
                     if($this->client_model->validarAbreviaturaClienteAdd($abreviatura) == FALSE){
                         if($this->client_model->validarClaveClienteAdd($clave) == FALSE){
@@ -133,13 +133,13 @@ class Client extends CI_Controller {
                       $result['error'] = true;
                     $result['msg'] = array(
                         'msgerror' => "La Clave ya se encuentra registrado."
-                    );  
+                    );
                 }
                 }else{
                     $result['error'] = true;
                     $result['msg'] = array(
                         'msgerror' => "La Abreviatura ya se encuentra registrado."
-                    );  
+                    );
                 }
                 }else{
                       $result['error'] = true;
@@ -206,7 +206,7 @@ class Client extends CI_Controller {
                     'required' => 'Campo obligatorio.'
                 )
             )
-            
+
         );
         $this->form_validation->set_rules($config);
         if ($this->form_validation->run() == FALSE) {
@@ -246,7 +246,7 @@ class Client extends CI_Controller {
                           $result['error'] = true;
                 $result['msg'] = array(
                     'msgerror' => "La Clave ya se encuentra registrado."
-                ); 
+                );
                     }
                   }else{
                       $result['error'] = true;
@@ -285,12 +285,12 @@ class Client extends CI_Controller {
 
     public function deleteCliente($idcliente='')
     {
-        Permission::grant(uri_string()); 
+        Permission::grant(uri_string());
         $idcliente = $this->input->get('idcliente');
         $query = $this->client_model->deleteCliente($idcliente);
         if ($query) {
             $result['clientes'] = true;
-        } 
+        }
        if(isset($result) && !empty($result)){
          echo json_encode($result);
         }

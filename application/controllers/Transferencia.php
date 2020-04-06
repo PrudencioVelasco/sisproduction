@@ -8,7 +8,7 @@ class Transferencia extends CI_Controller {
         parent::__construct();
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('almacen_model', 'almacen');
@@ -612,7 +612,7 @@ class Transferencia extends CI_Controller {
             'fecharegistro' => date('Y-m-d H:i:s')
         );
         $this->transferencia->addTransferencia($data);
-        redirect('transferencia/');
+        redirect('Transferencia/');
     }
 
 
@@ -622,7 +622,7 @@ class Transferencia extends CI_Controller {
         if ($vali == false) {
             $this->transferencia->deleteTransferencia($id);
         }
-        redirect('transferencia/');
+        redirect('Transferencia/');
     }
     public function eliminar_devolucion($id) {
      Permission::grant(uri_string());
@@ -631,7 +631,7 @@ class Transferencia extends CI_Controller {
             $this->transferencia->deleteDevolucion($id);
             $this->transferencia->deleteTransferencia($id);
         }
-        redirect('transferencia/');
+        redirect('Transferencia/');
     }
 
     public function set_barcode($code) {

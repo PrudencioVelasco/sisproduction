@@ -9,7 +9,7 @@ class Bodega extends CI_Controller {
 
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('data_model');
@@ -66,7 +66,7 @@ class Bodega extends CI_Controller {
 
         $arrayposicionesbodega = $this->posicionbodega->posicionesBodega();
         $datapalletcajas = $this->palletcajas->showAllId($iddetalle);
-         
+
         $datapartebodega = $this->bodega->posicionPalletCajas($iddetalle);
         //var_dump($datapalletcajas);
         //    var_dump($arrayposicionesbodega);
@@ -93,7 +93,7 @@ class Bodega extends CI_Controller {
     }
 
     public function addPositionWereHouse() {
-        //Permission::grant(uri_string()); 
+        //Permission::grant(uri_string());
         $iddetalleparte = $_POST['iddetalleparte'];
         $data = $_POST['posicion'];
         $porciones = explode("-", $data);
@@ -114,7 +114,7 @@ class Bodega extends CI_Controller {
         );
 
         $this->bodega->updateEstatus($idpalletcajas, $dataupdate);
-         
+
         // redirect('bodega/verDetalle/'.$iddetalleparte);
     }
 
@@ -125,7 +125,7 @@ class Bodega extends CI_Controller {
         $notas = $this->input->post('notascalidad');
         //$operador = $this->input->post('operador');
         $ids = $this->input->post('id');
-        foreach ($ids as $value) { 
+        foreach ($ids as $value) {
 
             if($this->bodega->validarAntesdeRechazar($value) == false){
                 $this->bodega->eliminarposicionesparte($value);
@@ -153,11 +153,11 @@ class Bodega extends CI_Controller {
             );
             $this->palletcajasproceso->addPalletCajasProceso($datap);
 
-              
+
         }
-           
-         }  
-        
+
+         }
+
     }
         public function rechazarAPacking() {
          //Permission::grant(uri_string());
@@ -166,7 +166,7 @@ class Bodega extends CI_Controller {
          $notas = $this->input->post('notaspacking');
         //$operador = $this->input->post('operador');
         $ids = $this->input->post('id');
-        foreach ($ids as $value) { 
+        foreach ($ids as $value) {
 
             if($this->bodega->validarAntesdeRechazar($value) == false){
                 $this->bodega->eliminarposicionesparte($value);
@@ -194,28 +194,28 @@ class Bodega extends CI_Controller {
             );
             $this->palletcajasproceso->addPalletCajasProceso($datap);
 
-              
+
         }
-           
-         }  
-        
+
+         }
+
     }
-    
+
       public function agregarAUbicacion() {
           // Permission::grant(uri_string());
         $iddetalleparte = $this->input->post('iddetalleparte');
-        $ubicacion = $this->input->post('ubicacion'); 
+        $ubicacion = $this->input->post('ubicacion');
         $ids = $this->input->post('id');
-          
-          /*foreach ($ids as $valuede) { 
-            if($this->bodega->validarAntesdeModificarPosicion($valuede) != false){ 
+
+          /*foreach ($ids as $valuede) {
+            if($this->bodega->validarAntesdeModificarPosicion($valuede) != false){
                $this->bodega->eliminarposicionesparte($valuede);
-            } 
+            }
         }*/
-          
-        
+
+
         foreach ($ids as $value2) {
-            if($this->bodega->validarAntesdeModificarPosicion($value2) == false){ 
+            if($this->bodega->validarAntesdeModificarPosicion($value2) == false){
                  $this->bodega->eliminarposicionesparte($value2);
                     $dataadd = array(
                     'idpalletcajas' => $value2,
@@ -223,13 +223,13 @@ class Bodega extends CI_Controller {
                     'idposicion' => $ubicacion,
                     'idusuario' => $this->session->user_id,
                     'fecharegistro' => date('Y-m-d H:i:s')
-                ); 
+                );
         $this->bodega->addPalletPosicion($dataadd);
     }
          }
-          
+
          foreach ($ids as $valueproceso) {
-             
+
             $data = array(
                 'idpalletcajas'=>$valueproceso,
                 'idestatus' => 8,
@@ -237,10 +237,10 @@ class Bodega extends CI_Controller {
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
             $this->palletcajasproceso->addPalletCajasProceso($data);
-            
+
         }
            foreach ($ids as $valueproceso2) {
-             
+
             $data = array(
                 'idpalletcajas'=>$valueproceso2,
                 'idestatus' => 2,
@@ -248,7 +248,7 @@ class Bodega extends CI_Controller {
                 'fecharegistro' => date('Y-m-d H:i:s')
             );
             $this->palletcajasproceso->addPalletCajasProceso($data);
-            
+
         }
 
         foreach ($ids as $value) {
@@ -257,12 +257,12 @@ class Bodega extends CI_Controller {
         );
 
         $this->bodega->updateEstatus($value, $dataupdate);
-         
+
 
         }
 
-          
-          
+
+
     }
 
     public function rechazar() {
@@ -285,7 +285,7 @@ class Bodega extends CI_Controller {
             'fecharegistro' => date('Y-m-d H:i:s')
         );
         $this->parte->addDetalleEstatusParte($datastatus);
-        redirect('bodega/');
+        redirect('Bodega/');
     }
 
 

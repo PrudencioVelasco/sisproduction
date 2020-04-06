@@ -9,7 +9,7 @@ class Salida extends CI_Controller {
 
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('data_model');
@@ -387,7 +387,7 @@ class Salida extends CI_Controller {
             'ordensalida'=>0
         );
         $this->salida->updateEstatusPosicionBodega($idpalletcajas,$data);
-        redirect('/salida/detalleSalida/' . $idsalida);
+        redirect('/Salida/detalleSalida/' . $idsalida);
     }
 
     public function terminarOrdenSalida() {
@@ -399,7 +399,7 @@ class Salida extends CI_Controller {
             'idusuario' => $this->session->user_id,
             'fecharegistro' => date('Y-m-d H:i:s'));
         $this->salida->updateSalida($idsalida, $dataupdate);
-        redirect('/salida/detalleSalida/' . $idsalida);
+        redirect('/Salida/detalleSalida/' . $idsalida);
     }
 
     public function searchPartes() {
@@ -938,7 +938,7 @@ class Salida extends CI_Controller {
             'idusuario' => $this->session->user_id,
             'fecharegistro' => date('Y-m-d H:i:s'));
         $this->salida->addOrdenSalida($datainsert);
-        redirect('/salida/detalleSalida/' . $this->input->post('idsalida'));
+        redirect('/Salida/detalleSalida/' . $this->input->post('idsalida'));
     }
     public function deleteSalida()
     {

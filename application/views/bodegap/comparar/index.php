@@ -5,7 +5,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                  <h3><strong>BUSQUEDA DE PALLET</strong></h3> 
+                  <h3><strong>BUSQUEDA DE PALLET</strong></h3>
                   <div class="clearfix"></div>
                 </div>
                     <div class="x_content">
@@ -14,7 +14,7 @@
 
                                 <div class="row">
                                    <div class="col-md-12 col-sm-12 col-xs-12 ">
-                                    <a href="<?php echo site_url('bodegap/create_search/') ?>" class="btn btn-primary" onclick="return confirm('Esta seguros de crear una nueva busqueda.?')"><i class='fa fa-plus'></i> Nueva busqueda</a>
+                                    <a href="<?php echo site_url('Bodegap/create_search/') ?>" class="btn btn-primary" onclick="return confirm('Esta seguros de crear una nueva busqueda.?')"><i class='fa fa-plus'></i> Nueva busqueda</a>
                                         <br/> <br/>
 
 
@@ -37,7 +37,7 @@
                                                             <td><?php echo date_format(date_create($value->fecharegistro),"d/m/Y h:i A") ?></td>
                                                             </td>
                                                             <td align="right">
-                                                            <a class="btn btn-icons btn-info btn-sm"  href="<?php echo site_url('bodegap/detalle_busqueda/'.$value->idbusqueda) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
+                                                            <a class="btn btn-icons btn-info btn-sm"  href="<?php echo site_url('Bodegap/detalle_busqueda/'.$value->idbusqueda) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
                                                             </td>
                                                         </tr>
                                                         <?php

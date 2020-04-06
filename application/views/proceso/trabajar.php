@@ -407,7 +407,7 @@ function formatNumber(num) {
   if (result.value) {
     $.ajax({
              type: "POST",
-             url: "<?php echo site_url('proceso/siguiente_proceso');?>",
+             url: "<?php echo site_url('Proceso/siguiente_proceso');?>",
              data: $('#frmenviar').serialize(),
              success: function(data) {
                  var msg = $.parseJSON(data);

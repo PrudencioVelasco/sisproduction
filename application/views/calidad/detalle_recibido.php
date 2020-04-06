@@ -53,9 +53,9 @@
                                                 <!--<th>#</th>-->
                                                 <th>Pallet</th>
                                                 <th>Cajas</th>
-                                                <th>Estatus</th> 
-                                                <th></th>  
-                                                <th></th> 
+                                                <th>Estatus</th>
+                                                <th></th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -79,31 +79,31 @@
                                                     if($value->idestatus == 1){
                                                         echo '<label style="color:green;">EN VALIDACIÓN</label>';
                                                     }else if($value->idestatus == 3){
-                                                        echo '<label style="color:red;">R. A PACKING</label>'; 
+                                                        echo '<label style="color:red;">R. A PACKING</label>';
                                                     }else if($value->idestatus == 4){
-                                                        echo '<label style="color:green;">E. A ALMACEN</label>'; 
+                                                        echo '<label style="color:green;">E. A ALMACEN</label>';
                                                     }
                                                     else if($value->idestatus == 8){
-                                                            echo '<label style="color:green;">EN ALMACEN</label>'; 
+                                                            echo '<label style="color:green;">EN ALMACEN</label>';
                                                         }
                                                 else if($value->idestatus == 12){
-                                                            echo '<label style="color:green;">EN HOLD</label>'; 
+                                                            echo '<label style="color:green;">EN HOLD</label>';
                                                         }
                                                          else if($value->idestatus == 13){
-                                                            echo '<label style="color:red;">EN SCRAP</label>'; 
+                                                            echo '<label style="color:red;">EN SCRAP</label>';
                                                         }
                                                 else if($value->idestatus == 6){ ?>
-                                                    <a style="color:red;" class="btnquitar" href="<?php echo site_url('calidad/quitarPalletCajas/' . $value->idpalletcajas . '/' . $detalle->iddetalleparte) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i></a> 
-                                                    <label style="color:red;">R. A CALIDAD</label> 
+                                                    <a style="color:red;" class="btnquitar" href="<?php echo site_url('Calidad/quitarPalletCajas/' . $value->idpalletcajas . '/' . $detalle->iddetalleparte) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                    <label style="color:red;">R. A CALIDAD</label>
                                                     <?php }
                                                     else{
-                                                          echo '<label>No found</label>'; 
+                                                          echo '<label>No found</label>';
                                                     }
                                                         ?>
                                                     </td>
                                                      <td>
-                                                         
-                                                         <a target="_blank" href="<?php echo base_url('parte/etiquetaCalidad/' . $detalle->iddetalleparte . '/'.$value->idpalletcajas. '/'.$value->cajas); ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
+
+                                                         <a target="_blank" href="<?php echo base_url('Parte/etiquetaCalidad/' . $detalle->iddetalleparte . '/'.$value->idpalletcajas. '/'.$value->cajas); ?>"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>
                                                          <input type="hidden" class="idpalletcajas" value="<?php echo $value->idpalletcajas; ?>"/>
                                                          <input type="hidden" class="iddetalleparte" value="<?php echo $detalle->iddetalleparte; ?>"/>
                                                          <input type="hidden" class="idestatus" value="<?php echo $detalle->idestatus; ?>"/>
@@ -120,7 +120,7 @@
                                                          ?>
                                                      </td>
                                                 </tr>
-                                            <?php } } ?> 
+                                            <?php } } ?>
 
                                         </tbody>
                                     </table>
@@ -128,7 +128,7 @@
                                     <div class="col-md-6 col-sm-12 col-xs-12" >
                                      <div class="form-group"  id="idmotivorechazo">
                                         <label>Seleccionar motivo de rechazo</label>
-                                        <select  class="form-control" id="motivo" name="motivorechazo" required> 
+                                        <select  class="form-control" id="motivo" name="motivorechazo" required>
                                            <option value="">Seleccionar</option>
                                             <?php
                                                 foreach($motivosrechazo as $valuemotivo){
@@ -138,13 +138,13 @@
                                         </select>
                                     </div>
                                     </div>
-                                    </div> 
-                                    
+                                    </div>
+
                                     <div class="row">
                                     <div class="col-md-6 col-sm-12 col-xs-12" >
                                      <div class="form-group"  id="idmotivoopcion">
                                         <label>Seleccionar Opción</label>
-                                        <select  class="form-control" id="motivoopcion" name="opcionhold" required> 
+                                        <select  class="form-control" id="motivoopcion" name="opcionhold" required>
                                            <option value="">Seleccionar</option>
                                            <option value="12">EN HOLD</option>
                                            <option value="1">EN VALIDACIÓN/OK</option>
@@ -152,24 +152,22 @@
                                         </select>
                                     </div>
                                     </div>
-                                    </div> 
-                                    
+                                    </div>
+
                                      <input type="hidden" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>">
-                                          
+
                                     <button type="button" id="btnenviar"   class="btn btn-success btn-sm"><i class="fa fa-paper-plane" aria-hidden="true"></i> Enviar a Almacen</button>
                                     <button type="button" id="btnhold"   class="btn btn-info btn-sm"><i class="fa fa-clock-o" aria-hidden="true"></i> Hold</button>
                                     <button type="button" id="btnrechazar" class="btn btn-danger btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> Rechazar a Packing</button>
                                 </form>
                             </div>
-                           
+
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12" align="right">
-
-<!--                                <a target="_blank" href=" <?php //echo base_url('parte/etiquetaCalidad/' . $detalle->iddetalleparte . ''); ?>" class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar etiqueta</a>-->
-                                <a target="_blank" href=" <?php echo base_url('parte/generarPDFEnvio/' . $detalle->iddetalleparte . ''); ?>" class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
-                            </div> 
+                                <a target="_blank" href=" <?php echo base_url('Parte/generarPDFEnvio/' . $detalle->iddetalleparte . ''); ?>" class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -178,9 +176,9 @@
 
     </div>
 </div>
- 
- 
- 
+
+
+
 <script>
     $(document).ready(function () {
         $('#idmotivorechazo').hide();
@@ -190,29 +188,29 @@
         $('#btnenviar').on('click', function () {
             //$('#frmdetalle').submit();
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
-                
-                $('#idmotivorechazo').hide(); 
-                 
-                    
+
+                $('#idmotivorechazo').hide();
+
+
                      //$('#frmdetalle').submit();
-                    
-                      form = $("#frmdetalle").serialize(); 
+
+                      form = $("#frmdetalle").serialize();
                          $.ajax({
                            type: "POST",
-                           url: "<?php echo site_url('calidad/enviarBodegaNew'); ?>",
+                           url: "<?php echo site_url('Calidad/enviarBodegaNew'); ?>",
                            data: form,
 
                            success: function(data){
                                console.log(data);
-                                location.reload(); 
+                                location.reload();
                                //Unterminated String literal fixed
                            }
 
                          });
                          //event.preventDefault();
                          return false;  //stop the actual form post !important!
-                    
-                 
+
+
             } else {
                 $('#errormsg').text("Seleccionar una casilla.");
             }
@@ -220,55 +218,55 @@
           $('#btnrechazar').on('click', function () {
             //$('#frmdetalle').submit();
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
-                $('#idmotivorechazo').show(); 
-                
+                $('#idmotivorechazo').show();
+
                  var optId = $("#motivo").val();
                 if(optId != ""){
-                      form = $("#frmdetalle").serialize(); 
+                      form = $("#frmdetalle").serialize();
                          $.ajax({
                            type: "POST",
-                           url: "<?php echo site_url('calidad/rechazarAPackingNew'); ?>",
+                           url: "<?php echo site_url('Calidad/rechazarAPackingNew'); ?>",
                            data: form,
 
                            success: function(data){
                                console.log(data);
-                                location.reload(); 
+                                location.reload();
                                //Unterminated String literal fixed
                            }
 
                          });
                          //event.preventDefault();
                          return false;  //stop the actual form post !important!
-                    
+
                    //$('#frmdetalle').submit();
                 }else{
                     $('#errormsg').text("Seleccionar una motivo.");
                 }
-                    
+
             } else {
                 //alert("ss");
                 //errormsg
                 $('#errormsg').text("Seleccionar una casilla.");
             }
         });
-        
+
         $('#btnhold').on('click', function () {
             //$('#frmdetalle').submit();
             if ($('div.checkbox-group.required :checkbox:checked').length > 0) {
-              
-                 $('#idmotivoopcion').show(); 
+
+                 $('#idmotivoopcion').show();
                   var optId = $("#motivoopcion").val();
                     if(optId !== ""){
-                
-                      form = $("#frmdetalle").serialize(); 
+
+                      form = $("#frmdetalle").serialize();
                          $.ajax({
                            type: "POST",
-                           url: "<?php echo site_url('calidad/ponerEnHold'); ?>",
+                           url: "<?php echo site_url('Calidad/ponerEnHold'); ?>",
                            data: form,
 
                            success: function(data){
                                console.log(data);
-                                location.reload(); 
+                                location.reload();
                                //Unterminated String literal fixed
                            }
 
@@ -279,8 +277,8 @@
                     $('#errormsg').text("Seleccionar una opción.");
                 }
                    //$('#frmdetalle').submit();
-                
-            
+
+
             } else {
                 //alert("ss");
                 //errormsg
@@ -291,7 +289,7 @@
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
-    
+
         $('.btnimprimirpdf').on('click', function () {
             var parametros = {
                 "iddetalleparte" : $('.iddetalleparte').val(),
@@ -299,27 +297,27 @@
         };
             $.ajax({
                 type: "POST",
-                url: "<?php echo site_url('parte/imprimirEtiquetaCalidad'); ?>",
+                url: "<?php echo site_url('Parte/imprimirEtiquetaCalidad'); ?>",
                 data: parametros,
 
                 success: function (data) {
 
-                    
+
                     var uriWS = "ws://localhost:8080/websocketwoori/imprimir";
                     var miWebsocket = new WebSocket(uriWS);
-                 
+
                 miWebsocket.onopen = function (evento) {
-                    
+
                     miWebsocket.send(data);
                 }
                 miWebsocket.onmessage = function (evento) {
                     console.log(evento.data);
                 }
-         
+
                 }
 
-            }); 
-            return false;  
+            });
+            return false;
 
 
         });

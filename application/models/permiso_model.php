@@ -8,25 +8,29 @@ class Permiso_model extends CI_Model {
 		parent::__construct();
 		$this->load->database();
 	}
- 
+
 	public function __destruct()
 	{
 		$this->db->close();
 	}
-	
+
         public function showAll()
     {
-        $query = $this->db->get('permissions');
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        } else {
-            return false;
-        }
+			$this->db->select('p.*');
+			$this->db->from('permissions p');
+			$this->db->order_by('p.description ASC');
+			$query = $this->db->get();
+			if ($query->num_rows() > 0) {
+					return $query->result();
+			} else {
+					return false;
+			}
+			 
     }
      public function addPermiso($data)
     {
         return $this->db->insert('permissions', $data);
-    }  
+    }
      public function updatePermiso($id, $field)
     {
         $this->db->where('id', $id);
@@ -36,9 +40,9 @@ class Permiso_model extends CI_Model {
         } else {
             return false;
         }
-        
+
     }
-   
+
       public function searchPermiso($match)
     {
         $field = array(

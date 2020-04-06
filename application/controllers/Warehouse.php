@@ -8,7 +8,7 @@ class Warehouse extends CI_Controller {
         parent::__construct();
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->library('permission');
@@ -76,7 +76,7 @@ class Warehouse extends CI_Controller {
         $parte = $this->input->post('parte');
         $salida = $this->input->post('salida');
         $exits = $this->almacen->getDataExits($first_date, $second_date, $tipo,$categoria,$parte,$salida);
-        
+
         $render = "";
         $render .= '<table id="datatableexit" class="table">
         <thead>
@@ -88,9 +88,9 @@ class Warehouse extends CI_Controller {
         <th scope="col">Revisión</th>
         <th scope="col">CxP</th>
         <th scope="col">Pallet</th>
-        <th scope="col">Cajas</th>  
+        <th scope="col">Cajas</th>
         <th scope="col">Tipo</th>
-        <th scope="col">Fecha</th>';  
+        <th scope="col">Fecha</th>';
         $render .= '</tr>';
         $render .= '</thead>';
         $render .= '<tbody>';
@@ -105,21 +105,21 @@ class Warehouse extends CI_Controller {
               if($value->tipo == 0){
                       $render .= '<td style="color:red;">' . number_format( $value->cantidadxpallet) . '</td>';
                 }else{
-                      $render .= '<td style="color:red;"><strong>---</strong></td>'; 
+                      $render .= '<td style="color:red;"><strong>---</strong></td>';
                 }
-               
+
                 if ($value->tipo == 0) {
-                    $render .= '<td style="color:red;"><strong>' . number_format($value->totalpallet) . '</strong></td>'; 
-                    $render .= '<td style="color:red;"><strong>' . number_format($value->totalcajaspallet) . '</strong></td>'; 
+                    $render .= '<td style="color:red;"><strong>' . number_format($value->totalpallet) . '</strong></td>';
+                    $render .= '<td style="color:red;"><strong>' . number_format($value->totalcajaspallet) . '</strong></td>';
                 }
                 if ($value->tipo == 1) {
-                    $render .= '<td style="color:red;"><strong>1</strong></td>'; 
-                    $render .= '<td style="color:red;"><strong>' . number_format($value->totalcajasparciales) . '</strong></td>'; 
+                    $render .= '<td style="color:red;"><strong>1</strong></td>';
+                    $render .= '<td style="color:red;"><strong>' . number_format($value->totalcajasparciales) . '</strong></td>';
                 }
                 if($value->tipo == 0){
-                      $render .= '<td><strong style="color:green;">PALLET</strong></td>'; 
+                      $render .= '<td><strong style="color:green;">PALLET</strong></td>';
                 }else{
-                      $render .= '<td><strong style="color:blue;">PARCIALES</strong></td>'; 
+                      $render .= '<td><strong style="color:blue;">PARCIALES</strong></td>';
                 }
                  $render .= '<td>' . $value->fecha . '</td>';
                 $render .= '</tr>';
@@ -127,7 +127,7 @@ class Warehouse extends CI_Controller {
         }
         $render .= '</tbody>
         </table>';
-        
+
         $datos = array(
             'exits'=>$render,
             'categorias' => $this->categorias->showAll()

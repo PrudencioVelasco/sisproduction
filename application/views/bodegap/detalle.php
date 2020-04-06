@@ -206,7 +206,7 @@
                                                        <button type="button" id="btnubicar" class="btn btn-success btn-sm"> <i class="fa fa-check-circle" aria-hidden="true"></i> Posicionar</button>
                                     <button type="button" id="btnrechazar" class="btn btn-danger btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> R. a Calidad</button>
                                      <button type="button" id="btnrechazarpacking" class="btn btn-warning btn-sm"> <i class="fa fa-ban" aria-hidden="true"></i> R. a Packing</button>
-                                                    <a target="_blank" href="<?php echo site_url('bodegap/generarPDFEnvio/' . $id) ?>" class="btn btn-default  btn-sm"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
+                                                    <a target="_blank" href="<?php echo site_url('Bodegap/generarPDFEnvio/' . $id) ?>" class="btn btn-default  btn-sm"> <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Generar envio</a>
 <?php } ?>
                                                 </div>
                                             </div>
@@ -247,7 +247,7 @@
                     form = $("#frmdetalle").serialize();
                     $.ajax({
                         type: "POST",
-                        url: "<?php echo site_url('bodega/rechazarACalidad'); ?>",
+                        url: "<?php echo site_url('Bodega/rechazarACalidad'); ?>",
                         data: form,
 
                         success: function (data) {
@@ -281,7 +281,7 @@
                     form = $("#frmdetalle").serialize();
                     $.ajax({
                         type: "POST",
-                        url: "<?php echo site_url('bodega/rechazarAPacking'); ?>",
+                        url: "<?php echo site_url('Bodega/rechazarAPacking'); ?>",
                         data: form,
 
                         success: function (data) {
@@ -312,7 +312,7 @@
                     form = $("#frmdetalle").serialize();
                     $.ajax({
                         type: "POST",
-                        url: "<?php echo site_url('bodega/agregarAUbicacion'); ?>",
+                        url: "<?php echo site_url('Bodega/agregarAUbicacion'); ?>",
                         data: form,
 
                         success: function (data) {
@@ -339,7 +339,7 @@
             var iddetalleparte = $('#iddetalleparte').val();
             $.ajax({
                 type: "POST",
-                url: "<?php echo site_url('bodega/addPositionWereHouse'); ?>",
+                url: "<?php echo site_url('Bodega/addPositionWereHouse'); ?>",
                 data: "posicion=" + dataselect + "&iddetalleparte=" + iddetalleparte,
                 dataType: "html",
                 success: function (data) {
@@ -358,7 +358,7 @@
             var idpalletcajas = $(this).attr("id");
             //$('#myModalMSG').modal('show');
             $.ajax({
-                url: "<?php echo site_url('bodegap/rechazopallet'); ?>",
+                url: "<?php echo site_url('Bodegap/rechazopallet'); ?>",
                 method: "POST",
                 data: {idpalletcajas: idpalletcajas},
                 dataType: "json",

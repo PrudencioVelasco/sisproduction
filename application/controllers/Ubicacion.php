@@ -9,7 +9,7 @@ class Ubicacion extends CI_Controller {
 
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('data_model');
@@ -35,7 +35,7 @@ class Ubicacion extends CI_Controller {
         echo json_encode($result);
     }
 
-   
+
 
     public function addUbicacion() {
         //Permission::grant(uri_string());
@@ -99,7 +99,7 @@ class Ubicacion extends CI_Controller {
             $datavalidar = $this->ubicacion->validadExistenciaUpdate($id, $nombreposicion);
             if($datavalidar == FALSE){
             $data = array(
-                'nombreposicion' => $this->input->post('nombreposicion'), 
+                'nombreposicion' => $this->input->post('nombreposicion'),
                 'activo' => $this->input->post('activo')
             );
             if ($this->ubicacion->updateUbicacion($id, $data)) {

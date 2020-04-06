@@ -24,7 +24,7 @@
                                                     <th scope="col">Cliente</th>
                                                     <th scope="col">No. Parte</th>
                                                     <th scope="col">Revision</th>
-                                                    <th scope="col">Cajas</th> 
+                                                    <th scope="col">Cajas</th>
                                                     <th>Estatus</th>
                                                     <th class="text-center">Acción</th>
                                                 </tr>
@@ -41,15 +41,15 @@
                                                         <td><label style="color:green;"><?php echo $value->nombrestatus;?></label>
                                                         </td>
                                                         <td align="center">
-                                                            <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs"  href="<?php echo site_url('hold/detalle/'.$value->idpalletcajas) ?>"><i class="fa fa-pencil" aria-hidden="true"></i> Modificar</a>
+                                                            <a class="btn btn-icons btn-rounded  btn-round btn-info btn-xs"  href="<?php echo site_url('Hold/detalle/'.$value->idpalletcajas) ?>"><i class="fa fa-pencil" aria-hidden="true"></i> Modificar</a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach;?>
-                                            <?php endif;?> 
+                                            <?php endif;?>
                                         </tbody>
                                     </table>
-                                </div> 
-                            </div> 
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

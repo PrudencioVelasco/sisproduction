@@ -5,12 +5,12 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <div class="row">  
+                        <div class="row">
                           <div class="col-md-11 col-sm-12 col-xs-12">
-                            <h3>Administrar Almacen</h3>
+                            <h3>ADMINISTRAR ALMACEN </h3>
                         </div>
                         <div class="col-md-1 col-sm-12 col-xs-12">
-                            <a href="<?php echo base_url('warehouse/index')?>" class="btn btn-success"><i class="fa fa-home" aria-hidden="true"></i></a>
+                            <a href="<?php echo base_url('/Warehouse/')?>" class="btn btn-success"><i class="fa fa-home" aria-hidden="true"></i></a>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -18,7 +18,7 @@
                 <div class="x_content">
                            <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active">
-                                    <a href="#home_with_icon_title" data-toggle="tab"> 
+                                    <a href="#home_with_icon_title" data-toggle="tab">
                                          <strong><h4><i class="fa fa-home"></i>  LISTADO GENERAL</h4></strong>
                                     </a>
                                 </li>
@@ -26,7 +26,7 @@
                                     <a href="#profile_with_icon_title" data-toggle="tab">
                                         <strong><h4><i class="fa fa-list"></i>  LISTADO POR UBICACIÓN</h4></strong>
                                     </a>
-                                </li> 
+                                </li>
                             </ul>
 
                             <!-- Tab panes -->
@@ -41,9 +41,9 @@
                                                                             <th scope="col">Categoría</th>
                                                                             <th scope="col">Modelo</th>
                                                                             <th scope="col">Revisión</th>
-                                                                            <th scope="col">Entradas</th> 
-                                                                            <th scope="col">Salidas</th> 
-                                                                            <th scope="col">Existencias</th> 
+                                                                            <th scope="col">Entradas</th>
+                                                                            <th scope="col">Salidas</th>
+                                                                            <th scope="col">Existencias</th>
 
                                                                             <th class="text-center">Acción</th>
                                                                         </tr>
@@ -55,7 +55,7 @@
                                                                                 <td><?php echo $value->nombre; ?></td>
                                                                                 <td><?php echo $value->numeroparte; ?></td>
                                                                                 <td><?php echo $value->nombrecategoria; ?></td>
-                                                                                <td><?php 
+                                                                                <td><?php
                                                                                 echo $value->nombremodelo;
                                                                                 ?></td>
                                                                                 <td><?php echo $value->nombrerevision; ?></td>
@@ -71,20 +71,20 @@
                                                                                     <label style="color:green;">
                                                                                         <?php
                     echo $value->totalentrada  -  ($value->totalsalidaparciales + $value->totalsalidapallet);
-                                                                                    ?></label>                                                        
+                                                                                    ?></label>
                                                                                 </td>
 
                                                                                 <td align="center">
-                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('warehouse/historial/'.$value->idrevision) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
+                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('Warehouse/historial/'.$value->idrevision) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
                                                                                     Historial</a>
                                                                                 </td>
                                                                             </tr>
                                                                         <?php endforeach;?>
-                                                                    <?php endif;?> 
+                                                                    <?php endif;?>
                                                                           <?php
-                                                                          
+
                                                                           if(isset($laminas) && !empty($laminas)){
-                                                                              foreach ($laminas as $valuel){ 
+                                                                              foreach ($laminas as $valuel){
                                                                                   if($valuel->totalexistencia > 0){
                                                                                   ?>
                                                                                          <tr>
@@ -100,11 +100,11 @@
                                                                                     <label style="color:red;"><?php echo $valuel->totalsalidas;?></label>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <label style="color:green;"><?php echo $valuel->totalexistencia;?></label>                                                        
+                                                                                    <label style="color:green;"><?php echo $valuel->totalexistencia;?></label>
                                                                                 </td>
 
                                                                                 <td align="center">
-                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('laminas/detalle/'.$valuel->idparte) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
+                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('Laminas/detalle/'.$valuel->idparte) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
                                                                                     Historial</a>
                                                                                 </td>
                                                                             </tr>
@@ -113,7 +113,7 @@
                                                                           }
                                                                           ?>
                                                                           <?php
-                                                                          
+
                                                                           if(isset($lithos) && !empty($lithos)){
                                                                               foreach ($lithos as $valueli){
                                                                                   if($valueli->totalexistencia > 0){
@@ -131,11 +131,11 @@
                                                                                     <label style="color:red;"><?php echo $valueli->totalsalidas;?></label>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <label style="color:green;"><?php echo $valueli->totalexistencia;?></label>                                                        
+                                                                                    <label style="color:green;"><?php echo $valueli->totalexistencia;?></label>
                                                                                 </td>
 
                                                                                 <td align="center">
-                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('litho/detalle/'.$valueli->idrevision) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
+                                                                                  <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('Litho/detalle/'.$valueli->idrevision) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
                                                                                     Historial</a>
                                                                                 </td>
                                                                             </tr>
@@ -152,9 +152,9 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th scope="col">Ubicación</th>
-                                                                    <th scope="col">Entradas</th> 
-                                                                    <th scope="col">Salidas</th> 
-                                                                    <th scope="col">Existencias</th> 
+                                                                    <th scope="col">Entradas</th>
+                                                                    <th scope="col">Salidas</th>
+                                                                    <th scope="col">Existencias</th>
 
                                                                     <th class="text-center">Acción</th>
                                                                 </tr>
@@ -176,7 +176,7 @@
                                                                     <td>
                                                                         <label style="color:green;">
                                                                             <?php
-                                                                           
+
                                                                              /*if(empty($value->total) || is_null($value->total)){
                                                                                 echo "0";
 
@@ -185,28 +185,28 @@
                                                                              }*/
                                                                                echo $value->totalentrada  -  ($value->totalsalidaparciales + $value->totalsalidapallet);
                                                                              ?>
-                                                                                
-                                                                            </label>                                                        
+
+                                                                            </label>
                                                                     </td>
 
                                                                     <td align="center">
-                                                                        <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('warehouse/historialposicion/'.$value->idposicion) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
+                                                                        <a class="btn btn-icons btn-rounded  btn-round btn-success btn-xs"  href="<?php echo site_url('Warehouse/historialposicion/'.$value->idposicion) ?>"><i class="fa fa-align-justify" aria-hidden="true"></i>
                                                                         Historial</a>
                                                                     </td>
                                                                 </tr>
                                                             <?php endforeach;?>
-                                                        <?php endif;?> 
+                                                        <?php endif;?>
                                                     </tbody>
                                                 </table>
-                                </div>  
+                                </div>
                             </div>
 
-               
+
 <!-- /page content -->
 <script type="text/javascript">
   $( document ).ready(function() {
     $('#datatablewarehouse').DataTable( {
-        dom: 'Bfrtip', 
+        dom: 'Bfrtip',
         buttons: [
             {
                 extend: 'excelHtml5',
@@ -221,7 +221,7 @@
                 }
             }
         ],
-    
+
         "order": [[0, "desc"]],
         "language": {
             "sProcessing": "Procesando...",

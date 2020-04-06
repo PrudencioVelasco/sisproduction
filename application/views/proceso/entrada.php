@@ -69,7 +69,7 @@
                                                               <?php echo date_format(date_create($value->fecharegistro),"d/m/Y h:i A") ?>
                                                             </td>
                                                             <td>
-                                                              <a data-toggle="tooltip" data-placement="top" title="Dar click para Eliminar la Entrada."   href="<?php echo site_url('/proceso/eliminar_entrada/'.$value->identradaproceso) ?>" class="btn btn-danger btn-sm confirmation"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                              <a data-toggle="tooltip" data-placement="top" title="Dar click para Eliminar la Entrada."   href="<?php echo site_url('/Proceso/eliminar_entrada/'.$value->identradaproceso) ?>" class="btn btn-danger btn-sm confirmation"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
                                                             </td>
 
@@ -229,7 +229,7 @@ $(document).ready(function() {
    $("#btningresar").click(function(){
             $.ajax({
                 type: "POST",
-                url: "<?php echo site_url('proceso/agregar_entrada');?>",
+                url: "<?php echo site_url('Proceso/agregar_entrada');?>",
                 data: $('#frmentrada').serialize(),
                 success: function(data) {
                     var msg = $.parseJSON(data);

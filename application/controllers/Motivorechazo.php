@@ -9,7 +9,7 @@ class Motivorechazo extends CI_Controller {
 
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('data_model');
@@ -37,11 +37,11 @@ class Motivorechazo extends CI_Controller {
     }
      public function showAllProcesos() {
         //Permission::grant(uri_string());
-        $query = $this->motivo->showAllProcesos(); 
+        $query = $this->motivo->showAllProcesos();
         echo json_encode($query);
     }
 
-   
+
 
     public function addMotivo() {
        // Permission::grant(uri_string());
@@ -126,8 +126,8 @@ class Motivorechazo extends CI_Controller {
             $validar = $this->motivo->validadMotivoUpdate($id,$idproceso,$nombre);
             if($validar == FALSE){
             $data = array(
-                'motivo' => $this->input->post('motivo'), 
-                'idproceso' => $this->input->post('idproceso'), 
+                'motivo' => $this->input->post('motivo'),
+                'idproceso' => $this->input->post('idproceso'),
                 'activo' => $this->input->post('activo')
             );
             if ($this->motivo->updateMotivo($id, $data)) {

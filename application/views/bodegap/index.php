@@ -10,8 +10,8 @@
                               <h3><strong>ADMINISTRAR ALMACEN</strong></h3>
                          </div>
                           <div class="col-md-6 col-sm-12 col-xs-12" align="right">
-                              <a href="<?php echo site_url('bodegap/admin/') ?>" class="btn btn-default"><i class="fa fa-dropbox"></i> Admin. Almacen</a>
-                              <a href="<?php echo site_url('bodegap/comparar/') ?>" class="btn btn-default"><i class="fa fa-search"></i> Buscar N. Parte</a>
+                              <a href="<?php echo site_url('Bodegap/admin/') ?>" class="btn btn-default"><i class="fa fa-dropbox"></i> Admin. Almacen</a>
+                              <a href="<?php echo site_url('Bodegap/comparar/') ?>" class="btn btn-default"><i class="fa fa-search"></i> Buscar N. Parte</a>
                           </div>
                       </div>
                         <div class="clearfix"></div>
@@ -56,7 +56,7 @@
                                                                 ?>
                                                             </td>
                                                             <td align="right">
-                                                            <a class="btn btn-icons  btn-info btn-sm"  href="<?php echo site_url('bodegap/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
+                                                            <a class="btn btn-icons  btn-info btn-sm"  href="<?php echo site_url('Bodegap/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
                                                             </td>
                                                         </tr>
                                                         <?php

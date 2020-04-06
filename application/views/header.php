@@ -146,22 +146,22 @@
                                 <h3><?php echo $this->session->rol
                                 ?></h3>
                                 <ul class="nav side-menu">
-                                    <li><a href="<?= base_url('/admin/') ?>"><i class="fa fa-home"></i> Inicio</a> </li>
-                                    <li><a href="<?= base_url('/transferencia/') ?>"><i class="fa fa-archive" aria-hidden="true"></i> Packing</a> </li>
-                                    <li><a href="<?= base_url('/calidadp/') ?>"><i class="fa fa-thumbs-o-up"></i> Calidad</a> </li>
-                                    <li><a href="<?= base_url('/bodegap/') ?>"><i class="fa fa-home"></i> Almacen</a> </li>
-                                    <li><a href="<?= base_url('/salida/') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i>Salida</a> </li>
-                                    <li><a href="<?= base_url('/orden/') ?>"><i class="fa fa-check-square-o" aria-hidden="true"></i>Orden</a> </li>
-                                    <li><a href="<?= base_url('/proceso/') ?>"><i class="fa fa-flag-o" aria-hidden="true"></i>Procesos</a> </li>
-                                    <li><a href="<?= base_url('/catalogo/') ?>"><i class="fa fa-folder-open" aria-hidden="true"></i>Catalogo</a> </li>
+                                    <li><a href="<?= base_url('/Admin/') ?>"><i class="fa fa-home"></i> Inicio</a> </li>
+                                    <li><a href="<?= base_url('/Transferencia/') ?>"><i class="fa fa-archive" aria-hidden="true"></i> Packing</a> </li>
+                                    <li><a href="<?= base_url('/Calidadp/') ?>"><i class="fa fa-thumbs-o-up"></i> Calidad</a> </li>
+                                    <li><a href="<?= base_url('/Bodegap/') ?>"><i class="fa fa-home"></i> Almacen</a> </li>
+                                    <li><a href="<?= base_url('/Salida/') ?>"><i class="fa fa-sign-out" aria-hidden="true"></i>Salida</a> </li>
+                                    <li><a href="<?= base_url('/Orden/') ?>"><i class="fa fa-check-square-o" aria-hidden="true"></i>Orden</a> </li>
+                                    <li><a href="<?= base_url('/Proceso/') ?>"><i class="fa fa-flag-o" aria-hidden="true"></i>Procesos</a> </li>
+                                    <li><a href="<?= base_url('/Catalogo/') ?>"><i class="fa fa-folder-open" aria-hidden="true"></i>Catalogo</a> </li>
                                     <li><a><i class="fa fa-bar-chart" aria-hidden="true"></i> Reporte <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu" style="display: none">
                                               <!--<li><a href="<?php //echo base_url('/reporte/transferencia') ?>"> Transferencia</a> </li>-->
-                                              <li><a href="<?= base_url('/reporte/reportepacking') ?>"> Reporte packing</a> </li>
-                                              <li><a href="<?= base_url('/reporte/reportecalidad') ?>"> Reporte calidad</a> </li>
-                                              <li><a href="<?= base_url('/reporte/reportealmacen') ?>"> Reporte almacen</a> </li>
-                                              <li><a href="<?= base_url('/reporte/procesomaquina') ?>"> Por maquina</a> </li>
-                                              <li><a href="<?= base_url('/reporte/porprocesos') ?>"> Por proceso</a> </li>
+                                              <li><a href="<?= base_url('/Reporte/reportepacking') ?>"> Reporte packing</a> </li>
+                                              <li><a href="<?= base_url('/Reporte/reportecalidad') ?>"> Reporte calidad</a> </li>
+                                              <li><a href="<?= base_url('/Reporte/reportealmacen') ?>"> Reporte almacen</a> </li>
+                                              <li><a href="<?= base_url('/Reporte/procesomaquina') ?>"> Por maquina</a> </li>
+                                              <li><a href="<?= base_url('/Reporte/porprocesos') ?>"> Por proceso</a> </li>
                                         </ul>
                                     </li>
                                 </ul>

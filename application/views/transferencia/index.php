@@ -13,11 +13,11 @@
                             <div class="container">
                                 <div class="row">
                                    <div class="col-md-6 col-sm-12 col-xs-12 ">
-                                        <a href="<?php echo site_url('transferencia/agregar/')?>" class="btn btn-icons btn-rounded  btn-primary"  onclick="return confirm('Esta seguros de crear una Transferencia.?')"><i class="fa fa-plus-circle" aria-hidden="true"></i> Crear Transferencia</a>
+                                        <a href="<?php echo site_url('Transferencia/agregar/')?>" class="btn btn-icons btn-rounded  btn-primary confirmation_transferencia" ><i class="fa fa-plus-circle" aria-hidden="true"></i> Crear Transferencia</a>
                                     </div>
                                      <div class="col-md-6 col-sm-12 col-xs-12 " align="right">
                                        <a href="#" class="btn btn-info" data-toggle="modal" data-target=".bd-example-modal-lg"> <i class="fa fa-print"></i> Regenerar Etiqueta</a>
-                                        <a href="<?php echo site_url('devolucion/agregar')?>" class="btn btn-icons btn-rounded  btn-default"  onclick="return confirm('Esta seguro de crear una Retorno?')"><i class="fa fa-plus-circle" aria-hidden="true"></i> Crear Retorno</a>
+                                        <a href="<?php echo site_url('Devolucion/agregar')?>" class="btn btn-icons btn-rounded  btn-default confirmation_retorno" ><i class="fa fa-plus-circle" aria-hidden="true"></i> Crear Retorno</a>
                                     </div>
                                 </div>
 
@@ -32,7 +32,7 @@
 
                                             <!-- Modal body -->
                                             <div class="modal-body">
-                                                <form  method="POST" target="_blank" action="<?php echo site_url('transferencia/regenerar_etiqueta'); ?>">
+                                                <form  method="POST" target="_blank" action="<?php echo site_url('Transferencia/regenerar_etiqueta'); ?>">
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                              <span style="color: red" id="wd"></span>
@@ -172,14 +172,14 @@
 
 
                                                                  <?php if($value->devolucion == 1){?>
-                                                                      <a class="btn btn-icons btn-danger btn-sm" onclick="return confirm('Esta seguro de Eliminar la Transferencia?')" href="<?php echo site_url('transferencia/eliminar_devolucion/'.$value->idtransferancia) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
+                                                                      <a class="btn btn-icons btn-danger btn-sm confirmation_delete"  href="<?php echo site_url('Transferencia/eliminar_devolucion/'.$value->idtransferancia) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
                                                                  <?php }else{ ?>
-                                                                       <a class="btn btn-icons btn-danger btn-sm" onclick="return confirm('Esta seguro de Eliminar la Transferencia?')" href="<?php echo site_url('transferencia/eliminar/'.$value->idtransferancia) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
+                                                                       <a class="btn btn-icons btn-danger btn-sm confirmation_delete" href="<?php echo site_url('Transferencia/eliminar/'.$value->idtransferancia) ?>"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
   <?php } ?>
                                                             <?php if($value->devolucion == 1){?>
-                                                                  <a class="btn btn-icons btn-info btn-sm"  href="<?php echo site_url('devolucion/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
+                                                                  <a class="btn btn-icons btn-info btn-sm"  href="<?php echo site_url('Devolucion/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
                                                             <?php }else{ ?>
-                                                                  <a class="btn btn-icons  btn-info btn-sm"  href="<?php echo site_url('transferencia/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
+                                                                  <a class="btn btn-icons  btn-info btn-sm"  href="<?php echo site_url('Transferencia/detalle/'.$value->idtransferancia.'/'.$value->folio) ?>"><i class="fa fa-plus-circle" aria-hidden="true"></i> Agregar</a>
                                                             <?php } ?>
                                                             </td>
                                                         </tr>
@@ -233,7 +233,7 @@
           if(parte != ""){
           $.ajax({
               type: "POST",
-              url: "<?= base_url('transferencia/validar') ?>",
+              url: "<?= base_url('Transferencia/validar') ?>",
               data: "numeroparte=" + parte,
               dataType: "html",
               beforeSend: function () {
@@ -295,7 +295,7 @@
           var idmodelo = $("#listamodelo").find("option:selected").val();
           $.ajax({
               type: "POST",
-              url: "<?= base_url('transferencia/seleccionarModelo') ?>",
+              url: "<?= base_url('Transferencia/seleccionarModelo') ?>",
               data: "idmodelo=" + idmodelo,
               dataType: "html",
               success: function (response) {
@@ -328,7 +328,7 @@ $(document).ready(function () {
 
                       $.ajax({
                       type: "POST",
-                      url: "<?php echo site_url('transferencia/regenerar_etiqueta'); ?>",
+                      url: "<?php echo site_url('Transferencia/regenerar_etiqueta'); ?>",
                       data: form,
                       success: function (data) {
                           console.log(data);
@@ -345,4 +345,78 @@ $(document).ready(function () {
       });
 
 });
+</script>
+
+<script type="text/javascript">
+$('.confirmation_transferencia').click(function(e) {
+    e.preventDefault(); // Prevent the href from redirecting directly
+    var linkURL = $(this).attr("href");
+    warnBeforeRedirect(linkURL);
+    });
+$('.confirmation_retorno').click(function(e) {
+        e.preventDefault(); // Prevent the href from redirecting directly
+        var linkURL = $(this).attr("href");
+        warnBeforeRedirectRetorno(linkURL);
+        });
+$('.confirmation_delete').click(function(e) {
+                e.preventDefault(); // Prevent the href from redirecting directly
+                var linkURL = $(this).attr("href");
+                warnBeforeRedirectDelete(linkURL);
+                });
+
+function warnBeforeRedirect(linkURL) {
+  Swal.fire({
+      title: 'Esta seguro de Crear la Transferencia?',
+      text: "No se puede revertir esta acción.",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'CREAR',
+      cancelButtonText: 'CANCELAR'
+      }).then((result) => {
+      if (result.value) {
+   // Redirect the user
+   window.location.href = linkURL;
+ }
+});
+
+}
+function warnBeforeRedirectRetorno(linkURL) {
+  Swal.fire({
+      title: 'Esta seguro de Crear el Retorno?',
+      text: "No se puede revertir esta acción.",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'CREAR',
+      cancelButtonText: 'CANCELAR'
+      }).then((result) => {
+      if (result.value) {
+   // Redirect the user
+   window.location.href = linkURL;
+ }
+});
+
+}
+
+function warnBeforeRedirectDelete(linkURL) {
+  Swal.fire({
+      title: 'Esta seguro de Eliminar el Registro?',
+      text: "No se puede revertir esta acción.",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'ELIMINAR',
+      cancelButtonText: 'CANCELAR'
+      }).then((result) => {
+      if (result.value) {
+   // Redirect the user
+   window.location.href = linkURL;
+ }
+});
+
+}
 </script>

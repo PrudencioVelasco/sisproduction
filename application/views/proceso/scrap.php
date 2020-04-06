@@ -83,11 +83,7 @@
                                                               <a   href="" class="btn btn-info btn-sm edit_button" data-toggle="modal" data-target="#myModal"
                                                               data-procesos="<?php echo $value->pasos;?>" >
                                                              Ver</a>
-
-
-                                                              <!--<a class="btn btn-danger btn-sm confirmation" href="<?php //echo site_url('proceso/ascrap/'.$value->id.'/'.$value->cantidadentrada) ?>"> Todo a SCRAP</a>-->
-
-                                                               <a  href="" class="btn btn-primary btn-sm edit_button_enviar"
+                                                              <a  href="" class="btn btn-primary btn-sm edit_button_enviar"
                                                                 data-toggle="modal" data-target="#myModalEnviar"
                                                               data-id="<?php echo $value->id;?>"
                                                               data-identradaproceso="<?php echo $value->identradaproceso;?>"
@@ -423,7 +419,7 @@ function formatNumber(num) {
   if (result.value) {
       $.ajax({
                 type: "POST",
-                url: "<?php echo site_url('proceso/siguiente_proceso_scrap');?>",
+                url: "<?php echo site_url('Proceso/siguiente_proceso_scrap');?>",
                 data: $('#frmenviar').serialize(),
                 success: function(data) {
                     var msg = $.parseJSON(data);

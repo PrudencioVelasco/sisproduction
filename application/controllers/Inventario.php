@@ -9,7 +9,7 @@ class Inventario extends CI_Controller
 
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('data_model');
@@ -30,7 +30,7 @@ class Inventario extends CI_Controller
         'entradas'=>$queryentradas,
         'salidascompletos'=>$querysalidacompleta,
         'salidasparciales'=>$querysalidaparciales
-        ); 
+        );
         $this->load->view('header');
         $this->load->view('inventario/index',$data);
         $this->load->view('footer');
@@ -64,7 +64,7 @@ class Inventario extends CI_Controller
                 echo '<td>'.number_format($row->totalpallet).'</td>';
                 echo '<td>'.number_format($row->totalcajas).'</td>';
             echo '</tr>';
-           
+
         }
              echo '<tr>
                                            <td></td>
@@ -80,12 +80,12 @@ class Inventario extends CI_Controller
         echo '</tr>';
     }
     }
-    
+
     public function searchDatePallet(){
         Permission::grant(uri_string());
         $date3 = date("Y-m-d", strtotime($_POST['date3']));
         $date4 = date("Y-m-d", strtotime($_POST['date4']));
-        
+
                $query = $this->inventario->showAllDateSalidasCompletos($date3,$date4);
         $i=1;
         $sumapallet = 0;
@@ -101,7 +101,7 @@ class Inventario extends CI_Controller
                 echo '<td>'.number_format($row->totalpallet).'</td>';
                 echo '<td>'.number_format($row->totalcajas).'</td>';
             echo '</tr>';
-           
+
         }
              echo '<tr>
                                            <td></td>
@@ -117,14 +117,14 @@ class Inventario extends CI_Controller
         echo '</tr>';
     }
     }
-    
+
     public function searchDateParciales(){
         Permission::grant(uri_string());
         $date5 = date("Y-m-d", strtotime($_POST['date5']));
         $date6 = date("Y-m-d", strtotime($_POST['date6']));
         $query = $this->inventario->showAllDateSalidasParciales($date5,$date6);
         if($query != false){
-            $i=1; 
+            $i=1;
             $sumacajas = 0;
             foreach($query as $row){
             $sumacajas+=$value->totalcajas;
@@ -132,9 +132,9 @@ class Inventario extends CI_Controller
                 echo '<td>'.$i++.'</td>';
                 echo '<td>'.$row->nombre.'</td>';
                 echo '<td>'.$row->numeroparte.'</td>';
-                echo '<td>'.number_format($row->totalcajas).'</td>'; 
+                echo '<td>'.number_format($row->totalcajas).'</td>';
             echo '</tr>';
-                
+
             }
             echo ' <tr>
                                  <td></td>
@@ -143,13 +143,13 @@ class Inventario extends CI_Controller
                                  <td><strong>'.number_format($sumacajas).'</strong></td>
                                  <td></td>
                               </tr>';
-            
+
              }else{
         echo '<tr>';
             echo '<td colspan="4"><center><h3><strong>Sin resultados</strong></h3></center></td>';
         echo '</tr>';
     }
     }
-    
+
 }
 ?>

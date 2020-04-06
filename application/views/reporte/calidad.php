@@ -3,14 +3,14 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h3>Reporte de Calidad</h3>
+                    <h3>REPORTE DE CALIDAD</h3>
 
                     <div class="clearfix"></div>
                   </div>
 
                   <div class="x_content">
- 
-                  <form method="POST" action="<?= base_url('reporte/buscarCalidad') ?>"> 
+
+                  <form method="POST" action="<?= base_url('Reporte/buscarCalidad') ?>">
                   <div class="row">
                       <div class="col-md-3 col-sm-12 col-xs-12">
                          <div class="form-group">
@@ -25,13 +25,13 @@
                              </select>
                          </div>
                       </div>
-                      
 
-                       
+
+
                       <div class="col-md-3 col-sm-12 col-xs-12">
                          <div class="form-group">
                             <label><font color="red">*</font> Estatus</label>
-                             <select class="form-control" name="estatus" required > 
+                             <select class="form-control" name="estatus" required >
                                 <option value="4">ENVIADO</option>
                                 <option value="5">TERMINADO</option>
                                 <option value="6">RECHAZADO</option>
@@ -80,7 +80,7 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    <?php 
+                                    <?php
                                        $i=1;
                                        foreach ($resultall as $row) { ?>
                                     <tr>
@@ -88,7 +88,7 @@
                                        <td><?php echo $row->numeroparte; ?></td>
                                        <td><?php echo $row->modelo;?></td>
                                        <td><?php echo $row->revision;?></td>
-                                       <td><?php echo $row->pallet;?></td> 
+                                       <td><?php echo $row->pallet;?></td>
                                        <td><?php echo $row->cantidad;?></td>
                                        <td><?php echo $row->linea;?></td>
                                        <td><?php echo $row->fecharegistro;?></td>
@@ -116,7 +116,7 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    <?php 
+                                    <?php
                                        $i=1;
                                        foreach ($resultusers as $row) { ?>
                                     <tr>
@@ -124,7 +124,7 @@
                                        <td><?php echo $row->numeroparte; ?></td>
                                        <td><?php echo $row->modelo;?></td>
                                        <td><?php echo $row->revision;?></td>
-                                       <td><?php echo $row->pallet;?></td> 
+                                       <td><?php echo $row->pallet;?></td>
                                        <td><?php echo $row->cantidad;?></td>
                                        <td><?php echo $row->linea;?></td>
                                        <td><?php echo $row->fecharegistro;?></td>
@@ -138,11 +138,7 @@
                      </div>
                   </div>
                   </div>
-                
+
               </div>
   </div>
 </div>
-
-
-
- 

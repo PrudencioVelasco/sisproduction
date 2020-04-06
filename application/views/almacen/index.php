@@ -10,15 +10,10 @@
           </div>
           <div class="x_content">
             <div id="app">
-              <!--<div class="row">
-                <div class="col-md-6">
-                  <a href="<?php //echo site_url('calidad/enviadosBodega') ?>" class="btn btn-round btn-primary">Ver enviados</a>
-                </div>
-              </div>-->
               <!-- Seccion buscador -->
               <div class="row">
-                <div class="col-md-6 col-sm-12 col-xs-12"> 
-                  <button id="reload" type="button" class="btn btn-info"><i class="fa fa-refresh" aria-hidden="true"></i></button> 
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                  <button id="reload" type="button" class="btn btn-info"><i class="fa fa-refresh" aria-hidden="true"></i></button>
                 </div>
                 <div class="col-md-6 col-sm-12 col-xs-12">
                   <input placeholder="Buscar" type="search" :autofocus="'autofocus'" class="form-control btn-round" v-model="search.text" @keyup="searchDetalleStatus" name="search">

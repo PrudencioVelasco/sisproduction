@@ -6,7 +6,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2><strong>Administrar Roles</strong></h2>
+                        <h3><strong>ADMINISTRAR ROLES</strong></h2>
 
                         <div class="clearfix"></div>
                     </div>
@@ -24,8 +24,8 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <button class="btn btn-round btn-primary" @click="addModal= true"><i class='fa fa-plus'></i> Nuevo Rol</button>
-                                                <a  href="<?= base_url('/user/index') ?>" class="btn btn-round btn-default">Usuarios</a>
-                                                <a  href="<?= base_url('/permiso/index') ?>" class="btn btn-round btn-default">Permisos</a>
+                                                <a  href="<?= base_url('/User/') ?>" class="btn btn-round btn-default">Usuarios</a>
+                                                <a  href="<?= base_url('/Permiso/') ?>" class="btn btn-round btn-default">Permisos</a>
 
                                             </div>
                                             <div class="col-md-6"></div>
@@ -34,7 +34,7 @@
                                             <div class="col-md-6">
                                             </div>
                                             <div class="col-md-6">
-                                                <input placeholder="Buscar" type="search" class="form-control" v-model="search.text" @keyup="searchUser" name="search">
+                                                <input placeholder="Buscar" type="search" autofocus ="autofocus" class="form-control" v-model="search.text" @keyup="searchUser" name="search">
                                             </div>
                                         </div>
                                         <br>
@@ -46,9 +46,9 @@
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr v-for="rol in roles" class="table-default">
-                                                    <td><strong>{{rol.rol}}</strong></td> 
+                                                    <td><strong>{{rol.rol}}</strong></td>
                                                     <td align="right">
-                                                        <button type="button" class="btn btn-icons btn-sm btn-rounded btn-success" @click="editModal = true; selectRol(rol)" title="Modificar Datos"><i class='fa fa-edit'></i> 
+                                                        <button type="button" class="btn btn-icons btn-sm btn-rounded btn-success" @click="editModal = true; selectRol(rol)" title="Modificar Datos"><i class='fa fa-edit'></i>
                                                            Editar
                                                         </button>
 
@@ -78,7 +78,7 @@
                                             </tfoot>
                                         </table>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                             <?php include 'modal.php'; ?>
                         </div>
@@ -90,4 +90,4 @@
 </div>
 <!-- /page content -->
  <script src="<?php echo base_url(); ?>/assets/js/vue-column-sortable.js"></script>
-<script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/approl.js"></script> 
+<script data-my_var_1="<?php echo base_url() ?>" src="<?php echo base_url(); ?>/assets/js/appvue/approl.js"></script>

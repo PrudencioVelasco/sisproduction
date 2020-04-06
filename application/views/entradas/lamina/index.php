@@ -64,7 +64,7 @@
                                                                         data-numeroparte="<?php echo $value->numeroparte;?>"
                                                                         ><i class="fa fa-undo" aria-hidden="true"></i> <strong>Devolución</strong></a></li>
                                                                         <li class="divider"></li>
-                                                                        <li><a href="<?php echo site_url('laminas/detalle/'.$value->idparte) ?>"><i class="fa fa-exchange"></i> <strong>Movimientos</strong></a></li>
+                                                                        <li><a href="<?php echo site_url('Laminas/detalle/'.$value->idparte) ?>"><i class="fa fa-exchange"></i> <strong>Movimientos</strong></a></li>
                                                                     </ul>
                                                                 </div>
 
@@ -244,7 +244,7 @@
     $("#btnentrada").click(function(){
         $.ajax({
             type: "POST",
-            url: "<?php echo site_url('laminas/agregar_entrada');?>",
+            url: "<?php echo site_url('Laminas/agregar_entrada');?>",
             data: $('#frmentrada').serialize(),
             success: function(data) {
                 var msg = $.parseJSON(data);
@@ -267,7 +267,7 @@
     $("#btnsalida").click(function(){
         $.ajax({
             type: "POST",
-            url: "<?php echo site_url('laminas/agregar_salida');?>",
+            url: "<?php echo site_url('Laminas/agregar_salida');?>",
             data: $('#frmsalida').serialize(),
             success: function(data) {
                 var msg = $.parseJSON(data);
@@ -289,7 +289,7 @@
     $("#btndevolucion").click(function(){
         $.ajax({
             type: "POST",
-            url: "<?php echo site_url('laminas/devolucion');?>",
+            url: "<?php echo site_url('Laminas/devolucion');?>",
             data: $('#frmdevolucion').serialize(),
             success: function(data) {
                 var msg = $.parseJSON(data);

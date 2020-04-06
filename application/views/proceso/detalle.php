@@ -39,7 +39,7 @@
 
                          <div class="container">
                            <div class="row">
-                              <form class="form-inline" method="POST" action="<?php echo site_url('proceso/agregar_detalle');?>">
+                              <form class="form-inline" method="POST" action="<?php echo site_url('Proceso/agregar_detalle');?>">
                                <div class="col-md-6 col-sm-12 col-xs-12">
                                  <select  class="form-control" name="idmaquina" required>
                                    <option value="">--SELECIONAR MAQUINA--</option>
@@ -104,7 +104,7 @@ $(document).ready(function(){
    });
    //alert(page_id_array);
    $.ajax({
-    url:"<?php echo site_url('proceso/modificar_posicion');?>",
+    url:"<?php echo site_url('Proceso/modificar_posicion');?>",
     method:"POST",
     data:{page_id_array:page_id_array},
     success:function(data)
@@ -122,7 +122,7 @@ $(document).ready(function(){
 	  $("#btneliminar").click(function(){
             $.ajax({
                 type: "POST",
-                url: "<?php echo site_url('proceso/eliminar');?>",
+                url: "<?php echo site_url('Proceso/eliminar');?>",
                 data: $('#frmeliminar').serialize(),
                 success: function(data) {
                 	location.reload();

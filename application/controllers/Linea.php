@@ -9,7 +9,7 @@ class Linea extends CI_Controller {
 
         if (!isset($_SESSION['user_id'])) {
             $this->session->set_flashdata('flash_data', 'You don\'t have access! ss');
-            return redirect('login');
+            return redirect('Login');
         }
         $this->load->helper('url');
         $this->load->model('data_model');
@@ -20,7 +20,7 @@ class Linea extends CI_Controller {
         $this->load->library('permission');
         $this->load->library('session');
     }
-   public function index() { 
+   public function index() {
        Permission::grant(uri_string());
         $this->load->view('header');
         $this->load->view('linea/index');
@@ -47,7 +47,7 @@ class Linea extends CI_Controller {
                 'nombrelinea' => form_error('nombrelinea')
             );
         } else {
-             
+
             $nombrelinea = trim($this->input->post('nombrelinea'));
             $datavalidar = $this->linea->validadExistenciaNombreLinea($nombrelinea);
             if ($datavalidar == FALSE) {
@@ -100,7 +100,7 @@ class Linea extends CI_Controller {
 
                 $data = array(
                     'nombrelinea' => $nombrelinea
-                    
+
                 );
                 $this->linea->updateLinea($idlinea, $data);
             } else {
@@ -114,10 +114,10 @@ class Linea extends CI_Controller {
         echo json_encode($result);
     }
 
- 
+
 
     public function showAll() {
-       // Permission::grant(uri_string()); 
+       // Permission::grant(uri_string());
         $query = $this->linea->showAllLinea();
         if ($query) {
             $result['lineas'] = $this->linea->showAllLinea();
@@ -126,7 +126,7 @@ class Linea extends CI_Controller {
     }
 
     public function searchLinea() {
-        $value = $this->input->post('text'); 
+        $value = $this->input->post('text');
         $query = $this->linea->searchLinea($value);
         if (!empty($query)) {
             $result['lineas'] = $query;

@@ -79,7 +79,7 @@
         <tbody>
             <?php foreach($datosparte as $value) {?>
             <tr>
-                <td><a href="<?php echo site_url('salida/agregarParteOrdenDetalladoMaster/'.$value["idtransferancia"].'/'.$value["idcajas"].'/'.$idsalida ) ?>"> <?php echo $value["folio"]; ?></a></td>
+                <td><a href="<?php echo site_url('Salida/agregarParteOrdenDetalladoMaster/'.$value["idtransferancia"].'/'.$value["idcajas"].'/'.$idsalida ) ?>"> <?php echo $value["folio"]; ?></a></td>
                  <td><?php echo $value["numeroparte"]; ?></td>
                 <td><?php echo $value["totalpallet"]; ?></td>
                  <td><?php echo number_format($value["cajasporpallet"]); ?></td>
@@ -225,7 +225,7 @@
                                                 <td align="right">
                                                     <input type="hidden" id="idordensalida" name="idordensalida" value="<?php echo $value->idordensalida; ?>"/>
 
-                                                    <a onclick="return confirm('Estas seguro de quitar?')" href="<?php echo site_url('salida/eliminarParteOrden/' . $value->idordensalida . '/' . $value->idsalida . '/' . $value->idpalletcajas) ?>"><i style="color:red;padding-right: 10px;"  class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                                    <a onclick="return confirm('Estas seguro de quitar?')" href="<?php echo site_url('Salida/eliminarParteOrden/' . $value->idordensalida . '/' . $value->idsalida . '/' . $value->idpalletcajas) ?>"><i style="color:red;padding-right: 10px;"  class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                                                 </td>
                                             <?php } ?>
                                             <?php
@@ -311,7 +311,7 @@
                         <?php if ($detallesalida->finalizado == 0) { ?>
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12" align="right">
-                                    <form method="POST" action="<?= base_url('salida/terminarOrdenSalida') ?>">
+                                    <form method="POST" action="<?= base_url('Salida/terminarOrdenSalida') ?>">
                                         <input type="hidden" name="idsalida" value="<?php echo $idsalida; ?>"/>
                                         <button type="submit" id="btnterminarorden" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i>
                                             Terminar orden</button>
@@ -322,7 +322,7 @@
                         <?php if ($detallesalida->finalizado == 1) { ?>
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12" align="right">
-                                    <a target=”_blank” href="<?php echo site_url('salida/generarPDFOrden/' . $idsalida) ?>"  class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    <a target=”_blank” href="<?php echo site_url('Salida/generarPDFOrden/' . $idsalida) ?>"  class="btn btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                         Descargar Orden</a>
                                 </div>
                             </div>
@@ -355,7 +355,7 @@
             form = $("#frmagregar").serialize();
             $.ajax({
                 type: "POST",
-                url: "<?php echo site_url('salida/agregarNumeroParteOrderMaster'); ?>",
+                url: "<?php echo site_url('Salida/agregarNumeroParteOrderMaster'); ?>",
                 data: form,
 
                 success: function (data) {
@@ -373,7 +373,7 @@
                         $("#msgerror").text("Lo debe de agregar como Parciales.");
                     } else {
                         //location.reload();
-                       window.location.href="<?php echo base_url(); ?>/salida/detalleSalidaMaster/<?php echo $idsalida ?>";
+                       window.location.href="<?php echo base_url(); ?>/Salida/detalleSalidaMaster/<?php echo $idsalida ?>";
                     }
                     // location.reload();
                     //$("#msgerror").text(data);

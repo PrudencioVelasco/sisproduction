@@ -12,15 +12,15 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h3>Reporte de Transferencias</h3>
+                    <h3>REPORTE DE TRANSFERENCIA</h3>
 
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="x_content">
 
-                    <form method="POST" action="<?= base_url('reporte/buscar') ?>"> 
-                        <div class="row">  
+                    <form method="POST" action="<?= base_url('Reporte/buscar') ?>">
+                        <div class="row">
 
                             <div class="col-md-3 col-sm-12 col-xs-12">
                                 <div class="form-group" >
@@ -47,7 +47,7 @@
                             <div class="col-md-3 col-sm-12 col-xs-12">
                                 <div class="form-group">
                                     <label><font color="red">*</font> Módulo</label>
-                                    <select class="form-control" required name="modulo"> 
+                                    <select class="form-control" required name="modulo">
                                         <option value="">Seleccionar</option>
                                         <option value="1">PACKING</option>
                                         <option value="2">CALIDAD</option>
@@ -60,11 +60,11 @@
                                     <button type="submit"  style="margin-top: 25px" class="btn btn-primary">Buscar</button>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                     </form>
                     <hr/>
                     <div class="row">
-                        <div class="col-md-12 col-sm-12 col-xs-12"> 
+                        <div class="col-md-12 col-sm-12 col-xs-12">
                             <table id="datatablereporteturnos" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
@@ -73,12 +73,12 @@
                                         <th>Módelo</th>
                                         <th>Revisión</th>
                                         <th>Pallet</th>
-                                        <th>C</th>  
-                                        <th>Fecha</th> 
+                                        <th>C</th>
+                                        <th>Fecha</th>
                                         <th>Estatus</th>
                                     </tr>
                                 </thead>
-                                <tbody>  
+                                <tbody>
                                     <?php
                                     if (isset($result) && !empty($result)) {
                                         foreach ($result as $value):
@@ -90,7 +90,7 @@
                                                 <td><?php echo $value->nombrerevision ?></td>
                                                 <td><?php echo "1" ?></td>
                                                 <td><?php echo $value->cantidad ?></td>
-                                                <td><?php echo date("d/m/Y", strtotime($value->fecha)); ?></td>  
+                                                <td><?php echo date("d/m/Y", strtotime($value->fecha)); ?></td>
                                                 <td>
                                                     <?php
                                                     if ($modulo == "1") {
@@ -149,17 +149,17 @@
                                                                 break;
                                                         }
                                                     } else {
-                                                        
+
                                                     }
                                                     ?>
 
                                                 </td>
-                                            </tr> 
+                                            </tr>
                                         <?php endforeach ?>
                                     <?php } ?>
 
                                 </tbody>
-                            </table> 
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -200,7 +200,7 @@
                 }
             }
         });
-        
+
     });
 </script>
 <script type="text/javascript">
@@ -213,7 +213,3 @@
         });
     });
 </script>
-
-
-
-

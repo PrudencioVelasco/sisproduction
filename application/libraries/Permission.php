@@ -1,16 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
- 
+
 class Permission
 {
     private static $_CI;
- 
+
     public function __construct()
     {
         self::$_CI =& get_instance();
         self::$_CI->load->database();
     }
- 
+
     public static function grant($uri)
     {
         $match = false;
@@ -25,33 +25,33 @@ class Permission
                       ->where('tblusuario.id', $user_id)
                       ->get()
                       ->result();
- 
+
         foreach($permissions as $permission) {
-            if($permission->uri != "*") {
-                $re_uri = preg_replace('/\\\\\*/','*', preg_quote($permission->uri, '/'));
-                $match = preg_match("/{$re_uri}/", $uri);
+            if(strtolower($permission->uri) != "*") {
+                $re_uri = preg_replace('/\\\\\*/','*', preg_quote(strtolower($permission->uri), '/'));
+                $match = preg_match("/{$re_uri}/", strtolower($uri));
             }
- 
-            if($permission->uri == "*" || $uri == 'admin/index') {
+
+            if(strtolower($permission->uri) == "*" || strtolower($uri) == 'admin/index') {
                 return;
             } else {
                 $match = (!$match) ? $match : true;
             }
- 
+
             // if found true
             if($match) {
                 return;
             }
         }
- 
+
         // if all false
         if(!$match) {
             self::$_CI->session->set_flashdata('err', 'You don\'t have permissionss.');
-            return redirect('admin/index');
-            
+            return redirect('Admin/');
+
         }
     }
- 
+
     public function __destruct()
     {
         self::$_CI->db->close();

@@ -15,7 +15,7 @@
                     <div class="x_content">
                       <div class="row">
                   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <a class="pointer" href="<?php echo site_url('warehouse/entry') ?>">
+                    <a class="pointer" href="<?php echo site_url('Warehouse/entry') ?>">
                       <div class="info-box-2 bg-teal hover-expand-effect pointer">
                           <div class="icon">
                             <i class="fa fa-sign-in"></i>
@@ -28,7 +28,7 @@
                     </a>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                      <a class="pointer" href="<?php echo site_url('warehouse/exitWareHouse') ?>">
+                      <a class="pointer" href="<?php echo site_url('Warehouse/exitWareHouse') ?>">
                       <div class="info-box-2 bg-red hover-expand-effect pointer">
                           <div class="icon">
                             <i class="fa fa-sign-out"></i>
@@ -41,7 +41,7 @@
                     </a>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                      <a class="pointer" href="<?php echo site_url('warehouse/wharehouse') ?>">
+                      <a class="pointer" href="<?php echo site_url('Warehouse/wharehouse') ?>">
                       <div class="info-box-2 bg-light-green hover-expand-effect pointer">
                           <div class="icon">
                               <i class="fa fa-database"></i>
@@ -70,7 +70,7 @@
               </div>
               <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <a class="pointer" href="<?php echo site_url('litho/litho') ?>">
+            <a class="pointer" href="<?php echo site_url('Litho/litho') ?>">
               <div class="info-box-2 bg-cyan hover-expand-effect pointer">
                   <div class="icon">
                       <i class="fa fa-check-square-o"></i>
@@ -83,7 +83,7 @@
             </a>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-              <a class="pointer" href="<?php echo site_url('laminas/') ?>">
+              <a class="pointer" href="<?php echo site_url('Laminas/') ?>">
               <div class="info-box-2 bg-cyan hover-expand-effect pointer">
                   <div class="icon">
                       <i class="fa fa-check-square-o"></i>
@@ -96,7 +96,7 @@
             </a>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-              <a class="pointer" href="<?php echo site_url('litho/manual') ?>">
+              <a class="pointer" href="<?php echo site_url('Litho/manual') ?>">
               <div class="info-box-2 bg-cyan hover-expand-effect pointer">
                   <div class="icon">
                       <i class="fa fa-check-square-o"></i>
@@ -109,7 +109,7 @@
             </a>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-              <a class="pointer" href="<?php echo site_url('litho/bolsa') ?>">
+              <a class="pointer" href="<?php echo site_url('Litho/bolsa') ?>">
               <div class="info-box-2 bg-cyan hover-expand-effect pointer">
                   <div class="icon">
                       <i class="fa fa-check-square-o"></i>
@@ -127,7 +127,7 @@
 
       <div class="row">
   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-    <a class="pointer" href="<?php echo site_url('litho/tijuana') ?>">
+    <a class="pointer" href="<?php echo site_url('Litho/tijuana') ?>">
       <div class="info-box-2 bg-cyan hover-expand-effect pointer">
           <div class="icon">
               <i class="fa fa-check-square-o"></i>

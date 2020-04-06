@@ -282,7 +282,7 @@
             console.log(codigo);
             $.ajax({
                 type: "POST",
-                url: "<?= base_url('orden/validar') ?>",
+                url: "<?= base_url('Orden/validar') ?>",
                 data: "codigo=" + codigo + "&cantidad=" + cantidad + "&idsalida=" + idsalida+ "&idpalletcajas=" + idpalletcajas,
                 dataType: "html",
                 beforeSend: function () {

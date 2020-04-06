@@ -17,12 +17,12 @@
 
 
                         <div class="row">
-                            <div class="col-md-6 col-sm-12 col-xs-12"> 
+                            <div class="col-md-6 col-sm-12 col-xs-12">
                                 <h4>Número de parte: <?php echo $detalle->numeroparte; ?></h4>
                                 <h4><small>Número de transferencia:</small> <?php echo $detalle->folio; ?></h4>
 
                             </div>
-                            <div class="col-md-6 col-sm-12 col-xs-12" align="right"> 
+                            <div class="col-md-6 col-sm-12 col-xs-12" align="right">
                                 <h4>Cliente: <?php echo $detalle->nombre; ?></h4>
                             </div>
                         </div>
@@ -59,9 +59,9 @@
                                                 <th></th>
                                                 <th>Pallet</th>
                                                 <th>Cajas</th>
-                                                <th>Estatus</th> 
-                                                <th>Ubicación</th> 
-                                                <th></th>   
+                                                <th>Estatus</th>
+                                                <th>Ubicación</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -125,19 +125,19 @@
                                                     </td>
                                                 </tr>
 
-                                            <?php } } ?> 
+                                            <?php } } ?>
 
 
                                         </tbody>
                                     </table>
                                     <input type="hidden" id="iddetalleparte" name="iddetalleparte" value="<?php echo $detalle->iddetalleparte ?>"/>
-                                    
+
                                           <div class="row">
-                                          
+
                                     <div class="col-md-6 col-sm-12 col-xs-12" >
                                      <div class="form-group"  id="idmotivorechazo">
                                         <label>Seleccionar motivo de rechazo</label>
-                                        <select  class="form-control" id="motivo" name="motivorechazo" required> 
+                                        <select  class="form-control" id="motivo" name="motivorechazo" required>
                                            <option value="">Seleccionar</option>
                                             <?php
                                                 foreach($motivosrechazo as $valuemotivo){
@@ -152,13 +152,13 @@
                                       <div class="col-md-6 col-sm-12 col-xs-12" >
                                      <div class="form-group"  id="idubicacion">
                                         <label>Seleccionar Ubicación</label>
-                                        <select  class="form-control" id="ubicacion" name="ubicacion" required> 
+                                        <select  class="form-control" id="ubicacion" name="ubicacion" required>
                                            <option value="">Seleccionar</option>
                                             <?php foreach ($posicionbodega as $value2) { ?>
-                                                              
+
                                             <option value="<?php echo $value2->idposicion ?>"> <?php echo $value2->nombreposicion; ?></option>
                                             <?php } ?>
-                                            
+
                                         </select>
                                     </div>
                                     </div>
@@ -190,7 +190,7 @@
                     form = $("#frmdetalle").serialize();
                     $.ajax({
                         type: "POST",
-                        url: "<?php echo site_url('bodega/rechazarACalidad'); ?>",
+                        url: "<?php echo site_url('Bodega/rechazarACalidad'); ?>",
                         data: form,
 
                         success: function (data) {
@@ -220,7 +220,7 @@
                     form = $("#frmdetalle").serialize();
                     $.ajax({
                         type: "POST",
-                        url: "<?php echo site_url('bodega/agregarAUbicacion'); ?>",
+                        url: "<?php echo site_url('Bodega/agregarAUbicacion'); ?>",
                         data: form,
 
                         success: function (data) {
@@ -246,7 +246,7 @@
             var iddetalleparte = $('#iddetalleparte').val();
             $.ajax({
                 type: "POST",
-                url: "<?php echo site_url('bodega/addPositionWereHouse'); ?>",
+                url: "<?php echo site_url('Bodega/addPositionWereHouse'); ?>",
                 data: "posicion=" + dataselect + "&iddetalleparte=" + iddetalleparte,
                 dataType: "html",
                 success: function (data) {

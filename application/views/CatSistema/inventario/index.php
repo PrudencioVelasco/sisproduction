@@ -22,12 +22,12 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label><font color="red">*</font> Archivo</label>
-                                        <input type="file" id="first-name"   name="mi_archivo" required="" accept=".xls,.xlsx" class="form-control col-md-7 col-xs-12" value="<?php echo set_value('mi_archivo'); ?>"> 
+                                        <input type="file" id="first-name"   name="mi_archivo" required="" accept=".xls,.xlsx" class="form-control col-md-7 col-xs-12" value="<?php echo set_value('mi_archivo'); ?>">
                                         <div class="text-danger" > <?php echo form_error('mi_archivo'); ?>  </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="form-group"> 
+                                    <div class="form-group">
                                         <button type="submit" style="margin-top: 25px" class="btn btn-success">Subir documento</button>
                                     </div>
                                 </div>
@@ -48,29 +48,29 @@
 
 
                                 <tbody>
-                                    <?php if(isset($datos) && !empty($datos)){ 
+                                    <?php if(isset($datos) && !empty($datos)){
                                         foreach ($datos as $value) { ?>
                                         <tr>
                                             <td><?= $value->identificador ?></td>
                                             <td><?= $value->name ?></td>
                                             <td><?= $value->fecha ?></td>
-                                            <td ><?php 
+                                            <td ><?php
                                             if($value->nosubido > 0){echo '<span class="label label-danger">Pendientes</span>';}else{echo'<span class="label label-success">Subidos</span>';}
                                             ?></td>
                                             <td align="right">
-                                                 <a href="<?php echo site_url('catalogo/eliminar_all/'.$value->identificador) ?>"  onclick="return confirm('Esta seguro de Eliminar todos los Registros?')" class="btn btn-danger btn-sm">Eliminar</a>
-                                           
-                                                <a href="<?php echo site_url('catalogo/detalle/'.$value->identificador) ?>" class="btn btn-primary btn-sm">Detalle</a> 
+                                                 <a href="<?php echo site_url('Catalogo/eliminar_all/'.$value->identificador) ?>"  onclick="return confirm('Esta seguro de Eliminar todos los Registros?')" class="btn btn-danger btn-sm">Eliminar</a>
+
+                                                <a href="<?php echo site_url('Catalogo/detalle/'.$value->identificador) ?>" class="btn btn-primary btn-sm">Detalle</a>
                                              </td>
                                         </tr>
                                     <?php } } ?>
                                 </tbody>
                             </table>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div> 
-</div> 
+</div>
+</div>
